@@ -1,0 +1,9 @@
+{
+  "@@last_modified": "2019-01-02T23:37:14.574502",
+  "msg": "Hello World",
+  "@msg": {
+    "description": "Title for the Demo application",
+    "type": "text",
+    "placeholders": {}
+  }
+}

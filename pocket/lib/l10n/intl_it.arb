@@ -1,0 +1,8 @@
+{
+  "msg": "Ciao Mondo",
+  "@msg": {
+    "description": "Title for the Demo application",
+    "type": "text",
+    "placeholders": {}
+  }
+}
