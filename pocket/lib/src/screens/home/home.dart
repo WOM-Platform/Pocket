@@ -21,6 +21,18 @@ import 'package:uni_links/uni_links.dart';
 class HomeScreen extends StatelessWidget {
   HomeBloc bloc;
 
+
+  loadJSONpoint(context)async{
+
+    final data = await DefaultAssetBundle
+        .of(context)
+        .loadString('assets/map_point.json');
+
+    bloc.extractPointFromJson(data.toString());
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     getLinksStream().listen((String link) {
@@ -77,13 +89,14 @@ class HomeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-//            IconButton(
-//              icon: Icon(Icons.account_circle),
-//              onPressed: () {
+            IconButton(
+              icon: Icon(Icons.account_circle),
+              onPressed: () {
+                loadJSONpoint(context);
 //                Navigator.push(context,
-//                    MaterialPageRoute(builder: (context) => PayScreen()));
-//              },
-//            ),
+////                    MaterialPageRoute(builder: (context) => PayScreen()));
+              },
+            ),
             IconButton(
               icon: Icon(Icons.map),
               onPressed: () {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
 import 'package:pocket/src/screens/map/widgets/backdrop_bar.dart';
@@ -34,7 +36,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen>
 
     mapWidget = MapWidget(bloc: bloc);
     listAggregatedWom = ListAggregatedWomCard(bloc: bloc);
+
   }
+
 
   @override
   void dispose() {

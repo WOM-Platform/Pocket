@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/models/suggestion_model.dart';
@@ -33,11 +34,33 @@ class HomeBloc extends BlocBase {
   HomeBloc(this._transactionDB) {
     womDB = WomDB.get();
     readTransaction();
-
     _suggestions.add(localSuggestions);
-    //createFakeWom();
 
-    //tryRead();
+  }
+
+  extractPointFromJson(String data){
+    print("STAR EXTRACT FROM JSON");
+    List<dynamic> new_data = json.decode(data.toString()) ;
+
+    int i = 0;
+    new_data.forEach((point){
+
+      final wom = WomModel(
+        location: LatLng(point["LATITUDE"], point["LONGITUDE"]),
+        secret: point["EMAIL"],
+        source: "",
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        id: i,
+        live: WomStatus.ON,
+      );
+
+      womDB.updateWom(wom);
+
+      i++;
+    });
+    print(new_data[0]);
+
+    print("EXTRACT COMPLETE");
   }
 
   removeSuggestionAt(int index) {

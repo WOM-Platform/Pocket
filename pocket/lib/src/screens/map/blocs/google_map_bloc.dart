@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:pocket/src/models/aggregation_wom_model.dart';
 import 'package:pocket/src/models/map_object.dart';
 import 'package:pocket/src/screens/map/map.dart';
@@ -107,11 +109,30 @@ class GoogleMapBloc implements BlocBase {
 
   double previousZoom = 0.0;
 
+  updateWomPoints(double zoom) async {
+    List<WomModel> woms = await fetchWom(
+        bounds: null,
+        startDate: startDateQuery,
+        endDate: endDateQuery,
+        sources: filterSource);
+    if (woms == null) woms = List<WomModel>();
+
+    final markerOptions = MarkerOptions(
+      icon: BitmapDescriptor.fromAsset("assets/images/wom.png"),
+    );
+    woms.forEach((w) {
+      mapController.addMarker(markerOptions.copyWith(MarkerOptions(
+        position: w.gLocation,
+      )));
+    });
+  }
+
   Future<void> _extractMapInfo({bool forceUpdate = false}) async {
     if (!mapController.isCameraMoving) {
       final zoom = mapController.cameraPosition.zoom;
+      print("previuos zoom: " + previousZoom.toString());
       print("actual zoom: " + zoom.toString());
-      if ((previousZoom != zoom && (previousZoom - zoom).abs() > 1) ||
+      if ((previousZoom != zoom && (previousZoom - zoom).abs() > 0.5) ||
           forceUpdate) {
         print("force update : " + forceUpdate.toString());
         previousZoom = zoom;
@@ -126,23 +147,6 @@ class GoogleMapBloc implements BlocBase {
     }
   }
 
-  updateWomPoints(double zoom) async {
-    List<WomModel> woms = await fetchWom(
-        bounds: null,
-        startDate: startDateQuery,
-        endDate: endDateQuery,
-        sources: filterSource);
-    if (woms == null) woms = List<WomModel>();
-
-    final markerOptions = MarkerOptions(
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen));
-    woms.forEach((a) {
-      mapController.addMarker(markerOptions.copyWith(MarkerOptions(
-        position: a.gLocation,
-      )));
-    });
-  }
-
   updateAggregationPoints(double zoom) async {
     List<AggregationWom> aggregation = await fetchAggregationWom(zoom,
         startDate: startDateQuery,
@@ -150,12 +154,57 @@ class GoogleMapBloc implements BlocBase {
         sources: filterSource);
     print("aggregation lenght: " + aggregation.length.toString());
 
-    final markerOptions = MarkerOptions(icon: BitmapDescriptor.defaultMarker);
     aggregation.forEach((a) {
-      mapController.addMarker(markerOptions.copyWith(MarkerOptions(
+      BitmapDescriptor bitmapDescriptor;
+      if (a.number == 1) {
+        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/wom.png");
+      } else if (a.number < 20) {
+        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/m1.png");
+      } else if (a.number < 100) {
+        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/m2.png");
+      } else if (a.number < 1000) {
+        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/m3.png");
+      } else {
+        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/m4.png");
+      }
+
+      mapController.addMarker(MarkerOptions(
         position: a.gLocation,
-      )));
+        icon: bitmapDescriptor,
+      )
+
+//            a.number > 1
+//                ? (a.number > 20
+//                    ? BitmapDescriptor.fromAsset("assets/images/m3.png")
+//                    : BitmapDescriptor.fromAsset("assets/images/m2.png"))
+//                : BitmapDescriptor.hueGreen),
+          );
     });
+  }
+
+  //prendi i wom dal db relativi all area visualizzata
+  Future<List<AggregationWom>> fetchAggregationWom(double zoom,
+      {int startDate, int endDate, Set<String> sources}) async {
+    print("loading aggregation woms");
+    int level = 5;
+
+    if (zoom <= 3) {
+      level = 1;
+    } else if (zoom < 5) {
+      level = 2;
+    } else if (zoom < 10) {
+      level = 3;
+    } else if (zoom < 11) {
+      level = 4;
+    } else if (zoom < 13) {
+      level = 5;
+    } else if (zoom < 13.5) {
+      level = 6;
+    }
+    final aggregationsWom = await womDB.getAggregatedWoms(level,
+        startDate: startDate, endDate: endDate, sources: sources);
+    print("reading complete aggregatio woms : ${aggregationsWom.length}");
+    return aggregationsWom;
   }
 
   Future<void> loadSourcesFromDB() async {
@@ -224,15 +273,10 @@ class GoogleMapBloc implements BlocBase {
 
   double previousDateFilterValue = 0.0;
 
-//  Function(double) changeDateFiler(double value) => _dateFilter.sink.add;
   Future<void> changeDateFilter(double sliderValue) async {
     if (sliderValue != previousDateFilterValue) {
       previousDateFilterValue = sliderValue;
       print("fetch query for filter time changed");
-//      final int singleStep = await getSingleStep();
-//    final int singleStep = 300;
-//      final int days = singleStep * sliderValue.round();
-
       final sliderValueInt = sliderValue.toInt();
 
       if (sliderValueInt == 0) {
@@ -250,21 +294,6 @@ class GoogleMapBloc implements BlocBase {
       }
 
       await _extractMapInfo(forceUpdate: true);
-
-//      if (value == 0.0) {
-//        textSlider = "Today";
-//      } else if (days <= 10) {
-//        textSlider = days.toString();
-//      } else if (days <= 28) {
-//        final weeks = (days ~/ 7.0).toString();
-//        textSlider = weeks + "w";
-//      } else if (days <= 335) {
-//        final months = (days ~/ 30.0).toString();
-//        textSlider = months + "m";
-//      } else if (days > 364) {
-//        final years = (days ~/ 365.0).toString();
-//        textSlider = years + "y";
-//      }
     }
   }
 
@@ -299,31 +328,6 @@ class GoogleMapBloc implements BlocBase {
     final groupedWoms = await womDB.getGroupedWoms();
     print("fetchGroupedWoms: reading complete woms : ${groupedWoms.length}");
     return groupedWoms;
-  }
-
-  //prendi i wom dal db relativi all area visualizzata
-  Future<List<AggregationWom>> fetchAggregationWom(double zoom,
-      {int startDate, int endDate, Set<String> sources}) async {
-    print("loading aggregation woms");
-    int level = 5;
-
-    if (zoom < 3) {
-      level = 2;
-    } else if (zoom < 5) {
-      level = 2;
-    } else if (zoom < 10) {
-      level = 3;
-    } else if (zoom < 11) {
-      level = 4;
-    } else if (zoom < 13) {
-      level = 5;
-    } else if (zoom < 13.5) {
-      level = 6;
-    }
-    final aggregationsWom = await womDB.getAggregatedWoms(level,
-        startDate: startDate, endDate: endDate, sources: sources);
-    print("reading complete aggregatio woms : ${aggregationsWom.length}");
-    return aggregationsWom;
   }
 
   //Sposta la mappa per puntare la posizione GPS corrente
@@ -377,7 +381,7 @@ const valueIndicatorTextSlider = [
 ];
 
 const timeInMilliseconds = [
-  315360000000,//ten years
+  315360000000, //ten years
   157680000000, //five years
   94608000000, //three years
   31536000000, //one year
