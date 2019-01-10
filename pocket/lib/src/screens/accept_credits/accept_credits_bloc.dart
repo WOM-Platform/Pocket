@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:borsellino/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'dart:async';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:borsellino/src/db/transaction_db.dart';
-import 'package:borsellino/src/models/transaction_model.dart';
-import 'package:borsellino/src/models/voucher_model.dart';
-import 'package:borsellino/src/models/wom_model.dart';
-import 'package:borsellino/src/db/wom_db.dart';
+import 'package:pocket/src/db/transaction_db.dart';
+import 'package:pocket/src/models/transaction_model.dart';
+import 'package:pocket/src/models/voucher_model.dart';
+import 'package:pocket/src/models/wom_model.dart';
+import 'package:pocket/src/db/wom_db.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simple_rsa/simple_rsa.dart';
 import 'dart:convert';

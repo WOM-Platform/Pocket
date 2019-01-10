@@ -1,6 +1,6 @@
-import 'package:borsellino/src/blocs/bloc_provider.dart';
-import 'package:borsellino/src/db/transaction_db.dart';
-import 'package:borsellino/src/models/transaction_model.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/db/transaction_db.dart';
+import 'package:pocket/src/models/transaction_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TransactionsBloc extends BlocBase{

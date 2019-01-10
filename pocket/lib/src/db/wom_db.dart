@@ -1,6 +1,6 @@
-import 'package:borsellino/src/db/app_db.dart';
-import 'package:borsellino/src/models/aggregation_wom_model.dart';
-import 'package:borsellino/src/models/wom_model.dart';
+import 'package:pocket/src/db/app_db.dart';
+import 'package:pocket/src/models/aggregation_wom_model.dart';
+import 'package:pocket/src/models/wom_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class WomDB {

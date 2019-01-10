@@ -1,12 +1,12 @@
-import 'package:borsellino/src/blocs/bloc_provider.dart';
-import 'package:borsellino/src/models/deep_link_model.dart';
-import 'package:borsellino/src/screens/accept_credits/accept_credits.dart';
-import 'package:borsellino/src/screens/accept_credits/accept_credits_bloc.dart';
-import 'package:borsellino/src/screens/home/home.dart';
-import 'package:borsellino/src/screens/home/home_bloc.dart';
-import 'package:borsellino/src/screens/intro/intro.dart';
-import 'package:borsellino/src/screens/splash/splash_bloc.dart';
-import 'package:borsellino/src/db/transaction_db.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/models/deep_link_model.dart';
+import 'package:pocket/src/screens/accept_credits/accept_credits.dart';
+import 'package:pocket/src/screens/accept_credits/accept_credits_bloc.dart';
+import 'package:pocket/src/screens/home/home.dart';
+import 'package:pocket/src/screens/home/home_bloc.dart';
+import 'package:pocket/src/screens/intro/intro.dart';
+import 'package:pocket/src/screens/splash/splash_bloc.dart';
+import 'package:pocket/src/db/transaction_db.dart';
 import 'package:flutter/material.dart';
 
 /*

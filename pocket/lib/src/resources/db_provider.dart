@@ -1,7 +1,7 @@
 //import 'dart:io';
-//import 'package:borsellino/src/models/voucher_model.dart';
+//import 'package:pocket/src/models/voucher_model.dart';
 //import 'package:sqflite/sqflite.dart';
-//import 'package:borsellino/src/resources/repository.dart';
+//import 'package:pocket/src/resources/repository.dart';
 //import 'package:path/path.dart';
 //import 'package:path_provider/path_provider.dart';
 //

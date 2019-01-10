@@ -1,12 +1,12 @@
 import 'dart:async';
-import 'package:borsellino/src/models/aggregation_wom_model.dart';
-import 'package:borsellino/src/models/map_object.dart';
-import 'package:borsellino/src/screens/map/map.dart';
-import 'package:borsellino/src/models/wom_model.dart';
-import 'package:borsellino/src/db/wom_db.dart';
+import 'package:pocket/src/models/aggregation_wom_model.dart';
+import 'package:pocket/src/models/map_object.dart';
+import 'package:pocket/src/screens/map/map.dart';
+import 'package:pocket/src/models/wom_model.dart';
+import 'package:pocket/src/db/wom_db.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:borsellino/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:latlong/latlong.dart' as latLong;
 
@@ -63,7 +63,7 @@ class GoogleMapBloc implements BlocBase {
   final WomDB womDB;
 
 //  bool semaphore = true;
-  String textSlider = "Today";
+  String textSlider = "Big Bang";
 
   int _dateInMillisecondsOfFirstWom;
   Set<String> filterSource;
@@ -163,7 +163,7 @@ class GoogleMapBloc implements BlocBase {
     changeSource(sources);
     filterSource = Set<String>();
 
-    sources.forEach((source){
+    sources.forEach((source) {
       filterSource.add(source.type);
     });
     print("lunghezza del filtro source = ${filterSource.length}");
@@ -202,9 +202,8 @@ class GoogleMapBloc implements BlocBase {
   }
 
   addSourceToFilter(String source) {
-
-      filterSource.add(source);
-      _extractMapInfo(forceUpdate: true);
+    filterSource.add(source);
+    _extractMapInfo(forceUpdate: true);
   }
 
   removeSourceFromFilter(String source) {
@@ -245,9 +244,9 @@ class GoogleMapBloc implements BlocBase {
 
         final int rangeTime = timeInMilliseconds[sliderValueInt];
         final int queryDate = todayInMillisecondsSinceEpoch - rangeTime;
+        print(DateTime.fromMillisecondsSinceEpoch(queryDate).toString());
         startDateQuery = queryDate;
-
-        endDateQuery = await getDateInMillisecondsOfFirstWom();
+        endDateQuery = todayInMillisecondsSinceEpoch;
       }
 
       await _extractMapInfo(forceUpdate: true);
@@ -282,20 +281,23 @@ class GoogleMapBloc implements BlocBase {
       String filter,
       Set<String> sources,
       bool all = false}) async {
-    print("loading woms");
+    print("fetchWom: loading woms");
     if (sources != null && sources.isEmpty) {
+      print("fetchWom: empty list of woms for source empty or null");
       return List<WomModel>();
     }
-    final woms =
-        await womDB.getWoms(startDate: startDate ?? 0, endDate: endDate ?? 0,sources:filterSource);
-    print("reading complete woms : ${woms.length}");
+    final woms = await womDB.getWoms(
+        startDate: startDate ?? 0,
+        endDate: endDate ?? 0,
+        sources: filterSource);
+    print("fetchWom: reading complete woms : ${woms.length}");
     return woms;
   }
 
   Future<List<WomGroupBy>> fetchGroupedWoms() async {
-    print("loading woms");
+    print("fetchGroupedWoms: loading woms");
     final groupedWoms = await womDB.getGroupedWoms();
-    print("reading complete woms : ${groupedWoms.length}");
+    print("fetchGroupedWoms: reading complete woms : ${groupedWoms.length}");
     return groupedWoms;
   }
 
@@ -361,29 +363,29 @@ enum SourceAim {
 }
 
 const valueIndicatorTextSlider = [
-  "Today",
-  "1w",
-  "2w",
-  "1m",
-  "3m",
-  "6m",
-  "9m",
-  "1y",
-  "3y",
+  "Big Bang",
   "5y",
-  ">10y"
+  "3y",
+  "1y",
+  "9m",
+  "6m",
+  "3m",
+  "1m",
+  "2w",
+  "1w",
+  "Today",
 ];
 
 const timeInMilliseconds = [
-  0,
-  604800000, //one week
-  1209600000, //two weeks
-  2678400000, //one month
-  8035200000, //three months
-  16070400000, //six months
-  283824000000, //nine months
-  31536000000, //one year
-  94608000000, //three years
+  315360000000,//ten years
   157680000000, //five years
-  315360000000, //ten years
+  94608000000, //three years
+  31536000000, //one year
+  283824000000, //nine months
+  16070400000, //six months
+  8035200000, //three months
+  2678400000, //one month
+  1209600000, //two weeks
+  604800000, //one week
+  0,
 ];

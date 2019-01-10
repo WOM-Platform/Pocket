@@ -4,5 +4,23 @@
     "description": "Title for the Demo application",
     "type": "text",
     "placeholders": {}
+  },
+  "title": "WOM Pocket",
+  "@title": {
+    "description": "Title for application",
+    "type": "text",
+    "placeholders": {}
+  },
+  "last_movements": "Last movements",
+  "@last_movements": {
+    "description": "last movements with wom (earn, expense)",
+    "type": "text",
+    "placeholders": {}
+  },
+  "no_transactions": "There aren't transactions",
+  "@no_transactions": {
+    "description": "no transactions",
+    "type": "text",
+    "placeholders": {}
   }
 }

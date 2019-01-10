@@ -1,6 +1,6 @@
-import 'package:borsellino/src/db/wom_db.dart';
-import 'package:borsellino/src/screens/map/blocs/google_map_bloc.dart';
-import 'package:borsellino/src/screens/map/widgets/filter_checkbox.dart';
+import 'package:pocket/src/db/wom_db.dart';
+import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
+import 'package:pocket/src/screens/map/widgets/filter_checkbox.dart';
 import 'package:flutter/material.dart';
 
 class BackdropBody extends StatelessWidget {

@@ -1,10 +1,10 @@
-import 'package:borsellino/src/db/wom_db.dart';
-import 'package:borsellino/src/screens/map/blocs/google_map_bloc.dart';
-import 'package:borsellino/src/screens/map/widgets/backdrop_bar.dart';
-import 'package:borsellino/src/screens/map/widgets/backdrop_body.dart';
-import 'package:borsellino/src/screens/map/widgets/map_widget.dart';
-import 'package:borsellino/src/widgets/woms_card_by_aim.dart';
-import 'package:borsellino/src/screens/map/widgets/backdrop_panel.dart';
+import 'package:pocket/src/db/wom_db.dart';
+import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
+import 'package:pocket/src/screens/map/widgets/backdrop_bar.dart';
+import 'package:pocket/src/screens/map/widgets/backdrop_body.dart';
+import 'package:pocket/src/screens/map/widgets/map_widget.dart';
+import 'package:pocket/src/widgets/woms_card_by_aim.dart';
+import 'package:pocket/src/screens/map/widgets/backdrop_panel.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 

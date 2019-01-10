@@ -1,8 +1,8 @@
-import 'package:borsellino/src/blocs/bloc_provider.dart';
-import 'package:borsellino/src/models/aggregation_wom_model.dart';
-import 'package:borsellino/src/models/map_object.dart';
-import 'package:borsellino/src/screens/map/blocs/map_bloc.dart';
-import 'package:borsellino/src/models/wom_model.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/models/aggregation_wom_model.dart';
+import 'package:pocket/src/models/map_object.dart';
+import 'package:pocket/src/screens/map/blocs/map_bloc.dart';
+import 'package:pocket/src/models/wom_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';

@@ -1,7 +1,6 @@
-import 'package:borsellino/localization/localizations.dart';
-import 'package:borsellino/src/prova.dart';
-import 'package:borsellino/src/screens/splash/splash.dart';
-import 'package:borsellino/src/utils/color_utils.dart';
+import 'package:pocket/localization/localizations.dart';
+import 'package:pocket/src/screens/splash/splash.dart';
+import 'package:pocket/src/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

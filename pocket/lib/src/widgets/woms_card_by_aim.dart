@@ -1,4 +1,4 @@
-import 'package:borsellino/src/db/wom_db.dart';
+import 'package:pocket/src/db/wom_db.dart';
 import 'package:flutter/material.dart';
 
 class WomGroupCard extends StatelessWidget {

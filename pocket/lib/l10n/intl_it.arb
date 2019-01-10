@@ -1,7 +1,25 @@
 {
-  "msg": "Ciao Mondo",
+  "msg": "Hello World",
   "@msg": {
     "description": "Title for the Demo application",
+    "type": "text",
+    "placeholders": {}
+  },
+  "title": "WOM Pocket",
+  "@title": {
+    "description": "Title for application",
+    "type": "text",
+    "placeholders": {}
+  },
+  "last_movements": "Ultimi movimenti",
+  "@last_movements": {
+    "description": "last movements with wom (earn, expense)",
+    "type": "text",
+    "placeholders": {}
+  },
+  "no_transactions": "Non ci sono transazioni",
+  "@no_transactions": {
+    "description": "no transactions",
     "type": "text",
     "placeholders": {}
   }

@@ -1,10 +1,11 @@
 import 'dart:math';
-import 'package:borsellino/src/blocs/bloc_provider.dart';
-import 'package:borsellino/src/models/transaction_model.dart';
-import 'package:borsellino/src/models/wom_model.dart';
-import 'package:borsellino/src/db/transaction_db.dart';
-import 'package:borsellino/src/db/wom_db.dart';
-import 'package:borsellino/src/screens/home/home.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/models/suggestion_model.dart';
+import 'package:pocket/src/models/transaction_model.dart';
+import 'package:pocket/src/models/wom_model.dart';
+import 'package:pocket/src/db/transaction_db.dart';
+import 'package:pocket/src/db/wom_db.dart';
+import 'package:pocket/src/screens/home/home.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:latlong/latlong.dart';
 //import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -27,10 +28,7 @@ class HomeBloc extends BlocBase {
 
   Observable<List<SuggestionModel>> get suggestions => _suggestions.stream;
 
-
-  final localSuggestions = suggestionsItem;
-
-
+  List<SuggestionModel> localSuggestions = suggestionsItem;
 
   HomeBloc(this._transactionDB) {
     womDB = WomDB.get();
@@ -42,8 +40,13 @@ class HomeBloc extends BlocBase {
     //tryRead();
   }
 
-  removeSuggestion(int index) {
+  removeSuggestionAt(int index) {
     localSuggestions.removeAt(index);
+    _suggestions.sink.add(localSuggestions);
+  }
+
+  refreshSuggestions(){
+    localSuggestions = suggestionsItem;
     _suggestions.sink.add(localSuggestions);
   }
 

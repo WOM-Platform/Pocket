@@ -1,20 +1,20 @@
-import 'package:borsellino/localization/localizations.dart';
-import 'package:borsellino/src/blocs/bloc_provider.dart';
-import 'package:borsellino/src/screens/home/home_bloc.dart';
-import 'package:borsellino/src/screens/home/widgets/suggestion_card.dart';
-import 'package:borsellino/src/screens/home/widgets/transactions_list.dart';
-import 'package:borsellino/src/screens/map/blocs/map_bloc.dart';
-import 'package:borsellino/src/screens/map/google_map.dart';
-import 'package:borsellino/src/models/deep_link_model.dart';
-import 'package:borsellino/src/models/transaction_model.dart';
-import 'package:borsellino/src/screens/accept_credits/accept_credits_bloc.dart';
-import 'package:borsellino/src/screens/pay_credits/pay.dart';
-import 'package:borsellino/src/screens/accept_credits/accept_credits.dart';
-import 'package:borsellino/src/screens/settings/settings.dart';
-import 'package:borsellino/src/screens/suggestion/suggestion.dart';
-import 'package:borsellino/src/utils/color_utils.dart';
-import 'package:borsellino/src/widgets/voucher_card.dart';
-import 'package:borsellino/src/db/wom_db.dart';
+import 'package:pocket/localization/localizations.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/models/suggestion_model.dart';
+import 'package:pocket/src/screens/home/home_bloc.dart';
+import 'package:pocket/src/screens/home/widgets/suggestion_card.dart';
+import 'package:pocket/src/screens/home/widgets/transactions_list.dart';
+import 'package:pocket/src/screens/map/blocs/map_bloc.dart';
+import 'package:pocket/src/screens/map/google_map.dart';
+import 'package:pocket/src/models/deep_link_model.dart';
+import 'package:pocket/src/models/transaction_model.dart';
+import 'package:pocket/src/screens/accept_credits/accept_credits_bloc.dart';
+import 'package:pocket/src/screens/accept_credits/accept_credits.dart';
+import 'package:pocket/src/screens/settings/settings.dart';
+import 'package:pocket/src/screens/suggestion/suggestion.dart';
+import 'package:pocket/src/utils/color_utils.dart';
+import 'package:pocket/src/widgets/voucher_card.dart';
+import 'package:pocket/src/db/wom_db.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_links/uni_links.dart';
 
@@ -36,9 +36,11 @@ class HomeScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute<bool>(builder: (context) => acceptProvider),
-          ).then((value) {
-            bloc.refreshList();
+          ).then((value){
+            print("return from accept provider " + value.toString());
+            bloc.readTransaction();
           });
+
 
           //TODO refresh DB se sono stati accreditati voucher
         }
@@ -61,10 +63,11 @@ class HomeScreen extends StatelessWidget {
             bloc: AcceptCreditsBloc(),
             child: AcceptCredits(),
           );
-          Navigator.push(
+          await Navigator.push(
             context,
             MaterialPageRoute<bool>(builder: (context) => blocProviderScan),
           );
+          bloc.refreshList();
         },
       ),
       bottomNavigationBar: BottomAppBar(
@@ -107,7 +110,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).msg),
+        title: Text(AppLocalizations.of(context).title),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Padding(
@@ -137,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                           );
                         },
                         onDeleteCard: () {
-                          bloc.removeSuggestion(
+                          bloc.removeSuggestionAt(
                               bloc.localSuggestions.indexOf(s));
                         },
                       );
@@ -153,7 +156,7 @@ class HomeScreen extends StatelessWidget {
               height: 10.0,
             ),
             Text(
-              'Ultimi movimenti',
+              AppLocalizations.of(context).last_movements,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
             ),
             SizedBox(
@@ -206,55 +209,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-  buildLastPayment() {
-    return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (context, int index) {
-        return Container();
-      },
-    );
-  }
-
-  buildBottomNavBar(context) {
-    return BottomNavigationBar(
-      currentIndex: 0,
-      fixedColor: Colors.yellow,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-          ),
-          title: Text('vneklven'),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.forward,
-          ),
-          title: Text('vneklven'),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.settings,
-            color: Colors.red,
-          ),
-          title: Text('vneklven'),
-        ),
-      ],
-    );
-  }
-}
-
-class BottomTabItem extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class SuggestionModel {
-  final String text;
-  final String url;
-
-  SuggestionModel({this.text, this.url});
 }

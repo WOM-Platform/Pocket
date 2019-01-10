@@ -1,5 +1,5 @@
-import 'package:borsellino/src/db/app_db.dart';
-import 'package:borsellino/src/models/transaction_model.dart';
+import 'package:pocket/src/db/app_db.dart';
+import 'package:pocket/src/models/transaction_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TransactionDB {
@@ -8,10 +8,7 @@ class TransactionDB {
 
   AppDatabase _appDatabase;
 
-  //private internal constructor to make it singleton
   TransactionDB._internal(this._appDatabase);
-
-  //static TaskDB get taskDb => _taskDb;
 
   static TransactionDB get() {
     return _transactionDb;
@@ -22,7 +19,7 @@ class TransactionDB {
     try {
       var result =
           await db.rawQuery('SELECT ${TransactionModel.tblTransaction}.* '
-              'FROM ${TransactionModel.tblTransaction};');
+              'FROM ${TransactionModel.tblTransaction} ORDER BY ${TransactionModel.dbTimestamp} DESC;');
       return _bindData(result);
     } catch (e) {
       print(e.toString());

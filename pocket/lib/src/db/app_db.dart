@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:borsellino/src/models/transaction_model.dart';
+import 'package:pocket/src/models/transaction_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:borsellino/src/models/wom_model.dart';
+import 'package:pocket/src/models/wom_model.dart';
 
 /// This is the singleton database class which handlers all database transactions
 /// All the task raw queries is handle here and return a Future<T> with result
@@ -32,7 +32,7 @@ class AppDatabase {
   Future _init() async {
     // Get a location using path_provider
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "borsellino.db");
+    String path = join(documentsDirectory.path, "pocket.db");
     _database = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
           // When creating the db, create the table

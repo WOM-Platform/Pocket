@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:borsellino/src/db/app_db.dart';
+import 'package:pocket/src/db/app_db.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -21,6 +21,14 @@ class SettingsScreen extends StatelessWidget {
             onTap: () async {
               final result = await deleteDB();
               print("delete: " + result.toString());
+            },
+          ),
+          SettingsItem(
+            title: 'Reset suggestions',
+            subtitle: "Reset all suggestions in home screen",
+            icon: Icons.refresh,
+            onTap: (){
+              print("reset suggestion");
             },
           ),
           SettingsItem(

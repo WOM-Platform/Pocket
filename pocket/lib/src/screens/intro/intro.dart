@@ -1,8 +1,8 @@
-import 'package:borsellino/src/blocs/bloc_provider.dart';
-import 'package:borsellino/src/screens/home/home.dart';
-import 'package:borsellino/src/screens/home/home_bloc.dart';
-import 'package:borsellino/src/db/transaction_db.dart';
-import 'package:borsellino/src/utils/color_utils.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/screens/home/home.dart';
+import 'package:pocket/src/screens/home/home_bloc.dart';
+import 'package:pocket/src/db/transaction_db.dart';
+import 'package:pocket/src/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';

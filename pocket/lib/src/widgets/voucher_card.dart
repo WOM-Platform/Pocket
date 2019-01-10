@@ -1,6 +1,6 @@
-import 'package:borsellino/src/models/transaction_model.dart';
-import 'package:borsellino/src/models/voucher_model.dart';
-import 'package:borsellino/src/utils/color_utils.dart';
+import 'package:pocket/src/models/transaction_model.dart';
+import 'package:pocket/src/models/voucher_model.dart';
+import 'package:pocket/src/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 

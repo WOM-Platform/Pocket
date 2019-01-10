@@ -1,6 +1,7 @@
-import 'package:borsellino/src/models/transaction_model.dart';
-import 'package:borsellino/src/screens/home/home_bloc.dart';
-import 'package:borsellino/src/widgets/voucher_card.dart';
+import 'package:pocket/localization/localizations.dart';
+import 'package:pocket/src/models/transaction_model.dart';
+import 'package:pocket/src/screens/home/home_bloc.dart';
+import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:flutter/material.dart';
 
 class TransactionsList extends StatelessWidget {
@@ -13,8 +14,12 @@ class TransactionsList extends StatelessWidget {
     return StreamBuilder<List<TransactionModel>>(
       stream: bloc.transactions,
       builder: (ctx, snapshot) {
-        if (!snapshot.hasData || snapshot.data.length == 0) {
-          return Center(child: Text('Non ci sono transazioni',style: TextStyle(color: Colors.white),));
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        if(snapshot.data.isEmpty){
+          return Center(child: Text(AppLocalizations.of(context).no_transactions,style: TextStyle(color: Colors.white),));
         }
 
         final List<TransactionModel> list = snapshot.data;

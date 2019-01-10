@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:borsellino/src/blocs/bloc_provider.dart';
-import 'package:borsellino/src/models/deep_link_model.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter/services.dart';

@@ -1,7 +1,7 @@
-import 'package:borsellino/src/blocs/bloc_provider.dart';
-import 'package:borsellino/src/models/voucher_model.dart';
-import 'package:borsellino/src/screens/accept_credits/accept_credits_bloc.dart';
-import 'package:borsellino/src/widgets/voucher_card.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/models/voucher_model.dart';
+import 'package:pocket/src/screens/accept_credits/accept_credits_bloc.dart';
+import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:flutter/material.dart';
 
 class AcceptCredits extends StatefulWidget {
