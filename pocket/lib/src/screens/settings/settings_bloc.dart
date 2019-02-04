@@ -1,0 +1,60 @@
+import 'dart:io';
+import 'package:flutter_mmkv/flutter_mmkv.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pocket/app.dart';
+import 'package:pocket/constants.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/db/app_db.dart';
+import 'package:rxdart/rxdart.dart';
+
+class SettingsBloc extends BlocBase {
+  BehaviorSubject<bool> _fakeMode = BehaviorSubject<bool>();
+  Observable<bool> get fakeMode => _fakeMode.stream;
+
+  SettingsBloc() {
+    _fakeMode.sink.add(fakeModeVar);
+  }
+
+  setFakeMode(bool status) {
+    _fakeMode.sink.add(status);
+    fakeModeVar = status;
+    //Utils.setFakeModeToSharedPreference(status);
+  }
+
+  Future<bool> isSuggestionsDisabled() async {
+    final containsKey = await FlutterMmkv.containsKey(IS_SUGGESTIONS_DISABLED);
+    if (containsKey) {
+      final isSuggestionsDisabled =
+          await FlutterMmkv.decodeBool(IS_SUGGESTIONS_DISABLED);
+      return isSuggestionsDisabled;
+    }
+    FlutterMmkv.encodeBool(IS_SUGGESTIONS_DISABLED, false);
+    return false;
+  }
+
+  Future<bool> setIsSuggestionDisabledToSharedPreference(bool status) async {
+    return await FlutterMmkv.encodeBool(IS_SUGGESTIONS_DISABLED, status);
+  }
+
+  Future deleteDB() async {
+    final dir = await getApplicationDocumentsDirectory();
+    print(dir.path);
+    if (await dir.exists()) {
+      File dbFile = File(dir.path + "/pocket.db");
+      if (await dbFile.exists()) {
+        print(dbFile.path);
+        await AppDatabase.get().closeDatabase();
+
+        final delDb = await dbFile.delete();
+        if (delDb != null) return true;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  void dispose() {
+    _fakeMode.close();
+  }
+}
