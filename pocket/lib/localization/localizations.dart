@@ -40,19 +40,83 @@ class AppLocalizations {
     );
   }
 
-  String get last_movements {
+  String get lastMovements {
     return Intl.message(
       'Last movements',
-      name: 'last_movements',
+      name: 'lastMovements',
       desc: 'last movements with wom (earn, expense)',
     );
   }
 
-  String get no_transactions {
+  String get noTransactions {
     return Intl.message(
       'There aren\'t transactions',
-      name: 'no_transactions',
+      name: 'noTransactions',
       desc: 'no transactions',
+    );
+  }
+
+  String get introTitle1 {
+    return Intl.message(
+      'Merita i WOM',
+      name: 'introTitle1',
+      desc: 'title of first intro screen',
+    );
+  }
+
+  String get introTitle2 {
+    return Intl.message(
+      'Raccogli i WOM',
+      name: 'introTitle2',
+      desc: 'title of secondo intro screen',
+    );
+  }
+
+  String get introTitle3 {
+    return Intl.message(
+      'Usa i WOM',
+      name: 'introTitle3',
+      desc: 'title of third intro screen',
+    );
+  }
+
+  String get introDesc1 {
+    return Intl.message(
+      'Genera valore sociale con il tuo impegno volontario',
+      name: 'introDesc1',
+      desc: 'description of first intro screen',
+    );
+  }
+
+  String get introDesc2 {
+    return Intl.message(
+      'Guadagna 1 voucher per ogni minuto di impegno',
+      name: 'introDesc2',
+      desc: 'description of secondo intro screen',
+    );
+  }
+
+  String get introDesc3 {
+    return Intl.message(
+      'Ottieni sconti su beni e servizi in cambio dei voucher',
+      name: 'introDesc3',
+      desc: 'description of third intro screen',
+    );
+  }
+
+  String get introDoneText {
+    return Intl.message(
+      'OK',
+      name: 'introDoneText',
+      desc: 'done text of intro screen',
+    );
+  }
+
+  String get introSkipText {
+    return Intl.message(
+      'Salta',
+      name: 'introSkipText',
+      desc: 'skip text of intro screen',
     );
   }
 }

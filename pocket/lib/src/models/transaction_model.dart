@@ -1,3 +1,4 @@
+import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/voucher_model.dart';
 import 'package:flutter/material.dart';
 
@@ -35,5 +36,3 @@ class TransactionModel extends TicketModel {
     this.shop = map[dbShop];
   }
 }
-
-enum TransactionType { EXPENSE, EARN }

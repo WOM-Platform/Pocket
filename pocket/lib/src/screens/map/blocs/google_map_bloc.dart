@@ -1,9 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:pocket/src/models/aggregation_wom_model.dart';
-import 'package:pocket/src/models/map_object.dart';
-import 'package:pocket/src/screens/map/map.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -22,15 +18,15 @@ class GoogleMapBloc implements BlocBase {
   final _radius = BehaviorSubject<double>();
 
   //serve solo per il debug poi si puo sostituire con una variabile locale
-  final _location = BehaviorSubject<LatLng>();
-  final _mapPosition = BehaviorSubject<CameraPosition>();
-  final _mapObject = BehaviorSubject<MapObject>();
-  final _dateFilter = BehaviorSubject<double>();
+  final BehaviorSubject<LatLng> _location = BehaviorSubject<LatLng>();
+  final BehaviorSubject<CameraPosition> _mapPosition = BehaviorSubject<CameraPosition>();
+  //final BehaviorSubject<MapObject> _mapObject = BehaviorSubject<MapObject>();
+  final BehaviorSubject<double> _dateFilter = BehaviorSubject<double>();
 
   final _results = BehaviorSubject<List<WomModel>>();
 
   //Stream for display map
-  Observable<MapObject> get mapObject => _mapObject.stream;
+  //Observable<MapObject> get mapObject => _mapObject.stream;
 
   Observable<LatLng> get location => _location.stream;
 
@@ -77,7 +73,7 @@ class GoogleMapBloc implements BlocBase {
     return await womDB.getMinDate();
   }
 
-//  int singleStep = 0;
+  //  int singleStep = 0;
   GoogleMapBloc(this.womDB) {
     loadSourcesFromDB();
     changeRadius(15.0);
@@ -118,7 +114,7 @@ class GoogleMapBloc implements BlocBase {
     if (woms == null) woms = List<WomModel>();
 
     final markerOptions = MarkerOptions(
-      icon: BitmapDescriptor.fromAsset("assets/images/wom.png"),
+      icon: BitmapDescriptor.fromAsset("assets/images/wom_pin.png"),
     );
     woms.forEach((w) {
       mapController.addMarker(markerOptions.copyWith(MarkerOptions(
@@ -157,7 +153,7 @@ class GoogleMapBloc implements BlocBase {
     aggregation.forEach((a) {
       BitmapDescriptor bitmapDescriptor;
       if (a.number == 1) {
-        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/wom.png");
+        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/wom_pin.png");
       } else if (a.number < 20) {
         bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/m1.png");
       } else if (a.number < 100) {
@@ -192,14 +188,16 @@ class GoogleMapBloc implements BlocBase {
       level = 1;
     } else if (zoom < 5) {
       level = 2;
-    } else if (zoom < 10) {
+    } else if (zoom < 7) {
       level = 3;
-    } else if (zoom < 11) {
+    } else if (zoom < 10) {
       level = 4;
-    } else if (zoom < 13) {
+    } else if (zoom < 11) {
       level = 5;
-    } else if (zoom < 13.5) {
+    } else if (zoom < 13) {
       level = 6;
+    } else if (zoom < 13.5) {
+      level = 7;
     }
     final aggregationsWom = await womDB.getAggregatedWoms(level,
         startDate: startDate, endDate: endDate, sources: sources);
@@ -354,10 +352,12 @@ class GoogleMapBloc implements BlocBase {
 
   @override
   dispose() {
+    _radius.sink.close();
 //    womDB.closeDb();
     _radius.close();
     _location.close();
     _mapPosition.close();
+    //_mapObject.close();
   }
 }
 

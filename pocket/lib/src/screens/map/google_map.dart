@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
 import 'package:pocket/src/screens/map/widgets/backdrop_bar.dart';
@@ -134,16 +132,16 @@ class _GoogleMapScreenState extends State<GoogleMapScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mappa'),
+        title: Text('WOM Map'),
         actions: <Widget>[
-          IconButton(
+          /*IconButton(
             icon: Icon(Icons.view_list),
             onPressed: () {
               setState(() {
                 isMapVisible = !isMapVisible;
               });
             },
-          ),
+          ),*/
         ],
       ),
       body: LayoutBuilder(

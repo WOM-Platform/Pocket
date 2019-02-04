@@ -9,7 +9,7 @@ class BackdropBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Filtri',
+      'WOM Filter',
       style: TextStyle(color: Colors.white),
     );
   }

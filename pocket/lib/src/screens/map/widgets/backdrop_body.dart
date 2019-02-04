@@ -16,7 +16,7 @@ class BackdropBody extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
         child: ListView(
           children: <Widget>[
-            Text('Filtra i tuoi WOM in base al periodo di acquisizione!'),
+            Text('Filter your WOM by time'),
             SizedBox(
               height: 10.0,
             ),
@@ -58,7 +58,7 @@ class BackdropBody extends StatelessWidget {
             ),
             Divider(),
             SizedBox(height: 20.0),
-            Text('Filtra i tuoi WOM per origine di provenienza!'),
+            Text('Filter your WOM by source!'),
             SizedBox(
               height: 10.0,
             ),
@@ -70,8 +70,11 @@ class BackdropBody extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 }
+
+                final List<WomGroupBy> list = snapshot.data;
+
                 return Column(
-                  children: snapshot.data.map((source) {
+                  children: list.map((source) {
                     return CheckboxRowFilter(
                       group: source,
                       onChanged: (value) {

@@ -10,7 +10,7 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -22,6 +22,12 @@ dependencies:
   uni_links: ^0.1.4
   sqflite: ^0.12.2+1
   simple_rsa: ^0.0.1
+  encrypt:
+    git:
+      url: git://github.com/leocavalcante/encrypt.git
+      ref: v2.0
+  pointycastle: ^1.0.0
+  flutter_mmkv: ^1.0.0 #per salvare le preferenze (firstOpen ecc) + veloce delle normali shared preference
   path_provider: ^0.4.1
   barcode_scan: ^0.0.7
   rxdart: ^0.19.0
@@ -33,6 +39,7 @@ dependencies:
   http: ^0.12.0
   intro_views_flutter: ^2.4.0
   webview_flutter: ^0.2.0
+  flutter_lock_screen: ^1.0.5
   google_maps_flutter:
     git:
       url: git://github.com/flutter/plugins
@@ -60,14 +67,17 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/banking.png
+    - assets/images/piggy-bank.png
     - assets/images/best-seller.png
     - assets/images/store.png
+    - assets/images/shop.png
     - assets/images/team.png
     - assets/images/m1.png
     - assets/images/m2.png
     - assets/images/m3.png
     - assets/images/m4.png
     - assets/images/wom.png
+    - assets/images/wom_pin.png
     - assets/map_point.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

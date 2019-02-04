@@ -11,15 +11,63 @@
     "type": "text",
     "placeholders": {}
   },
-  "last_movements": "Last movements",
-  "@last_movements": {
+  "lastMovements": "Last movements",
+  "@lastMovements": {
     "description": "last movements with wom (earn, expense)",
     "type": "text",
     "placeholders": {}
   },
-  "no_transactions": "There aren't transactions",
-  "@no_transactions": {
+  "noTransactions": "There aren't transactions",
+  "@noTransactions": {
     "description": "no transactions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "introTitle1": "Merita i WOM",
+  "@introTitle1": {
+    "description": "title of first intro screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "introTitle2": "Raccogli i WOM",
+  "@introTitle2": {
+    "description": "title of secondo intro screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "introTitle3": "Usa i WOM",
+  "@introTitle3": {
+    "description": "title of third intro screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "introDesc1": "Genera valore sociale con il tuo impegno volontario",
+  "@introDesc1": {
+    "description": "description of first intro screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "introDesc2": "Guadagna 1 voucher per ogni minuto di impegno",
+  "@introDesc2": {
+    "description": "description of secondo intro screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "introDesc3": "Ottieni sconti su beni e servizi in cambio dei voucher",
+  "@introDesc3": {
+    "description": "description of third intro screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "introDoneText": "OK",
+  "@introDoneText": {
+    "description": "done text of intro screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "introSkipText": "Salta",
+  "@introSkipText": {
+    "description": "skip text of intro screen",
     "type": "text",
     "placeholders": {}
   }

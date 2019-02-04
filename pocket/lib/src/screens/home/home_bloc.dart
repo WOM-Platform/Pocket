@@ -1,64 +1,119 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/material.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/suggestion_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/db/wom_db.dart';
-import 'package:pocket/src/screens/home/home.dart';
+import 'package:flutter/services.dart';
+import 'package:pocket/src/screens/accept_credits/accept_credits.dart';
+import 'package:pocket/src/screens/accept_credits/accept_credits_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:latlong/latlong.dart';
+import 'package:uni_links/uni_links.dart';
 //import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeBloc extends BlocBase {
   final TransactionDB _transactionDB;
 
+  //Deep Link subscription
+  StreamSubscription<Uri> _deepLink;
+
   // Transactions List
   BehaviorSubject<List<TransactionModel>> _transactions =
       BehaviorSubject<List<TransactionModel>>();
-
   Observable<List<TransactionModel>> get transactions => _transactions.stream;
-
   Function get addTransactions => _transactions.sink.add;
 
-  WomDB womDB;
-
+  //Suggestions
   BehaviorSubject<List<SuggestionModel>> _suggestions =
-  BehaviorSubject<List<SuggestionModel>>();
-
+      BehaviorSubject<List<SuggestionModel>>();
   Observable<List<SuggestionModel>> get suggestions => _suggestions.stream;
 
   List<SuggestionModel> localSuggestions = suggestionsItem;
+  WomDB womDB;
+  BuildContext context;
 
   HomeBloc(this._transactionDB) {
     womDB = WomDB.get();
     readTransaction();
     _suggestions.add(localSuggestions);
 
+    _deepLink = getUriLinksStream().listen((Uri uri) {
+      //TODO chiamare pin screen non accept credits
+      try {
+        final deepData = DeepLinkModel.fromUri(uri);
+        final acceptProvider = BlocProvider(
+            child: AcceptCredits(), bloc: AcceptCreditsBloc(deepData, "1234"));
+        Navigator.push(
+          context,
+          MaterialPageRoute<bool>(builder: (context) => acceptProvider),
+        ).then((value) {
+          print("return from accept provider " + value.toString());
+          refreshList();
+        });
+      } on FormatException {
+        print("FormatException error");
+      }
+    }, onError: (err) {
+      print(err.toString());
+    });
   }
 
-  extractPointFromJson(String data){
+  Future<String> scanQRCode() async {
+    try {
+      return await BarcodeScanner.scan();
+    } on PlatformException catch (ex) {
+      if (ex == BarcodeScanner.CameraAccessDenied) {
+        throw Exception(ex);
+      } else {
+        throw Exception("unknow error");
+      }
+    } on FormatException {
+      throw FormatException(
+          "Hai premuto il pulsante back prima di acquisire il dato");
+    } catch (ex) {
+      throw Exception(ex);
+    }
+  }
+
+  extractPointFromJson(String data) async {
     print("STAR EXTRACT FROM JSON");
-    List<dynamic> new_data = json.decode(data.toString()) ;
+    List<dynamic> new_data = json.decode(data.toString());
 
     int i = 0;
-    new_data.forEach((point){
+    for(int i = 0; i<new_data.length; i++){
 
+      final point = new_data[i];
       final wom = WomModel(
         location: LatLng(point["LATITUDE"], point["LONGITUDE"]),
-        secret: point["EMAIL"],
+        secret: "secret",
         source: "",
         timestamp: DateTime.now().millisecondsSinceEpoch,
         id: i,
         live: WomStatus.ON,
       );
-
-      womDB.updateWom(wom);
-
-      i++;
-    });
-    print(new_data[0]);
+      await womDB.updateWom(wom);
+    }
+//    new_data.forEach((point) async {
+//
+//      final wom = WomModel(
+//        location: LatLng(point["LATITUDE"], point["LONGITUDE"]),
+//        secret: "secret",
+//        source: "",
+//        timestamp: DateTime.now().millisecondsSinceEpoch,
+//        id: i,
+//        live: WomStatus.ON,
+//      );
+//
+//      await womDB.updateWom(wom);
+//      i++;
+//    });
 
     print("EXTRACT COMPLETE");
   }
@@ -68,15 +123,14 @@ class HomeBloc extends BlocBase {
     _suggestions.sink.add(localSuggestions);
   }
 
-  refreshSuggestions(){
+  refreshSuggestions() {
     localSuggestions = suggestionsItem;
     _suggestions.sink.add(localSuggestions);
   }
 
-  refreshList(){
+  refreshList() {
     readTransaction();
   }
-
 
   readTransaction() async {
     final list = await _transactionDB.getTransactions();
@@ -149,7 +203,7 @@ class HomeBloc extends BlocBase {
     print("create fake wom : COMPLETE");
 
 //    await readAggregationWoms();
-    womDB.closeDb();
+    //womDB.closeDb();
     // await tryRead();
   }
 
@@ -206,42 +260,22 @@ class HomeBloc extends BlocBase {
 //
   @override
   void dispose() {
-    womDB.closeDb();
+    //womDB.closeDb();
     _suggestions.close();
     _transactions.close();
-//    _topIds.close();
-//    _itemsFetcher.close();
-//    _itemsOutput.close();
+    _deepLink.cancel();
+    context = null;
   }
-
-
-
 }
 
 List<SuggestionModel> suggestionsItem = [
   SuggestionModel(
-    text: "Cosa sono i WOM?",
+    text: "What is the WOM?",
     url: "",
   ),
   SuggestionModel(
     text:
-    "Con i WOM accumulati potrai acquistare beni o servizi nei negozio affiliati!",
-    url: "",
-  ),
-  SuggestionModel(
-    text: "",
-    url: "",
-  ),
-  SuggestionModel(
-    text: "",
-    url: "",
-  ),
-  SuggestionModel(
-    text: "",
-    url: "",
-  ),
-  SuggestionModel(
-    text: "",
+        "With the accumulated WOMs you can get discounts on goods or services in affiliated stores!",
     url: "",
   ),
 ];

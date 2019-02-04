@@ -1,3 +1,4 @@
+import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/models/voucher_model.dart';
 import 'package:pocket/src/utils/color_utils.dart';
@@ -49,13 +50,30 @@ class TicketCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Text(
-            "#1212",
+            ticket.formatDate(),
             style: voucherIdStyle,
           ),
           Divider(),
-          Text('${ticket.size} wom', style: TextStyle(color: Colors.green,fontSize: 30.0),),
+          Text(
+            '${ticket.size} wom',
+            style: TextStyle(color: Colors.green, fontSize: 30.0),
+          ),
           Divider(),
-          Text('from ${(ticket as VoucherModel).type}', style: TextStyle(color: backgroundColor,fontSize: 20.0),),
+          Text.rich(
+            TextSpan(children: <TextSpan>[
+              TextSpan(
+                text: 'from ',
+                style: TextStyle(color: backgroundColor, fontSize: 20.0),
+              ),
+              TextSpan(
+                text: '${(ticket as VoucherModel).type}',
+                style: TextStyle(
+                    color: backgroundColor,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            ]),
+          ),
         ],
       ),
     );
@@ -65,11 +83,11 @@ class TicketCard extends StatelessWidget {
     TextStyle voucherIdStyle =
         new TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
 
-    bool isEarnTransaction = (ticket as TransactionModel).transactionType == TransactionType.EARN;
+    bool isEarnTransaction = (ticket as TransactionModel).transactionType ==
+        TransactionType.VOUCHERS;
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Stack(
-
         children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,35 +102,69 @@ class TicketCard extends StatelessWidget {
                   ),
                   Expanded(child: SizedBox()),
                   (ticket as TransactionModel).transactionType ==
-                          TransactionType.EARN
+                          TransactionType.PAYMENT
                       ? Icon(
-                          Icons.monetization_on,
-                          color: Colors.green,
-                        )
-                      : Icon(
                           Icons.payment,
                           color: Colors.red,
+                        )
+                      : Icon(
+                          Icons.monetization_on,
+                          color: Colors.green,
                         ),
                 ],
               ),
-             Expanded(child: Container(),),
-              isEarnTransaction ? Row(
+              Expanded(
+                child: Container(),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    "SOURCE",
+                    isEarnTransaction ? "SmartRoadSense" : "Underground Pub",
                     style: TextStyle(fontSize: 14.0),
                   ),
                   Expanded(child: Container()),
-                  Text(
-                    "AIM|AIM|AIM",
-                    style: TextStyle(fontSize: 14.0),
-                  ),
+                  isEarnTransaction
+                      ? Text(
+                          "Road quality monitoring",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(fontSize: 14.0),
+                          maxLines: 2,
+                        )
+                      : Container(),
                 ],
-              ) : Container(),
+              ),
             ],
           ),
-          Center(child: Text("Hai ${isEarnTransaction ? "ottenuto": "speso"} ${ticket.size.toString()} WOM",style: TextStyle(fontSize: 20.0,color:isEarnTransaction ? Colors.green : Colors.red),)),
+//          Center(child: Text("Hai ${isEarnTransaction ? "ottenuto": "speso"} ${ticket.size.toString()} WOM",style: TextStyle(fontSize: 20.0,color:isEarnTransaction ? Colors.green : Colors.red),)),
+
+          Center(
+            child: Text.rich(
+              TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: "You ${isEarnTransaction ? "earned" : "used"}",
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        color: isEarnTransaction ? Colors.green : Colors.red),
+                  ),
+                  TextSpan(
+                      text: ' ${ticket.size.toString()}',
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          color: isEarnTransaction ? Colors.green : Colors.red,
+                          fontWeight: FontWeight.bold)),
+                  TextSpan(
+                    text: ' WOM',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        color: isEarnTransaction ? Colors.green : Colors.red),
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

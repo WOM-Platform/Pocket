@@ -1,3 +1,4 @@
+import 'package:pocket/app.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/models/voucher_model.dart';
 import 'package:pocket/src/screens/accept_credits/accept_credits_bloc.dart';
@@ -5,9 +6,7 @@ import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:flutter/material.dart';
 
 class AcceptCredits extends StatefulWidget {
-  final String id;
-
-  const AcceptCredits({Key key, this.id}) : super(key: key);
+  const AcceptCredits({Key key}) : super(key: key);
 
   @override
   AcceptCreditsState createState() {
@@ -19,10 +18,12 @@ class AcceptCreditsState extends State<AcceptCredits>
     with TickerProviderStateMixin {
   AnimationController _controller;
   Animation _animation;
+  AcceptCreditsBloc bloc;
 
   @override
   void initState() {
     super.initState();
+    bloc = BlocProvider.of(context);
 
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
@@ -33,101 +34,135 @@ class AcceptCreditsState extends State<AcceptCredits>
     ));
   }
 
+  Future<bool> _onWillPop() {
+    return Future(() {
+//      Navigator.pushNamedAndRemoveUntil(context,  MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), ModalRoute.withName('/'));
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/home', ModalRoute.withName('/'));
+      //Navigator.popUntil(context, ModalRoute.withName('/home'));
+      true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final AcceptCreditsBloc bloc = BlocProvider.of(context);
-//    if (widget.id == null) {
-//      bloc.scanQRCode();
-//    }else{
-//      bloc.fetchVoucher(widget.id);
-//    }
-//
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: StreamBuilder<VoucherModel>(
-        stream: bloc.voucher,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-                child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                CircleButton(text: 'Error!', color: Colors.red),
-                SizedBox(
-                  height: 15.0,
-                ),
-                Text(
-                  snapshot.error as String,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
-            ));
-          }
-
-          if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          _controller.forward();
-          return AnimatedBuilder(
-            animation: _controller,
-            builder: (BuildContext context, Widget child) {
-              return Transform(
-                transform: Matrix4.translationValues(
-                    0.0, _animation.value * (-90), 0.0),
-                child: Center(
+    return WillPopScope(
+      onWillPop: () => _onWillPop(),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: StreamBuilder<VoucherModel>(
+          stream: bloc.voucher,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      InkWell(
-                        child: Container(
-                          height: 270.0,
-                          width: 270.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Congratulation!',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 37.0,
-                                fontWeight: FontWeight.bold,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  CircleButton(text: 'Error!', color: Colors.red),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  Text(
+                    snapshot.error as String,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ));
+            }
+
+            if (!snapshot.hasData) {
+              return Center(
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(fakeModeVar ? Colors.yellow : Theme.of(context).primaryColor),
+              ));
+            }
+
+            _controller.forward();
+            return AnimatedBuilder(
+              animation: _controller,
+              builder: (BuildContext context, Widget child) {
+                return Transform(
+                  transform: Matrix4.translationValues(
+                      0.0, _animation.value * (-10), 0.0),
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        InkWell(
+                          child: Container(
+                            height: 270.0,
+                            width: 270.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Congratulations!',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 37.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
+                          onTap: () {},
                         ),
-                        onTap: () {},
-                      ),
-                      SizedBox(
-                        height: _animation.value * 20.0,
-                      ),
-                      FadeTransition(
-                        opacity: _animation,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Center(child: Text('Hai ottenuto:',style: TextStyle(color: Colors.white,fontSize: 20.0),)),
+                        SizedBox(
+                          height: _animation.value * 20.0,
                         ),
-                      ),
-                      SizedBox(
-                        height: _animation.value * 15.0,
-                      ),
-                      FadeTransition(
-                        opacity: _animation,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: TicketCard(ticket: snapshot.data),
+                        FadeTransition(
+                          opacity: _animation,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Center(
+                                child: Text(
+                              'You got:',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 20.0),
+                            )),
+                          ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: _animation.value * 20.0,
+                        ),
+                        FadeTransition(
+                          opacity: _animation,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: TicketCard(ticket: snapshot.data),
+                          ),
+                        ),
+                        SizedBox(
+                          height: _animation.value * 50.0,
+                        ),
+                        FadeTransition(
+                          opacity: _animation,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 80.0),
+                            child: OutlineButton(
+                                child: Text(
+                                  'OK',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      '/home', ModalRoute.withName('/'));
+                                }),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          );
-        },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

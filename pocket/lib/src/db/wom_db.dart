@@ -188,18 +188,22 @@ class WomDB {
   }
 
   /// Inserts or replaces the task.
-  Future updateWom(WomModel wom) async {
+  Future<void> updateWom(WomModel wom) async {
     var db = await _appDatabase.getDb();
-    await db.transaction((Transaction txn) async {
-      int id = await txn.rawInsert('INSERT OR REPLACE INTO '
-          '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSource})'
-          ' VALUES(${wom.id},"${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.location.latitude},${wom.location.longitude},"${wom.source}")');
-    });
+    try{
+      await db.transaction((Transaction txn) async {
+        int id = await txn.rawInsert('INSERT INTO '
+            '${WomModel.tblWom}(${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSource})'
+            ' VALUES("${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.location.latitude},${wom.location.longitude},"${wom.source}")');
+      });
+    }catch (e){
+      print("erorr = " + e.toString());
+    }
   }
 
-  closeDb() async {
-    await _appDatabase.closeDatabase();
-  }
+//  closeDb() async {
+//    await _appDatabase.closeDatabase();
+//  }
 }
 
 class WomGroupBy {

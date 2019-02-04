@@ -15,7 +15,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="borsellino"
+        android:label="WOM Pocket"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -39,9 +39,8 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http"
-                    android:host="wom.social"
-                    android:pathPrefix="/transfer/subpath" />
+                <data android:scheme="https"
+                    android:host="wom.social"/>
             </intent-filter>
 
             <intent-filter>
@@ -51,23 +50,6 @@
                 <data android:scheme="wom"
                     android:host="transfer" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:scheme="unilinks"
-                    android:host="example.com" />
-            </intent-filter>
-            <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data
-                android:scheme="unilinks"
-                android:host="host"
-                android:pathPrefix="/path/subpath" />
-          </intent-filter>
         </activity>
         <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
         <meta-data android:name="com.google.android.geo.API_KEY"

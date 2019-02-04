@@ -20,9 +20,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "last_movements" : MessageLookupByLibrary.simpleMessage("Ultimi movimenti"),
+    "introDesc1" : MessageLookupByLibrary.simpleMessage("Genera valore sociale con il tuo impegno volontario"),
+    "introDesc2" : MessageLookupByLibrary.simpleMessage("Guadagna 1 voucher per ogni minuto di impegno"),
+    "introDesc3" : MessageLookupByLibrary.simpleMessage("Ottieni sconti su beni e servizi in cambio dei voucher"),
+    "introDoneText" : MessageLookupByLibrary.simpleMessage("OK"),
+    "introSkipText" : MessageLookupByLibrary.simpleMessage("Salta"),
+    "introTitle1" : MessageLookupByLibrary.simpleMessage("Merita i WOM"),
+    "introTitle2" : MessageLookupByLibrary.simpleMessage("Raccogli i WOM"),
+    "introTitle3" : MessageLookupByLibrary.simpleMessage("Usa i WOM"),
+    "lastMovements" : MessageLookupByLibrary.simpleMessage("Ultimi movimenti"),
     "msg" : MessageLookupByLibrary.simpleMessage("Hello World"),
-    "no_transactions" : MessageLookupByLibrary.simpleMessage("Non ci sono transazioni"),
+    "noTransactions" : MessageLookupByLibrary.simpleMessage("Non ci sono transazioni"),
     "title" : MessageLookupByLibrary.simpleMessage("WOM Pocket")
   };
 }

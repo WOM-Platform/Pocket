@@ -15,6 +15,7 @@ class TransactionDB {
   }
 
   Future<List<TransactionModel>> getTransactions() async {
+    print("--------- START QUERY TRANSACTION");
     var db = await _appDatabase.getDb();
     try {
       var result =
@@ -42,13 +43,13 @@ class TransactionDB {
   Future updateTransaction(TransactionModel tx) async {
     var db = await _appDatabase.getDb();
     await db.transaction((Transaction txn) async {
-      int id = await txn.rawInsert('INSERT OR REPLACE INTO '
+      int id = await txn.rawInsert('INSERT INTO '
           '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbShop},${TransactionModel.dbType})'
           ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.shop}",${tx.transactionType.index})');
     });
   }
 
-  closeDb() async {
-    await _appDatabase.closeDatabase();
-  }
+//  closeDb() async {
+//    await _appDatabase.closeDatabase();
+//  }
 }

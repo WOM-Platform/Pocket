@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class MapWidget extends StatelessWidget{
   GoogleMap googleMap;
 
-  GoogleMapBloc bloc;
+  final GoogleMapBloc bloc;
 
   MapWidget({this.bloc}) {
     print("create map widget");

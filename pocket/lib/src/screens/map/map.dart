@@ -41,7 +41,7 @@ class MapScreen extends StatelessWidget {
                 if(!snapshot.hasData){
                   return Center(child: CircularProgressIndicator(),);
                 }
-                final woms = snapshot.data;
+                //final woms = snapshot.data;
 
                 return Container();
 //                return ListView.builder(
@@ -394,7 +394,7 @@ class _AnimatedDateFilterState extends State<AnimatedDateFilter>
   @override
   Widget build(BuildContext context) {
     double oIcon = opacityIcon.value;
-    double oSlider = opacitySlider.value;
+    //double oSlider = opacitySlider.value;
 
     return StreamBuilder<double>(
 //        initialData: 10.0,

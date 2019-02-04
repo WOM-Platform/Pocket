@@ -1,76 +1,93 @@
-import 'dart:io';
-
-import 'package:pocket/src/db/app_db.dart';
+import 'package:pocket/app.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/screens/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+    final SettingsBloc bloc = BlocProvider.of(context);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('Impostazioni'),
+        title: Text('Settings'),
       ),
       body: ListView(
         children: <Widget>[
           SettingsItem(
             title: 'Clear DB (only for debug)',
             subtitle: "Delete all data of local database",
-            icon: Icons.delete,
+            trailing: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
             onTap: () async {
-              final result = await deleteDB();
+              final result = await bloc.deleteDB();
               print("delete: " + result.toString());
             },
           ),
           SettingsItem(
             title: 'Reset suggestions',
             subtitle: "Reset all suggestions in home screen",
-            icon: Icons.refresh,
-            onTap: (){
+            trailing: Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ),
+            onTap: () {
               print("reset suggestion");
             },
           ),
           SettingsItem(
             title: 'Info',
             subtitle: "Get info about this App",
-            icon: Icons.info_outline,
+            trailing: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
             onTap: null,
+          ),
+          SettingsItem(
+            subtitle: "Enabled or disabled fake mode",
+            title: "Fake Mode",
+            onTap: null,
+            trailing: StreamBuilder<bool>(
+              stream: bloc.fakeMode,
+              builder: (ctx, snap) {
+                if (!snap.hasData) {
+                  return CircularProgressIndicator();
+                }
+
+                return Switch(
+                  value: snap.data,
+                  onChanged: (status) async {
+                    bloc.setFakeMode(status);
+                    if (fakeData == null) {
+                      fakeData = await DefaultAssetBundle.of(ctx)
+                          .loadString('assets/map_point.json');
+                    }
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
     );
-  }
-
-  Future<bool> deleteDB() async {
-    final dir = await getApplicationDocumentsDirectory();
-//    final cacheDirPath = p.join(directory.path, );
-    print(dir.path);
-    if (await dir.exists()) {
-      File dbFile = File(dir.path + "/borsellino.db");
-      if (await dbFile.exists()) {
-        print(dbFile.path);
-        await AppDatabase.get().closeDatabase();
-        final delDb = await dbFile.delete();
-        if (delDb != null) return true;
-      }
-      return false;
-    }
-    return true;
   }
 }
 
 class SettingsItem extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData icon;
+  final Widget trailing;
   final VoidCallback onTap;
 
   const SettingsItem(
       {Key key,
       @required this.title,
       @required this.subtitle,
-      this.icon,
+      this.trailing,
       this.onTap})
       : super(key: key);
 
@@ -88,12 +105,7 @@ class SettingsItem extends StatelessWidget {
         subtitle,
         style: TextStyle(fontSize: 12.0, color: Colors.grey),
       ),
-      trailing: icon != null
-          ? Icon(
-              icon,
-              color: Colors.white,
-            )
-          : null,
+      trailing: trailing,
     );
   }
 }

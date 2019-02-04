@@ -19,7 +19,7 @@ class TransactionsList extends StatelessWidget {
         }
 
         if(snapshot.data.isEmpty){
-          return Center(child: Text(AppLocalizations.of(context).no_transactions,style: TextStyle(color: Colors.white),));
+          return Center(child: Text(AppLocalizations.of(context).noTransactions,style: TextStyle(color: Colors.white),));
         }
 
         final List<TransactionModel> list = snapshot.data;

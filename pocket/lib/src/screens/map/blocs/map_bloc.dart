@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:pocket/src/models/aggregation_wom_model.dart';
 import 'package:pocket/src/models/map_object.dart';
-import 'package:pocket/src/screens/map/map.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/db/wom_db.dart';
-import 'package:geohash/geohash.dart';
 import 'package:location/location.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:rxdart/rxdart.dart';
