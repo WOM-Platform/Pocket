@@ -66,10 +66,12 @@ class HomeScreen extends StatelessWidget {
         child: const Icon(Icons.camera_enhance),
         onPressed: () async {
           try {
-            final scanResult = await bloc.scanQRCode();
-            final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(scanResult));
-//            final link = "https://wom.social/vouchers/720c605b46614308a1c5ab279644679b";
-//            final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
+//            final scanResult = await bloc.scanQRCode();
+//            final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(scanResult));
+
+
+            final link = "https://wom.social/vouchers/9ae09a70ab3e462c8ba13ba32be0a601";
+            final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
             var blocProviderPin = BlocProvider(
               bloc: PinBloc(),

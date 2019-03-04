@@ -1,3 +1,4 @@
+import 'package:pocket/app.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/screens/pin/pin.dart';
 import 'package:pocket/src/screens/pin/pin_bloc.dart';
@@ -34,6 +35,14 @@ class SplashScreenState extends State<SplashScreen>
     super.initState();
     bloc = SplashBloc();
 
+    if (fakeData == null) {
+      DefaultAssetBundle.of(context)
+          .loadString('assets/map_point.json')
+          .then((result) {
+        fakeData = result;
+      });
+    }
+
     _controller = AnimationController(
         duration: const Duration(milliseconds: 1500), vsync: this);
 
@@ -51,9 +60,7 @@ class SplashScreenState extends State<SplashScreen>
       print("SplashScreen: uri data detected");
       _controller.forward().whenCompleteOrCancel(() {
         if (deepLinkModel == null) {
-
-
-          //Navigator.pushReplacementNamed(context, '/intro');
+//          Navigator.pushReplacementNamed(context, '/intro');
           bloc.isFirstOpen().then((isFirstOpen) {
             if (isFirstOpen) {
               Navigator.pushReplacementNamed(context, '/intro');
@@ -62,8 +69,8 @@ class SplashScreenState extends State<SplashScreen>
             }
           });
         } else {
-          print(
-              "SplashScreen: chiamata tramite deeplink" + deepLinkModel.toString());
+          print("SplashScreen: chiamata tramite deeplink" +
+              deepLinkModel.toString());
           var blocProviderPin = BlocProvider(
             bloc: PinBloc(),
             child: PinScreen(

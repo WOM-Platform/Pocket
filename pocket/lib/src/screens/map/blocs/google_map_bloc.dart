@@ -117,7 +117,7 @@ class GoogleMapBloc implements BlocBase {
       icon: BitmapDescriptor.fromAsset("assets/images/wom_pin.png"),
     );
     woms.forEach((w) {
-      mapController.addMarker(markerOptions.copyWith(MarkerOptions(
+      mapController. addMarker(markerOptions.copyWith(MarkerOptions(
         position: w.gLocation,
       )));
     });

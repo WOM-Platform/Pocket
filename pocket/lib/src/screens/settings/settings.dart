@@ -3,6 +3,7 @@ import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/screens/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 
+
 class SettingsScreen extends StatelessWidget {
 
   @override
@@ -47,30 +48,30 @@ class SettingsScreen extends StatelessWidget {
             ),
             onTap: null,
           ),
-          SettingsItem(
-            subtitle: "Enabled or disabled fake mode",
-            title: "Fake Mode",
-            onTap: null,
-            trailing: StreamBuilder<bool>(
-              stream: bloc.fakeMode,
-              builder: (ctx, snap) {
-                if (!snap.hasData) {
-                  return CircularProgressIndicator();
-                }
-
-                return Switch(
-                  value: snap.data,
-                  onChanged: (status) async {
-                    bloc.setFakeMode(status);
-                    if (fakeData == null) {
-                      fakeData = await DefaultAssetBundle.of(ctx)
-                          .loadString('assets/map_point.json');
-                    }
-                  },
-                );
-              },
-            ),
-          ),
+//          SettingsItem(
+//            subtitle: "Enabled or disabled fake mode",
+//            title: "Fake Mode",
+//            onTap: null,
+//            trailing: StreamBuilder<bool>(
+//              stream: bloc.fakeMode,
+//              builder: (ctx, snap) {
+//                if (!snap.hasData) {
+//                  return CircularProgressIndicator();
+//                }
+//
+//                return Switch(
+//                  value: snap.data,
+//                  onChanged: (status) async {
+//                    bloc.setFakeMode(status);
+//                    if (fakeData == null) {
+//                      fakeData = await DefaultAssetBundle.of(ctx)
+//                          .loadString('assets/map_point.json');
+//                    }
+//                  },
+//                );
+//              },
+//            ),
+//          ),
         ],
       ),
     );
