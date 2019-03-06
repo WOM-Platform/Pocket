@@ -11,8 +11,8 @@ import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:flutter/services.dart';
-import 'package:pocket/src/screens/accept_credits/accept_credits.dart';
-import 'package:pocket/src/screens/accept_credits/accept_credits_bloc.dart';
+import 'package:pocket/src/screens/transacation_summary/transaction_summary_screen.dart';
+import 'package:pocket/src/screens/transacation_summary/transaction_summary_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:latlong/latlong.dart';
 import 'package:uni_links/uni_links.dart';
@@ -27,13 +27,21 @@ class HomeBloc extends BlocBase {
   // Transactions List
   BehaviorSubject<List<TransactionModel>> _transactions =
       BehaviorSubject<List<TransactionModel>>();
+
   Observable<List<TransactionModel>> get transactions => _transactions.stream;
+
   Function get addTransactions => _transactions.sink.add;
 
   //Suggestions
   BehaviorSubject<List<SuggestionModel>> _suggestions =
       BehaviorSubject<List<SuggestionModel>>();
+
   Observable<List<SuggestionModel>> get suggestions => _suggestions.stream;
+
+  // Woms count
+  BehaviorSubject<int> _womsCount = BehaviorSubject<int>();
+
+  Observable<int> get womsCount => _womsCount.stream;
 
   List<SuggestionModel> localSuggestions = suggestionsItem;
   WomDB womDB;
@@ -42,6 +50,7 @@ class HomeBloc extends BlocBase {
   HomeBloc(this._transactionDB) {
     womDB = WomDB.get();
     readTransaction();
+    getWomsCount();
     _suggestions.add(localSuggestions);
 
     _deepLink = getUriLinksStream().listen((Uri uri) {
@@ -49,7 +58,7 @@ class HomeBloc extends BlocBase {
       try {
         final deepData = DeepLinkModel.fromUri(uri);
         final acceptProvider = BlocProvider(
-            child: AcceptCredits(), bloc: AcceptCreditsBloc(deepData, "1234"));
+            child: TransactionSummaryScreen(), bloc: TransactionSummaryBloc(deepData, "1234"));
         Navigator.push(
           context,
           MaterialPageRoute<bool>(builder: (context) => acceptProvider),
@@ -63,6 +72,12 @@ class HomeBloc extends BlocBase {
     }, onError: (err) {
       print(err.toString());
     });
+  }
+
+  getWomsCount() async{
+    final count = await womDB.getWomsCount();
+    print("Total Woms = $count");
+    _womsCount.sink.add(count);
   }
 
   Future<String> scanQRCode() async {
@@ -87,13 +102,12 @@ class HomeBloc extends BlocBase {
     List<dynamic> new_data = json.decode(data.toString());
 
     int i = 0;
-    for(int i = 0; i<new_data.length; i++){
-
+    for (int i = 0; i < new_data.length; i++) {
       final point = new_data[i];
       final wom = WomModel(
         location: LatLng(point["LATITUDE"], point["LONGITUDE"]),
         secret: "secret",
-        source: "",
+        source: "SmartRoadSense",
         timestamp: DateTime.now().millisecondsSinceEpoch,
         id: i,
         live: WomStatus.ON,

@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class TicketCard extends StatelessWidget {
-  final TicketModel ticket;
+  final TransactionModel transaction;
+  final bool isForHome;
 
-  const TicketCard({Key key, this.ticket}) : super(key: key);
+  const TicketCard({Key key, this.transaction, this.isForHome = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +29,9 @@ class TicketCard extends StatelessWidget {
               child: Card(
                 elevation: 0.0,
                 margin: const EdgeInsets.all(2.0),
-                child: ticket is VoucherModel
-                    ? _buildVoucherContent()
-                    : _buildTransactionContent(),
+                child: isForHome
+                    ? _buildTransactionContent()
+                    : _buildVoucherContent(),
               ),
             ),
           ),
@@ -50,12 +52,12 @@ class TicketCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Text(
-            ticket.formatDate(),
+            transaction.formatDate(),
             style: voucherIdStyle,
           ),
           Divider(),
           Text(
-            '${ticket.size} wom',
+            '${transaction.size} wom',
             style: TextStyle(color: Colors.green, fontSize: 30.0),
           ),
           Divider(),
@@ -66,7 +68,7 @@ class TicketCard extends StatelessWidget {
                 style: TextStyle(color: backgroundColor, fontSize: 20.0),
               ),
               TextSpan(
-                text: '${(ticket as VoucherModel).type}',
+                text: '${transaction.source}',
                 style: TextStyle(
                     color: backgroundColor,
                     fontSize: 20.0,
@@ -83,8 +85,8 @@ class TicketCard extends StatelessWidget {
     TextStyle voucherIdStyle =
         new TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
 
-    bool isEarnTransaction = (ticket as TransactionModel).transactionType ==
-        TransactionType.VOUCHERS;
+    bool isEarnTransaction =
+        transaction.transactionType == TransactionType.VOUCHERS;
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Stack(
@@ -97,12 +99,11 @@ class TicketCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    ticket.formatDate(),
+                    transaction.formatDate(),
                     style: voucherIdStyle,
                   ),
                   Expanded(child: SizedBox()),
-                  (ticket as TransactionModel).transactionType ==
-                          TransactionType.PAYMENT
+                  transaction.transactionType == TransactionType.PAYMENT
                       ? Icon(
                           Icons.payment,
                           color: Colors.red,
@@ -121,7 +122,7 @@ class TicketCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    isEarnTransaction ? "SmartRoadSense" : "Underground Pub",
+                    transaction.source,
                     style: TextStyle(fontSize: 14.0),
                   ),
                   Expanded(child: Container()),
@@ -150,7 +151,7 @@ class TicketCard extends StatelessWidget {
                         color: isEarnTransaction ? Colors.green : Colors.red),
                   ),
                   TextSpan(
-                      text: ' ${ticket.size.toString()}',
+                      text: ' ${transaction.size.toString()}',
                       style: TextStyle(
                           fontSize: 20.0,
                           color: isEarnTransaction ? Colors.green : Colors.red,

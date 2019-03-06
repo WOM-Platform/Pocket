@@ -21,7 +21,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   uni_links: ^0.1.4
   sqflite: ^0.12.2+1
-  simple_rsa: ^0.0.1
+  simple_rsa: ^0.0.3
   encrypt:
     git:
       url: git://github.com/leocavalcante/encrypt.git
@@ -40,11 +40,12 @@ dependencies:
   intro_views_flutter: ^2.4.0
   webview_flutter: ^0.2.0
   flutter_lock_screen: ^1.0.5
-  google_maps_flutter:
-    git:
-      url: git://github.com/flutter/plugins
-      path: packages/google_maps_flutter
-      ref: '5f9affc'
+  clustering_google_maps: ^0.0.2
+#  google_maps_flutter:
+#    git:
+#      url: git://github.com/flutter/plugins
+#      path: packages/google_maps_flutter
+#      ref: '5f9affc'
 
 dev_dependencies:
   flutter_test:

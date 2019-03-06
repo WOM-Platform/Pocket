@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:pocket/src/screens/accept_credits/accept_credits.dart';
-import 'package:pocket/src/screens/accept_credits/accept_credits_bloc.dart';
+import 'package:pocket/src/screens/transacation_summary/transaction_summary_screen.dart';
+import 'package:pocket/src/screens/transacation_summary/transaction_summary_bloc.dart';
 import 'package:pocket/src/screens/pin/pin_bloc.dart';
 
 class PinScreen extends StatelessWidget {
@@ -65,8 +65,8 @@ class PinScreen extends StatelessWidget {
 
   goToAcceptCredits(BuildContext context) {
     var blocProviderScan = BlocProvider(
-      bloc: AcceptCreditsBloc(deepLinkModel, bloc.getPin()),
-      child: AcceptCredits(),
+      bloc: TransactionSummaryBloc(deepLinkModel, bloc.getPin()),
+      child: TransactionSummaryScreen(),
     );
     Navigator.push(
       context,

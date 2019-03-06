@@ -36,7 +36,8 @@ class TransactionsList extends StatelessWidget {
 //                index.isEven ? TransactionType.EARN : TransactionType.EXPENSE,
 //                shop: "Parcheggio");
             return TicketCard(
-              ticket: list[index],
+              transaction: list[index],
+              isForHome: true,
             );
           },
         );

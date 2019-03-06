@@ -66,11 +66,10 @@ class HomeScreen extends StatelessWidget {
         child: const Icon(Icons.camera_enhance),
         onPressed: () async {
           try {
-//            final scanResult = await bloc.scanQRCode();
-//            final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(scanResult));
 
 
-            final link = "https://wom.social/vouchers/9ae09a70ab3e462c8ba13ba32be0a601";
+//            final link = "https://wom.social/vouchers/e939d0efba2d4e67a7d8243fe03a8135";
+            final link = "https://wom.social/payment/5772ef0a5f004ba1ba1ce3a105f98cb0";
             final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
             var blocProviderPin = BlocProvider(
@@ -83,6 +82,7 @@ class HomeScreen extends StatelessWidget {
               context,
               MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
             );
+
 //            var blocProviderAcceptCredits = BlocProvider(
 //              bloc: AcceptCreditsBloc(deepLinkModel),
 //              child: AcceptCredits(),
@@ -115,29 +115,6 @@ class HomeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-//            IconButton(
-//              icon: Icon(Icons.account_circle),
-//              onPressed: () async{
-//
-//                final e = await decryptAES("", "5wK5cuDz3oyEV04TVaodjnUR0i8RT9FQmOQk2M3fDD8=");
-//
-//                print(e);
-
-//
-//                final key = encrypt.Key.fromBase64('5wK5cuDz3oyEV04TVaodjnUR0i8RT9FQmOQk2M3fDD8=');
-//                final iv = encrypt.IV.fromBase64('');
-//                final encrypted = encrypt.Encrypted.fromBase64('e+7n6mf4G+1MLMcREjRNWg==');
-//
-//                final encrypter = encrypt.Encrypter(encrypt.AES(key, iv, mode: encrypt.AESMode.cbc));
-//                print(encrypter.decrypt(encrypted));
-
-//                proca();
-
-//                loadJSONpoint(context);
-//                Navigator.push(context,
-////                    MaterialPageRoute(builder: (context) => PayScreen()));
-//              },
-//            ),
             IconButton(
               icon: Icon(Icons.map),
               onPressed: () {
@@ -166,6 +143,17 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).title),
         backgroundColor: Theme.of(context).primaryColor,
+        actions: <Widget>[
+          StreamBuilder<int>(stream: bloc.womsCount,builder: (ctx, snap){
+            if(!snap.hasData){
+              return CircularProgressIndicator();
+            }
+            return Center(child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(snap.data.toString()),
+            ));
+          },),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -274,9 +262,9 @@ class HomeScreen extends StatelessWidget {
               transactionType: index.isEven
                   ? TransactionType.VOUCHERS
                   : TransactionType.PAYMENT,
-              shop: "Parcheggio");
+              source: "Parcheggio");
           return TicketCard(
-            ticket: transaction,
+            transaction: transaction,
           );
         },
       ),

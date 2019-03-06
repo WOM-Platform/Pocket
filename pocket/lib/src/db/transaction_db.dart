@@ -44,8 +44,8 @@ class TransactionDB {
     var db = await _appDatabase.getDb();
     await db.transaction((Transaction txn) async {
       int id = await txn.rawInsert('INSERT INTO '
-          '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbShop},${TransactionModel.dbType})'
-          ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.shop}",${tx.transactionType.index})');
+          '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbType})'
+          ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}",${tx.transactionType.index})');
     });
   }
 

@@ -1,24 +1,25 @@
 import 'package:pocket/app.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/models/voucher_model.dart';
-import 'package:pocket/src/screens/accept_credits/accept_credits_bloc.dart';
+import 'package:pocket/src/screens/transacation_summary/transaction_summary_bloc.dart';
 import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:flutter/material.dart';
 
-class AcceptCredits extends StatefulWidget {
-  const AcceptCredits({Key key}) : super(key: key);
+class TransactionSummaryScreen extends StatefulWidget {
+  const TransactionSummaryScreen({Key key}) : super(key: key);
 
   @override
-  AcceptCreditsState createState() {
-    return new AcceptCreditsState();
+  TransactionSummaryScreenState createState() {
+    return new TransactionSummaryScreenState();
   }
 }
 
-class AcceptCreditsState extends State<AcceptCredits>
+class TransactionSummaryScreenState extends State<TransactionSummaryScreen>
     with TickerProviderStateMixin {
   AnimationController _controller;
   Animation _animation;
-  AcceptCreditsBloc bloc;
+  TransactionSummaryBloc bloc;
 
   @override
   void initState() {
@@ -50,7 +51,7 @@ class AcceptCreditsState extends State<AcceptCredits>
       onWillPop: () => _onWillPop(),
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        body: StreamBuilder<VoucherModel>(
+        body: StreamBuilder<TransactionModel>(
           stream: bloc.voucher,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -134,7 +135,7 @@ class AcceptCreditsState extends State<AcceptCredits>
                           child: Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: TicketCard(ticket: snapshot.data),
+                            child: TicketCard(transaction: snapshot.data),
                           ),
                         ),
                         SizedBox(

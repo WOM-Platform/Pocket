@@ -50,18 +50,19 @@ enum WomStatus { ON, OFF }
 enum Aim { ROAD, MEDICAL }
 
 
-//TODO eliminare location in più
 class WomModel {
   static final tblWom = "Wom";
   static final dbId = "Id";
   static final dbSecret = "Secret";
+
 //  static final dbGuid = "guid";
-  static final dbTimestamp = "Timestamp";
-  static final dbLat = "Latitude";
-  static final dbLong = "Longitude";
-  static final dbLive = "live";
-  static final dbGeohash = "geohash";
-  static final dbSource = "Source";
+  static const dbTimestamp = "Timestamp";
+  static const dbLat = "Latitude";
+  static const dbLong = "Longitude";
+  static const dbLive = "live";
+  static const dbGeohash = "geohash";
+  static const dbSource = "SourceName";
+  static const dbAim = "Aim";
 
   latLong.LatLng location;
   LatLng gLocation;
@@ -70,6 +71,7 @@ class WomModel {
   WomStatus live;
   String geohash;
   String source;
+  String aim;
 
   WomModel(
       {this.location,
@@ -77,7 +79,8 @@ class WomModel {
       this.id,
       this.secret,
       this.timestamp,
-      this.source}) {
+      this.source,
+      this.aim}) {
     this.geohash =
         Geohash.encode(this.location.latitude, this.location.longitude);
 
@@ -86,11 +89,15 @@ class WomModel {
 
   WomModel.fromMap(Map<String, dynamic> map)
       : id = map[dbId],
-        timestamp = map[dbTimestamp] is String ? DateTime.parse(map[dbTimestamp]).millisecondsSinceEpoch : map[dbTimestamp],
+        timestamp = map[dbTimestamp] is String
+            ? DateTime.parse(map[dbTimestamp]).millisecondsSinceEpoch
+            : map[dbTimestamp],
         location = latLong.LatLng(map[dbLat], map[dbLong]),
         gLocation = LatLng(map[dbLat], map[dbLong]),
+        secret = map[dbSecret],
 //        location = latLong.LatLng(map[dbLat], map[dbLong]),
-        source = map[dbSource] {
+        source = map[dbSource],
+        aim = map[dbAim] {
     this.geohash =
         Geohash.encode(this.location.latitude, this.location.longitude);
     this.live = WomStatus.ON;
@@ -98,12 +105,12 @@ class WomModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Id'] = this.id;
-    data['Secret'] = this.secret;
-    data['Latitude'] = this.location.latitude;
-    data['Longitude'] = this.location.longitude;
-    data['Timestamp'] = this.timestamp;
-    data['Source'] = this.source;
+    data[dbId] = this.id;
+    data[dbSecret] = this.secret;
+    data[dbLat] = this.location.latitude;
+    data[dbLong] = this.location.longitude;
+    data[dbTimestamp] = this.timestamp;
+    data[dbSource] = this.source;
     return data;
   }
 }

@@ -1,38 +1,48 @@
+import 'package:intl/intl.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/voucher_model.dart';
 import 'package:flutter/material.dart';
 
-class TransactionModel extends TicketModel {
-  static final tblTransaction = "Transactions";
-  static final dbId = "Id";
-  static final dbTimestamp = "Timestamp";
-  static final dbType = "type";
-  static final dbCountry = "country";
-  static final dbSize = "size";
-  static final dbShop = "shop";
+class TransactionModel {
+  static const tblTransaction = "Transactions";
+  static const dbId = "Id";
+  static const dbTimestamp = "Timestamp";
+  static const dbType = "type";
+  static const dbCountry = "country";
+  static const dbSize = "size";
+  static const dbSource = "source";
 
   TransactionType transactionType;
-  String shop;
+  String source;
+  String country;
+  DateTime date;
+  int size;
 
   TransactionModel({
-    @required String country,
-    @required DateTime date,
-    @required int size,
+    @required this.country,
+    @required this.date,
+    @required this.size,
     @required this.transactionType,
-    @required this.shop,
+    @required this.source,
   })  : assert(transactionType != null),
-        assert(shop != null),
-        assert(date != null),
-        super(date: date, country: country, size: size);
+        assert(source != null),
+        assert(date != null);
+
+//        super(date: date, country: country, size: size);
 
   TransactionModel.fromMap(Map<String, dynamic> map)
-      : super(
-            date: map[dbTimestamp] is String
-                ? DateTime.parse(map[dbTimestamp])
-                : DateTime.fromMillisecondsSinceEpoch(map[dbTimestamp]),
-            country: map[dbCountry],
-            size: map[dbSize]) {
+      : this.source = map[dbSource],
+        this.country = map[dbCountry],
+        this.size = map[dbSize] {
+    this.date = map[dbTimestamp] is String
+        ? DateTime.parse(map[dbTimestamp])
+        : DateTime.fromMillisecondsSinceEpoch(map[dbTimestamp]);
     this.transactionType = TransactionType.values[map[dbType]];
-    this.shop = map[dbShop];
+  }
+
+  formatDate() {
+    print(Intl.getCurrentLocale());
+    var format = new DateFormat.yMMMMEEEEd(Intl.getCurrentLocale());
+    return format.format(this.date);
   }
 }

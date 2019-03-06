@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class VoucherModel extends TicketModel {
-  final String type;
+  final String source;
 
-  VoucherModel({String id, DateTime date, String country, int size, this.type})
+  VoucherModel({String id, DateTime date, String country, int size, this.source})
       : super(date: date, country: country, size: size);
 
 //  VoucherModel.fromJson(Map<String, dynamic> parsedJson)
@@ -38,7 +38,6 @@ abstract class TicketModel {
 
   TicketModel(
       {
-
       @required this.date,
       @required this.country,
       this.size});

@@ -56,7 +56,7 @@ class AppDatabase {
   Future _createTransactionTable(Database db) {
     return db.execute("CREATE TABLE ${TransactionModel.tblTransaction} ("
         "${TransactionModel.dbId} INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "${TransactionModel.dbShop} TEXT,"
+        "${TransactionModel.dbSource} TEXT,"
         "${TransactionModel.dbCountry} TEXT,"
         "${TransactionModel.dbTimestamp} LONG,"
         "${TransactionModel.dbType} INTEGER,"
@@ -65,7 +65,7 @@ class AppDatabase {
 
   Future _createWomTable(Database db) {
     return db.execute("CREATE TABLE ${WomModel.tblWom} ("
-        "${WomModel.dbId} INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "${WomModel.dbId} INTEGER PRIMARY KEY,"
         "${WomModel.dbSecret} TEXT,"
         "${WomModel.dbGeohash} TEXT,"
         "${WomModel.dbTimestamp} LONG,"

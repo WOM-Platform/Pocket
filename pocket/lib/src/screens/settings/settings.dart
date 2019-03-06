@@ -29,6 +29,17 @@ class SettingsScreen extends StatelessWidget {
             },
           ),
           SettingsItem(
+            title: 'Close DB and save locally',
+            subtitle: "Close DB and save locally",
+            trailing: Icon(
+              Icons.close,
+              color: Colors.white,
+            ),
+            onTap: () async {
+              final result = await bloc.closeDb();
+            },
+          ),
+          SettingsItem(
             title: 'Reset suggestions',
             subtitle: "Reset all suggestions in home screen",
             trailing: Icon(

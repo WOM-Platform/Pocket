@@ -7,6 +7,7 @@ import 'package:pocket/src/widgets/woms_card_by_aim.dart';
 import 'package:pocket/src/screens/map/widgets/backdrop_panel.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:clustering_google_maps/clustering_google_maps.dart';
 
 class GoogleMapScreen extends StatefulWidget {
   @override
