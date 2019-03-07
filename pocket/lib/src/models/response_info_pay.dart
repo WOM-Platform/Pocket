@@ -1,11 +1,10 @@
 import 'package:pocket/src/models/simple_filters_model.dart';
-import 'package:pocket/src/models/wom_model.dart';
 
 class ResponseInfoPay {
   static const String POS_ID = 'PosId';
   static const String POS_NAME = 'PosName';
   static const String AMOUNT = 'Amount';
-  static const String SIMPLE_FILTER = 'SimplerFilter';
+  static const String SIMPLE_FILTER = 'SimpleFilter';
 
   int posId;
   int amount;

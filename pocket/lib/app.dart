@@ -10,7 +10,6 @@ import 'package:pocket/src/screens/splash/splash.dart';
 import 'package:pocket/src/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:pocket/tmp.dart';
 
 bool fakeModeVar = false;
 String fakeData;

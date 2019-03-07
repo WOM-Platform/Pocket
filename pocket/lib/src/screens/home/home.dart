@@ -4,6 +4,7 @@ import 'package:pocket/src/models/suggestion_model.dart';
 import 'package:pocket/src/screens/home/home_bloc.dart';
 import 'package:pocket/src/screens/home/widgets/suggestion_card.dart';
 import 'package:pocket/src/screens/home/widgets/transactions_list.dart';
+import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
 import 'package:pocket/src/screens/map/blocs/map_bloc.dart';
 import 'package:pocket/src/screens/map/google_map.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
@@ -67,9 +68,11 @@ class HomeScreen extends StatelessWidget {
         onPressed: () async {
           try {
 
+            final String link = await showEditField(context);
+//          final link = "https://wom.social/vouchers/addbefcf2176409b8882e76d878d5f5e";
+//            final link =
+//                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
 
-//            final link = "https://wom.social/vouchers/e939d0efba2d4e67a7d8243fe03a8135";
-            final link = "https://wom.social/payment/5772ef0a5f004ba1ba1ce3a105f98cb0";
             final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
             var blocProviderPin = BlocProvider(
@@ -118,10 +121,10 @@ class HomeScreen extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.map),
               onPressed: () {
-                final mapProvider = BlocProvider(
+                final mapProvider = BlocProvider<GoogleMapBloc>(
 //                  child: MapPageView(),
                   child: GoogleMapScreen(),
-                  bloc: MapBloc(WomDB.get()),
+                  bloc: GoogleMapBloc(WomDB.get(), bloc.nWoms),
                 );
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => mapProvider));
@@ -144,15 +147,19 @@ class HomeScreen extends StatelessWidget {
         title: Text(AppLocalizations.of(context).title),
         backgroundColor: Theme.of(context).primaryColor,
         actions: <Widget>[
-          StreamBuilder<int>(stream: bloc.womsCount,builder: (ctx, snap){
-            if(!snap.hasData){
-              return CircularProgressIndicator();
-            }
-            return Center(child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(snap.data.toString()),
-            ));
-          },),
+          StreamBuilder<int>(
+            stream: bloc.womsCount,
+            builder: (ctx, snap) {
+              if (!snap.hasData) {
+                return CircularProgressIndicator();
+              }
+              return Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(snap.data.toString()),
+              ));
+            },
+          ),
         ],
       ),
       body: Padding(
@@ -249,6 +256,26 @@ class HomeScreen extends StatelessWidget {
     );
   }*/
 
+  Future<String> showEditField(context) async {
+    TextEditingController editingController = TextEditingController();
+    return await showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: TextField(
+              controller: editingController,
+            ),
+            actions: <Widget>[
+              FlatButton(
+                  child: new Text("GO"),
+                  onPressed: () {
+                    Navigator.of(context).pop(editingController.text);
+                  }),
+            ],
+          );
+        });
+  }
+
   buildVouchersSection() {
     return Flexible(
       child: ListView.builder(
@@ -262,7 +289,8 @@ class HomeScreen extends StatelessWidget {
               transactionType: index.isEven
                   ? TransactionType.VOUCHERS
                   : TransactionType.PAYMENT,
-              source: "Parcheggio");
+              source: "Parcheggio",
+              aim: "");
           return TicketCard(
             transaction: transaction,
           );

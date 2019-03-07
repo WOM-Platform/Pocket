@@ -58,6 +58,7 @@ class AppDatabase {
         "${TransactionModel.dbId} INTEGER PRIMARY KEY AUTOINCREMENT,"
         "${TransactionModel.dbSource} TEXT,"
         "${TransactionModel.dbCountry} TEXT,"
+        "${TransactionModel.dbAim} TEXT,"
         "${TransactionModel.dbTimestamp} LONG,"
         "${TransactionModel.dbType} INTEGER,"
         "${TransactionModel.dbSize} INTEGER);");
@@ -67,10 +68,13 @@ class AppDatabase {
     return db.execute("CREATE TABLE ${WomModel.tblWom} ("
         "${WomModel.dbId} INTEGER PRIMARY KEY,"
         "${WomModel.dbSecret} TEXT,"
+        "${WomModel.dbAim} TEXT,"
         "${WomModel.dbGeohash} TEXT,"
         "${WomModel.dbTimestamp} LONG,"
         "${WomModel.dbLive} INTEGER,"
-        "${WomModel.dbSource} TEXT,"
+        "${WomModel.dbSourceName} TEXT,"
+        "${WomModel.dbSourceId} INTEGER,"
+        "${WomModel.dbTransactionId} INTEGER,"
         "${WomModel.dbLat} LONG,"
         "${WomModel.dbLong} LONG);");
   }

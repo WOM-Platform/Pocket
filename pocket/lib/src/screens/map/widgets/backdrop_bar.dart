@@ -1,16 +1,26 @@
+import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
 import 'package:flutter/material.dart';
 
 class BackdropBar extends StatelessWidget {
-  final GoogleMapBloc bloc;
-
-  const BackdropBar({Key key, @required this.bloc}) : super(key: key);
+  GoogleMapBloc bloc;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'WOM Filter',
-      style: TextStyle(color: Colors.white),
+    bloc = BlocProvider.of<GoogleMapBloc>(context);
+    final whiteText = TextStyle(color: Colors.white);
+    return Row(
+      children: <Widget>[
+        Text(
+          'WOM Filter',
+          style: whiteText,
+        ),
+        Expanded(child: Container()),
+        Text(
+          "Wom totali: ${bloc.womsCount}",
+          style: whiteText,
+        ),
+      ],
     );
   }
 }

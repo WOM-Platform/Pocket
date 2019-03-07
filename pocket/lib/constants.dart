@@ -46,3 +46,5 @@ const String PUBLIC_KEY_HEADER =
         "krXDLR4jFb4ioOuia4fJ7m9detyA9dHNpkAgwm0nNErGY1kaO9PqNUx0mDL+peve" +
         "SWThamgdlgxxOvr07dx+HEcCAwEAAQ==" +
         "-----END PUBLIC KEY-----";
+
+const int oneDayInMilliseconds = 86400;

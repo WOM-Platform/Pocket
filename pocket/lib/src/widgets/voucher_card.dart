@@ -16,22 +16,27 @@ class TicketCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: ClipPath(
-        clipper: VoucherClipper(10.0),
-        child: Material(
-          elevation: 4.0,
-          shadowColor: Color(0x30E5E5E5),
-          color: Colors.transparent,
-          child: ClipPath(
-            clipper: VoucherClipper(12.0),
-            child: Container(
-              height: 160.0,
-              child: Card(
-                elevation: 0.0,
-                margin: const EdgeInsets.all(2.0),
-                child: isForHome
-                    ? _buildTransactionContent()
-                    : _buildVoucherContent(),
+      child: GestureDetector(
+        onTap: (){
+          print(transaction.toString());
+        },
+        child: ClipPath(
+          clipper: VoucherClipper(10.0),
+          child: Material(
+            elevation: 4.0,
+            shadowColor: Color(0x30E5E5E5),
+            color: Colors.transparent,
+            child: ClipPath(
+              clipper: VoucherClipper(12.0),
+              child: Container(
+                height: 160.0,
+                child: Card(
+                  elevation: 0.0,
+                  margin: const EdgeInsets.all(2.0),
+                  child: isForHome
+                      ? _buildTransactionContent()
+                      : _buildVoucherContent(),
+                ),
               ),
             ),
           ),
@@ -127,12 +132,7 @@ class TicketCard extends StatelessWidget {
                   ),
                   Expanded(child: Container()),
                   isEarnTransaction
-                      ? Text(
-                          "Road quality monitoring",
-                          textAlign: TextAlign.end,
-                          style: TextStyle(fontSize: 14.0),
-                          maxLines: 2,
-                        )
+                      ? AimsRow(aims:transaction.aim)
                       : Container(),
                 ],
               ),
@@ -193,3 +193,38 @@ class VoucherClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
+
+class AimsRow extends StatelessWidget {
+  final String aims;
+  Set<String> aimsSet = Set();
+
+  AimsRow({Key key, this.aims}) {
+    final aimsArray = aims.split(',');
+    aimsArray.forEach((aim) {
+      if(aim.contains('/')){
+        aimsSet.add(aim.split('/')[0]);
+      }else{
+        aimsSet.add(aim);
+      }
+
+    });
+
+    print("macrocategorie: $aimsSet");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Row(
+      children: aimsSet.map((s) {
+        return Icon(aimIcons[int.parse(s)],size: 20.0,);
+      }).toList(),
+    );
+  }
+}
+
+const aimIcons = [
+  Icons.school,
+  Icons.account_balance,
+  Icons.map,
+];

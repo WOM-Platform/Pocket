@@ -5,9 +5,9 @@ import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/screens/transacation_summary/transaction_summary_screen.dart';
 import 'package:pocket/src/screens/transacation_summary/transaction_summary_bloc.dart';
 import 'package:pocket/src/screens/pin/pin_bloc.dart';
+import 'package:pocket/src/services/repository.dart';
 
 class PinScreen extends StatelessWidget {
-
   final DeepLinkModel deepLinkModel;
   PinBloc bloc;
 
@@ -15,11 +15,10 @@ class PinScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     print("PinScreen build");
     bloc = BlocProvider.of(context);
-    bloc.pinIsVerified.listen((isVerified){
-      if(isVerified){
+    bloc.pinIsVerified.listen((isVerified) {
+      if (isVerified) {
         print("goToCredits");
         goToAcceptCredits(context);
         bloc.setPinIsVerifiedToFalse();
@@ -53,7 +52,7 @@ class PinScreen extends StatelessWidget {
             flex: Platform.isIOS ? 5 : 8,
             child: PinKeyboard(
               bloc: bloc,
-              done: (){
+              done: () {
                 goToAcceptCredits(context);
               },
             ),
@@ -65,7 +64,12 @@ class PinScreen extends StatelessWidget {
 
   goToAcceptCredits(BuildContext context) {
     var blocProviderScan = BlocProvider(
-      bloc: TransactionSummaryBloc(deepLinkModel, bloc.getPin()),
+      bloc: TransactionSummaryBloc(
+        Repository(
+          bloc.getPin(),
+          deepLinkModel,
+        ),
+      ),
       child: TransactionSummaryScreen(),
     );
     Navigator.push(
@@ -83,10 +87,8 @@ class PinKeyboard extends StatelessWidget {
 
   const PinKeyboard({Key key, this.bloc, this.done}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-
     final keyboardButtons = arr.map((code) {
       return CodeButton(code: code, onTap: () => bloc.onCodeClick(code));
     }).toList();

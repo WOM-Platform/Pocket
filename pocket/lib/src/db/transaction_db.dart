@@ -40,13 +40,16 @@ class TransactionDB {
   }
 
   /// Inserts or replaces the task.
-  Future updateTransaction(TransactionModel tx) async {
+  Future<int> insertTransaction(TransactionModel tx) async {
     var db = await _appDatabase.getDb();
+    int id;
     await db.transaction((Transaction txn) async {
-      int id = await txn.rawInsert('INSERT INTO '
-          '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbType})'
-          ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}",${tx.transactionType.index})');
+      id = await txn.rawInsert('INSERT INTO '
+          '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbAim},${TransactionModel.dbType})'
+          ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aim}",${tx.transactionType.index})');
     });
+    print("insertTransaction id: $id");
+    return id;
   }
 
 //  closeDb() async {

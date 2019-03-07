@@ -1,5 +1,8 @@
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/models/aggregation_wom_model.dart';
+import 'package:pocket/src/models/optional_query_model.dart';
+import 'package:pocket/src/models/simple_filters_model.dart';
+import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/models/wom_pay_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -36,11 +39,12 @@ class WomDB {
       return List<WomModel>();
     }
     var db = await _appDatabase.getDb();
-    var whereClause = buildOptionQuery(
-        startDate: startDate,
-        endDate: endDate,
-        womStatus: womStatus,
-        sources: sources);
+    var whereClause = OptionalQuery(
+            startDate: startDate,
+            endDate: endDate,
+            womStatus: womStatus,
+            sources: sources)
+        .build();
 
     try {
       var result = await db.rawQuery('SELECT ${WomModel.tblWom}.* '
@@ -68,21 +72,12 @@ class WomDB {
     return woms;
   }
 
-  Future<List<WomPayModel>> getWomsForPay(
-      {int startDate = 0,
-      int endDate = 0,
-      WomStatus womStatus = WomStatus.ON,
-      Set<String> sources}) async {
-    if (sources != null && sources.isEmpty) {
-      print("--------- COMPLETE QUERY AGGREGATION WOM");
-      return List<WomPayModel>();
-    }
+  Future<List<WomPayModel>> getWomsForPay({
+    SimpleFilters simpleFilters,
+  }) async {
     var db = await _appDatabase.getDb();
-    var whereClause = buildOptionQuery(
-        startDate: startDate,
-        endDate: endDate,
-        womStatus: womStatus,
-        sources: sources);
+    var whereClause =
+        OptionalQuery(filters: simpleFilters).build();
 
     try {
       print('SELECT ${WomModel.dbId}, ${WomModel.dbSecret} '
@@ -104,51 +99,52 @@ class WomDB {
     }
   }
 
-  String buildOptionQuery(
-      {int startDate = 0,
-      int endDate = 0,
-      WomStatus womStatus,
-      Set<String> sources}) {
-    var whereClause = startDate > 0 && endDate > 0
-        ? "WHERE ${WomModel.tblWom}.${WomModel.dbTimestamp} BETWEEN $startDate AND $endDate"
-        : "";
-
-    if (womStatus != null) {
-      var statusWhereClause =
-          "${WomModel.tblWom}.${WomModel.dbLive} = ${womStatus.index}";
-      whereClause = whereClause.isEmpty
-          ? "WHERE $statusWhereClause"
-          : "$whereClause AND $statusWhereClause";
-    }
-
-    if (sources != null) {
-      final sourceWhereClause = buildSourceClause(sources);
-
-      whereClause = whereClause.isEmpty
-          ? "WHERE $sourceWhereClause"
-          : "$whereClause AND $sourceWhereClause";
-    }
-    return whereClause;
-  }
-
-  buildSourceClause(Set<String> sources) {
-    var sourceWhereClause = "";
-    if (sources.isEmpty) {
-      return "${WomModel.tblWom}.${WomModel.dbSource} = FAKE";
-    }
-    sources.forEach((source) {
-      sourceWhereClause = sourceWhereClause.isEmpty
-          ? "${WomModel.tblWom}.${WomModel.dbSource} = \"$source\""
-          : "$sourceWhereClause OR ${WomModel.tblWom}.${WomModel.dbSource} = \"$source\"";
-    });
-
-    return sourceWhereClause;
-  }
+//
+//  String buildOptionQuery(
+//      {int startDate = 0,
+//      int endDate = 0,
+//      WomStatus womStatus,
+//      Set<String> sources}) {
+//    var whereClause = startDate > 0 && endDate > 0
+//        ? "WHERE ${WomModel.tblWom}.${WomModel.dbTimestamp} BETWEEN $startDate AND $endDate"
+//        : "";
+//
+//    if (womStatus != null) {
+//      var statusWhereClause =
+//          "${WomModel.tblWom}.${WomModel.dbLive} = ${womStatus.index}";
+//      whereClause = whereClause.isEmpty
+//          ? "WHERE $statusWhereClause"
+//          : "$whereClause AND $statusWhereClause";
+//    }
+//
+//    if (sources != null) {
+//      final sourceWhereClause = buildSourceClause(sources);
+//
+//      whereClause = whereClause.isEmpty
+//          ? "WHERE $sourceWhereClause"
+//          : "$whereClause AND $sourceWhereClause";
+//    }
+//    return whereClause;
+//  }
+//
+//  buildSourceClause(Set<String> sources) {
+//    var sourceWhereClause = "";
+//    if (sources.isEmpty) {
+//      return "${WomModel.tblWom}.${WomModel.dbSource} = FAKE";
+//    }
+//    sources.forEach((source) {
+//      sourceWhereClause = sourceWhereClause.isEmpty
+//          ? "${WomModel.tblWom}.${WomModel.dbSource} = \"$source\""
+//          : "$sourceWhereClause OR ${WomModel.tblWom}.${WomModel.dbSource} = \"$source\"";
+//    });
+//
+//    return sourceWhereClause;
+//  }
 
   Future<List<WomGroupBy>> getSourcesFromDB() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
-        'SELECT COUNT(*) as n_type, ${WomModel.dbSource} as type FROM ${WomModel.tblWom} GROUP BY ${WomModel.dbSource};');
+        'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} WHERE ${WomModel.dbLive} = 0 GROUP BY ${WomModel.dbSourceName};');
 
     return _bindSources(result);
   }
@@ -175,7 +171,6 @@ class WomDB {
   Future<List<AggregationWom>> getAggregatedWoms(int level,
       {int startDate = 0,
       int endDate = 0,
-      WomStatus womStatus,
       Set<String> sources}) async {
     if (sources != null && sources.isEmpty) {
       print("--------- COMPLETE QUERY AGGREGATION WOM");
@@ -183,11 +178,11 @@ class WomDB {
     }
     try {
       var db = await _appDatabase.getDb();
-      var whereClause = buildOptionQuery(
-          startDate: startDate,
-          endDate: endDate,
-          womStatus: womStatus,
-          sources: sources);
+      var whereClause = OptionalQuery(
+              startDate: startDate,
+              endDate: endDate,
+              sources: sources)
+          .build();
 
       var result = await db.rawQuery(
           'SELECT COUNT(*) as n_marker, AVG(${WomModel.dbLat}) as lat,  AVG(${WomModel.dbLong}) as long '
@@ -215,7 +210,7 @@ class WomDB {
   Future getGroupedWoms() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
-        'SELECT COUNT(*) as n_type, ${WomModel.dbSource} as type FROM ${WomModel.tblWom} GROUP BY ${WomModel.dbSource};');
+        'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} GROUP BY ${WomModel.dbSourceName};');
     return _bindGroupedWoms(result);
   }
 
@@ -237,46 +232,35 @@ class WomDB {
   }
 
   /// Inserts or replaces the task.
-  Future<void> updateWom(WomModel wom) async {
+  Future<void> insertWom(WomModel wom) async {
     var db = await _appDatabase.getDb();
     try {
       await db.transaction((Transaction txn) async {
         int id = await txn.rawInsert('INSERT INTO '
-            '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSource})'
-            ' VALUES(${wom.id},"${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.location.latitude},${wom.location.longitude},"${wom.source}")');
+            '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
+            ' VALUES(${wom.id},"${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}",${wom.sourceId},"${wom.aim}",${wom.transactionId})');
       });
     } catch (e) {
-      print("erorr = " + e.toString());
+      print(e.toString());
+      throw Exception(e);
     }
   }
 
   /// Inserts or replaces the task.
-  Future<void> updateWomStatusToOff(int id) async {
+  Future<int> updateWomStatusToOff(int womId,int transactionId) async {
     var db = await _appDatabase.getDb();
     try {
+      int count;
       await db.transaction((Transaction txn) async {
-        int count = await txn.rawUpdate(
-            'UPDATE ${WomModel.tblWom} SET ${WomModel.dbLive} = ? WHERE ${WomModel.dbId} = "$id"',
-            ['1']);
-        print('updated: $count');
+        count = await txn.rawUpdate(
+            'UPDATE ${WomModel.tblWom} SET ${WomModel.dbLive} = ?, ${WomModel.dbTransactionId} = ? WHERE ${WomModel.dbId} = "$womId"',
+            ['1', transactionId]);
+
       });
+      return count;
     } catch (e) {
       print("erorr = " + e.toString());
+      return 0;
     }
   }
-
-//  closeDb() async {
-//    await _appDatabase.closeDatabase();
-//  }
-}
-
-class WomGroupBy {
-  final String type;
-  final int count;
-
-  WomGroupBy(this.type, this.count);
-
-  WomGroupBy.fromMap(Map<String, dynamic> map)
-      : type = map['type'],
-        count = map['n_type'];
 }

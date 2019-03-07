@@ -1,22 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/suggestion_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:flutter/services.dart';
-import 'package:pocket/src/screens/transacation_summary/transaction_summary_screen.dart';
-import 'package:pocket/src/screens/transacation_summary/transaction_summary_bloc.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:latlong/latlong.dart';
 import 'package:uni_links/uni_links.dart';
-//import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeBloc extends BlocBase {
   final TransactionDB _transactionDB;
@@ -43,6 +38,8 @@ class HomeBloc extends BlocBase {
 
   Observable<int> get womsCount => _womsCount.stream;
 
+  int get nWoms => _womsCount.value ?? 0;
+
   List<SuggestionModel> localSuggestions = suggestionsItem;
   WomDB womDB;
   BuildContext context;
@@ -56,16 +53,16 @@ class HomeBloc extends BlocBase {
     _deepLink = getUriLinksStream().listen((Uri uri) {
       //TODO chiamare pin screen non accept credits
       try {
-        final deepData = DeepLinkModel.fromUri(uri);
-        final acceptProvider = BlocProvider(
-            child: TransactionSummaryScreen(), bloc: TransactionSummaryBloc(deepData, "1234"));
-        Navigator.push(
-          context,
-          MaterialPageRoute<bool>(builder: (context) => acceptProvider),
-        ).then((value) {
-          print("return from accept provider " + value.toString());
-          refreshList();
-        });
+//        final deepData = DeepLinkModel.fromUri(uri);
+//        final acceptProvider = BlocProvider(
+//            child: TransactionSummaryScreen(), bloc: TransactionSummaryBloc(deepData, "1234"));
+//        Navigator.push(
+//          context,
+//          MaterialPageRoute<bool>(builder: (context) => acceptProvider),
+//        ).then((value) {
+//          print("return from accept provider " + value.toString());
+//          refreshList();
+//        });
       } on FormatException {
         print("FormatException error");
       }
@@ -105,14 +102,14 @@ class HomeBloc extends BlocBase {
     for (int i = 0; i < new_data.length; i++) {
       final point = new_data[i];
       final wom = WomModel(
-        location: LatLng(point["LATITUDE"], point["LONGITUDE"]),
+        gLocation: LatLng(point["LATITUDE"], point["LONGITUDE"]),
         secret: "secret",
-        source: "SmartRoadSense",
+        sourceName: "SmartRoadSense",
         timestamp: DateTime.now().millisecondsSinceEpoch,
         id: i,
         live: WomStatus.ON,
       );
-      await womDB.updateWom(wom);
+      await womDB.insertWom(wom);
     }
 //    new_data.forEach((point) async {
 //
@@ -148,7 +145,7 @@ class HomeBloc extends BlocBase {
 
   readTransaction() async {
     final list = await _transactionDB.getTransactions();
-    print(list.length.toString());
+    print("transactions readed" + list.length.toString());
     addTransactions(list);
   }
 
@@ -163,63 +160,63 @@ class HomeBloc extends BlocBase {
 //    print(result);
   }
 
-  createFakeWom() async {
-    print("create fake wom : START");
-    for (var city in cities) {
-      for (var i = 0; i < 10; i++) {
-        final location = LatLng(
-          city.latitude + (Random().nextInt(9) / 1000),
-          city.longitude + (Random().nextInt(9) / 1000),
-        );
-        final aim = i.isEven ? Aim.ROAD : Aim.MEDICAL;
-        final date = DateTime(2018, 5, 1 + Random().nextInt(30));
-        final WomModel wom = WomModel(
-            timestamp: date.millisecondsSinceEpoch,
-            live: WomStatus.ON,
-            location: location,
-            secret: "adfdcfvf",
-            source: aim.toString());
-        await womDB.updateWom(wom);
-      }
-
-      for (var i = 0; i < 10; i++) {
-        final location = LatLng(
-          city.latitude + (Random().nextInt(9) / 1000),
-          city.longitude + (Random().nextInt(9) / 1000),
-        );
-        final aim = i.isEven ? Aim.ROAD : Aim.MEDICAL;
-        final date = DateTime(2018, 12, 5);
-        final WomModel wom = WomModel(
-            timestamp: date.millisecondsSinceEpoch,
-            live: WomStatus.ON,
-            location: location,
-            secret: "adfdcfvf",
-            source: aim.toString());
-        await womDB.updateWom(wom);
-      }
-
-      for (var i = 0; i < 10; i++) {
-        final location = LatLng(
-          city.latitude + (Random().nextInt(9) / 1000),
-          city.longitude + (Random().nextInt(9) / 1000),
-        );
-        final aim = i.isEven ? Aim.ROAD : Aim.MEDICAL;
-        final date = DateTime(2018, 11, 1 + Random().nextInt(30));
-        final WomModel wom = WomModel(
-            timestamp: date.millisecondsSinceEpoch,
-            live: WomStatus.ON,
-            location: location,
-            secret: "adfdcfvf",
-            source: aim.toString());
-        await womDB.updateWom(wom);
-      }
-    }
-    print("create fake wom : COMPLETE");
-
-//    await readAggregationWoms();
-    //womDB.closeDb();
-    // await tryRead();
-  }
+//  createFakeWom() async {
+//    print("create fake wom : START");
+//    for (var city in cities) {
+//      for (var i = 0; i < 10; i++) {
+//        final location = LatLng(
+//          city.latitude + (Random().nextInt(9) / 1000),
+//          city.longitude + (Random().nextInt(9) / 1000),
+//        );
+//        final aim = i.isEven ? Aim.ROAD : Aim.MEDICAL;
+//        final date = DateTime(2018, 5, 1 + Random().nextInt(30));
+//        final WomModel wom = WomModel(
+//            timestamp: date.millisecondsSinceEpoch,
+//            live: WomStatus.ON,
+//            location: location,
+//            secret: "adfdcfvf",
+//            source: aim.toString());
+//        await womDB.insertWom(wom);
+//      }
+//
+//      for (var i = 0; i < 10; i++) {
+//        final location = LatLng(
+//          city.latitude + (Random().nextInt(9) / 1000),
+//          city.longitude + (Random().nextInt(9) / 1000),
+//        );
+//        final aim = i.isEven ? Aim.ROAD : Aim.MEDICAL;
+//        final date = DateTime(2018, 12, 5);
+//        final WomModel wom = WomModel(
+//            timestamp: date.millisecondsSinceEpoch,
+//            live: WomStatus.ON,
+//            location: location,
+//            secret: "adfdcfvf",
+//            source: aim.toString());
+//        await womDB.insertWom(wom);
+//      }
+//
+//      for (var i = 0; i < 10; i++) {
+//        final location = LatLng(
+//          city.latitude + (Random().nextInt(9) / 1000),
+//          city.longitude + (Random().nextInt(9) / 1000),
+//        );
+//        final aim = i.isEven ? Aim.ROAD : Aim.MEDICAL;
+//        final date = DateTime(2018, 11, 1 + Random().nextInt(30));
+//        final WomModel wom = WomModel(
+//            timestamp: date.millisecondsSinceEpoch,
+//            live: WomStatus.ON,
+//            location: location,
+//            secret: "adfdcfvf",
+//            source: aim.toString());
+//        await womDB.insertWom(wom);
+//      }
+//    }
+//    print("create fake wom : COMPLETE");
+//
+////    await readAggregationWoms();
+//    //womDB.closeDb();
+//    // await tryRead();
+//  }
 
   List<LatLng> cities = [
     LatLng(41.9102415, 12.3959123), //ROMA

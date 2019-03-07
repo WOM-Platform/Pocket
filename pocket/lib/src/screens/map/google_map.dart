@@ -1,4 +1,6 @@
+import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/db/wom_db.dart';
+import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
 import 'package:pocket/src/screens/map/widgets/backdrop_bar.dart';
 import 'package:pocket/src/screens/map/widgets/backdrop_body.dart';
@@ -18,7 +20,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen>
     with SingleTickerProviderStateMixin {
   final GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
   AnimationController _controller;
-  final GoogleMapBloc bloc = GoogleMapBloc(WomDB.get());
+  GoogleMapBloc bloc;
   bool isMapVisible = true;
 
   Widget mapWidget;
@@ -33,11 +35,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen>
       vsync: this,
     );
 
-    mapWidget = MapWidget(bloc: bloc);
+    mapWidget = MapWidget();
     listAggregatedWom = ListAggregatedWomCard(bloc: bloc);
-
   }
-
 
   @override
   void dispose() {
@@ -120,8 +120,8 @@ class _GoogleMapScreenState extends State<GoogleMapScreen>
               onTap: _toggleBackdropPanelVisibility,
               onVerticalDragUpdate: _handleDragUpdate,
               onVerticalDragEnd: _handleDragEnd,
-              title: BackdropBar(bloc: bloc),
-              child: BackdropBody(bloc),
+              title: BackdropBar(),
+              child: BackdropBody(),
             ),
           ),
         ],
@@ -131,6 +131,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen>
 
   @override
   Widget build(BuildContext context) {
+    bloc = BlocProvider.of<GoogleMapBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('WOM Map'),
