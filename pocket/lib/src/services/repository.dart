@@ -94,8 +94,8 @@ class Repository {
     return tx;
   }
 
-  Future<TransactionModel> pay(String otc) async {
-    print("pay");
+  Future<ResponseInfoPay> requestPayment(String otc) async {
+    print("requestPayment");
     try {
       //get response body with generic request of protocol
       final jsonDecrypted = await performRequestAndDecryptPayload(otc);
@@ -103,9 +103,16 @@ class Repository {
       //create object from json payload
       final ResponseInfoPay infoPay = ResponseInfoPay.fromMap(jsonDecrypted);
 
-      print(infoPay);
-//      final responsePayment = await confirmPayment(otc, infoPay);
+      return infoPay;
 
+    } catch (ex) {
+      throw Exception(ex);
+    }
+  }
+
+  Future<TransactionModel> pay(String otc, ResponseInfoPay infoPay) async {
+    print("pay");
+    try {
       //generate temporary key from this transaction
       final key = CryptographyHelper.generateAsBase64String(32);
 
@@ -172,7 +179,7 @@ class Repository {
         int count = 0;
         if (responsePayment != null) {
           for (int i = 0; i < vouchers.length; i++) {
-            final c =  await womDB.updateWomStatusToOff(vouchers[i].id, id);
+            final c = await womDB.updateWomStatusToOff(vouchers[i].id, id);
             count += c;
           }
           print("wom to off = $count");

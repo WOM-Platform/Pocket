@@ -25,6 +25,11 @@ class SimpleFilters {
   }
 
   int get maxAgeToMilliseconds => maxAge * 86400000;
+
+  @override
+  String toString() {
+    return "Data required, aim: $aim, bounds: ${bounds.toString()}, maxAge: $maxAge";
+  }
 }
 
 

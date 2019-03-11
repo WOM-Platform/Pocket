@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart' as myBloc;
 import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:pocket/src/screens/transacation_summary/transaction_summary_screen.dart';
-import 'package:pocket/src/screens/transacation_summary/transaction_summary_bloc.dart';
+import 'package:pocket/src/screens/transacation_summary/transaction_bloc.dart';
+import 'package:pocket/src/screens/transacation_summary/transaction_events.dart';
+import 'package:pocket/src/screens/transacation_summary/transaction_screen.dart';
 import 'package:pocket/src/screens/pin/pin_bloc.dart';
 import 'package:pocket/src/services/repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PinScreen extends StatelessWidget {
   final DeepLinkModel deepLinkModel;
@@ -16,7 +18,7 @@ class PinScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("PinScreen build");
-    bloc = BlocProvider.of(context);
+    bloc = myBloc.BlocProvider.of<PinBloc>(context);
     bloc.pinIsVerified.listen((isVerified) {
       if (isVerified) {
         print("goToCredits");
@@ -63,15 +65,35 @@ class PinScreen extends StatelessWidget {
   }
 
   goToAcceptCredits(BuildContext context) {
-    var blocProviderScan = BlocProvider(
-      bloc: TransactionSummaryBloc(
-        Repository(
-          bloc.getPin(),
-          deepLinkModel,
-        ),
-      ),
-      child: TransactionSummaryScreen(),
+    final pin = bloc.getPin();
+//    var blocProviderScan = BlocProvider(
+//      bloc: TransactionSummaryBloc(
+//        Repository(
+//          bloc.getPin(),
+//          deepLinkModel,
+//        ),
+//      ),
+//      child: TransactionSummaryScreen(),
+//    );
+
+    final repository = Repository(
+      pin,
+      deepLinkModel,
     );
+
+    final transactionBloc = TransactionBloc(
+      repository,
+      deepLinkModel.otc,
+    );
+
+    transactionBloc
+        .dispatch(TransactionStarted(deepLinkModel.type));
+
+    final blocProviderScan = BlocProvider<TransactionBloc>(
+      bloc: transactionBloc,
+      child: TransactionScreen(),
+    );
+
     Navigator.push(
       context,
       MaterialPageRoute<bool>(builder: (context) => blocProviderScan),
