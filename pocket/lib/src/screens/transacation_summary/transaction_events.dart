@@ -13,7 +13,7 @@ class TransactionStarted extends TransactionEvent {
   TransactionStarted(this.type);
 
   @override
-  String toString() => 'TransactionRedeemStarted';
+  String toString() => 'TransactionStarted';
 }
 
 class TransactionConfirmPayment extends TransactionEvent {

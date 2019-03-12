@@ -1,5 +1,6 @@
+import 'dart:async';
 import 'package:pocket/localization/localizations.dart';
-import 'package:pocket/src/blocs/bloc_provider.dart';
+import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
 import 'package:pocket/src/models/suggestion_model.dart';
 import 'package:pocket/src/screens/home/home_bloc.dart';
 import 'package:pocket/src/screens/home/widgets/suggestion_card.dart';
@@ -12,53 +13,52 @@ import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/screens/pin/pin.dart';
 import 'package:pocket/src/screens/pin/pin_bloc.dart';
 import 'package:pocket/src/screens/suggestion/suggestion.dart';
-import 'package:pocket/src/utils/color_utils.dart';
+import 'package:pocket/src/utils/colors.dart';
 import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_links/uni_links.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String path = '/home';
 
-  HomeBloc bloc;
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-  loadJSONpoint(context) async {
-    final data = await DefaultAssetBundle.of(context)
-        .loadString('assets/map_point.json');
-    bloc.extractPointFromJson(data.toString());
+class _HomeScreenState extends State<HomeScreen> {
+  HomeBloc bloc;
+  StreamSubscription _sub;
+
+  @override
+  void initState() {
+
+    _sub = getUriLinksStream().listen((Uri uri) {
+      // Use the uri and warn the user, if it is not correct
+      print("Stream uri : $uri");
+      final deepLinkModel = DeepLinkModel.fromUri(uri);
+      var blocProviderPin = myBlocProvider.BlocProvider(
+        bloc: PinBloc(),
+        child: PinScreen(
+          deepLinkModel: deepLinkModel,
+        ),
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
+      );
+    }, onError: (err) {
+      // Handle exception by warning the user their action did not succeed
+      print("Stream uri error : $err");
+    });
+
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     print('HomeScreen: build');
-//    getLinksStream().listen((String link) {
-//      Uri _latestUri;
-//      try {
-//        if (link != null) {
-//          _latestUri = Uri.parse(link);
-//          final deepData =
-//              DeepLinkModel.fromUri(_latestUri);
-//          final acceptProvider = BlocProvider(
-//              child: AcceptCredits(), bloc: AcceptCreditsBloc(deepData));
-//          Navigator.push(
-//            context,
-//            MaterialPageRoute<bool>(builder: (context) => acceptProvider),
-//          ).then((value) {
-//            print("return from accept provider " + value.toString());
-//            bloc.readTransaction();
-//          });
-//
-//          //TODO refresh DB se sono stati accreditati voucher
-//        }
-//      } on FormatException {
-//        //_deep.addError("Format exception");
-//      }
-//    }, onError: (err) {
-//      //_deep.addError('Failed to get latest link: $err.');
-//    });
-
-    bloc = BlocProvider.of(context);
-    bloc.context = context;
+    bloc = myBlocProvider.BlocProvider.of<HomeBloc>(context);
     return Scaffold(
       backgroundColor: backgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -67,7 +67,6 @@ class HomeScreen extends StatelessWidget {
         child: const Icon(Icons.camera_enhance),
         onPressed: () async {
           try {
-
             final String link = await showEditField(context);
 //          final link = "https://wom.social/vouchers/addbefcf2176409b8882e76d878d5f5e";
 //            final link =
@@ -75,7 +74,7 @@ class HomeScreen extends StatelessWidget {
 
             final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
-            var blocProviderPin = BlocProvider(
+            var blocProviderPin = myBlocProvider.BlocProvider(
               bloc: PinBloc(),
               child: PinScreen(
                 deepLinkModel: deepLinkModel,
@@ -121,7 +120,7 @@ class HomeScreen extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.map),
               onPressed: () {
-                final mapProvider = BlocProvider<GoogleMapBloc>(
+                final mapProvider = myBlocProvider.BlocProvider<GoogleMapBloc>(
 //                  child: MapPageView(),
                   child: GoogleMapScreen(),
                   bloc: GoogleMapBloc(WomDB.get(), bloc.nWoms),
@@ -214,48 +213,13 @@ class HomeScreen extends StatelessWidget {
             Flexible(
               child: TransactionsList(bloc: bloc),
             ),
-//            Flexible(
-//              child: ListView.builder(
-//                  itemCount: 3,
-//                  itemBuilder: (ctx, index) {
-//                    final TransactionModel ticket = TransactionModel(
-//                      date: DateTime(2018, 24 - index, 3 + index),
-//                      country: "",
-//                      shop: "Merchant",
-//                      transactionType: index.isEven
-//                          ? TransactionType.PAYMENT
-//                          : TransactionType.VOUCHERS,
-//                      size: 55,
-//                    );
-//                    return TicketCard(
-//                      ticket: ticket,
-//                    );
-//                  }),
-//            ),
           ],
         ),
       ),
     );
   }
 
-/*  buildSuggestSection() {
-    return Container(
-      height: 150.0,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (BuildContext context, int index) {
-          return SuggestionCard(
-            suggestionModel: bloc.suggestions[index],
-            deleteCard: () {
-              bloc.suggestions.removeAt(index);
-              print(suggestions.length.toString());
-            },
-          );
-        },
-      ),
-    );
-  }*/
-
+  //TODO delete in release
   Future<String> showEditField(context) async {
     TextEditingController editingController = TextEditingController();
     return await showDialog(
@@ -276,6 +240,7 @@ class HomeScreen extends StatelessWidget {
         });
   }
 
+  //TODO delete in release
   buildVouchersSection() {
     return Flexible(
       child: ListView.builder(
@@ -297,5 +262,18 @@ class HomeScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  //TODO delete in release
+  loadJSONpoint(context) async {
+    final data = await DefaultAssetBundle.of(context)
+        .loadString('assets/map_point.json');
+    bloc.extractPointFromJson(data.toString());
+  }
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
   }
 }

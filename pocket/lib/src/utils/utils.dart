@@ -3,6 +3,8 @@ import 'package:pocket/constants.dart';
 import 'package:pocket/src/models/bounds_model.dart';
 
 class Utils {
+
+  //TODO delete in release
   static Future<bool> isFakeMode() async {
     final containsKey = await FlutterMmkv.containsKey(IS_FAKE_MODE);
     if (containsKey) {
@@ -13,22 +15,23 @@ class Utils {
     return false;
   }
 
+  //TODO delete in release
   static Future<bool> setFakeModeToSharedPreference(bool status) async {
     return await FlutterMmkv.encodeBool(IS_FAKE_MODE, status);
   }
 
-  static bool Contains(Bounds bounds, double latitude, double longitude) {
-
-    bool inLatRange = (bounds.leftTop[0] > bounds.rightBottom[0])
-        ? (latitude <= bounds.leftTop[0] && latitude >= bounds.rightBottom[0])
-        : (latitude <= bounds.leftTop[0] || latitude >= bounds.rightBottom[0]);
-    bool inLngRange = (bounds.leftTop[1] < bounds.rightBottom[1])
-        ? (longitude >= bounds.leftTop[1] && longitude <= bounds.rightBottom[1])
-        : (longitude >= bounds.leftTop[1] ||
-            longitude <= bounds.rightBottom[1]);
-
-    return inLatRange && inLngRange;
-  }
+//  static bool Contains(Bounds bounds, double latitude, double longitude) {
+//
+//    bool inLatRange = (bounds.leftTop[0] > bounds.rightBottom[0])
+//        ? (latitude <= bounds.leftTop[0] && latitude >= bounds.rightBottom[0])
+//        : (latitude <= bounds.leftTop[0] || latitude >= bounds.rightBottom[0]);
+//    bool inLngRange = (bounds.leftTop[1] < bounds.rightBottom[1])
+//        ? (longitude >= bounds.leftTop[1] && longitude <= bounds.rightBottom[1])
+//        : (longitude >= bounds.leftTop[1] ||
+//            longitude <= bounds.rightBottom[1]);
+//
+//    return inLatRange && inLngRange;
+//  }
 //
 //  final query = "where Latitude <= ${leftTop.latitude} AND Latitude >= ${rightBottom.latitude}";
 //  final query2 = "where Latitude <= ${leftTop.latitude} OR Latitude >= ${rightBottom.latitude}";
@@ -37,6 +40,14 @@ class Utils {
 //
 //
 
+  //Check if is the first open
+  static Future<bool> isFirstOpen() async {
+    final containsKey = await FlutterMmkv.containsKey(IS_FIRST_OPEN);
+    if (containsKey) {
+      final isFirstOpen = await FlutterMmkv.decodeBool(IS_FIRST_OPEN);
+      return isFirstOpen;
+    }
+    FlutterMmkv.encodeBool(IS_FIRST_OPEN, false);
+    return true;
+  }
 }
-
-

@@ -1,31 +1,48 @@
 class DeepLinkModel {
+  static const PAYMENT = 'payment';
+  static const VOUCHERS = 'vouchers';
+
   final Uri uri;
   String otc;
   TransactionType type;
 
-  DeepLinkModel.fromUri(this.uri){
+  DeepLinkModel.fromUri(this.uri) {
     print("DeepLinkModel constructor");
     if (uri != null) {
       print(uri.toString());
-      final List<String> pathSegments = uri?.pathSegments;
-      final transactionType = pathSegments[0]?.toLowerCase();
+      print("scheme: " + uri.scheme);
+      print("host: " + uri.host);
 
-      switch (transactionType) {
-        case 'payment':
-          type = TransactionType.PAYMENT;
-          break;
-        case 'vouchers':
-          type = TransactionType.VOUCHERS;
-          break;
-        default:
-          throw Exception("Type of transaction is NOT valid");
-          break;
+      final scheme = uri.scheme;
+      final host = uri.host;
+
+      if (scheme == 'https' && host == 'wom.social') {
+        final List<String> pathSegments = uri.pathSegments;
+        final transactionType = pathSegments[0]?.toLowerCase();
+
+        switch (transactionType) {
+          case PAYMENT:
+            type = TransactionType.PAYMENT;
+            break;
+          case VOUCHERS:
+            type = TransactionType.VOUCHERS;
+            break;
+          default:
+            throw Exception("Type of transaction is NOT valid");
+            break;
+        }
+
+        otc = pathSegments[1];
+      } else if (scheme == 'wom' && (host == 'pay' || host == 'transfer')) {
+        type = host == 'transfer'
+            ? TransactionType.VOUCHERS
+            : TransactionType.PAYMENT;
+        otc = uri.pathSegments.isEmpty ? null : uri.pathSegments[0];
+      } else {
+        throw Exception("Scheme: $scheme OR host: $host not valid");
       }
 
-      final tmpOtc = pathSegments[1];
-      if (tmpOtc != null && tmpOtc.isNotEmpty) {
-        otc = pathSegments[1];
-      } else {
+      if (otc == null || otc.isEmpty) {
         throw Exception("OTC is null or empty");
       }
     } else {

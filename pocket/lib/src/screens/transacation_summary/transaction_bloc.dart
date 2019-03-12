@@ -11,7 +11,11 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final String otc;
 
   TransactionBloc(this._repository, this.otc)
-      : assert(_repository != null) {
+      : assert(_repository != null) ;
+
+  @override
+  void onTransition(Transition<TransactionEvent, TransactionState> transition) {
+    print(transition);
   }
 
   @override
@@ -33,7 +37,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           yield TransactionInfoPaymentState(infoPayment);
         }
       } catch (ex) {
-        yield TransactionErrorState(ex);
+        yield TransactionErrorState(ex.toString());
       }
     }
 
@@ -47,5 +51,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         yield TransactionErrorState(ex);
       }
     }
+  }
+
+  exception(){
+    throw Exception('fake exception');
   }
 }

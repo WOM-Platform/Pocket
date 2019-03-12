@@ -32,7 +32,7 @@ class Repository {
       final ResponseRedeem redeem = await downloadWoms(otc);
       return await saveWoms(redeem);
     } catch (ex) {
-      throw Exception(ex);
+      throw Exception(ex.toString());
     }
   }
 
@@ -49,8 +49,8 @@ class Repository {
 
       //return woms list
       return result;
-    } catch (e) {
-      throw Exception(e);
+    } catch (ex) {
+      throw Exception(ex.toString());
     }
   }
 
@@ -106,7 +106,7 @@ class Repository {
       return infoPay;
 
     } catch (ex) {
-      throw Exception(ex);
+      throw Exception(ex.toString());
     }
   }
 
@@ -311,7 +311,7 @@ class Repository {
       print(jsonDecrypted.toString());
       return jsonDecrypted;
     } catch (ex) {
-      throw Exception(ex);
+      throw Exception(ex.toString());
     }
   }
 }

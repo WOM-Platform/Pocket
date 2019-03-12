@@ -17,7 +17,7 @@ class HomeBloc extends BlocBase {
   final TransactionDB _transactionDB;
 
   //Deep Link subscription
-  StreamSubscription<Uri> _deepLink;
+//  StreamSubscription<Uri> _deepLink;
 
   // Transactions List
   BehaviorSubject<List<TransactionModel>> _transactions =
@@ -42,33 +42,32 @@ class HomeBloc extends BlocBase {
 
   List<SuggestionModel> localSuggestions = suggestionsItem;
   WomDB womDB;
-  BuildContext context;
 
   HomeBloc(this._transactionDB) {
     womDB = WomDB.get();
     readTransaction();
     getWomsCount();
     _suggestions.add(localSuggestions);
-
-    _deepLink = getUriLinksStream().listen((Uri uri) {
-      //TODO chiamare pin screen non accept credits
-      try {
-//        final deepData = DeepLinkModel.fromUri(uri);
-//        final acceptProvider = BlocProvider(
-//            child: TransactionSummaryScreen(), bloc: TransactionSummaryBloc(deepData, "1234"));
-//        Navigator.push(
-//          context,
-//          MaterialPageRoute<bool>(builder: (context) => acceptProvider),
-//        ).then((value) {
-//          print("return from accept provider " + value.toString());
-//          refreshList();
-//        });
-      } on FormatException {
-        print("FormatException error");
-      }
-    }, onError: (err) {
-      print(err.toString());
-    });
+//
+//    _deepLink = getUriLinksStream().listen((Uri uri) {
+//      //TODO chiamare pin screen non accept credits
+//      try {
+////        final deepData = DeepLinkModel.fromUri(uri);
+////        final acceptProvider = BlocProvider(
+////            child: TransactionSummaryScreen(), bloc: TransactionSummaryBloc(deepData, "1234"));
+////        Navigator.push(
+////          context,
+////          MaterialPageRoute<bool>(builder: (context) => acceptProvider),
+////        ).then((value) {
+////          print("return from accept provider " + value.toString());
+////          refreshList();
+////        });
+//      } on FormatException {
+//        print("FormatException error");
+//      }
+//    }, onError: (err) {
+//      print(err.toString());
+//    });
   }
 
   getWomsCount() async{
@@ -274,8 +273,7 @@ class HomeBloc extends BlocBase {
     //womDB.closeDb();
     _suggestions.close();
     _transactions.close();
-    _deepLink.cancel();
-    context = null;
+//    _deepLink.cancel();
   }
 }
 

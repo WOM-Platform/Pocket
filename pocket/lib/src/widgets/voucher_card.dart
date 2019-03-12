@@ -1,7 +1,7 @@
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/models/voucher_model.dart';
-import 'package:pocket/src/utils/color_utils.dart';
+import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 

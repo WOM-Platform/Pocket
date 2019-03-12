@@ -4,7 +4,7 @@ import 'package:pocket/src/models/response_info_pay.dart';
 import 'package:pocket/src/models/simple_filters_model.dart';
 import 'package:pocket/src/screens/transacation_summary/transaction_bloc.dart';
 import 'package:pocket/src/screens/transacation_summary/transaction_events.dart';
-import 'package:pocket/src/utils/color_utils.dart';
+import 'package:pocket/src/utils/colors.dart';
 
 class InfoPayment extends StatelessWidget {
   final ResponseInfoPay responseInfoPay;

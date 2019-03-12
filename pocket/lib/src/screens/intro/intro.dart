@@ -1,7 +1,7 @@
 import 'package:pocket/constants.dart';
 import 'package:pocket/localization/localizations.dart';
 import 'package:pocket/src/screens/home/home.dart';
-import 'package:pocket/src/utils/color_utils.dart';
+import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
