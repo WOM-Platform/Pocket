@@ -34,7 +34,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     _appBloc = AppBloc(_appRepository);
-    _appBloc.dispatch(AppStarted());
+//    _appBloc.dispatch(AppStarted());
     super.initState();
   }
 

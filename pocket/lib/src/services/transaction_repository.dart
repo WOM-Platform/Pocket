@@ -8,22 +8,23 @@ import 'package:pocket/src/models/response_redeem.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'dart:async';
-import 'package:pocket/src/services/api_provider.dart';
+import 'package:pocket/src/services/transaction_api.dart';
 import 'package:pocket/src/utils/cryptography_helper.dart';
 import 'package:simple_rsa/simple_rsa.dart';
 import 'dart:convert';
 
-class Repository {
+class TransactionRepository {
   final String pin;
   final DeepLinkModel deepLinkModel;
-
   TransactionDB transactionsDB;
   WomDB womDB;
+  TransactionApi transactionApi;
 
-  Repository(this.pin, this.deepLinkModel) {
+  TransactionRepository(this.pin, this.deepLinkModel) {
     print('Repository constructor');
     transactionsDB = TransactionDB.get();
     womDB = WomDB.get();
+    transactionApi = TransactionApi();
   }
 
   Future<TransactionModel> getWoms(String otc) async {
@@ -44,11 +45,9 @@ class Repository {
       final jsonDecrypted = await performRequestAndDecryptPayload(otc);
 
       //create object from json payload
-      final ResponseRedeem result = ResponseRedeem.fromJson(jsonDecrypted);
-      print(result?.woms?.length?.toString());
-
-      //return woms list
-      return result;
+      final ResponseRedeem responseRedeem = ResponseRedeem.fromJson(jsonDecrypted);
+      print(responseRedeem?.woms?.length?.toString());
+      return responseRedeem;
     } catch (ex) {
       throw Exception(ex.toString());
     }
@@ -104,7 +103,6 @@ class Repository {
       final ResponseInfoPay infoPay = ResponseInfoPay.fromMap(jsonDecrypted);
 
       return infoPay;
-
     } catch (ex) {
       throw Exception(ex.toString());
     }
@@ -147,7 +145,7 @@ class Repository {
         final Map<String, String> payload = {"Payload": otcEncrypted};
 
         //get response body from HTTP POST method
-        String responseBody = await ApiProvider.confirmPayments(payload);
+        String responseBody = await transactionApi.confirmPayments(payload);
 
         //decode response body into json
         final jsonResponse = json.decode(responseBody);
@@ -197,69 +195,6 @@ class Repository {
     }
   }
 
-//  Future<ResponseConfirmPay> confirmPayment(
-//      String otc, ResponseInfoPay infoPay) async {
-//    print("confirmPayment");
-//    try {
-//      //generate temporary key from this transaction
-//      final key = CryptographyHelper.generateAsBase64String(32);
-//
-//      print("key: " + key.toString());
-//      print("key length" + key.length.toString());
-//      print("pin: " + pin);
-//      print("otc: " + otc);
-//
-//      final woms = await womDB.getWomsForPay(
-//        simpleFilters: infoPay.simpleFilter,
-//      );
-//
-//      if (woms.length > infoPay.amount) {
-//        final vouchers = woms.sublist(0, infoPay.amount);
-//        //create json map with parameters
-//        final Map<String, dynamic> map = {
-//          "Otc": otc,
-//          "Password": pin,
-//          "SessionKey": key,
-//          "Vouchers": vouchers.map((v) => v.toMap()).toList(),
-//        };
-//
-//        //encode map to json string
-//        final mapEncoded = json.encode(map);
-//
-//        //encrypt otc map with public_key
-//        final otcEncrypted = await encryptString(mapEncoded, PUBLIC_KEY);
-//
-//        //create payload with endrypted otc json
-//        final Map<String, String> payload = {"Payload": otcEncrypted};
-//
-//        //get response body from HTTP POST method
-//        String responseBody = await ApiProvider.confirmPayments(payload);
-//
-//        //decode response body into json
-//        final jsonResponse = json.decode(responseBody);
-//
-//        //get encrypted payload from json
-//        final encryptedPayload = jsonResponse["payload"];
-//
-//        //decrypt payload with AES CBC
-//        final decryptedPayload =
-//            CryptographyHelper.decryptAES(encryptedPayload, key);
-//
-//        //decode response body into json
-//        final jsonDecryptedPayload = json.decode(decryptedPayload);
-//
-//        for (int i = 0; i < vouchers.length; i++) {
-//          await womDB.updateWomStatusToOff(vouchers[i].id);
-//        }
-//
-//        return ResponseConfirmPay.fromMap(jsonDecryptedPayload);
-//      }
-//      return null;
-//    } catch (ex) {
-//      throw Exception(ex);
-//    }
-//  }
-
   Future<Map<String, dynamic>> performRequestAndDecryptPayload(
       String otc) async {
     print("performRequestAndDecryptPayload");
@@ -291,9 +226,9 @@ class Repository {
       //get response body from HTTP POST method
       String responseBody;
       if (deepLinkModel.type == TransactionType.VOUCHERS) {
-        responseBody = await ApiProvider.redeemWoms(payload);
+        responseBody = await transactionApi.redeemWoms(payload);
       } else {
-        responseBody = await ApiProvider.getInfoPayments(payload);
+        responseBody = await transactionApi.getInfoPayments(payload);
       }
 
       //decode response body into json

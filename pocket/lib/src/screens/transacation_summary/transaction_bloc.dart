@@ -4,10 +4,10 @@ import 'package:pocket/src/models/response_info_pay.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/screens/transacation_summary/transaction_events.dart';
 import 'package:pocket/src/screens/transacation_summary/transaction_state.dart';
-import 'package:pocket/src/services/repository.dart';
+import 'package:pocket/src/services/transaction_repository.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
-  final Repository _repository;
+  final TransactionRepository _repository;
   final String otc;
 
   TransactionBloc(this._repository, this.otc)

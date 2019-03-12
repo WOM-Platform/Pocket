@@ -13,7 +13,7 @@ import 'package:pocket/src/utils/utils.dart';
  */
 
 /*
-adb shell 'am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "https://wom.social/payment/967f867abd7148bc85c38206023ae410"'
+adb shell 'am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "https://wom.social/payment/15294cdf49c14083b57f75f59915ca55"'
 */
 class SplashScreen extends StatefulWidget {
   @override

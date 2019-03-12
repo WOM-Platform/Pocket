@@ -6,7 +6,7 @@ import 'package:pocket/src/screens/transacation_summary/transaction_bloc.dart';
 import 'package:pocket/src/screens/transacation_summary/transaction_events.dart';
 import 'package:pocket/src/screens/transacation_summary/transaction_screen.dart';
 import 'package:pocket/src/screens/pin/pin_bloc.dart';
-import 'package:pocket/src/services/repository.dart';
+import 'package:pocket/src/services/transaction_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PinScreen extends StatelessWidget {
@@ -76,7 +76,7 @@ class PinScreen extends StatelessWidget {
 //      child: TransactionSummaryScreen(),
 //    );
 
-    final repository = Repository(
+    final repository = TransactionRepository(
       pin,
       deepLinkModel,
     );
