@@ -6,7 +6,6 @@ import 'package:pocket/src/screens/home/home_bloc.dart';
 import 'package:pocket/src/screens/home/widgets/suggestion_card.dart';
 import 'package:pocket/src/screens/home/widgets/transactions_list.dart';
 import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
-import 'package:pocket/src/screens/map/blocs/map_bloc.dart';
 import 'package:pocket/src/screens/map/google_map.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';

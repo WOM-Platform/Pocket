@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/app.dart';
-import 'package:pocket/app_bloc.dart';
+import 'package:pocket/src/blocs/app_bloc.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
 import 'package:flutter/material.dart';
 import 'package:pocket/src/screens/pin/pin.dart';

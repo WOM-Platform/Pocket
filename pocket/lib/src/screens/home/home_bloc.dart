@@ -281,10 +281,12 @@ List<SuggestionModel> suggestionsItem = [
   SuggestionModel(
     text: "What is the WOM?",
     url: "",
+    type: "FAQ",
   ),
   SuggestionModel(
     text:
-        "With the accumulated WOMs you can get discounts on goods or services in affiliated stores!",
+        "Try catch more woms with SRS",
     url: "",
+    type : "Suggestion",
   ),
 ];

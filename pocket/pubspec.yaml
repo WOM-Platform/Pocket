@@ -43,6 +43,7 @@ dependencies:
   clustering_google_maps: ^0.0.2
   flutter_bloc: ^0.7.1
   equatable: ^0.2.3
+  flare_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,9 @@ flutter:
     - assets/images/wom.png
     - assets/images/wom_pin.png
     - assets/map_point.json
+    - assets/flare/check.flr
+    - assets/flare/Filip.flr
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

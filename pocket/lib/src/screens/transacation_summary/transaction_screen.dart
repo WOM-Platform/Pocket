@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/app.dart';
 import 'package:pocket/src/models/transaction_model.dart';
@@ -101,29 +102,31 @@ class TransactionScreenState extends State<TransactionScreen>
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              InkWell(
-                                child: Container(
-                                  height: 270.0,
-                                  width: 270.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Congratulations!',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 37.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
+                              Container(
+                                height: 300.0,
+//                                  decoration: BoxDecoration(
+//                                    shape: BoxShape.circle,
+//                                    color: Theme.of(context).primaryColor,
+//                                  ),
+//                                  child: Center(
+//                                    child: Text(
+//                                      'Congratulations!',
+//                                      style: TextStyle(
+//                                        color: Colors.white,
+//                                        fontSize: 37.0,
+//                                        fontWeight: FontWeight.bold,
+//                                      ),
+//                                    ),
+//                                  ),
+                                child: FlareActor(
+                                  "assets/flare/check.flr",
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.contain,
+                                  animation: 'success',
                                 ),
-                                onTap: () {},
                               ),
                               SizedBox(
-                                height: _animation.value * 20.0,
+                                height: _animation.value * 5.0,
                               ),
                               FadeTransition(
                                 opacity: _animation,

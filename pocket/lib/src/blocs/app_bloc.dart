@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pocket/app_repository.dart';
+import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:uni_links/uni_links.dart';
 

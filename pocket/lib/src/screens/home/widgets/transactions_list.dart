@@ -18,12 +18,17 @@ class TransactionsList extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
 
-        if(snapshot.data.isEmpty){
-          return Center(child: Text(AppLocalizations.of(context).noTransactions,style: TextStyle(color: Colors.white),));
+        if (snapshot.data.isEmpty) {
+          return Center(
+              child: Text(
+            AppLocalizations.of(context).noTransactions,
+            style: TextStyle(color: Colors.white),
+          ));
         }
 
         final List<TransactionModel> list = snapshot.data;
         return ListView.builder(
+          padding: const EdgeInsets.all(5.0),
           shrinkWrap: true,
           itemCount: list.length,
           itemBuilder: (c, int index) {

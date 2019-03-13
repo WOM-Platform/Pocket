@@ -1,5 +1,6 @@
-import 'package:pocket/app_bloc.dart';
-import 'package:pocket/app_repository.dart';
+import 'package:pocket/src/blocs/app_bloc.dart';
+import 'package:pocket/src/screens/home/home_screen.dart';
+import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/localization/localizations.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +62,7 @@ class _AppState extends State<App> {
             '/': (context) => SplashScreen(),
             '/home': (context) {
               final homeProvider = myBlocProvider.BlocProvider(
-                  child: HomeScreen(), bloc: HomeBloc(TransactionDB.get()));
+                  child: HomeScreen2(), bloc: HomeBloc(TransactionDB.get()));
               return homeProvider;
             },
             '/intro': (context) {

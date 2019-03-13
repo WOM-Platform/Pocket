@@ -1,6 +1,7 @@
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/models/voucher_model.dart';
+import 'package:pocket/src/screens/transaction_details/transaction_datails_screen.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,26 +18,27 @@ class TicketCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           print(transaction.toString());
+          Navigator.push(
+            context,
+            MaterialPageRoute<bool>(builder: (context) => TransactionDetailsScreen()),
+          );
         },
         child: ClipPath(
           clipper: VoucherClipper(10.0),
           child: Material(
-            elevation: 4.0,
-            shadowColor: Color(0x30E5E5E5),
+            elevation: 2.0,
+            shadowColor: shadowColor,
             color: Colors.transparent,
             child: ClipPath(
               clipper: VoucherClipper(12.0),
-              child: Container(
-                height: 160.0,
-                child: Card(
-                  elevation: 0.0,
-                  margin: const EdgeInsets.all(2.0),
-                  child: isForHome
-                      ? _buildTransactionContent()
-                      : _buildVoucherContent(),
-                ),
+              child: Card(
+                color: Colors.white,
+                margin: const EdgeInsets.all(2.0),
+                child: isForHome
+                    ? _buildTransactionContent()
+                    : _buildVoucherContent(),
               ),
             ),
           ),
@@ -49,8 +51,9 @@ class TicketCard extends StatelessWidget {
     TextStyle voucherIdStyle =
         new TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600);
 
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(15.0),
+      height: 160.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,7 +95,8 @@ class TicketCard extends StatelessWidget {
 
     bool isEarnTransaction =
         transaction.transactionType == TransactionType.VOUCHERS;
-    return Padding(
+    return Container(
+      height: 160.0,
       padding: const EdgeInsets.all(15.0),
       child: Stack(
         children: <Widget>[
@@ -128,18 +132,17 @@ class TicketCard extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     transaction.source,
-                    style: TextStyle(fontSize: 14.0),
+                    style: TextStyle(fontSize: 14.0,fontWeight: FontWeight.w500,color: baseIconColor),
                   ),
                   Expanded(child: Container()),
                   isEarnTransaction
-                      ? AimsRow(aims:transaction.aim)
+                      ? AimsRow(aims: transaction.aim)
                       : Container(),
                 ],
               ),
             ],
           ),
 //          Center(child: Text("Hai ${isEarnTransaction ? "ottenuto": "speso"} ${ticket.size.toString()} WOM",style: TextStyle(fontSize: 20.0,color:isEarnTransaction ? Colors.green : Colors.red),)),
-
           Center(
             child: Text.rich(
               TextSpan(
@@ -147,20 +150,22 @@ class TicketCard extends StatelessWidget {
                   TextSpan(
                     text: "You ${isEarnTransaction ? "earned" : "used"}",
                     style: TextStyle(
-                        fontSize: 20.0,
-                        color: isEarnTransaction ? Colors.green : Colors.red),
+                        fontSize: 22.0,
+                        color: isEarnTransaction ? Colors.green : Colors.red,
+                        fontWeight: FontWeight.w400),
                   ),
                   TextSpan(
                       text: ' ${transaction.size.toString()}',
                       style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 22.0,
                           color: isEarnTransaction ? Colors.green : Colors.red,
                           fontWeight: FontWeight.bold)),
                   TextSpan(
                     text: ' WOM',
                     style: TextStyle(
-                        fontSize: 20.0,
-                        color: isEarnTransaction ? Colors.green : Colors.red),
+                        fontSize: 22.0,
+                        color: isEarnTransaction ? Colors.green : Colors.red,
+                        fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -201,12 +206,11 @@ class AimsRow extends StatelessWidget {
   AimsRow({Key key, this.aims}) {
     final aimsArray = aims.split(',');
     aimsArray.forEach((aim) {
-      if(aim.contains('/')){
+      if (aim.contains('/')) {
         aimsSet.add(aim.split('/')[0]);
-      }else{
+      } else {
         aimsSet.add(aim);
       }
-
     });
 
     print("macrocategorie: $aimsSet");
@@ -217,7 +221,11 @@ class AimsRow extends StatelessWidget {
     // TODO: implement build
     return Row(
       children: aimsSet.map((s) {
-        return Icon(aimIcons[int.parse(s)],size: 20.0,);
+        return Icon(
+          aimIcons[int.parse(s)],
+          size: 20.0,
+          color:baseIconColor,
+        );
       }).toList(),
     );
   }
