@@ -77,7 +77,6 @@ flutter:
     - assets/images/wom_pin.png
     - assets/map_point.json
     - assets/flare/check.flr
-    - assets/flare/Filip.flr
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

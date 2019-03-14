@@ -10,7 +10,6 @@ import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:uni_links/uni_links.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeBloc extends BlocBase {

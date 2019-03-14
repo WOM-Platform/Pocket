@@ -22,7 +22,10 @@ class TicketCard extends StatelessWidget {
           print(transaction.toString());
           Navigator.push(
             context,
-            MaterialPageRoute<bool>(builder: (context) => TransactionDetailsScreen()),
+            MaterialPageRoute<bool>(
+                builder: (context) => TransactionDetailsScreen(
+                      transactionModel: transaction,
+                    )),
           );
         },
         child: ClipPath(
@@ -132,7 +135,10 @@ class TicketCard extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     transaction.source,
-                    style: TextStyle(fontSize: 14.0,fontWeight: FontWeight.w500,color: baseIconColor),
+                    style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                        color: baseIconColor),
                   ),
                   Expanded(child: Container()),
                   isEarnTransaction
@@ -224,7 +230,7 @@ class AimsRow extends StatelessWidget {
         return Icon(
           aimIcons[int.parse(s)],
           size: 20.0,
-          color:baseIconColor,
+          color: baseIconColor,
         );
       }).toList(),
     );

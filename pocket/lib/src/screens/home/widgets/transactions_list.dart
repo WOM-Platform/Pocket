@@ -1,6 +1,7 @@
 import 'package:pocket/localization/localizations.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/screens/home/home_bloc.dart';
+import 'package:pocket/src/utils/colors.dart';
 import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class TransactionsList extends StatelessWidget {
           return Center(
               child: Text(
             AppLocalizations.of(context).noTransactions,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: darkBlueColor),
           ));
         }
 
@@ -40,9 +41,12 @@ class TransactionsList extends StatelessWidget {
 //                transactionType:
 //                index.isEven ? TransactionType.EARN : TransactionType.EXPENSE,
 //                shop: "Parcheggio");
-            return TicketCard(
-              transaction: list[index],
-              isForHome: true,
+            return Hero(
+              tag: list[index].date,
+              child: TicketCard(
+                transaction: list[index],
+                isForHome: true,
+              ),
             );
           },
         );
