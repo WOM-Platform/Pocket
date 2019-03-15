@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/response_info_pay.dart';
 import 'package:pocket/src/models/transaction_model.dart';
-import 'package:pocket/src/screens/transacation_summary/transaction_events.dart';
-import 'package:pocket/src/screens/transacation_summary/transaction_state.dart';
+import 'package:pocket/src/screens/transacation/transaction_events.dart';
+import 'package:pocket/src/screens/transacation/transaction_state.dart';
 import 'package:pocket/src/services/transaction_repository.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {

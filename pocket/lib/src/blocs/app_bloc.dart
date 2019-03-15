@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pocket/src/db/aim_db.dart';
+import 'package:pocket/src/models/aim_model.dart';
 import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:uni_links/uni_links.dart';
@@ -10,6 +12,26 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final AppRepository _appRepository;
 
   AppBloc(this._appRepository) : assert(_appRepository != null);
+
+
+  Future<bool> test() async {
+    final String id = "1/1/2";
+    final AimDB aimDb = AimDB.get();
+
+    final aim = AimModel.fromMap({
+      AimModel.ID: id,
+      AimModel.SHORT_TITLE: "Simple AIM",
+      AimModel.DESCRIPTION: "description",
+      AimModel.ICON_URL: "iconUrl",
+    });
+
+    await aimDb.insert(aim);
+
+    final queryAim = await aimDb.getAim(id);
+    assert(aim == queryAim);
+    print("TEST OK");
+    return aim == queryAim;
+  }
 
   @override
   void onTransition(Transition<AppEvent, AppState> transition) {

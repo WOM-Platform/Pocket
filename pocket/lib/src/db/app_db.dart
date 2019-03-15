@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:pocket/src/models/aim_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -45,11 +46,13 @@ class AppDatabase {
           // When creating the db, create the table
           await _createWomTable(db);
           await _createTransactionTable(db);
+          await _createAimTable(db);
         }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
           await db.execute("DROP TABLE ${WomModel.tblWom}");
           await db.execute("DROP TABLE ${TransactionModel.tblTransaction}");
           await _createWomTable(db);
           await _createTransactionTable(db);
+          await _createAimTable(db);
         });
   }
 
@@ -77,6 +80,14 @@ class AppDatabase {
         "${WomModel.dbTransactionId} INTEGER,"
         "${WomModel.dbLat} LONG,"
         "${WomModel.dbLong} LONG);");
+  }
+
+  Future _createAimTable(Database db) {
+    return db.execute("CREATE TABLE ${AimModel.TABLE_NAME} ("
+        "${AimModel.ID} TEXT PRIMARY KEY,"
+        "${AimModel.SHORT_TITLE} TEXT,"
+        "${AimModel.DESCRIPTION} TEXT,"
+        "${AimModel.ICON_URL} TEXT);");
   }
 
   Future<void> closeDatabase() async {

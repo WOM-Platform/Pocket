@@ -1,12 +1,10 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/app.dart';
-import 'package:pocket/src/models/transaction_model.dart';
-import 'package:pocket/src/models/voucher_model.dart';
-import 'package:pocket/src/screens/transacation_summary/info_payment.dart';
-import 'package:pocket/src/screens/transacation_summary/transaction_bloc.dart';
-import 'package:pocket/src/screens/transacation_summary/transaction_events.dart';
-import 'package:pocket/src/screens/transacation_summary/transaction_state.dart';
+import 'package:pocket/src/screens/transacation/info_payment.dart';
+import 'package:pocket/src/screens/transacation/transaction_bloc.dart';
+import 'package:pocket/src/screens/transacation/transaction_events.dart';
+import 'package:pocket/src/screens/transacation/transaction_state.dart';
 import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:flutter/material.dart';
 
