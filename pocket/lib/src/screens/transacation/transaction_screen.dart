@@ -1,4 +1,4 @@
-import 'package:flare_flutter/flare_actor.dart';
+//import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/app.dart';
 import 'package:pocket/src/screens/transacation/info_payment.dart';
@@ -58,11 +58,12 @@ class TransactionScreenState extends State<TransactionScreen>
             builder: (BuildContext context, TransactionState state) {
               if (state is TransactionLoadingState) {
                 return Center(
-                    child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(fakeModeVar
-                      ? Colors.yellow
-                      : Theme.of(context).primaryColor),
-                ));
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(fakeModeVar
+                        ? Colors.yellow
+                        : Theme.of(context).primaryColor),
+                  ),
+                );
               }
 
               if (state is TransactionInfoPaymentState) {
@@ -75,13 +76,20 @@ class TransactionScreenState extends State<TransactionScreen>
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       CircleButton(text: 'Error!', color: Colors.red),
-                      SizedBox(
-                        height: 15.0,
-                      ),
+                      SizedBox(height: 15.0),
                       Text(
                         state.error,
                         style: TextStyle(color: Colors.white),
                       ),
+                      OutlineButton(
+                          child: Text(
+                            'OK',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, '/home', ModalRoute.withName('/'));
+                          }),
                     ],
                   ),
                 );
@@ -100,7 +108,7 @@ class TransactionScreenState extends State<TransactionScreen>
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Container(
+/*                              Container(
                                 height: 300.0,
 //                                  decoration: BoxDecoration(
 //                                    shape: BoxShape.circle,
@@ -122,7 +130,7 @@ class TransactionScreenState extends State<TransactionScreen>
                                   fit: BoxFit.contain,
                                   animation: 'success',
                                 ),
-                              ),
+                              ),*/
                               SizedBox(
                                 height: _animation.value * 5.0,
                               ),

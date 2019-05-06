@@ -3,17 +3,13 @@ import 'package:pocket/localization/localizations.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
 import 'package:pocket/src/models/suggestion_model.dart';
 import 'package:pocket/src/screens/home/home_bloc.dart';
-import 'package:pocket/src/screens/home/widgets/suggestion_card.dart';
 import 'package:pocket/src/screens/home/widgets/transactions_list.dart';
 import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
 import 'package:pocket/src/screens/map/google_map.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/screens/pin/pin.dart';
 import 'package:pocket/src/screens/pin/pin_bloc.dart';
-import 'package:pocket/src/screens/suggestion/suggestion.dart';
 import 'package:pocket/src/utils/colors.dart';
-import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_links/uni_links.dart';
@@ -74,10 +70,11 @@ class _HomeScreen2State extends State<HomeScreen2> {
         onPressed: () async {
           try {
 //            final String link = await showEditField(context);
-          final link = "https://wom.social/vouchers/25068c17bc4c444d81643a45820872eb";
+//          final link = "https://wom.social/vouchers/f6f8fd2a8c424a60aa23f8f444742f13";
 //            final link =
 //                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
 
+          final String link  = await bloc.scanQRCode();
             final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
             var blocProviderPin = myBlocProvider.BlocProvider(

@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 import 'package:pocket/src/models/aggregation_wom_model.dart';
 import 'package:pocket/src/models/map_object.dart';
@@ -250,3 +251,4 @@ enum SourceAim {
   ROAD,
   OTHER,
 }
+*/

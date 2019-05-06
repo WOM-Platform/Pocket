@@ -50,7 +50,6 @@ class AimDB {
     }catch(ex){
       throw Exception(ex.toString());
     }
-
   }
 
   Future<int> delete(String id) async {

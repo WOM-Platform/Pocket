@@ -28,6 +28,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       try {
         TransactionModel transaction;
         if (event.type == TransactionType.VOUCHERS) {
+          print("bloc: " +  otc);
           transaction = await _repository.getWoms(otc);
           yield TransactionCompleteState(transaction);
         } else {

@@ -63,7 +63,7 @@ class IntroScreen extends StatelessWidget {
         builder: (ctx) => IntroViewsFlutter(
               pages,
               onTapDoneButton: () {
-                Navigator.pushReplacementNamed(context, HomeScreen.path);
+                Navigator.pushReplacementNamed(context, "/home");
               },
               pageButtonTextStyles: TextStyle(
                 color: Colors.white,

@@ -1,23 +1,22 @@
-import 'package:flutter_mmkv/flutter_mmkv.dart';
+import 'package:mmkv_flutter/mmkv_flutter.dart';
 import 'package:pocket/constants.dart';
-import 'package:pocket/src/models/bounds_model.dart';
 
 class Utils {
-
   //TODO delete in release
   static Future<bool> isFakeMode() async {
-    final containsKey = await FlutterMmkv.containsKey(IS_FAKE_MODE);
-    if (containsKey) {
-      final isSuggestionsDisabled = await FlutterMmkv.decodeBool(IS_FAKE_MODE);
+    MmkvFlutter mmkv = await MmkvFlutter.getInstance();
+    final isSuggestionsDisabled = await mmkv.getBool(IS_FAKE_MODE);
+    if (isSuggestionsDisabled != null) {
       return isSuggestionsDisabled;
     }
-    FlutterMmkv.encodeBool(IS_FAKE_MODE, false);
+    mmkv.setBool(IS_FAKE_MODE, false);
     return false;
   }
 
   //TODO delete in release
   static Future<bool> setFakeModeToSharedPreference(bool status) async {
-    return await FlutterMmkv.encodeBool(IS_FAKE_MODE, status);
+    MmkvFlutter mmkv = await MmkvFlutter.getInstance();
+    return await mmkv.setBool(IS_FAKE_MODE, status);
   }
 
 //  static bool Contains(Bounds bounds, double latitude, double longitude) {
@@ -42,12 +41,28 @@ class Utils {
 
   //Check if is the first open
   static Future<bool> isFirstOpen() async {
-    final containsKey = await FlutterMmkv.containsKey(IS_FIRST_OPEN);
-    if (containsKey) {
-      final isFirstOpen = await FlutterMmkv.decodeBool(IS_FIRST_OPEN);
+    MmkvFlutter mmkv = await MmkvFlutter.getInstance();
+    final isFirstOpen = await mmkv.getBool(IS_FIRST_OPEN);
+    print(isFirstOpen);
+    if (isFirstOpen != null) {
       return isFirstOpen;
     }
-    FlutterMmkv.encodeBool(IS_FIRST_OPEN, false);
+    mmkv.setBool(IS_FIRST_OPEN, false);
     return true;
+  }
+
+  static Future<bool> isSuggestionsDisabled() async {
+    MmkvFlutter mmkv = await MmkvFlutter.getInstance();
+    final isSuggestionsDisabled = await mmkv.getBool(IS_SUGGESTIONS_DISABLED);
+    if (isSuggestionsDisabled != null) {
+      return isSuggestionsDisabled;
+    }
+    mmkv.setBool(IS_SUGGESTIONS_DISABLED, false);
+    return false;
+  }
+
+  static Future<bool> setIsSuggestionDisabledToSharedPreference(bool status) async {
+    MmkvFlutter mmkv = await MmkvFlutter.getInstance();
+    return await mmkv.setBool(IS_SUGGESTIONS_DISABLED, status);
   }
 }

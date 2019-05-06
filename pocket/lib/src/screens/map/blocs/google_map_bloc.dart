@@ -8,7 +8,6 @@ import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:latlong/latlong.dart' as latLong;
@@ -59,7 +58,7 @@ class GoogleMapBloc implements BlocBase {
 
   Observable<bool> get isMap => _isMap.stream;
 
-  Location _loc;
+//  Location _loc;
   GoogleMapController mapController;
   int startDateQuery = 0;
   int endDateQuery = 0;
@@ -83,10 +82,11 @@ class GoogleMapBloc implements BlocBase {
   //  int singleStep = 0;
   GoogleMapBloc(this.womDB, this.womsCount) {
     loadSourcesFromDB();
+    initDatabaseClustering();
     changeRadius(15.0);
     _isMap.sink.add(false);
 
-    _loc = new Location();
+   /* _loc = new Location();
 
     //ascolto la variazione gps dell utente
     _loc.onLocationChanged().listen((Map<String, double> result) {
@@ -96,19 +96,23 @@ class GoogleMapBloc implements BlocBase {
         print("update new location");
         changeLoc(latLng);
       }
-    });
+    });*/
   }
 
   ClusteringHelper clusteringHelper;
+  Function updateMarkers;
 
   void onMapCreated(
       GoogleMapController controller, Function updateMarkers) async {
     mapController = controller;
     print("onMapCreated");
     final Database database = await AppDatabase.get().getDb();
+    clusteringHelper.database =  database;
+    clusteringHelper.updateMarkers = updateMarkers;
+  }
+
+  initDatabaseClustering() {
     clusteringHelper = ClusteringHelper.forDB(
-      database: database,
-      mapController: mapController,
       dbGeohashColumn: WomModel.dbGeohash,
       dbLatColumn: WomModel.dbLat,
       dbLongColumn: WomModel.dbLong,
@@ -117,117 +121,9 @@ class GoogleMapBloc implements BlocBase {
       whereClause : OptionalQuery(sources: filterSource).build(),
     );
 
-//    mapController.addListener(_onMapChanged);
-//    updateAggregationPoints(0.0);
-//    _extractMapInfo();
   }
 
-//  void _onMapChanged() {
-//    _extractMapInfo();
-//  }
-
   double previousZoom = 0.0;
-
-//  updateWomPoints(double zoom) async {
-//    List<WomModel> woms = await fetchWom(
-//        bounds: null,
-//        startDate: startDateQuery,
-//        endDate: endDateQuery,
-//        sources: filterSource);
-//    if (woms == null) woms = List<WomModel>();
-//
-//    final markerOptions = MarkerOptions(
-//      icon: BitmapDescriptor.fromAsset("assets/images/wom_pin.png"),
-//    );
-//    woms.forEach((w) {
-//      mapController.addMarker(markerOptions.copyWith(MarkerOptions(
-//        position: w.gLocation,
-//      )));
-//    });
-//  }
-
-//  Future<void> _extractMapInfo({bool forceUpdate = false}) async {
-//    if (!mapController.isCameraMoving) {
-//      final zoom = mapController.cameraPosition.zoom;
-//      print("previuos zoom: " + previousZoom.toString());
-//      print("actual zoom: " + zoom.toString());
-//      if ((previousZoom != zoom && (previousZoom - zoom).abs() > 0.5) ||
-//          forceUpdate) {
-//        print("force update : " + forceUpdate.toString());
-//        previousZoom = zoom;
-//        print("previous zoom: " + previousZoom.toString());
-//        await mapController.clearMarkers();
-//        if (zoom < 13.5) {
-//          updateAggregationPoints(zoom);
-//        } else {
-//          updateWomPoints(zoom);
-//        }
-//      }
-//    }
-//  }
-
-//  updateAggregationPoints(double zoom) async {
-//    List<AggregationWom> aggregation = await fetchAggregationWom(zoom,
-//        startDate: startDateQuery,
-//        endDate: endDateQuery,
-//        sources: filterSource);
-//    print("aggregation lenght: " + aggregation.length.toString());
-//
-//    aggregation.forEach((a) {
-//      BitmapDescriptor bitmapDescriptor;
-//      if (a.number == 1) {
-//        bitmapDescriptor =
-//            BitmapDescriptor.fromAsset("assets/images/wom_pin.png");
-//      } else if (a.number < 20) {
-//        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/m1.png");
-//      } else if (a.number < 100) {
-//        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/m2.png");
-//      } else if (a.number < 1000) {
-//        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/m3.png");
-//      } else {
-//        bitmapDescriptor = BitmapDescriptor.fromAsset("assets/images/m4.png");
-//      }
-//
-//      mapController.addMarker(MarkerOptions(
-//        position: a.gLocation,
-//        icon: bitmapDescriptor,
-//      )
-//
-////            a.number > 1
-////                ? (a.number > 20
-////                    ? BitmapDescriptor.fromAsset("assets/images/m3.png")
-////                    : BitmapDescriptor.fromAsset("assets/images/m2.png"))
-////                : BitmapDescriptor.hueGreen),
-//      );
-//    });
-//  }
-
-  //prendi i wom dal db relativi all area visualizzata
-//  Future<List<AggregationWom>> fetchAggregationWom(double zoom,
-//      {int startDate, int endDate, Set<String> sources}) async {
-//    print("loading aggregation woms");
-//    int level = 5;
-//
-//    if (zoom <= 3) {
-//      level = 1;
-//    } else if (zoom < 5) {
-//      level = 2;
-//    } else if (zoom < 7) {
-//      level = 3;
-//    } else if (zoom < 10) {
-//      level = 4;
-//    } else if (zoom < 11) {
-//      level = 5;
-//    } else if (zoom < 13) {
-//      level = 6;
-//    } else if (zoom < 13.5) {
-//      level = 7;
-//    }
-//    final aggregationsWom = await womDB.getAggregatedWoms(level,
-//        startDate: startDate, endDate: endDate, sources: sources);
-//    print("reading complete aggregatio woms : ${aggregationsWom.length}");
-//    return aggregationsWom;
-//  }
 
   Future<void> loadSourcesFromDB() async {
     final List<WomGroupBy> sources = await womDB.getSourcesFromDB();
@@ -242,7 +138,7 @@ class GoogleMapBloc implements BlocBase {
     if(clusteringHelper != null){
       print('clusteringHelper NOT null, sources loaded');
       clusteringHelper.whereClause = OptionalQuery(sources: filterSource).build();
-      clusteringHelper.onMapChanged(forceUpdate: true);
+      clusteringHelper.updateMap();
     }
 
   }
@@ -287,7 +183,7 @@ class GoogleMapBloc implements BlocBase {
       endDate: endDateQuery,
       sources: filterSource,
     ).build();
-    clusteringHelper.onMapChanged(forceUpdate: true);
+    clusteringHelper.updateMap();
 //    _extractMapInfo(forceUpdate: true);
   }
 
@@ -300,7 +196,7 @@ class GoogleMapBloc implements BlocBase {
         endDate: endDateQuery,
         sources: filterSource,
       ).build();
-      clusteringHelper.onMapChanged(forceUpdate: true);
+      clusteringHelper.updateMap();
 //      _extractMapInfo(forceUpdate: true);
     }
   }
@@ -342,7 +238,7 @@ class GoogleMapBloc implements BlocBase {
         sources: filterSource,
       ).build();
 
-      await clusteringHelper.onMapChanged(forceUpdate: true);
+      await clusteringHelper.updateMap();
     }
   }
 

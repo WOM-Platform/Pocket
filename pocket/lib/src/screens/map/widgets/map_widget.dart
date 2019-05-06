@@ -32,7 +32,8 @@ class _MapWidgetState extends State<MapWidget> {
       child: GoogleMap(
         onMapCreated: (mapController) =>
             bloc.onMapCreated(mapController, updateMarkers),
-        trackCameraPosition: true,
+        onCameraIdle: bloc.clusteringHelper.onMapIdle,
+        onCameraMove: bloc.clusteringHelper.onCameraMove,
         initialCameraPosition: bloc.initialGLocation,
         markers: markers,
       ),
