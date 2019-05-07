@@ -92,7 +92,7 @@ class HomeBloc extends BlocBase {
     }
   }
 
-  extractPointFromJson(String data) async {
+/*  extractPointFromJson(String data) async {
     print("STAR EXTRACT FROM JSON");
     List<dynamic> new_data = json.decode(data.toString());
 
@@ -109,6 +109,7 @@ class HomeBloc extends BlocBase {
       );
       await womDB.insertWom(wom);
     }
+
 //    new_data.forEach((point) async {
 //
 //      final wom = WomModel(
@@ -125,7 +126,7 @@ class HomeBloc extends BlocBase {
 //    });
 
     print("EXTRACT COMPLETE");
-  }
+  }*/
 
   removeSuggestionAt(int index) {
     localSuggestions.removeAt(index);

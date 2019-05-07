@@ -134,7 +134,7 @@ class TicketCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    transaction.source,
+                    transaction.source ?? "",
                     style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w500,
@@ -210,16 +210,18 @@ class AimsRow extends StatelessWidget {
   Set<String> aimsSet = Set();
 
   AimsRow({Key key, this.aims}) {
-    final aimsArray = aims.split(',');
-    aimsArray.forEach((aim) {
-      if (aim.contains('/')) {
-        aimsSet.add(aim.split('/')[0]);
-      } else {
-        aimsSet.add(aim);
-      }
-    });
+    if (aims != null) {
+      final aimsArray = aims.split(',');
+      aimsArray.forEach((aim) {
+        if (aim.contains('/')) {
+          aimsSet.add(aim.split('/')[0]);
+        } else {
+          aimsSet.add(aim);
+        }
+      });
 
-    print("macrocategorie: $aimsSet");
+      print("macrocategorie: $aimsSet");
+    }
   }
 
   @override
@@ -241,4 +243,5 @@ const aimIcons = [
   Icons.school,
   Icons.account_balance,
   Icons.map,
+  Icons.tablet_android,
 ];

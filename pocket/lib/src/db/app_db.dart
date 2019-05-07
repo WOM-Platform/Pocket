@@ -41,6 +41,7 @@ class AppDatabase {
     // Get a location using path_provider
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "pocket.db");
+    print(path);
     _database = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
           // When creating the db, create the table

@@ -9,7 +9,7 @@ class PinBloc extends BlocBase {
 
   //Pin is verified
   BehaviorSubject<bool> _pinIsVerified = BehaviorSubject<bool>();
-  Observable<bool> get pinIsVerified => _pinIsVerified.stream.debounce(Duration(milliseconds: 100));
+  Observable<bool> get pinIsVerified => _pinIsVerified.stream.debounce((_) => TimerStream(true, const Duration(milliseconds: 100)));
 
   var _inputCodes = <int>[];
 

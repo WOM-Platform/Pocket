@@ -45,7 +45,8 @@ class TransactionRepository {
       final jsonDecrypted = await performRequestAndDecryptPayload(otc);
 
       //create object from json payload
-      final ResponseRedeem responseRedeem = ResponseRedeem.fromJson(jsonDecrypted);
+      final ResponseRedeem responseRedeem =
+          ResponseRedeem.fromJson(jsonDecrypted);
       print(responseRedeem?.woms?.length?.toString());
       return responseRedeem;
     } catch (ex) {
@@ -188,6 +189,7 @@ class TransactionRepository {
           throw Exception("Errore nel pagamento");
         }
       } else {
+        print("wom insufficienti");
         throw Exception("Wom insufficienti per effettuare il pagamento");
       }
     } catch (ex) {

@@ -5,7 +5,6 @@ import 'package:pocket/localization/localizations.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/db/transaction_db.dart';
-import 'package:pocket/src/screens/home/home.dart';
 import 'package:pocket/src/screens/home/home_bloc.dart';
 import 'package:pocket/src/screens/intro/intro.dart';
 import 'package:pocket/src/screens/settings/settings.dart';

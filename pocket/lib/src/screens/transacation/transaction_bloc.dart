@@ -21,9 +21,13 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   @override
   TransactionState get initialState => TransactionLoadingState();
 
+
+  exception(){
+    throw Exception('fake exception');
+  }
+
   @override
-  Stream<TransactionState> mapEventToState(
-      TransactionState currentState, TransactionEvent event) async* {
+  Stream<TransactionState> mapEventToState(TransactionEvent event) async*{
     if (event is TransactionStarted) {
       try {
         TransactionModel transaction;
@@ -49,12 +53,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
             await _repository.pay(otc, event.infoPay);
         yield TransactionCompleteState(transaction);
       } catch (ex) {
-        yield TransactionErrorState(ex);
+        print(ex.toString());
+        yield TransactionErrorState(ex.toString());
       }
     }
-  }
-
-  exception(){
-    throw Exception('fake exception');
   }
 }

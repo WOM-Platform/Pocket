@@ -82,8 +82,7 @@ class InfoPayment extends StatelessWidget {
                   ],
                 ),
               ),
-              //TODO change in !=
-              simpleFilters == null
+              simpleFilters != null
                   ? Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
@@ -96,7 +95,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                'SpecificAim',
+                                simpleFilters?.aim ?? "",
                                 style: valueStyle,
                               ),
                             ],
@@ -108,7 +107,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                '43.3,15.2',
+                                simpleFilters.bounds.toString(),
                                 style: valueStyle,
                               ),
                             ],
@@ -120,7 +119,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                '14 days',
+                                simpleFilters?.maxAge.toString() ?? "",
                                 style: valueStyle,
                               ),
                             ],
@@ -129,7 +128,6 @@ class InfoPayment extends StatelessWidget {
                       ),
                     )
                   : Container(),
-
               Divider(
                 height: 20.0,
                 indent: 10.0,
@@ -140,7 +138,7 @@ class InfoPayment extends StatelessWidget {
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
                         'Confirm Payment',
-                        style: TextStyle(color: Colors.white,fontSize: 20.0),
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),
                       ),
                     ),
                     color: darkPrimaryColor,

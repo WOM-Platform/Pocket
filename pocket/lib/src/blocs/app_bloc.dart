@@ -42,7 +42,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   get initialState => null;
 
   @override
-  Stream<AppState> mapEventToState(AppState currentState, AppEvent event) {
+  Stream<AppState> mapEventToState(AppEvent event) {
     return null;
   }
 

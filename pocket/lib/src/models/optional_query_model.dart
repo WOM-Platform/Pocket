@@ -36,14 +36,22 @@ class OptionalQuery {
     }
 
     if (filters != null) {
-      final filterClause = buildSimpleFiltersQuery();
+      final String filterClause = buildSimpleFiltersQuery();
 
-      whereClause = whereClause.isEmpty
-          ? "WHERE $filterClause"
-          : "$whereClause AND $filterClause";
+      if (whereClause.isEmpty) {
+        whereClause = filterClause.isEmpty ? "" : "WHERE $filterClause";
+      } else {
+        whereClause = filterClause.isEmpty
+            ? "$whereClause"
+            : "$whereClause AND $filterClause";
+      }
+//      whereClause = whereClause.isEmpty
+//          ? "WHERE $filterClause"
+//          : "$whereClause AND $filterClause";
     }
 
     print(whereClause);
+
     return whereClause;
   }
 
