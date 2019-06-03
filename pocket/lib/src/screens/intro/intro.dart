@@ -1,5 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/constants.dart';
 import 'package:pocket/localization/localizations.dart';
+import 'package:pocket/src/blocs/app/app_bloc.dart';
+import 'package:pocket/src/blocs/app/app_event.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
@@ -11,6 +14,8 @@ class IntroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final appBloc = BlocProvider.of<AppBloc>(context);
     final pages = [
       PageViewModel(
           pageColor: Colors.grey,
@@ -62,7 +67,8 @@ class IntroScreen extends StatelessWidget {
         builder: (ctx) => IntroViewsFlutter(
               pages,
               onTapDoneButton: () {
-                Navigator.pushReplacementNamed(context, "/home");
+//                Navigator.pushReplacementNamed(context, "/home");
+                appBloc.dispatch(HomeEvent());
               },
               pageButtonTextStyles: TextStyle(
                 color: Colors.white,

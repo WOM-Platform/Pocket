@@ -79,14 +79,15 @@ class GoogleMapBloc implements BlocBase {
   }
 
   final int womsCount;
+
   //  int singleStep = 0;
   GoogleMapBloc(this.womDB, this.womsCount) {
-    loadSourcesFromDB();
     initDatabaseClustering();
+    loadSourcesFromDB();
     changeRadius(15.0);
     _isMap.sink.add(false);
 
-   /* _loc = new Location();
+    /* _loc = new Location();
 
     //ascolto la variazione gps dell utente
     _loc.onLocationChanged().listen((Map<String, double> result) {
@@ -100,15 +101,14 @@ class GoogleMapBloc implements BlocBase {
   }
 
   ClusteringHelper clusteringHelper;
-  Function updateMarkers;
 
   void onMapCreated(
       GoogleMapController controller, Function updateMarkers) async {
     mapController = controller;
     print("onMapCreated");
-    final Database database = await AppDatabase.get().getDb();
-    clusteringHelper.database =  database;
+    clusteringHelper.database = await AppDatabase.get().getDb();
     clusteringHelper.updateMarkers = updateMarkers;
+    clusteringHelper.updateMap();
   }
 
   initDatabaseClustering() {
@@ -117,10 +117,9 @@ class GoogleMapBloc implements BlocBase {
       dbLatColumn: WomModel.dbLat,
       dbLongColumn: WomModel.dbLong,
       dbTable: WomModel.tblWom,
-      updateMarkers: updateMarkers,
-      whereClause : OptionalQuery(sources: filterSource).build(),
+      whereClause: OptionalQuery(sources: filterSource).build(),
+      updateMarkers: null,
     );
-
   }
 
   double previousZoom = 0.0;
@@ -135,12 +134,11 @@ class GoogleMapBloc implements BlocBase {
     });
     print("source filter : $filterSource");
     print("lunghezza del filtro source = ${filterSource.length}");
-    if(clusteringHelper != null){
+    if (clusteringHelper != null) {
       print('clusteringHelper NOT null, sources loaded');
-      clusteringHelper.whereClause = OptionalQuery(sources: filterSource).build();
-      clusteringHelper.updateMap();
+      clusteringHelper.whereClause =
+          OptionalQuery(sources: filterSource).build();
     }
-
   }
 
   //Calculate the time from first wom acquired

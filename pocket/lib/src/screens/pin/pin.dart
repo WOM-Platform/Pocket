@@ -89,14 +89,14 @@ class PinScreen extends StatelessWidget {
     transactionBloc
         .dispatch(TransactionStarted(deepLinkModel.type));
 
-    final blocProviderTransactio = BlocProvider<TransactionBloc>(
+    final blocProviderTransaction = BlocProvider<TransactionBloc>(
       bloc: transactionBloc,
       child: TransactionScreen(),
     );
 
     Navigator.push(
       context,
-      MaterialPageRoute<bool>(builder: (context) => blocProviderTransactio),
+      MaterialPageRoute<bool>(builder: (context) => blocProviderTransaction),
     );
   }
 }

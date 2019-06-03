@@ -1,12 +1,18 @@
+import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter/services.dart';
+import 'package:wom_package/wom_package.dart';
 
 class AppRepository {
+  AimRepository _aimRepository;
 
+  AppRepository() {
+    _aimRepository = AimRepository();
+  }
 
-  getAims()async{
-    return await Future.delayed(Duration(seconds: 2));
+  updateAim(){
+    _aimRepository.updateAim(AppDatabase.get().getDb());
   }
 
   Future<DeepLinkModel> getDeepLink() async {

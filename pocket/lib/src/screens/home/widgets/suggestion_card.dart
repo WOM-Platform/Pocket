@@ -1,5 +1,4 @@
 import 'package:pocket/src/models/suggestion_model.dart';
-import 'package:pocket/src/screens/home/home.dart';
 import 'package:flutter/material.dart';
 
 class SuggestionCard extends StatelessWidget {

@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:pocket/src/models/aim_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:synchronized/synchronized.dart';
+import 'package:wom_package/wom_package.dart';
 
 /// This is the singleton database class which handlers all database transactions
 /// All the task raw queries is handle here and return a Future<T> with result
@@ -47,13 +47,14 @@ class AppDatabase {
           // When creating the db, create the table
           await _createWomTable(db);
           await _createTransactionTable(db);
-          await _createAimTable(db);
+          await AimDbHelper.createAimTable(db);
         }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
           await db.execute("DROP TABLE ${WomModel.tblWom}");
           await db.execute("DROP TABLE ${TransactionModel.tblTransaction}");
+          await db.execute("DROP TABLE ${Aim.TABLE_NAME}");
           await _createWomTable(db);
           await _createTransactionTable(db);
-          await _createAimTable(db);
+          await AimDbHelper.createAimTable(db);
         });
   }
 
@@ -81,14 +82,6 @@ class AppDatabase {
         "${WomModel.dbTransactionId} INTEGER,"
         "${WomModel.dbLat} LONG,"
         "${WomModel.dbLong} LONG);");
-  }
-
-  Future _createAimTable(Database db) {
-    return db.execute("CREATE TABLE ${AimModel.TABLE_NAME} ("
-        "${AimModel.ID} TEXT PRIMARY KEY,"
-        "${AimModel.SHORT_TITLE} TEXT,"
-        "${AimModel.DESCRIPTION} TEXT,"
-        "${AimModel.ICON_URL} TEXT);");
   }
 
   Future<void> closeDatabase() async {

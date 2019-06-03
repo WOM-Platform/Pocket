@@ -6,7 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapWidget extends StatefulWidget {
 
-
   const MapWidget({Key key}) : super(key: key);
 
   @override

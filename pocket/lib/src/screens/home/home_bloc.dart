@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter/material.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/models/suggestion_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
@@ -12,7 +11,9 @@ import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+
 class HomeBloc extends BlocBase {
+
   final TransactionDB _transactionDB;
 
   //Deep Link subscription
@@ -44,6 +45,7 @@ class HomeBloc extends BlocBase {
 
   HomeBloc(this._transactionDB) {
     womDB = WomDB.get();
+//    extractPointFromJson(fakeData);
     readTransaction();
     getWomsCount();
     _suggestions.add(localSuggestions);
@@ -92,11 +94,11 @@ class HomeBloc extends BlocBase {
     }
   }
 
-/*  extractPointFromJson(String data) async {
+  //TODO only for DEBUG
+  extractPointFromJson(String data) async {
     print("STAR EXTRACT FROM JSON");
     List<dynamic> new_data = json.decode(data.toString());
 
-    int i = 0;
     for (int i = 0; i < new_data.length; i++) {
       final point = new_data[i];
       final wom = WomModel(
@@ -126,7 +128,7 @@ class HomeBloc extends BlocBase {
 //    });
 
     print("EXTRACT COMPLETE");
-  }*/
+  }
 
   removeSuggestionAt(int index) {
     localSuggestions.removeAt(index);

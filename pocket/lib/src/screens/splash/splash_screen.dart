@@ -1,8 +1,7 @@
+import 'package:pocket/src/blocs/app/bloc.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/app.dart';
-import 'package:pocket/src/blocs/app_bloc.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
 import 'package:flutter/material.dart';
 import 'package:pocket/src/screens/pin/pin.dart';
@@ -53,8 +52,9 @@ class SplashScreenState extends State<SplashScreen>
           print("animation complete");
         }
       });
+    _controller.forward();
 
-    final deepLinkObservable = Observable.fromFuture(bloc.getDeepLink());
+    /*final deepLinkObservable = Observable.fromFuture(bloc.getDeepLink());
     final animationCompleteObservable =
         Observable.fromFuture(_controller.forward().whenComplete(() {}));
 
@@ -78,7 +78,7 @@ class SplashScreenState extends State<SplashScreen>
         });
       }
     });
-
+*/
     //TODO old method delete in RELEASE
 //    bloc.getDeepLink().then((deepLinkModel) {
 //      print("SplashScreen: uri data detected");

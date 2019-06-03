@@ -87,8 +87,9 @@ class TransactionScreenState extends State<TransactionScreen>
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, '/home', ModalRoute.withName('/'));
+
+                            Navigator.popUntil(
+                                context, ModalRoute.withName('/'));
                           }),
                     ],
                   ),

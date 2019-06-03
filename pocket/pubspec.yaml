@@ -39,8 +39,10 @@ dependencies:
   intro_views_flutter: ^2.4.0
   webview_flutter: ^0.2.0
   flutter_lock_screen: ^1.0.5
-  clustering_google_maps: ^0.0.5+7
-  flutter_bloc: ^0.13.0
+  clustering_google_maps: ^0.0.5+13
+  flutter_bloc: ^0.15.1
+  wom_package:
+    path: ../wom_package/
   equatable: ^0.2.3
 #  flare_flutter:
 #    git:

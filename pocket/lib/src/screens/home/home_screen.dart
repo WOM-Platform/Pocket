@@ -1,9 +1,14 @@
 import 'dart:async';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/localization/localizations.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
+import 'package:pocket/src/blocs/suggestions/bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:pocket/src/models/suggestion_model.dart';
 import 'package:pocket/src/screens/home/home_bloc.dart';
-import 'package:pocket/src/screens/home/widgets/transactions_list.dart';
+import 'package:pocket/src/screens/home/widgets/suggetstions_section.dart';
+import 'package:pocket/src/screens/home/widgets/transactions_section.dart';
 import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
 import 'package:pocket/src/screens/map/google_map.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
@@ -23,36 +28,16 @@ class HomeScreen2 extends StatefulWidget {
 
 class _HomeScreen2State extends State<HomeScreen2> {
   HomeBloc bloc;
-  StreamSubscription _sub;
 
   @override
   void initState() {
-    _sub = getUriLinksStream().listen((Uri uri) {
-      // Use the uri and warn the user, if it is not correct
-      print("Stream uri : $uri");
-      final deepLinkModel = DeepLinkModel.fromUri(uri);
-      var blocProviderPin = myBlocProvider.BlocProvider(
-        bloc: PinBloc(),
-        child: PinScreen(
-          deepLinkModel: deepLinkModel,
-        ),
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
-      );
-    }, onError: (err) {
-      // Handle exception by warning the user their action did not succeed
-      print("Stream uri error : $err");
-    });
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     print('HomeScreen: build');
-    bloc = myBlocProvider.BlocProvider.of<HomeBloc>(context);
+//    bloc = myBlocProvider.BlocProvider.of<HomeBloc>(context);
     return Scaffold(
       backgroundColor: Colors.grey[100],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -68,13 +53,14 @@ class _HomeScreen2State extends State<HomeScreen2> {
           color: baseIconColor,
         ),
         onPressed: () async {
-          try {
 //            final String link = await showEditField(context);
 //          final link = "https://wom.social/vouchers/f6f8fd2a8c424a60aa23f8f444742f13";
 //            final link =
 //                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
 
-          final String link  = await bloc.scanQRCode();
+//            final String link = await bloc.scanQRCode();
+          try {
+            final link = await BarcodeScanner.scan();
             final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
             var blocProviderPin = myBlocProvider.BlocProvider(
@@ -87,6 +73,18 @@ class _HomeScreen2State extends State<HomeScreen2> {
               context,
               MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
             );
+          } on PlatformException catch (ex) {
+            if (ex == BarcodeScanner.CameraAccessDenied) {
+              throw Exception(ex);
+            } else {
+              throw Exception("unknow error");
+            }
+          } on FormatException {
+            throw FormatException(
+                "Hai premuto il pulsante back prima di acquisire il dato");
+          } catch (ex) {
+            throw Exception(ex);
+          }
 
 //            var blocProviderAcceptCredits = BlocProvider(
 //              bloc: AcceptCreditsBloc(deepLinkModel),
@@ -97,11 +95,9 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //              MaterialPageRoute<String>(builder: (context) => blocProviderAcceptCredits),
 //            );
 //            print(result);
-            //print("sono tornato");
-            //bloc.refreshList();
-          } catch (e) {
-            print(e.toString());
-          }
+          //print("sono tornato");
+          //bloc.refreshList();
+
 //          var blocProviderScan = BlocProvider(
 //            bloc: AcceptCreditsBloc(),
 //            child: AcceptCredits(),
@@ -120,12 +116,13 @@ class _HomeScreen2State extends State<HomeScreen2> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.map,color: goldColor),
+              icon: Icon(Icons.map, color: goldColor),
               onPressed: () {
                 final mapProvider = myBlocProvider.BlocProvider<GoogleMapBloc>(
 //                  child: MapPageView(),
                   child: GoogleMapScreen(),
-                  bloc: GoogleMapBloc(WomDB.get(), bloc.nWoms),
+//                  bloc: GoogleMapBloc(WomDB.get(), bloc.nWoms),
+                  bloc: GoogleMapBloc(WomDB.get(), 22),
                 );
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => mapProvider));
@@ -135,10 +132,13 @@ class _HomeScreen2State extends State<HomeScreen2> {
               child: SizedBox(),
             ),
             IconButton(
-              icon: Icon(Icons.settings,color: goldColor,),
+              icon: Icon(
+                Icons.settings,
+                color: goldColor,
+              ),
               onPressed: () async {
                 await Navigator.pushNamed(context, '/settings');
-                bloc.refreshList();
+//                bloc.refreshList();
               },
             ),
           ],
@@ -168,8 +168,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 15.0, horizontal: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
               child: Row(
                 children: <Widget>[
                   Text(
@@ -180,125 +180,39 @@ class _HomeScreen2State extends State<HomeScreen2> {
                         fontWeight: FontWeight.bold),
                   ),
                   Expanded(child: Container()),
-                  StreamBuilder<int>(
-                    stream: bloc.womsCount,
-                    builder: (ctx, snap) {
-                      if (!snap.hasData) {
-                        return CircularProgressIndicator();
-                      }
-                      return Container(
-                        margin: const EdgeInsets.all(5.0),
-                        padding: const EdgeInsets.all(5.0),
-                        decoration: new BoxDecoration(
-                            color: baseIconColor,
-                            borderRadius: new BorderRadius.all(
-                                const Radius.circular(15.0))),
-                        child: Center(
-                          child: Text(
-                            snap.data.toString(),
-                            style:
-                                TextStyle(color: goldColor, fontSize: 17.0),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+//                  StreamBuilder<int>(
+//                    stream: bloc.womsCount,
+//                    builder: (ctx, snap) {
+//                      if (!snap.hasData) {
+//                        return CircularProgressIndicator();
+//                      }
+//                      return Container(
+//                        margin: const EdgeInsets.all(5.0),
+//                        padding: const EdgeInsets.all(5.0),
+//                        decoration: new BoxDecoration(
+//                            color: baseIconColor,
+//                            borderRadius: new BorderRadius.all(
+//                                const Radius.circular(15.0))),
+//                        child: Center(
+//                          child: Text(
+//                            snap.data.toString(),
+//                            style: TextStyle(color: goldColor, fontSize: 17.0),
+//                          ),
+//                        ),
+//                      );
+//                    },
+//                  ),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Divider(color: Colors.grey,height: 8.0,),
+              child: Divider(
+                color: Colors.grey,
+                height: 8.0,
+              ),
             ),
-            StreamBuilder<List<SuggestionModel>>(
-              stream: bloc.suggestions,
-              builder: (ctx, snapshot) {
-                if (!snapshot.hasData || snapshot.data.length == 0) {
-                  return Container();
-                }
-
-                return Container(
-                  padding: const EdgeInsets.only(top: 5.0, left: 5.0),
-                  height: 165.0,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: snapshot.data.map((s) {
-                      return GestureDetector(
-                        onTap: null,
-                        child: AspectRatio(
-                          aspectRatio: 1.5,
-                          child: Stack(
-                            children: <Widget>[
-                              Card(
-                                color: baseIconColor,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            bottom: 4.0),
-                                        child: Text(
-                                          s.type.toUpperCase(),
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.grey[400]),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 4.0),
-                                        child: Text(
-                                          s.text,
-                                          maxLines: 2,
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontSize: 24.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 0.0,
-                                right: 0.0,
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.clear,
-                                    color: Colors.grey[300],
-                                  ),
-                                  onPressed: null,
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0.0,
-                                right: 0.0,
-                                child: IconButton(
-                                  color: Colors.grey[200],
-                                  icon: Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.grey[200],
-                                  ),
-                                  onPressed: null,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                );
-              },
-            ),
+            SuggestionsSection(),
             Padding(
               padding: const EdgeInsets.only(top: 20.0, left: 10.0),
               child: Text(
@@ -313,7 +227,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
               height: 10.0,
             ),
             Flexible(
-              child: TransactionsList(bloc: bloc),
+              child: TransactionsList2(),
             ),
           ],
         ),
@@ -344,7 +258,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 
   @override
   void dispose() {
-    _sub.cancel();
+//    _sub.cancel();
     super.dispose();
   }
 }
