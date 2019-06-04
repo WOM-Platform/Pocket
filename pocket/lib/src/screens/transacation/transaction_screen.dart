@@ -87,7 +87,6 @@ class TransactionScreenState extends State<TransactionScreen>
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
-
                             Navigator.popUntil(
                                 context, ModalRoute.withName('/'));
                           }),
@@ -169,16 +168,15 @@ class TransactionScreenState extends State<TransactionScreen>
                                   margin:
                                       EdgeInsets.symmetric(horizontal: 80.0),
                                   child: OutlineButton(
-                                      child: Text(
-                                        'OK',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            '/home',
-                                            ModalRoute.withName('/'));
-                                      }),
+                                    child: Text(
+                                      'OK',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.popUntil(
+                                          context, ModalRoute.withName('/'));
+                                    },
+                                  ),
                                 ),
                               )
                             ],

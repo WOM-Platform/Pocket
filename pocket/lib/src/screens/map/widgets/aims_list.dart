@@ -5,7 +5,7 @@ import 'package:pocket/src/models/source_group_wom.dart';
 
 import 'filter_checkbox.dart';
 
-class SourcesList extends StatelessWidget {
+class AimsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -13,23 +13,23 @@ class SourcesList extends StatelessWidget {
     return BlocBuilder(
       bloc: bloc,
       condition: (MapState p,MapState c){
-        return p.sources != c.sources;
+        return p.aims != c.aims;
       },
       builder: (BuildContext context, MapState state) {
-        print("build source list");
-        if (state.sources == null || state.sources.isEmpty) {
+        print("build aims list");
+        if (state.aims == null || state.aims.isEmpty) {
           return Text("Non ci sono sorgenti");
         }
         return Column(
           children: [
-            for (WomGroupBy source in state.sources)
+            for (WomGroupBy aim in state.aims)
               CheckboxRowFilter(
-                group: source,
+                group: aim,
                 onChanged: (value) {
                   if (value) {
-                    bloc.addSourceToFilter(source.type);
+                    bloc.addAimToFilter(aim.type);
                   } else {
-                    bloc.removeSourceFromFilter(source.type);
+                    bloc.removeAimFromFilter(aim.type);
                   }
                 },
               ),

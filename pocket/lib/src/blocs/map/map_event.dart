@@ -12,6 +12,7 @@ class UpdateMap extends MapEvent {
   final double sliderValue;
   final Set<Marker> markers;
   final List<WomGroupBy> sources;
+  final List<WomGroupBy> aims;
   final bool forceFilterUpdate;
 
   UpdateMap({
@@ -19,7 +20,8 @@ class UpdateMap extends MapEvent {
     this.markers,
     this.forceFilterUpdate = false,
     this.sources,
-  }) : super([sliderValue, markers, forceFilterUpdate, sources]);
+    this.aims,
+  }) : super([sliderValue, markers, forceFilterUpdate, sources,aims]);
 
   @override
   String toString() => "UpdateMap";

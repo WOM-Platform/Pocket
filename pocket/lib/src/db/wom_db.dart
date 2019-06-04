@@ -76,8 +76,7 @@ class WomDB {
     SimpleFilters simpleFilters,
   }) async {
     var db = await _appDatabase.getDb();
-    var whereClause =
-        OptionalQuery(filters: simpleFilters).build();
+    var whereClause = OptionalQuery(filters: simpleFilters).build();
 
     try {
       print('SELECT ${WomModel.dbId}, ${WomModel.dbSecret} '
@@ -168,9 +167,7 @@ class WomDB {
   }
 
   Future<List<AggregationWom>> getAggregatedWoms(int level,
-      {int startDate = 0,
-      int endDate = 0,
-      Set<String> sources}) async {
+      {int startDate = 0, int endDate = 0, Set<String> sources}) async {
     if (sources != null && sources.isEmpty) {
       print("--------- COMPLETE QUERY AGGREGATION WOM");
       return List<AggregationWom>();
@@ -178,9 +175,7 @@ class WomDB {
     try {
       var db = await _appDatabase.getDb();
       var whereClause = OptionalQuery(
-              startDate: startDate,
-              endDate: endDate,
-              sources: sources)
+              startDate: startDate, endDate: endDate, sources: sources)
           .build();
 
       var result = await db.rawQuery(
@@ -222,6 +217,16 @@ class WomDB {
     return group;
   }
 
+  Future<List<WomGroupBy>> getWomGroupedByAim() async {
+    var db = await _appDatabase.getDb();
+    var result = await db.rawQuery(
+        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim FROM ${WomModel.tblWom} GROUP BY ${WomModel.dbAim};');
+    final list = result.map((m) {
+      return WomGroupBy(m['aim'], m['woms']);
+    }).toList();
+    return list;
+  }
+
   Future deleteWom(int womID) async {
     var db = await _appDatabase.getDb();
     await db.transaction((Transaction txn) async {
@@ -246,7 +251,7 @@ class WomDB {
   }
 
   /// Inserts or replaces the task.
-  Future<int> updateWomStatusToOff(int womId,int transactionId) async {
+  Future<int> updateWomStatusToOff(int womId, int transactionId) async {
     var db = await _appDatabase.getDb();
     try {
       int count;
@@ -254,7 +259,6 @@ class WomDB {
         count = await txn.rawUpdate(
             'UPDATE ${WomModel.tblWom} SET ${WomModel.dbLive} = ?, ${WomModel.dbTransactionId} = ? WHERE ${WomModel.dbId} = "$womId"',
             ['1', transactionId]);
-
       });
       return count;
     } catch (e) {

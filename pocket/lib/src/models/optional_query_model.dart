@@ -6,6 +6,7 @@ class OptionalQuery {
   final int endDate;
   final WomStatus womStatus;
   final Set<String> sources;
+  final Set<String> aims;
   final SimpleFilters filters;
 
   OptionalQuery({
@@ -14,6 +15,7 @@ class OptionalQuery {
     this.womStatus = WomStatus.ON,
     this.sources,
     this.filters,
+    this.aims,
   });
 
   build() {
@@ -33,6 +35,14 @@ class OptionalQuery {
       whereClause = whereClause.isEmpty
           ? "WHERE $sourceWhereClause"
           : "$whereClause AND $sourceWhereClause";
+    }
+
+    if(aims != null){
+      final aimWhereClause = buildAimClause(aims);
+
+      whereClause = whereClause.isEmpty
+          ? "WHERE $aimWhereClause"
+          : "$whereClause AND $aimWhereClause";
     }
 
     if (filters != null) {
@@ -67,6 +77,20 @@ class OptionalQuery {
     });
 
     return sourceWhereClause;
+  }
+
+  buildAimClause(Set<String> aims) {
+    var aimWhereClause = "";
+    if (aims.isEmpty) {
+      return "${WomModel.tblWom}.${WomModel.dbAim} = NULL_SOURCE";
+    }
+    aims.forEach((aim) {
+      aimWhereClause = aimWhereClause.isEmpty
+          ? "${WomModel.tblWom}.${WomModel.dbAim} = \"$aim\""
+          : "$aimWhereClause OR ${WomModel.tblWom}.${WomModel.dbAim} = \"$aim\"";
+    });
+
+    return aimWhereClause;
   }
 
   buildSimpleFiltersQuery() {

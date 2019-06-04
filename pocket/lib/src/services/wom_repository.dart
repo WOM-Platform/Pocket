@@ -32,10 +32,14 @@ class WomRepository {
 //    return await _womDb.getMinDate();
 //  }
 
-  Future<List<WomGroupBy>> getGroupedWom() async {
+  Future<List<WomGroupBy>> getWomGroupedBySource() async {
     print("fetchGroupedWoms: loading woms");
     final groupedWoms = await _womDb.getGroupedWoms();
     print("fetchGroupedWoms: reading complete woms : ${groupedWoms.length}");
     return groupedWoms;
+  }
+
+  Future<List<WomGroupBy>> getWomGroupedByAim()async{
+    return await _womDb.getWomGroupedByAim();
   }
 }

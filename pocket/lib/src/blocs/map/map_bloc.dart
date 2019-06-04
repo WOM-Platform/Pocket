@@ -4,6 +4,7 @@ import 'package:clustering_google_maps/clustering_google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/models/optional_query_model.dart';
+import 'package:pocket/src/models/simple_filters_model.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/services/wom_repository.dart';
@@ -13,6 +14,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   WomRepository _womRepository = WomRepository();
   ClusteringHelper clusteringHelper;
   Set<String> sources = Set();
+  Set<String> aims = Set();
 
   MapBloc() {
     initDatabaseClustering();
@@ -32,9 +34,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   loadSources() async {
-    final s = await _womRepository.getGroupedWom();
+    final s = await _womRepository.getWomGroupedBySource();
+    final a = await _womRepository.getWomGroupedByAim();
     sources.addAll(s.map((g) => g.type).toList());
-    dispatch(UpdateMap(sources: s));
+    aims.addAll(a.map((g) => g.type).toList());
+    dispatch(UpdateMap(
+      sources: s,
+      aims: a,
+    ));
   }
 
   void onMapCreated(GoogleMapController controller) async {
@@ -56,13 +63,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           filter();
         }
 
-        yield (currentState as MapUpdated)
-            .copyWith(event.markers, event.sliderValue, event.sources);
+        yield (currentState as MapUpdated).copyWith(
+            event.markers, event.sliderValue, event.sources, event.aims);
       } else {
         yield MapUpdated(
-            sliderValue: event.sliderValue ?? 0.0,
-            markers: event.markers ?? {},
-            sources: event.sources ?? {});
+          sliderValue: event.sliderValue ?? 0.0,
+          markers: event.markers ?? {},
+          sources: event.sources ?? {},
+          aims: event.aims ?? {},
+        );
       }
     }
   }
@@ -84,14 +93,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       endDateQuery = todayInMillisecondsSinceEpoch;
     }
 
-
     clusteringHelper.whereClause = OptionalQuery(
       startDate: startDateQuery,
       endDate: endDateQuery,
       sources: sources,
+      aims: aims,
     ).build();
 
-    print( clusteringHelper.whereClause);
+    print(clusteringHelper.whereClause);
 
     clusteringHelper.updateMap();
   }
@@ -110,37 +119,19 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     }
   }
 
-//  Future<void> changeDateFilter(double sliderValue) async {
-//    if (sliderValue != previousDateFilterValue) {
-//      previousDateFilterValue = sliderValue;
-//      print("fetch query for filter time changed");
-//      final sliderValueInt = sliderValue.toInt();
-//
-//      if (sliderValueInt == 0) {
-//        startDateQuery = 0;
-//        endDateQuery = 0;
-//      } else {
-//        final int todayInMillisecondsSinceEpoch =
-//            DateTime.now().millisecondsSinceEpoch;
-//
-//        final int rangeTime = timeInMilliseconds[sliderValueInt];
-//        final int queryDate = todayInMillisecondsSinceEpoch - rangeTime;
-//        print(DateTime.fromMillisecondsSinceEpoch(queryDate).toString());
-//        startDateQuery = queryDate;
-//        endDateQuery = todayInMillisecondsSinceEpoch;
-//      }
-//
-//      clusteringHelper.whereClause = OptionalQuery(
-//        startDate: startDateQuery,
-//        endDate: endDateQuery,
-//        sources: filterSource,
-//      ).build();
-//
-//      await clusteringHelper.updateMap();
-//    }
-//  }
+  void addAimToFilter(String aim) {
+    print("addAimToFilter: $aim");
+    aims.add(aim);
+    dispatch(UpdateMap(forceFilterUpdate: true));
+  }
 
-  void performQuery() {}
+  void removeAimFromFilter(String aim) {
+    print("removeAimFromFilter: $aim");
+    if (aims.contains(aim)) {
+      aims.remove(aim);
+      dispatch(UpdateMap(forceFilterUpdate: true));
+    }
+  }
 }
 
 const timeInMilliseconds = [

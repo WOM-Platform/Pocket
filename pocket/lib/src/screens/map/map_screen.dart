@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
+import 'package:pocket/src/screens/map/widgets/aims_list.dart';
 import 'package:pocket/src/screens/map/widgets/custom_slider.dart';
 import 'package:pocket/src/screens/map/widgets/filter_checkbox.dart';
 import 'package:pocket/src/screens/map/widgets/sources_list.dart';
@@ -14,7 +15,8 @@ class MapScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: SlidingUpPanel(
-        maxHeight: 300.0,
+        maxHeight: 450.0,
+        minHeight: 30.0,
         panel: MapPanel(),
         body: MapBody(),
       ),
@@ -51,22 +53,35 @@ class MapPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         SizedBox(
           height: 12,
         ),
-        Container(
-          width: 30,
-          height: 5,
-          decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+        Column(
+          children: <Widget>[
+            Container(
+              width: 30,
+              height: 5,
+              decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.all(Radius.circular(12.0))),
+            ),
+          ],
         ),
         SizedBox(
           height: 12,
         ),
+        Text("Time Filter",textAlign: TextAlign.start,),
         CustomSlider(),
-        SourcesList()
+        Divider(),
+        Text("Sourcer Filter",textAlign: TextAlign.start,),
+
+        SourcesList(),
+        Divider(),
+        Text("Aim Filter"),
+        AimsList(),
+
       ],
     );
   }
