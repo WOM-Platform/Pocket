@@ -42,10 +42,10 @@ class _AppState extends State<App> {
 
   @override
   void initState() {
-    _appBloc = AppBloc(_appRepository);
     _homeBloc = HomeBloc(TransactionDB.get());
     _transactionsBloc = TransactionsBloc(TransactionDB.get());
     _suggestionsBloc = SuggestionsBloc();
+    _appBloc = AppBloc(_appRepository, _transactionsBloc);
 
 //    _appBloc.dispatch(AppStarted());
     super.initState();

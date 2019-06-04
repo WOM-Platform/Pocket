@@ -1,10 +1,14 @@
 //import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/app.dart';
+import 'package:pocket/src/blocs/app/app_bloc.dart';
+import 'package:pocket/src/blocs/app/app_event.dart';
+import 'package:pocket/src/blocs/transactions/bloc.dart';
 import 'package:pocket/src/screens/transacation/info_payment.dart';
 import 'package:pocket/src/screens/transacation/transaction_bloc.dart';
 import 'package:pocket/src/screens/transacation/transaction_events.dart';
 import 'package:pocket/src/screens/transacation/transaction_state.dart';
+
 import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:flutter/material.dart';
 
@@ -87,8 +91,7 @@ class TransactionScreenState extends State<TransactionScreen>
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
-                            Navigator.popUntil(
-                                context, ModalRoute.withName('/'));
+                            backToHome();
                           }),
                     ],
                   ),
@@ -173,8 +176,7 @@ class TransactionScreenState extends State<TransactionScreen>
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {
-                                      Navigator.popUntil(
-                                          context, ModalRoute.withName('/'));
+                                      backToHome();
                                     },
                                   ),
                                 ),
@@ -194,6 +196,12 @@ class TransactionScreenState extends State<TransactionScreen>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void backToHome() {
+    BlocProvider.of<AppBloc>(context).transactionsBloc.dispatch(LoadTransactions());
+    Navigator.popUntil(
+        context, ModalRoute.withName('/'));
   }
 }
 

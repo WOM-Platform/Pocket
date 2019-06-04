@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:pocket/src/db/aim_db.dart';
+import 'package:pocket/src/blocs/transactions/transactions_bloc.dart';
 import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/utils/utils.dart';
 import 'package:uni_links/uni_links.dart';
-import 'package:wom_package/wom_package.dart';
 
 import 'app_event.dart';
 import 'app_state.dart';
@@ -15,8 +13,9 @@ import 'app_state.dart';
 class AppBloc extends Bloc<AppEvent, AppState> {
   final AppRepository _appRepository;
   StreamSubscription _sub;
+  final TransactionsBloc transactionsBloc;
 
-  AppBloc(this._appRepository) : assert(_appRepository != null) {
+  AppBloc(this._appRepository, this.transactionsBloc) : assert(_appRepository != null) {
     dispatch(LoadData());
 
     _sub = getUriLinksStream().listen((Uri uri) {
