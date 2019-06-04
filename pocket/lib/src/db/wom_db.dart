@@ -145,7 +145,6 @@ class WomDB {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
         'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} WHERE ${WomModel.dbLive} = 0 GROUP BY ${WomModel.dbSourceName};');
-
     return _bindSources(result);
   }
 
@@ -207,14 +206,14 @@ class WomDB {
     return aggregationWom;
   }
 
-  Future getGroupedWoms() async {
+  Future<List<WomGroupBy>> getGroupedWoms() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
         'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} GROUP BY ${WomModel.dbSourceName};');
     return _bindGroupedWoms(result);
   }
 
-  _bindGroupedWoms(List<Map<String, dynamic>> result) {
+  List<WomGroupBy> _bindGroupedWoms(List<Map<String, dynamic>> result) {
     List<WomGroupBy> group = new List();
     for (Map<String, dynamic> item in result) {
       var wom = new WomGroupBy.fromMap(item);

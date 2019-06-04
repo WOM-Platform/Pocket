@@ -1,3 +1,4 @@
+/*
 import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
@@ -136,14 +137,16 @@ class _GoogleMapScreenState extends State<GoogleMapScreen>
       appBar: AppBar(
         title: Text('WOM Map'),
         actions: <Widget>[
-          /*IconButton(
+          */
+/*IconButton(
             icon: Icon(Icons.view_list),
             onPressed: () {
               setState(() {
                 isMapVisible = !isMapVisible;
               });
             },
-          ),*/
+          ),*//*
+
         ],
       ),
       body: LayoutBuilder(
@@ -183,3 +186,4 @@ class ListAggregatedWomCard extends StatelessWidget {
     );
   }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
@@ -115,3 +116,4 @@ class CustomSlider extends StatelessWidget {
     );
   }
 }
+*/

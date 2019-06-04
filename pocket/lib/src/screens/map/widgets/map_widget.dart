@@ -1,3 +1,4 @@
+/*
 import 'package:pocket/src/blocs/bloc_provider.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
@@ -39,3 +40,4 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 }
+*/

@@ -58,7 +58,7 @@ class OptionalQuery {
   buildSourceClause(Set<String> sources) {
     var sourceWhereClause = "";
     if (sources.isEmpty) {
-      return "${WomModel.tblWom}.${WomModel.dbSourceName} = FAKE";
+      return "${WomModel.tblWom}.${WomModel.dbSourceName} = NULL_SOURCE";
     }
     sources.forEach((source) {
       sourceWhereClause = sourceWhereClause.isEmpty

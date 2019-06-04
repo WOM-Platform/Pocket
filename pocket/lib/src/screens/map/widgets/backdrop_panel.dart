@@ -1,3 +1,4 @@
+/*
 // One BackdropPanel is visible at a time. It's stacked on top of the
 // the BackdropDemo.
 import 'package:flutter/material.dart';
@@ -67,4 +68,4 @@ class BackdropPanel extends StatelessWidget {
       ],
     );
   }
-}
+}*/

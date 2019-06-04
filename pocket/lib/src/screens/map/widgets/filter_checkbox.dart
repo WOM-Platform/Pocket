@@ -34,7 +34,7 @@ class CheckboxRowFilterState extends State<CheckboxRowFilter> {
               widget.onChanged(value);
             }),
 //        Text(widget.group.type),
-        Text('SmartRoadSense'),
+        Text(widget.group.type),
         Expanded(
           child: Container(),
         ),
