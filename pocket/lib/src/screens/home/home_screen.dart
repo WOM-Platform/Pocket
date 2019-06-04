@@ -2,24 +2,17 @@ import 'dart:async';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/localization/localizations.dart';
-import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
 import 'package:pocket/src/blocs/map/bloc.dart';
-import 'package:pocket/src/blocs/suggestions/bloc.dart';
 import 'package:flutter/services.dart';
-import 'package:pocket/src/models/suggestion_model.dart';
+import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/screens/home/home_bloc.dart';
 import 'package:pocket/src/screens/home/widgets/suggetstions_section.dart';
 import 'package:pocket/src/screens/home/widgets/transactions_section.dart';
-import 'package:pocket/src/screens/map/blocs/google_map_bloc.dart';
-import 'package:pocket/src/screens/map/google_map.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/screens/map/map_screen.dart';
-import 'package:pocket/src/screens/pin/pin.dart';
-import 'package:pocket/src/screens/pin/pin_bloc.dart';
+import 'package:pocket/src/screens/pin/pin_screen.dart';
 import 'package:pocket/src/utils/colors.dart';
-import 'package:pocket/src/db/wom_db.dart';
 import 'package:flutter/material.dart';
-import 'package:uni_links/uni_links.dart';
 
 class HomeScreen2 extends StatefulWidget {
   static const String path = '/home';
@@ -65,11 +58,15 @@ class _HomeScreen2State extends State<HomeScreen2> {
             final link = await BarcodeScanner.scan();
             final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
-            var blocProviderPin = myBlocProvider.BlocProvider(
-              bloc: PinBloc(),
-              child: PinScreen(
-                deepLinkModel: deepLinkModel,
-              ),
+//            var blocProviderPin = myBlocProvider.BlocProvider(
+//              bloc: PinBloc(),
+//              child: PinScreen(
+//                deepLinkModel: deepLinkModel,
+//              ),
+//            );
+            var blocProviderPin = BlocProvider(
+              bloc: PinBloc(deepLinkModel),
+              child: PinScreen(),
             );
             await Navigator.push(
               context,
@@ -112,7 +109,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
         },
       ),
       bottomNavigationBar: BottomAppBar(
-        color: baseIconColor,
+        color: Theme.of(context).primaryColor,
         child: new Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,

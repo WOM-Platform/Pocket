@@ -1,12 +1,9 @@
 import 'package:pocket/src/blocs/app/bloc.dart';
+import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:pocket/src/screens/pin/pin_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
 import 'package:flutter/material.dart';
-import 'package:pocket/src/screens/pin/pin.dart';
-import 'package:pocket/src/screens/pin/pin_bloc.dart';
-import 'package:pocket/src/utils/utils.dart';
 
 /*
 adb shell 'am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "wom://pay/910895d04a39438bbe6a7db04c5b1f59"'
@@ -110,11 +107,15 @@ class SplashScreenState extends State<SplashScreen>
   }
 
   goToPinScreen(DeepLinkModel deepLinkModel) {
-    var blocProviderPin = myBlocProvider.BlocProvider(
-      bloc: PinBloc(),
-      child: PinScreen(
-        deepLinkModel: deepLinkModel,
-      ),
+//    var blocProviderPin = myBlocProvider.BlocProvider(
+//      bloc: PinBloc(),
+//      child: PinScreen(
+//        deepLinkModel: deepLinkModel,
+//      ),
+//    );
+    var blocProviderPin = BlocProvider(
+      bloc: PinBloc(deepLinkModel),
+      child: PinScreen(),
     );
     Navigator.pushReplacement(
       context,
