@@ -29,6 +29,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   @override
   Stream<TransactionState> mapEventToState(TransactionEvent event) async*{
     if (event is TransactionStarted) {
+      yield TransactionLoadingState();
       try {
         TransactionModel transaction;
         if (event.type == TransactionType.VOUCHERS) {

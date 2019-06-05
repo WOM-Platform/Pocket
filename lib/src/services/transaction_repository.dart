@@ -228,8 +228,10 @@ class TransactionRepository {
       //get response body from HTTP POST method
       String responseBody;
       if (deepLinkModel.type == TransactionType.VOUCHERS) {
+        print("redeemWoms");
         responseBody = await transactionApi.redeemWoms(payload);
       } else {
+        print("payment");
         responseBody = await transactionApi.getInfoPayments(payload);
       }
 

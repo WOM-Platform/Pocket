@@ -62,11 +62,7 @@ class TransactionScreenState extends State<TransactionScreen>
             builder: (BuildContext context, TransactionState state) {
               if (state is TransactionLoadingState) {
                 return Center(
-                  child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(fakeModeVar
-                        ? Colors.yellow
-                        : Theme.of(context).primaryColor),
-                  ),
+                  child: CircularProgressIndicator(),
                 );
               }
 

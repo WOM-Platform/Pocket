@@ -36,6 +36,7 @@ class TransactionApi {
       body: json.encode(map),
       headers: {HttpHeaders.contentTypeHeader: "application/json"},
     );
+    print(resp.body);
     if (resp.statusCode == 200) {
       return resp.body;
     }
