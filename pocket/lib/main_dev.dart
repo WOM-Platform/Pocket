@@ -1,17 +1,26 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pocket/app.dart';
 import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/utils/colors.dart';
 
+import 'app.dart';
 import 'config.dart';
 
+class SimpleBlocDelegate extends BlocDelegate {
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+}
+
 void main() {
-  Config.appFlavor = Flavor.RELEASE;
+  Config.appFlavor = Flavor.DEVELOPMENT;
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-    statusBarColor: baseIconColor,
+    statusBarColor: Colors.red,
   ));
+  BlocSupervisor.delegate = SimpleBlocDelegate();
   runApp(App(
     appRepository: AppRepository(),
   ));

@@ -42,7 +42,9 @@ dependencies:
   clustering_google_maps: ^0.0.5+13
   flutter_bloc: ^0.15.1
   wom_package:
-    path: ../wom_package/
+    git:
+      url: git://github.com/WOM-Platform/Pocket.git
+      path: wom_package
   equatable: ^0.2.3
   sliding_up_panel: ^0.3.4
 #  flare_flutter:
