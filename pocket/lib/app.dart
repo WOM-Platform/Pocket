@@ -8,7 +8,6 @@ import 'package:pocket/localization/localizations.dart';
 import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/db/transaction_db.dart';
-import 'package:pocket/src/screens/home/home_bloc.dart';
 import 'package:pocket/src/screens/intro/intro.dart';
 import 'package:pocket/src/screens/settings/settings.dart';
 import 'package:pocket/src/screens/settings/settings_bloc.dart';
@@ -16,6 +15,7 @@ import 'package:pocket/src/screens/splash/splash_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:pocket/src/utils/colors.dart';
 
 import 'src/blocs/app/bloc.dart';
 
@@ -33,7 +33,8 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   AppBloc _appBloc;
-  HomeBloc _homeBloc;
+//  HomeBloc _homeBloc;
+  PinBloc _pinBloc;
 
   TransactionsBloc _transactionsBloc;
   SuggestionsBloc _suggestionsBloc;
@@ -42,7 +43,7 @@ class _AppState extends State<App> {
 
   @override
   void initState() {
-    _homeBloc = HomeBloc(TransactionDB.get());
+//    _homeBloc = HomeBloc(TransactionDB.get());
     _transactionsBloc = TransactionsBloc(TransactionDB.get());
     _suggestionsBloc = SuggestionsBloc();
     _appBloc = AppBloc(_appRepository, _transactionsBloc);
@@ -66,8 +67,9 @@ class _AppState extends State<App> {
             const Locale('it', ''),
           ],
           theme: ThemeData(
-            primaryColor: Color(0xFF44455b),
-            backgroundColor: Color(0xFFf6d785),
+            primaryColor: primaryColor,
+            accentColor: accentColor,
+            backgroundColor: backgroundColor,
           ),
           home: BlocListener(
             bloc: _appBloc,
@@ -81,8 +83,9 @@ class _AppState extends State<App> {
 //                    deepLinkModel: state.deepLinkModel,
 //                  ),
 //                );
+                _pinBloc = PinBloc(state.deepLinkModel);
                 var blocProviderPin = BlocProvider(
-                  bloc: PinBloc(state.deepLinkModel),
+                  bloc: _pinBloc,
                   child: PinScreen(),
                 );
                 Navigator.push(
@@ -143,9 +146,10 @@ class _AppState extends State<App> {
   @override
   void dispose() {
     _appBloc.dispose();
-    _homeBloc.dispose();
+//    _homeBloc.dispose();
     _transactionsBloc.dispose();
     _suggestionsBloc.dispose();
+    _pinBloc?.dispose();
     super.dispose();
   }
 }

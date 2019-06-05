@@ -5,10 +5,9 @@ import 'package:pocket/localization/localizations.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
-import 'package:pocket/src/screens/home/home_bloc.dart';
 import 'package:pocket/src/screens/home/widgets/suggetstions_section.dart';
-import 'package:pocket/src/screens/home/widgets/transactions_section.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
+import 'package:pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:pocket/src/screens/map/map_screen.dart';
 import 'package:pocket/src/screens/pin/pin_screen.dart';
 import 'package:pocket/src/utils/colors.dart';
@@ -22,7 +21,8 @@ class HomeScreen2 extends StatefulWidget {
 }
 
 class _HomeScreen2State extends State<HomeScreen2> {
-  HomeBloc bloc;
+//  HomeBloc bloc;
+  PinBloc _pinBloc;
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton.extended(
 //        backgroundColor: Theme.of(context).primaryColor,
-        backgroundColor: goldColor,
+        backgroundColor: Theme.of(context).accentColor,
         label: const Text(
           'QR-Code',
           style: TextStyle(color: baseIconColor),
@@ -64,8 +64,9 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //                deepLinkModel: deepLinkModel,
 //              ),
 //            );
+            _pinBloc = PinBloc(deepLinkModel);
             var blocProviderPin = BlocProvider(
-              bloc: PinBloc(deepLinkModel),
+              bloc: _pinBloc,
               child: PinScreen(),
             );
             await Navigator.push(
@@ -115,7 +116,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.map, color: goldColor),
+              icon: Icon(Icons.map, color: Theme.of(context).accentColor),
               onPressed: () {
 //                final mapProvider = myBlocProvider.BlocProvider<GoogleMapBloc>(
 ////                  child: MapPageView(),
@@ -137,7 +138,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
             IconButton(
               icon: Icon(
                 Icons.settings,
-                color: goldColor,
+                color: Theme.of(context).accentColor,
               ),
               onPressed: () async {
                 await Navigator.pushNamed(context, '/settings');
@@ -230,7 +231,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
               height: 10.0,
             ),
             Flexible(
-              child: TransactionsList2(),
+              child: TransactionsList(),
             ),
           ],
         ),
@@ -261,6 +262,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 
   @override
   void dispose() {
+    _pinBloc?.dispose();
 //    _sub.cancel();
     super.dispose();
   }

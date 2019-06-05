@@ -4,8 +4,6 @@ import 'package:clustering_google_maps/clustering_google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/models/optional_query_model.dart';
-import 'package:pocket/src/models/simple_filters_model.dart';
-import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/services/wom_repository.dart';
 import './bloc.dart';

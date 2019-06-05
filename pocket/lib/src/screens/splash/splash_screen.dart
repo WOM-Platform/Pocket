@@ -1,7 +1,4 @@
 import 'package:pocket/src/blocs/app/bloc.dart';
-import 'package:pocket/src/blocs/pin/bloc.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:pocket/src/screens/pin/pin_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -106,7 +103,7 @@ class SplashScreenState extends State<SplashScreen>
 //    });
   }
 
-  goToPinScreen(DeepLinkModel deepLinkModel) {
+/*  goToPinScreen(DeepLinkModel deepLinkModel) {
 //    var blocProviderPin = myBlocProvider.BlocProvider(
 //      bloc: PinBloc(),
 //      child: PinScreen(
@@ -121,7 +118,7 @@ class SplashScreenState extends State<SplashScreen>
       context,
       MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

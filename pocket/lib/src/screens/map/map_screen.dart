@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
-import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/screens/map/widgets/aims_list.dart';
 import 'package:pocket/src/screens/map/widgets/custom_slider.dart';
-import 'package:pocket/src/screens/map/widgets/filter_checkbox.dart';
 import 'package:pocket/src/screens/map/widgets/sources_list.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -13,7 +11,9 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Mappa dei WOM"),
+      ),
       body: SlidingUpPanel(
         maxHeight: 450.0,
         minHeight: 30.0,

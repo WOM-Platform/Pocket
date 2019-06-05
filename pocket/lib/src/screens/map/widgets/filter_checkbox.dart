@@ -1,4 +1,3 @@
-import 'package:pocket/src/db/wom_db.dart';
 import 'package:flutter/material.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
 

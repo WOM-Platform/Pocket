@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:pocket/src/screens/pin/pin_bloc.dart';
 
 @immutable
 abstract class PinState extends Equatable {

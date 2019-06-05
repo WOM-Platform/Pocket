@@ -1,6 +1,5 @@
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
-import 'package:pocket/src/models/voucher_model.dart';
 import 'package:pocket/src/screens/transaction_details/transaction_datails_screen.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -216,7 +215,7 @@ class AimsRow extends StatelessWidget {
         if (aim.contains('/')) {
           aimsSet.add(aim.split('/')[0]);
         } else {
-          aimsSet.add(aim);
+          aimsSet.add(aim[0]);
         }
       });
 
