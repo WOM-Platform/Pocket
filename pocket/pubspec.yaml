@@ -43,8 +43,7 @@ dependencies:
   flutter_bloc: ^0.15.1
   wom_package:
     git:
-      url: git://github.com/WOM-Platform/Pocket.git
-      path: wom_package
+      url: git://github.com/WOM-Platform/WOM-Package.git
   equatable: ^0.2.3
   sliding_up_panel: ^0.3.4
 #  flare_flutter:
