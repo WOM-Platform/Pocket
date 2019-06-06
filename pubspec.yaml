@@ -80,7 +80,6 @@ flutter:
     - assets/images/m4.png
     - assets/images/wom.png
     - assets/images/wom_pin.png
-    - assets/map_point.json
     - assets/flare/check.flr
 
 
