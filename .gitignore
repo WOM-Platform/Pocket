@@ -72,3 +72,4 @@ build/
 
 #api key files
 **/ios/Runner/Api.swift
+**/android/app/src/main/res/values/api.xml
