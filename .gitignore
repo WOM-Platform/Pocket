@@ -73,3 +73,5 @@ build/
 #api key files
 **/ios/Runner/Api.swift
 **/android/app/src/main/res/values/api_key.xml
+**/android/key.properties
+**/pocket-keystore.jks
