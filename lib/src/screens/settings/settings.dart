@@ -1,6 +1,5 @@
-import 'package:pocket/app.dart';
-import 'package:pocket/src/blocs/bloc_provider.dart';
-import 'package:pocket/src/screens/settings/settings_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pocket/src/blocs/settings/bloc.dart';
 import 'package:flutter/material.dart';
 
 
@@ -8,7 +7,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SettingsBloc bloc = BlocProvider.of(context);
+    final SettingsBloc bloc = BlocProvider.of<SettingsBloc>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(

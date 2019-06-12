@@ -1,8 +1,6 @@
 //import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/app.dart';
 import 'package:pocket/src/blocs/app/app_bloc.dart';
-import 'package:pocket/src/blocs/app/app_event.dart';
 import 'package:pocket/src/blocs/transactions/bloc.dart';
 import 'package:pocket/src/screens/transacation/info_payment.dart';
 import 'package:pocket/src/screens/transacation/transaction_bloc.dart';
@@ -41,13 +39,8 @@ class TransactionScreenState extends State<TransactionScreen>
   }
 
   Future<bool> _onWillPop() {
-    return Future(() {
-//      Navigator.pushNamedAndRemoveUntil(context,  MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), ModalRoute.withName('/'));
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/home', ModalRoute.withName('/'));
-      //Navigator.popUntil(context, ModalRoute.withName('/home'));
-      true;
-    });
+    backToHome();
+    return Future.value(false);
   }
 
   @override
@@ -58,55 +51,55 @@ class TransactionScreenState extends State<TransactionScreen>
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         body: BlocBuilder<TransactionEvent, TransactionState>(
-            bloc: bloc,
-            builder: (BuildContext context, TransactionState state) {
-              if (state is TransactionLoadingState) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+          bloc: bloc,
+          builder: (BuildContext context, TransactionState state) {
+            if (state is TransactionLoadingState) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-              if (state is TransactionInfoPaymentState) {
-                return Center(child: InfoPayment(state.infoPayment));
-              }
+            if (state is TransactionInfoPaymentState) {
+              return Center(child: InfoPayment(state.infoPayment));
+            }
 
-              if (state is TransactionErrorState) {
-                return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      CircleButton(text: 'Error!', color: Colors.red),
-                      SizedBox(height: 15.0),
-                      Text(
-                        state.error,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      OutlineButton(
-                          child: Text(
-                            'OK',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            backToHome();
-                          }),
-                    ],
-                  ),
-                );
-              }
+            if (state is TransactionErrorState) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    CircleButton(text: 'Error!', color: Colors.red),
+                    SizedBox(height: 15.0),
+                    Text(
+                      state.error,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    OutlineButton(
+                        child: Text(
+                          'OK',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          backToHome();
+                        }),
+                  ],
+                ),
+              );
+            }
 
-              if (state is TransactionCompleteState) {
-                _controller.forward();
-                return AnimatedBuilder(
-                    animation: _controller,
-                    builder: (BuildContext context, Widget child) {
-                      return Transform(
-                        transform: Matrix4.translationValues(
-                            0.0, _animation.value * (-10), 0.0),
-                        child: Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
+            if (state is TransactionCompleteState) {
+              _controller.forward();
+              return AnimatedBuilder(
+                animation: _controller,
+                builder: (BuildContext context, Widget child) {
+                  return Transform(
+                    transform: Matrix4.translationValues(
+                        0.0, _animation.value * (-10), 0.0),
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
 /*                              Container(
                                 height: 300.0,
 //                                  decoration: BoxDecoration(
@@ -130,60 +123,64 @@ class TransactionScreenState extends State<TransactionScreen>
                                   animation: 'success',
                                 ),
                               ),*/
-                              SizedBox(
-                                height: _animation.value * 5.0,
-                              ),
-                              FadeTransition(
-                                opacity: _animation,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
-                                  child: Center(
-                                      child: Text(
-                                    'You got:',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20.0),
-                                  )),
-                                ),
-                              ),
-                              SizedBox(
-                                height: _animation.value * 20.0,
-                              ),
-                              FadeTransition(
-                                opacity: _animation,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
-                                  child: TicketCard(
-                                      transaction: state.transaction),
-                                ),
-                              ),
-                              SizedBox(
-                                height: _animation.value * 50.0,
-                              ),
-                              FadeTransition(
-                                opacity: _animation,
-                                child: Container(
-                                  margin:
-                                      EdgeInsets.symmetric(horizontal: 80.0),
-                                  child: OutlineButton(
-                                    child: Text(
-                                      'OK',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    onPressed: () {
-                                      backToHome();
-                                    },
-                                  ),
-                                ),
-                              )
-                            ],
+                          SizedBox(
+                            height: _animation.value * 5.0,
                           ),
-                        ),
-                      );
-                    });
-              }
-            }),
+                          FadeTransition(
+                            opacity: _animation,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Center(
+                                  child: Text(
+                                'You got:',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20.0),
+                              )),
+                            ),
+                          ),
+                          SizedBox(
+                            height: _animation.value * 20.0,
+                          ),
+                          FadeTransition(
+                            opacity: _animation,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: TicketCard(transaction: state.transaction),
+                            ),
+                          ),
+                          SizedBox(
+                            height: _animation.value * 50.0,
+                          ),
+                          FadeTransition(
+                            opacity: _animation,
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 80.0),
+                              child: OutlineButton(
+                                child: Text(
+                                  'OK',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  backToHome();
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+            return Container(
+              color: Colors.red,
+              child: Text("ERROR STATE"),
+            );
+          },
+        ),
       ),
     );
   }
@@ -195,9 +192,10 @@ class TransactionScreenState extends State<TransactionScreen>
   }
 
   void backToHome() {
-    BlocProvider.of<AppBloc>(context).transactionsBloc.dispatch(LoadTransactions());
-    Navigator.popUntil(
-        context, ModalRoute.withName('/'));
+    BlocProvider.of<AppBloc>(context)
+        .transactionsBloc
+        .dispatch(LoadTransactions());
+    Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 }
 

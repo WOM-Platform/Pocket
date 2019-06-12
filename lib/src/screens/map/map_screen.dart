@@ -15,6 +15,8 @@ class MapScreen extends StatelessWidget {
         title: Text("Mappa dei WOM"),
       ),
       body: SlidingUpPanel(
+        parallaxEnabled: true,
+        parallaxOffset: 0.3,
         maxHeight: 450.0,
         minHeight: 30.0,
         panel: MapPanel(),
@@ -32,9 +34,14 @@ class MapBody extends StatelessWidget {
       key: new PageStorageKey('map'),
       child: BlocBuilder(
         bloc: bloc,
-//        condition: (MapState p, MapState c) {
-//          return  c.markers.containsAll(p.markers);
-//        },
+        condition: (MapState p, MapState c) {
+          if (p.markers.isEmpty && c.markers.isNotEmpty) {
+            print("move camera");
+            bloc.mapController.animateCamera(CameraUpdate.newCameraPosition(
+                CameraPosition(target: c.markers.first.position)));
+          }
+          return true;
+        },
         builder: (BuildContext context, MapState state) {
           return GoogleMap(
             initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
@@ -52,38 +59,44 @@ class MapBody extends StatelessWidget {
 class MapPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        SizedBox(
-          height: 12,
-        ),
-        Column(
-          children: <Widget>[
-            Container(
-              width: 30,
-              height: 5,
-              decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.all(Radius.circular(12.0))),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 12,
-        ),
-        Text("Time Filter",textAlign: TextAlign.start,),
-        CustomSlider(),
-        Divider(),
-        Text("Sourcer Filter",textAlign: TextAlign.start,),
-
-        SourcesList(),
-        Divider(),
-        Text("Aim Filter"),
-        AimsList(),
-
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          SizedBox(
+            height: 12,
+          ),
+          Column(
+            children: <Widget>[
+              Container(
+                width: 30,
+                height: 5,
+                decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Text(
+            "By Time",
+            textAlign: TextAlign.start,
+          ),
+          CustomSlider(),
+          Divider(),
+          Text(
+            "By Source",
+            textAlign: TextAlign.start,
+          ),
+          SourcesList(),
+          Divider(),
+          Text("By Aim"),
+          AimsList(),
+        ],
+      ),
     );
   }
 }
-

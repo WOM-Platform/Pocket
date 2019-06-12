@@ -11,6 +11,7 @@ import './bloc.dart';
 class MapBloc extends Bloc<MapEvent, MapState> {
   WomRepository _womRepository = WomRepository();
   ClusteringHelper clusteringHelper;
+  GoogleMapController mapController;
   Set<String> sources = Set();
   Set<String> aims = Set();
 
@@ -44,6 +45,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   void onMapCreated(GoogleMapController controller) async {
     print("onMapCreated");
+    mapController = controller;
     clusteringHelper.database = await AppDatabase.get().getDb();
     clusteringHelper.updateMap();
   }

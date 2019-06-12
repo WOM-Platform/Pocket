@@ -1,5 +1,6 @@
 import 'package:pocket/src/models/simple_filters_model.dart';
 import 'package:pocket/src/models/wom_model.dart';
+import 'package:wom_package/wom_package.dart';
 
 class OptionalQuery {
   final int startDate;

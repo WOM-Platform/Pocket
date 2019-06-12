@@ -1,16 +1,15 @@
 import 'package:pocket/src/blocs/pin/bloc.dart';
+import 'package:pocket/src/blocs/settings/bloc.dart';
 import 'package:pocket/src/blocs/suggestions/bloc.dart';
 import 'package:pocket/src/blocs/transactions/bloc.dart';
 import 'package:pocket/src/screens/home/home_screen.dart';
 import 'package:pocket/src/screens/pin/pin_screen.dart';
 import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/localization/localizations.dart';
-import 'package:pocket/src/blocs/bloc_provider.dart' as myBlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/screens/intro/intro.dart';
 import 'package:pocket/src/screens/settings/settings.dart';
-import 'package:pocket/src/screens/settings/settings_bloc.dart';
 import 'package:pocket/src/screens/splash/splash_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -135,7 +134,7 @@ class _AppState extends State<App> {
           ),
           routes: {
             '/settings': (context) {
-              final settingsProvider = myBlocProvider.BlocProvider(
+              final settingsProvider = BlocProvider(
                   child: SettingsScreen(), bloc: SettingsBloc());
               return settingsProvider;
             },

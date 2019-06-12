@@ -1,50 +1,8 @@
 import 'package:geohash/geohash.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wom_package/wom_package.dart';
 
-//class WomModel {
-//  static final tblWom = "Wom";
-//  static final dbId = "Id";
-//  static final dbSecret = "secret";
-//  static final dbGuid = "guid";
-//  static final dbDate = "date";
-//  static final dbLat = "lat";
-//  static final dbLong = "long";
-//  static final dbLive = "live";
-//  static final dbGeohash = "geohash";
-//  static final dbAim = "aim";
-//
-//  final LatLng location;
-//  int id, date;
-//  final String guid;
-//  final WomStatus live;
-//  final Aim aim;
-//  String geohash;
-//
-//  WomModel(this.date, this.location, this.live, this.guid, this.aim) {
-//    this.geohash =
-//        Geohash.encode(this.location.latitude, this.location.longitude);
-//  }
-//
-//  Vouchers.fromJson(Map<String, dynamic> json) {
-//    id = json['Id'];
-//    secret = json['Secret'];
-//    latitude = json['Latitude'];
-//    longitude = json['Longitude'];
-//    timestamp = json['Timestamp'];
-//    source = json['Source'];
-//  }
-//
-//  WomModel.fromMap(Map<String, dynamic> map)
-//      : id = map[dbId],
-//        guid = map[dbGuid],
-//        date = map[dbDate],
-//        live = WomStatus.values[map[dbLive]],
-//        location = LatLng(map[dbLat], map[dbLong]),
-//        geohash = map[dbGeohash],
-//        aim = Aim.values[map[dbAim]];
-//}
-
-enum WomStatus { ON, OFF }
+//enum WomStatus { ON, OFF }
 
 class WomModel {
   static final tblWom = "Wom";

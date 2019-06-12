@@ -1,7 +1,5 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
-import 'package:pocket/src/models/wom_model.dart';
 
 class WomRepository {
   final WomDB _womDb = WomDB.get();

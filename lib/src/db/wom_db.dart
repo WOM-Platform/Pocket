@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/models/aggregation_wom_model.dart';
 import 'package:pocket/src/models/optional_query_model.dart';
@@ -6,6 +8,7 @@ import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/models/wom_pay_model.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:wom_package/wom_package.dart';
 
 class WomDB {
   static final WomDB _womDb = new WomDB._internal(AppDatabase.get());
@@ -220,9 +223,9 @@ class WomDB {
   Future<List<WomGroupBy>> getWomGroupedByAim() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
-        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim FROM ${WomModel.tblWom} GROUP BY ${WomModel.dbAim};');
+        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${Aim.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${Aim.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${Aim.CODE} GROUP BY ${WomModel.dbAim};');
     final list = result.map((m) {
-      return WomGroupBy(m['aim'], m['woms']);
+      return WomGroupBy(m['aim'], m['woms'], titles: json.decode(m['titles']));
     }).toList();
     return list;
   }

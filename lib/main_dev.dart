@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pocket/src/services/app_repository.dart';
-import 'package:pocket/src/utils/colors.dart';
 
 import 'app.dart';
 import 'config.dart';
