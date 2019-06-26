@@ -17,6 +17,7 @@ class PinScreen extends StatelessWidget {
     bloc = BlocProvider.of<PinBloc>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
+      appBar: AppBar(elevation: 0,),
       body: BlocListener(
         bloc: bloc,
         listener: (BuildContext context, PinState state) {
