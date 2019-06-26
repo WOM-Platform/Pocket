@@ -2,7 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:pocket/src/models/response_info_pay.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 
-abstract class TransactionState extends Equatable {}
+abstract class TransactionState extends Equatable {
+  TransactionState([List props = const []]) : super(props);
+}
 
 class TransactionUninitialized extends TransactionState {
   @override
@@ -12,7 +14,7 @@ class TransactionUninitialized extends TransactionState {
 class TransactionCompleteState extends TransactionState {
   final TransactionModel transaction;
 
-  TransactionCompleteState(this.transaction);
+  TransactionCompleteState(this.transaction):super([transaction]);
 
   @override
   String toString() => 'TransactionComplete';
@@ -21,7 +23,7 @@ class TransactionCompleteState extends TransactionState {
 class TransactionInfoPaymentState extends TransactionState {
   final ResponseInfoPay infoPayment;
 
-  TransactionInfoPaymentState(this.infoPayment);
+  TransactionInfoPaymentState(this.infoPayment):super([infoPayment]);
 
   @override
   String toString() => 'TransactionInfoPayment';

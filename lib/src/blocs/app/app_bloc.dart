@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:bloc/bloc.dart';
-import 'package:pocket/src/blocs/transactions/transactions_bloc.dart';
+import 'package:pocket/src/blocs/transactions_list/bloc.dart';
 import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/utils/utils.dart';
@@ -13,7 +13,7 @@ import 'app_state.dart';
 class AppBloc extends Bloc<AppEvent, AppState> {
   final AppRepository _appRepository;
   StreamSubscription _sub;
-  final TransactionsBloc transactionsBloc;
+  final TransactionsListBloc transactionsBloc;
 
   AppBloc(this._appRepository, this.transactionsBloc) : assert(_appRepository != null) {
     dispatch(LoadData());

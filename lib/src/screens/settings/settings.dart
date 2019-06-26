@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/blocs/settings/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:pocket/src/db/app_db.dart';
 
 
 class SettingsScreen extends StatelessWidget {
@@ -23,8 +24,9 @@ class SettingsScreen extends StatelessWidget {
               color: Colors.white,
             ),
             onTap: () async {
-              final result = await bloc.deleteDB();
-              print("delete: " + result.toString());
+//              final result = await bloc.deleteDB();
+//              print("delete: " + result.toString());
+              AppDatabase.get().deleteDb();
             },
           ),
           SettingsItem(
@@ -35,7 +37,8 @@ class SettingsScreen extends StatelessWidget {
               color: Colors.white,
             ),
             onTap: () async {
-              final result = await bloc.closeDb();
+              AppDatabase.get().closeDatabase();
+//              final result = await bloc.closeDb();
             },
           ),
           SettingsItem(

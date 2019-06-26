@@ -10,7 +10,7 @@ abstract class TransactionEvent extends Equatable {
 class TransactionStarted extends TransactionEvent {
   final TransactionType type;
 
-  TransactionStarted(this.type);
+  TransactionStarted(this.type):super([type]);
 
   @override
   String toString() => 'TransactionStarted';
@@ -19,7 +19,7 @@ class TransactionStarted extends TransactionEvent {
 class TransactionConfirmPayment extends TransactionEvent {
   final ResponseInfoPay infoPay;
 
-  TransactionConfirmPayment(this.infoPay);
+  TransactionConfirmPayment(this.infoPay):super([infoPay]);
 
   @override
   String toString() => 'TransactionConfirmPayment';

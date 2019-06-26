@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/models/aggregation_wom_model.dart';
 import 'package:pocket/src/models/optional_query_model.dart';
-import 'package:pocket/src/models/simple_filters_model.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/models/wom_pay_model.dart';
@@ -207,7 +206,7 @@ class WomDB {
   Future<List<WomGroupBy>> getGroupedWoms() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
-        'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} GROUP BY ${WomModel.dbSourceName};');
+        'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} GROUP BY ${WomModel.dbSourceName};');
     return _bindGroupedWoms(result);
   }
 

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/models/response_info_pay.dart';
-import 'package:pocket/src/models/simple_filters_model.dart';
-import 'package:pocket/src/screens/transacation/transaction_bloc.dart';
-import 'package:pocket/src/screens/transacation/transaction_events.dart';
+import 'package:pocket/src/blocs/transaction/bloc.dart';
 import 'package:pocket/src/utils/colors.dart';
+import 'package:wom_package/wom_package.dart' show SimpleFilters;
 
 class InfoPayment extends StatelessWidget {
   final ResponseInfoPay responseInfoPay;
@@ -95,7 +94,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters?.aim ?? "",
+                                simpleFilters?.aimCode ?? "",
                                 style: valueStyle,
                               ),
                             ],

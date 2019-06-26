@@ -1,11 +1,9 @@
 //import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/blocs/app/app_bloc.dart';
-import 'package:pocket/src/blocs/transactions/bloc.dart';
-import 'package:pocket/src/screens/transacation/info_payment.dart';
-import 'package:pocket/src/screens/transacation/transaction_bloc.dart';
-import 'package:pocket/src/screens/transacation/transaction_events.dart';
-import 'package:pocket/src/screens/transacation/transaction_state.dart';
+import 'package:pocket/src/blocs/transactions_list/transactions_list_event.dart';
+import 'package:pocket/src/screens/transaction/info_payment.dart';
+import 'package:pocket/src/blocs/transaction/bloc.dart';
 
 import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:flutter/material.dart';

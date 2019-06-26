@@ -1,4 +1,3 @@
-import 'package:pocket/src/models/simple_filters_model.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:wom_package/wom_package.dart';
 
@@ -91,12 +90,12 @@ class OptionalQuery {
           : "$aimWhereClause OR ${WomModel.tblWom}.${WomModel.dbAim} = \"$aim\"";
     });
 
-    return aimWhereClause;
+    return "(${aimWhereClause})";
   }
 
   buildSimpleFiltersQuery() {
     String filtersWhereClause = "";
-    final String aim = filters.aim;
+    final String aim = filters.aimCode;
     final bounds = filters.bounds;
     if (aim != null) {
       final aimClause = "${WomModel.tblWom}.${WomModel.dbAim} LIKE \"$aim%\"";
@@ -125,16 +124,16 @@ class OptionalQuery {
       String boundsClause = "";
       final double leftTopLatitude = bounds.leftTop[0];
       final double leftTopLongitude = bounds.leftTop[1];
-      final double rightTopLatitude = bounds.rightBottom[0];
-      final double rightTopLongitude = bounds.rightBottom[1];
+      final double rightBottomLatitude = bounds.rightBottom[0];
+      final double rightBottomLongitude = bounds.rightBottom[1];
 
-      final latQuery = (leftTopLatitude > rightTopLatitude)
-          ? "(${WomModel.dbLat} <= $leftTopLatitude AND ${WomModel.dbLat} >= $rightTopLatitude)"
-          : "(${WomModel.dbLat} <= $leftTopLatitude OR ${WomModel.dbLat} >= $rightTopLatitude)";
+      final latQuery = (leftTopLatitude > rightBottomLatitude)
+          ? "(${WomModel.dbLat} <= $leftTopLatitude AND ${WomModel.dbLat} >= $rightBottomLatitude)"
+          : "(${WomModel.dbLat} <= $leftTopLatitude OR ${WomModel.dbLat} >= $rightBottomLatitude)";
 
-      final longQuery = (leftTopLongitude < rightTopLongitude)
-          ? "(${WomModel.dbLong} >= $leftTopLongitude AND ${WomModel.dbLong} <= $rightTopLongitude)"
-          : "(${WomModel.dbLong} >= $leftTopLongitude OR ${WomModel.dbLong} <= $rightTopLongitude)";
+      final longQuery = (leftTopLongitude < rightBottomLongitude)
+          ? "(${WomModel.dbLong} >= $leftTopLongitude AND ${WomModel.dbLong} <= $rightBottomLongitude)"
+          : "(${WomModel.dbLong} >= $leftTopLongitude OR ${WomModel.dbLong} <= $rightBottomLongitude)";
 
       boundsClause = "$latQuery AND $longQuery";
       filtersWhereClause = filtersWhereClause.isEmpty

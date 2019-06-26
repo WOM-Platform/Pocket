@@ -66,7 +66,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //            );
             _pinBloc = PinBloc(deepLinkModel);
             var blocProviderPin = BlocProvider(
-              bloc: _pinBloc,
+              builder: (context)=> _pinBloc,
               child: PinScreen(),
             );
             await Navigator.push(
@@ -126,7 +126,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //                );
                 final mapProvider = BlocProvider<MapBloc>(
                   child: MapScreen(),
-                  bloc: MapBloc(),
+                    builder: (context)=> MapBloc(),
                 );
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => mapProvider));

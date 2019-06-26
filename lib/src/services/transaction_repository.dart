@@ -164,13 +164,14 @@ class TransactionRepository {
         final responsePayment =
             ResponseConfirmPay.fromMap(jsonDecryptedPayload);
 
+        //TODO change italy
         TransactionModel tx = TransactionModel(
           date: DateTime.now(),
           country: "italy",
           size: infoPay.amount,
           transactionType: TransactionType.PAYMENT,
           source: infoPay.posName,
-          aim: infoPay?.simpleFilter?.aim,
+          aim: infoPay?.simpleFilter?.aimCode,
         );
 
         final int id = await transactionsDB.insertTransaction(tx);

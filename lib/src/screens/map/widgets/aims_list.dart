@@ -22,19 +22,14 @@ class AimsList extends StatelessWidget {
             return Text("Non ci sono sorgenti");
           }
 
-          return Wrap(
-            children: state.aims.map((a) {
-              return ChipFilter(
-                aims: state.aims,
-                onSelected: (selected) {
-                  if (selected) {
-                    bloc.addAimToFilter(a.type);
-                  } else {
-                    bloc.removeAimFromFilter(a.type);
-                  }
-                },
-              );
-            }).toList(),
+          return ChipFilter(
+            aims: state.aims,
+            onAdd: (type) {
+              bloc.addAimToFilter(type);
+            },
+            onRemove: (type) {
+              bloc.removeAimFromFilter(type);
+            },
           );
           return Column(
             children: [
@@ -58,35 +53,28 @@ class AimsList extends StatelessWidget {
 }
 
 class ChipFilter extends StatefulWidget {
-
-  final Function onSelected;
+  final Function onAdd;
+  final Function onRemove;
   final List<WomGroupBy> aims;
 
-  const ChipFilter({Key key, this.onSelected, this.aims}) : super(key: key);
+  const ChipFilter({Key key, this.aims, this.onAdd, this.onRemove})
+      : super(key: key);
 
   @override
   _ChipFilterState createState() => _ChipFilterState();
 }
 
 class _ChipFilterState extends State<ChipFilter> {
-
   Set<String> chips = Set();
 
   @override
   void initState() {
-    chips.addAll(widget.aims.map((a)=>a.type));
+    chips.addAll(widget.aims.map((a) => a.type));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-//    return FilterChip(
-//      label: Text(a.type),
-//      selectedColor: Colors.yellow,
-//      selected: bloc.aims.contains(a.type),
-//      onSelected: widget.onSelected,
-//    );
-
     return Wrap(
       children: widget.aims.map((a) {
         return FilterChip(
@@ -94,14 +82,14 @@ class _ChipFilterState extends State<ChipFilter> {
           selectedColor: Colors.yellow,
           selected: chips.contains(a.type),
           onSelected: (selected) {
-            widget.onSelected(selected);
-            setState(() {
-              if (selected) {
-                chips.add(a.type);
-              } else {
-                chips.remove(a.type);
-              }
-            });
+            if (selected) {
+              chips.add(a.type);
+              widget.onAdd(a.type);
+            } else {
+              chips.remove(a.type);
+              widget.onRemove(a.type);
+            }
+            setState(() {});
           },
         );
       }).toList(),

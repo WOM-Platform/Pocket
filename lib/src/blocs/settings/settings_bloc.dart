@@ -20,7 +20,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Future<bool> deleteDB() async {
     final File dbFile = await getDbFile('pocket.db');
     if(dbFile != null){
-      await AppDatabase.get().closeDatabase();
+      await AppDatabase.get().deleteDb();
       final delDb = await dbFile.delete();
       if (delDb != null) return true;
     }
@@ -44,10 +44,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if(dbFile != null){
       await AppDatabase.get().closeDatabase();
     }
-  }
-
-  @override
-  void dispose() {
   }
 
 }

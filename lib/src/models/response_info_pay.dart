@@ -1,4 +1,4 @@
-import 'package:pocket/src/models/simple_filters_model.dart';
+import 'package:wom_package/wom_package.dart' show SimpleFilters;
 
 class ResponseInfoPay {
   static const String POS_ID = 'PosId';

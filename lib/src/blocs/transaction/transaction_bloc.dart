@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:pocket/src/blocs/transaction/transaction_event.dart';
+import 'package:pocket/src/blocs/transaction/transaction_state.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/response_info_pay.dart';
 import 'package:pocket/src/models/transaction_model.dart';
-import 'package:pocket/src/screens/transacation/transaction_events.dart';
-import 'package:pocket/src/screens/transacation/transaction_state.dart';
 import 'package:pocket/src/services/transaction_repository.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
@@ -38,7 +38,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           yield TransactionCompleteState(transaction);
         } else {
           final ResponseInfoPay infoPayment =
-              await _repository.requestPayment(otc);
+          await _repository.requestPayment(otc);
           print(infoPayment);
           yield TransactionInfoPaymentState(infoPayment);
         }
@@ -51,7 +51,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       yield TransactionLoadingState();
       try {
         TransactionModel transaction =
-            await _repository.pay(otc, event.infoPay);
+        await _repository.pay(otc, event.infoPay);
         yield TransactionCompleteState(transaction);
       } catch (ex) {
         print(ex.toString());

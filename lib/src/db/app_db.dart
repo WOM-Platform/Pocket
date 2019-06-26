@@ -29,33 +29,38 @@ class AppDatabase {
       await _lock.synchronized(() async {
         // Check again once entering the synchronized block
         if (_database == null) {
-         await _init();
+          await _init();
         }
       });
     }
     return _database;
   }
 
-  Future _init() async {
-    print("AppDatabase: init database");
-    // Get a location using path_provider
+  Future<String> getPath() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "pocket.db");
     print(path);
+    return path;
+  }
+
+  Future _init() async {
+    print("AppDatabase: init database");
+    // Get a location using path_provider
+    final path = await getPath();
     _database = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
-          // When creating the db, create the table
-          await _createWomTable(db);
-          await _createTransactionTable(db);
-          await AimDbHelper.createAimTable(db);
-        }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
-          await db.execute("DROP TABLE ${WomModel.tblWom}");
-          await db.execute("DROP TABLE ${TransactionModel.tblTransaction}");
-          await db.execute("DROP TABLE ${Aim.TABLE_NAME}");
-          await _createWomTable(db);
-          await _createTransactionTable(db);
-          await AimDbHelper.createAimTable(db);
-        });
+      // When creating the db, create the table
+      await _createWomTable(db);
+      await _createTransactionTable(db);
+      await AimDbHelper.createAimTable(db);
+    }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
+      await db.execute("DROP TABLE ${WomModel.tblWom}");
+      await db.execute("DROP TABLE ${TransactionModel.tblTransaction}");
+      await db.execute("DROP TABLE ${Aim.TABLE_NAME}");
+      await _createWomTable(db);
+      await _createTransactionTable(db);
+      await AimDbHelper.createAimTable(db);
+    });
   }
 
   Future _createTransactionTable(Database db) {
@@ -85,10 +90,16 @@ class AppDatabase {
   }
 
   Future<void> closeDatabase() async {
-    if(_database != null && _database.isOpen){
+    if (_database != null && _database.isOpen) {
       await _database.close();
       _database = null;
       print("database closed");
     }
+  }
+
+  Future<void> deleteDb() async {
+    final path = await getPath();
+    await ((await openDatabase(path)).close());
+    await deleteDatabase(path);
   }
 }

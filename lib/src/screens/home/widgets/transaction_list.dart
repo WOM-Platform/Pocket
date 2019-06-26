@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/localization/localizations.dart';
-import 'package:pocket/src/blocs/transactions/bloc.dart';
+import 'package:pocket/src/blocs/transactions_list/bloc.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:pocket/src/widgets/voucher_card.dart';
 
 class TransactionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<TransactionsBloc>(context);
+    final bloc = BlocProvider.of<TransactionsListBloc>(context);
     return BlocBuilder(
       bloc: bloc,
       builder: (BuildContext context, TransactionsState state) {

@@ -3,11 +3,11 @@ import 'package:bloc/bloc.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import './bloc.dart';
 
-class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
+class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
 
   final TransactionDB _transactionDB;
 
-  TransactionsBloc(this._transactionDB){
+  TransactionsListBloc(this._transactionDB){
     dispatch(LoadTransactions());
   }
 

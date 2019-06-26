@@ -5,9 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/screens/pin/widgets/code_panel.dart';
 import 'package:pocket/src/screens/pin/widgets/keyboard.dart';
-import 'package:pocket/src/screens/transacation/transaction_bloc.dart';
-import 'package:pocket/src/screens/transacation/transaction_events.dart';
-import 'package:pocket/src/screens/transacation/transaction_screen.dart';
+import 'package:pocket/src/blocs/transaction/bloc.dart';
+import 'package:pocket/src/screens/transaction/transaction_screen.dart';
 import 'package:pocket/src/services/transaction_repository.dart';
 
 class PinScreen extends StatelessWidget {
@@ -79,7 +78,7 @@ class PinScreen extends StatelessWidget {
     transactionBloc.dispatch(TransactionStarted(bloc.deepLinkModel.type));
 
     final blocProviderTransaction = BlocProvider<TransactionBloc>(
-      bloc: transactionBloc,
+      builder: (context)=> transactionBloc,
       child: TransactionScreen(),
     );
 

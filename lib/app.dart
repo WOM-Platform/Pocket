@@ -1,7 +1,7 @@
 import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/blocs/settings/bloc.dart';
 import 'package:pocket/src/blocs/suggestions/bloc.dart';
-import 'package:pocket/src/blocs/transactions/bloc.dart';
+import 'package:pocket/src/blocs/transactions_list/transactions_list_bloc.dart';
 import 'package:pocket/src/screens/home/home_screen.dart';
 import 'package:pocket/src/screens/pin/pin_screen.dart';
 import 'package:pocket/src/services/app_repository.dart';
@@ -32,10 +32,11 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   AppBloc _appBloc;
+
 //  HomeBloc _homeBloc;
   PinBloc _pinBloc;
 
-  TransactionsBloc _transactionsBloc;
+  TransactionsListBloc _transactionsBloc;
   SuggestionsBloc _suggestionsBloc;
 
   AppRepository get _appRepository => widget.appRepository;
@@ -43,7 +44,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
 //    _homeBloc = HomeBloc(TransactionDB.get());
-    _transactionsBloc = TransactionsBloc(TransactionDB.get());
+    _transactionsBloc = TransactionsListBloc(TransactionDB.get());
     _suggestionsBloc = SuggestionsBloc();
     _appBloc = AppBloc(_appRepository, _transactionsBloc);
 
@@ -54,7 +55,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AppBloc>(
-      bloc: _appBloc,
+      builder: (context) => _appBloc,
       child: MaterialApp(
           localizationsDelegates: [
             const AppLocalizationsDelegate(),
@@ -84,7 +85,7 @@ class _AppState extends State<App> {
 //                );
                 _pinBloc = PinBloc(state.deepLinkModel);
                 var blocProviderPin = BlocProvider(
-                  bloc: _pinBloc,
+                  builder: (context) => _pinBloc,
                   child: PinScreen(),
                 );
                 Navigator.push(
@@ -119,8 +120,10 @@ class _AppState extends State<App> {
                     final homeProvider = BlocProviderTree(
                       child: HomeScreen2(),
                       blocProviders: <BlocProvider>[
-                        BlocProvider<TransactionsBloc>(bloc: _transactionsBloc),
-                        BlocProvider<SuggestionsBloc>(bloc: _suggestionsBloc),
+                        BlocProvider<TransactionsListBloc>(
+                            builder: (context) => _transactionsBloc),
+                        BlocProvider<SuggestionsBloc>(
+                            builder: (context) => _suggestionsBloc),
                       ],
                     );
                     return homeProvider;
@@ -134,8 +137,10 @@ class _AppState extends State<App> {
           ),
           routes: {
             '/settings': (context) {
-              final settingsProvider = BlocProvider(
-                  child: SettingsScreen(), bloc: SettingsBloc());
+              final settingsProvider = BlocProvider<SettingsBloc>(
+                builder: (context) => SettingsBloc(),
+                child: SettingsScreen(),
+              );
               return settingsProvider;
             },
           }),
@@ -144,11 +149,11 @@ class _AppState extends State<App> {
 
   @override
   void dispose() {
-    _appBloc.dispose();
+//    _appBloc.dispose();
 //    _homeBloc.dispose();
-    _transactionsBloc.dispose();
-    _suggestionsBloc.dispose();
-    _pinBloc?.dispose();
+//    _transactionsBloc.dispose();
+//    _suggestionsBloc.dispose();
+//    _pinBloc?.dispose();
     super.dispose();
   }
 }
