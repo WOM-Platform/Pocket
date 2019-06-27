@@ -37,7 +37,7 @@ class MapBody extends StatelessWidget {
         condition: (MapState p, MapState c) {
           if (p.markers.isEmpty && c.markers.isNotEmpty) {
             print("move camera");
-            bloc.mapController.animateCamera(CameraUpdate.newCameraPosition(
+            bloc.clusteringHelper.mapController.animateCamera(CameraUpdate.newCameraPosition(
                 CameraPosition(target: c.markers.first.position)));
           }
           return true;

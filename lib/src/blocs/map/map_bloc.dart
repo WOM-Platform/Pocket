@@ -12,7 +12,6 @@ import './bloc.dart';
 class MapBloc extends Bloc<MapEvent, MapState> {
   WomRepository _womRepository = WomRepository();
   ClusteringHelper clusteringHelper;
-  GoogleMapController mapController;
   Set<String> sources = Set();
   Set<String> aims = Set();
 
@@ -28,10 +27,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       dbLongColumn: WomModel.dbLong,
       dbTable: WomModel.tblWom,
       whereClause:
-          "WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index}",
+          "${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index}",
       updateMarkers: (markers) {
         dispatch(UpdateMap(markers: markers));
-      },
+      }, aggregationSetup: AggregationSetup(),
     );
   }
 
@@ -51,7 +50,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   void onMapCreated(GoogleMapController controller) async {
     print("onMapCreated");
-    mapController = controller;
+    clusteringHelper.mapController = controller;
     clusteringHelper.database = await AppDatabase.get().getDb();
     clusteringHelper.updateMap();
   }

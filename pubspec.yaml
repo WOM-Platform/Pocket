@@ -34,7 +34,7 @@ dependencies:
   intro_views_flutter: ^2.4.0
   webview_flutter: ^0.2.0
   flutter_lock_screen: ^1.0.5
-  clustering_google_maps: ^0.0.5+16
+  clustering_google_maps: ^0.1.0+20
   wom_package:
     git:
       url: git://github.com/WOM-Platform/WOM-Package.git
