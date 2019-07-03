@@ -19,7 +19,7 @@ class AimsList extends StatelessWidget {
         builder: (BuildContext context, MapState state) {
           print("build aims list");
           if (state.aims == null || state.aims.isEmpty) {
-            return Text("Non ci sono sorgenti");
+            return Text("No aims");
           }
 
           return ChipFilter(

@@ -25,12 +25,12 @@ class SuggestionsBloc extends Bloc<SuggestionsEvent, SuggestionsState> {
 
 List<SuggestionModel> suggestionsItem = [
   SuggestionModel(
-    text: "What is the WOM?",
+    text: "How does the WOM platform work?",
     url: "",
     type: "FAQ",
   ),
   SuggestionModel(
-    text: "Try catch more woms with SRS",
+    text: "Collect WOMs with SmartRoadSense",
     url: "",
     type: "Suggestion",
   ),

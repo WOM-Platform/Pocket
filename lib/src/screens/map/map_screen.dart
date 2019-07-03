@@ -12,7 +12,7 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Mappa dei WOM"),
+        title: Text("WOM map"),
       ),
       body: SlidingUpPanel(
         parallaxEnabled: true,

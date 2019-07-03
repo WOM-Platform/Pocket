@@ -11,13 +11,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "lastMovements": "Last movements",
+  "lastMovements": "Last transactions",
   "@lastMovements": {
     "description": "last movements with wom (earn, expense)",
     "type": "text",
     "placeholders": {}
   },
-  "noTransactions": "There aren't transactions",
+  "noTransactions": "There are no transactions",
   "@noTransactions": {
     "description": "no transactions",
     "type": "text",
@@ -65,7 +65,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "introSkipText": "Salta",
+  "introSkipText": "Skip",
   "@introSkipText": {
     "description": "skip text of intro screen",
     "type": "text",
