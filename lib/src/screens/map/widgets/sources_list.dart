@@ -18,7 +18,7 @@ class SourcesList extends StatelessWidget {
       builder: (BuildContext context, MapState state) {
         print("build source list");
         if (state.sources == null || state.sources.isEmpty) {
-          return Text("Non ci sono sorgenti");
+          return Text("No sources");
         }
         return Column(
           children: [

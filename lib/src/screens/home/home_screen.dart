@@ -40,7 +40,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //        backgroundColor: Theme.of(context).primaryColor,
         backgroundColor: Theme.of(context).accentColor,
         label: const Text(
-          'QR-Code',
+          'Scan',
           style: TextStyle(color: baseIconColor),
         ),
         icon: const Icon(
