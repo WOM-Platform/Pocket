@@ -1,4 +1,5 @@
-//import 'package:flare_flutter/flare_actor.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/blocs/app/app_bloc.dart';
 import 'package:pocket/src/blocs/transactions_list/transactions_list_event.dart';
@@ -43,6 +44,12 @@ class TransactionScreenState extends State<TransactionScreen>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
+
     bloc = BlocProvider.of<TransactionBloc>(context);
     return WillPopScope(
       onWillPop: () => _onWillPop(),
@@ -72,14 +79,15 @@ class TransactionScreenState extends State<TransactionScreen>
                       state.error,
                       style: TextStyle(color: Colors.white),
                     ),
-                    OutlineButton(
-                        child: Text(
-                          'OK',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () {
-                          backToHome();
-                        }),
+                    FloatingActionButton.extended(onPressed: (){backToHome();}, label: Text("OK")),
+//                    OutlineButton(
+//                        child: Text(
+//                          'OK',
+//                          style: TextStyle(color: Colors.white),
+//                        ),
+//                        onPressed: () {
+//                          backToHome();
+//                        }),
                   ],
                 ),
               );
@@ -98,12 +106,12 @@ class TransactionScreenState extends State<TransactionScreen>
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-/*                              Container(
+                              Container(
                                 height: 300.0,
-//                                  decoration: BoxDecoration(
-//                                    shape: BoxShape.circle,
-//                                    color: Theme.of(context).primaryColor,
-//                                  ),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
 //                                  child: Center(
 //                                    child: Text(
 //                                      'Congratulations!',
@@ -120,7 +128,7 @@ class TransactionScreenState extends State<TransactionScreen>
                                   fit: BoxFit.contain,
                                   animation: 'success',
                                 ),
-                              ),*/
+                              ),
                           SizedBox(
                             height: _animation.value * 5.0,
                           ),
@@ -155,15 +163,16 @@ class TransactionScreenState extends State<TransactionScreen>
                             opacity: _animation,
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 80.0),
-                              child: OutlineButton(
-                                child: Text(
-                                  'OK',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                onPressed: () {
-                                  backToHome();
-                                },
-                              ),
+//                              child: OutlineButton(
+//                                child: Text(
+//                                  'OK',
+//                                  style: TextStyle(color: Colors.white),
+//                                ),
+//                                onPressed: () {
+//                                  backToHome();
+//                                },
+//                              ),
+                            child: FloatingActionButton.extended(onPressed: (){backToHome();}, label: Text("OK")),
                             ),
                           )
                         ],

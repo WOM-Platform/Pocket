@@ -11,7 +11,7 @@ class TransactionDetailsScreen extends StatefulWidget {
 
 class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
 
-  String _animationName = "success";
+//  String _animationName = "success";
 
   @override
   Widget build(BuildContext context) {

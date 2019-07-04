@@ -181,7 +181,7 @@ class WomDB {
           .build();
 
       var result = await db.rawQuery(
-          'SELECT COUNT(*) as n_marker, AVG(${WomModel.dbLat}) as lat,  AVG(${WomModel.dbLong}) as long '
+          'SELECT COUNT(*) as n_marker, AVG(${WomModel.dbLat}) as lat, AVG(${WomModel.dbLong}) as long '
           'FROM ${WomModel.tblWom} $whereClause GROUP BY substr(${WomModel.dbGeohash},1,$level);');
       print("--------- COMPLETE QUERY AGGREGATION WOM");
       return _bindAggregationWom(result);

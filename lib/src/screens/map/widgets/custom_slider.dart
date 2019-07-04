@@ -11,13 +11,15 @@ class CustomSlider extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     return SliderTheme(
       data: theme.sliderTheme.copyWith(
-        activeTrackColor: Colors.grey[300],
-        inactiveTrackColor: Colors.blue,
+        activeTrackColor: Colors.grey[100],
+        inactiveTrackColor: Theme.of(context).accentColor,
         activeTickMarkColor: Colors.grey,
         inactiveTickMarkColor: Colors.white,
         overlayColor: Colors.black12,
-        thumbColor: Colors.blue,
-        valueIndicatorColor: Colors.blue,
+        thumbColor: Theme.of(context).accentColor,
+        valueIndicatorColor: Theme.of(context).accentColor,
+        valueIndicatorTextStyle:
+            TextStyle(color: Theme.of(context).primaryColor,fontWeight: FontWeight.bold),
 //            thumbShape: _CustomThumbShape(),
 //            valueIndicatorShape: _CustomValueIndicatorShape(),
 //            valueIndicatorTextStyle:
@@ -40,8 +42,7 @@ class CustomSlider extends StatelessWidget {
             min: 0.0,
             max: 10.0,
             onChangeEnd: (v) {
-              bloc.dispatch(
-                  UpdateMap(sliderValue: v, forceFilterUpdate: true));
+              bloc.dispatch(UpdateMap(sliderValue: v, forceFilterUpdate: true));
             },
             value: state.sliderValue,
             onChanged: (v) {
@@ -65,5 +66,5 @@ const valueIndicatorTextSlider = [
   "1m",
   "2w",
   "1w",
-  "Today",
+  "Last 24h",
 ];

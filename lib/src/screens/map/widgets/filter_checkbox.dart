@@ -23,6 +23,7 @@ class CheckboxRowFilterState extends State<CheckboxRowFilter> {
       children: <Widget>[
         Checkbox(
             value: isActive,
+            checkColor: Theme.of(context).primaryColor,
             onChanged: (value) {
               print('change');
 
@@ -33,11 +34,11 @@ class CheckboxRowFilterState extends State<CheckboxRowFilter> {
               widget.onChanged(value);
             }),
 //        Text(widget.group.type),
-        Text(widget.group.type),
+        Text(widget.group.type,style: TextStyle(color: Colors.white)),
         Expanded(
           child: Container(),
         ),
-        Text(widget.group.count.toString() + ' WOM')
+        Text(widget.group.count.toString() + ' WOM',style: TextStyle(color: Colors.white),)
       ],
     );
   }

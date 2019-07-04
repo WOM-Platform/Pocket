@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:pocket/src/blocs/app/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +129,12 @@ class SplashScreenState extends State<SplashScreen>
         children: <Widget>[
           Center(
             child: Opacity(
-              child: Image.asset("assets/images/logo.png"),
+//              child: Image.asset("assets/images/logo.png"),
+              child: AutoSizeText(
+                'WOM POCKET',
+                maxLines: 1,
+                style: TextStyle(color: Colors.white, fontSize: 40.0),
+              ),
               opacity: opacityLogo.value,
             ),
           ),

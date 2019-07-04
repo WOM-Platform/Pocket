@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
@@ -10,15 +11,31 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+//    SystemChrome.setSystemUIOverlayStyle(
+//      SystemUiOverlayStyle(
+//        statusBarIconBrightness: Brightness.dark,
+//      ),
+//    );
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Mappa dei WOM"),
+        title: Text(
+          "Mappa dei WOM",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.grey[100],
+        brightness: Brightness.light,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor ,
+        ),
+
       ),
       body: SlidingUpPanel(
         parallaxEnabled: true,
         parallaxOffset: 0.3,
-        maxHeight: 450.0,
-        minHeight: 30.0,
+        maxHeight: 330.0,
+        minHeight: 45.0,
         panel: MapPanel(),
         body: MapBody(),
       ),
@@ -29,6 +46,7 @@ class MapScreen extends StatelessWidget {
 class MapBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     final MapBloc bloc = BlocProvider.of<MapBloc>(context);
     return Container(
       key: new PageStorageKey('map'),
@@ -37,8 +55,9 @@ class MapBody extends StatelessWidget {
         condition: (MapState p, MapState c) {
           if (p.markers.isEmpty && c.markers.isNotEmpty) {
             print("move camera");
-            bloc.clusteringHelper.mapController.animateCamera(CameraUpdate.newCameraPosition(
-                CameraPosition(target: c.markers.first.position)));
+            bloc.clusteringHelper.mapController.animateCamera(
+                CameraUpdate.newCameraPosition(
+                    CameraPosition(target: c.markers.first.position)));
           }
           return true;
         },
@@ -57,9 +76,12 @@ class MapBody extends StatelessWidget {
 }
 
 class MapPanel extends StatelessWidget {
+  final style = TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600,color: Colors.white);
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: Theme.of(context).primaryColor,
       padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -79,21 +101,27 @@ class MapPanel extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 12,
+            height: 25,
           ),
           Text(
-            "By Time",
+            "Filter by Time",
             textAlign: TextAlign.start,
+            style: style,
           ),
           CustomSlider(),
           Divider(),
           Text(
-            "By Source",
+            "Filter by Source",
             textAlign: TextAlign.start,
+            style: style,
           ),
           SourcesList(),
           Divider(),
-          Text("By Aim"),
+          Text(
+            "Filter by Aim",
+            textAlign: TextAlign.start,
+            style: style,
+          ),
           AimsList(),
         ],
       ),

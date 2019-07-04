@@ -43,10 +43,9 @@ class WomModel {
 
   WomModel.fromMap(Map<String, dynamic> map)
       : id = map[dbId],
-  //TODO togliere sottrazione (solo per debug)
         timestamp = map[dbTimestamp] is String
-            ? DateTime.parse(map[dbTimestamp]).millisecondsSinceEpoch - (86400 * 7)
-            : map[dbTimestamp] - (86400 * 7),
+            ? DateTime.parse(map[dbTimestamp]).millisecondsSinceEpoch
+            : map[dbTimestamp],
         gLocation = LatLng(map[dbLat], map[dbLong]),
         secret = map[dbSecret],
         sourceName = map[dbSourceName],

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/screens/pin/widgets/code_panel.dart';
@@ -14,10 +15,19 @@ class PinScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Theme.of(context).primaryColor,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
     bloc = BlocProvider.of<PinBloc>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(elevation: 0,),
+      appBar: AppBar(elevation: 0,title: Text(
+        "Insert PIN",
+        style: TextStyle(color: Colors.white, fontSize: 20.0),
+      ),centerTitle: true,),
       body: BlocListener(
         bloc: bloc,
         listener: (BuildContext context, PinState state) {
@@ -27,11 +37,6 @@ class PinScreen extends StatelessWidget {
         },
         child: Column(
           children: <Widget>[
-            Spacer(),
-            Text(
-              "Insert PIN",
-              style: TextStyle(color: Colors.white, fontSize: 20.0),
-            ),
             Spacer(),
             BlocBuilder(
               bloc: bloc,
@@ -45,10 +50,12 @@ class PinScreen extends StatelessWidget {
                 );
               },
             ),
+            Spacer(),
             Expanded(
               flex: Platform.isIOS ? 5 : 8,
               child: PinKeyboard(),
             ),
+            Spacer(),
           ],
         ),
       ),

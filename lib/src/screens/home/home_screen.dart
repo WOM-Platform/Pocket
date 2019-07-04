@@ -33,6 +33,14 @@ class _HomeScreen2State extends State<HomeScreen2> {
   Widget build(BuildContext context) {
     print('HomeScreen: build');
 //    bloc = myBlocProvider.BlocProvider.of<HomeBloc>(context);
+
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.grey[100],
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -171,51 +179,27 @@ class _HomeScreen2State extends State<HomeScreen2> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    AppLocalizations.of(context).title,
-                    style: TextStyle(
-                        color: darkBlueColor,
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Expanded(child: Container()),
-//                  StreamBuilder<int>(
-//                    stream: bloc.womsCount,
-//                    builder: (ctx, snap) {
-//                      if (!snap.hasData) {
-//                        return CircularProgressIndicator();
-//                      }
-//                      return Container(
-//                        margin: const EdgeInsets.all(5.0),
-//                        padding: const EdgeInsets.all(5.0),
-//                        decoration: new BoxDecoration(
-//                            color: baseIconColor,
-//                            borderRadius: new BorderRadius.all(
-//                                const Radius.circular(15.0))),
-//                        child: Center(
-//                          child: Text(
-//                            snap.data.toString(),
-//                            style: TextStyle(color: goldColor, fontSize: 17.0),
-//                          ),
-//                        ),
-//                      );
-//                    },
-//                  ),
-                ],
+            Center(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                child: Text(
+                  AppLocalizations.of(context).title,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Divider(
-                color: Colors.grey,
-                height: 8.0,
-              ),
-            ),
+//            Padding(
+//              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+//              child: Divider(
+//                color: Colors.grey,
+//                height: 8.0,
+//              ),
+//            ),
             SuggestionsSection(),
             Padding(
               padding: const EdgeInsets.only(top: 20.0, left: 10.0),

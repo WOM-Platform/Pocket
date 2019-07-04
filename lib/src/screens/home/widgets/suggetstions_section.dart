@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/src/blocs/app/app_bloc.dart';
 import 'package:pocket/src/blocs/suggestions/bloc.dart';
 import 'package:pocket/src/utils/colors.dart';
 
@@ -8,7 +7,7 @@ class SuggestionsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<SuggestionsBloc>(context);
-    final appBloc = BlocProvider.of<AppBloc>(context);
+//    final appBloc = BlocProvider.of<AppBloc>(context);
     return BlocBuilder(
       bloc: bloc,
       builder: (BuildContext context, SuggestionsState state) {

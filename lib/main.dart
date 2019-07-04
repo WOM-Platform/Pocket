@@ -8,9 +8,16 @@ import 'config.dart';
 
 void main() {
   Config.appFlavor = Flavor.RELEASE;
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-    statusBarColor: baseIconColor,
-  ));
+
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: primaryColor,
+      systemNavigationBarColor: primaryColor,
+      statusBarBrightness: Brightness.light, //iOS
+      statusBarIconBrightness: Brightness.light, //Android
+    ),
+  );
+
   runApp(App(
     appRepository: AppRepository(),
   ));

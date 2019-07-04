@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/blocs/settings/bloc.dart';
 import 'package:pocket/src/blocs/suggestions/bloc.dart';
@@ -54,6 +55,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocProvider<AppBloc>(
       builder: (context) => _appBloc,
       child: MaterialApp(

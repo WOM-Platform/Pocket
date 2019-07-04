@@ -60,7 +60,7 @@ class OptionalQuery {
 //          : "$whereClause AND $filterClause";
     }
 
-    print(whereClause);
+    print("OptionalQueryModel build: $whereClause");
 
     return whereClause;
   }
@@ -90,7 +90,7 @@ class OptionalQuery {
           : "$aimWhereClause OR ${WomModel.tblWom}.${WomModel.dbAim} = \"$aim\"";
     });
 
-    return "(${aimWhereClause})";
+    return "($aimWhereClause)";
   }
 
   buildSimpleFiltersQuery() {
@@ -108,7 +108,7 @@ class OptionalQuery {
 
     if (filters.maxAge != null) {
       final int maxAgeInMilliseconds = filters.maxAgeToMilliseconds;
-      final todayInMillisecons = DateTime.now().millisecondsSinceEpoch;
+      final todayInMillisecons = DateTime.now().toUtc().millisecondsSinceEpoch;
       final queryTimestamp = todayInMillisecons - maxAgeInMilliseconds;
 
       final maxAgeClause =

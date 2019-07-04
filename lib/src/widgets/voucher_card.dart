@@ -19,13 +19,13 @@ class TicketCard extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           print(transaction.toString());
-          Navigator.push(
-            context,
-            MaterialPageRoute<bool>(
-                builder: (context) => TransactionDetailsScreen(
-                      transactionModel: transaction,
-                    )),
-          );
+//          Navigator.push(
+//            context,
+//            MaterialPageRoute<bool>(
+//                builder: (context) => TransactionDetailsScreen(
+//                      transactionModel: transaction,
+//                    )),
+//          );
         },
         child: ClipPath(
           clipper: VoucherClipper(10.0),

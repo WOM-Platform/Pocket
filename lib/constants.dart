@@ -9,10 +9,10 @@ const IMAGE_PATH_INTRO_2 = 'assets/images/piggy-bank.png';
 const IMAGE_PATH_INTRO_3 = 'assets/images/shop.png';
 
 //URL
-const URL_REDEEM = 'http://wom.social/api/v1/voucher/redeem';
-const URL_CONFIRM = 'http://wom.social/api/v1/payment/confirm';
-const URL_INFO_PAY = 'http://wom.social/api/v1/payment/info';
-const URL_AIMS = 'https://wom.social/api/v1/aims';
+const URL_REDEEM = 'http://dev.wom.social/api/v1/voucher/redeem';
+const URL_CONFIRM = 'http://dev.wom.social/api/v1/payment/confirm';
+const URL_INFO_PAY = 'http://dev.wom.social/api/v1/payment/info';
+const URL_AIMS = 'https://dev.wom.social/api/v1/aims';
 
 const ALPHANUMERIC_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
 

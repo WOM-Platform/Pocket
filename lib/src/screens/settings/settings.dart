@@ -1,28 +1,33 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/src/blocs/settings/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:pocket/src/db/app_db.dart';
 
-
 class SettingsScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    final SettingsBloc bloc = BlocProvider.of<SettingsBloc>(context);
+//    final SettingsBloc bloc = BlocProvider.of<SettingsBloc>(context);
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('Settings'),
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          'Settings',
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        backgroundColor: Colors.grey[100],
+        brightness: Brightness.light,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor,
+        ),
       ),
       body: ListView(
         children: <Widget>[
           SettingsItem(
             title: 'Clear DB (only for debug)',
             subtitle: "Delete all data of local database",
-            trailing: Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
+            icon: Icons.delete,
             onTap: () async {
 //              final result = await bloc.deleteDB();
 //              print("delete: " + result.toString());
@@ -32,10 +37,7 @@ class SettingsScreen extends StatelessWidget {
           SettingsItem(
             title: 'Close DB and save locally',
             subtitle: "Close DB and save locally",
-            trailing: Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
+            icon: Icons.close,
             onTap: () async {
               AppDatabase.get().closeDatabase();
 //              final result = await bloc.closeDb();
@@ -44,10 +46,7 @@ class SettingsScreen extends StatelessWidget {
           SettingsItem(
             title: 'Reset suggestions',
             subtitle: "Reset all suggestions in home screen",
-            trailing: Icon(
-              Icons.refresh,
-              color: Colors.white,
-            ),
+            icon: Icons.refresh,
             onTap: () {
               print("reset suggestion");
             },
@@ -55,10 +54,7 @@ class SettingsScreen extends StatelessWidget {
           SettingsItem(
             title: 'Info',
             subtitle: "Get info about this App",
-            trailing: Icon(
-              Icons.info_outline,
-              color: Colors.white,
-            ),
+            icon: Icons.info_outline,
             onTap: null,
           ),
 //          SettingsItem(
@@ -94,14 +90,14 @@ class SettingsScreen extends StatelessWidget {
 class SettingsItem extends StatelessWidget {
   final String title;
   final String subtitle;
-  final Widget trailing;
+  final IconData icon;
   final VoidCallback onTap;
 
   const SettingsItem(
       {Key key,
       @required this.title,
       @required this.subtitle,
-      this.trailing,
+      this.icon,
       this.onTap})
       : super(key: key);
 
@@ -113,13 +109,13 @@ class SettingsItem extends StatelessWidget {
       onTap: onTap,
       title: Text(
         title,
-        style: TextStyle(fontSize: 18.0, color: Colors.white),
+        style: TextStyle(fontSize: 18.0, color: Theme.of(context).primaryColor),
       ),
       subtitle: Text(
         subtitle,
         style: TextStyle(fontSize: 12.0, color: Colors.grey),
       ),
-      trailing: trailing,
+      trailing: Icon(icon,color: Theme.of(context).primaryColor,),
     );
   }
 }

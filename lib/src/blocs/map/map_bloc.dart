@@ -27,10 +27,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       dbLongColumn: WomModel.dbLong,
       dbTable: WomModel.tblWom,
       whereClause:
-          "${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index}",
+          "WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index}",
       updateMarkers: (markers) {
         dispatch(UpdateMap(markers: markers));
-      }, aggregationSetup: AggregationSetup(),
+      },
+      aggregationSetup: AggregationSetup(),
     );
   }
 
@@ -88,12 +89,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     int endDateQuery = 0;
 
     if (currentSliderValueInt != 0) {
-      final int todayInMillisecondsSinceEpoch =
-          DateTime.now().millisecondsSinceEpoch;
+      final today = DateTime.now().toUtc();
+      final int todayInMillisecondsSinceEpoch = today.millisecondsSinceEpoch;
 
+      print("NOW UTC : $today");
+      print(todayInMillisecondsSinceEpoch);
       final int rangeTime = timeInMilliseconds[currentSliderValueInt];
       final int queryDate = todayInMillisecondsSinceEpoch - rangeTime;
-      print(DateTime.fromMillisecondsSinceEpoch(queryDate).toString());
+      print(DateTime.fromMillisecondsSinceEpoch(queryDate).toUtc().toString());
       startDateQuery = queryDate;
       endDateQuery = todayInMillisecondsSinceEpoch;
     }
@@ -151,5 +154,5 @@ const timeInMilliseconds = [
   2678400000, //one month
   1209600000, //two weeks
   604800000, //one week
-  0,
+  86400000,
 ];
