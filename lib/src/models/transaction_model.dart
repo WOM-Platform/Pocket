@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:flutter/material.dart';
+import 'package:wom_package/wom_package.dart' show Aim;
 
 class TransactionModel {
   static const tblTransaction = "Transactions";
@@ -15,8 +16,9 @@ class TransactionModel {
   TransactionType transactionType;
   String source;
   String country;
-  String aim;
+  String aimCode;
   DateTime date;
+  Aim aim;
   int size;
 
   TransactionModel({
@@ -25,7 +27,7 @@ class TransactionModel {
     @required this.size,
     @required this.transactionType,
     @required this.source,
-    @required this.aim,
+    @required this.aimCode,
   })  : assert(transactionType != null),
         assert(source != null),
         assert(date != null);
@@ -36,7 +38,7 @@ class TransactionModel {
       : this.source = map[dbSource],
         this.country = map[dbCountry],
         this.size = map[dbSize],
-        this.aim = map[dbAim] {
+        this.aimCode = map[dbAim] {
     this.date = map[dbTimestamp] is String
         ? DateTime.parse(map[dbTimestamp])
         : DateTime.fromMillisecondsSinceEpoch(map[dbTimestamp]);
@@ -51,6 +53,6 @@ class TransactionModel {
 
   @override
   String toString() {
-    return "$transactionType,$source,$aim,$size,$date,";
+    return "$transactionType,$source,$aimCode,$size,$date,";
   }
 }

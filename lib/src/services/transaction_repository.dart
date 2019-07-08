@@ -78,7 +78,7 @@ class TransactionRepository {
       size: woms.length,
       transactionType: TransactionType.VOUCHERS,
       source: redeem.sourceName,
-      aim: aimsString,
+      aimCode: tmp,
     );
 
     final int id = await transactionsDB.insertTransaction(tx);
@@ -171,7 +171,7 @@ class TransactionRepository {
           size: infoPay.amount,
           transactionType: TransactionType.PAYMENT,
           source: infoPay.posName,
-          aim: infoPay?.simpleFilter?.aimCode,
+          aimCode: infoPay?.simpleFilter?.aimCode,
         );
 
         final int id = await transactionsDB.insertTransaction(tx);

@@ -48,7 +48,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //        backgroundColor: Theme.of(context).primaryColor,
         backgroundColor: Theme.of(context).accentColor,
         label: const Text(
-          'QR-Code',
+          'Scan',
           style: TextStyle(color: baseIconColor),
         ),
         icon: const Icon(
@@ -204,7 +204,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0, left: 10.0),
               child: Text(
-                AppLocalizations.of(context).lastMovements,
+//                AppLocalizations.of(context).lastMovements,
+              "Last transactions",
                 style: TextStyle(
                     color: darkBlueColor2,
                     fontSize: 24.0,

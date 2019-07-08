@@ -54,6 +54,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     if (event is LoadData) {
       yield LoadingData();
       await _appRepository.updateAim();
+      transactionsBloc.dispatch(LoadTransactions());
       final deepLink = await getDeepLink();
       if (deepLink != null) {
         await Future.delayed(Duration(seconds: 2));

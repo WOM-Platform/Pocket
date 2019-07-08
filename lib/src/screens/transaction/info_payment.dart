@@ -73,7 +73,7 @@ class InfoPayment extends StatelessWidget {
                           style: greyStyle,
                         ),
                         Text(
-                          responseInfoPay.amount.toString(),
+                          responseInfoPay?.amount?.toString(),
                           style: valueStyle,
                         ),
                       ],
@@ -106,7 +106,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters.bounds.toString(),
+                                simpleFilters?.bounds?.toString() ?? "-",
                                 style: valueStyle,
                               ),
                             ],
@@ -118,7 +118,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters?.maxAge.toString() ?? "",
+                                simpleFilters?.maxAge?.toString() ?? "-",
                                 style: valueStyle,
                               ),
                             ],

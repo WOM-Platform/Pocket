@@ -15,7 +15,7 @@ class AimsList extends StatelessWidget {
       builder: (BuildContext context, MapState state) {
         print("build aims list");
         if (state.aims == null || state.aims.isEmpty) {
-          return Text("Non ci sono sorgenti");
+          return Text("No aims",style: TextStyle(color: Colors.white),);
         }
 
         return ChipFilter(
@@ -75,15 +75,14 @@ class _ChipFilterState extends State<ChipFilter> {
       padding: const EdgeInsets.only(top: 8),
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: 10,
-//          itemCount: widget.aims.length,
+          itemCount: widget.aims.length,
           itemBuilder: (context, index) {
-            final a = widget.aims[0];
+            final a = widget.aims[index];
             return Padding(
               padding: const EdgeInsets.only(right: 2.0),
               child: FilterChip(
                 label: Text(
-                  a.titles["it"],
+                  a.titles["en"],
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
                 selectedColor: Theme.of(context).accentColor,

@@ -20,7 +20,7 @@ class MapScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Mappa dei WOM",
+          "WOM Map",
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         centerTitle: true,

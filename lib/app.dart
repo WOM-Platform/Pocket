@@ -107,9 +107,6 @@ class _AppState extends State<App> {
                 },
                 builder: (ctx, AppState state) {
                   print("APP BLOC BUILDER ----> state is: $state");
-                  if (state is LoadingData) {
-                    return SplashScreen();
-                  }
 
                   if (state is IntroMode) {
                     return IntroScreen();
@@ -130,11 +127,7 @@ class _AppState extends State<App> {
                     );
                     return homeProvider;
                   }
-                  return Container(
-                    child: Center(
-                      child: Text("Somethings is wrong"),
-                    ),
-                  );
+                  return SplashScreen();
                 }),
           ),
           routes: {

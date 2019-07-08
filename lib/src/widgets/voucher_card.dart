@@ -140,9 +140,13 @@ class TicketCard extends StatelessWidget {
                         color: baseIconColor),
                   ),
                   Expanded(child: Container()),
-                  isEarnTransaction
-                      ? AimsRow(aims: transaction.aim)
-                      : Container(),
+                  Text(transaction?.aim?.title ?? "-"),
+//                  isEarnTransaction
+////                      ? AimsRow(aims: transaction.aim)
+//                      ? transaction?.aim != null
+//                          ? Text(transaction?.aim?.title ?? "-")
+//                          : Container()
+//                      : Container(),
                 ],
               ),
             ],

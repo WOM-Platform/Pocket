@@ -16,7 +16,7 @@ class DeepLinkModel {
       final scheme = uri.scheme;
       final host = uri.host;
 
-      if (scheme == 'https' && host == 'wom.social') {
+      if (scheme == 'https' && host == 'dev.wom.social') {
         final List<String> pathSegments = uri.pathSegments;
         final transactionType = pathSegments[0]?.toLowerCase();
 

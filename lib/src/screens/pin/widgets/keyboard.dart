@@ -33,11 +33,12 @@ class PinKeyboard extends StatelessWidget {
       child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
           overscroll.disallowGlow();
+          return false;
         },
         child: GridView.count(
           crossAxisCount: 3,
           childAspectRatio: 1.6,
-          mainAxisSpacing: 35,
+          mainAxisSpacing: 10,
           padding: EdgeInsets.all(8),
           children: keyboardButtons,
         ),

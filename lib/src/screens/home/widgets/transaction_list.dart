@@ -19,7 +19,8 @@ class TransactionsList extends StatelessWidget {
           if (state.transactions.isEmpty) {
             return Center(
               child: Text(
-                AppLocalizations.of(context).noTransactions,
+//                AppLocalizations.of(context).noTransactions,
+              "There are no transactions",
                 style: TextStyle(color: darkBlueColor),
               ),
             );

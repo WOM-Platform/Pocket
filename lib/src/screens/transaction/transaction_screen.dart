@@ -8,6 +8,7 @@ import 'package:pocket/src/blocs/transaction/bloc.dart';
 
 import 'package:pocket/src/widgets/voucher_card.dart';
 import 'package:flutter/material.dart';
+import 'package:pocket/src/models/deep_link_model.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({Key key}) : super(key: key);
@@ -44,12 +45,12 @@ class TransactionScreenState extends State<TransactionScreen>
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
       ),
     );
-
     bloc = BlocProvider.of<TransactionBloc>(context);
     return WillPopScope(
       onWillPop: () => _onWillPop(),
@@ -79,7 +80,11 @@ class TransactionScreenState extends State<TransactionScreen>
                       state.error,
                       style: TextStyle(color: Colors.white),
                     ),
-                    FloatingActionButton.extended(onPressed: (){backToHome();}, label: Text("OK")),
+                    FloatingActionButton.extended(
+                        onPressed: () {
+                          backToHome();
+                        },
+                        label: Text("OK")),
 //                    OutlineButton(
 //                        child: Text(
 //                          'OK',
@@ -106,12 +111,12 @@ class TransactionScreenState extends State<TransactionScreen>
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                              Container(
-                                height: 300.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
+                          Container(
+                            height: height/3,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Theme.of(context).primaryColor,
+                            ),
 //                                  child: Center(
 //                                    child: Text(
 //                                      'Congratulations!',
@@ -122,13 +127,13 @@ class TransactionScreenState extends State<TransactionScreen>
 //                                      ),
 //                                    ),
 //                                  ),
-                                child: FlareActor(
-                                  "assets/flare/check.flr",
-                                  alignment: Alignment.center,
-                                  fit: BoxFit.contain,
-                                  animation: 'success',
-                                ),
-                              ),
+                            child: FlareActor(
+                              "assets/flare/check.flr",
+                              alignment: Alignment.center,
+                              fit: BoxFit.contain,
+                              animation: 'success',
+                            ),
+                          ),
                           SizedBox(
                             height: _animation.value * 5.0,
                           ),
@@ -139,14 +144,17 @@ class TransactionScreenState extends State<TransactionScreen>
                                   const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Center(
                                   child: Text(
-                                'You got:',
+                                state.transaction.transactionType ==
+                                        TransactionType.VOUCHERS
+                                    ? 'You got:'
+                                    : 'Payment Completed',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 20.0),
                               )),
                             ),
                           ),
                           SizedBox(
-                            height: _animation.value * 20.0,
+                            height: _animation.value * 10.0,
                           ),
                           FadeTransition(
                             opacity: _animation,
@@ -157,7 +165,7 @@ class TransactionScreenState extends State<TransactionScreen>
                             ),
                           ),
                           SizedBox(
-                            height: _animation.value * 50.0,
+                            height: _animation.value * 30.0,
                           ),
                           FadeTransition(
                             opacity: _animation,
@@ -172,7 +180,11 @@ class TransactionScreenState extends State<TransactionScreen>
 //                                  backToHome();
 //                                },
 //                              ),
-                            child: FloatingActionButton.extended(onPressed: (){backToHome();}, label: Text("OK")),
+                              child: FloatingActionButton.extended(
+                                  onPressed: () {
+                                    backToHome();
+                                  },
+                                  label: Text("OK")),
                             ),
                           )
                         ],
