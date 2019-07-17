@@ -1,3 +1,5 @@
+import 'package:wom_package/wom_package.dart' show Config;
+
 //Shared Preferences
 const IS_FIRST_OPEN = 'isFirstOpen';
 const IS_SUGGESTIONS_DISABLED = 'isSuggestionsDisabled';
@@ -9,10 +11,10 @@ const IMAGE_PATH_INTRO_2 = 'assets/images/piggy-bank.png';
 const IMAGE_PATH_INTRO_3 = 'assets/images/shop.png';
 
 //URL
-const URL_REDEEM = 'http://dev.wom.social/api/v1/voucher/redeem';
-const URL_CONFIRM = 'http://dev.wom.social/api/v1/payment/confirm';
-const URL_INFO_PAY = 'http://dev.wom.social/api/v1/payment/info';
-const URL_AIMS = 'https://dev.wom.social/api/v1/aims';
+final URL_REDEEM = '${Config.baseUrl}voucher/redeem';
+final URL_CONFIRM = '${Config.baseUrl}payment/confirm';
+final URL_INFO_PAY = '${Config.baseUrl}payment/info';
+final URL_AIMS = '${Config.baseUrl}aims';
 
 const ALPHANUMERIC_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
 

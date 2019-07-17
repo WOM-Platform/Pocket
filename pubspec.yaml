@@ -37,6 +37,9 @@ dependencies:
   clustering_google_maps: ^0.1.0+20
   auto_size_text: ^2.0.1
   flare_flutter: ^1.5.2
+  clippy_flutter: ^1.1.0
+  flutter_slidable: ^0.5.3
+  share: ^0.6.2
   wom_package:
     git:
       url: git://github.com/WOM-Platform/WOM-Package.git

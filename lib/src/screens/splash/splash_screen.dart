@@ -26,15 +26,6 @@ class SplashScreenState extends State<SplashScreen>
     print("splash init");
     super.initState();
 
-    //TODO delete for release
-//    if (fakeData == null) {
-//      DefaultAssetBundle.of(context)
-//          .loadString('assets/map_point.json')
-//          .then((result) {
-//        fakeData = result;
-//      });
-//    }
-
     _controller = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
 

@@ -9,6 +9,7 @@ import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'dart:async';
 import 'package:pocket/src/services/transaction_api.dart';
+import 'package:wom_package/wom_package.dart' show TransactionType;
 import 'package:pocket/src/utils/cryptography_helper.dart';
 import 'package:simple_rsa/simple_rsa.dart';
 import 'dart:convert';

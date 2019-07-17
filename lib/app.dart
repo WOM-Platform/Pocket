@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/blocs/settings/bloc.dart';
 import 'package:pocket/src/blocs/suggestions/bloc.dart';

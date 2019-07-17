@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:flutter/material.dart';
-import 'package:wom_package/wom_package.dart' show Aim;
+import 'package:wom_package/wom_package.dart' show Aim, TransactionType;
 
 class TransactionModel {
   static const tblTransaction = "Transactions";
@@ -19,6 +18,7 @@ class TransactionModel {
   String aimCode;
   DateTime date;
   Aim aim;
+  int id;
   int size;
 
   TransactionModel({
@@ -28,6 +28,7 @@ class TransactionModel {
     @required this.transactionType,
     @required this.source,
     @required this.aimCode,
+    this.id,
   })  : assert(transactionType != null),
         assert(source != null),
         assert(date != null);
@@ -38,6 +39,7 @@ class TransactionModel {
       : this.source = map[dbSource],
         this.country = map[dbCountry],
         this.size = map[dbSize],
+        this.id = map[dbId],
         this.aimCode = map[dbAim] {
     this.date = map[dbTimestamp] is String
         ? DateTime.parse(map[dbTimestamp])
@@ -45,7 +47,7 @@ class TransactionModel {
     this.transactionType = TransactionType.values[map[dbType]];
   }
 
-  formatDate() {
+  String formatDate() {
     print(Intl.getCurrentLocale());
     var format = new DateFormat.yMMMMEEEEd(Intl.getCurrentLocale());
     return format.format(this.date);

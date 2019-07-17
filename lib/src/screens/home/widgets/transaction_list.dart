@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/localization/localizations.dart';
 import 'package:pocket/src/blocs/transactions_list/bloc.dart';
+import 'package:pocket/src/screens/home/widgets/transaction_card.dart';
 import 'package:pocket/src/utils/colors.dart';
-import 'package:pocket/src/widgets/voucher_card.dart';
 
 class TransactionsList extends StatelessWidget {
   @override
@@ -20,7 +19,7 @@ class TransactionsList extends StatelessWidget {
             return Center(
               child: Text(
 //                AppLocalizations.of(context).noTransactions,
-              "There are no transactions",
+                "There are no transactions",
                 style: TextStyle(color: darkBlueColor),
               ),
             );
@@ -30,12 +29,8 @@ class TransactionsList extends StatelessWidget {
             shrinkWrap: true,
             itemCount: state.transactions.length,
             itemBuilder: (c, int index) {
-              return Hero(
-                tag: state.transactions[index].date,
-                child: TicketCard(
-                  transaction: state.transactions[index],
-                  isForHome: true,
-                ),
+              return TransactionCard(
+                transaction: state.transactions[index],
               );
             },
           );

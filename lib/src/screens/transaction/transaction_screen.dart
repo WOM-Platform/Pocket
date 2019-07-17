@@ -7,8 +7,8 @@ import 'package:pocket/src/screens/transaction/info_payment.dart';
 import 'package:pocket/src/blocs/transaction/bloc.dart';
 
 import 'package:pocket/src/widgets/voucher_card.dart';
+import 'package:wom_package/wom_package.dart' show TransactionType;
 import 'package:flutter/material.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({Key key}) : super(key: key);

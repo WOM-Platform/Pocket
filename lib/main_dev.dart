@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:pocket/src/services/app_repository.dart';
 
 import 'app.dart';
-import 'config.dart';
+import 'package:wom_package/wom_package.dart' show Config,Flavor;
 
 class SimpleBlocDelegate extends BlocDelegate {
   @override

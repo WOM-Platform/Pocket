@@ -4,13 +4,13 @@ import 'package:pocket/app.dart';
 import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/utils/colors.dart';
 
-import 'config.dart';
+import 'package:wom_package/wom_package.dart' show Config, Flavor;
 
 void main() {
   Config.appFlavor = Flavor.RELEASE;
 
   SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.light.copyWith(
+    SystemUiOverlayStyle.light.copyWith(
       statusBarColor: primaryColor,
       systemNavigationBarColor: primaryColor,
       statusBarBrightness: Brightness.light, //iOS

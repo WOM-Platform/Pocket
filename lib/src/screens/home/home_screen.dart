@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/localization/localizations.dart';
+import 'package:clippy_flutter/arc.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
-import 'package:pocket/src/screens/home/widgets/suggetstions_section.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:pocket/src/screens/map/map_screen.dart';
@@ -24,6 +23,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //  HomeBloc bloc;
   PinBloc _pinBloc;
 
+//  ScrollController _scrollViewController;
+
   @override
   void initState() {
     super.initState();
@@ -32,17 +33,113 @@ class _HomeScreen2State extends State<HomeScreen2> {
   @override
   Widget build(BuildContext context) {
     print('HomeScreen: build');
-//    bloc = myBlocProvider.BlocProvider.of<HomeBloc>(context);
 
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.grey[100],
-        statusBarIconBrightness: Brightness.dark,
-      ),
-    );
+//    SystemChrome.setSystemUIOverlayStyle(
+//      SystemUiOverlayStyle(
+//        statusBarColor: Theme.of(context).primaryColor,
+//        statusBarIconBrightness: Brightness.dark,
+//      ),
+//    );
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
+//      appBar: AppBar(
+//        title: Text(AppLocalizations.of(context).title, style: TextStyle(color: darkBlueColor),),
+//        backgroundColor: Colors.transparent,
+//        actions: <Widget>[
+//          StreamBuilder<int>(
+//            stream: bloc.womsCount,
+//            builder: (ctx, snap) {
+//              if (!snap.hasData) {
+//                return CircularProgressIndicator();
+//              }
+//              return Center(
+//                  child: Padding(
+//                padding: const EdgeInsets.all(8.0),
+//                child: Text(snap.data.toString()),
+//              ));
+//            },
+//          ),
+//        ],
+//      ),
+//      body: SafeArea(
+//        child: Column(
+//          crossAxisAlignment: CrossAxisAlignment.start,
+//          children: <Widget>[
+//            Center(
+//              child: Padding(
+//                padding:
+//                    const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+//                child: Text(
+//                  AppLocalizations.of(context).title,
+//                  style: TextStyle(
+//                      color: Theme.of(context).primaryColor,
+//                      fontSize: 30.0,
+//                      fontWeight: FontWeight.bold),
+//                  textAlign: TextAlign.center,
+//                ),
+//              ),
+//            ),
+////            Padding(
+////              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+////              child: Divider(
+////                color: Colors.grey,
+////                height: 8.0,
+////              ),
+////            ),
+//            SuggestionsSection(),
+//            Padding(
+//              padding: const EdgeInsets.only(top: 20.0, left: 10.0),
+//              child: Text(
+////                AppLocalizations.of(context).lastMovements,
+//              "Last transactions",
+//                style: TextStyle(
+//                    color: darkBlueColor2,
+//                    fontSize: 24.0,
+//                    fontWeight: FontWeight.w500),
+//              ),
+//            ),
+//            SizedBox(
+//              height: 10.0,
+//            ),
+//            Flexible(
+//              child: TransactionsList(),
+//            ),
+//          ],
+//        ),
+//      ),
+    extendBody: true,
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Align(
+            alignment: Alignment.topCenter,
+            child: Arc(
+              child: Container(
+                color: Theme.of(context).primaryColor,
+                height: MediaQuery.of(context).size.height / 2 - 50,
+              ),
+              height: 50,
+            ),
+          ),
+          NestedScrollView(
+//            controller: _scrollViewController,
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                new SliverAppBar(
+                  title: new Text('WOM POCKET'),
+                  centerTitle: true,
+                  pinned: true,
+                  floating: true,
+                  forceElevated: innerBoxIsScrolled,
+                ),
+              ];
+            },
+            body: TransactionsList(),
+          ),
+        ],
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton.extended(
 //        backgroundColor: Theme.of(context).primaryColor,
@@ -74,7 +171,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //            );
             _pinBloc = PinBloc(deepLinkModel);
             var blocProviderPin = BlocProvider(
-              builder: (context)=> _pinBloc,
+              builder: (context) => _pinBloc,
               child: PinScreen(),
             );
             await Navigator.push(
@@ -118,6 +215,10 @@ class _HomeScreen2State extends State<HomeScreen2> {
         },
       ),
       bottomNavigationBar: BottomAppBar(
+        shape: AutomaticNotchedShape(
+            RoundedRectangleBorder(),
+            StadiumBorder(side: BorderSide())
+        ),
         color: Theme.of(context).primaryColor,
         child: new Row(
           mainAxisSize: MainAxisSize.max,
@@ -134,7 +235,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //                );
                 final mapProvider = BlocProvider<MapBloc>(
                   child: MapScreen(),
-                    builder: (context)=> MapBloc(),
+                  builder: (context) => MapBloc(),
                 );
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => mapProvider));
@@ -152,71 +253,6 @@ class _HomeScreen2State extends State<HomeScreen2> {
                 await Navigator.pushNamed(context, '/settings');
 //                bloc.refreshList();
               },
-            ),
-          ],
-        ),
-      ),
-//      appBar: AppBar(
-//        title: Text(AppLocalizations.of(context).title, style: TextStyle(color: darkBlueColor),),
-//        backgroundColor: Colors.transparent,
-//        actions: <Widget>[
-//          StreamBuilder<int>(
-//            stream: bloc.womsCount,
-//            builder: (ctx, snap) {
-//              if (!snap.hasData) {
-//                return CircularProgressIndicator();
-//              }
-//              return Center(
-//                  child: Padding(
-//                padding: const EdgeInsets.all(8.0),
-//                child: Text(snap.data.toString()),
-//              ));
-//            },
-//          ),
-//        ],
-//      ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Center(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                child: Text(
-                  AppLocalizations.of(context).title,
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-//            Padding(
-//              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-//              child: Divider(
-//                color: Colors.grey,
-//                height: 8.0,
-//              ),
-//            ),
-            SuggestionsSection(),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, left: 10.0),
-              child: Text(
-//                AppLocalizations.of(context).lastMovements,
-              "Last transactions",
-                style: TextStyle(
-                    color: darkBlueColor2,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Flexible(
-              child: TransactionsList(),
             ),
           ],
         ),

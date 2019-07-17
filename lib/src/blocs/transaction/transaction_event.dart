@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/response_info_pay.dart';
+import 'package:wom_package/wom_package.dart' show TransactionType;
 
 abstract class TransactionEvent extends Equatable {
   TransactionEvent([List props = const []]) : super(props);

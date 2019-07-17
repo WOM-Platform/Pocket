@@ -1,9 +1,8 @@
-import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
-import 'package:pocket/src/screens/transaction_details/transaction_datails_screen.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:wom_package/wom_package.dart' show TransactionType;
 
 class TicketCard extends StatelessWidget {
   final TransactionModel transaction;

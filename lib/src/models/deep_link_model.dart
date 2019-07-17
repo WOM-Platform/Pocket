@@ -1,3 +1,5 @@
+import 'package:wom_package/wom_package.dart' show Config, Flavor,TransactionType;
+
 class DeepLinkModel {
   static const PAYMENT = 'payment';
   static const VOUCHERS = 'vouchers';
@@ -16,7 +18,9 @@ class DeepLinkModel {
       final scheme = uri.scheme;
       final host = uri.host;
 
-      if (scheme == 'https' && host == 'dev.wom.social') {
+      if (scheme == 'https' &&
+          host ==
+              '${Config.appFlavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social') {
         final List<String> pathSegments = uri.pathSegments;
         final transactionType = pathSegments[0]?.toLowerCase();
 
@@ -55,5 +59,3 @@ class DeepLinkModel {
     return "link: " + uri.toString();
   }
 }
-
-enum TransactionType { PAYMENT, VOUCHERS }

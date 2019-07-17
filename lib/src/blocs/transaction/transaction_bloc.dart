@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:pocket/src/blocs/transaction/transaction_event.dart';
 import 'package:pocket/src/blocs/transaction/transaction_state.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/response_info_pay.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/services/transaction_repository.dart';
+import 'package:wom_package/wom_package.dart' show TransactionType;
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final TransactionRepository _repository;
