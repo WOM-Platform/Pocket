@@ -13,10 +13,10 @@ class SettingsScreen extends StatelessWidget {
         title: Text(
           'Settings',
           style: TextStyle(
-            color: Theme.of(context).primaryColor,
+            color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Theme.of(context).primaryColor,
         brightness: Brightness.light,
         iconTheme: IconThemeData(
           color: Theme.of(context).primaryColor,

@@ -131,7 +131,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                   title: new Text('WOM POCKET'),
                   centerTitle: true,
                   pinned: true,
-                  floating: true,
+                  floating: false,
                   forceElevated: innerBoxIsScrolled,
                 ),
               ];

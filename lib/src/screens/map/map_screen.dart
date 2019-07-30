@@ -21,15 +21,16 @@ class MapScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "WOM Map",
-          style: TextStyle(color: Theme.of(context).primaryColor),
+          style: TextStyle(
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Theme.of(context).primaryColor,
         brightness: Brightness.light,
         iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColor ,
+          color: Theme.of(context).primaryColor,
         ),
-
       ),
       body: SlidingUpPanel(
         parallaxEnabled: true,
@@ -46,7 +47,6 @@ class MapScreen extends StatelessWidget {
 class MapBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final MapBloc bloc = BlocProvider.of<MapBloc>(context);
     return Container(
       key: new PageStorageKey('map'),
@@ -76,7 +76,8 @@ class MapBody extends StatelessWidget {
 }
 
 class MapPanel extends StatelessWidget {
-  final style = TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600,color: Colors.white);
+  final style = TextStyle(
+      fontSize: 15.0, fontWeight: FontWeight.w600, color: Colors.white);
 
   @override
   Widget build(BuildContext context) {

@@ -131,7 +131,7 @@ class TransactionCard extends StatelessWidget {
           color: Colors.blue,
           onTap: () {
             Share.share(
-                'I ${transaction.transactionType == TransactionType.VOUCHERS ? 'earn' : 'use'} '
+                'I ${transaction.transactionType == TransactionType.VOUCHERS ? 'earned' : 'used'} '
                 '${transaction.size} WOM  ${transaction.transactionType == TransactionType.VOUCHERS ? 'from' : 'at'} '
                 '${transaction.source} ${transaction.aim?.title != null ? 'for ${transaction.aim?.title}' : ''}');
           },

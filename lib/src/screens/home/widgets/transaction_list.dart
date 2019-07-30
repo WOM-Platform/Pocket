@@ -27,8 +27,11 @@ class TransactionsList extends StatelessWidget {
           return ListView.builder(
             padding: const EdgeInsets.all(5.0),
             shrinkWrap: true,
-            itemCount: state.transactions.length,
+            itemCount: state.transactions.length + 1,
             itemBuilder: (c, int index) {
+              if(index == state.transactions.length){
+                return SizedBox(height: 50.0,);
+              }
               return TransactionCard(
                 transaction: state.transactions[index],
               );

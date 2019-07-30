@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:pocket/constants.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/db/wom_db.dart';
@@ -13,6 +14,7 @@ import 'package:wom_package/wom_package.dart' show TransactionType;
 import 'package:pocket/src/utils/cryptography_helper.dart';
 import 'package:simple_rsa/simple_rsa.dart';
 import 'dart:convert';
+import 'package:wom_package/wom_package.dart' show Config, Flavor;
 
 class TransactionRepository {
   final String pin;
@@ -140,8 +142,10 @@ class TransactionRepository {
         //encode map to json string
         final mapEncoded = json.encode(map);
 
+        final publicKey = await getPublicKey();
+
         //encrypt otc map with public_key
-        final otcEncrypted = await encryptString(mapEncoded, PUBLIC_KEY);
+        final otcEncrypted = await encryptString(mapEncoded, publicKey);
 
         //create payload with endrypted otc json
         final Map<String, String> payload = {"Payload": otcEncrypted};
@@ -221,8 +225,10 @@ class TransactionRepository {
       //encode map to json string
       final mapEncoded = json.encode(map);
 
+      final publicKey = await getPublicKey();
+
       //encrypt otc map with public_key
-      final otcEncrypted = await encryptString(mapEncoded, PUBLIC_KEY);
+      final otcEncrypted = await encryptString(mapEncoded, publicKey);
 
       //create payload with endrypted otc json
       final Map<String, String> payload = {"Payload": otcEncrypted};
@@ -254,5 +260,16 @@ class TransactionRepository {
     } catch (ex) {
       throw Exception(ex.toString());
     }
+  }
+
+  Future<String> _loadKey(String path) async {
+    return await rootBundle.loadString(path);
+  }
+
+  Future<String> getPublicKey() async {
+    if (Config.appFlavor == Flavor.DEVELOPMENT) {
+      return await _loadKey('assets/registry_dev.pub');
+    }
+    return await _loadKey('assets/registry.pub');
   }
 }

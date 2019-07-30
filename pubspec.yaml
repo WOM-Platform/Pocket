@@ -7,7 +7,7 @@ description: A new Flutter application.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.0.3+3
+version: 0.0.4+4
 
 environment:
   sdk: ">=2.3.0 <3.0.0"
@@ -82,6 +82,8 @@ flutter:
     - assets/images/wom.png
     - assets/images/wom_pin.png
     - assets/flare/check.flr
+    - assets/registry.pub
+    - assets/registry_dev.pub
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
