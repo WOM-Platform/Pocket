@@ -27,7 +27,7 @@ class MapScreen extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         iconTheme: IconThemeData(
           color: Theme.of(context).primaryColor,
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocket/src/db/app_db.dart';
-
+import 'package:wom_package/wom_package.dart' show Config, Flavor;
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,40 +18,43 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
         backgroundColor: Theme.of(context).primaryColor,
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         iconTheme: IconThemeData(
           color: Theme.of(context).primaryColor,
         ),
       ),
       body: ListView(
         children: <Widget>[
-          SettingsItem(
-            title: 'Clear DB (only for debug)',
-            subtitle: "Delete all data of local database",
-            icon: Icons.delete,
-            onTap: () async {
+          if (Config.appFlavor == Flavor.DEVELOPMENT) ...[
+            SettingsItem(
+              title: 'Clear DB (only for debug)',
+              subtitle: "Delete all data of local database",
+              icon: Icons.delete,
+              onTap: () async {
 //              final result = await bloc.deleteDB();
 //              print("delete: " + result.toString());
-              AppDatabase.get().deleteDb();
-            },
-          ),
-          SettingsItem(
-            title: 'Close DB and save locally',
-            subtitle: "Close DB and save locally",
-            icon: Icons.close,
-            onTap: () async {
-              AppDatabase.get().closeDatabase();
+                AppDatabase.get().deleteDb();
+              },
+            ),
+            SettingsItem(
+              title: 'Close DB and save locally',
+              subtitle: "Close DB and save locally",
+              icon: Icons.close,
+              onTap: () async {
+                AppDatabase.get().closeDatabase();
 //              final result = await bloc.closeDb();
-            },
-          ),
-          SettingsItem(
-            title: 'Reset suggestions',
-            subtitle: "Reset all suggestions in home screen",
-            icon: Icons.refresh,
-            onTap: () {
-              print("reset suggestion");
-            },
-          ),
+              },
+            ),
+          ],
+
+//          SettingsItem(
+//            title: 'Reset suggestions',
+//            subtitle: "Reset all suggestions in home screen",
+//            icon: Icons.refresh,
+//            onTap: () {
+//              print("reset suggestion");
+//            },
+//          ),
           SettingsItem(
             title: 'Info',
             subtitle: "Get info about this App",
@@ -115,7 +119,10 @@ class SettingsItem extends StatelessWidget {
         subtitle,
         style: TextStyle(fontSize: 12.0, color: Colors.grey),
       ),
-      trailing: Icon(icon,color: Theme.of(context).primaryColor,),
+      trailing: Icon(
+        icon,
+        color: Theme.of(context).primaryColor,
+      ),
     );
   }
 }

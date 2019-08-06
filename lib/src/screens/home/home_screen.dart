@@ -249,9 +249,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
                 Icons.settings,
                 color: Theme.of(context).accentColor,
               ),
-              onPressed: () async {
-                await Navigator.pushNamed(context, '/settings');
-//                bloc.refreshList();
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings');
               },
             ),
           ],

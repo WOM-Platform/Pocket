@@ -21,6 +21,9 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def taskRequests = getGradle().getStartParameter().getTaskRequests().toString()
+def isProduction = taskRequests.contains("production") || taskRequests.contains("Production")
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -77,12 +80,12 @@ android {
 
     flavorDimensions "flutter-flavours"
 
-    productFlavors{
-        development{
+    productFlavors {
+        development {
             dimension "flutter-flavours"
             applicationIdSuffix ".dev"
         }
-        production{
+        production {
             dimension "flutter-flavours"
         }
     }
@@ -97,4 +100,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.google.firebase:firebase-core:17.0.1'
+}
+
+if (isProduction) {
+    println("production flavor")
+    apply plugin: 'io.fabric'
+    apply plugin: 'com.google.gms.google-services'
 }
