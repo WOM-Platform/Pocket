@@ -29,7 +29,7 @@ class MapScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         brightness: Brightness.dark,
         iconTheme: IconThemeData(
-          color: Theme.of(context).primaryColor,
+          color: Colors.white,
         ),
       ),
       body: SlidingUpPanel(
