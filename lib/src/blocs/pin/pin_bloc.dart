@@ -26,6 +26,7 @@ class PinBloc extends Bloc<PinEvent, PinState> {
       }
     }
     if(event is DeleteAllCode){
+      _inputCodes.clear();
       yield PinUpdated("");
     }
   }
@@ -54,12 +55,4 @@ class PinBloc extends Bloc<PinEvent, PinState> {
       _inputCodes.removeLast();
     }
   }
-
-  deleteAllCode() {
-    if (_inputCodes.length > 0) {
-      _inputCodes.clear();
-    }
-  }
-
-
 }

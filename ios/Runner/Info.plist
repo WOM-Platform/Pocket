@@ -26,7 +26,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>social.wom</string>
+			<string>social.wom.pocket</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wom</string>

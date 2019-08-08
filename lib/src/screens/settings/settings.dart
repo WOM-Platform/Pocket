@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:wom_package/wom_package.dart' show Config, Flavor;
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
 class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

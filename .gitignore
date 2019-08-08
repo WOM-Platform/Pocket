@@ -73,6 +73,7 @@ build/
 
 #api key files
 **/ios/Runner/Api.swift
+**/ios/Runner/GoogleService-Info.plist
 **/android/app/src/main/res/values/api_key.xml
 **/android/app/development/debug/app.aab
 **/android/app/production/release/app.aab
