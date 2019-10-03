@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
 import 'package:pocket/src/screens/map/widgets/aims_list.dart';
 import 'package:pocket/src/screens/map/widgets/custom_slider.dart';
@@ -20,7 +23,7 @@ class MapScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "WOM Map",
+          AppLocalizations.of(context).translate('map_title'),
           style: TextStyle(
             color: Colors.white,
           ),
@@ -35,8 +38,8 @@ class MapScreen extends StatelessWidget {
       body: SlidingUpPanel(
         parallaxEnabled: true,
         parallaxOffset: 0.3,
-        maxHeight: 330.0,
-        minHeight: 45.0,
+        maxHeight: Platform.isIOS ? 355.0 : 330,
+        minHeight: Platform.isIOS ? 60.0 : 45.0,
         panel: MapPanel(),
         body: MapBody(),
       ),
@@ -102,24 +105,24 @@ class MapPanel extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 25,
+            height: Platform.isIOS ? 40.0 : 25.0,
           ),
           Text(
-            "Filter by Time",
+            AppLocalizations.of(context).translate('filter_by_time'),
             textAlign: TextAlign.start,
             style: style,
           ),
           CustomSlider(),
           Divider(),
           Text(
-            "Filter by Source",
+            AppLocalizations.of(context).translate('filter_by_source'),
             textAlign: TextAlign.start,
             style: style,
           ),
           SourcesList(),
           Divider(),
           Text(
-            "Filter by Aim",
+            AppLocalizations.of(context).translate('filter_by_aim'),
             textAlign: TextAlign.start,
             style: style,
           ),

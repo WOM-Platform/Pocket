@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:wom_package/wom_package.dart' show Config, Flavor;
 
@@ -12,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Settings',
+          AppLocalizations.of(context).translate('settings_title'),
           style: TextStyle(
             color: Colors.white,
           ),
@@ -56,8 +57,8 @@ class SettingsScreen extends StatelessWidget {
 //            },
 //          ),
           SettingsItem(
-            title: 'Info',
-            subtitle: "Get info about this App",
+            title: AppLocalizations.of(context).translate('info_about_title'),
+            subtitle: AppLocalizations.of(context).translate('info_about_desc'),
             icon: Icons.info_outline,
             onTap: null,
           ),

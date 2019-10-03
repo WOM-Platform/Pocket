@@ -24,8 +24,8 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
     if (event is LoadTransactions) {
       yield TransactionsLoading();
 
-      final aims =
-          await _aimRepository.getFlatAimList(AppDatabase.get().getDb());
+      final aims = await _aimRepository.getFlatAimList(
+          database: AppDatabase.get().getDb());
       print('aim letti : ${aims.length}');
       final List<TransactionModel> transactions =
           await _transactionDB.getTransactions();

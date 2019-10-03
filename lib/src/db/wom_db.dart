@@ -222,7 +222,7 @@ class WomDB {
   Future<List<WomGroupBy>> getWomGroupedByAim() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
-        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${Aim.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${Aim.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${Aim.CODE} GROUP BY ${WomModel.dbAim};');
+        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${Aim.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${Aim.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${Aim.CODE} AND w.${WomModel.dbLive} = ${WomStatus.ON.index} GROUP BY ${WomModel.dbAim};');
     final list = result.map((m) {
       return WomGroupBy(m['aim'], m['woms'], titles: json.decode(m['titles']));
     }).toList();
@@ -248,7 +248,7 @@ class WomDB {
       });
     } catch (e) {
       print(e.toString());
-      throw Exception(e);
+      throw e;
     }
   }
 

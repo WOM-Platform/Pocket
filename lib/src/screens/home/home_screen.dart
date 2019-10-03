@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clippy_flutter/arc.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
@@ -108,7 +108,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //          ],
 //        ),
 //      ),
-    extendBody: true,
+      extendBody: true,
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -128,7 +128,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 new SliverAppBar(
-                  title: new Text('WOM POCKET'),
+                  title: Text('WOM POCKET'),
                   centerTitle: true,
                   pinned: true,
                   floating: false,
@@ -144,8 +144,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
       floatingActionButton: FloatingActionButton.extended(
 //        backgroundColor: Theme.of(context).primaryColor,
         backgroundColor: Theme.of(context).accentColor,
-        label: const Text(
-          'Scan',
+        label: Text(
+          AppLocalizations.of(context).translate('scan'),
           style: TextStyle(color: baseIconColor),
         ),
         icon: const Icon(
@@ -180,7 +180,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
             );
           } on PlatformException catch (ex) {
             if (ex == BarcodeScanner.CameraAccessDenied) {
-              throw Exception(ex);
+              throw ex;
             } else {
               throw Exception("unknow error");
             }
@@ -188,7 +188,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
             throw FormatException(
                 "Hai premuto il pulsante back prima di acquisire il dato");
           } catch (ex) {
-            throw Exception(ex);
+            throw ex;
           }
 
 //            var blocProviderAcceptCredits = BlocProvider(
@@ -216,9 +216,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
       ),
       bottomNavigationBar: BottomAppBar(
         shape: AutomaticNotchedShape(
-            RoundedRectangleBorder(),
-            StadiumBorder(side: BorderSide())
-        ),
+            RoundedRectangleBorder(), StadiumBorder(side: BorderSide())),
         color: Theme.of(context).primaryColor,
         child: new Row(
           mainAxisSize: MainAxisSize.max,
@@ -260,25 +258,25 @@ class _HomeScreen2State extends State<HomeScreen2> {
   }
 
   //TODO delete in release
-  Future<String> showEditField(context) async {
-    TextEditingController editingController = TextEditingController();
-    return await showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            title: TextField(
-              controller: editingController,
-            ),
-            actions: <Widget>[
-              FlatButton(
-                  child: new Text("GO"),
-                  onPressed: () {
-                    Navigator.of(context).pop(editingController.text);
-                  }),
-            ],
-          );
-        });
-  }
+//  Future<String> showEditField(context) async {
+//    TextEditingController editingController = TextEditingController();
+//    return await showDialog(
+//        context: context,
+//        builder: (ctx) {
+//          return AlertDialog(
+//            title: TextField(
+//              controller: editingController,
+//            ),
+//            actions: <Widget>[
+//              FlatButton(
+//                  child: new Text("GO"),
+//                  onPressed: () {
+//                    Navigator.of(context).pop(editingController.text);
+//                  }),
+//            ],
+//          );
+//        });
+//  }
 
   @override
   void dispose() {

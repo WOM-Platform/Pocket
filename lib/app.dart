@@ -5,7 +5,7 @@ import 'package:pocket/src/blocs/transactions_list/transactions_list_bloc.dart';
 import 'package:pocket/src/screens/home/home_screen.dart';
 import 'package:pocket/src/screens/pin/pin_screen.dart';
 import 'package:pocket/src/services/app_repository.dart';
-import 'package:pocket/localization/localizations.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/screens/intro/intro.dart';
@@ -54,18 +54,30 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider<AppBloc>(
       builder: (context) => _appBloc,
       child: MaterialApp(
           localizationsDelegates: [
-            const AppLocalizationsDelegate(),
+            AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
+          localeResolutionCallback: (locale, supportedLocales) {
+            if (locale == null) {
+              return supportedLocales.first;
+            }
+
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode &&
+                  supportedLocale.countryCode == locale.countryCode) {
+                return supportedLocale;
+              }
+            }
+            return supportedLocales.first;
+          },
           supportedLocales: [
-            const Locale('en', ''),
-            const Locale('it', ''),
+            const Locale('en', 'US'),
+            const Locale('it', 'IT'),
           ],
           theme: ThemeData(
             primaryColor: primaryColor,

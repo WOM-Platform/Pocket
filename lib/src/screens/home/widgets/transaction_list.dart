@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/transactions_list/bloc.dart';
 import 'package:pocket/src/screens/home/widgets/transaction_card.dart';
 import 'package:pocket/src/utils/colors.dart';
@@ -18,8 +19,7 @@ class TransactionsList extends StatelessWidget {
           if (state.transactions.isEmpty) {
             return Center(
               child: Text(
-//                AppLocalizations.of(context).noTransactions,
-                "There are no transactions",
+                AppLocalizations.of(context).translate('no_transactions'),
                 style: TextStyle(color: darkBlueColor),
               ),
             );
@@ -29,8 +29,10 @@ class TransactionsList extends StatelessWidget {
             shrinkWrap: true,
             itemCount: state.transactions.length + 1,
             itemBuilder: (c, int index) {
-              if(index == state.transactions.length){
-                return SizedBox(height: 50.0,);
+              if (index == state.transactions.length) {
+                return SizedBox(
+                  height: 50.0,
+                );
               }
               return TransactionCard(
                 transaction: state.transactions[index],
@@ -39,7 +41,8 @@ class TransactionsList extends StatelessWidget {
           );
         }
         return Center(
-          child: Text("Somethings wrong"),
+          child:
+              Text(AppLocalizations.of(context).translate('somethings_wrong')),
         );
       },
     );

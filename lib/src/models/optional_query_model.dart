@@ -37,7 +37,7 @@ class OptionalQuery {
           : "$whereClause AND $sourceWhereClause";
     }
 
-    if(aims != null){
+    if (aims != null) {
       final aimWhereClause = buildAimClause(aims);
 
       whereClause = whereClause.isEmpty
@@ -76,7 +76,7 @@ class OptionalQuery {
           : "$sourceWhereClause OR ${WomModel.tblWom}.${WomModel.dbSourceName} = \"$source\"";
     });
 
-    return sourceWhereClause;
+    return "($sourceWhereClause)";
   }
 
   buildAimClause(Set<String> aims) {

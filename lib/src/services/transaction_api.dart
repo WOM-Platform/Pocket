@@ -4,7 +4,6 @@ import 'package:pocket/constants.dart';
 import 'dart:convert';
 
 class TransactionApi {
-
   Future<String> redeemWoms(Map<String, String> map) async {
     try {
       return await responseBodyFromHttpPostRequest(URL_REDEEM, map);
@@ -17,7 +16,7 @@ class TransactionApi {
     try {
       return await responseBodyFromHttpPostRequest(URL_CONFIRM, map);
     } catch (ex) {
-      throw Exception(ex.toString());
+      throw ex;
     }
   }
 
@@ -25,7 +24,7 @@ class TransactionApi {
     try {
       return await responseBodyFromHttpPostRequest(URL_INFO_PAY, map);
     } catch (ex) {
-      throw Exception(ex.toString());
+      throw ex;
     }
   }
 

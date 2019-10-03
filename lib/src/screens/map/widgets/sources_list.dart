@@ -6,20 +6,32 @@ import 'package:pocket/src/models/source_group_wom.dart';
 import 'filter_checkbox.dart';
 
 class SourcesList extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final MapBloc bloc = BlocProvider.of<MapBloc>(context);
     return BlocBuilder(
       bloc: bloc,
-      condition: (MapState p,MapState c){
+      condition: (MapState p, MapState c) {
         return p.sources != c.sources;
       },
       builder: (BuildContext context, MapState state) {
         print("build source list");
         if (state.sources == null || state.sources.isEmpty) {
-          return Text("No sources",style: TextStyle(color: Colors.white),);
+          return Text(
+            "No sources",
+            style: TextStyle(color: Colors.white),
+          );
         }
+        return ChipFilter(
+          sources: state.sources,
+          onAdd: (type) {
+            bloc.addSourceToFilter(type);
+          },
+          onRemove: (type) {
+            bloc.removeSourceFromFilter(type);
+          },
+        );
+
         return Column(
           children: [
             for (WomGroupBy source in state.sources)
@@ -36,6 +48,83 @@ class SourcesList extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class ChipFilter extends StatefulWidget {
+  final Function onAdd;
+  final Function onRemove;
+  final List<WomGroupBy> sources;
+
+  const ChipFilter({Key key, this.sources, this.onAdd, this.onRemove})
+      : super(key: key);
+
+  @override
+  _ChipFilterState createState() => _ChipFilterState();
+}
+
+class _ChipFilterState extends State<ChipFilter> {
+  Set<String> chips = Set();
+
+  @override
+  void initState() {
+    chips.addAll(widget.sources.map((a) => a.type));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50.0,
+      padding: const EdgeInsets.only(top: 8),
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: widget.sources.length,
+          itemBuilder: (context, index) {
+            final a = widget.sources[index];
+            return Padding(
+              padding: const EdgeInsets.only(right: 2.0),
+              child: FilterChip(
+                label: Text(
+                  '${a.type} (${a.count})',
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+                selectedColor: Theme.of(context).accentColor,
+                selected: chips.contains(a.type),
+                onSelected: (selected) {
+                  if (selected) {
+                    chips.add(a.type);
+                    widget.onAdd(a.type);
+                  } else {
+                    chips.remove(a.type);
+                    widget.onRemove(a.type);
+                  }
+                  setState(() {});
+                },
+              ),
+            );
+          }),
+    );
+    return Wrap(
+      spacing: 3.0,
+      children: widget.sources.map((a) {
+        return FilterChip(
+          label: Text(a.titles["it"]),
+          selectedColor: Theme.of(context).accentColor,
+          selected: chips.contains(a.type),
+          onSelected: (selected) {
+            if (selected) {
+              chips.add(a.type);
+              widget.onAdd(a.type);
+            } else {
+              chips.remove(a.type);
+              widget.onRemove(a.type);
+            }
+            setState(() {});
+          },
+        );
+      }).toList(),
     );
   }
 }

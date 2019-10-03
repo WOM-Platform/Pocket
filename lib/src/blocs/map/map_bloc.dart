@@ -68,7 +68,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         if (event.forceFilterUpdate == true) {
           filter();
         }
-
         yield (currentState as MapUpdated).copyWith(
             event.markers, event.sliderValue, event.sources, event.aims);
       } else {

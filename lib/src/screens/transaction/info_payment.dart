@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/models/response_info_pay.dart';
 import 'package:pocket/src/blocs/transaction/bloc.dart';
 import 'package:pocket/src/utils/colors.dart';
@@ -34,7 +35,7 @@ class InfoPayment extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Text(
-                    'Information Payment ',
+                    AppLocalizations.of(context).translate('info_payment'),
                     style:
                         TextStyle(fontWeight: FontWeight.w600, fontSize: 20.0),
                     textAlign: TextAlign.start,
@@ -57,7 +58,7 @@ class InfoPayment extends StatelessWidget {
                     Column(
                       children: <Widget>[
                         Text(
-                          'Merchant',
+                          AppLocalizations.of(context).translate('merchant'),
                           style: greyStyle,
                         ),
                         Text(
@@ -69,7 +70,7 @@ class InfoPayment extends StatelessWidget {
                     Column(
                       children: <Widget>[
                         Text(
-                          'Amount',
+                          AppLocalizations.of(context).translate('amount'),
                           style: greyStyle,
                         ),
                         Text(
@@ -136,7 +137,8 @@ class InfoPayment extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
-                        'Confirm Payment',
+                        AppLocalizations.of(context)
+                            .translate('confirm_payment'),
                         style: TextStyle(color: Colors.white, fontSize: 20.0),
                       ),
                     ),

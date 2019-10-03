@@ -16,7 +16,7 @@ class CryptographyHelper {
       final decryptedString = encrypter.decrypt(encrypted, iv: iv);
       return decryptedString;
     } catch (ex) {
-      throw Exception(ex);
+      throw ex;
     }
   }
 

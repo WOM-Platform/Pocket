@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/constants.dart';
-import 'package:pocket/localization/localizations.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/app/app_bloc.dart';
 import 'package:pocket/src/blocs/app/app_event.dart';
 import 'package:pocket/src/utils/colors.dart';
@@ -14,16 +14,15 @@ class IntroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final appBloc = BlocProvider.of<AppBloc>(context);
     final pages = [
       PageViewModel(
           pageColor: Colors.grey,
           body: Text(
-            AppLocalizations.of(context).introDesc1,
+            AppLocalizations.of(context).translate('introDesc1'),
           ),
           title: Text(
-            AppLocalizations.of(context).introTitle1,
+            AppLocalizations.of(context).translate('introTitle1'),
           ),
           mainImage: Image.asset(
             IMAGE_PATH_INTRO_1,
@@ -34,9 +33,11 @@ class IntroScreen extends StatelessWidget {
       PageViewModel(
         pageColor: const Color(0xFF8BC34A),
         body: Text(
-          AppLocalizations.of(context).introDesc2,
+          AppLocalizations.of(context).translate('introDesc2'),
         ),
-        title: Text(AppLocalizations.of(context).introTitle2),
+        title: Text(
+          AppLocalizations.of(context).translate('introTitle2'),
+        ),
         mainImage: Image.asset(
           IMAGE_PATH_INTRO_2,
           height: 285.0,
@@ -47,9 +48,11 @@ class IntroScreen extends StatelessWidget {
       PageViewModel(
         pageColor: primaryColor,
         body: Text(
-          AppLocalizations.of(context).introDesc3,
+          AppLocalizations.of(context).translate('introDesc3'),
         ),
-        title: Text(AppLocalizations.of(context).introTitle3),
+        title: Text(
+          AppLocalizations.of(context).translate('introTitle3'),
+        ),
         mainImage: Image.asset(
           IMAGE_PATH_INTRO_3,
           height: 285.0,
@@ -65,18 +68,20 @@ class IntroScreen extends StatelessWidget {
       ), //ThemeData
       home: Builder(
         builder: (ctx) => IntroViewsFlutter(
-              pages,
-              onTapDoneButton: () {
+          pages,
+          onTapDoneButton: () {
 //                Navigator.pushReplacementNamed(context, "/home");
-                appBloc.dispatch(HomeEvent());
-              },
-              pageButtonTextStyles: TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-              ),
-              doneText: Text(AppLocalizations.of(context).introDoneText),
-              skipText: Text(AppLocalizations.of(context).introSkipText),
-            ), //IntroViewsFlutter
+            appBloc.dispatch(HomeEvent());
+          },
+          pageButtonTextStyles: TextStyle(
+            color: Colors.white,
+            fontSize: 16.0,
+          ),
+          doneText:
+              Text(AppLocalizations.of(context).translate('introDoneText')),
+          skipText:
+              Text(AppLocalizations.of(context).translate('introSkipText')),
+        ), //IntroViewsFlutter
       ), //Builder
     ); //Material App
   }

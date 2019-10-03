@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/screens/pin/widgets/code_panel.dart';
 import 'package:pocket/src/screens/pin/widgets/keyboard.dart';
@@ -24,10 +25,14 @@ class PinScreen extends StatelessWidget {
     bloc = BlocProvider.of<PinBloc>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(elevation: 0,title: Text(
-        "Insert PIN",
-        style: TextStyle(color: Colors.white, fontSize: 20.0),
-      ),centerTitle: true,),
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(
+          AppLocalizations.of(context).translate('pin_title'),
+          style: TextStyle(color: Colors.white, fontSize: 20.0),
+        ),
+        centerTitle: true,
+      ),
       body: BlocListener(
         bloc: bloc,
         listener: (BuildContext context, PinState state) {
@@ -86,7 +91,7 @@ class PinScreen extends StatelessWidget {
     transactionBloc.dispatch(TransactionStarted(bloc.deepLinkModel.type));
 
     final blocProviderTransaction = BlocProvider<TransactionBloc>(
-      builder: (context)=> transactionBloc,
+      builder: (context) => transactionBloc,
       child: TransactionScreen(),
     );
 

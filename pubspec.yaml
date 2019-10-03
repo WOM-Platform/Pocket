@@ -7,7 +7,7 @@ description: A new Flutter application.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.0.9+9
+version: 0.1.1+11
 
 environment:
   sdk: ">=2.3.0 <3.0.0"
@@ -34,7 +34,7 @@ dependencies:
   intro_views_flutter: ^2.4.0
   webview_flutter: ^0.2.0
   flutter_lock_screen: ^1.0.5
-  clustering_google_maps: ^0.1.0+20
+  clustering_google_maps: ^0.1.2
   auto_size_text: ^2.0.1
   flare_flutter: ^1.5.2
   clippy_flutter: ^1.1.0
@@ -44,7 +44,7 @@ dependencies:
   wom_package:
     git:
       url: git://github.com/WOM-Platform/WOM-Package.git
-  sliding_up_panel: ^0.3.4
+  sliding_up_panel: ^0.3.5
 #  flare_flutter:
 #    git:
 #      url: git://github.com/2d-inc/Flare-Flutter.git
@@ -85,6 +85,8 @@ flutter:
     - assets/flare/check.flr
     - assets/registry.pub
     - assets/registry_dev.pub
+    - lang/en.json
+    - lang/it.json
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

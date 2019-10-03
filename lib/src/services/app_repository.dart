@@ -12,7 +12,7 @@ class AppRepository {
   }
 
   Future<void> updateAim() async {
-    await _aimRepository.updateAim(AppDatabase.get().getDb());
+    await _aimRepository.updateAim(database: AppDatabase.get().getDb());
   }
 
   Future<DeepLinkModel> getDeepLink() async {

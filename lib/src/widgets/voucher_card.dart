@@ -1,3 +1,4 @@
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +39,8 @@ class TicketCard extends StatelessWidget {
                 color: Colors.white,
                 margin: const EdgeInsets.all(2.0),
                 child: isForHome
-                    ? _buildTransactionContent()
-                    : _buildVoucherContent(),
+                    ? _buildTransactionContent(context)
+                    : _buildVoucherContent(context),
               ),
             ),
           ),
@@ -48,7 +49,7 @@ class TicketCard extends StatelessWidget {
     );
   }
 
-  _buildVoucherContent() {
+  _buildVoucherContent(BuildContext context) {
     TextStyle voucherIdStyle =
         new TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600);
 
@@ -73,11 +74,11 @@ class TicketCard extends StatelessWidget {
           Text.rich(
             TextSpan(children: <TextSpan>[
               TextSpan(
-                text: 'from ',
+                text: AppLocalizations.of(context).translate('from'),
                 style: TextStyle(color: backgroundColor, fontSize: 20.0),
               ),
               TextSpan(
-                text: '${transaction.source}',
+                text: ' ${transaction.source}',
                 style: TextStyle(
                     color: backgroundColor,
                     fontSize: 20.0,
@@ -90,7 +91,7 @@ class TicketCard extends StatelessWidget {
     );
   }
 
-  _buildTransactionContent() {
+  _buildTransactionContent(BuildContext context) {
     TextStyle voucherIdStyle =
         new TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
 
@@ -156,7 +157,8 @@ class TicketCard extends StatelessWidget {
               TextSpan(
                 children: <TextSpan>[
                   TextSpan(
-                    text: "You ${isEarnTransaction ? "earned" : "used"}",
+                    text:
+                        "${AppLocalizations.of(context).translate('you')} ${isEarnTransaction ? AppLocalizations.of(context).translate("earned") : AppLocalizations.of(context).translate("used")}",
                     style: TextStyle(
                         fontSize: 22.0,
                         color: isEarnTransaction ? Colors.green : Colors.red,

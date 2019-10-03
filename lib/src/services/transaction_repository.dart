@@ -36,7 +36,7 @@ class TransactionRepository {
       final ResponseRedeem redeem = await downloadWoms(otc);
       return await saveWoms(redeem);
     } catch (ex) {
-      throw Exception(ex.toString());
+      throw ex;
     }
   }
 
@@ -53,7 +53,7 @@ class TransactionRepository {
       print(responseRedeem?.woms?.length?.toString());
       return responseRedeem;
     } catch (ex) {
-      throw Exception(ex.toString());
+      throw ex;
     }
   }
 
@@ -108,7 +108,7 @@ class TransactionRepository {
 
       return infoPay;
     } catch (ex) {
-      throw Exception(ex.toString());
+      throw ex;
     }
   }
 
@@ -199,7 +199,7 @@ class TransactionRepository {
         throw Exception("Wom insufficienti per effettuare il pagamento");
       }
     } catch (ex) {
-      throw Exception(ex.toString());
+      throw ex;
     }
   }
 
@@ -258,7 +258,7 @@ class TransactionRepository {
       print(jsonDecrypted.toString());
       return jsonDecrypted;
     } catch (ex) {
-      throw Exception(ex.toString());
+      throw ex;
     }
   }
 

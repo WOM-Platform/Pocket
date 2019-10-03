@@ -52,14 +52,14 @@ class AppDatabase {
       // When creating the db, create the table
       await _createWomTable(db);
       await _createTransactionTable(db);
-      await AimDbHelper.createAimTable(db);
+      await AimDatabase.createAimTable(db);
     }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
       await db.execute("DROP TABLE ${WomModel.tblWom}");
       await db.execute("DROP TABLE ${TransactionModel.tblTransaction}");
       await db.execute("DROP TABLE ${Aim.TABLE_NAME}");
       await _createWomTable(db);
       await _createTransactionTable(db);
-      await AimDbHelper.createAimTable(db);
+      await AimDatabase.createAimTable(db);
     });
   }
 

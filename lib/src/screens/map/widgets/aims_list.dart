@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
 
@@ -15,7 +18,10 @@ class AimsList extends StatelessWidget {
       builder: (BuildContext context, MapState state) {
         print("build aims list");
         if (state.aims == null || state.aims.isEmpty) {
-          return Text("No aims",style: TextStyle(color: Colors.white),);
+          return Text(
+            AppLocalizations.of(context).translate('no_aims'),
+            style: TextStyle(color: Colors.white),
+          );
         }
 
         return ChipFilter(
@@ -82,7 +88,7 @@ class _ChipFilterState extends State<ChipFilter> {
               padding: const EdgeInsets.only(right: 2.0),
               child: FilterChip(
                 label: Text(
-                  a.titles["en"],
+                  '${a.titles["en"]} (${a.count})',
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
                 selectedColor: Theme.of(context).accentColor,

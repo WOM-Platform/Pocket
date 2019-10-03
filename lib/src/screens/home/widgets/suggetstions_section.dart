@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/suggestions/bloc.dart';
 import 'package:pocket/src/utils/colors.dart';
 
@@ -27,8 +28,7 @@ class SuggestionsSection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: state.suggestions.map((s) {
                 return GestureDetector(
-                  onTap: (){
-                  },
+                  onTap: () {},
                   child: AspectRatio(
                     aspectRatio: 1.5,
                     child: Stack(
@@ -101,7 +101,9 @@ class SuggestionsSection extends StatelessWidget {
           );
         }
         return Center(
-          child: Text("Somethings is wrong"),
+          child: Text(
+            AppLocalizations.of(context).translate('somethings_wrong'),
+          ),
         );
       },
     );
