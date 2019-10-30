@@ -29,5 +29,6 @@
   "you": "You",
   "earned": "earned",
   "used": "used",
-  "last_24h": "Last 24h"
+  "last_24h": "Last 24h",
+  "error_connection": "Loading transactions error.\nCheck Internet connection and try again!"
 }

@@ -15,7 +15,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   StreamSubscription _sub;
   final TransactionsListBloc transactionsBloc;
 
-  AppBloc(this._appRepository, this.transactionsBloc) : assert(_appRepository != null) {
+  AppBloc(this._appRepository, this.transactionsBloc)
+      : assert(_appRepository != null) {
     dispatch(LoadData());
 
     _sub = getUriLinksStream().listen((Uri uri) {
@@ -53,15 +54,17 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   Stream<AppState> mapEventToState(AppEvent event) async* {
     if (event is LoadData) {
       yield LoadingData();
-      await _appRepository.updateAim();
+      final aimList = await _appRepository.updateAim();
       transactionsBloc.dispatch(LoadTransactions());
       final deepLink = await getDeepLink();
       if (deepLink != null) {
-        await Future.delayed(Duration(seconds: 2));
+        //TODO remove delay?
+        await Future.delayed(Duration(milliseconds: 500));
         yield DeepLinkMode(deepLink);
       } else {
         final isFirstOpen = await Utils.isFirstOpen();
-        await Future.delayed(Duration(seconds: 2));
+        //TODO remove delay?
+        await Future.delayed(Duration(milliseconds: 500));
         if (isFirstOpen) {
           yield IntroMode();
         } else {
@@ -70,11 +73,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       }
     }
 
-    if(event is DeepLinkEvent){
+    if (event is DeepLinkEvent) {
       yield DeepLinkMode(event.deepLinkModel);
     }
 
-    if(event is HomeEvent){
+    if (event is HomeEvent) {
       yield NormalMode();
     }
   }

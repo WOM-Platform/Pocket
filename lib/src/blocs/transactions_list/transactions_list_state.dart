@@ -23,3 +23,11 @@ class TransactionsLoaded extends TransactionsState {
   String toString() => "TransactionsLoaded";
 }
 
+class TransactionsErrorLoading extends TransactionsState {
+  final String error;
+
+  TransactionsErrorLoading(this.error) : super([error]);
+
+  @override
+  String toString() => "TransactionsErrorLoading";
+}

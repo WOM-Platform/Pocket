@@ -11,8 +11,8 @@ class AppRepository {
     _aimRepository = AimRepository();
   }
 
-  Future<void> updateAim() async {
-    await _aimRepository.updateAim(database: AppDatabase.get().getDb());
+  Future<List<Aim>> updateAim() async {
+    return await _aimRepository.updateAim(database: AppDatabase.get().getDb());
   }
 
   Future<DeepLinkModel> getDeepLink() async {

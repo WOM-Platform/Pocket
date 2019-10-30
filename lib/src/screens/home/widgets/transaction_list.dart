@@ -39,6 +39,13 @@ class TransactionsList extends StatelessWidget {
               );
             },
           );
+        } else if (state is TransactionsErrorLoading) {
+          return Center(
+            child: Text(
+              AppLocalizations.of(context).translate(state.error),
+              textAlign: TextAlign.center,
+            ),
+          );
         }
         return Center(
           child:
