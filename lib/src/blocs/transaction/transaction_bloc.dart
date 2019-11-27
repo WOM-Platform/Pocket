@@ -10,8 +10,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final TransactionRepository _repository;
   final String otc;
 
-  TransactionBloc(this._repository, this.otc)
-      : assert(_repository != null) ;
+  TransactionBloc(this._repository, this.otc) : assert(_repository != null);
 
   @override
   void onTransition(Transition<TransactionEvent, TransactionState> transition) {
@@ -21,24 +20,24 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   @override
   TransactionState get initialState => TransactionLoadingState();
 
-
-  exception(){
+  exception() {
     throw Exception('fake exception');
   }
 
   @override
-  Stream<TransactionState> mapEventToState(TransactionEvent event) async*{
+  Stream<TransactionState> mapEventToState(TransactionEvent event) async* {
     if (event is TransactionStarted) {
       yield TransactionLoadingState();
       try {
         TransactionModel transaction;
         if (event.type == TransactionType.VOUCHERS) {
-          print("bloc: " +  otc);
+          print("bloc: " + otc);
           transaction = await _repository.getWoms(otc);
+          print("transaction saved");
           yield TransactionCompleteState(transaction);
         } else {
           final ResponseInfoPay infoPayment =
-          await _repository.requestPayment(otc);
+              await _repository.requestPayment(otc);
           print(infoPayment);
           yield TransactionInfoPaymentState(infoPayment);
         }
@@ -51,7 +50,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       yield TransactionLoadingState();
       try {
         TransactionModel transaction =
-        await _repository.pay(otc, event.infoPay);
+            await _repository.pay(otc, event.infoPay);
         yield TransactionCompleteState(transaction);
       } catch (ex) {
         print(ex.toString());

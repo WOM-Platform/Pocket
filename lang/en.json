@@ -30,5 +30,6 @@
   "earned": "earned",
   "used": "used",
   "last_24h": "Last 24h",
-  "error_connection": "Loading transactions error.\nCheck Internet connection and try again!"
+  "error_connection": "Loading transactions error.\nCheck Internet connection and try again!",
+  "update_transactions": "Update Transactions"
 }

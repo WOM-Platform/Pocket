@@ -30,5 +30,6 @@
   "earned": "hai guadagnato",
   "used": "hai usato",
   "last_24h": "Ultime 24 ore",
-  "error_connection": "Errore nel caricamento delle transazioni.\nVerifica di avere la connessione Internet e riprova!"
+  "error_connection": "Errore nel caricamento delle transazioni.\nVerifica di avere la connessione Internet e riprova!",
+  "update_transactions": "Aggiorna le transazioni"
 }

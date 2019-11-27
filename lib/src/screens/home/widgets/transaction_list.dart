@@ -14,31 +14,56 @@ class TransactionsList extends StatelessWidget {
       builder: (BuildContext context, TransactionsState state) {
         if (state is TransactionsLoading) {
           return Center(child: CircularProgressIndicator());
-        }
-        if (state is TransactionsLoaded) {
-          if (state.transactions.isEmpty) {
-            return Center(
-              child: Text(
-                AppLocalizations.of(context).translate('no_transactions'),
-                style: TextStyle(color: darkBlueColor),
-              ),
+        } else if (state is TransactionsLoaded) {
+          if (state.transactions != null) {
+            if (state.transactions.isEmpty) {
+              return Center(
+                child: Text(
+                  AppLocalizations.of(context).translate('no_transactions'),
+                  style: TextStyle(color: darkBlueColor),
+                ),
+              );
+            } else {
+              return ListView.builder(
+                padding: const EdgeInsets.all(5.0),
+                shrinkWrap: true,
+                itemCount: state.transactions.length + 1,
+                itemBuilder: (c, int index) {
+                  if (index == state.transactions.length) {
+                    return SizedBox(
+                      height: 50.0,
+                    );
+                  }
+                  return TransactionCard(
+                    transaction: state.transactions[index],
+                  );
+                },
+              );
+            }
+          } else {
+            return Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    AppLocalizations.of(context).translate('somethings_wrong'),
+                  ),
+                ),
+                FloatingActionButton.extended(
+                  onPressed: () {
+                    bloc.dispatch(LoadTransactions());
+                  },
+                  label: Text(
+                    AppLocalizations.of(context)
+                        .translate('update_transactions'),
+                  ),
+                ),
+              ],
             );
           }
-          return ListView.builder(
-            padding: const EdgeInsets.all(5.0),
-            shrinkWrap: true,
-            itemCount: state.transactions.length + 1,
-            itemBuilder: (c, int index) {
-              if (index == state.transactions.length) {
-                return SizedBox(
-                  height: 50.0,
-                );
-              }
-              return TransactionCard(
-                transaction: state.transactions[index],
-              );
-            },
-          );
         } else if (state is TransactionsErrorLoading) {
           return Center(
             child: Text(

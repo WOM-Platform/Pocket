@@ -92,6 +92,7 @@ class TransactionRepository {
       woms[i].transactionId = id;
       aims.add(woms[i].aim);
       await womDB.insertWom(woms[i]);
+      print("wom_$i saved");
     }
 
     return tx;

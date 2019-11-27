@@ -119,11 +119,11 @@ class TransactionCard extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        MySlideAction(
-          icon: Icons.map,
-          color: Colors.green,
-          onTap: null,
-        ),
+//        MySlideAction(
+//          icon: Icons.map,
+//          color: Colors.green,
+//          onTap: null,
+//        ),
       ],
       secondaryActions: <Widget>[
         MySlideAction(

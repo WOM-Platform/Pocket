@@ -18,9 +18,9 @@ class TransactionDB {
     print("--------- START QUERY TRANSACTION");
     var db = await _appDatabase.getDb();
     try {
-      var result =
-          await db.rawQuery('SELECT ${TransactionModel.tblTransaction}.* '
-              'FROM ${TransactionModel.tblTransaction} ORDER BY ${TransactionModel.dbTimestamp} DESC;');
+      var result = await db.rawQuery(
+          'SELECT ${TransactionModel.tblTransaction}.* '
+          'FROM ${TransactionModel.tblTransaction} ORDER BY ${TransactionModel.dbTimestamp} DESC;');
       return _bindData(result);
     } catch (e) {
       print(e.toString());
@@ -30,13 +30,13 @@ class TransactionDB {
 
   //Connvert Json from DB to List of WomModel
   List<TransactionModel> _bindData(List<Map<String, dynamic>> result) {
-    List<TransactionModel> woms = new List();
+    List<TransactionModel> transaction = new List();
     for (Map<String, dynamic> item in result) {
       var tx = new TransactionModel.fromMap(item);
-      woms.add(tx);
+      transaction.add(tx);
     }
     print("--------- COMPLETE QUERY TRANSACTION");
-    return woms;
+    return transaction;
   }
 
   /// Inserts or replaces the task.
