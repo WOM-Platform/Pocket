@@ -141,7 +141,9 @@ class TicketCard extends StatelessWidget {
                         color: baseIconColor),
                   ),
                   Expanded(child: Container()),
-                  Text(transaction?.aim?.titles[languageCode] ?? "-"),
+                  Text((transaction?.aim?.titles ??
+                          const {})[languageCode ?? 'en'] ??
+                      '-'),
                 ],
               ),
             ],

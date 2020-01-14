@@ -89,7 +89,7 @@ class _ChipFilterState extends State<ChipFilter> {
               padding: const EdgeInsets.only(right: 2.0),
               child: FilterChip(
                 label: Text(
-                  '${a.titles[languageCode ?? "en"]} (${a.count})',
+                  '${(a?.titles ?? const {})[languageCode ?? 'en'] ?? '-'} (${a.count})',
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
                 selectedColor: Theme.of(context).accentColor,

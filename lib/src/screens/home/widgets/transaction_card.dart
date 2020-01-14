@@ -100,7 +100,9 @@ class TransactionCard extends StatelessWidget {
                         children: <Widget>[
                           ItemRow(
                               t1: 'aim ',
-                              t2: transaction.aim?.titles[languageCode] ?? '-'),
+                              t2: (transaction?.aim?.titles ??
+                                      const {})[languageCode ?? 'en'] ??
+                                  '-'),
                           ItemRow(
                               t1: transaction.transactionType !=
                                       TransactionType.VOUCHERS
