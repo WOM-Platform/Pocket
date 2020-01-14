@@ -31,22 +31,6 @@ class SourcesList extends StatelessWidget {
             bloc.removeSourceFromFilter(type);
           },
         );
-
-        return Column(
-          children: [
-            for (WomGroupBy source in state.sources)
-              CheckboxRowFilter(
-                group: source,
-                onChanged: (value) {
-                  if (value) {
-                    bloc.addSourceToFilter(source.type);
-                  } else {
-                    bloc.removeSourceFromFilter(source.type);
-                  }
-                },
-              ),
-          ],
-        );
       },
     );
   }
@@ -105,26 +89,6 @@ class _ChipFilterState extends State<ChipFilter> {
               ),
             );
           }),
-    );
-    return Wrap(
-      spacing: 3.0,
-      children: widget.sources.map((a) {
-        return FilterChip(
-          label: Text(a.titles["it"]),
-          selectedColor: Theme.of(context).accentColor,
-          selected: chips.contains(a.type),
-          onSelected: (selected) {
-            if (selected) {
-              chips.add(a.type);
-              widget.onAdd(a.type);
-            } else {
-              chips.remove(a.type);
-              widget.onRemove(a.type);
-            }
-            setState(() {});
-          },
-        );
-      }).toList(),
     );
   }
 }

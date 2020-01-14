@@ -76,6 +76,7 @@ class _ChipFilterState extends State<ChipFilter> {
 
   @override
   Widget build(BuildContext context) {
+    final languageCode = AppLocalizations.of(context).locale.languageCode;
     return Container(
       height: 50.0,
       padding: const EdgeInsets.only(top: 8),
@@ -88,7 +89,7 @@ class _ChipFilterState extends State<ChipFilter> {
               padding: const EdgeInsets.only(right: 2.0),
               child: FilterChip(
                 label: Text(
-                  '${a.titles["en"]} (${a.count})',
+                  '${a.titles[languageCode ?? "en"]} (${a.count})',
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
                 selectedColor: Theme.of(context).accentColor,
@@ -106,26 +107,6 @@ class _ChipFilterState extends State<ChipFilter> {
               ),
             );
           }),
-    );
-    return Wrap(
-      spacing: 3.0,
-      children: widget.aims.map((a) {
-        return FilterChip(
-          label: Text(a.titles["it"]),
-          selectedColor: Theme.of(context).accentColor,
-          selected: chips.contains(a.type),
-          onSelected: (selected) {
-            if (selected) {
-              chips.add(a.type);
-              widget.onAdd(a.type);
-            } else {
-              chips.remove(a.type);
-              widget.onRemove(a.type);
-            }
-            setState(() {});
-          },
-        );
-      }).toList(),
     );
   }
 }

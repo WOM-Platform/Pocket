@@ -25,43 +25,47 @@ class TransactionsList extends StatelessWidget {
               );
             } else {
               return ListView.builder(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 90),
                 shrinkWrap: true,
-                itemCount: state.transactions.length + 1,
+                itemCount: state.transactions.length,
                 itemBuilder: (c, int index) {
-                  if (index == state.transactions.length) {
+                  /*if (index == state.transactions.length) {
                     return SizedBox(
                       height: 50.0,
                     );
-                  }
+                  }*/
                   return TransactionCard(
-                    transaction: state.transactions[index],
+                    transaction: state.transactions[0],
                   );
                 },
               );
             }
           } else {
-            return Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    AppLocalizations.of(context).translate('somethings_wrong'),
+            return Container(
+              height: MediaQuery.of(context).size.height / 2,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      AppLocalizations.of(context)
+                          .translate('somethings_wrong'),
+                    ),
                   ),
-                ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    bloc.dispatch(LoadTransactions());
-                  },
-                  label: Text(
-                    AppLocalizations.of(context)
-                        .translate('update_transactions'),
+                  FloatingActionButton.extended(
+                    onPressed: () {
+                      bloc.dispatch(LoadTransactions());
+                    },
+                    label: Text(
+                      AppLocalizations.of(context)
+                          .translate('update_transactions'),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           }
         } else if (state is TransactionsErrorLoading) {

@@ -30,13 +30,17 @@ class TransactionDB {
 
   //Connvert Json from DB to List of WomModel
   List<TransactionModel> _bindData(List<Map<String, dynamic>> result) {
-    List<TransactionModel> transaction = new List();
-    for (Map<String, dynamic> item in result) {
-      var tx = new TransactionModel.fromMap(item);
-      transaction.add(tx);
+    List<TransactionModel> transactions = new List();
+    try {
+      for (Map<String, dynamic> item in result) {
+        var tx = new TransactionModel.fromMap(item);
+        transactions.add(tx);
+      }
+      print("--------- COMPLETE QUERY TRANSACTION");
+      return transactions;
+    } catch (ex) {
+      throw ex;
     }
-    print("--------- COMPLETE QUERY TRANSACTION");
-    return transaction;
   }
 
   /// Inserts or replaces the task.

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:wom_package/wom_package.dart' show TransactionType;
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:share/share.dart';
@@ -17,6 +18,7 @@ class TransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageCode = AppLocalizations.of(context).locale.languageCode;
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
@@ -97,7 +99,8 @@ class TransactionCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           ItemRow(
-                              t1: 'aim ', t2: transaction.aim?.title ?? '-'),
+                              t1: 'aim ',
+                              t2: transaction.aim?.titles[languageCode] ?? '-'),
                           ItemRow(
                               t1: transaction.transactionType !=
                                       TransactionType.VOUCHERS

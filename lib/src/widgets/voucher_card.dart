@@ -94,9 +94,10 @@ class TicketCard extends StatelessWidget {
   _buildTransactionContent(BuildContext context) {
     TextStyle voucherIdStyle =
         new TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
-
     bool isEarnTransaction =
         transaction.transactionType == TransactionType.VOUCHERS;
+    final languageCode = AppLocalizations.of(context).locale.languageCode;
+
     return Container(
       height: 160.0,
       padding: const EdgeInsets.all(15.0),
@@ -140,13 +141,7 @@ class TicketCard extends StatelessWidget {
                         color: baseIconColor),
                   ),
                   Expanded(child: Container()),
-                  Text(transaction?.aim?.title ?? "-"),
-//                  isEarnTransaction
-////                      ? AimsRow(aims: transaction.aim)
-//                      ? transaction?.aim != null
-//                          ? Text(transaction?.aim?.title ?? "-")
-//                          : Container()
-//                      : Container(),
+                  Text(transaction?.aim?.titles[languageCode] ?? "-"),
                 ],
               ),
             ],

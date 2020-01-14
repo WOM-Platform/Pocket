@@ -43,6 +43,10 @@ class _HomeScreen2State extends State<HomeScreen2> {
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        title: Text('WOM POCKET'),
+        centerTitle: true,
+      ),
 //      appBar: AppBar(
 //        title: Text(AppLocalizations.of(context).title, style: TextStyle(color: darkBlueColor),),
 //        backgroundColor: Colors.transparent,
@@ -117,6 +121,22 @@ class _HomeScreen2State extends State<HomeScreen2> {
             child: Arc(
               child: Container(
                 color: Theme.of(context).primaryColor,
+                height: MediaQuery.of(context).size.height / 3,
+              ),
+              height: 50,
+            ),
+          ),
+          TransactionsList(),
+        ],
+      ),
+      /*body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Align(
+            alignment: Alignment.topCenter,
+            child: Arc(
+              child: Container(
+                color: Theme.of(context).primaryColor,
                 height: MediaQuery.of(context).size.height / 2 - 50,
               ),
               height: 50,
@@ -139,7 +159,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
             body: TransactionsList(),
           ),
         ],
-      ),
+      ),*/
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton.extended(
 //        backgroundColor: Theme.of(context).primaryColor,

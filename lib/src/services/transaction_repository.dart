@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:pocket/constants.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
