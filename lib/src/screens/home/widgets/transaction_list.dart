@@ -35,7 +35,7 @@ class TransactionsList extends StatelessWidget {
                     );
                   }*/
                   return TransactionCard(
-                    transaction: state.transactions[0],
+                    transaction: state.transactions[index],
                   );
                 },
               );
