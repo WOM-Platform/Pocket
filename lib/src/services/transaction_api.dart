@@ -8,7 +8,7 @@ class TransactionApi {
     try {
       return await responseBodyFromHttpPostRequest(URL_REDEEM, map);
     } catch (ex) {
-      throw Exception(ex.toString());
+      throw ex;
     }
   }
 

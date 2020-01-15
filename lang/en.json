@@ -33,5 +33,11 @@
   "error_connection": "Loading transactions error.\nCheck Internet connection and try again!",
   "update_transactions": "Update Transactions",
   "go_to_website": "Go to website",
-  "more_info": "More info"
+  "more_info": "More info",
+  "no_connection_title": "",
+  "no_connection_desc": "",
+  "no_connection_aim_desc": "",
+  "no_connection_transaction_desc": "",
+  "try_again": "Try again",
+  "error": "Errore"
 }

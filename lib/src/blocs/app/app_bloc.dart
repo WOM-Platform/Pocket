@@ -54,7 +54,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   Stream<AppState> mapEventToState(AppEvent event) async* {
     if (event is LoadData) {
       yield LoadingData();
-      final aimList = await _appRepository.updateAim();
+      await _appRepository.updateAim();
       transactionsBloc.dispatch(LoadTransactions());
       final deepLink = await getDeepLink();
       if (deepLink != null) {

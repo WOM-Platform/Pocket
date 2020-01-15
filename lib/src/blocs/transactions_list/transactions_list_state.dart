@@ -23,11 +23,16 @@ class TransactionsLoaded extends TransactionsState {
   String toString() => "TransactionsLoaded";
 }
 
-class TransactionsErrorLoading extends TransactionsState {
+class TransactionsErrorState extends TransactionsState {
   final String error;
 
-  TransactionsErrorLoading(this.error) : super([error]);
+  TransactionsErrorState(this.error) : super([error]);
 
   @override
-  String toString() => "TransactionsErrorLoading";
+  String toString() => "TransactionsErrorState";
+}
+
+class TransactionsNoDataConnectionState extends TransactionsState {
+  @override
+  String toString() => "TransactionsNoDataConnectionState";
 }

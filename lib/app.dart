@@ -47,7 +47,6 @@ class _AppState extends State<App> {
     _transactionsBloc = TransactionsListBloc(TransactionDB.get());
     _suggestionsBloc = SuggestionsBloc();
     _appBloc = AppBloc(_appRepository, _transactionsBloc);
-
 //    _appBloc.dispatch(AppStarted());
     super.initState();
   }

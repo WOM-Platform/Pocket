@@ -1,4 +1,5 @@
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clippy_flutter/arc.dart';
 import 'package:pocket/localization/app_localizations.dart';
@@ -181,9 +182,10 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
 
 //            final String link = await bloc.scanQRCode();
-          try {
-            final link = await BarcodeScanner.scan();
-            final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
+          if (await DataConnectionChecker().hasConnection) {
+            try {
+              final link = await BarcodeScanner.scan();
+              final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
 //            var blocProviderPin = myBlocProvider.BlocProvider(
 //              bloc: PinBloc(),
@@ -191,28 +193,46 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //                deepLinkModel: deepLinkModel,
 //              ),
 //            );
-            _pinBloc = PinBloc(deepLinkModel);
-            var blocProviderPin = BlocProvider(
-              builder: (context) => _pinBloc,
-              child: PinScreen(),
-            );
-            await Navigator.push(
-              context,
-              MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
-            );
-          } on PlatformException catch (ex) {
-            if (ex == BarcodeScanner.CameraAccessDenied) {
+              _pinBloc = PinBloc(deepLinkModel);
+              var blocProviderPin = BlocProvider(
+                builder: (context) => _pinBloc,
+                child: PinScreen(),
+              );
+              await Navigator.push(
+                context,
+                MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
+              );
+            } on PlatformException catch (ex) {
+              if (ex == BarcodeScanner.CameraAccessDenied) {
+                throw ex;
+              } else {
+                throw Exception("unknow error");
+              }
+            } on FormatException {
+              throw FormatException(
+                  "Hai premuto il pulsante back prima di acquisire il dato");
+            } catch (ex) {
               throw ex;
-            } else {
-              throw Exception("unknow error");
             }
-          } on FormatException {
-            throw FormatException(
-                "Hai premuto il pulsante back prima di acquisire il dato");
-          } catch (ex) {
-            throw ex;
+          } else {
+            Alert(
+              context: context,
+              style: AlertStyle(),
+              type: AlertType.warning,
+              title:
+                  AppLocalizations.of(context).translate('no_connection_title'),
+              desc:
+                  AppLocalizations.of(context).translate('no_connection_desc'),
+              buttons: [
+                DialogButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ).show();
           }
-
 //            var blocProviderAcceptCredits = BlocProvider(
 //              bloc: AcceptCreditsBloc(deepLinkModel),
 //              child: AcceptCredits(),

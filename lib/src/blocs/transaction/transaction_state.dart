@@ -14,7 +14,7 @@ class TransactionUninitialized extends TransactionState {
 class TransactionCompleteState extends TransactionState {
   final TransactionModel transaction;
 
-  TransactionCompleteState(this.transaction):super([transaction]);
+  TransactionCompleteState(this.transaction) : super([transaction]);
 
   @override
   String toString() => 'TransactionComplete';
@@ -23,7 +23,7 @@ class TransactionCompleteState extends TransactionState {
 class TransactionInfoPaymentState extends TransactionState {
   final ResponseInfoPay infoPayment;
 
-  TransactionInfoPaymentState(this.infoPayment):super([infoPayment]);
+  TransactionInfoPaymentState(this.infoPayment) : super([infoPayment]);
 
   @override
   String toString() => 'TransactionInfoPayment';
@@ -41,4 +41,13 @@ class TransactionErrorState extends TransactionState {
 
   @override
   String toString() => 'TransactionError';
+}
+
+class TransactionNoDataConnectionState extends TransactionState {
+  final ResponseInfoPay infoPay;
+
+  TransactionNoDataConnectionState({this.infoPay}) : super([infoPay]);
+
+  @override
+  String toString() => 'TransactionNoDataConnectionState';
 }

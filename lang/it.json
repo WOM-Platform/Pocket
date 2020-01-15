@@ -10,7 +10,7 @@
   "noTransactions": "Non ci sono transazioni",
   "title": "WOM Pocket",
   "no_aims": "Nessun Aim",
-  "somethings_wrong": "C'è un errore!",
+  "somethings_wrong": "Si è verificato un errore imprevisto!",
   "no_transactions": "Non ci sono transazioni",
   "scan": "Scan",
   "map_title": "Mappa dei WOM",
@@ -33,5 +33,11 @@
   "error_connection": "Errore nel caricamento delle transazioni.\nVerifica di avere la connessione Internet e riprova!",
   "update_transactions": "Aggiorna le transazioni",
   "go_to_website": "Vai al sito",
-  "more_info": "Maggiori info"
+  "more_info": "Maggiori info",
+  "no_connection_title": "Connessione dati assente",
+  "no_connection_desc": "Per accumulare o consumare WOM è necessario che il dispositivo sia connesso a internet",
+  "no_connection_aim_desc": "Per il primo avvio dell'app è necessario avere la connessione dati attiva in modo da poter scaricare i dati necessari al funzionamento del Pocket.\nAttiva i dati e premi il pulsante \"Riprova\"",
+  "no_connection_transaction_desc": "Per effettuare una transazione è necessario che il dispositivo sia connesso a internet.\nAttiva i dati e premi il pulsante \"Riprova\"",
+  "try_again": "Riprova",
+  "error": "Errore"
 }

@@ -84,11 +84,9 @@ class PinScreen extends StatelessWidget {
     );
 
     final transactionBloc = TransactionBloc(
-      repository,
-      bloc.deepLinkModel.otc,
-    );
+        repository, bloc.deepLinkModel.otc, bloc.deepLinkModel.type);
 
-    transactionBloc.dispatch(TransactionStarted(bloc.deepLinkModel.type));
+    transactionBloc.dispatch(TransactionStarted());
 
     final blocProviderTransaction = BlocProvider<TransactionBloc>(
       builder: (context) => transactionBloc,

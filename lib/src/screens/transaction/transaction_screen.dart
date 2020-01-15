@@ -1,12 +1,14 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/app/app_bloc.dart';
 import 'package:pocket/src/blocs/transactions_list/transactions_list_event.dart';
 import 'package:pocket/src/screens/transaction/info_payment.dart';
 import 'package:pocket/src/blocs/transaction/bloc.dart';
 
 import 'package:pocket/src/widgets/voucher_card.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_package/wom_package.dart' show TransactionType;
 import 'package:flutter/material.dart';
 
@@ -43,6 +45,8 @@ class TransactionScreenState extends State<TransactionScreen>
     return Future.value(false);
   }
 
+  final whiteTextStyle = TextStyle(color: Colors.white);
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -63,28 +67,73 @@ class TransactionScreenState extends State<TransactionScreen>
               return Center(
                 child: CircularProgressIndicator(),
               );
-            }
-
-            if (state is TransactionInfoPaymentState) {
+            } else if (state is TransactionNoDataConnectionState) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.warning,
+                      size: MediaQuery.of(context).size.width / 3,
+                      color: Colors.orange,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)
+                          .translate('no_connection_title'),
+                      textAlign: TextAlign.center,
+                      style:
+                          whiteTextStyle.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)
+                          .translate('no_connection_transaction_desc'),
+                      textAlign: TextAlign.center,
+                      style: whiteTextStyle,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    FloatingActionButton.extended(
+                      onPressed: () {
+                        if (state.infoPay == null) {
+                          bloc.dispatch(TransactionStarted());
+                        } else {
+                          bloc.dispatch(
+                              TransactionConfirmPayment(state.infoPay));
+                        }
+                      },
+                      label: Text(
+                        AppLocalizations.of(context).translate('try_again'),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else if (state is TransactionInfoPaymentState) {
               return Center(child: InfoPayment(state.infoPayment));
-            }
-
-            if (state is TransactionErrorState) {
+            } else if (state is TransactionErrorState) {
               return Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    CircleButton(text: 'Error!', color: Colors.red),
+                    CircleButton(
+                        text: AppLocalizations.of(context).translate('error'),
+                        color: Colors.red),
                     SizedBox(height: 15.0),
                     Text(
                       state.error,
-                      style: TextStyle(color: Colors.white),
+                      style: whiteTextStyle,
                     ),
+                    SizedBox(height: 15.0),
                     FloatingActionButton.extended(
                         onPressed: () {
                           backToHome();
                         },
-                        label: Text("OK")),
+                        label: Text("Ok")),
 //                    OutlineButton(
 //                        child: Text(
 //                          'OK',
@@ -96,9 +145,7 @@ class TransactionScreenState extends State<TransactionScreen>
                   ],
                 ),
               );
-            }
-
-            if (state is TransactionCompleteState) {
+            } else if (state is TransactionCompleteState) {
               _controller.forward();
               return AnimatedBuilder(
                 animation: _controller,
@@ -112,7 +159,7 @@ class TransactionScreenState extends State<TransactionScreen>
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Container(
-                            height: height/3,
+                            height: height / 3,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Theme.of(context).primaryColor,
@@ -194,9 +241,11 @@ class TransactionScreenState extends State<TransactionScreen>
                 },
               );
             }
-            return Container(
-              color: Colors.red,
-              child: Text("ERROR STATE"),
+            return Center(
+              child: Text(
+                AppLocalizations.of(context).translate('somethings_wrong'),
+                style: whiteTextStyle,
+              ),
             );
           },
         ),

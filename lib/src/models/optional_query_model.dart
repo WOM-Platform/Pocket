@@ -97,14 +97,18 @@ class OptionalQuery {
     String filtersWhereClause = "";
     final String aim = filters.aimCode;
     final bounds = filters.bounds;
-    if (aim != null) {
-      final aimClause = "${WomModel.tblWom}.${WomModel.dbAim} LIKE \"$aim%\"";
-      print(aimClause);
 
-      filtersWhereClause = filtersWhereClause.isEmpty
-          ? "$aimClause"
-          : "$filtersWhereClause AND $aimClause";
+    String aimClause;
+    if (aim != null) {
+      aimClause = "${WomModel.tblWom}.${WomModel.dbAim} LIKE \"$aim%\"";
+    } else {
+      aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \"0%\"";
     }
+    print(aimClause);
+
+    filtersWhereClause = filtersWhereClause.isEmpty
+        ? "$aimClause"
+        : "$filtersWhereClause AND $aimClause";
 
     if (filters.maxAge != null) {
       final int maxAgeInMilliseconds = filters.maxAgeToMilliseconds;

@@ -95,7 +95,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters?.aimCode ?? "",
+                                simpleFilters?.aimCode ?? "-",
                                 style: valueStyle,
                               ),
                             ],

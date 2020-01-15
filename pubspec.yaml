@@ -42,6 +42,7 @@ dependencies:
   share: ^0.6.2
   firebase_crashlytics: ^0.1.0+2
   rflutter_alert: ^1.0.3
+  data_connection_checker: ^0.3.4
   url_launcher: ^5.4.1
   wom_package:
     git:

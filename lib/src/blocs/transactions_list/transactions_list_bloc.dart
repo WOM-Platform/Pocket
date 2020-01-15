@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/models/transaction_model.dart';
-import 'package:pocket/src/services/app_repository.dart';
 import 'package:wom_package/wom_package.dart';
 import './bloc.dart';
 
@@ -29,9 +29,17 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
           database: AppDatabase.get().getDb());
 
       try {
+        //Se non ho gli aim salvati nel db li scarico da internet
         if (aims == null || aims.isEmpty) {
-          final repo = AppRepository();
-          aims = await repo.updateAim();
+          if (await DataConnectionChecker().hasConnection) {
+            // final repo = AppRepository();
+            aims = await _aimRepository.updateAim(
+                database: AppDatabase.get().getDb());
+          } else {
+            print("Aims null or empty and No internet connection");
+            yield TransactionsNoDataConnectionState();
+            return;
+          }
         }
 
         print('aim letti : ${aims.length}');
@@ -49,7 +57,7 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
         yield TransactionsLoaded(transactions);
       } catch (ex) {
         print(ex.toString());
-        yield TransactionsErrorLoading('error_connection');
+        yield TransactionsErrorState('somethings_wrong');
       }
     }
   }

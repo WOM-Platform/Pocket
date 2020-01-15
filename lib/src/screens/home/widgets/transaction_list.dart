@@ -9,7 +9,7 @@ class TransactionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TransactionsListBloc>(context);
-    return BlocBuilder(
+    return BlocBuilder<TransactionsEvent, TransactionsState>(
       bloc: bloc,
       builder: (BuildContext context, TransactionsState state) {
         if (state is TransactionsLoading) {
@@ -68,11 +68,42 @@ class TransactionsList extends StatelessWidget {
               ),
             );
           }
-        } else if (state is TransactionsErrorLoading) {
+        } else if (state is TransactionsErrorState) {
           return Center(
             child: Text(
               AppLocalizations.of(context).translate(state.error),
               textAlign: TextAlign.center,
+            ),
+          );
+        } else if (state is TransactionsNoDataConnectionState) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  AppLocalizations.of(context).translate('no_connection_title'),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  AppLocalizations.of(context)
+                      .translate('no_connection_aim_desc'),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                RaisedButton(
+                    child: Text(
+                        AppLocalizations.of(context).translate('try_again')),
+                    onPressed: () {
+                      bloc.dispatch(LoadTransactions());
+                    }),
+              ],
             ),
           );
         }
