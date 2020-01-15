@@ -11,6 +11,8 @@ import 'package:pocket/src/screens/map/map_screen.dart';
 import 'package:pocket/src/screens/pin/pin_screen.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen2 extends StatefulWidget {
   static const String path = '/home';
@@ -264,17 +266,40 @@ class _HomeScreen2State extends State<HomeScreen2> {
             ),
             IconButton(
               icon: Icon(
-                Icons.settings,
+                Icons.info,
                 color: Theme.of(context).accentColor,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/settings');
+                //Navigator.pushNamed(context, '/settings');
+                Alert(
+                  context: context,
+                  title: AppLocalizations.of(context).translate('more_info'),
+                  desc: 'www.wom.social',
+                  buttons: [
+                    DialogButton(
+                      child: Text(AppLocalizations.of(context)
+                          .translate('go_to_website')),
+                      onPressed: () {
+                        _launchURL();
+                      },
+                    )
+                  ],
+                ).show();
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  _launchURL() async {
+    const url = 'https://wom.social';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   //TODO delete in release

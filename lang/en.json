@@ -31,5 +31,7 @@
   "used": "used",
   "last_24h": "Last 24h",
   "error_connection": "Loading transactions error.\nCheck Internet connection and try again!",
-  "update_transactions": "Update Transactions"
+  "update_transactions": "Update Transactions",
+  "go_to_website": "Go to website",
+  "more_info": "More info"
 }

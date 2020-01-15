@@ -31,5 +31,7 @@
   "used": "hai usato",
   "last_24h": "Ultime 24 ore",
   "error_connection": "Errore nel caricamento delle transazioni.\nVerifica di avere la connessione Internet e riprova!",
-  "update_transactions": "Aggiorna le transazioni"
+  "update_transactions": "Aggiorna le transazioni",
+  "go_to_website": "Vai al sito",
+  "more_info": "Maggiori info"
 }
