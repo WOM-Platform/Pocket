@@ -30,14 +30,14 @@
   "earned": "earned",
   "used": "used",
   "last_24h": "Last 24h",
-  "error_connection": "Loading transactions error.\nCheck Internet connection and try again!",
+  "error_connection": "Loading transactions error.\nCheck your Internet connection and try again!",
   "update_transactions": "Update Transactions",
-  "go_to_website": "Go to website",
+  "go_to_website": "Open website",
   "more_info": "More info",
-  "no_connection_title": "",
-  "no_connection_desc": "",
-  "no_connection_aim_desc": "",
-  "no_connection_transaction_desc": "",
+  "no_connection_title": "No internet connection available",
+  "no_connection_desc": "To accumulate or consume WOMs your device needs to be connected to the internet",
+  "no_connection_aim_desc": "Since this is the first time launching the app you need an active internet connection to download all necessary data for configuring your Pocket. \nTurn your network data on and click \"Retry\"",
+  "no_connection_transaction_desc": "To do a transaction your device needs to have an active internet connection. \nTurn your network data on and click \"Retry\"",
   "try_again": "Try again",
-  "error": "Errore"
+  "error": "Error"
 }

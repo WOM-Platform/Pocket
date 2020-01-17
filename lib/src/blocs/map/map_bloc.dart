@@ -43,6 +43,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final a = await _womRepository.getWomGroupedByAim();
     sources.addAll(s.map((g) => g.type).toList());
     aims.addAll(a.map((g) => g.type).toList());
+    aims.removeWhere((a) => a.startsWith('0'));
     dispatch(UpdateMap(
       sources: s,
       aims: a,

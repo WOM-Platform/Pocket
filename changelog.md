@@ -1,3 +1,10 @@
+## 0.1.4+14
+
+* Add internet connection check before perform http requests
+* Improvement UE (warning popup, warning message...)
+* Map show all lives aims less those that start with 0
+* Replace setting icon with info icon 
+
 ## 0.0.3
 
 * Fix marker updating in Map

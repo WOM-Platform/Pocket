@@ -189,11 +189,33 @@ class MySlideAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SlideAction(
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      color: Colors.transparent,
+      child: Card(
+        color: color,
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: IconSlideAction(
+          caption: 'More',
+          color: Colors.transparent,
+          foregroundColor: Colors.white,
+          icon: icon,
+          onTap: onTap,
+        ),
+      ),
+    );
+    /*return SlideAction(
+      color: Colors.transparent,
       child: Container(
         width: double.infinity,
         height: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 4.0),
+        color: Colors.transparent,
         child: Card(
           color: color,
           elevation: 8.0,
@@ -207,6 +229,6 @@ class MySlideAction extends StatelessWidget {
         ),
       ),
       onTap: onTap,
-    );
+    );*/
   }
 }
