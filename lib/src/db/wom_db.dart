@@ -34,7 +34,7 @@ class WomDB {
   Future<List<WomModel>> getWoms(
       {int startDate = 0,
       int endDate = 0,
-      WomStatus womStatus,
+      WomStatus womStatus = WomStatus.ON,
       Set<String> sources}) async {
     if (sources != null && sources.isEmpty) {
       print("--------- COMPLETE QUERY AGGREGATION WOM");
@@ -78,7 +78,8 @@ class WomDB {
     SimpleFilters simpleFilters,
   }) async {
     var db = await _appDatabase.getDb();
-    var whereClause = OptionalQuery(filters: simpleFilters).build();
+    var whereClause =
+        OptionalQuery(filters: simpleFilters, womStatus: WomStatus.ON).build();
 
     try {
       print('SELECT ${WomModel.dbId}, ${WomModel.dbSecret} '
@@ -87,7 +88,7 @@ class WomDB {
           await db.rawQuery('SELECT ${WomModel.dbId}, ${WomModel.dbSecret} '
               'FROM ${WomModel.tblWom} $whereClause;');
       print(result);
-      List<WomPayModel> woms = new List();
+      final List<WomPayModel> woms = [];
       for (Map<String, dynamic> item in result) {
         var wom = new WomPayModel.fromMap(item);
         woms.add(wom);
@@ -177,7 +178,10 @@ class WomDB {
     try {
       var db = await _appDatabase.getDb();
       var whereClause = OptionalQuery(
-              startDate: startDate, endDate: endDate, sources: sources)
+              startDate: startDate,
+              endDate: endDate,
+              sources: sources,
+              womStatus: WomStatus.ON)
           .build();
 
       var result = await db.rawQuery(
@@ -253,13 +257,28 @@ class WomDB {
   }
 
   /// Inserts or replaces the task.
-  Future<int> updateWomStatusToOff(int womId, int transactionId) async {
+  Future<void> insertWom2(WomModel wom) async {
+    var db = await _appDatabase.getDb();
+    try {
+      await db.transaction((Transaction txn) async {
+        int id = await txn.rawInsert('INSERT INTO '
+            '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
+            ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}",${wom.sourceId},"${wom.aim}",${wom.transactionId})');
+      });
+    } catch (e) {
+      print(e.toString());
+      throw e;
+    }
+  }
+
+  /// Inserts or replaces the task.
+  Future<int> updateWomStatusToOff(String womId, int transactionId) async {
     var db = await _appDatabase.getDb();
     try {
       int count;
       await db.transaction((Transaction txn) async {
         count = await txn.rawUpdate(
-            'UPDATE ${WomModel.tblWom} SET ${WomModel.dbLive} = ?, ${WomModel.dbTransactionId} = ? WHERE ${WomModel.dbId} = "$womId"',
+            'UPDATE ${WomModel.tblWom} SET ${WomModel.dbLive} = ?, ${WomModel.dbTransactionId} = ? WHERE ${WomModel.dbId} = $womId',
             ['1', transactionId]);
       });
       return count;

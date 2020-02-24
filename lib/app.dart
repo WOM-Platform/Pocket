@@ -1,3 +1,4 @@
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/blocs/settings/bloc.dart';
 import 'package:pocket/src/blocs/suggestions/bloc.dart';
@@ -127,7 +128,9 @@ class _AppState extends State<App> {
 //                        child: HomeScreen2(), bloc: _homeBloc);
 
                     final homeProvider = BlocProviderTree(
-                      child: HomeScreen2(),
+                      child: FeatureDiscovery(
+                        child: HomeScreen2(),
+                      ),
                       blocProviders: <BlocProvider>[
                         BlocProvider<TransactionsListBloc>(
                             builder: (context) => _transactionsBloc),

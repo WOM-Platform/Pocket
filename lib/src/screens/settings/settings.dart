@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/db/app_db.dart';
+import 'package:pocket/src/db/wom_db.dart';
+import 'package:pocket/src/screens/table_page/db_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wom_package/wom_package.dart' show Config, Flavor;
+import 'package:package_info/package_info.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -26,6 +30,33 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
+          ListTile(
+            title: Text('Demo'),
+            subtitle: Text('Impara ad utilizzare l\'app'),
+            trailing: Icon(Icons.arrow_forward_ios),
+            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            onTap: () => _launchUrl('https://wom.social'),
+          ),
+          ListTile(
+            title: Text('Info'),
+            subtitle: Text('Visita il nostro sito'),
+            trailing: Icon(Icons.arrow_forward_ios),
+            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            onTap: () => _launchUrl('https://wom.social'),
+          ),
+
+          VersionInfo(),
+          ListTile(
+            title: Text('Visita WOM DB'),
+            trailing: Icon(Icons.data_usage),
+            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            onTap: () async {
+              final woms = await WomDB.get().getWoms(womStatus: null);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      WomDbTablePage(woms: woms)));
+            },
+          ),
           if (Config.appFlavor == Flavor.DEVELOPMENT) ...[
             SettingsItem(
               title: 'Clear DB (only for debug)',
@@ -56,12 +87,12 @@ class SettingsScreen extends StatelessWidget {
 //              print("reset suggestion");
 //            },
 //          ),
-          SettingsItem(
-            title: AppLocalizations.of(context).translate('info_about_title'),
-            subtitle: AppLocalizations.of(context).translate('info_about_desc'),
-            icon: Icons.info_outline,
-            onTap: null,
-          ),
+//          SettingsItem(
+//            title: AppLocalizations.of(context).translate('info_about_title'),
+//            subtitle: AppLocalizations.of(context).translate('info_about_desc'),
+//            icon: Icons.info_outline,
+//            onTap: null,
+//          ),
 //          SettingsItem(
 //            subtitle: "Enabled or disabled fake mode",
 //            title: "Fake Mode",
@@ -89,6 +120,14 @@ class SettingsScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 
@@ -124,6 +163,37 @@ class SettingsItem extends StatelessWidget {
         icon,
         color: Theme.of(context).primaryColor,
       ),
+    );
+  }
+}
+
+class VersionInfo extends StatelessWidget {
+  const VersionInfo({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<PackageInfo>(
+      future: PackageInfo.fromPlatform(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final pkg = snapshot.data;
+          return ListTile(
+            title: Text('Versione dell\'app'),
+            subtitle: Text(pkg.version),
+            trailing: Icon(Icons.info),
+            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            onTap: null,
+          );
+          return Row(
+            children: <Widget>[
+              Text('v. ${pkg.version}'),
+            ],
+          );
+        }
+        return Container();
+      },
     );
   }
 }

@@ -20,7 +20,8 @@ class WomModel {
 
   LatLng gLocation;
   String secret;
-  int id, timestamp;
+  String id;
+  int timestamp;
   WomStatus live;
   String geohash;
   String sourceName;
@@ -42,7 +43,7 @@ class WomModel {
   }
 
   WomModel.fromMap(Map<String, dynamic> map)
-      : id = map[dbId],
+      : id = map[dbId].toString(),
         timestamp = map[dbTimestamp] is String
             ? DateTime.parse(map[dbTimestamp]).millisecondsSinceEpoch
             : map[dbTimestamp],
@@ -53,7 +54,7 @@ class WomModel {
         aim = map[dbAim] {
     this.geohash =
         Geohash.encode(this.gLocation.latitude, this.gLocation.longitude);
-    this.live = WomStatus.ON;
+    this.live = WomStatus.values[map[dbLive] ?? 0];
   }
 
   Map<String, dynamic> toJson() {

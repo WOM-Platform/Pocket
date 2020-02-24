@@ -1,3 +1,4 @@
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/localization/app_localizations.dart';
@@ -18,9 +19,27 @@ class TransactionsList extends StatelessWidget {
           if (state.transactions != null) {
             if (state.transactions.isEmpty) {
               return Center(
-                child: Text(
-                  AppLocalizations.of(context).translate('no_transactions'),
-                  style: TextStyle(color: darkBlueColor),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      AppLocalizations.of(context).translate('no_transactions'),
+                      style: TextStyle(color: darkBlueColor),
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.info),
+                        color: Theme.of(context).primaryColor,
+                        onPressed: () {
+                          FeatureDiscovery.discoverFeatures(
+                            context,
+                            const <String>{
+                              'add_item_feature_id',
+                              'show_map_info',
+                              'show_demo_info',
+                            },
+                          );
+                        }),
+                  ],
                 ),
               );
             } else {

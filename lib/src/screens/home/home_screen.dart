@@ -1,5 +1,7 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:feature_discovery/feature_discovery.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clippy_flutter/arc.dart';
 import 'package:pocket/localization/app_localizations.dart';
@@ -10,6 +12,7 @@ import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:pocket/src/screens/map/map_screen.dart';
 import 'package:pocket/src/screens/pin/pin_screen.dart';
+import 'package:pocket/src/screens/settings/settings.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -25,96 +28,32 @@ class HomeScreen2 extends StatefulWidget {
 class _HomeScreen2State extends State<HomeScreen2> {
 //  HomeBloc bloc;
   PinBloc _pinBloc;
+  GlobalKey _one = GlobalKey();
 
 //  ScrollController _scrollViewController;
 
   @override
   void initState() {
+    /*SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
+      FeatureDiscovery.discoverFeatures(
+        context,
+        const <String>{
+          'add_item_feature_id',
+        },
+      );
+    });*/
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     print('HomeScreen: build');
-
-//    SystemChrome.setSystemUIOverlayStyle(
-//      SystemUiOverlayStyle(
-//        statusBarColor: Theme.of(context).primaryColor,
-//        statusBarIconBrightness: Brightness.dark,
-//      ),
-//    );
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: Text('WOM POCKET'),
         centerTitle: true,
       ),
-//      appBar: AppBar(
-//        title: Text(AppLocalizations.of(context).title, style: TextStyle(color: darkBlueColor),),
-//        backgroundColor: Colors.transparent,
-//        actions: <Widget>[
-//          StreamBuilder<int>(
-//            stream: bloc.womsCount,
-//            builder: (ctx, snap) {
-//              if (!snap.hasData) {
-//                return CircularProgressIndicator();
-//              }
-//              return Center(
-//                  child: Padding(
-//                padding: const EdgeInsets.all(8.0),
-//                child: Text(snap.data.toString()),
-//              ));
-//            },
-//          ),
-//        ],
-//      ),
-//      body: SafeArea(
-//        child: Column(
-//          crossAxisAlignment: CrossAxisAlignment.start,
-//          children: <Widget>[
-//            Center(
-//              child: Padding(
-//                padding:
-//                    const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-//                child: Text(
-//                  AppLocalizations.of(context).title,
-//                  style: TextStyle(
-//                      color: Theme.of(context).primaryColor,
-//                      fontSize: 30.0,
-//                      fontWeight: FontWeight.bold),
-//                  textAlign: TextAlign.center,
-//                ),
-//              ),
-//            ),
-////            Padding(
-////              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-////              child: Divider(
-////                color: Colors.grey,
-////                height: 8.0,
-////              ),
-////            ),
-//            SuggestionsSection(),
-//            Padding(
-//              padding: const EdgeInsets.only(top: 20.0, left: 10.0),
-//              child: Text(
-////                AppLocalizations.of(context).lastMovements,
-//              "Last transactions",
-//                style: TextStyle(
-//                    color: darkBlueColor2,
-//                    fontSize: 24.0,
-//                    fontWeight: FontWeight.w500),
-//              ),
-//            ),
-//            SizedBox(
-//              height: 10.0,
-//            ),
-//            Flexible(
-//              child: TransactionsList(),
-//            ),
-//          ],
-//        ),
-//      ),
       extendBody: true,
       body: Stack(
         fit: StackFit.expand,
@@ -132,129 +71,43 @@ class _HomeScreen2State extends State<HomeScreen2> {
           TransactionsList(),
         ],
       ),
-      /*body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topCenter,
-            child: Arc(
-              child: Container(
-                color: Theme.of(context).primaryColor,
-                height: MediaQuery.of(context).size.height / 2 - 50,
-              ),
-              height: 50,
-            ),
-          ),
-          NestedScrollView(
-//            controller: _scrollViewController,
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                new SliverAppBar(
-                  title: Text('WOM POCKET'),
-                  centerTitle: true,
-                  pinned: true,
-                  floating: false,
-                  forceElevated: innerBoxIsScrolled,
-                ),
-              ];
-            },
-            body: TransactionsList(),
-          ),
-        ],
-      ),*/
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton.extended(
-//        backgroundColor: Theme.of(context).primaryColor,
+      floatingActionButton: DescribedFeatureOverlay(
+        featureId: 'add_item_feature_id',
+        // Unique id that identifies this overlay.
+
+        tapTarget: FloatingActionButton.extended(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          label: Text(
+            AppLocalizations.of(context).translate('scan'),
+            style: TextStyle(color: baseIconColor),
+          ),
+          icon: const Icon(
+            Icons.camera_enhance,
+            color: baseIconColor,
+          ),
+          onPressed: null,
+        ),
+        // The widget that will be displayed as the tap target.
+        title: Text("Benvenuto nell'applicazione WOM POCKET"),
+        description: Text(
+            'Accumula o utilizza i WOM scansionando il QR-Code che ti hanno rilasciato'),
         backgroundColor: Theme.of(context).accentColor,
-        label: Text(
-          AppLocalizations.of(context).translate('scan'),
-          style: TextStyle(color: baseIconColor),
+        targetColor: Colors.white,
+        textColor: Theme.of(context).primaryColor,
+        child: FloatingActionButton.extended(
+          backgroundColor: Theme.of(context).accentColor,
+          label: Text(
+            AppLocalizations.of(context).translate('scan'),
+            style: TextStyle(color: baseIconColor),
+          ),
+          icon: const Icon(
+            Icons.camera_enhance,
+            color: baseIconColor,
+          ),
+          onPressed: () => _startScan(),
         ),
-        icon: const Icon(
-          Icons.camera_enhance,
-          color: baseIconColor,
-        ),
-        onPressed: () async {
-//            final String link = await showEditField(context);
-//          final link = "https://wom.social/vouchers/f6f8fd2a8c424a60aa23f8f444742f13";
-//            final link =
-//                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
-
-//            final String link = await bloc.scanQRCode();
-          if (await DataConnectionChecker().hasConnection) {
-            try {
-              final link = await BarcodeScanner.scan();
-              final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
-
-//            var blocProviderPin = myBlocProvider.BlocProvider(
-//              bloc: PinBloc(),
-//              child: PinScreen(
-//                deepLinkModel: deepLinkModel,
-//              ),
-//            );
-              _pinBloc = PinBloc(deepLinkModel);
-              var blocProviderPin = BlocProvider(
-                builder: (context) => _pinBloc,
-                child: PinScreen(),
-              );
-              await Navigator.push(
-                context,
-                MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
-              );
-            } on PlatformException catch (ex) {
-              if (ex == BarcodeScanner.CameraAccessDenied) {
-                throw ex;
-              } else {
-                throw Exception("unknow error");
-              }
-            } on FormatException {
-              throw FormatException(
-                  "Hai premuto il pulsante back prima di acquisire il dato");
-            } catch (ex) {
-              throw ex;
-            }
-          } else {
-            Alert(
-              context: context,
-              style: AlertStyle(),
-              type: AlertType.warning,
-              title:
-                  AppLocalizations.of(context).translate('no_connection_title'),
-              desc:
-                  AppLocalizations.of(context).translate('no_connection_desc'),
-              buttons: [
-                DialogButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ).show();
-          }
-//            var blocProviderAcceptCredits = BlocProvider(
-//              bloc: AcceptCreditsBloc(deepLinkModel),
-//              child: AcceptCredits(),
-//            );
-//            final result = await Navigator.push(
-//              context,
-//              MaterialPageRoute<String>(builder: (context) => blocProviderAcceptCredits),
-//            );
-//            print(result);
-          //print("sono tornato");
-          //bloc.refreshList();
-
-//          var blocProviderScan = BlocProvider(
-//            bloc: AcceptCreditsBloc(),
-//            child: AcceptCredits(),
-//          );
-//          await Navigator.push(
-//            context,
-//            MaterialPageRoute<bool>(builder: (context) => blocProviderScan),
-//          );
-//          bloc.refreshList();
-        },
       ),
       bottomNavigationBar: BottomAppBar(
         shape: AutomaticNotchedShape(
@@ -264,53 +117,135 @@ class _HomeScreen2State extends State<HomeScreen2> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.map, color: Theme.of(context).accentColor),
-              onPressed: () {
-//                final mapProvider = myBlocProvider.BlocProvider<GoogleMapBloc>(
-////                  child: MapPageView(),
-//                  child: GoogleMapScreen(),
-////                  bloc: GoogleMapBloc(WomDB.get(), bloc.nWoms),
-//                  bloc: GoogleMapBloc(WomDB.get(), 22),
-//                );
-                final mapProvider = BlocProvider<MapBloc>(
-                  child: MapScreen(),
-                  builder: (context) => MapBloc(),
-                );
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => mapProvider));
-              },
+            DescribedFeatureOverlay(
+              featureId: 'show_map_info',
+              // Unique id that identifies this overlay.
+              tapTarget: const Icon(Icons.map),
+              // The widget that will be displayed as the tap target.
+              title: Text('I tuoi WOM sulla mappa'),
+              description: Text('Visualizza dove hai guadagnato i WOM'),
+              backgroundColor: Theme.of(context).accentColor,
+              targetColor: Colors.white,
+              textColor: Theme.of(context).primaryColor,
+              child: IconButton(
+                icon: Icon(Icons.map, color: Theme.of(context).accentColor),
+                onPressed: () => _goToMap(),
+              ),
             ),
             Expanded(
               child: SizedBox(),
             ),
-            IconButton(
-              icon: Icon(
-                Icons.info,
-                color: Theme.of(context).accentColor,
+            DescribedFeatureOverlay(
+              featureId: 'show_demo_info',
+              // Unique id that identifies this overlay.
+              tapTarget: const Icon(Icons.settings),
+              // The widget that will be displayed as the tap target.
+              title: Text('Sperimenta l\'app con dei WOM di prova'),
+              description: Text(
+                  'Visitando il sito potrai imparare come accumulare o spendere i tuoi WOM'),
+              backgroundColor: Theme.of(context).accentColor,
+              targetColor: Colors.white,
+              textColor: Theme.of(context).primaryColor,
+              child: IconButton(
+                icon: Icon(
+                  Icons.settings,
+                  color: Theme.of(context).accentColor,
+                ),
+                onPressed: () => _goToSettings(),
               ),
-              onPressed: () {
-                //Navigator.pushNamed(context, '/settings');
-                Alert(
-                  context: context,
-                  title: AppLocalizations.of(context).translate('more_info'),
-                  desc: 'www.wom.social',
-                  buttons: [
-                    DialogButton(
-                      child: Text(AppLocalizations.of(context)
-                          .translate('go_to_website')),
-                      onPressed: () {
-                        _launchURL();
-                      },
-                    )
-                  ],
-                ).show();
-              },
             ),
           ],
         ),
       ),
     );
+  }
+
+  _goToSettings() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+  }
+
+  _showInfo() {
+    Alert(
+      context: context,
+      title: AppLocalizations.of(context).translate('more_info'),
+      desc: 'www.wom.social',
+      buttons: [
+        DialogButton(
+          child: Text(AppLocalizations.of(context).translate('go_to_website')),
+          onPressed: () {
+            _launchURL();
+          },
+        )
+      ],
+    ).show();
+  }
+
+  _goToMap() {
+    final mapProvider = BlocProvider<MapBloc>(
+      child: MapScreen(),
+      builder: (context) => MapBloc(),
+    );
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => mapProvider));
+  }
+
+  _startScan() async {
+//            final String link = await showEditField(context);
+//          final link = "https://wom.social/vouchers/f6f8fd2a8c424a60aa23f8f444742f13";
+//            final link =
+//                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
+
+//            final String link = await bloc.scanQRCode();
+    if (await DataConnectionChecker().hasConnection) {
+      try {
+        final link = await BarcodeScanner.scan();
+        final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
+
+//            var blocProviderPin = myBlocProvider.BlocProvider(
+//              bloc: PinBloc(),
+//              child: PinScreen(
+//                deepLinkModel: deepLinkModel,
+//              ),
+//            );
+        _pinBloc = PinBloc(deepLinkModel);
+        var blocProviderPin = BlocProvider(
+          builder: (context) => _pinBloc,
+          child: PinScreen(),
+        );
+        await Navigator.push(
+          context,
+          MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
+        );
+      } on PlatformException catch (ex) {
+        if (ex == BarcodeScanner.CameraAccessDenied) {
+          throw ex;
+        } else {
+          throw Exception("unknow error");
+        }
+      } on FormatException {
+        throw FormatException(
+            "Hai premuto il pulsante back prima di acquisire il dato");
+      } catch (ex) {
+        throw ex;
+      }
+    } else {
+      Alert(
+        context: context,
+        style: AlertStyle(),
+        type: AlertType.warning,
+        title: AppLocalizations.of(context).translate('no_connection_title'),
+        desc: AppLocalizations.of(context).translate('no_connection_desc'),
+        buttons: [
+          DialogButton(
+            child: Text('Ok'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
+      ).show();
+    }
   }
 
   _launchURL() async {
@@ -321,27 +256,6 @@ class _HomeScreen2State extends State<HomeScreen2> {
       throw 'Could not launch $url';
     }
   }
-
-  //TODO delete in release
-//  Future<String> showEditField(context) async {
-//    TextEditingController editingController = TextEditingController();
-//    return await showDialog(
-//        context: context,
-//        builder: (ctx) {
-//          return AlertDialog(
-//            title: TextField(
-//              controller: editingController,
-//            ),
-//            actions: <Widget>[
-//              FlatButton(
-//                  child: new Text("GO"),
-//                  onPressed: () {
-//                    Navigator.of(context).pop(editingController.text);
-//                  }),
-//            ],
-//          );
-//        });
-//  }
 
   @override
   void dispose() {

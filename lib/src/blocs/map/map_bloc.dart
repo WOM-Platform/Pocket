@@ -104,6 +104,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     clusteringHelper.whereClause = OptionalQuery(
       startDate: startDateQuery,
       endDate: endDateQuery,
+      womStatus: WomStatus.ON,
       sources: sources,
       aims: aims,
     ).build();
