@@ -3,11 +3,14 @@ import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/screens/table_page/db_page.dart';
+import 'package:pocket/src/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wom_package/wom_package.dart' show Config, Flavor;
 import 'package:package_info/package_info.dart';
 
 class SettingsScreen extends StatelessWidget {
+  bool current = false;
+
   @override
   Widget build(BuildContext context) {
 //    final SettingsBloc bloc = BlocProvider.of<SettingsBloc>(context);
@@ -44,20 +47,46 @@ class SettingsScreen extends StatelessWidget {
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => _launchUrl('https://wom.social'),
           ),
-
-          VersionInfo(),
           ListTile(
-            title: Text('Visita WOM DB'),
-            trailing: Icon(Icons.data_usage),
+            title: Text('Mostra l\'intro'),
+            subtitle:
+                Text('Abilita per visualizzare l\'intro al prossimo avvio'),
+            trailing: StatefulBuilder(
+              builder: (ctx, setState) {
+                return FutureBuilder<bool>(
+                  future: Utils.readIsFirstOpen(),
+                  builder: (ctx, AsyncSnapshot<bool> value) {
+                    if (!value.hasData) {
+                      return Container();
+                    }
+                    print(value);
+                    return Switch(
+                      value: !value.data,
+                      onChanged: (bool v) async {
+                        await Utils.setFirstOpen(!v);
+                        setState(() {});
+                      },
+                    );
+                  },
+                );
+              },
+            ),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () async {
-              final woms = await WomDB.get().getWoms(womStatus: null);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      WomDbTablePage(woms: woms)));
-            },
+            onTap: () => _launchUrl('https://wom.social'),
           ),
+          VersionInfo(),
           if (Config.appFlavor == Flavor.DEVELOPMENT) ...[
+            ListTile(
+              title: Text('Visita WOM DB'),
+              trailing: Icon(Icons.data_usage),
+              contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+              onTap: () async {
+                final woms = await WomDB.get().getWoms(womStatus: null);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        WomDbTablePage(woms: woms)));
+              },
+            ),
             SettingsItem(
               title: 'Clear DB (only for debug)',
               subtitle: "Delete all data of local database",

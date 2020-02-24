@@ -41,14 +41,25 @@ class Utils {
 
   //Check if is the first open
   static Future<bool> isFirstOpen() async {
+    final isFirstOpen = await readIsFirstOpen();
+    print(isFirstOpen);
+    if (isFirstOpen == true) {
+      return !isFirstOpen;
+    }
+    await setFirstOpen(true);
+    return true;
+  }
+
+  //Check if is the first open
+  static Future<bool> readIsFirstOpen() async {
     MmkvFlutter mmkv = await MmkvFlutter.getInstance();
     final isFirstOpen = await mmkv.getBool(IS_FIRST_OPEN);
-    print(isFirstOpen);
-    if (isFirstOpen != null) {
-      return isFirstOpen;
-    }
-    mmkv.setBool(IS_FIRST_OPEN, false);
-    return true;
+    return isFirstOpen;
+  }
+
+  static Future setFirstOpen(bool value) async {
+    MmkvFlutter mmkv = await MmkvFlutter.getInstance();
+    await mmkv.setBool(IS_FIRST_OPEN, value);
   }
 
   static Future<bool> isSuggestionsDisabled() async {
@@ -61,7 +72,8 @@ class Utils {
     return false;
   }
 
-  static Future<bool> setIsSuggestionDisabledToSharedPreference(bool status) async {
+  static Future<bool> setIsSuggestionDisabledToSharedPreference(
+      bool status) async {
     MmkvFlutter mmkv = await MmkvFlutter.getInstance();
     return await mmkv.setBool(IS_SUGGESTIONS_DISABLED, status);
   }

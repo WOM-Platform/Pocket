@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/blocs/settings/bloc.dart';
@@ -57,6 +58,8 @@ class _AppState extends State<App> {
     return BlocProvider<AppBloc>(
       builder: (context) => _appBloc,
       child: MaterialApp(
+          locale: DevicePreview.of(context).locale, // <--- Add the locale
+          builder: DevicePreview.appBuilder, // <--- Add the build
           localizationsDelegates: [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
