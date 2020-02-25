@@ -7,7 +7,7 @@ class ResponseRedeem {
 
   List<WomModel> woms;
   String sourceName;
-  int sourceId;
+  String sourceId;
 
   ResponseRedeem({this.woms, this.sourceName});
 
@@ -19,7 +19,7 @@ class ResponseRedeem {
         woms.add(new WomModel.fromMap(v));
       });
       sourceName = json[SOURCE_NAME] ?? "";
-      sourceId = json[SOURCE_ID];
+      sourceId = json[SOURCE_ID].toString();
     }
   }
 

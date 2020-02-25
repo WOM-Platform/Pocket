@@ -86,7 +86,7 @@ class AppDatabase {
     try {
       batch.rawInsert('INSERT INTO '
           '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
-          ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}",${wom.sourceId},"${wom.aim}",${wom.transactionId})');
+          ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}","${wom.sourceId}","${wom.aim}",${wom.transactionId})');
     } catch (e) {
       debugPrint(e.toString());
       throw e;
@@ -136,7 +136,7 @@ class AppDatabase {
         "${WomModel.dbTimestamp} LONG,"
         "${WomModel.dbLive} INTEGER,"
         "${WomModel.dbSourceName} TEXT,"
-        "${WomModel.dbSourceId} INTEGER,"
+        "${WomModel.dbSourceId} TEXT,"
         "${WomModel.dbTransactionId} INTEGER,"
         "${WomModel.dbLat} LONG,"
         "${WomModel.dbLong} LONG);");

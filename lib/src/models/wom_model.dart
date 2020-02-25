@@ -25,7 +25,7 @@ class WomModel {
   WomStatus live;
   String geohash;
   String sourceName;
-  int sourceId;
+  String sourceId;
   int transactionId;
   String aim;
 
@@ -50,7 +50,7 @@ class WomModel {
         gLocation = LatLng(map[dbLat], map[dbLong]),
         secret = map[dbSecret],
         sourceName = map[dbSourceName],
-        sourceId = map[dbSourceId],
+        sourceId = map[dbSourceId].toString(),
         aim = map[dbAim] {
     this.geohash =
         Geohash.encode(this.gLocation.latitude, this.gLocation.longitude);

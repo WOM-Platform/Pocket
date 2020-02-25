@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clippy_flutter/arc.dart';
 import 'package:pocket/localization/app_localizations.dart';
+import 'package:pocket/src/blocs/app/app_bloc.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
@@ -16,7 +17,6 @@ import 'package:pocket/src/screens/settings/settings.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen2 extends StatefulWidget {
   static const String path = '/home';
@@ -26,22 +26,15 @@ class HomeScreen2 extends StatefulWidget {
 }
 
 class _HomeScreen2State extends State<HomeScreen2> {
-//  HomeBloc bloc;
   PinBloc _pinBloc;
-  GlobalKey _one = GlobalKey();
-
-//  ScrollController _scrollViewController;
 
   @override
   void initState() {
-    /*SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
-      FeatureDiscovery.discoverFeatures(
-        context,
-        const <String>{
-          'add_item_feature_id',
-        },
-      );
-    });*/
+    SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
+      if (isFirstOpen) {
+        _showTutorial(context);
+      }
+    });
     super.initState();
   }
 
@@ -53,6 +46,16 @@ class _HomeScreen2State extends State<HomeScreen2> {
       appBar: AppBar(
         title: Text('WOM POCKET'),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.info),
+            color: Theme.of(context).accentColor,
+            onPressed: () {
+              _clearTutorial(context);
+              _showTutorial(context);
+            },
+          ),
+        ],
       ),
       extendBody: true,
       body: Stack(
@@ -74,8 +77,6 @@ class _HomeScreen2State extends State<HomeScreen2> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: DescribedFeatureOverlay(
         featureId: 'add_item_feature_id',
-        // Unique id that identifies this overlay.
-
         tapTarget: FloatingActionButton.extended(
           elevation: 0,
           backgroundColor: Colors.white,
@@ -165,22 +166,6 @@ class _HomeScreen2State extends State<HomeScreen2> {
         context, MaterialPageRoute(builder: (context) => SettingsScreen()));
   }
 
-  _showInfo() {
-    Alert(
-      context: context,
-      title: AppLocalizations.of(context).translate('more_info'),
-      desc: 'www.wom.social',
-      buttons: [
-        DialogButton(
-          child: Text(AppLocalizations.of(context).translate('go_to_website')),
-          onPressed: () {
-            _launchURL();
-          },
-        )
-      ],
-    ).show();
-  }
-
   _goToMap() {
     final mapProvider = BlocProvider<MapBloc>(
       child: MapScreen(),
@@ -248,6 +233,22 @@ class _HomeScreen2State extends State<HomeScreen2> {
     }
   }
 
+/*  _showInfo() {
+    Alert(
+      context: context,
+      title: AppLocalizations.of(context).translate('more_info'),
+      desc: 'www.wom.social',
+      buttons: [
+        DialogButton(
+          child: Text(AppLocalizations.of(context).translate('go_to_website')),
+          onPressed: () {
+            _launchURL();
+          },
+        )
+      ],
+    ).show();
+  }
+
   _launchURL() async {
     const url = 'https://wom.social';
     if (await canLaunch(url)) {
@@ -255,12 +256,34 @@ class _HomeScreen2State extends State<HomeScreen2> {
     } else {
       throw 'Could not launch $url';
     }
-  }
+  }*/
 
   @override
   void dispose() {
     _pinBloc?.dispose();
 //    _sub.cancel();
     super.dispose();
+  }
+
+  void _clearTutorial(context) {
+    FeatureDiscovery.clearPreferences(
+      context,
+      const <String>{
+        'add_item_feature_id',
+        'show_map_info',
+        'show_demo_info',
+      },
+    );
+  }
+
+  void _showTutorial(BuildContext context) {
+    FeatureDiscovery.discoverFeatures(
+      context,
+      const <String>{
+        'add_item_feature_id',
+        'show_map_info',
+        'show_demo_info',
+      },
+    );
   }
 }

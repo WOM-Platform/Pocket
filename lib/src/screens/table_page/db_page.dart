@@ -70,7 +70,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                   label: Text(WomModel.dbSourceId),
                   numeric: true,
                   onSort: (columnIndex, ascending) =>
-                      _sort<num>((d) => d.sourceId, columnIndex, ascending),
+                      _sort<String>((d) => d.sourceId, columnIndex, ascending),
                 ),
                 DataColumn(
                   label: Text(WomModel.dbSourceName),

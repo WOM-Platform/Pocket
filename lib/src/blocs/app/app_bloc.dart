@@ -10,6 +10,8 @@ import 'package:uni_links/uni_links.dart';
 import 'app_event.dart';
 import 'app_state.dart';
 
+bool isFirstOpen = false;
+
 class AppBloc extends Bloc<AppEvent, AppState> {
   final AppRepository _appRepository;
   StreamSubscription _sub;
@@ -62,9 +64,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         await Future.delayed(Duration(milliseconds: 500));
         yield DeepLinkMode(deepLink);
       } else {
-        final isFirstOpen = await Utils.isFirstOpen();
-        //TODO remove delay?
-        await Future.delayed(Duration(milliseconds: 500));
+        isFirstOpen = await Utils.readIsFirstOpen();
+        if (isFirstOpen) {
+          await Utils.setIsFirstOpen(false);
+        }
         if (isFirstOpen) {
           yield IntroMode();
         } else {

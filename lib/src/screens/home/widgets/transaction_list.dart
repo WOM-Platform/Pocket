@@ -26,19 +26,14 @@ class TransactionsList extends StatelessWidget {
                       AppLocalizations.of(context).translate('no_transactions'),
                       style: TextStyle(color: darkBlueColor),
                     ),
-                    IconButton(
-                        icon: Icon(Icons.info),
-                        color: Theme.of(context).primaryColor,
-                        onPressed: () {
-                          FeatureDiscovery.discoverFeatures(
-                            context,
-                            const <String>{
-                              'add_item_feature_id',
-                              'show_map_info',
-                              'show_demo_info',
-                            },
-                          );
-                        }),
+                    /*IconButton(
+                      icon: Icon(Icons.info),
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        _clearTutorial(context);
+                        _showTutorial(context);
+                      },
+                    ),*/
                   ],
                 ),
               );
@@ -130,6 +125,28 @@ class TransactionsList extends StatelessWidget {
           child:
               Text(AppLocalizations.of(context).translate('somethings_wrong')),
         );
+      },
+    );
+  }
+
+  void _clearTutorial(context) {
+    FeatureDiscovery.clearPreferences(
+      context,
+      const <String>{
+        'add_item_feature_id',
+        'show_map_info',
+        'show_demo_info',
+      },
+    );
+  }
+
+  void _showTutorial(BuildContext context) {
+    FeatureDiscovery.discoverFeatures(
+      context,
+      const <String>{
+        'add_item_feature_id',
+        'show_map_info',
+        'show_demo_info',
       },
     );
   }

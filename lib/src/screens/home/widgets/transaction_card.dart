@@ -183,8 +183,10 @@ class MySlideAction extends StatelessWidget {
   final Function onTap;
   final IconData icon;
   final Color color;
+  final String caption;
 
-  const MySlideAction({Key key, this.onTap, this.icon, this.color})
+  const MySlideAction(
+      {Key key, this.onTap, this.icon, this.color, this.caption})
       : super(key: key);
 
   @override
@@ -201,7 +203,7 @@ class MySlideAction extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: IconSlideAction(
-          caption: 'More',
+          caption: caption,
           color: Colors.transparent,
           foregroundColor: Colors.white,
           icon: icon,

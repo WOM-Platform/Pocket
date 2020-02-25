@@ -38,7 +38,7 @@ class SettingsScreen extends StatelessWidget {
             subtitle: Text('Impara ad utilizzare l\'app'),
             trailing: Icon(Icons.arrow_forward_ios),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => _launchUrl('https://wom.social'),
+            onTap: () => _launchUrl('https://wom.social/demo/pocket'),
           ),
           ListTile(
             title: Text('Info'),
@@ -61,9 +61,9 @@ class SettingsScreen extends StatelessWidget {
                     }
                     print(value);
                     return Switch(
-                      value: !value.data,
+                      value: value.data,
                       onChanged: (bool v) async {
-                        await Utils.setFirstOpen(!v);
+                        await Utils.setIsFirstOpen(v);
                         setState(() {});
                       },
                     );
