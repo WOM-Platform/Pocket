@@ -1,5 +1,6 @@
 import 'package:mmkv_flutter/mmkv_flutter.dart';
 import 'package:pocket/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
   //TODO delete in release
@@ -76,5 +77,13 @@ class Utils {
       bool status) async {
     MmkvFlutter mmkv = await MmkvFlutter.getInstance();
     return await mmkv.setBool(IS_SUGGESTIONS_DISABLED, status);
+  }
+
+  static launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

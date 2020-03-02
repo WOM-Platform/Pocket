@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:pocket/constants.dart';
 import 'dart:convert';
@@ -35,7 +36,9 @@ class TransactionApi {
       body: json.encode(map),
       headers: {HttpHeaders.contentTypeHeader: "application/json"},
     );
-    print(resp.body);
+    debugPrint(resp.request.toString());
+    debugPrint(resp.body);
+    debugPrint(resp.statusCode.toString());
     if (resp.statusCode == 200) {
       return resp.body;
     }

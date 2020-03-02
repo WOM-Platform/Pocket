@@ -6,9 +6,9 @@ import 'package:pocket/src/blocs/app/app_bloc.dart';
 import 'package:pocket/src/blocs/transactions_list/transactions_list_event.dart';
 import 'package:pocket/src/screens/transaction/info_payment.dart';
 import 'package:pocket/src/blocs/transaction/bloc.dart';
+import 'package:pocket/src/utils/utils.dart';
 
 import 'package:pocket/src/widgets/voucher_card.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_package/wom_package.dart' show TransactionType;
 import 'package:flutter/material.dart';
 
@@ -150,6 +150,7 @@ class TransactionScreenState extends State<TransactionScreen>
               return AnimatedBuilder(
                 animation: _controller,
                 builder: (BuildContext context, Widget child) {
+                  final url = state.transaction.ackUrl;
                   return Transform(
                     transform: Matrix4.translationValues(
                         0.0, _animation.value * (-10), 0.0),
@@ -229,9 +230,15 @@ class TransactionScreenState extends State<TransactionScreen>
 //                              ),
                               child: FloatingActionButton.extended(
                                   onPressed: () {
+                                    if (state.transaction.transactionType ==
+                                            TransactionType.PAYMENT &&
+                                        url != null) {
+                                      Utils.launchUrl(url);
+                                    }
                                     backToHome();
                                   },
-                                  label: Text("OK")),
+                                  label: Text(
+                                      '${state.transaction.transactionType == TransactionType.PAYMENT && url != null ? 'Continue' : 'Ok'}')),
                             ),
                           )
                         ],

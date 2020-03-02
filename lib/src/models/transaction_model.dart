@@ -11,6 +11,7 @@ class TransactionModel {
   static const dbSize = "size";
   static const dbSource = "source";
   static const dbAim = "Aim";
+  static const dbAckUrl = "ackUrl";
 
   TransactionType transactionType;
   String source;
@@ -20,6 +21,7 @@ class TransactionModel {
   Aim aim;
   int id;
   int size;
+  String ackUrl;
 
   TransactionModel({
     @required this.country,
@@ -29,6 +31,7 @@ class TransactionModel {
     @required this.source,
     @required this.aimCode,
     this.id,
+    this.ackUrl,
   })  : assert(transactionType != null),
         assert(source != null),
         assert(date != null);
@@ -40,7 +43,8 @@ class TransactionModel {
         this.country = map[dbCountry],
         this.size = map[dbSize],
         this.id = map[dbId],
-        this.aimCode = map[dbAim] {
+        this.aimCode = map[dbAim],
+        this.ackUrl = map[dbAckUrl] {
     this.date = map[dbTimestamp] is String
         ? DateTime.parse(map[dbTimestamp])
         : DateTime.fromMillisecondsSinceEpoch(map[dbTimestamp]);
@@ -49,12 +53,12 @@ class TransactionModel {
 
   String formatDate() {
     print(Intl.getCurrentLocale());
-    var format = new DateFormat.yMMMMEEEEd(Intl.getCurrentLocale());
+    var format = new DateFormat.yMMMEd(Intl.getCurrentLocale());
     return format.format(this.date);
   }
 
   @override
   String toString() {
-    return "$transactionType,$source,$aimCode,$size,$date,";
+    return "$transactionType,$source,$aimCode,$size,$date,$ackUrl";
   }
 }

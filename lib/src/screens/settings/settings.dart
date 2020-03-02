@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/db/app_db.dart';
-import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/screens/table_page/db_page.dart';
 import 'package:pocket/src/utils/utils.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wom_package/wom_package.dart' show Config, Flavor;
 import 'package:package_info/package_info.dart';
+import '../../utils/my_extensions.dart';
 
 class SettingsScreen extends StatelessWidget {
   bool current = false;
@@ -34,23 +33,31 @@ class SettingsScreen extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: Text('Demo'),
-            subtitle: Text('Impara ad utilizzare l\'app'),
+            title: Text(context.translate('settings_redeem_demo_title')),
+            subtitle: Text(context.translate('settings_redeem_demo_desc')),
             trailing: Icon(Icons.arrow_forward_ios),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => _launchUrl('https://wom.social/demo/pocket'),
+            onTap: () => Utils.launchUrl(
+                'https://${Config.appFlavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/redeem'),
           ),
           ListTile(
-            title: Text('Info'),
-            subtitle: Text('Visita il nostro sito'),
+            title: Text(context.translate('settings_pay_demo_title')),
+            subtitle: Text(context.translate('settings_pay_demo_desc')),
             trailing: Icon(Icons.arrow_forward_ios),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => _launchUrl('https://wom.social'),
+            onTap: () => Utils.launchUrl(
+                'https://${Config.appFlavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/pay'),
           ),
           ListTile(
-            title: Text('Mostra l\'intro'),
-            subtitle:
-                Text('Abilita per visualizzare l\'intro al prossimo avvio'),
+            title: Text(context.translate('settings_info_title')),
+            subtitle: Text(context.translate('settings_info_desc')),
+            trailing: Icon(Icons.arrow_forward_ios),
+            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            onTap: () => Utils.launchUrl('https://wom.social'),
+          ),
+          ListTile(
+            title: Text(context.translate('settings_show_intro_title')),
+            subtitle: Text(context.translate('settings_show_intro_desc')),
             trailing: StatefulBuilder(
               builder: (ctx, setState) {
                 return FutureBuilder<bool>(
@@ -72,7 +79,8 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => _launchUrl('https://wom.social'),
+            onTap: () => Utils.launchUrl(
+                'https://${Config.appFlavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social'),
           ),
           VersionInfo(),
           if (Config.appFlavor == Flavor.DEVELOPMENT) ...[
@@ -81,7 +89,8 @@ class SettingsScreen extends StatelessWidget {
               trailing: Icon(Icons.data_usage),
               contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
               onTap: () async {
-                final woms = await WomDB.get().getWoms(womStatus: null);
+                final woms = await AppDatabase.get()
+                    .getAllWoms(await AppDatabase.get().getDb());
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) =>
                         WomDbTablePage(woms: woms)));
@@ -149,14 +158,6 @@ class SettingsScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  _launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }
 

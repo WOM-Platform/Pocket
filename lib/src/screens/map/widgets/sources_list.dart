@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
-import 'package:pocket/src/models/source_group_wom.dart';
-
-import 'filter_checkbox.dart';
+import '../../../../src/models/source_group_wom.dart';
+import '../../../../src/utils/my_extensions.dart';
 
 class SourcesList extends StatelessWidget {
   @override
@@ -18,7 +17,7 @@ class SourcesList extends StatelessWidget {
         print("build source list");
         if (state.sources == null || state.sources.isEmpty) {
           return Text(
-            "No sources",
+            context.translate('no_sources'),
             style: TextStyle(color: Colors.white),
           );
         }

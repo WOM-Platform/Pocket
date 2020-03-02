@@ -1,12 +1,12 @@
 import 'package:wom_package/wom_package.dart' show SimpleFilters;
 
 class ResponseInfoPay {
-  static const String POS_ID = 'PosId';
-  static const String POS_NAME = 'PosName';
-  static const String AMOUNT = 'Amount';
-  static const String SIMPLE_FILTER = 'SimpleFilter';
+  static const String POS_ID = 'posId';
+  static const String POS_NAME = 'posName';
+  static const String AMOUNT = 'amount';
+  static const String SIMPLE_FILTER = 'simpleFilter';
 
-  int posId;
+  String posId;
   int amount;
   String posName;
   SimpleFilters simpleFilter;
@@ -15,11 +15,13 @@ class ResponseInfoPay {
       : posId = map[POS_ID],
         amount = map[AMOUNT],
         posName = map[POS_NAME],
-        simpleFilter = map[SIMPLE_FILTER] != null ? SimpleFilters.fromJson(map[SIMPLE_FILTER]) : null;
+        simpleFilter = map[SIMPLE_FILTER] != null
+            ? SimpleFilters.fromJson(map[SIMPLE_FILTER])
+            : null;
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data[POS_ID] = posId;
+    data[POS_ID] = posId.toString();
     data[AMOUNT] = amount;
     data[POS_NAME] = posName;
     data[SIMPLE_FILTER] = simpleFilter.toJson();

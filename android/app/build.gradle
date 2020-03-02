@@ -64,10 +64,6 @@ android {
     }
 
     buildTypes {
-        debug {
-//            buildConfigField 'String', "GoogleMapsApiKey", Pocket_GoogleMaps
-//            resValue 'string', "google_maps_api_key", Pocket_GoogleMaps
-        }
         release {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release

@@ -133,10 +133,10 @@ class TransactionRepository {
         final vouchers = woms.sublist(0, infoPay.amount);
         //create json map with parameters
         final Map<String, dynamic> map = {
-          "Otc": otc,
-          "Password": pin,
-          "SessionKey": key,
-          "Vouchers": vouchers.map((v) => v.toMap()).toList(),
+          "otc": otc,
+          "password": pin,
+          "sessionKey": key,
+          "vouchers": vouchers.map((v) => v.toMap()).toList(),
         };
 
         //encode map to json string
@@ -148,7 +148,7 @@ class TransactionRepository {
         final otcEncrypted = await encryptString(mapEncoded, publicKey);
 
         //create payload with endrypted otc json
-        final Map<String, String> payload = {"Payload": otcEncrypted};
+        final Map<String, String> payload = {"payload": otcEncrypted};
 
         //get response body from HTTP POST method
         String responseBody = await transactionApi.confirmPayments(payload);
@@ -177,6 +177,7 @@ class TransactionRepository {
           transactionType: TransactionType.PAYMENT,
           source: infoPay.posName,
           aimCode: infoPay?.simpleFilter?.aimCode,
+          ackUrl: responsePayment.ack,
         );
 
         final int id = await transactionsDB.insertTransaction(tx);
@@ -217,9 +218,9 @@ class TransactionRepository {
 
       //create json map with parameters
       final Map<String, String> map = {
-        "Otc": otc,
-        "Password": pin,
-        "SessionKey": key,
+        "otc": otc,
+        "password": pin,
+        "sessionKey": key,
       };
 
       //encode map to json string
@@ -231,7 +232,7 @@ class TransactionRepository {
       final otcEncrypted = await encryptString(mapEncoded, publicKey);
 
       //create payload with endrypted otc json
-      final Map<String, String> payload = {"Payload": otcEncrypted};
+      final Map<String, String> payload = {"payload": otcEncrypted};
 
       //get response body from HTTP POST method
       String responseBody;

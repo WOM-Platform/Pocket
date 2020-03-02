@@ -4,7 +4,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/models/transaction_model.dart';
-import 'package:wom_package/wom_package.dart';
+import 'package:wom_package/wom_package.dart' show Aim, AimRepository;
 import './bloc.dart';
 
 class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {

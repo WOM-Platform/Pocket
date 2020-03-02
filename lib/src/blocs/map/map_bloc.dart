@@ -7,6 +7,7 @@ import 'package:pocket/src/models/optional_query_model.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/services/wom_repository.dart';
 import 'package:wom_package/wom_package.dart';
+
 import './bloc.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {
@@ -27,7 +28,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       dbLongColumn: WomModel.dbLong,
       dbTable: WomModel.tblWom,
       whereClause:
-          "WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index}",
+          'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbLive} NOT LIKE "0%"',
       updateMarkers: (markers) {
         dispatch(UpdateMap(markers: markers));
       },

@@ -1,5 +1,5 @@
 import 'package:pocket/src/models/wom_model.dart';
-import 'package:wom_package/wom_package.dart';
+import 'package:wom_package/wom_package.dart' show WomStatus, SimpleFilters;
 
 class OptionalQuery {
   final int startDate;
@@ -60,6 +60,11 @@ class OptionalQuery {
 //      whereClause = whereClause.isEmpty
 //          ? "WHERE $filterClause"
 //          : "$whereClause AND $filterClause";
+    } else {
+      // se non c'è simple filter allora prendo i wom di tutti gli aim eccetto quelli che iniziano con 0
+      final aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \"0%\"";
+      whereClause =
+          whereClause.isEmpty ? '$aimClause' : "$whereClause AND $aimClause";
     }
 
     print("OptionalQueryModel build: $whereClause");
@@ -101,11 +106,15 @@ class OptionalQuery {
     final bounds = filters.bounds;
 
     String aimClause;
+
     if (aim != null) {
+      //aimCode presente prendo i wom di tutti gli aim rispettando l aimCode
       aimClause = "${WomModel.tblWom}.${WomModel.dbAim} LIKE \"$aim%\"";
     } else {
+      // se non c'è aimCode prendo i wom di tutti gli aim eccetto quelli che iniziano con 0
       aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \"0%\"";
     }
+
     print(aimClause);
 
     filtersWhereClause = filtersWhereClause.isEmpty

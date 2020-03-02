@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pocket/src/services/app_repository.dart';
@@ -20,10 +19,11 @@ void main() {
   ));
 //  BlocSupervisor.delegate = SimpleBlocDelegate();
   runApp(
-    DevicePreview(
-      builder: (context) => App(
-        appRepository: AppRepository(),
-      ),
+//    DevicePreview(
+//      builder: (context) =>
+    App(
+      appRepository: AppRepository(),
     ),
+//    ),
   );
 }

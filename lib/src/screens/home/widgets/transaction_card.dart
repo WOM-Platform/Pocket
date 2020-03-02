@@ -99,7 +99,7 @@ class TransactionCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           ItemRow(
-                              t1: 'aim ',
+                              t1: 'aim',
                               t2: (transaction?.aim?.titles ??
                                       const {})[languageCode ?? 'en'] ??
                                   '-'),

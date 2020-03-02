@@ -5,18 +5,19 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clippy_flutter/arc.dart';
 import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/blocs/app/app_bloc.dart';
-import 'package:pocket/src/blocs/map/bloc.dart';
+import '../../blocs/app/app_bloc.dart';
+import '../../blocs/map/bloc.dart';
 import 'package:flutter/services.dart';
-import 'package:pocket/src/blocs/pin/bloc.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:pocket/src/screens/home/widgets/transaction_list.dart';
-import 'package:pocket/src/screens/map/map_screen.dart';
-import 'package:pocket/src/screens/pin/pin_screen.dart';
-import 'package:pocket/src/screens/settings/settings.dart';
-import 'package:pocket/src/utils/colors.dart';
+import '../../blocs/pin/bloc.dart';
+import '../../models/deep_link_model.dart';
+import '../../screens/home/widgets/transaction_list.dart';
+import '../../screens/map/map_screen.dart';
+import '../../screens/pin/pin_screen.dart';
+import '../../screens/settings/settings.dart';
+import '../../utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import '../../utils/my_extensions.dart';
 
 class HomeScreen2 extends StatefulWidget {
   static const String path = '/home';
@@ -50,8 +51,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
           IconButton(
             icon: Icon(Icons.info),
             color: Theme.of(context).accentColor,
-            onPressed: () {
-              _clearTutorial(context);
+            onPressed: () async {
+              await _clearTutorial(context);
               _showTutorial(context);
             },
           ),
@@ -91,9 +92,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
           onPressed: null,
         ),
         // The widget that will be displayed as the tap target.
-        title: Text("Benvenuto nell'applicazione WOM POCKET"),
-        description: Text(
-            'Accumula o utilizza i WOM scansionando il QR-Code che ti hanno rilasciato'),
+        title: Text(context.translate('tutorial_welcome_title')),
+        description: Text('tutorial_welcome_desc'.translate(context)),
         backgroundColor: Theme.of(context).accentColor,
         targetColor: Colors.white,
         textColor: Theme.of(context).primaryColor,
@@ -123,8 +123,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
               // Unique id that identifies this overlay.
               tapTarget: const Icon(Icons.map),
               // The widget that will be displayed as the tap target.
-              title: Text('I tuoi WOM sulla mappa'),
-              description: Text('Visualizza dove hai guadagnato i WOM'),
+              title: Text(context.translate('tutorial_map_title')),
+              description: Text(context.translate('tutorial_map_desc')),
               backgroundColor: Theme.of(context).accentColor,
               targetColor: Colors.white,
               textColor: Theme.of(context).primaryColor,
@@ -141,9 +141,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
               // Unique id that identifies this overlay.
               tapTarget: const Icon(Icons.settings),
               // The widget that will be displayed as the tap target.
-              title: Text('Sperimenta l\'app con dei WOM di prova'),
-              description: Text(
-                  'Visitando il sito potrai imparare come accumulare o spendere i tuoi WOM'),
+              title: Text(context.translate('tutorial_settings_title')),
+              description: Text(context.translate('tutorial_settings_desc')),
               backgroundColor: Theme.of(context).accentColor,
               targetColor: Colors.white,
               textColor: Theme.of(context).primaryColor,
@@ -265,8 +264,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
     super.dispose();
   }
 
-  void _clearTutorial(context) {
-    FeatureDiscovery.clearPreferences(
+  Future<void> _clearTutorial(context) async {
+    await FeatureDiscovery.clearPreferences(
       context,
       const <String>{
         'add_item_feature_id',

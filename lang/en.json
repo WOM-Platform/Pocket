@@ -39,5 +39,20 @@
   "no_connection_aim_desc": "Since this is the first time launching the app you need an active internet connection to download all necessary data for configuring your Pocket. \nTurn your network data on and click \"Retry\"",
   "no_connection_transaction_desc": "To do a transaction your device needs to have an active internet connection. \nTurn your network data on and click \"Retry\"",
   "try_again": "Try again",
-  "error": "Error"
+  "error": "Error",
+  "tutorial_welcome_title": "Welcome to the WOM POCKET application",
+  "tutorial_welcome_desc": "Earn or use WOMs by scanning the QR-Code",
+  "tutorial_settings_title": "Try the app with trial WOMs",
+  "tutorial_settings_desc": "By visiting the site you can learn how to accumulate or spend your WOM",
+  "tutorial_map_title": "Your WOMs on the map",
+  "tutorial_map_desc": "See where you earned the WOMs",
+  "settings_redeem_demo_title": "Acquisition Demo",
+  "settings_redeem_demo_desc": "Acquire a trial WOM",
+  "settings_pay_demo_title": "Payment Demo",
+  "settings_pay_demo_desc": "Try paying with WOMs",
+  "settings_info_title": "Info",
+  "settings_info_desc": "Visit our website",
+  "settings_show_intro_title": "Show the intro",
+  "settings_show_intro_desc": "Enable to view the intro at next startup",
+  "no_sources": "No sources"
 }

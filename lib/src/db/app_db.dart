@@ -7,7 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:wom_package/wom_package.dart';
+import 'package:wom_package/wom_package.dart' show AimDatabase;
 
 /// This is the singleton database class which handlers all database transactions
 /// All the task raw queries is handle here and return a Future<T> with result
@@ -52,7 +52,7 @@ class AppDatabase {
         onCreate: (Database db, int version) async {
       var batch = db.batch();
       _createWomTableV2(batch);
-      _createTransactionTable(batch);
+      _createTransactionTableV2(batch);
       await AimDatabase.createAimTable(db);
       await batch.commit(noResult: true);
     }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
@@ -60,29 +60,50 @@ class AppDatabase {
       if (oldVersion == 1) {
         debugPrint("old version: 1");
         updateWomTableV1toV2(db, batch);
+        updateTransactionTableV1toV2(db, batch);
       }
       await batch.commit(noResult: true);
     });
   }
 
-  Future createWomTableV2(Batch batch) async {}
+  Future updateTransactionTableV1toV2(Database db, Batch batch) async {
+    final List<TransactionModel> transactions = await getTransactions(db);
+    batch.execute('DROP TABLE IF EXISTS ${TransactionModel.tblTransaction}');
+    _createTransactionTableV2(batch);
+    for (TransactionModel tx in transactions) {
+      insertTransaction2(tx, batch);
+      debugPrint('transaction inserita');
+    }
+    debugPrint("transactions migration complete");
+  }
+
+  /// Inserts or replaces the task.
+  insertTransaction2(TransactionModel tx, Batch batch) async {
+    try {
+      batch.rawInsert('INSERT INTO '
+          '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbAim},${TransactionModel.dbType},${TransactionModel.dbAckUrl})'
+          ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.transactionType.index},"${tx.ackUrl}")');
+    } catch (e) {
+      debugPrint(e.toString());
+      throw e;
+    }
+  }
 
   Future updateWomTableV1toV2(Database db, Batch batch) async {
     final List<WomModel> woms = await getAllWoms(db);
     debugPrint(woms.length.toString());
-//    await db.execute("DROP TABLE IF EXISTS ${WomModel.tblWom}");
     batch.execute("DROP TABLE IF EXISTS ${WomModel.tblWom}");
     debugPrint('drop completato');
     _createWomTableV2(batch);
     debugPrint('nuova tabella creata');
     for (WomModel w in woms) {
-      insertWom2(w, db, batch);
+      insertWom2(w, batch);
       debugPrint('wom inserito');
     }
     debugPrint("migration complete");
   }
 
-  insertWom2(WomModel wom, Database db, Batch batch) {
+  insertWom2(WomModel wom, Batch batch) {
     try {
       batch.rawInsert('INSERT INTO '
           '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
@@ -109,11 +130,30 @@ class AppDatabase {
   List<WomModel> _bindData(List<Map<String, dynamic>> result) {
     List<WomModel> woms = new List();
     for (Map<String, dynamic> item in result) {
-      var wom = new WomModel.fromMap(item);
+      var wom = new WomModel.fromDB(item);
       woms.add(wom);
     }
     debugPrint("--------- COMPLETE QUERY WOM");
     return woms;
+  }
+
+  Future<List<TransactionModel>> getTransactions(Database db) async {
+    print("--------- START QUERY TRANSACTION");
+    try {
+      var result = await db.rawQuery(
+          'SELECT ${TransactionModel.tblTransaction}.* '
+          'FROM ${TransactionModel.tblTransaction} ORDER BY ${TransactionModel.dbTimestamp} DESC;');
+      final List<TransactionModel> transactions = List();
+      for (Map<String, dynamic> item in result) {
+        var tx = new TransactionModel.fromMap(item);
+        transactions.add(tx);
+      }
+      print("--------- COMPLETE QUERY TRANSACTION");
+      return transactions;
+    } catch (e) {
+      print(e.toString());
+      return [];
+    }
   }
 
   void _createTransactionTable(batch) {
@@ -125,6 +165,18 @@ class AppDatabase {
         "${TransactionModel.dbTimestamp} LONG,"
         "${TransactionModel.dbType} INTEGER,"
         "${TransactionModel.dbSize} INTEGER);");
+  }
+
+  void _createTransactionTableV2(batch) {
+    batch.execute("CREATE TABLE ${TransactionModel.tblTransaction} ("
+        "${TransactionModel.dbId} INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "${TransactionModel.dbSource} TEXT,"
+        "${TransactionModel.dbCountry} TEXT,"
+        "${TransactionModel.dbAim} TEXT,"
+        "${TransactionModel.dbTimestamp} LONG,"
+        "${TransactionModel.dbType} INTEGER,"
+        "${TransactionModel.dbSize} INTEGER,"
+        "${TransactionModel.dbAckUrl} TEXT);");
   }
 
   void _createWomTableV2(Batch batch) {

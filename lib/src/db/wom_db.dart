@@ -7,7 +7,8 @@ import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/models/wom_pay_model.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:wom_package/wom_package.dart';
+import 'package:wom_package/wom_package.dart'
+    show WomStatus, SimpleFilters, Aim;
 
 class WomDB {
   static final WomDB _womDb = new WomDB._internal(AppDatabase.get());
@@ -67,7 +68,7 @@ class WomDB {
   List<WomModel> _bindData(List<Map<String, dynamic>> result) {
     List<WomModel> woms = new List();
     for (Map<String, dynamic> item in result) {
-      var wom = new WomModel.fromMap(item);
+      var wom = new WomModel.fromDB(item);
       woms.add(wom);
     }
     print("--------- COMPLETE QUERY WOM");
@@ -90,7 +91,7 @@ class WomDB {
       print(result);
       final List<WomPayModel> woms = [];
       for (Map<String, dynamic> item in result) {
-        var wom = new WomPayModel.fromMap(item);
+        var wom = new WomPayModel.fromDB(item);
         woms.add(wom);
       }
       print("--------- COMPLETE QUERY WOM");
@@ -210,7 +211,7 @@ class WomDB {
   Future<List<WomGroupBy>> getGroupedWoms() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
-        'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} GROUP BY ${WomModel.dbSourceName};');
+        'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbLive} NOT LIKE "0%" GROUP BY ${WomModel.dbSourceName};');
     return _bindGroupedWoms(result);
   }
 
@@ -226,7 +227,7 @@ class WomDB {
   Future<List<WomGroupBy>> getWomGroupedByAim() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
-        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${Aim.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${Aim.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${Aim.CODE} AND w.${WomModel.dbLive} = ${WomStatus.ON.index} GROUP BY ${WomModel.dbAim};');
+        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${Aim.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${Aim.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${Aim.CODE} AND w.${WomModel.dbLive} = ${WomStatus.ON.index} AND w.${WomModel.dbAim} NOT LIKE "0%" GROUP BY ${WomModel.dbAim};');
     final list = result.map((m) {
       return WomGroupBy(m['aim'], m['woms'], titles: json.decode(m['titles']));
     }).toList();

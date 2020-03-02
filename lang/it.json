@@ -39,5 +39,21 @@
   "no_connection_aim_desc": "Per il primo avvio dell'app è necessario avere la connessione dati attiva in modo da poter scaricare i dati necessari al funzionamento del Pocket.\nAttiva i dati e premi il pulsante \"Riprova\"",
   "no_connection_transaction_desc": "Per effettuare una transazione è necessario che il dispositivo sia connesso a internet.\nAttiva i dati e premi il pulsante \"Riprova\"",
   "try_again": "Riprova",
-  "error": "Errore"
+  "error": "Errore",
+  "tutorial_welcome_title": "Benvenuto nell'applicazione WOM POCKET",
+  "tutorial_welcome_desc": "Accumula o utilizza i WOM scansionando il QR-Code che ti hanno rilasciato",
+  "tutorial_settings_title": "Sperimenta l'app con dei WOM di prova",
+  "tutorial_settings_desc": "Visitando il sito potrai imparare come accumulare o spendere i tuoi WOM",
+  "tutorial_map_title": "I tuoi WOM sulla mappa",
+  "tutorial_map_desc": "Visualizza dove hai guadagnato i WOM",
+  "settings_redeem_demo_title": "Demo Acquisizione",
+  "settings_redeem_demo_desc": "Acquisisci un WOM di prova",
+  "settings_pay_demo_title": "Demo Pagamento",
+  "settings_pay_demo_desc": "Prova a pagare con i WOM",
+  "settings_info_title": "Info",
+  "settings_info_desc": "Visita il nostro sito",
+  "settings_show_intro_title": "Mostra l'intro",
+  "settings_show_intro_desc": "Abilita per visualizzare l'intro al prossimo avvio",
+  "no_sources": "Nessuna sorgente"
+
 }
