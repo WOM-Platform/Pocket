@@ -8,8 +8,10 @@ class OptionalQuery {
   final Set<String> sources;
   final Set<String> aims;
   final SimpleFilters filters;
+  final int amount;
 
   OptionalQuery({
+    this.amount,
     this.startDate = 0,
     this.endDate = 0,
     this.womStatus = WomStatus.ON,
@@ -65,6 +67,13 @@ class OptionalQuery {
       final aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \"0%\"";
       whereClause =
           whereClause.isEmpty ? '$aimClause' : "$whereClause AND $aimClause";
+    }
+
+    whereClause = "$whereClause ORDER BY RANDOM()";
+
+    if (amount != null) {
+      whereClause =
+          whereClause.isEmpty ? "$whereClause" : "$whereClause LIMIT $amount";
     }
 
     print("OptionalQueryModel build: $whereClause");

@@ -242,7 +242,7 @@ class WomDB {
     });
   }
 
-  /// Inserts or replaces the task.
+  /// Insert WOM with old registry (wom's id is integer)
   Future<void> insertWom(WomModel wom) async {
     var db = await _appDatabase.getDb();
     try {
@@ -264,7 +264,7 @@ class WomDB {
       await db.transaction((Transaction txn) async {
         int id = await txn.rawInsert('INSERT INTO '
             '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
-            ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}",${wom.sourceId},"${wom.aim}",${wom.transactionId})');
+            ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}","${wom.sourceId}","${wom.aim}",${wom.transactionId})');
       });
     } catch (e) {
       print(e.toString());
@@ -279,7 +279,7 @@ class WomDB {
       int count;
       await db.transaction((Transaction txn) async {
         count = await txn.rawUpdate(
-            'UPDATE ${WomModel.tblWom} SET ${WomModel.dbLive} = ?, ${WomModel.dbTransactionId} = ? WHERE ${WomModel.dbId} = $womId',
+            'UPDATE ${WomModel.tblWom} SET ${WomModel.dbLive} = ?, ${WomModel.dbTransactionId} = ? WHERE ${WomModel.dbId} = "$womId"',
             ['1', transactionId]);
       });
       return count;

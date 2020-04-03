@@ -28,7 +28,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       dbLongColumn: WomModel.dbLong,
       dbTable: WomModel.tblWom,
       whereClause:
-          'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbLive} NOT LIKE "0%"',
+          'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%"',
       updateMarkers: (markers) {
         dispatch(UpdateMap(markers: markers));
       },
