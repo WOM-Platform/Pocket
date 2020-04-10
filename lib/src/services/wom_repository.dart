@@ -31,13 +31,18 @@ class WomRepository {
 //  }
 
   Future<List<WomGroupBy>> getWomGroupedBySource() async {
-    print("fetchGroupedWoms: loading woms");
-    final groupedWoms = await _womDb.getGroupedWoms();
-    print("fetchGroupedWoms: reading complete woms : ${groupedWoms.length}");
+    print("BY SOURCES: fetchGroupedWoms: loading woms");
+    final groupedWoms = await _womDb.getWomsGroupedBySources();
+    print(
+        "BY SOURCES: fetchGroupedWoms: reading complete woms : ${groupedWoms.length}");
     return groupedWoms;
   }
 
-  Future<List<WomGroupBy>> getWomGroupedByAim()async{
-    return await _womDb.getWomGroupedByAim();
+  Future<List<WomGroupBy>> getWomGroupedByAim() async {
+    print("BY AIM: fetchGroupedWoms: loading woms");
+    final groupedWoms = await _womDb.getWomGroupedByAim();
+    print(
+        "BY AIM: fetchGroupedWoms: reading complete woms : ${groupedWoms.length}");
+    return groupedWoms;
   }
 }

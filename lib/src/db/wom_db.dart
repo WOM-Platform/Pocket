@@ -79,8 +79,11 @@ class WomDB {
     SimpleFilters simpleFilters,
   }) async {
     var db = await _appDatabase.getDb();
-    var whereClause =
-        OptionalQuery(filters: simpleFilters, womStatus: WomStatus.ON).build();
+    var whereClause = OptionalQuery(
+            filters: simpleFilters,
+            womStatus: WomStatus.ON,
+            enabledRandom: true)
+        .build();
 
     try {
       print('SELECT ${WomModel.dbId}, ${WomModel.dbSecret} '
@@ -208,10 +211,13 @@ class WomDB {
     return aggregationWom;
   }
 
-  Future<List<WomGroupBy>> getGroupedWoms() async {
+  Future<List<WomGroupBy>> getWomsGroupedBySources() async {
+    print('[WomDb] getWomsGroupedBySources');
     var db = await _appDatabase.getDb();
-    var result = await db.rawQuery(
-        'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbLive} NOT LIKE "0%" GROUP BY ${WomModel.dbSourceName};');
+    final query =
+        'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%" GROUP BY ${WomModel.dbSourceName};';
+    print('[WomDb]: $query');
+    var result = await db.rawQuery(query);
     return _bindGroupedWoms(result);
   }
 
@@ -225,9 +231,12 @@ class WomDB {
   }
 
   Future<List<WomGroupBy>> getWomGroupedByAim() async {
+    print('[WomDb] getWomGroupedByAim');
     var db = await _appDatabase.getDb();
-    var result = await db.rawQuery(
-        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${Aim.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${Aim.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${Aim.CODE} AND w.${WomModel.dbLive} = ${WomStatus.ON.index} AND w.${WomModel.dbAim} NOT LIKE "0%" GROUP BY ${WomModel.dbAim};');
+    final query =
+        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${Aim.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${Aim.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${Aim.CODE} AND w.${WomModel.dbLive} = ${WomStatus.ON.index} AND w.${WomModel.dbAim} NOT LIKE "0%" GROUP BY ${WomModel.dbAim};';
+    print('[WomDb]: $query');
+    var result = await db.rawQuery(query);
     final list = result.map((m) {
       return WomGroupBy(m['aim'], m['woms'], titles: json.decode(m['titles']));
     }).toList();

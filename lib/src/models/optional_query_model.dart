@@ -9,6 +9,7 @@ class OptionalQuery {
   final Set<String> aims;
   final SimpleFilters filters;
   final int amount;
+  final bool enabledRandom;
 
   OptionalQuery({
     this.amount,
@@ -18,6 +19,7 @@ class OptionalQuery {
     this.sources,
     this.filters,
     this.aims,
+    this.enabledRandom = false,
   });
 
   build() {
@@ -69,7 +71,9 @@ class OptionalQuery {
           whereClause.isEmpty ? '$aimClause' : "$whereClause AND $aimClause";
     }
 
-    whereClause = "$whereClause ORDER BY RANDOM()";
+    if (enabledRandom) {
+      whereClause = "$whereClause ORDER BY RANDOM()";
+    }
 
     if (amount != null) {
       whereClause =
@@ -84,7 +88,7 @@ class OptionalQuery {
   buildSourceClause(Set<String> sources) {
     var sourceWhereClause = "";
     if (sources.isEmpty) {
-      return "${WomModel.tblWom}.${WomModel.dbSourceName} = NULL_SOURCE";
+      return "${WomModel.tblWom}.${WomModel.dbSourceName} = \"NULL_SOURCE\"";
     }
     sources.forEach((source) {
       sourceWhereClause = sourceWhereClause.isEmpty
@@ -98,7 +102,7 @@ class OptionalQuery {
   buildAimClause(Set<String> aims) {
     var aimWhereClause = "";
     if (aims.isEmpty) {
-      return "${WomModel.tblWom}.${WomModel.dbAim} = NULL_SOURCE";
+      return "${WomModel.tblWom}.${WomModel.dbAim} = \"NULL_SOURCE\"";
     }
     aims.forEach((aim) {
       aimWhereClause = aimWhereClause.isEmpty

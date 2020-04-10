@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pocket/app.dart';
@@ -9,6 +10,7 @@ import 'package:wom_package/wom_package.dart' show Config, Flavor;
 void main() {
   Config.appFlavor = Flavor.RELEASE;
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle.light.copyWith(
       statusBarColor: primaryColor,

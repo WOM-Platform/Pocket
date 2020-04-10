@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:path/path.dart';
@@ -13,6 +14,7 @@ import 'package:wom_package/wom_package.dart' show AimDatabase;
 /// All the task raw queries is handle here and return a Future<T> with result
 class AppDatabase {
   static final AppDatabase _appDatabase = new AppDatabase._internal();
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
 
   //private internal constructor to make it singleton
   AppDatabase._internal();
@@ -40,41 +42,65 @@ class AppDatabase {
   Future<String> getPath() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "pocket.db");
-    debugPrint(path);
+    print(path);
     return path;
   }
 
   Future _init() async {
-    debugPrint("AppDatabase: init database");
+    print("AppDatabase: init database");
     // Get a location using path_provider
     final path = await getPath();
-    _database = await openDatabase(path, version: 2,
+    _database = await openDatabase(path, version: 3,
         onCreate: (Database db, int version) async {
+      analytics.logEvent(
+        name: 'app_db_onCreate',
+        parameters: {'version': version},
+      );
       var batch = db.batch();
       _createWomTableV2(batch);
       _createTransactionTableV2(batch);
       await AimDatabase.createAimTable(db);
       await batch.commit(noResult: true);
+      analytics.logEvent(
+        name: 'app_db_onCreate_complete',
+      );
+      print("app_db_onCreate complete");
     }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
-      var batch = db.batch();
-      if (oldVersion == 1) {
-        debugPrint("old version: 1");
-        updateWomTableV1toV2(db, batch);
-        updateTransactionTableV1toV2(db, batch);
+      analytics.logEvent(name: 'app_db_onUpgrade', parameters: {
+        'oldVersion': oldVersion,
+        'newVersion': newVersion,
+      });
+      print(
+          "app_db_onUpgrade: oldVersion: $oldVersion, newVersion: $newVersion");
+      if (oldVersion == 1 || oldVersion == 2) {
+        var batch = db.batch();
+        await updateWomTableV1toV2(db, batch);
+        await updateTransactionTableV1toV2(db, batch);
+        await batch.commit(noResult: true);
+        analytics.logEvent(name: 'app_db_onUpgrade_complete', parameters: {
+          'oldVersion': oldVersion,
+          'newVersion': newVersion,
+        });
+        print("app_db_onUpgrade complete");
       }
-      await batch.commit(noResult: true);
     });
   }
 
   Future updateTransactionTableV1toV2(Database db, Batch batch) async {
+    analytics.logEvent(name: 'app_db_updateTransactionTableV1toV2');
     final List<TransactionModel> transactions = await getTransactions(db);
+    analytics
+        .logEvent(name: 'app_db_updateTransactionTableV1toV2', parameters: {
+      'transactionsCount': transactions.length,
+    });
     batch.execute('DROP TABLE IF EXISTS ${TransactionModel.tblTransaction}');
     _createTransactionTableV2(batch);
     for (TransactionModel tx in transactions) {
       insertTransaction2(tx, batch);
-      debugPrint('transaction inserita');
+      print('transaction inserita');
     }
-    debugPrint("transactions migration complete");
+    analytics.logEvent(name: 'app_db_updateTransactionTableV1toV2_complete');
+    print("transactions migration complete");
   }
 
   /// Inserts or replaces the task.
@@ -84,23 +110,31 @@ class AppDatabase {
           '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbAim},${TransactionModel.dbType},${TransactionModel.dbAckUrl})'
           ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.transactionType.index},"${tx.ackUrl}")');
     } catch (e) {
-      debugPrint(e.toString());
+      print(e.toString());
+      analytics.logEvent(
+          name: 'app_db_insertTransaction2_error',
+          parameters: {'error': e.toString()});
       throw e;
     }
   }
 
   Future updateWomTableV1toV2(Database db, Batch batch) async {
+    analytics.logEvent(name: 'app_db_updateWomTableV1toV2');
     final List<WomModel> woms = await getAllWoms(db);
-    debugPrint(woms.length.toString());
+    analytics.logEvent(name: 'app_db_updateWomTableV1toV2', parameters: {
+      'womsCount': woms.length,
+    });
+    print(woms.length.toString());
     batch.execute("DROP TABLE IF EXISTS ${WomModel.tblWom}");
-    debugPrint('drop completato');
+    print('drop completato');
     _createWomTableV2(batch);
-    debugPrint('nuova tabella creata');
+    print('nuova tabella creata');
     for (WomModel w in woms) {
       insertWom2(w, batch);
-      debugPrint('wom inserito');
+      print('wom inserito');
     }
-    debugPrint("migration complete");
+    analytics.logEvent(name: 'app_db_updateWomTableV1toV2_complete');
+    print("migration complete");
   }
 
   insertWom2(WomModel wom, Batch batch) {
@@ -109,7 +143,9 @@ class AppDatabase {
           '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
           ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}","${wom.sourceId}","${wom.aim}",${wom.transactionId})');
     } catch (e) {
-      debugPrint(e.toString());
+      print(e.toString());
+      analytics.logEvent(
+          name: 'app_db_insertWom2_error', parameters: {'error': e.toString()});
       throw e;
     }
   }
@@ -121,7 +157,9 @@ class AppDatabase {
           'FROM ${WomModel.tblWom};');
       return _bindData(result);
     } catch (e) {
-      debugPrint(e.toString());
+      print(e.toString());
+      analytics.logEvent(
+          name: 'app_db_getAllWoms_error', parameters: {'error': e.toString()});
       return List<WomModel>();
     }
   }
@@ -133,7 +171,7 @@ class AppDatabase {
       var wom = new WomModel.fromDB(item);
       woms.add(wom);
     }
-    debugPrint("--------- COMPLETE QUERY WOM");
+    print("--------- COMPLETE QUERY WOM");
     return woms;
   }
 
@@ -152,6 +190,9 @@ class AppDatabase {
       return transactions;
     } catch (e) {
       print(e.toString());
+      analytics.logEvent(
+          name: 'app_db_getTransactions_error',
+          parameters: {'error': e.toString()});
       return [];
     }
   }
@@ -168,6 +209,9 @@ class AppDatabase {
   }
 
   void _createTransactionTableV2(batch) {
+    analytics.logEvent(
+      name: 'app_db_createTransactionTableV2',
+    );
     batch.execute("CREATE TABLE ${TransactionModel.tblTransaction} ("
         "${TransactionModel.dbId} INTEGER PRIMARY KEY AUTOINCREMENT,"
         "${TransactionModel.dbSource} TEXT,"
@@ -180,6 +224,9 @@ class AppDatabase {
   }
 
   void _createWomTableV2(Batch batch) {
+    analytics.logEvent(
+      name: 'app_db_createWomTableV2',
+    );
     batch.execute("CREATE TABLE ${WomModel.tblWom} ("
         "${WomModel.dbId} TEXT PRIMARY KEY,"
         "${WomModel.dbSecret} TEXT,"
@@ -227,7 +274,7 @@ class AppDatabase {
     if (_database != null && _database.isOpen) {
       await _database.close();
       _database = null;
-      debugPrint("database closed");
+      print("database closed");
     }
   }
 
