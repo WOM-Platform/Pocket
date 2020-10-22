@@ -48,14 +48,14 @@ class _AppState extends State<App> {
     _transactionsBloc = TransactionsListBloc(TransactionDB.get());
     _suggestionsBloc = SuggestionsBloc();
     _appBloc = AppBloc(_appRepository, _transactionsBloc);
-//    _appBloc.dispatch(AppStarted());
+//    _appBloc.add(AppStarted());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AppBloc>(
-      builder: (context) => _appBloc,
+      create: (context) => _appBloc,
       child: MaterialApp(
 //          locale: DevicePreview.of(context).locale, // <--- Add the locale
 //          builder: DevicePreview.appBuilder, // <--- Add the build
@@ -86,8 +86,7 @@ class _AppState extends State<App> {
             accentColor: accentColor,
             backgroundColor: backgroundColor,
           ),
-          home: BlocListener(
-            bloc: _appBloc,
+          home: BlocListener<AppBloc, AppState>(
             listener: (ctx, state) {
               print("APP BLOC LISTENER ----> state is: $state");
               if (state is DeepLinkMode) {
@@ -100,7 +99,7 @@ class _AppState extends State<App> {
 //                );
                 _pinBloc = PinBloc(state.deepLinkModel);
                 var blocProviderPin = BlocProvider(
-                  builder: (context) => _pinBloc,
+                  create: (context) => _pinBloc,
                   child: PinScreen(),
                 );
                 Navigator.push(
@@ -108,47 +107,45 @@ class _AppState extends State<App> {
                   MaterialPageRoute<bool>(
                       builder: (context) => blocProviderPin),
                 ).then((value) {
-                  _appBloc.dispatch(HomeEvent());
+                  _appBloc.add(HomeEvent());
                 });
               }
             },
-            child: BlocBuilder(
-                bloc: _appBloc,
-                condition: (previous, current) {
-                  final r = (previous != current) && (current is! DeepLinkMode);
-                  return r;
-                },
-                builder: (ctx, AppState state) {
-                  print("APP BLOC BUILDER ----> state is: $state");
+            child:
+                BlocBuilder<AppBloc, AppState>(buildWhen: (previous, current) {
+              final r = (previous != current) && (current is! DeepLinkMode);
+              return r;
+            }, builder: (ctx, AppState state) {
+              print("APP BLOC BUILDER ----> state is: $state");
 
-                  if (state is IntroMode) {
-                    return IntroScreen();
-                  }
+              if (state is IntroMode) {
+                return IntroScreen();
+              }
 
-                  if (state is NormalMode) {
+              if (state is NormalMode) {
 //                    final homeProvider = myBlocProvider.BlocProvider(
 //                        child: HomeScreen2(), bloc: _homeBloc);
 
-                    final homeProvider = BlocProviderTree(
-                      child: FeatureDiscovery(
-                        child: HomeScreen2(),
-                      ),
-                      blocProviders: <BlocProvider>[
-                        BlocProvider<TransactionsListBloc>(
-                            builder: (context) => _transactionsBloc),
-                        BlocProvider<SuggestionsBloc>(
-                            builder: (context) => _suggestionsBloc),
-                      ],
-                    );
-                    return homeProvider;
-                  }
-                  return SplashScreen();
-                }),
+                final homeProvider = MultiBlocProvider(
+                  child: FeatureDiscovery(
+                    child: HomeScreen2(),
+                  ),
+                  providers: <BlocProvider>[
+                    BlocProvider<TransactionsListBloc>(
+                        create: (context) => _transactionsBloc),
+                    BlocProvider<SuggestionsBloc>(
+                        create: (context) => _suggestionsBloc),
+                  ],
+                );
+                return homeProvider;
+              }
+              return SplashScreen();
+            }),
           ),
           routes: {
             '/settings': (context) {
               final settingsProvider = BlocProvider<SettingsBloc>(
-                builder: (context) => SettingsBloc(),
+                create: (context) => SettingsBloc(),
                 child: SettingsScreen(),
               );
               return settingsProvider;

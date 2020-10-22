@@ -7,10 +7,8 @@ import 'package:pocket/src/models/source_group_wom.dart';
 class AimsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final MapBloc bloc = BlocProvider.of<MapBloc>(context);
-    return BlocBuilder(
-      bloc: bloc,
-      condition: (MapState p, MapState c) {
+    return BlocBuilder<MapBloc, MapState>(
+      buildWhen: (MapState p, MapState c) {
         return p.aims != c.aims;
       },
       builder: (BuildContext context, MapState state) {
@@ -25,10 +23,10 @@ class AimsList extends StatelessWidget {
         return ChipFilter(
           aims: state.aims,
           onAdd: (type) {
-            bloc.addAimToFilter(type);
+            BlocProvider.of<MapBloc>(context).addAimToFilter(type);
           },
           onRemove: (type) {
-            bloc.removeAimFromFilter(type);
+            BlocProvider.of<MapBloc>(context).removeAimFromFilter(type);
           },
         );
 //          return Column(

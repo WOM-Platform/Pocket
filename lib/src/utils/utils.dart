@@ -1,5 +1,7 @@
+import 'package:flutter/services.dart';
 import 'package:mmkv_flutter/mmkv_flutter.dart';
 import 'package:pocket/constants.dart';
+import 'package:pocket/src/utils/config.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
@@ -85,5 +87,16 @@ class Utils {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  static Future<String> getPublicKey() async {
+    if (flavor == Flavor.DEVELOPMENT) {
+      return await _loadKey('assets/registry_dev.pub');
+    }
+    return await _loadKey('assets/registry.pub');
+  }
+
+  static Future<String> _loadKey(String path) async {
+    return await rootBundle.loadString(path);
   }
 }

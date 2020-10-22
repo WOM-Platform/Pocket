@@ -1,21 +1,25 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/models/response_info_pay.dart';
 import 'package:pocket/src/blocs/transaction/bloc.dart';
 import 'package:pocket/src/utils/colors.dart';
-import 'package:wom_package/wom_package.dart' show SimpleFilters;
 
 class InfoPayment extends StatelessWidget {
-  final ResponseInfoPay responseInfoPay;
+  final InfoPayResponse responseInfoPay;
+  final String password;
 
-  const InfoPayment(this.responseInfoPay, {Key key}) : super(key: key);
+  const InfoPayment({
+    this.responseInfoPay,
+    this.password,
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final TransactionBloc bloc = BlocProvider.of<TransactionBloc>(context);
 
-    final SimpleFilters simpleFilters = responseInfoPay.simpleFilter;
+    final SimpleFilter simpleFilters = responseInfoPay.simpleFilter;
 
     final greyStyle = TextStyle(
         color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 15.0);
@@ -144,7 +148,8 @@ class InfoPayment extends StatelessWidget {
                     ),
                     color: darkPrimaryColor,
                     onPressed: () {
-                      bloc.dispatch(TransactionConfirmPayment(responseInfoPay));
+                      bloc.add(
+                          TransactionConfirmPayment(responseInfoPay, password));
                     }),
               )
             ],

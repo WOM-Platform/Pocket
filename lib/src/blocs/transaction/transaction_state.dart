@@ -1,5 +1,5 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pocket/src/models/response_info_pay.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 
 abstract class TransactionState extends Equatable {
@@ -21,9 +21,11 @@ class TransactionCompleteState extends TransactionState {
 }
 
 class TransactionInfoPaymentState extends TransactionState {
-  final ResponseInfoPay infoPayment;
+  final InfoPayResponse infoPayment;
+  final String password;
 
-  TransactionInfoPaymentState(this.infoPayment) : super([infoPayment]);
+  TransactionInfoPaymentState(this.infoPayment, this.password)
+      : super([infoPayment, password]);
 
   @override
   String toString() => 'TransactionInfoPayment';
@@ -44,9 +46,11 @@ class TransactionErrorState extends TransactionState {
 }
 
 class TransactionNoDataConnectionState extends TransactionState {
-  final ResponseInfoPay infoPay;
+  final InfoPayResponse infoPay;
+  final String password;
 
-  TransactionNoDataConnectionState({this.infoPay}) : super([infoPay]);
+  TransactionNoDataConnectionState({this.infoPay, this.password})
+      : super([infoPay, password]);
 
   @override
   String toString() => 'TransactionNoDataConnectionState';

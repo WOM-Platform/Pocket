@@ -11,17 +11,16 @@ class PinKeyboard extends StatelessWidget {
   Widget build(BuildContext context) {
     final PinBloc bloc = BlocProvider.of<PinBloc>(context);
     final keyboardButtons = arr.map((code) {
-      return CodeButton(
-          code: code, onTap: () => bloc.dispatch(UpdateCode(code)));
+      return CodeButton(code: code, onTap: () => bloc.add(UpdateCode(code)));
     }).toList();
 
     keyboardButtons.add(CodeButton(
-      onTap: () => bloc.dispatch(DeleteAllCode()),
+      onTap: () => bloc.add(DeleteAllCode()),
       icon: Icons.close,
       iconColor: Colors.red,
     ));
     keyboardButtons
-        .add(CodeButton(code: 0, onTap: () => bloc.dispatch(UpdateCode(0))));
+        .add(CodeButton(code: 0, onTap: () => bloc.add(UpdateCode(0))));
     keyboardButtons.add(CodeButton(
       onTap: null,
       icon: Icons.check,

@@ -1,3 +1,4 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +10,6 @@ import 'package:pocket/src/blocs/transaction/bloc.dart';
 import 'package:pocket/src/utils/utils.dart';
 
 import 'package:pocket/src/widgets/voucher_card.dart';
-import 'package:wom_package/wom_package.dart' show TransactionType;
 import 'package:flutter/material.dart';
 
 class TransactionScreen extends StatefulWidget {
@@ -60,8 +60,7 @@ class TransactionScreenState extends State<TransactionScreen>
       onWillPop: () => _onWillPop(),
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        body: BlocBuilder<TransactionEvent, TransactionState>(
-          bloc: bloc,
+        body: BlocBuilder<TransactionBloc, TransactionState>(
           builder: (BuildContext context, TransactionState state) {
             if (state is TransactionLoadingState) {
               return Center(
@@ -100,10 +99,10 @@ class TransactionScreenState extends State<TransactionScreen>
                     FloatingActionButton.extended(
                       onPressed: () {
                         if (state.infoPay == null) {
-                          bloc.dispatch(TransactionStarted());
+                          bloc.add(TransactionStarted(state.password));
                         } else {
-                          bloc.dispatch(
-                              TransactionConfirmPayment(state.infoPay));
+                          bloc.add(TransactionConfirmPayment(
+                              state.infoPay, state.password));
                         }
                       },
                       label: Text(
@@ -114,7 +113,11 @@ class TransactionScreenState extends State<TransactionScreen>
                 ),
               );
             } else if (state is TransactionInfoPaymentState) {
-              return Center(child: InfoPayment(state.infoPayment));
+              return Center(
+                  child: InfoPayment(
+                responseInfoPay: state.infoPayment,
+                password: state.password,
+              ));
             } else if (state is TransactionErrorState) {
               return Center(
                 child: Column(
@@ -134,14 +137,6 @@ class TransactionScreenState extends State<TransactionScreen>
                           backToHome();
                         },
                         label: Text("Ok")),
-//                    OutlineButton(
-//                        child: Text(
-//                          'OK',
-//                          style: TextStyle(color: Colors.white),
-//                        ),
-//                        onPressed: () {
-//                          backToHome();
-//                        }),
                   ],
                 ),
               );
@@ -165,16 +160,6 @@ class TransactionScreenState extends State<TransactionScreen>
                               shape: BoxShape.circle,
                               color: Theme.of(context).primaryColor,
                             ),
-//                                  child: Center(
-//                                    child: Text(
-//                                      'Congratulations!',
-//                                      style: TextStyle(
-//                                        color: Colors.white,
-//                                        fontSize: 37.0,
-//                                        fontWeight: FontWeight.bold,
-//                                      ),
-//                                    ),
-//                                  ),
                             child: FlareActor(
                               "assets/flare/check.flr",
                               alignment: Alignment.center,
@@ -219,15 +204,6 @@ class TransactionScreenState extends State<TransactionScreen>
                             opacity: _animation,
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 80.0),
-//                              child: OutlineButton(
-//                                child: Text(
-//                                  'OK',
-//                                  style: TextStyle(color: Colors.white),
-//                                ),
-//                                onPressed: () {
-//                                  backToHome();
-//                                },
-//                              ),
                               child: FloatingActionButton.extended(
                                   onPressed: () {
                                     if (state.transaction.transactionType ==
@@ -267,9 +243,7 @@ class TransactionScreenState extends State<TransactionScreen>
   }
 
   void backToHome() {
-    BlocProvider.of<AppBloc>(context)
-        .transactionsBloc
-        .dispatch(LoadTransactions());
+    BlocProvider.of<AppBloc>(context).transactionsBloc.add(LoadTransactions());
     Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 }

@@ -1,29 +1,30 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pocket/src/services/app_repository.dart';
+import 'package:pocket/src/utils/config.dart';
 import 'app.dart';
-import 'package:wom_package/wom_package.dart' show Config, Flavor;
 
-//class SimpleBlocDelegate extends BlocDelegate {
-//  @override
-//  void onTransition(Bloc bloc, Transition transition) {
-//    super.onTransition(bloc, transition);
-//    print(transition);
-//  }
-//}
+import 'constants.dart';
+import 'src/utils/utils.dart';
 
-void main() {
-  Config.appFlavor = Flavor.DEVELOPMENT;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  print('DEV VERSION');
+  flavor = Flavor.DEVELOPMENT;
+  domain = 'dev.wom.social';
+  registryKey = await Utils.getPublicKey();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
     statusBarColor: Colors.red,
   ));
-//  BlocSupervisor.delegate = SimpleBlocDelegate();
+
   runApp(
-//    DevicePreview(
-//      builder: (context) =>
-    App(
-      appRepository: AppRepository(),
+    DevicePreview(
+      enabled: !kDebugMode,
+      builder: (context) => App(
+        appRepository: AppRepository(),
+      ),
     ),
-//    ),
   );
 }

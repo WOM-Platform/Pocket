@@ -1,3 +1,4 @@
+/*
 import 'package:pocket/src/models/wom_model.dart';
 
 class ResponseRedeem {
@@ -33,3 +34,4 @@ class ResponseRedeem {
 //    return data;
 //  }
 }
+*/

@@ -4,12 +4,9 @@ import 'package:pocket/src/models/suggestion_model.dart';
 import './bloc.dart';
 
 class SuggestionsBloc extends Bloc<SuggestionsEvent, SuggestionsState> {
-  SuggestionsBloc() {
-    dispatch(LoadSuggestions());
+  SuggestionsBloc() : super(InitialSuggestionsState()) {
+    add(LoadSuggestions());
   }
-
-  @override
-  SuggestionsState get initialState => InitialSuggestionsState();
 
   @override
   Stream<SuggestionsState> mapEventToState(

@@ -7,10 +7,7 @@ import 'package:pocket/src/utils/colors.dart';
 class SuggestionsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<SuggestionsBloc>(context);
-//    final appBloc = BlocProvider.of<AppBloc>(context);
-    return BlocBuilder(
-      bloc: bloc,
+    return BlocBuilder<SuggestionsBloc, SuggestionsState>(
       builder: (BuildContext context, SuggestionsState state) {
         if (state is SuggestionsLoading) {
           return Container(

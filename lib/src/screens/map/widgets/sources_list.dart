@@ -7,10 +7,8 @@ import '../../../../src/utils/my_extensions.dart';
 class SourcesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final MapBloc bloc = BlocProvider.of<MapBloc>(context);
-    return BlocBuilder(
-      bloc: bloc,
-      condition: (MapState p, MapState c) {
+    return BlocBuilder<MapBloc, MapState>(
+      buildWhen: (MapState p, MapState c) {
         return p.sources != c.sources;
       },
       builder: (BuildContext context, MapState state) {
@@ -24,10 +22,10 @@ class SourcesList extends StatelessWidget {
         return ChipFilter(
           sources: state.sources,
           onAdd: (type) {
-            bloc.addSourceToFilter(type);
+            BlocProvider.of<MapBloc>(context).addSourceToFilter(type);
           },
           onRemove: (type) {
-            bloc.removeSourceFromFilter(type);
+            BlocProvider.of<MapBloc>(context).removeSourceFromFilter(type);
           },
         );
       },

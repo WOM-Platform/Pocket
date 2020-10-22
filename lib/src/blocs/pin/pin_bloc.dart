@@ -6,10 +6,7 @@ import './bloc.dart';
 class PinBloc extends Bloc<PinEvent, PinState> {
   final DeepLinkModel deepLinkModel;
 
-  PinBloc(this.deepLinkModel);
-
-  @override
-  PinState get initialState => InitialPinState();
+  PinBloc(this.deepLinkModel) : super(InitialPinState());
 
   var _inputCodes = <int>[];
 
@@ -17,15 +14,15 @@ class PinBloc extends Bloc<PinEvent, PinState> {
   Stream<PinState> mapEventToState(
     PinEvent event,
   ) async* {
-    if(event is UpdateCode){
+    if (event is UpdateCode) {
       final status = isCorrect(event.value);
-      if(status == 1) {
+      if (status == 1) {
         yield PinVerified(_inputCodes.join().toString());
-      }else{
+      } else {
         yield PinUpdated(_inputCodes.join().toString());
       }
     }
-    if(event is DeleteAllCode){
+    if (event is DeleteAllCode) {
       _inputCodes.clear();
       yield PinUpdated("");
     }
@@ -48,7 +45,6 @@ class PinBloc extends Bloc<PinEvent, PinState> {
     }
     return 0;
   }
-
 
   deleteCode() {
     if (_inputCodes.length > 0) {

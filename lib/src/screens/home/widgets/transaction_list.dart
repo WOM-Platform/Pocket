@@ -1,4 +1,3 @@
-import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/localization/app_localizations.dart';
@@ -9,9 +8,7 @@ import 'package:pocket/src/utils/colors.dart';
 class TransactionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<TransactionsListBloc>(context);
-    return BlocBuilder<TransactionsEvent, TransactionsState>(
-      bloc: bloc,
+    return BlocBuilder<TransactionsListBloc, TransactionsState>(
       builder: (BuildContext context, TransactionsState state) {
         if (state is TransactionsLoading) {
           return Center(child: CircularProgressIndicator());
@@ -26,14 +23,6 @@ class TransactionsList extends StatelessWidget {
                       AppLocalizations.of(context).translate('no_transactions'),
                       style: TextStyle(color: darkBlueColor),
                     ),
-                    /*IconButton(
-                      icon: Icon(Icons.info),
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        _clearTutorial(context);
-                        _showTutorial(context);
-                      },
-                    ),*/
                   ],
                 ),
               );
@@ -43,11 +32,6 @@ class TransactionsList extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: state.transactions.length,
                 itemBuilder: (c, int index) {
-                  /*if (index == state.transactions.length) {
-                    return SizedBox(
-                      height: 50.0,
-                    );
-                  }*/
                   return TransactionCard(
                     transaction: state.transactions[index],
                   );
@@ -71,7 +55,8 @@ class TransactionsList extends StatelessWidget {
                   ),
                   FloatingActionButton.extended(
                     onPressed: () {
-                      bloc.dispatch(LoadTransactions());
+                      BlocProvider.of<TransactionsListBloc>(context)
+                          .add(LoadTransactions());
                     },
                     label: Text(
                       AppLocalizations.of(context)
@@ -115,7 +100,8 @@ class TransactionsList extends StatelessWidget {
                     child: Text(
                         AppLocalizations.of(context).translate('try_again')),
                     onPressed: () {
-                      bloc.dispatch(LoadTransactions());
+                      BlocProvider.of<TransactionsListBloc>(context)
+                          .add(LoadTransactions());
                     }),
               ],
             ),
@@ -129,7 +115,7 @@ class TransactionsList extends StatelessWidget {
     );
   }
 
-  void _clearTutorial(context) {
+/*  void _clearTutorial(context) {
     FeatureDiscovery.clearPreferences(
       context,
       const <String>{
@@ -149,5 +135,5 @@ class TransactionsList extends StatelessWidget {
         'show_demo_info',
       },
     );
-  }
+  }*/
 }

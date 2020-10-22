@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/screens/table_page/db_page.dart';
+import 'package:pocket/src/utils/config.dart';
 import 'package:pocket/src/utils/utils.dart';
-import 'package:wom_package/wom_package.dart' show Config, Flavor;
 import 'package:package_info/package_info.dart';
+import '../../../constants.dart';
 import '../../utils/my_extensions.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -38,7 +39,7 @@ class SettingsScreen extends StatelessWidget {
             trailing: Icon(Icons.arrow_forward_ios),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUrl(
-                'https://${Config.appFlavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/redeem'),
+                'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/redeem'),
           ),
           ListTile(
             title: Text(context.translate('settings_pay_demo_title')),
@@ -46,7 +47,7 @@ class SettingsScreen extends StatelessWidget {
             trailing: Icon(Icons.arrow_forward_ios),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUrl(
-                'https://${Config.appFlavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/pay'),
+                'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/pay'),
           ),
           ListTile(
             title: Text(context.translate('settings_info_title')),
@@ -80,10 +81,10 @@ class SettingsScreen extends StatelessWidget {
             ),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUrl(
-                'https://${Config.appFlavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social'),
+                'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social'),
           ),
           VersionInfo(),
-          if (Config.appFlavor == Flavor.DEVELOPMENT) ...[
+          if (flavor == Flavor.DEVELOPMENT) ...[
             ListTile(
               title: Text('Visita WOM DB'),
               trailing: Icon(Icons.data_usage),
@@ -215,11 +216,6 @@ class VersionInfo extends StatelessWidget {
             trailing: Icon(Icons.info),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: null,
-          );
-          return Row(
-            children: <Widget>[
-              Text('v. ${pkg.version}'),
-            ],
           );
         }
         return Container();

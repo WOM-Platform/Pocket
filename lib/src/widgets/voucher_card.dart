@@ -1,10 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:wom_package/wom_package.dart' show TransactionType;
 
 class TicketCard extends StatelessWidget {
   final TransactionModel transaction;

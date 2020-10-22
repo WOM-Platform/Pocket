@@ -1,14 +1,14 @@
 import 'dart:convert';
 
+import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:geohash/geohash.dart';
 import 'package:pocket/src/db/app_db.dart';
-import 'package:pocket/src/models/aggregation_wom_model.dart';
 import 'package:pocket/src/models/optional_query_model.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/models/wom_model.dart';
-import 'package:pocket/src/models/wom_pay_model.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:wom_package/wom_package.dart'
-    show WomStatus, SimpleFilters, Aim;
+
+import '../../constants.dart';
 
 class WomDB {
   static final WomDB _womDb = new WomDB._internal(AppDatabase.get());
@@ -24,14 +24,14 @@ class WomDB {
     return _womDb;
   }
 
-  Future<int> getWomsCount() async {
+/*  Future<int> getWomsCount() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
         'SELECT COUNT(*) as n_count FROM ${WomModel.tblWom} WHERE ${WomModel.dbLive}=${WomStatus.ON.index}');
     return result[0]['n_count'];
-  }
+  }*/
 
-  //Fetch Wom from DB
+  /* //Fetch Wom from DB
   Future<List<WomModel>> getWoms(
       {int startDate = 0,
       int endDate = 0,
@@ -58,12 +58,13 @@ class WomDB {
       return List<WomModel>();
     }
   }
-
+*/
   //query rectangle
   /*
   and destination.longitudebetween lon1 and lon2 and destination.latitudebetween lat1 and lat2
   */
 
+/*
   //Connvert Json from DB to List of WomModel
   List<WomModel> _bindData(List<Map<String, dynamic>> result) {
     List<WomModel> woms = new List();
@@ -74,15 +75,14 @@ class WomDB {
     print("--------- COMPLETE QUERY WOM");
     return woms;
   }
+*/
 
-  Future<List<WomPayModel>> getWomsForPay({
-    SimpleFilters simpleFilters,
+/*  Future<List<WomPayModel>> getWomsForPay({
+    SimpleFilter simpleFilter,
   }) async {
     var db = await _appDatabase.getDb();
     var whereClause = OptionalQuery(
-            filters: simpleFilters,
-            womStatus: WomStatus.ON,
-            enabledRandom: true)
+            filters: simpleFilter, womStatus: WomStatus.ON, enabledRandom: true)
         .build();
 
     try {
@@ -102,6 +102,46 @@ class WomDB {
     } catch (e) {
       print(e.toString());
       return List<WomPayModel>();
+    }
+  }*/
+
+  Future<List<Voucher>> getVouchersForPay({
+    SimpleFilter simpleFilter,
+  }) async {
+    var db = await _appDatabase.getDb();
+    var whereClause = OptionalQuery(
+            filters: simpleFilter, womStatus: WomStatus.ON, enabledRandom: true)
+        .build();
+
+    try {
+      print('SELECT * '
+          'FROM ${WomModel.tblWom} $whereClause;');
+      var result = await db.rawQuery('SELECT * '
+          'FROM ${WomModel.tblWom} $whereClause;');
+      print(result);
+
+      // final vouchers = result
+      //     .map((Map<String, dynamic> v) =>
+      //         <String, dynamic>{'id': v['id'], 'secret': v['secret']})
+      //     .toList();
+      final vouchers = result
+          .map<Voucher>((Map<String, dynamic> v) => Voucher(
+                id: v[WomModel.dbId],
+                lat: v[WomModel.dbLat],
+                long: v[WomModel.dbLong],
+                secret: v[WomModel.dbSecret],
+                aim: v[WomModel.dbAim],
+                dateTime: v[WomModel.dbTimestamp] != null
+                    ? DateTime.fromMillisecondsSinceEpoch(
+                        v[WomModel.dbTimestamp])
+                    : null,
+              ))
+          .toList();
+      print("--------- COMPLETE QUERY WOM");
+      return vouchers;
+    } catch (e) {
+      print(e.toString());
+      return <Voucher>[];
     }
   }
 
@@ -147,14 +187,14 @@ class WomDB {
 //    return sourceWhereClause;
 //  }
 
-  Future<List<WomGroupBy>> getSourcesFromDB() async {
+/*  Future<List<WomGroupBy>> getSourcesFromDB() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
         'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} WHERE ${WomModel.dbLive} = 0 GROUP BY ${WomModel.dbSourceName};');
     return _bindSources(result);
   }
 
-  _bindSources(List<Map<String, dynamic>> result) {
+   _bindSources(List<Map<String, dynamic>> result) {
     List<WomGroupBy> sources = new List();
     for (Map<String, dynamic> item in result) {
       var source = WomGroupBy.fromMap(item);
@@ -162,18 +202,18 @@ class WomDB {
     }
     print("--------- COMPLETE QUERY SOURCE WOM");
     return sources;
-  }
+  }*/
 
   //return m
-  Future<int> getMinDate() async {
+/*  Future<int> getMinDate() async {
     var db = await _appDatabase.getDb();
     var result = await db.rawQuery(
         'SELECT MIN(${WomModel.dbTimestamp}) as initialDate FROM ${WomModel.tblWom};');
 
     return result[0]["initialDate"] ?? DateTime.now().millisecondsSinceEpoch;
-  }
+  }*/
 
-  Future<List<AggregationWom>> getAggregatedWoms(int level,
+/*  Future<List<AggregationWom>> getAggregatedWoms(int level,
       {int startDate = 0, int endDate = 0, Set<String> sources}) async {
     if (sources != null && sources.isEmpty) {
       print("--------- COMPLETE QUERY AGGREGATION WOM");
@@ -209,7 +249,7 @@ class WomDB {
     }
 
     return aggregationWom;
-  }
+  }*/
 
   Future<List<WomGroupBy>> getWomsGroupedBySources() async {
     print('[WomDb] getWomsGroupedBySources');
@@ -234,7 +274,7 @@ class WomDB {
     print('[WomDb] getWomGroupedByAim');
     var db = await _appDatabase.getDb();
     final query =
-        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${Aim.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${Aim.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${Aim.CODE} AND w.${WomModel.dbLive} = ${WomStatus.ON.index} AND w.${WomModel.dbAim} NOT LIKE "0%" GROUP BY ${WomModel.dbAim};';
+        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${AimDbKeys.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${AimDbKeys.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${AimDbKeys.CODE} AND w.${WomModel.dbLive} = ${WomStatus.ON.index} AND w.${WomModel.dbAim} NOT LIKE "0%" GROUP BY ${WomModel.dbAim};';
     print('[WomDb]: $query');
     var result = await db.rawQuery(query);
     final list = result.map((m) {
@@ -252,6 +292,7 @@ class WomDB {
   }
 
   /// Insert WOM with old registry (wom's id is integer)
+/*  @deprecated
   Future<void> insertWom(WomModel wom) async {
     var db = await _appDatabase.getDb();
     try {
@@ -264,16 +305,33 @@ class WomDB {
       print(e.toString());
       throw e;
     }
-  }
+  }*/
 
   /// Inserts or replaces the task.
-  Future<void> insertWom2(WomModel wom) async {
+/*  Future<void> insertWom2(WomModel wom) async {
     var db = await _appDatabase.getDb();
     try {
       await db.transaction((Transaction txn) async {
         int id = await txn.rawInsert('INSERT INTO '
             '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
             ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}","${wom.sourceId}","${wom.aim}",${wom.transactionId})');
+      });
+    } catch (e) {
+      print(e.toString());
+      throw e;
+    }
+  }*/
+
+  /// Inserts or replaces the task.
+  Future<void> insertVoucher(Voucher voucher, String sourceName,
+      String sourceId, int transactionId) async {
+    var db = await _appDatabase.getDb();
+    try {
+      final geohash = Geohash.encode(voucher.lat, voucher.long);
+      await db.transaction((Transaction txn) async {
+        int id = await txn.rawInsert('INSERT INTO '
+            '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
+            ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.dateTime.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.lat},${voucher.long},"$sourceName","$sourceId","${voucher.aim}",$transactionId)');
       });
     } catch (e) {
       print(e.toString());

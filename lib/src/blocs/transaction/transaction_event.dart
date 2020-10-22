@@ -1,27 +1,30 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pocket/src/models/response_info_pay.dart';
 
 abstract class TransactionEvent extends Equatable {
   TransactionEvent([List props = const []]) : super(props);
 }
 
 class TransactionStarted extends TransactionEvent {
-//  final TransactionType type;
-//
-//  TransactionStarted(this.type):super([type]);
+  final String password;
+
+  TransactionStarted(this.password) : super([password]);
 
   @override
   String toString() => 'TransactionStarted';
 }
 
 class TransactionConfirmPayment extends TransactionEvent {
-  final ResponseInfoPay infoPay;
+  final InfoPayResponse infoPay;
+  final String password;
 
-  TransactionConfirmPayment(this.infoPay) : super([infoPay]);
+  TransactionConfirmPayment(this.infoPay, this.password)
+      : super([infoPay, password]);
 
   @override
-  String toString() => 'TransactionConfirmPayment';
+  String toString() =>
+      'TransactionConfirmPayment: $infoPay, password: $password';
 }
 
 class RequestPaymentTransaction extends TransactionEvent {

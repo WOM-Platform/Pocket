@@ -33,8 +33,7 @@ class PinScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: BlocListener(
-        bloc: bloc,
+      body: BlocListener<PinBloc, PinState>(
         listener: (BuildContext context, PinState state) {
           if (state is PinVerified) {
             goToAcceptCredits(context, state.pin);
@@ -43,8 +42,7 @@ class PinScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Spacer(),
-            BlocBuilder(
-              bloc: bloc,
+            BlocBuilder<PinBloc, PinState>(
               builder: (BuildContext context, PinState state) {
                 return CodePanel(
                   codeLength: 4,
@@ -67,29 +65,15 @@ class PinScreen extends StatelessWidget {
     );
   }
 
-  goToAcceptCredits(BuildContext context, String pin) {
-//    var blocProviderScan = BlocProvider(
-//      bloc: TransactionSummaryBloc(
-//        Repository(
-//          bloc.getPin(),
-//          deepLinkModel,
-//        ),
-//      ),
-//      child: TransactionSummaryScreen(),
-//    );
-
+  goToAcceptCredits(BuildContext context, String password) {
     final repository = TransactionRepository(
-      pin,
       bloc.deepLinkModel,
     );
 
-    final transactionBloc = TransactionBloc(
-        repository, bloc.deepLinkModel.otc, bloc.deepLinkModel.type);
-
-    transactionBloc.dispatch(TransactionStarted());
-
     final blocProviderTransaction = BlocProvider<TransactionBloc>(
-      builder: (context) => transactionBloc,
+      create: (context) => TransactionBloc(
+          repository, bloc.deepLinkModel.otc, bloc.deepLinkModel.type)
+        ..add(TransactionStarted(password)),
       child: TransactionScreen(),
     );
 

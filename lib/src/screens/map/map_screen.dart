@@ -53,9 +53,8 @@ class MapBody extends StatelessWidget {
     final MapBloc bloc = BlocProvider.of<MapBloc>(context);
     return Container(
       key: new PageStorageKey('map'),
-      child: BlocBuilder(
-        bloc: bloc,
-        condition: (MapState p, MapState c) {
+      child: BlocBuilder<MapBloc, MapState>(
+        buildWhen: (MapState p, MapState c) {
           if (p.markers.isEmpty && c.markers.isNotEmpty) {
             print("move camera");
             bloc.clusteringHelper.mapController.animateCamera(

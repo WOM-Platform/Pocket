@@ -71,7 +71,7 @@ class IntroScreen extends StatelessWidget {
           pages,
           onTapDoneButton: () {
 //                Navigator.pushReplacementNamed(context, "/home");
-            appBloc.dispatch(HomeEvent());
+            appBloc.add(HomeEvent());
           },
           pageButtonTextStyles: TextStyle(
             color: Colors.white,

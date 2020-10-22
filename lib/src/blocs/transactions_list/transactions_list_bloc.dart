@@ -1,22 +1,21 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/models/transaction_model.dart';
-import 'package:wom_package/wom_package.dart' show Aim, AimRepository;
+import 'package:pocket/src/services/aim_repository.dart';
 import './bloc.dart';
 
 class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
   final TransactionDB _transactionDB;
   AimRepository _aimRepository;
 
-  TransactionsListBloc(this._transactionDB) {
+  TransactionsListBloc(this._transactionDB)
+      : super(InitialTransactionsState()) {
     _aimRepository = AimRepository();
   }
-
-  @override
-  TransactionsState get initialState => InitialTransactionsState();
 
   @override
   Stream<TransactionsState> mapEventToState(

@@ -6,7 +6,6 @@ import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/models/optional_query_model.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:pocket/src/services/wom_repository.dart';
-import 'package:wom_package/wom_package.dart';
 
 import './bloc.dart';
 
@@ -16,7 +15,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   Set<String> sources = Set();
   Set<String> aims = Set();
 
-  MapBloc() {
+  MapBloc() : super(InitialMapState()) {
     initDatabaseClustering();
     loadSources();
   }
@@ -30,7 +29,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       whereClause:
           'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%"',
       updateMarkers: (markers) {
-        dispatch(UpdateMap(markers: markers));
+        add(UpdateMap(markers: markers));
       },
       aggregationSetup: AggregationSetup(),
     );
@@ -45,7 +44,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     sources.addAll(s.map((g) => g.type).toList());
     aims.addAll(a.map((g) => g.type).toList());
     aims.removeWhere((a) => a.startsWith('0'));
-    dispatch(UpdateMap(
+    add(UpdateMap(
       sources: s,
       aims: a,
     ));
@@ -59,32 +58,29 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   @override
-  MapState get initialState => InitialMapState();
-
-  @override
   Stream<MapState> mapEventToState(
     MapEvent event,
   ) async* {
     if (event is UpdateMap) {
-      if (currentState is MapUpdated) {
+      if (state is MapUpdated) {
         if (event.forceFilterUpdate == true) {
           filter();
         }
-        yield (currentState as MapUpdated).copyWith(
+        yield (state as MapUpdated).copyWith(
             event.markers, event.sliderValue, event.sources, event.aims);
       } else {
         yield MapUpdated(
           sliderValue: event.sliderValue ?? 0.0,
           markers: event.markers ?? {},
-          sources: event.sources ?? {},
-          aims: event.aims ?? {},
+          sources: event.sources ?? [],
+          aims: event.aims ?? [],
         );
       }
     }
   }
 
   filter() {
-    final int currentSliderValueInt = currentState.sliderValue.toInt();
+    final int currentSliderValueInt = state.sliderValue.toInt();
 
     int startDateQuery = 0;
     int endDateQuery = 0;
@@ -119,28 +115,28 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   addSourceToFilter(String source) {
     print("addSourceToFilter: $source");
     sources.add(source);
-    dispatch(UpdateMap(forceFilterUpdate: true));
+    add(UpdateMap(forceFilterUpdate: true));
   }
 
   removeSourceFromFilter(String source) {
     print("removeSourceFromFilter: $source");
     if (sources.contains(source)) {
       sources.remove(source);
-      dispatch(UpdateMap(forceFilterUpdate: true));
+      add(UpdateMap(forceFilterUpdate: true));
     }
   }
 
   void addAimToFilter(String aim) {
     print("addAimToFilter: $aim");
     aims.add(aim);
-    dispatch(UpdateMap(forceFilterUpdate: true));
+    add(UpdateMap(forceFilterUpdate: true));
   }
 
   void removeAimFromFilter(String aim) {
     print("removeAimFromFilter: $aim");
     if (aims.contains(aim)) {
       aims.remove(aim);
-      dispatch(UpdateMap(forceFilterUpdate: true));
+      add(UpdateMap(forceFilterUpdate: true));
     }
   }
 }

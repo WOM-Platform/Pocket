@@ -1,14 +1,19 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pocket/app.dart';
 import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/utils/colors.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:wom_package/wom_package.dart' show Config, Flavor;
+import 'package:pocket/src/utils/config.dart';
 
-void main() {
-  Config.appFlavor = Flavor.RELEASE;
+import 'constants.dart';
+import 'src/utils/utils.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  flavor = Flavor.RELEASE;
+  domain = 'wom.social';
+  registryKey = await Utils.getPublicKey();
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
 
   SystemChrome.setSystemUIOverlayStyle(

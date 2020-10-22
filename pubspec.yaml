@@ -20,19 +20,18 @@ dependencies:
 
   cupertino_icons: ^0.1.2
   uni_links: ^0.2.0
-  flutter_bloc: ^0.18.3
+  flutter_bloc: ^6.0.5
   sqflite: ^1.1.5
   simple_rsa: ^0.0.5
-  encrypt: ^3.1.0
+  encrypt: ^4.0.2
   mmkv_flutter: ^1.0.10 #per salvare le preferenze (firstOpen ecc) + veloce delle normali shared preference
   barcode_scan: ^1.0.0
-  rxdart: ^0.22.0
   intl:
   intl_translation:
   flutter_map: ^0.3.0
   geohash: ^0.2.1
-  http: ^0.12.0
-  intro_views_flutter: ^2.4.0
+  http: ^0.12.2
+  intro_views_flutter: ^2.8.1
   webview_flutter: ^0.2.0
   flutter_lock_screen: ^1.0.5
   clustering_google_maps: ^0.1.2
@@ -49,9 +48,8 @@ dependencies:
   package_info: ^0.4.0+13
   device_preview: ^0.2.6+1
   firebase_analytics: ^5.0.11
-  wom_package:
-    git:
-      url: git://github.com/WOM-Platform/WOM-Package.git
+  dart_wom_connector:
+    path: /Volumes/Samsung_X5/Dart/dart_wom_connector
   sliding_up_panel: ^0.3.5
 #  flare_flutter:
 #    git:
@@ -59,10 +57,6 @@ dependencies:
 #      ref: dev
 #      path: flare_flutter
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  test:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

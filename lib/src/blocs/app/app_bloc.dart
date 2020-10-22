@@ -18,46 +18,25 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final TransactionsListBloc transactionsBloc;
 
   AppBloc(this._appRepository, this.transactionsBloc)
-      : assert(_appRepository != null) {
-    dispatch(LoadData());
+      : assert(_appRepository != null),
+        super(InitialAppState()) {
+    add(LoadData());
 
     _sub = getUriLinksStream().listen((Uri uri) {
       print("Subscription stream uri : $uri");
       final deepLinkModel = DeepLinkModel.fromUri(uri);
-      dispatch(DeepLinkEvent(deepLinkModel));
+      add(DeepLinkEvent(deepLinkModel));
     }, onError: (err) {
       print("Stream uri error : $err");
     });
   }
-
-//  Future<bool> test() async {
-//    final String id = "1/1/2";
-//    final AimDb aimDb = AimDb.get();
-//
-//    final aim = Aim.fromMap({
-//      Aim.ID: id,
-//      Aim.SHORT_TITLE: "Simple AIM",
-//      Aim.DESCRIPTION: "description",
-//      Aim.ICON_URL: "iconUrl",
-//    });
-//
-//    await aimDb.insert(aim);
-//
-//    final queryAim = await aimDb.getAim(id);
-//    assert(aim == queryAim);
-//    print("TEST OK");
-//    return aim == queryAim;
-//  }
-
-  @override
-  AppState get initialState => InitialAppState();
 
   @override
   Stream<AppState> mapEventToState(AppEvent event) async* {
     if (event is LoadData) {
       yield LoadingData();
       await _appRepository.updateAim();
-      transactionsBloc.dispatch(LoadTransactions());
+      transactionsBloc.add(LoadTransactions());
       final deepLink = await getDeepLink();
       if (deepLink != null) {
         //TODO remove delay?
@@ -110,6 +89,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   @override
   void dispose() {
     _sub.cancel();
-    super.dispose();
+    super.close();
   }
 }

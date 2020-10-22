@@ -1,8 +1,7 @@
 import 'package:geohash/geohash.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wom_package/wom_package.dart' show WomStatus;
 
-//enum WomStatus { ON, OFF }
+enum WomStatus { ON, OFF }
 
 class WomModel {
   static final tblWom = "Wom";

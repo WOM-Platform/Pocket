@@ -18,15 +18,14 @@ class CustomSlider extends StatelessWidget {
         overlayColor: Colors.black12,
         thumbColor: Theme.of(context).accentColor,
         valueIndicatorColor: Theme.of(context).accentColor,
-        valueIndicatorTextStyle:
-            TextStyle(color: Theme.of(context).primaryColor,fontWeight: FontWeight.bold),
+        valueIndicatorTextStyle: TextStyle(
+            color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
 //            thumbShape: _CustomThumbShape(),
 //            valueIndicatorShape: _CustomValueIndicatorShape(),
 //            valueIndicatorTextStyle:
       ),
-      child: BlocBuilder(
-        bloc: bloc,
-        condition: (previous, current) {
+      child: BlocBuilder<MapBloc, MapState>(
+        buildWhen: (previous, current) {
           if (previous is MapUpdated && current is MapUpdated) {
             if (previous.sliderValue != current.sliderValue) {
               return true;
@@ -42,11 +41,11 @@ class CustomSlider extends StatelessWidget {
             min: 0.0,
             max: 10.0,
             onChangeEnd: (v) {
-              bloc.dispatch(UpdateMap(sliderValue: v, forceFilterUpdate: true));
+              bloc.add(UpdateMap(sliderValue: v, forceFilterUpdate: true));
             },
             value: state.sliderValue,
             onChanged: (v) {
-              bloc.dispatch(UpdateMap(sliderValue: v));
+              bloc.add(UpdateMap(sliderValue: v));
             },
           );
         },

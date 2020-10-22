@@ -1,6 +1,6 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:wom_package/wom_package.dart' show Aim, TransactionType;
 
 class TransactionModel {
   static const tblTransaction = "Transactions";

@@ -1,8 +1,9 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
+import 'package:pocket/src/services/aim_repository.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter/services.dart';
-import 'package:wom_package/wom_package.dart' show AimRepository, Aim;
 
 class AppRepository {
   AimRepository _aimRepository;
@@ -12,7 +13,7 @@ class AppRepository {
   }
 
   Future<List<Aim>> updateAim() async {
-    return await _aimRepository.updateAim(database: AppDatabase.get().getDb());
+    return _aimRepository.updateAim(database: AppDatabase.get().getDb());
   }
 
   Future<DeepLinkModel> getDeepLink() async {

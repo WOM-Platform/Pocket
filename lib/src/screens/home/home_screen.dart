@@ -5,6 +5,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clippy_flutter/arc.dart';
 import 'package:pocket/localization/app_localizations.dart';
+import 'package:pocket/src/utils/config.dart';
+import '../../../constants.dart';
 import '../../blocs/app/app_bloc.dart';
 import '../../blocs/map/bloc.dart';
 import 'package:flutter/services.dart';
@@ -45,7 +47,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('WOM POCKET'),
+        title: Text('${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -168,7 +170,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
   _goToMap() {
     final mapProvider = BlocProvider<MapBloc>(
       child: MapScreen(),
-      builder: (context) => MapBloc(),
+      create: (context) => MapBloc(),
     );
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => mapProvider));
@@ -194,7 +196,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //            );
         _pinBloc = PinBloc(deepLinkModel);
         var blocProviderPin = BlocProvider(
-          builder: (context) => _pinBloc,
+          create: (context) => _pinBloc,
           child: PinScreen(),
         );
         await Navigator.push(
@@ -259,7 +261,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 
   @override
   void dispose() {
-    _pinBloc?.dispose();
+    _pinBloc?.close();
 //    _sub.cancel();
     super.dispose();
   }

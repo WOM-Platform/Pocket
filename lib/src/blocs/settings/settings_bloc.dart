@@ -6,8 +6,7 @@ import 'package:pocket/src/db/app_db.dart';
 import './bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  @override
-  SettingsState get initialState => InitialSettingsState();
+  SettingsBloc() : super(InitialSettingsState());
 
   @override
   Stream<SettingsState> mapEventToState(
@@ -16,10 +15,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     // TODO: Add Logic
   }
 
-
   Future<bool> deleteDB() async {
     final File dbFile = await getDbFile('pocket.db');
-    if(dbFile != null){
+    if (dbFile != null) {
       await AppDatabase.get().deleteDb();
       final delDb = await dbFile.delete();
       if (delDb != null) return true;
@@ -32,7 +30,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     print(dir.path);
     if (await dir.exists()) {
       File dbFile = File(dir.path + "/" + name);
-      if(await dbFile.exists()){
+      if (await dbFile.exists()) {
         return dbFile;
       }
     }
@@ -41,9 +39,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   closeDb() async {
     final File dbFile = await getDbFile('pocket.db');
-    if(dbFile != null){
+    if (dbFile != null) {
       await AppDatabase.get().closeDatabase();
     }
   }
-
 }

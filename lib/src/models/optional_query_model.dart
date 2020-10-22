@@ -1,5 +1,5 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart' show SimpleFilter;
 import 'package:pocket/src/models/wom_model.dart';
-import 'package:wom_package/wom_package.dart' show WomStatus, SimpleFilters;
 
 class OptionalQuery {
   final int startDate;
@@ -7,7 +7,7 @@ class OptionalQuery {
   final WomStatus womStatus;
   final Set<String> sources;
   final Set<String> aims;
-  final SimpleFilters filters;
+  final SimpleFilter filters;
   final int amount;
   final bool enabledRandom;
 

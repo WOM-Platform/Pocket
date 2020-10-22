@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:pocket/src/db/aim_database.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:wom_package/wom_package.dart' show AimDatabase;
 
 /// This is the singleton database class which handlers all database transactions
 /// All the task raw queries is handle here and return a Future<T> with result
@@ -150,7 +149,7 @@ class AppDatabase {
     }
   }
 
-//Fetch Wom from DB
+  //Fetch Wom from DB
   Future<List<WomModel>> getAllWoms(Database db) async {
     try {
       var result = await db.rawQuery('SELECT ${WomModel.tblWom}.* '
