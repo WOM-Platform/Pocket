@@ -5,6 +5,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:wom.social</string>
+		<string>applinks:link.wom.social</string>
 	</array>
 </dict>
 </plist>
