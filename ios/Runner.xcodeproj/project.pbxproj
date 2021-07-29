@@ -342,7 +342,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" == \"Release-production\" ] || [ \"${CONFIGURATION}\" == \"Debug-production\" ]; then\n${PODS_ROOT}/Fabric/run\necho \"Fabric run\"\nfi\n\n";
+			shellScript = "if [ \"${CONFIGURATION}\" == \"Release-production\" ] || [ \"${CONFIGURATION}\" == \"Debug-production\" ]; then\n${PODS_ROOT}/FirebaseCrashlytics/run\necho \"Fabric run\"\nfi\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
