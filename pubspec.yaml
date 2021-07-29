@@ -18,6 +18,11 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  # Firebase
+  firebase_core: ^1.4.0
+  firebase_crashlytics: ^2.1.1
+  firebase_analytics: ^8.2.0
+
   equatable:
   cupertino_icons: ^1.0.3
   uni_links: ^0.5.1
@@ -29,7 +34,7 @@ dependencies:
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   #barcode_scan: ^1.0.0
-  flutter_barcode_scanner: ^2.0.0
+  qr_code_scanner: ^0.5.2
   intl: ^0.17.0
   #intl_translation:
   flutter_map: ^0.13.1
@@ -46,7 +51,6 @@ dependencies:
   clippy_flutter: ^2.0.0-nullsafety.1
   flutter_slidable: ^0.6.0
   share: ^2.0.4
-  firebase_crashlytics: ^2.1.1
   rflutter_alert: ^2.0.2
   #data_connection_checker: ^0.3.4
   internet_connection_checker: ^0.0.1+2
@@ -54,7 +58,6 @@ dependencies:
   feature_discovery: ^0.14.0
   package_info: ^2.0.2
   device_preview: ^0.7.4
-  firebase_analytics: ^8.2.0
   sliding_up_panel: ^2.0.0+1
   logger: ^1.0.0
   dart_wom_connector:

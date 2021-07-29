@@ -1,13 +1,15 @@
+import 'dart:io';
+
 import 'package:clippy_flutter/arc.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/utils/config.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../constants.dart';
@@ -187,8 +189,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //            final String link = await bloc.scanQRCode();
     if (await InternetConnectionChecker().hasConnection) {
       try {
-        final link = await FlutterBarcodeScanner.scanBarcode(
-            'FFFFFF', 'Annulla', false, ScanMode.QR);
+        final link = await Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => ScanScreen()));
         final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
 //            var blocProviderPin = myBlocProvider.BlocProvider(
@@ -290,5 +292,57 @@ class _HomeScreen2State extends State<HomeScreen2> {
         'show_demo_info',
       },
     );
+  }
+}
+
+class ScanScreen extends StatefulWidget {
+  const ScanScreen({Key key}) : super(key: key);
+
+  @override
+  _ScanScreenState createState() => _ScanScreenState();
+}
+
+class _ScanScreenState extends State<ScanScreen> {
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  Barcode result;
+  QRViewController controller;
+
+  // In order to get hot reload to work we need to pause the camera if the platform
+  // is android, or resume the camera if the platform is iOS.
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller.pauseCamera();
+    } else if (Platform.isIOS) {
+      controller.resumeCamera();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: QRView(
+      key: qrKey,
+      onQRViewCreated: _onQRViewCreated,
+    ));
+  }
+
+  bool scanned = false;
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      if (scanned) return;
+
+      scanned = true;
+      print(scanData.code);
+      Navigator.of(context).pop(scanData.code);
+    });
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }

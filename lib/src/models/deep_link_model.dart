@@ -24,7 +24,9 @@ class DeepLinkModel extends Equatable {
       final host = uri.host;
 
       if (scheme == 'https' &&
-          host == '${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social') {
+          (host == '${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social' ||
+              host ==
+                  '${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}link.wom.social')) {
         final List<String> pathSegments = uri.pathSegments;
         final transactionType = pathSegments[0]?.toLowerCase();
 
