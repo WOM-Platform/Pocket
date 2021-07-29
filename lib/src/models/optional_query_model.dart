@@ -1,6 +1,8 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart' show SimpleFilter;
 import 'package:pocket/src/models/wom_model.dart';
 
+import '../my_logger.dart';
+
 class OptionalQuery {
   final int startDate;
   final int endDate;
@@ -80,7 +82,7 @@ class OptionalQuery {
           whereClause.isEmpty ? "$whereClause" : "$whereClause LIMIT $amount";
     }
 
-    print("OptionalQueryModel build: $whereClause");
+    logger.i("OptionalQueryModel build: $whereClause");
 
     return whereClause;
   }
@@ -128,7 +130,7 @@ class OptionalQuery {
       aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \"0%\"";
     }
 
-    print(aimClause);
+    logger.i(aimClause);
 
     filtersWhereClause = filtersWhereClause.isEmpty
         ? "$aimClause"
@@ -141,7 +143,7 @@ class OptionalQuery {
 
       final maxAgeClause =
           "${WomModel.tblWom}.${WomModel.dbTimestamp} >= $queryTimestamp";
-      print(maxAgeClause);
+      logger.i(maxAgeClause);
 
       filtersWhereClause = filtersWhereClause.isEmpty
           ? "$maxAgeClause"
@@ -169,7 +171,7 @@ class OptionalQuery {
           : "$filtersWhereClause AND $boundsClause";
     }
 
-    print(filtersWhereClause);
+    logger.i(filtersWhereClause);
     return filtersWhereClause;
   }
 }

@@ -6,6 +6,7 @@ import 'package:pocket/src/utils/config.dart';
 import 'package:pocket/src/utils/utils.dart';
 import 'package:package_info/package_info.dart';
 import '../../../constants.dart';
+import '../../my_logger.dart';
 import '../../utils/my_extensions.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -67,7 +68,7 @@ class SettingsScreen extends StatelessWidget {
                     if (!value.hasData) {
                       return Container();
                     }
-                    print(value);
+                    logger.i(value);
                     return Switch(
                       value: value.data,
                       onChanged: (bool v) async {
@@ -103,7 +104,7 @@ class SettingsScreen extends StatelessWidget {
               icon: Icons.delete,
               onTap: () async {
 //              final result = await bloc.deleteDB();
-//              print("delete: " + result.toString());
+//              logger.i("delete: " + result.toString());
                 AppDatabase.get().deleteDb();
               },
             ),
@@ -117,13 +118,12 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
           ],
-
 //          SettingsItem(
 //            title: 'Reset suggestions',
 //            subtitle: "Reset all suggestions in home screen",
 //            icon: Icons.refresh,
 //            onTap: () {
-//              print("reset suggestion");
+//              logger.i("reset suggestion");
 //            },
 //          ),
 //          SettingsItem(

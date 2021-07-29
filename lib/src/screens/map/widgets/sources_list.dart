@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
 import '../../../../src/models/source_group_wom.dart';
 import '../../../../src/utils/my_extensions.dart';
+import '../../../my_logger.dart';
 
 class SourcesList extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class SourcesList extends StatelessWidget {
         return p.sources != c.sources;
       },
       builder: (BuildContext context, MapState state) {
-        print("build source list");
+        logger.i("build source list");
         if (state.sources == null || state.sources.isEmpty) {
           return Text(
             context.translate('no_sources'),

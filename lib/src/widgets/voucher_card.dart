@@ -6,6 +6,8 @@ import 'package:pocket/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../my_logger.dart';
+
 class TicketCard extends StatelessWidget {
   final TransactionModel transaction;
   final bool isForHome;
@@ -19,7 +21,7 @@ class TicketCard extends StatelessWidget {
       padding: const EdgeInsets.all(4.0),
       child: GestureDetector(
         onTap: () {
-          print(transaction.toString());
+          logger.i(transaction.toString());
 //          Navigator.push(
 //            context,
 //            MaterialPageRoute<bool>(
@@ -223,7 +225,7 @@ class AimsRow extends StatelessWidget {
         }
       });
 
-      print("macrocategorie: $aimsSet");
+      logger.i("macrocategorie: $aimsSet");
     }
   }
 

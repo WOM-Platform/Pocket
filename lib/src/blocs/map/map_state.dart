@@ -10,9 +10,10 @@ abstract class MapState extends Equatable {
   final List<WomGroupBy> sources;
   final List<WomGroupBy> aims;
 
-  MapState(this.sliderValue, this.markers, this.sources, this.aims,
-      [List props = const []])
-      : super([sliderValue, markers, sources, aims]..addAll(props));
+  MapState(this.sliderValue, this.markers, this.sources, this.aims);
+
+  @override
+  List<Object> get props => [sliderValue, markers, sources, aims];
 }
 
 class InitialMapState extends MapState {

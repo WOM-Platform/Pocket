@@ -1,9 +1,11 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:equatable/equatable.dart';
 import 'package:pocket/src/utils/config.dart';
 
 import '../../constants.dart';
+import '../my_logger.dart';
 
-class DeepLinkModel {
+class DeepLinkModel extends Equatable {
   static const PAYMENT = 'payment';
   static const VOUCHERS = 'vouchers';
 
@@ -12,11 +14,11 @@ class DeepLinkModel {
   TransactionType type;
 
   DeepLinkModel.fromUri(this.uri) {
-    print("DeepLinkModel constructor");
+    logger.i("DeepLinkModel constructor");
     if (uri != null) {
-      print(uri.toString());
-      print("scheme: " + uri.scheme);
-      print("host: " + uri.host);
+      logger.i(uri.toString());
+      logger.i("scheme: " + uri.scheme);
+      logger.i("host: " + uri.host);
 
       final scheme = uri.scheme;
       final host = uri.host;
@@ -60,4 +62,7 @@ class DeepLinkModel {
   String toString() {
     return "link: " + uri.toString();
   }
+
+  @override
+  List<Object> get props => [uri];
 }

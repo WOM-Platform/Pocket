@@ -3,6 +3,7 @@ import 'package:pocket/src/blocs/pin/bloc.dart';
 import 'package:pocket/src/blocs/settings/bloc.dart';
 import 'package:pocket/src/blocs/suggestions/bloc.dart';
 import 'package:pocket/src/blocs/transactions_list/transactions_list_bloc.dart';
+import 'package:pocket/src/my_logger.dart';
 import 'package:pocket/src/screens/home/home_screen.dart';
 import 'package:pocket/src/screens/pin/pin_screen.dart';
 import 'package:pocket/src/services/app_repository.dart';
@@ -88,9 +89,9 @@ class _AppState extends State<App> {
           ),
           home: BlocListener<AppBloc, AppState>(
             listener: (ctx, state) {
-              print("APP BLOC LISTENER ----> state is: $state");
+              logger.i("APP BLOC LISTENER ----> state is: $state");
               if (state is DeepLinkMode) {
-                print("Go to pin screen");
+                logger.i("Go to pin screen");
 //                var blocProviderPin = myBlocProvider.BlocProvider(
 //                  bloc: PinBloc(),
 //                  child: PinScreen(
@@ -116,7 +117,7 @@ class _AppState extends State<App> {
               final r = (previous != current) && (current is! DeepLinkMode);
               return r;
             }, builder: (ctx, AppState state) {
-              print("APP BLOC BUILDER ----> state is: $state");
+              logger.i("APP BLOC BUILDER ----> state is: $state");
 
               if (state is IntroMode) {
                 return IntroScreen();

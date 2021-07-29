@@ -1,4 +1,4 @@
-import 'package:geohash/geohash.dart';
+import 'package:dart_geohash/dart_geohash.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 enum WomStatus { ON, OFF }
@@ -37,8 +37,11 @@ class WomModel {
       this.sourceId,
       this.sourceName,
       this.aim}) {
-    this.geohash =
-        Geohash.encode(this.gLocation.latitude, this.gLocation.longitude);
+    final geohaser = GeoHasher();
+    this.geohash = geohaser.encode(
+      this.gLocation.longitude,
+      this.gLocation.latitude,
+    );
   }
 
   WomModel.fromMap(Map<String, dynamic> map)
@@ -51,8 +54,11 @@ class WomModel {
         sourceName = map['sourceName'],
         sourceId = map['sourceId'].toString(),
         aim = map['aim'] {
-    this.geohash =
-        Geohash.encode(this.gLocation.latitude, this.gLocation.longitude);
+    GeoHasher geoHasher = GeoHasher();
+    this.geohash = geoHasher.encode(
+      this.gLocation.longitude,
+      this.gLocation.latitude,
+    );
     this.live = WomStatus.values[map['live'] ?? 0];
   }
 
@@ -66,8 +72,9 @@ class WomModel {
         sourceName = map[dbSourceName],
         sourceId = map[dbSourceId].toString(),
         aim = map[dbAim] {
+    GeoHasher geoHasher = GeoHasher();
     this.geohash =
-        Geohash.encode(this.gLocation.latitude, this.gLocation.longitude);
+        geoHasher.encode(this.gLocation.longitude, this.gLocation.latitude);
     this.live = WomStatus.values[map[dbLive] ?? 0];
   }
 

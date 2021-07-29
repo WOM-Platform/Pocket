@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../constants.dart';
+import '../my_logger.dart';
 
 class AimDatabase {
   static final AimDatabase _aimDb = new AimDatabase._internal();
@@ -16,7 +17,7 @@ class AimDatabase {
   }
 
   static Future createAimTable(Database db) {
-    print("AimDatabase: createAimTable()");
+    logger.i("AimDatabase: createAimTable()");
     return db.execute("CREATE TABLE ${AimDbKeys.TABLE_NAME} ("
         "${AimDbKeys.ID} INTEGER PRIMARY KEY AUTOINCREMENT,"
         "${AimDbKeys.CODE} TEXT,"
@@ -27,7 +28,7 @@ class AimDatabase {
   Future<List<Aim>> getAimWithLevel(
       {@required Database db, int deepLevel, String code}) async {
     try {
-      print("AimDatabase: getAimWithLevel()");
+      logger.i("AimDatabase: getAimWithLevel()");
       final String whereClause = code != null
           ? "LENGTH(${AimDbKeys.CODE}) = ? AND ${AimDbKeys.CODE} LIKE '$code%'"
           : "LENGTH(${AimDbKeys.CODE}) = ?";
@@ -41,17 +42,18 @@ class AimDatabase {
         return Aim(
           code: a[AimDbKeys.CODE],
           titles: json.decode(a[AimDbKeys.TITLES]),
-          iconUrl: a[AimDbKeys.ICON_URL],
+          iconFile: a[AimDbKeys.ICON_URL],
+          children: [],
         );
       }).toList();
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       return List<Aim>();
     }
   }
 
   Future<List<Aim>> getFlatAimList({@required Database db}) async {
-    print("AimDatabase: getFlatAimList()");
+    logger.i("AimDatabase: getFlatAimList()");
     try {
       List<Map> maps = await db.query(
         AimDbKeys.TABLE_NAME,
@@ -60,17 +62,18 @@ class AimDatabase {
         return Aim(
           code: a[AimDbKeys.CODE],
           titles: json.decode(a[AimDbKeys.TITLES]),
-          iconUrl: a[AimDbKeys.ICON_URL],
+          iconFile: a[AimDbKeys.ICON_URL],
+          children: [],
         );
       }).toList();
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       return null;
     }
   }
 
   Future<Aim> getAim({@required Database db, String aimCode}) async {
-    print("AimDatabase: getAim()");
+    logger.i("AimDatabase: getAim()");
     try {
       List<Map> maps = await db.query(
         AimDbKeys.TABLE_NAME,
@@ -82,16 +85,17 @@ class AimDatabase {
       return Aim(
         code: a[AimDbKeys.CODE],
         titles: json.decode(a[AimDbKeys.TITLES]),
-        iconUrl: a[AimDbKeys.ICON_URL],
+        iconFile: a[AimDbKeys.ICON_URL],
+        children: [],
       );
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       return null;
     }
   }
 
   Future<int> insert({@required Database db, Aim aim}) async {
-    print("AimDatabase: insert()");
+    logger.i("AimDatabase: insert()");
     int result;
     await db.transaction((Transaction txn) async {
       result = await txn.insert(
@@ -108,7 +112,7 @@ extension AimExtension on Aim {
   Map<String, dynamic> toDBMap() {
     final data = <String, dynamic>{};
     data[AimDbKeys.CODE] = code;
-    data[AimDbKeys.ICON_URL] = iconUrl;
+    data[AimDbKeys.ICON_URL] = iconFile;
     data[AimDbKeys.TITLES] = json.encode(titles);
     return data;
   }

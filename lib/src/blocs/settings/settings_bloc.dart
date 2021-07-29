@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pocket/src/db/app_db.dart';
+import '../../my_logger.dart';
 import './bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
@@ -27,7 +28,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   getDbFile(String name) async {
     final dir = await getApplicationDocumentsDirectory();
-    print(dir.path);
+    logger.i(dir.path);
     if (await dir.exists()) {
       File dbFile = File(dir.path + "/" + name);
       if (await dbFile.exists()) {

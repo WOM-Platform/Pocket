@@ -11,6 +11,8 @@ import 'package:pocket/src/screens/map/widgets/custom_slider.dart';
 import 'package:pocket/src/screens/map/widgets/sources_list.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../my_logger.dart';
+
 class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class MapBody extends StatelessWidget {
       child: BlocBuilder<MapBloc, MapState>(
         buildWhen: (MapState p, MapState c) {
           if (p.markers.isEmpty && c.markers.isNotEmpty) {
-            print("move camera");
+            logger.i("move camera");
             bloc.clusteringHelper.mapController.animateCamera(
                 CameraUpdate.newCameraPosition(
                     CameraPosition(target: c.markers.first.position)));

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
+import '../../my_logger.dart';
 import './bloc.dart';
 
 class PinBloc extends Bloc<PinEvent, PinState> {
@@ -34,8 +35,8 @@ class PinBloc extends Bloc<PinEvent, PinState> {
 
       if (_inputCodes.length == 4) {
         //if (_inputCodes.join() == "1234") {
-        print("password correct");
-        print(_inputCodes.join().toString());
+        logger.i("password correct");
+        logger.i(_inputCodes.join().toString());
 
         return 1;
 //        } else {

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:dart_geohash/dart_geohash.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:geohash/geohash.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/models/optional_query_model.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
 import 'package:pocket/src/models/wom_model.dart';
+import 'package:pocket/src/my_logger.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../constants.dart';
@@ -38,7 +39,7 @@ class WomDB {
       WomStatus womStatus = WomStatus.ON,
       Set<String> sources}) async {
     if (sources != null && sources.isEmpty) {
-      print("--------- COMPLETE QUERY AGGREGATION WOM");
+      logger.i("--------- COMPLETE QUERY AGGREGATION WOM");
       return List<WomModel>();
     }
     var db = await _appDatabase.getDb();
@@ -54,7 +55,7 @@ class WomDB {
           'FROM ${WomModel.tblWom} $whereClause;');
       return _bindData(result);
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       return List<WomModel>();
     }
   }
@@ -72,7 +73,7 @@ class WomDB {
       var wom = new WomModel.fromDB(item);
       woms.add(wom);
     }
-    print("--------- COMPLETE QUERY WOM");
+    logger.i("--------- COMPLETE QUERY WOM");
     return woms;
   }
 */
@@ -86,21 +87,21 @@ class WomDB {
         .build();
 
     try {
-      print('SELECT ${WomModel.dbId}, ${WomModel.dbSecret} '
+      logger.i('SELECT ${WomModel.dbId}, ${WomModel.dbSecret} '
           'FROM ${WomModel.tblWom} $whereClause;');
       var result =
           await db.rawQuery('SELECT ${WomModel.dbId}, ${WomModel.dbSecret} '
               'FROM ${WomModel.tblWom} $whereClause;');
-      print(result);
+      logger.i(result);
       final List<WomPayModel> woms = [];
       for (Map<String, dynamic> item in result) {
         var wom = new WomPayModel.fromDB(item);
         woms.add(wom);
       }
-      print("--------- COMPLETE QUERY WOM");
+      logger.i("--------- COMPLETE QUERY WOM");
       return woms;
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       return List<WomPayModel>();
     }
   }*/
@@ -114,11 +115,11 @@ class WomDB {
         .build();
 
     try {
-      print('SELECT * '
+      logger.i('SELECT * '
           'FROM ${WomModel.tblWom} $whereClause;');
       var result = await db.rawQuery('SELECT * '
           'FROM ${WomModel.tblWom} $whereClause;');
-      print(result);
+      logger.i(result);
 
       // final vouchers = result
       //     .map((Map<String, dynamic> v) =>
@@ -137,10 +138,10 @@ class WomDB {
                     : null,
               ))
           .toList();
-      print("--------- COMPLETE QUERY WOM");
+      logger.i("--------- COMPLETE QUERY WOM");
       return vouchers;
     } catch (e) {
-      print(e.toString());
+      logger.e(e.toString());
       return <Voucher>[];
     }
   }
@@ -200,7 +201,7 @@ class WomDB {
       var source = WomGroupBy.fromMap(item);
       sources.add(source);
     }
-    print("--------- COMPLETE QUERY SOURCE WOM");
+    logger.i("--------- COMPLETE QUERY SOURCE WOM");
     return sources;
   }*/
 
@@ -216,7 +217,7 @@ class WomDB {
 /*  Future<List<AggregationWom>> getAggregatedWoms(int level,
       {int startDate = 0, int endDate = 0, Set<String> sources}) async {
     if (sources != null && sources.isEmpty) {
-      print("--------- COMPLETE QUERY AGGREGATION WOM");
+      logger.i("--------- COMPLETE QUERY AGGREGATION WOM");
       return List<AggregationWom>();
     }
     try {
@@ -231,11 +232,11 @@ class WomDB {
       var result = await db.rawQuery(
           'SELECT COUNT(*) as n_marker, AVG(${WomModel.dbLat}) as lat, AVG(${WomModel.dbLong}) as long '
           'FROM ${WomModel.tblWom} $whereClause GROUP BY substr(${WomModel.dbGeohash},1,$level);');
-      print("--------- COMPLETE QUERY AGGREGATION WOM");
+      logger.i("--------- COMPLETE QUERY AGGREGATION WOM");
       return _bindAggregationWom(result);
     } catch (e) {
-      print(e.toString());
-      print("--------- COMPLETE QUERY AGGREGATION WOM WITH ERROR");
+      logger.i(e.toString());
+      logger.i("--------- COMPLETE QUERY AGGREGATION WOM WITH ERROR");
       return List<AggregationWom>();
     }
   }
@@ -252,11 +253,11 @@ class WomDB {
   }*/
 
   Future<List<WomGroupBy>> getWomsGroupedBySources() async {
-    print('[WomDb] getWomsGroupedBySources');
+    logger.i('[WomDb] getWomsGroupedBySources');
     var db = await _appDatabase.getDb();
     final query =
         'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%" GROUP BY ${WomModel.dbSourceName};';
-    print('[WomDb]: $query');
+    logger.i('[WomDb]: $query');
     var result = await db.rawQuery(query);
     return _bindGroupedWoms(result);
   }
@@ -271,11 +272,11 @@ class WomDB {
   }
 
   Future<List<WomGroupBy>> getWomGroupedByAim() async {
-    print('[WomDb] getWomGroupedByAim');
+    logger.i('[WomDb] getWomGroupedByAim');
     var db = await _appDatabase.getDb();
     final query =
         'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${AimDbKeys.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${AimDbKeys.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${AimDbKeys.CODE} AND w.${WomModel.dbLive} = ${WomStatus.ON.index} AND w.${WomModel.dbAim} NOT LIKE "0%" GROUP BY ${WomModel.dbAim};';
-    print('[WomDb]: $query');
+    logger.i('[WomDb]: $query');
     var result = await db.rawQuery(query);
     final list = result.map((m) {
       return WomGroupBy(m['aim'], m['woms'], titles: json.decode(m['titles']));
@@ -302,7 +303,7 @@ class WomDB {
             ' VALUES(${wom.id},"${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}",${wom.sourceId},"${wom.aim}",${wom.transactionId})');
       });
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       throw e;
     }
   }*/
@@ -317,7 +318,7 @@ class WomDB {
             ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}","${wom.sourceId}","${wom.aim}",${wom.transactionId})');
       });
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       throw e;
     }
   }*/
@@ -327,14 +328,18 @@ class WomDB {
       String sourceId, int transactionId) async {
     var db = await _appDatabase.getDb();
     try {
-      final geohash = Geohash.encode(voucher.lat, voucher.long);
+      final geoHasher = GeoHasher();
+      final geohash = geoHasher.encode(
+        voucher.long,
+        voucher.lat,
+      );
       await db.transaction((Transaction txn) async {
         int id = await txn.rawInsert('INSERT INTO '
             '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
             ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.dateTime.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.lat},${voucher.long},"$sourceName","$sourceId","${voucher.aim}",$transactionId)');
       });
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       throw e;
     }
   }
@@ -351,7 +356,7 @@ class WomDB {
       });
       return count;
     } catch (e) {
-      print("erorr = " + e.toString());
+      logger.i("erorr = " + e.toString());
       return 0;
     }
   }

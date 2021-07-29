@@ -3,21 +3,27 @@ import 'package:meta/meta.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 
 @immutable
-abstract class TransactionsState extends Equatable {
-  TransactionsState([List props = const []]) : super(props);
-}
+abstract class TransactionsState extends Equatable {}
 
-class InitialTransactionsState extends TransactionsState {}
+class InitialTransactionsState extends TransactionsState {
+  @override
+  List<Object> get props => [];
+}
 
 class TransactionsLoading extends TransactionsState {
   @override
   String toString() => "TransactionsLoading";
+  @override
+  List<Object> get props => [];
 }
 
 class TransactionsLoaded extends TransactionsState {
   final List<TransactionModel> transactions;
 
-  TransactionsLoaded(this.transactions) : super([transactions]);
+  TransactionsLoaded(this.transactions);
+
+  @override
+  List<Object> get props => [transactions];
 
   @override
   String toString() => "TransactionsLoaded";
@@ -26,13 +32,19 @@ class TransactionsLoaded extends TransactionsState {
 class TransactionsErrorState extends TransactionsState {
   final String error;
 
-  TransactionsErrorState(this.error) : super([error]);
+  TransactionsErrorState(this.error);
 
   @override
   String toString() => "TransactionsErrorState";
+
+  @override
+  List<Object> get props => [error];
 }
 
 class TransactionsNoDataConnectionState extends TransactionsState {
   @override
   String toString() => "TransactionsNoDataConnectionState";
+
+  @override
+  List<Object> get props => [];
 }

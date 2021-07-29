@@ -3,6 +3,8 @@ import 'package:pocket/src/blocs/app/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
+import '../../my_logger.dart';
+
 /*
 adb shell 'am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "wom://pay/910895d04a39438bbe6a7db04c5b1f59"'
 adb shell 'am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "https://wom.social/payment/15294cdf49c14083b57f75f59915ca55"'
@@ -23,7 +25,7 @@ class SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     bloc = BlocProvider.of<AppBloc>(context);
-    print("splash init");
+    logger.i("splash init");
     super.initState();
 
     _controller = AnimationController(
@@ -35,7 +37,7 @@ class SplashScreenState extends State<SplashScreen>
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          print("animation complete");
+          logger.i("animation complete");
         }
       });
     _controller.forward();
@@ -51,7 +53,7 @@ class SplashScreenState extends State<SplashScreen>
       if (deepLinkModel != null) {
         //WidgetsBinding.instance
         //        .addPostFrameCallback((_) => afterFirstLayout(context));
-        print("SplashScreen: chiamata tramite deeplink" +
+        logger.i("SplashScreen: chiamata tramite deeplink" +
             deepLinkModel.toString());
         goToPinScreen(deepLinkModel);
       } else {
@@ -67,7 +69,7 @@ class SplashScreenState extends State<SplashScreen>
 */
     //TODO old method delete in RELEASE
 //    bloc.getDeepLink().then((deepLinkModel) {
-//      print("SplashScreen: uri data detected");
+//      logger.i("SplashScreen: uri data detected");
 //      _controller.forward().(() {
 //        if (deepLinkModel == null) {
 //          Utils.isFirstOpen().then((isFirstOpen) {
@@ -78,7 +80,7 @@ class SplashScreenState extends State<SplashScreen>
 //            }
 //          });
 //        } else {
-//          print("SplashScreen: chiamata tramite deeplink" +
+//          logger.i("SplashScreen: chiamata tramite deeplink" +
 //              deepLinkModel.toString());
 //          var blocProviderPin = myBlocProvider.BlocProvider(
 //            bloc: PinBloc(),
@@ -136,7 +138,7 @@ class SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    print("splash dispose");
+    logger.i("splash dispose");
     _controller.dispose();
     super.dispose();
   }

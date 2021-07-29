@@ -6,5 +6,10 @@
         <item name="android:windowBackground">@drawable/launch_background</item>
     </style>
 
+    <!-- You can name this style whatever you'd like -->
+    <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@drawable/[your_normal_background_drawable]</item>
+    </style>
+
     <color name="background">#232938</color>
 </resources>

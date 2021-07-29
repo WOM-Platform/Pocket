@@ -1,12 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show Marker;
+import 'package:meta/meta.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
 
 @immutable
-abstract class MapEvent extends Equatable {
-  MapEvent([List props = const []]) : super(props);
-}
+abstract class MapEvent extends Equatable {}
 
 class UpdateMap extends MapEvent {
   final double sliderValue;
@@ -21,8 +19,12 @@ class UpdateMap extends MapEvent {
     this.forceFilterUpdate = false,
     this.sources,
     this.aims,
-  }) : super([sliderValue, markers, forceFilterUpdate, sources,aims]);
+  });
 
   @override
   String toString() => "UpdateMap";
+
+  @override
+  List<Object> get props =>
+      [sliderValue, markers, forceFilterUpdate, sources, aims];
 }

@@ -1,8 +1,11 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:intl/intl.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class TransactionModel {
+import '../my_logger.dart';
+
+class TransactionModel extends Equatable {
   static const tblTransaction = "Transactions";
   static const dbId = "Id";
   static const dbTimestamp = "Timestamp";
@@ -52,7 +55,7 @@ class TransactionModel {
   }
 
   String formatDate() {
-    print(Intl.getCurrentLocale());
+    logger.i(Intl.getCurrentLocale());
     var format = new DateFormat.yMMMEd(Intl.getCurrentLocale());
     return format.format(this.date);
   }
@@ -61,4 +64,8 @@ class TransactionModel {
   String toString() {
     return "$transactionType,$source,$aimCode,$size,$date,$ackUrl";
   }
+
+  @override
+  List<Object> get props =>
+      [transactionType, source, aimCode, size, date, ackUrl];
 }

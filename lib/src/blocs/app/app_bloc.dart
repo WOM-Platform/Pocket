@@ -7,6 +7,7 @@ import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/utils/utils.dart';
 import 'package:uni_links/uni_links.dart';
 
+import '../../my_logger.dart';
 import 'app_event.dart';
 import 'app_state.dart';
 
@@ -23,11 +24,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     add(LoadData());
 
     _sub = getUriLinksStream().listen((Uri uri) {
-      print("Subscription stream uri : $uri");
+      logger.i("Subscription stream uri : $uri");
       final deepLinkModel = DeepLinkModel.fromUri(uri);
       add(DeepLinkEvent(deepLinkModel));
     }, onError: (err) {
-      print("Stream uri error : $err");
+      logger.i("Stream uri error : $err");
     });
   }
 
@@ -68,19 +69,19 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     DeepLinkModel deepLinkModel;
     try {
       Uri initialUri = await getInitialUri();
-      print("AppBloc uri : $initialUri");
+      logger.i("AppBloc uri : $initialUri");
       deepLinkModel = DeepLinkModel.fromUri(initialUri);
     } on PlatformException {
-      print("AppReposirotry");
-      print('Failed to get initial link.');
+      logger.i("AppReposirotry");
+      logger.i('Failed to get initial link.');
 //      return Future.error('Failed to get initial link.');
     } on FormatException {
-      print("AppBloc");
-      print('Failed to parse the initial link as Uri.');
+      logger.i("AppBloc");
+      logger.i('Failed to parse the initial link as Uri.');
 //      return Future.error('Failed to parse the initial link as Uri.');
     } catch (e) {
-      print("AppBloc");
-      print(e.toString());
+      logger.i("AppBloc");
+      logger.i(e.toString());
 //      return Future.error(e);
     }
     return deepLinkModel;

@@ -9,6 +9,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pocket/src/models/wom_model.dart';
 import 'package:synchronized/synchronized.dart';
 
+import '../my_logger.dart';
+
 /// This is the singleton database class which handlers all database transactions
 /// All the task raw queries is handle here and return a Future<T> with result
 class AppDatabase {
@@ -41,12 +43,12 @@ class AppDatabase {
   Future<String> getPath() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "pocket.db");
-    print(path);
+    logger.i(path);
     return path;
   }
 
   Future _init() async {
-    print("AppDatabase: init database");
+    logger.i("AppDatabase: init database");
     // Get a location using path_provider
     final path = await getPath();
     _database = await openDatabase(path, version: 3,
@@ -63,13 +65,13 @@ class AppDatabase {
       analytics.logEvent(
         name: 'app_db_onCreate_complete',
       );
-      print("app_db_onCreate complete");
+      logger.i("app_db_onCreate complete");
     }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
       analytics.logEvent(name: 'app_db_onUpgrade', parameters: {
         'oldVersion': oldVersion,
         'newVersion': newVersion,
       });
-      print(
+      logger.i(
           "app_db_onUpgrade: oldVersion: $oldVersion, newVersion: $newVersion");
       if (oldVersion == 1 || oldVersion == 2) {
         var batch = db.batch();
@@ -80,7 +82,7 @@ class AppDatabase {
           'oldVersion': oldVersion,
           'newVersion': newVersion,
         });
-        print("app_db_onUpgrade complete");
+        logger.i("app_db_onUpgrade complete");
       }
     });
   }
@@ -96,10 +98,10 @@ class AppDatabase {
     _createTransactionTableV2(batch);
     for (TransactionModel tx in transactions) {
       insertTransaction2(tx, batch);
-      print('transaction inserita');
+      logger.i('transaction inserita');
     }
     analytics.logEvent(name: 'app_db_updateTransactionTableV1toV2_complete');
-    print("transactions migration complete");
+    logger.i("transactions migration complete");
   }
 
   /// Inserts or replaces the task.
@@ -109,7 +111,7 @@ class AppDatabase {
           '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbAim},${TransactionModel.dbType},${TransactionModel.dbAckUrl})'
           ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.transactionType.index},"${tx.ackUrl}")');
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       analytics.logEvent(
           name: 'app_db_insertTransaction2_error',
           parameters: {'error': e.toString()});
@@ -123,17 +125,17 @@ class AppDatabase {
     analytics.logEvent(name: 'app_db_updateWomTableV1toV2', parameters: {
       'womsCount': woms.length,
     });
-    print(woms.length.toString());
+    logger.i(woms.length.toString());
     batch.execute("DROP TABLE IF EXISTS ${WomModel.tblWom}");
-    print('drop completato');
+    logger.i('drop completato');
     _createWomTableV2(batch);
-    print('nuova tabella creata');
+    logger.i('nuova tabella creata');
     for (WomModel w in woms) {
       insertWom2(w, batch);
-      print('wom inserito');
+      logger.i('wom inserito');
     }
     analytics.logEvent(name: 'app_db_updateWomTableV1toV2_complete');
-    print("migration complete");
+    logger.i("migration complete");
   }
 
   insertWom2(WomModel wom, Batch batch) {
@@ -142,7 +144,7 @@ class AppDatabase {
           '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
           ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}","${wom.sourceId}","${wom.aim}",${wom.transactionId})');
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       analytics.logEvent(
           name: 'app_db_insertWom2_error', parameters: {'error': e.toString()});
       throw e;
@@ -156,7 +158,7 @@ class AppDatabase {
           'FROM ${WomModel.tblWom};');
       return _bindData(result);
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       analytics.logEvent(
           name: 'app_db_getAllWoms_error', parameters: {'error': e.toString()});
       return List<WomModel>();
@@ -170,12 +172,12 @@ class AppDatabase {
       var wom = new WomModel.fromDB(item);
       woms.add(wom);
     }
-    print("--------- COMPLETE QUERY WOM");
+    logger.i("--------- COMPLETE QUERY WOM");
     return woms;
   }
 
   Future<List<TransactionModel>> getTransactions(Database db) async {
-    print("--------- START QUERY TRANSACTION");
+    logger.i("--------- START QUERY TRANSACTION");
     try {
       var result = await db.rawQuery(
           'SELECT ${TransactionModel.tblTransaction}.* '
@@ -185,10 +187,10 @@ class AppDatabase {
         var tx = new TransactionModel.fromMap(item);
         transactions.add(tx);
       }
-      print("--------- COMPLETE QUERY TRANSACTION");
+      logger.i("--------- COMPLETE QUERY TRANSACTION");
       return transactions;
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       analytics.logEvent(
           name: 'app_db_getTransactions_error',
           parameters: {'error': e.toString()});
@@ -273,7 +275,7 @@ class AppDatabase {
     if (_database != null && _database.isOpen) {
       await _database.close();
       _database = null;
-      print("database closed");
+      logger.i("database closed");
     }
   }
 

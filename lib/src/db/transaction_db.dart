@@ -2,6 +2,8 @@ import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../my_logger.dart';
+
 class TransactionDB {
   static final TransactionDB _transactionDb =
       new TransactionDB._internal(AppDatabase.get());
@@ -15,7 +17,7 @@ class TransactionDB {
   }
 
   Future<List<TransactionModel>> getTransactions() async {
-    print("--------- START QUERY TRANSACTION");
+    logger.i("--------- START QUERY TRANSACTION");
     var db = await _appDatabase.getDb();
     try {
       var result = await db.rawQuery(
@@ -23,7 +25,7 @@ class TransactionDB {
           'FROM ${TransactionModel.tblTransaction} ORDER BY ${TransactionModel.dbTimestamp} DESC;');
       return _bindData(result);
     } catch (e) {
-      print(e.toString());
+      logger.i(e.toString());
       return List<TransactionModel>();
     }
   }
@@ -36,7 +38,7 @@ class TransactionDB {
         var tx = new TransactionModel.fromMap(item);
         transactions.add(tx);
       }
-      print("--------- COMPLETE QUERY TRANSACTION");
+      logger.i("--------- COMPLETE QUERY TRANSACTION");
       return transactions;
     } catch (ex) {
       throw ex;
@@ -52,7 +54,7 @@ class TransactionDB {
           '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbAim},${TransactionModel.dbType},${TransactionModel.dbAckUrl})'
           ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.transactionType.index},"${tx.ackUrl}")');
     });
-    print("insertTransaction id: $id");
+    logger.i("insertTransaction id: $id");
     return id;
   }
 

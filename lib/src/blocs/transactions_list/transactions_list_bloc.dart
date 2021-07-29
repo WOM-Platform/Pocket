@@ -1,12 +1,15 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/services/aim_repository.dart';
+
 import './bloc.dart';
+import '../../my_logger.dart';
 
 class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
   final TransactionDB _transactionDB;
@@ -30,18 +33,18 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
       try {
         //Se non ho gli aim salvati nel db li scarico da internet
         if (aims == null || aims.isEmpty) {
-          if (await DataConnectionChecker().hasConnection) {
+          if (await InternetConnectionChecker().hasConnection) {
             // final repo = AppRepository();
             aims = await _aimRepository.updateAim(
                 database: AppDatabase.get().getDb());
           } else {
-            print("Aims null or empty and No internet connection");
+            logger.i("Aims null or empty and No internet connection");
             yield TransactionsNoDataConnectionState();
             return;
           }
         }
 
-        print('aim letti : ${aims.length}');
+        logger.i('aim letti : ${aims.length}');
         final List<TransactionModel> transactions =
             await _transactionDB.getTransactions();
         for (TransactionModel t in transactions) {
@@ -55,7 +58,7 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
         }
         yield TransactionsLoaded(transactions);
       } catch (ex) {
-        print(ex.toString());
+        logger.e(ex.toString());
         yield TransactionsErrorState('somethings_wrong');
       }
     }

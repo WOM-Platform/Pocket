@@ -6,6 +6,8 @@ import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'dart:async';
 
+import '../my_logger.dart';
+
 class TransactionRepository {
   final DeepLinkModel deepLinkModel;
   TransactionDB transactionsDB;
@@ -13,22 +15,22 @@ class TransactionRepository {
   Pocket pocket;
 
   TransactionRepository(this.deepLinkModel) {
-    print('Repository constructor');
+    logger.i('Repository constructor');
     transactionsDB = TransactionDB.get();
     womDB = WomDB.get();
     pocket = Pocket(domain, registryKey);
   }
 
   Future<TransactionModel> getWoms(String otc, String password) async {
-    print('getWoms');
+    logger.i('getWoms');
     try {
       final response = await pocket.redeemVouchers(otc, password);
       return saveWoms(response);
     } on ServerException catch (ex) {
-      print(ex.error);
+      logger.i(ex.error);
       rethrow;
     } catch (ex) {
-      print(ex);
+      logger.e(ex);
       rethrow;
     }
   }
@@ -48,8 +50,8 @@ class TransactionRepository {
     });
 
     final aimsString = tmp.substring(0, tmp.length - 1);
-    print(aimsString);
-    print(tmp);
+    logger.i(aimsString);
+    logger.i(tmp);
 
     TransactionModel tx = TransactionModel(
       date: DateTime.now(),
@@ -65,20 +67,20 @@ class TransactionRepository {
     for (int i = 0; i < vouchers.length; i++) {
       await womDB.insertVoucher(
           vouchers[i], redeem.sourceName, redeem.sourceId, id);
-      print("wom_$i saved");
+      logger.i("wom_$i saved");
     }
 
     return tx;
   }
 
   Future<InfoPayResponse> requestPayment(String otc, String password) async {
-    print("requestPayment");
+    logger.i("requestPayment");
     return pocket.requestInfoPayment(otc, password);
   }
 
   Future<TransactionModel> pay(
       String otc, String password, InfoPayResponse infoPay) async {
-    print("pay");
+    logger.i("pay");
 
     try {
       final satisfyingVouchers =
@@ -113,12 +115,12 @@ class TransactionRepository {
         final c = await womDB.updateWomStatusToOff(vouchers[i].id, id);
         count += c;
       }
-      print("wom to off = $count");
-      print(ack.toString());
+      logger.i("wom to off = $count");
+      logger.i(ack.toString());
 
       return tx;
     } catch (e) {
-      print(e);
+      logger.i(e);
       rethrow;
     }
   }

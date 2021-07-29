@@ -4,6 +4,8 @@ import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/map/bloc.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
 
+import '../../../my_logger.dart';
+
 class AimsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class AimsList extends StatelessWidget {
         return p.aims != c.aims;
       },
       builder: (BuildContext context, MapState state) {
-        print("build aims list");
+        logger.i("build aims list");
         if (state.aims == null || state.aims.isEmpty) {
           return Text(
             AppLocalizations.of(context).translate('no_aims'),

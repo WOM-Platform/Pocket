@@ -7,7 +7,7 @@ description: A new Flutter application.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.2.3+19
+version: 0.2.4+20
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -18,46 +18,60 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  cupertino_icons: ^0.1.2
-  uni_links: ^0.2.0
-  flutter_bloc: ^6.0.5
-  sqflite: ^1.1.5
-  simple_rsa: ^0.0.5
-  encrypt: ^4.0.2
-  mmkv_flutter: ^1.0.10 #per salvare le preferenze (firstOpen ecc) + veloce delle normali shared preference
-  barcode_scan: ^1.0.0
-  intl:
-  intl_translation:
-  flutter_map: ^0.3.0
-  geohash: ^0.2.1
-  http: ^0.12.2
-  intro_views_flutter: ^2.8.1
-  webview_flutter: ^0.2.0
-  flutter_lock_screen: ^1.0.5
-  clustering_google_maps: ^0.1.2
-  auto_size_text: ^2.0.1
-  flare_flutter: ^1.5.2
-  clippy_flutter: ^1.1.0
-  flutter_slidable: ^0.5.3
-  share: ^0.6.2
-  firebase_crashlytics: ^0.1.3
-  rflutter_alert: ^1.0.3
-  data_connection_checker: ^0.3.4
-  url_launcher: ^5.4.1
-  feature_discovery: ^0.8.0
-  package_info: ^0.4.0+13
-  device_preview: ^0.2.6+1
-  firebase_analytics: ^5.0.11
+  equatable:
+  cupertino_icons: ^1.0.3
+  uni_links: ^0.5.1
+  flutter_bloc: ^7.0.1
+  sqflite: ^2.0.0+3
+  #simple_rsa: ^0.0.5
+  encrypt: ^5.0.0
+  #mmkv_flutter: ^1.0.10 #per salvare le preferenze (firstOpen ecc) + veloce delle normali shared preference
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
+  #barcode_scan: ^1.0.0
+  flutter_barcode_scanner: ^2.0.0
+  intl: ^0.17.0
+  #intl_translation:
+  flutter_map: ^0.13.1
+  #geohash: ^0.2.1
+  dart_geohash: ^2.0.1
+  http: ^0.13.3
+  intro_views_flutter: ^3.2.0
+  webview_flutter: ^2.0.10
+  flutter_lock_screen: ^2.0.1
+  clustering_google_maps: ^0.1.2-nullsafety.1
+  google_maps_cluster_manager: ^1.0.0
+  auto_size_text: ^3.0.0-nullsafety.0
+  flare_flutter: ^3.0.1
+  clippy_flutter: ^2.0.0-nullsafety.1
+  flutter_slidable: ^0.6.0
+  share: ^2.0.4
+  firebase_crashlytics: ^2.1.1
+  rflutter_alert: ^2.0.2
+  #data_connection_checker: ^0.3.4
+  internet_connection_checker: ^0.0.1+2
+  url_launcher: ^6.0.9
+  feature_discovery: ^0.14.0
+  package_info: ^2.0.2
+  device_preview: ^0.7.4
+  firebase_analytics: ^8.2.0
+  sliding_up_panel: ^2.0.0+1
+  logger: ^1.0.0
   dart_wom_connector:
     path: /Volumes/Samsung_X5/Dart/dart_wom_connector
-  sliding_up_panel: ^0.3.5
 #  flare_flutter:
 #    git:
 #      url: git://github.com/2d-inc/Flare-Flutter.git
 #      ref: dev
 #      path: flare_flutter
 
+dependency_overrides:
+  meta: 1.4.0
+  analyzer: 1.7.0
 
+dev_dependencies:
+  hive_generator: ^1.1.0
+  build_runner: ^2.0.6
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 

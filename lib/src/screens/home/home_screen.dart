@@ -1,24 +1,26 @@
-import 'package:barcode_scan/barcode_scan.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:feature_discovery/feature_discovery.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clippy_flutter/arc.dart';
+import 'package:feature_discovery/feature_discovery.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/utils/config.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 import '../../../constants.dart';
 import '../../blocs/app/app_bloc.dart';
 import '../../blocs/map/bloc.dart';
-import 'package:flutter/services.dart';
 import '../../blocs/pin/bloc.dart';
 import '../../models/deep_link_model.dart';
+import '../../my_logger.dart';
 import '../../screens/home/widgets/transaction_list.dart';
 import '../../screens/map/map_screen.dart';
 import '../../screens/pin/pin_screen.dart';
 import '../../screens/settings/settings.dart';
 import '../../utils/colors.dart';
-import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import '../../utils/my_extensions.dart';
 
 class HomeScreen2 extends StatefulWidget {
@@ -43,7 +45,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 
   @override
   Widget build(BuildContext context) {
-    print('HomeScreen: build');
+    logger.i('HomeScreen: build');
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -183,9 +185,10 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
 
 //            final String link = await bloc.scanQRCode();
-    if (await DataConnectionChecker().hasConnection) {
+    if (await InternetConnectionChecker().hasConnection) {
       try {
-        final link = await BarcodeScanner.scan();
+        final link = await FlutterBarcodeScanner.scanBarcode(
+            'FFFFFF', 'Annulla', false, ScanMode.QR);
         final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
 //            var blocProviderPin = myBlocProvider.BlocProvider(
@@ -204,11 +207,12 @@ class _HomeScreen2State extends State<HomeScreen2> {
           MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
         );
       } on PlatformException catch (ex) {
-        if (ex == BarcodeScanner.CameraAccessDenied) {
-          throw ex;
-        } else {
-          throw Exception("unknow error");
-        }
+        // if (ex == BarcodeScanner.CameraAccessDenied) {
+        //   throw ex;
+        // } else {
+        //   throw Exception("unknow error");
+        // }
+        rethrow;
       } on FormatException {
         throw FormatException(
             "Hai premuto il pulsante back prima di acquisire il dato");

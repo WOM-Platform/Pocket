@@ -5,6 +5,8 @@ import 'package:pocket/src/services/aim_repository.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter/services.dart';
 
+import '../my_logger.dart';
+
 class AppRepository {
   AimRepository _aimRepository;
 
@@ -19,20 +21,20 @@ class AppRepository {
   Future<DeepLinkModel> getDeepLink() async {
     try {
       Uri initialUri = await getInitialUri();
-      print("AppRepository uri : $initialUri");
+      logger.i("AppRepository uri : $initialUri");
       final deepLinkModel = DeepLinkModel.fromUri(initialUri);
       return deepLinkModel;
     } on PlatformException {
-      print("AppReposirotry");
-      print('Failed to get initial link.');
+      logger.i("AppReposirotry");
+      logger.i('Failed to get initial link.');
       return Future.error('Failed to get initial link.');
     } on FormatException {
-      print("AppReposirotry");
-      print('Failed to parse the initial link as Uri.');
+      logger.i("AppReposirotry");
+      logger.i('Failed to parse the initial link as Uri.');
       return Future.error('Failed to parse the initial link as Uri.');
     } catch (e) {
-      print("AppRepository");
-      print(e.toString());
+      logger.e("AppRepository");
+      logger.e(e.toString());
       return Future.error(e);
     }
   }

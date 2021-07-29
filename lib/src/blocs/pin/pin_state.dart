@@ -5,7 +5,10 @@ import 'package:meta/meta.dart';
 abstract class PinState extends Equatable {
   final String pin;
 
-  PinState(this.pin, [List props = const []]) : super([pin]..addAll(props));
+  PinState(this.pin);
+
+  @override
+  List<Object> get props => [pin];
 }
 
 class InitialPinState extends PinState {
@@ -15,7 +18,6 @@ class InitialPinState extends PinState {
 class PinVerified extends PinState {
   PinVerified(String pin) : super(pin);
 }
-
 
 class PinUpdated extends PinState {
   PinUpdated(String pin) : super(pin);

@@ -13,7 +13,7 @@ class ResponseRedeem {
   ResponseRedeem({this.woms, this.sourceName});
 
   ResponseRedeem.fromJson(Map<String, dynamic> json) {
-    print(json);
+    logger.i(json);
     if (json[VOUCHERS] != null) {
       woms = new List<WomModel>();
       json[VOUCHERS].forEach((v) {

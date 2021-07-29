@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:pocket/src/blocs/transaction/transaction_event.dart';
 import 'package:pocket/src/blocs/transaction/transaction_state.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/services/transaction_repository.dart';
+
+import '../../my_logger.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final TransactionRepository _repository;
@@ -25,18 +27,18 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   Stream<TransactionState> mapEventToState(TransactionEvent event) async* {
     if (event is TransactionStarted) {
       yield TransactionLoadingState();
-      if (await DataConnectionChecker().hasConnection) {
+      if (await InternetConnectionChecker().hasConnection) {
         try {
           TransactionModel transaction;
           if (type == TransactionType.VOUCHERS) {
-            print("bloc: " + otc);
+            logger.i("bloc: " + otc);
             transaction = await _repository.getWoms(otc, event.password);
-            print("transaction saved");
+            logger.i("transaction saved");
             yield TransactionCompleteState(transaction);
           } else {
             final infoPayment =
                 await _repository.requestPayment(otc, event.password);
-            print(infoPayment);
+            logger.i(infoPayment);
             yield TransactionInfoPaymentState(infoPayment, event.password);
           }
         } on InsufficientVouchers catch (ex) {
@@ -54,7 +56,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       }
     } else if (event is TransactionConfirmPayment) {
       yield TransactionLoadingState();
-      if (await DataConnectionChecker().hasConnection) {
+      if (await InternetConnectionChecker().hasConnection) {
         try {
           final transaction =
               await _repository.pay(otc, event.password, event.infoPay);
@@ -67,7 +69,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         } on TimeoutException catch (ex) {
           yield TransactionErrorState('La richiesta ha impiegato troppo tempo');
         } catch (ex) {
-          print(ex.toString());
+          logger.i(ex.toString());
           yield TransactionErrorState(ex.toString());
         }
       } else {

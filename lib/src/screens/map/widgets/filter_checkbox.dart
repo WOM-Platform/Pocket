@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
 
+import '../../../my_logger.dart';
+
 class CheckboxRowFilter extends StatefulWidget {
   final WomGroupBy group;
   final ValueChanged<bool> onChanged;
 
-  const CheckboxRowFilter({Key key, @required this.group, @required this.onChanged})
+  const CheckboxRowFilter(
+      {Key key, @required this.group, @required this.onChanged})
       : super(key: key);
 
   @override
@@ -25,7 +28,7 @@ class CheckboxRowFilterState extends State<CheckboxRowFilter> {
             value: isActive,
             checkColor: Theme.of(context).primaryColor,
             onChanged: (value) {
-              print('change');
+              logger.i('change');
 
               setState(() {
                 isActive = value;
@@ -34,11 +37,14 @@ class CheckboxRowFilterState extends State<CheckboxRowFilter> {
               widget.onChanged(value);
             }),
 //        Text(widget.group.type),
-        Text(widget.group.type,style: TextStyle(color: Colors.white)),
+        Text(widget.group.type, style: TextStyle(color: Colors.white)),
         Expanded(
           child: Container(),
         ),
-        Text(widget.group.count.toString() + ' WOM',style: TextStyle(color: Colors.white),)
+        Text(
+          widget.group.count.toString() + ' WOM',
+          style: TextStyle(color: Colors.white),
+        )
       ],
     );
   }

@@ -3,21 +3,31 @@ import 'package:meta/meta.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 
 @immutable
-abstract class AppEvent extends Equatable {
-  AppEvent([List props = const []]) : super(props);
-}
+abstract class AppEvent extends Equatable {}
 
 class LoadData extends AppEvent {
   @override
   String toString() => "LoadData";
+
+  @override
+  List<Object> get props => [];
 }
 
 class DeepLinkEvent extends AppEvent {
   final DeepLinkModel deepLinkModel;
 
   DeepLinkEvent(this.deepLinkModel);
+
+  @override
+  List<Object> get props => [];
 }
 
-class HomeEvent extends AppEvent {}
+class HomeEvent extends AppEvent {
+  @override
+  List<Object> get props => [];
+}
 
-class AppStarted extends AppEvent {}
+class AppStarted extends AppEvent {
+  @override
+  List<Object> get props => [];
+}

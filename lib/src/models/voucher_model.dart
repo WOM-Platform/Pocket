@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../my_logger.dart';
+
 class VoucherModel extends TicketModel {
   final String source;
 
-  VoucherModel({String id, DateTime date, String country, int size, this.source})
+  VoucherModel(
+      {String id, DateTime date, String country, int size, this.source})
       : super(date: date, country: country, size: size);
 
 //  VoucherModel.fromJson(Map<String, dynamic> parsedJson)
@@ -36,14 +39,10 @@ abstract class TicketModel {
   final String country;
   final int size;
 
-  TicketModel(
-      {
-      @required this.date,
-      @required this.country,
-      this.size});
+  TicketModel({@required this.date, @required this.country, this.size});
 
   formatDate() {
-    print(Intl.getCurrentLocale());
+    logger.i(Intl.getCurrentLocale());
     var format = new DateFormat.yMMMMEEEEd(Intl.getCurrentLocale());
     return format.format(this.date);
   }
