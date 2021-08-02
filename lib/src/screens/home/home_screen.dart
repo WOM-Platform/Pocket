@@ -185,7 +185,6 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //          final link = "https://wom.social/vouchers/f6f8fd2a8c424a60aa23f8f444742f13";
 //            final link =
 //                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
-
 //            final String link = await bloc.scanQRCode();
     if (await InternetConnectionChecker().hasConnection) {
       try {
