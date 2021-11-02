@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/widgets/voucher_card.dart';
 class TransactionDetailsScreen extends StatefulWidget {
-  final TransactionModel transactionModel;
+  final TransactionModel? transactionModel;
 
-  const TransactionDetailsScreen({Key key, this.transactionModel}) : super(key: key);
+  const TransactionDetailsScreen({Key? key, this.transactionModel}) : super(key: key);
   @override
   _TransactionDetailsScreenState createState() => _TransactionDetailsScreenState();
 }
@@ -36,7 +36,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
           ),
           SizedBox(height: 40.0),
           Hero(
-            tag: widget.transactionModel.date,
+            tag: widget.transactionModel!.date!,
             child: TicketCard(
               transaction: widget.transactionModel,
               isForHome: true,

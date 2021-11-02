@@ -2,11 +2,11 @@ import 'package:pocket/src/models/suggestion_model.dart';
 import 'package:flutter/material.dart';
 
 class SuggestionCard extends StatelessWidget {
-  final SuggestionModel suggestionModel;
-  final VoidCallback onDeleteCard;
-  final VoidCallback onTap;
+  final SuggestionModel? suggestionModel;
+  final VoidCallback? onDeleteCard;
+  final VoidCallback? onTap;
 
-  const SuggestionCard({Key key, this.suggestionModel, this.onDeleteCard, this.onTap})
+  const SuggestionCard({Key? key, this.suggestionModel, this.onDeleteCard, this.onTap})
       : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class SuggestionCard extends StatelessWidget {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(4.0),
                 child: Text(
-                  suggestionModel.text,
+                  suggestionModel!.text!,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),
                 ),

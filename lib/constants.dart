@@ -1,8 +1,8 @@
 import 'package:pocket/src/utils/config.dart';
 
-String domain;
-String registryKey;
-Flavor flavor;
+late String domain;
+late String registryKey;
+Flavor? flavor;
 //Shared Preferences
 const IS_FIRST_OPEN = 'isFirstOpen';
 const IS_SUGGESTIONS_DISABLED = 'isSuggestionsDisabled';

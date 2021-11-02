@@ -5,10 +5,10 @@ import '../../../my_logger.dart';
 
 class CheckboxRowFilter extends StatefulWidget {
   final WomGroupBy group;
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool?> onChanged;
 
   const CheckboxRowFilter(
-      {Key key, @required this.group, @required this.onChanged})
+      {Key? key, required this.group, required this.onChanged})
       : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class CheckboxRowFilter extends StatefulWidget {
 }
 
 class CheckboxRowFilterState extends State<CheckboxRowFilter> {
-  bool isActive = true;
+  bool? isActive = true;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class CheckboxRowFilterState extends State<CheckboxRowFilter> {
               widget.onChanged(value);
             }),
 //        Text(widget.group.type),
-        Text(widget.group.type, style: TextStyle(color: Colors.white)),
+        Text(widget.group.type!, style: TextStyle(color: Colors.white)),
         Expanded(
           child: Container(),
         ),

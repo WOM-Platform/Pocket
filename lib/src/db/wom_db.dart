@@ -107,7 +107,7 @@ class WomDB {
   }*/
 
   Future<List<Voucher>> getVouchersForPay({
-    SimpleFilter simpleFilter,
+    SimpleFilter? simpleFilter,
   }) async {
     var db = await _appDatabase.getDb();
     var whereClause = OptionalQuery(
@@ -263,7 +263,7 @@ class WomDB {
   }
 
   List<WomGroupBy> _bindGroupedWoms(List<Map<String, dynamic>> result) {
-    List<WomGroupBy> group = new List();
+    final group = <WomGroupBy>[];
     for (Map<String, dynamic> item in result) {
       var wom = new WomGroupBy.fromMap(item);
       group.add(wom);
@@ -279,7 +279,8 @@ class WomDB {
     logger.i('[WomDb]: $query');
     var result = await db.rawQuery(query);
     final list = result.map((m) {
-      return WomGroupBy(m['aim'], m['woms'], titles: json.decode(m['titles']));
+      return WomGroupBy(m['aim'] as String?, m['woms'] as int?,
+          titles: json.decode(m['titles'] as String));
     }).toList();
     return list;
   }
@@ -324,19 +325,19 @@ class WomDB {
   }*/
 
   /// Inserts or replaces the task.
-  Future<void> insertVoucher(Voucher voucher, String sourceName,
-      String sourceId, int transactionId) async {
+  Future<void> insertVoucher(Voucher voucher, String? sourceName,
+      String? sourceId, int? transactionId) async {
     var db = await _appDatabase.getDb();
     try {
       final geoHasher = GeoHasher();
       final geohash = geoHasher.encode(
-        voucher.long,
-        voucher.lat,
+        voucher.long!,
+        voucher.lat!,
       );
       await db.transaction((Transaction txn) async {
         int id = await txn.rawInsert('INSERT INTO '
             '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
-            ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.dateTime.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.lat},${voucher.long},"$sourceName","$sourceId","${voucher.aim}",$transactionId)');
+            ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.dateTime!.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.lat},${voucher.long},"$sourceName","$sourceId","${voucher.aim}",$transactionId)');
       });
     } catch (e) {
       logger.i(e.toString());
@@ -345,10 +346,10 @@ class WomDB {
   }
 
   /// Inserts or replaces the task.
-  Future<int> updateWomStatusToOff(String womId, int transactionId) async {
+  Future<int> updateWomStatusToOff(String? womId, int? transactionId) async {
     var db = await _appDatabase.getDb();
     try {
-      int count;
+      int count = 0;
       await db.transaction((Transaction txn) async {
         count = await txn.rawUpdate(
             'UPDATE ${WomModel.tblWom} SET ${WomModel.dbLive} = ?, ${WomModel.dbTransactionId} = ? WHERE ${WomModel.dbId} = "$womId"',

@@ -1,7 +1,7 @@
 class WomGroupBy {
-  final String type;
-  final int count;
-  Map<String, dynamic> titles;
+  final String? type;
+  final int? count;
+  Map<String, dynamic>? titles;
 
   WomGroupBy(this.type, this.count, {this.titles});
 

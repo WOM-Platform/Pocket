@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:meta/meta.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../constants.dart';
@@ -26,7 +25,7 @@ class AimDatabase {
   }
 
   Future<List<Aim>> getAimWithLevel(
-      {@required Database db, int deepLevel, String code}) async {
+      {required Database db, int? deepLevel, String? code}) async {
     try {
       logger.i("AimDatabase: getAimWithLevel()");
       final String whereClause = code != null
@@ -48,11 +47,11 @@ class AimDatabase {
       }).toList();
     } catch (e) {
       logger.i(e.toString());
-      return List<Aim>();
+      return <Aim>[];
     }
   }
 
-  Future<List<Aim>> getFlatAimList({@required Database db}) async {
+  Future<List<Aim>> getFlatAimList({required Database db}) async {
     logger.i("AimDatabase: getFlatAimList()");
     try {
       List<Map> maps = await db.query(
@@ -68,11 +67,11 @@ class AimDatabase {
       }).toList();
     } catch (e) {
       logger.i(e.toString());
-      return null;
+      return <Aim>[];
     }
   }
 
-  Future<Aim> getAim({@required Database db, String aimCode}) async {
+  Future<Aim?> getAim({required Database db, String? aimCode}) async {
     logger.i("AimDatabase: getAim()");
     try {
       List<Map> maps = await db.query(
@@ -94,13 +93,13 @@ class AimDatabase {
     }
   }
 
-  Future<int> insert({@required Database db, Aim aim}) async {
+  Future<int?> insert({required Database db, Aim? aim}) async {
     logger.i("AimDatabase: insert()");
-    int result;
+    int? result;
     await db.transaction((Transaction txn) async {
       result = await txn.insert(
         AimDbKeys.TABLE_NAME,
-        aim.toDBMap(),
+        aim!.toDBMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     });

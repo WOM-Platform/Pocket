@@ -20,7 +20,8 @@ class TransactionsList extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      AppLocalizations.of(context).translate('no_transactions'),
+                      AppLocalizations.of(context)!
+                          .translate('no_transactions'),
                       style: TextStyle(color: darkBlueColor),
                     ),
                   ],
@@ -49,7 +50,7 @@ class TransactionsList extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('somethings_wrong'),
                     ),
                   ),
@@ -59,7 +60,7 @@ class TransactionsList extends StatelessWidget {
                           .add(LoadTransactions());
                     },
                     label: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('update_transactions'),
                     ),
                   ),
@@ -70,7 +71,7 @@ class TransactionsList extends StatelessWidget {
         } else if (state is TransactionsErrorState) {
           return Center(
             child: Text(
-              AppLocalizations.of(context).translate(state.error),
+              AppLocalizations.of(context)!.translate(state.error),
               textAlign: TextAlign.center,
             ),
           );
@@ -81,7 +82,8 @@ class TransactionsList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  AppLocalizations.of(context).translate('no_connection_title'),
+                  AppLocalizations.of(context)!
+                      .translate('no_connection_title'),
                   textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -89,7 +91,7 @@ class TransactionsList extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  AppLocalizations.of(context)
+                  AppLocalizations.of(context)!
                       .translate('no_connection_aim_desc'),
                   textAlign: TextAlign.center,
                 ),
@@ -98,7 +100,7 @@ class TransactionsList extends StatelessWidget {
                 ),
                 RaisedButton(
                     child: Text(
-                        AppLocalizations.of(context).translate('try_again')),
+                        AppLocalizations.of(context)!.translate('try_again')),
                     onPressed: () {
                       BlocProvider.of<TransactionsListBloc>(context)
                           .add(LoadTransactions());
@@ -109,7 +111,7 @@ class TransactionsList extends StatelessWidget {
         }
         return Center(
           child:
-              Text(AppLocalizations.of(context).translate('somethings_wrong')),
+              Text(AppLocalizations.of(context)!.translate('somethings_wrong')),
         );
       },
     );

@@ -18,10 +18,10 @@ class IntroScreen extends StatelessWidget {
       PageViewModel(
           pageColor: Colors.grey,
           body: Text(
-            AppLocalizations.of(context).translate('introDesc1'),
+            AppLocalizations.of(context)!.translate('introDesc1'),
           ),
           title: Text(
-            AppLocalizations.of(context).translate('introTitle1'),
+            AppLocalizations.of(context)!.translate('introTitle1'),
           ),
           mainImage: Image.asset(
             IMAGE_PATH_INTRO_1,
@@ -32,10 +32,10 @@ class IntroScreen extends StatelessWidget {
       PageViewModel(
         pageColor: const Color(0xFF8BC34A),
         body: Text(
-          AppLocalizations.of(context).translate('introDesc2'),
+          AppLocalizations.of(context)!.translate('introDesc2'),
         ),
         title: Text(
-          AppLocalizations.of(context).translate('introTitle2'),
+          AppLocalizations.of(context)!.translate('introTitle2'),
         ),
         mainImage: Image.asset(
           IMAGE_PATH_INTRO_2,
@@ -47,10 +47,10 @@ class IntroScreen extends StatelessWidget {
       PageViewModel(
         pageColor: primaryColor,
         body: Text(
-          AppLocalizations.of(context).translate('introDesc3'),
+          AppLocalizations.of(context)!.translate('introDesc3'),
         ),
         title: Text(
-          AppLocalizations.of(context).translate('introTitle3'),
+          AppLocalizations.of(context)!.translate('introTitle3'),
         ),
         mainImage: Image.asset(
           IMAGE_PATH_INTRO_3,
@@ -77,9 +77,9 @@ class IntroScreen extends StatelessWidget {
             fontSize: 16.0,
           ),
           doneText:
-              Text(AppLocalizations.of(context).translate('introDoneText')),
+              Text(AppLocalizations.of(context)!.translate('introDoneText')),
           skipText:
-              Text(AppLocalizations.of(context).translate('introSkipText')),
+              Text(AppLocalizations.of(context)!.translate('introSkipText')),
         ), //IntroViewsFlutter
       ), //Builder
     ); //Material App

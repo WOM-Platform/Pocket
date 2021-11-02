@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/db/transaction_db.dart';
@@ -13,7 +12,7 @@ import '../../my_logger.dart';
 
 class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
   final TransactionDB _transactionDB;
-  AimRepository _aimRepository;
+  late AimRepository _aimRepository;
 
   TransactionsListBloc(this._transactionDB)
       : super(InitialTransactionsState()) {
@@ -27,16 +26,14 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
     if (event is LoadTransactions) {
       yield TransactionsLoading();
 
-      List<Aim> aims = await _aimRepository.getFlatAimList(
-          database: AppDatabase.get().getDb());
+      var aims = await _aimRepository.getFlatAimList(AppDatabase.get().getDb);
 
       try {
         //Se non ho gli aim salvati nel db li scarico da internet
-        if (aims == null || aims.isEmpty) {
+        if (aims.isEmpty) {
           if (await InternetConnectionChecker().hasConnection) {
             // final repo = AppRepository();
-            aims = await _aimRepository.updateAim(
-                database: AppDatabase.get().getDb());
+            aims = await _aimRepository.updateAim(AppDatabase.get().getDb);
           } else {
             logger.i("Aims null or empty and No internet connection");
             yield TransactionsNoDataConnectionState();
@@ -45,16 +42,19 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
         }
 
         logger.i('aim letti : ${aims.length}');
-        final List<TransactionModel> transactions =
-            await _transactionDB.getTransactions();
+        final transactions = await _transactionDB.getTransactions();
         for (TransactionModel t in transactions) {
-          final String aimCode = t.aimCode.split(',').first;
-          final Aim aim = aims.firstWhere((a) {
-            return a.code == aimCode;
-          }, orElse: () {
-            return null;
-          });
-          t.aim = aim;
+          if (t.aimCode != null) {
+            final String aimCode = t.aimCode!.split(',').first;
+            try {
+              final aim = aims.firstWhere((a) {
+                return a.code == aimCode;
+              });
+              t.aim = aim;
+            } catch (ex) {
+              logger.e(ex);
+            }
+          }
         }
         yield TransactionsLoaded(transactions);
       } catch (ex) {

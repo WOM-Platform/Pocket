@@ -12,9 +12,9 @@ import './bloc.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {
   WomRepository _womRepository = WomRepository();
-  ClusteringHelper clusteringHelper;
-  Set<String> sources = Set();
-  Set<String> aims = Set();
+  late ClusteringHelper clusteringHelper;
+  Set<String?> sources = Set();
+  Set<String?> aims = Set();
 
   MapBloc() : super(InitialMapState()) {
     initDatabaseClustering();
@@ -44,7 +44,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final a = await _womRepository.getWomGroupedByAim();
     sources.addAll(s.map((g) => g.type).toList());
     aims.addAll(a.map((g) => g.type).toList());
-    aims.removeWhere((a) => a.startsWith('0'));
+    aims.removeWhere((a) => a!.startsWith('0'));
     add(UpdateMap(
       sources: s,
       aims: a,
@@ -81,7 +81,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   filter() {
-    final int currentSliderValueInt = state.sliderValue.toInt();
+    final int currentSliderValueInt = state.sliderValue!.toInt();
 
     int startDateQuery = 0;
     int endDateQuery = 0;

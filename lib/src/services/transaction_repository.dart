@@ -1,18 +1,19 @@
+import 'dart:async';
+
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:pocket/constants.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
 import 'package:pocket/src/models/transaction_model.dart';
-import 'dart:async';
 
 import '../my_logger.dart';
 
 class TransactionRepository {
   final DeepLinkModel deepLinkModel;
-  TransactionDB transactionsDB;
-  WomDB womDB;
-  Pocket pocket;
+  late TransactionDB transactionsDB;
+  late WomDB womDB;
+  late Pocket pocket;
 
   TransactionRepository(this.deepLinkModel) {
     logger.i('Repository constructor');
@@ -37,8 +38,8 @@ class TransactionRepository {
 
   Future<TransactionModel> saveWoms(ResponseRedeem redeem) async {
     final womDB = WomDB.get();
-    final vouchers = redeem.vouchers;
-    final aims = <String>{};
+    final vouchers = redeem.vouchers!;
+    final aims = <String?>{};
 
     for (int i = 0; i < vouchers.length; i++) {
       aims.add(vouchers[i].aim);
@@ -58,11 +59,11 @@ class TransactionRepository {
       country: "italy",
       size: vouchers.length,
       transactionType: TransactionType.VOUCHERS,
-      source: redeem.sourceName,
+      source: redeem.sourceName!,
       aimCode: tmp,
     );
 
-    final int id = await transactionsDB.insertTransaction(tx);
+    final int? id = await transactionsDB.insertTransaction(tx);
 
     for (int i = 0; i < vouchers.length; i++) {
       await womDB.insertVoucher(
@@ -73,20 +74,20 @@ class TransactionRepository {
     return tx;
   }
 
-  Future<InfoPayResponse> requestPayment(String otc, String password) async {
+  Future<InfoPayResponse> requestPayment(String otc, String? password) async {
     logger.i("requestPayment");
     return pocket.requestInfoPayment(otc, password);
   }
 
   Future<TransactionModel> pay(
-      String otc, String password, InfoPayResponse infoPay) async {
+      String otc, String? password, InfoPayResponse infoPay) async {
     logger.i("pay");
 
     try {
       final satisfyingVouchers =
           await womDB.getVouchersForPay(simpleFilter: infoPay.simpleFilter);
 
-      if (infoPay.amount > satisfyingVouchers.length) {
+      if (infoPay.amount! > satisfyingVouchers.length) {
         throw InsufficientVouchers();
       }
       // satisfyingVouchers.shuffle();
@@ -99,12 +100,12 @@ class TransactionRepository {
         country: "italy",
         size: infoPay.amount,
         transactionType: TransactionType.PAYMENT,
-        source: infoPay.posName,
-        aimCode: infoPay?.simpleFilter?.aimCode,
+        source: infoPay.posName!,
+        aimCode: infoPay.simpleFilter?.aimCode,
         ackUrl: ack,
       );
 
-      final int id = await transactionsDB.insertTransaction(tx);
+      final id = await transactionsDB.insertTransaction(tx);
 
       int count = 0;
       if (ack == null) {
@@ -120,7 +121,7 @@ class TransactionRepository {
 
       return tx;
     } catch (e) {
-      logger.i(e);
+      logger.e(e);
       rethrow;
     }
   }

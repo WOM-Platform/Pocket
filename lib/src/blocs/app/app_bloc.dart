@@ -1,9 +1,10 @@
 import 'dart:async';
-import 'package:flutter/services.dart';
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:pocket/src/blocs/transactions_list/bloc.dart';
-import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/models/deep_link_model.dart';
+import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/utils/utils.dart';
 import 'package:uni_links/uni_links.dart';
 
@@ -15,15 +16,14 @@ bool isFirstOpen = false;
 
 class AppBloc extends Bloc<AppEvent, AppState> {
   final AppRepository _appRepository;
-  StreamSubscription _sub;
-  final TransactionsListBloc transactionsBloc;
+  late StreamSubscription _sub;
+  final TransactionsListBloc? transactionsBloc;
 
   AppBloc(this._appRepository, this.transactionsBloc)
-      : assert(_appRepository != null),
-        super(InitialAppState()) {
+      : super(InitialAppState()) {
     add(LoadData());
 
-    _sub = getUriLinksStream().listen((Uri uri) {
+    _sub = uriLinkStream.listen((Uri? uri) {
       logger.i("Subscription stream uri : $uri");
       final deepLinkModel = DeepLinkModel.fromUri(uri);
       add(DeepLinkEvent(deepLinkModel));
@@ -37,7 +37,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     if (event is LoadData) {
       yield LoadingData();
       await _appRepository.updateAim();
-      transactionsBloc.add(LoadTransactions());
+      transactionsBloc!.add(LoadTransactions());
       final deepLink = await getDeepLink();
       if (deepLink != null) {
         //TODO remove delay?
@@ -65,10 +65,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  Future<DeepLinkModel> getDeepLink() async {
-    DeepLinkModel deepLinkModel;
+  Future<DeepLinkModel?> getDeepLink() async {
+    DeepLinkModel? deepLinkModel;
     try {
-      Uri initialUri = await getInitialUri();
+      Uri? initialUri = await getInitialUri();
       logger.i("AppBloc uri : $initialUri");
       deepLinkModel = DeepLinkModel.fromUri(initialUri);
     } on PlatformException {

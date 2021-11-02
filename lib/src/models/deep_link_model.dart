@@ -9,26 +9,26 @@ class DeepLinkModel extends Equatable {
   static const PAYMENT = 'payment';
   static const VOUCHERS = 'vouchers';
 
-  final Uri uri;
-  String otc;
-  TransactionType type;
+  final Uri? uri;
+  String? otc;
+  late TransactionType type;
 
   DeepLinkModel.fromUri(this.uri) {
     logger.i("DeepLinkModel constructor");
     if (uri != null) {
       logger.i(uri.toString());
-      logger.i("scheme: " + uri.scheme);
-      logger.i("host: " + uri.host);
+      logger.i("scheme: " + uri!.scheme);
+      logger.i("host: " + uri!.host);
 
-      final scheme = uri.scheme;
-      final host = uri.host;
+      final scheme = uri!.scheme;
+      final host = uri!.host;
 
       if (scheme == 'https' &&
           (host == '${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social' ||
               host ==
                   '${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}link.wom.social')) {
-        final List<String> pathSegments = uri.pathSegments;
-        final transactionType = pathSegments[0]?.toLowerCase();
+        final List<String> pathSegments = uri!.pathSegments;
+        final transactionType = pathSegments[0].toLowerCase();
 
         switch (transactionType) {
           case PAYMENT:
@@ -47,12 +47,12 @@ class DeepLinkModel extends Equatable {
         type = host == 'transfer'
             ? TransactionType.VOUCHERS
             : TransactionType.PAYMENT;
-        otc = uri.pathSegments.isEmpty ? null : uri.pathSegments[0];
+        otc = uri!.pathSegments.isEmpty ? null : uri!.pathSegments[0];
       } else {
         throw Exception("Scheme: $scheme OR host: $host not valid");
       }
 
-      if (otc == null || otc.isEmpty) {
+      if (otc == null || otc!.isEmpty) {
         throw Exception("OTC is null or empty");
       }
     } else {
@@ -66,5 +66,5 @@ class DeepLinkModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [uri];
+  List<Object?> get props => [uri];
 }

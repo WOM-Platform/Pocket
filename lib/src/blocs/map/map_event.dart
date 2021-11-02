@@ -7,10 +7,10 @@ import 'package:pocket/src/models/source_group_wom.dart';
 abstract class MapEvent extends Equatable {}
 
 class UpdateMap extends MapEvent {
-  final double sliderValue;
-  final Set<Marker> markers;
-  final List<WomGroupBy> sources;
-  final List<WomGroupBy> aims;
+  final double? sliderValue;
+  final Set<Marker>? markers;
+  final List<WomGroupBy>? sources;
+  final List<WomGroupBy>? aims;
   final bool forceFilterUpdate;
 
   UpdateMap({
@@ -25,6 +25,6 @@ class UpdateMap extends MapEvent {
   String toString() => "UpdateMap";
 
   @override
-  List<Object> get props =>
+  List<Object?> get props =>
       [sliderValue, markers, forceFilterUpdate, sources, aims];
 }

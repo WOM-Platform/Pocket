@@ -17,16 +17,16 @@ class WomModel {
   static const dbTransactionId = "TransactionId";
   static const dbAim = "Aim";
 
-  LatLng gLocation;
-  String secret;
-  String id;
-  int timestamp;
-  WomStatus live;
-  String geohash;
-  String sourceName;
-  String sourceId;
-  int transactionId;
-  String aim;
+  LatLng? gLocation;
+  String? secret;
+  String? id;
+  int? timestamp;
+  WomStatus? live;
+  String? geohash;
+  String? sourceName;
+  String? sourceId;
+  int? transactionId;
+  String? aim;
 
   WomModel(
       {this.gLocation,
@@ -39,8 +39,8 @@ class WomModel {
       this.aim}) {
     final geohaser = GeoHasher();
     this.geohash = geohaser.encode(
-      this.gLocation.longitude,
-      this.gLocation.latitude,
+      this.gLocation!.longitude,
+      this.gLocation!.latitude,
     );
   }
 
@@ -56,8 +56,8 @@ class WomModel {
         aim = map['aim'] {
     GeoHasher geoHasher = GeoHasher();
     this.geohash = geoHasher.encode(
-      this.gLocation.longitude,
-      this.gLocation.latitude,
+      this.gLocation!.longitude,
+      this.gLocation!.latitude,
     );
     this.live = WomStatus.values[map['live'] ?? 0];
   }
@@ -74,7 +74,7 @@ class WomModel {
         aim = map[dbAim] {
     GeoHasher geoHasher = GeoHasher();
     this.geohash =
-        geoHasher.encode(this.gLocation.longitude, this.gLocation.latitude);
+        geoHasher.encode(this.gLocation!.longitude, this.gLocation!.latitude);
     this.live = WomStatus.values[map[dbLive] ?? 0];
   }
 
@@ -82,8 +82,8 @@ class WomModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data[dbId] = this.id;
     data[dbSecret] = this.secret;
-    data[dbLat] = this.gLocation.latitude;
-    data[dbLong] = this.gLocation.longitude;
+    data[dbLat] = this.gLocation!.latitude;
+    data[dbLong] = this.gLocation!.longitude;
     data[dbTimestamp] = this.timestamp;
     data[dbSourceName] = this.sourceName;
     data[dbSourceId] = this.sourceId;
@@ -96,8 +96,8 @@ class WomModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['secret'] = this.secret;
-    data['latitude'] = this.gLocation.latitude;
-    data['longitude'] = this.gLocation.longitude;
+    data['latitude'] = this.gLocation!.latitude;
+    data['longitude'] = this.gLocation!.longitude;
     data['timestamp'] = this.timestamp;
     data['sourceName'] = this.sourceName;
     data['sourceId'] = this.sourceId;

@@ -18,9 +18,9 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  AppBloc bloc;
-  AnimationController _controller;
-  Animation<double> opacityLogo;
+  AppBloc? bloc;
+  late AnimationController _controller;
+  late Animation<double> opacityLogo;
 
   @override
   void initState() {

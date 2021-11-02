@@ -10,8 +10,8 @@ class CodePanel extends StatelessWidget {
   final int status;
 
   CodePanel(
-      {this.codeLength,
-        this.currentLength,
+      {required this.codeLength,
+        required this.currentLength,
         this.borderColor,
         this.foregroundColor,
         this.status = 0})

@@ -43,7 +43,7 @@ class CustomSlider extends StatelessWidget {
             onChangeEnd: (v) {
               bloc.add(UpdateMap(sliderValue: v, forceFilterUpdate: true));
             },
-            value: state.sliderValue,
+            value: state.sliderValue!,
             onChanged: (v) {
               bloc.add(UpdateMap(sliderValue: v));
             },

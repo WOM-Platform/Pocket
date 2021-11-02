@@ -21,25 +21,25 @@ import 'package:pocket/src/utils/colors.dart';
 import 'src/blocs/app/bloc.dart';
 
 bool fakeModeVar = false;
-String fakeData;
+String? fakeData;
 
 class App extends StatefulWidget {
   final AppRepository appRepository;
 
-  App({Key key, @required this.appRepository}) : super(key: key);
+  App({Key? key, required this.appRepository}) : super(key: key);
 
   @override
   State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  AppBloc _appBloc;
+  late AppBloc _appBloc;
 
 //  HomeBloc _homeBloc;
-  PinBloc _pinBloc;
+  late PinBloc _pinBloc;
 
-  TransactionsListBloc _transactionsBloc;
-  SuggestionsBloc _suggestionsBloc;
+  TransactionsListBloc? _transactionsBloc;
+  late SuggestionsBloc _suggestionsBloc;
 
   AppRepository get _appRepository => widget.appRepository;
 
@@ -133,7 +133,7 @@ class _AppState extends State<App> {
                   ),
                   providers: <BlocProvider>[
                     BlocProvider<TransactionsListBloc>(
-                        create: (context) => _transactionsBloc),
+                        create: (context) => _transactionsBloc!),
                     BlocProvider<SuggestionsBloc>(
                         create: (context) => _suggestionsBloc),
                   ],

@@ -16,7 +16,7 @@ class SourcesList extends StatelessWidget {
         logger.i("build source list");
         if (state.sources == null || state.sources.isEmpty) {
           return Text(
-            context.translate('no_sources'),
+            context.translate('no_sources')!,
             style: TextStyle(color: Colors.white),
           );
         }
@@ -35,11 +35,11 @@ class SourcesList extends StatelessWidget {
 }
 
 class ChipFilter extends StatefulWidget {
-  final Function onAdd;
-  final Function onRemove;
-  final List<WomGroupBy> sources;
+  final Function? onAdd;
+  final Function? onRemove;
+  final List<WomGroupBy>? sources;
 
-  const ChipFilter({Key key, this.sources, this.onAdd, this.onRemove})
+  const ChipFilter({Key? key, this.sources, this.onAdd, this.onRemove})
       : super(key: key);
 
   @override
@@ -47,11 +47,11 @@ class ChipFilter extends StatefulWidget {
 }
 
 class _ChipFilterState extends State<ChipFilter> {
-  Set<String> chips = Set();
+  Set<String?> chips = Set();
 
   @override
   void initState() {
-    chips.addAll(widget.sources.map((a) => a.type));
+    chips.addAll(widget.sources!.map((a) => a.type));
     super.initState();
   }
 
@@ -62,9 +62,9 @@ class _ChipFilterState extends State<ChipFilter> {
       padding: const EdgeInsets.only(top: 8),
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: widget.sources.length,
+          itemCount: widget.sources!.length,
           itemBuilder: (context, index) {
-            final a = widget.sources[index];
+            final a = widget.sources![index];
             return Padding(
               padding: const EdgeInsets.only(right: 2.0),
               child: FilterChip(
@@ -77,10 +77,10 @@ class _ChipFilterState extends State<ChipFilter> {
                 onSelected: (selected) {
                   if (selected) {
                     chips.add(a.type);
-                    widget.onAdd(a.type);
+                    widget.onAdd!(a.type);
                   } else {
                     chips.remove(a.type);
-                    widget.onRemove(a.type);
+                    widget.onRemove!(a.type);
                   }
                   setState(() {});
                 },

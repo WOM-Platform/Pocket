@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CodeButton extends StatelessWidget {
-  final int code;
-  final IconData icon;
-  final VoidCallback onTap;
-  final Color iconColor;
+  final int? code;
+  final IconData? icon;
+  final VoidCallback? onTap;
+  final Color? iconColor;
 
   const CodeButton(
-      {this.code, Key key, this.onTap, this.icon, this.iconColor})
+      {this.code, Key? key, this.onTap, this.icon, this.iconColor})
       : super(key: key);
 
   @override

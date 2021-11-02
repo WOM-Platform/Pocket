@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:pocket/src/models/wom_model.dart';
 
 class WomDbTablePage extends StatefulWidget {
-  final List<WomModel> woms;
+  final List<WomModel>? woms;
 
-  const WomDbTablePage({Key key, this.woms}) : super(key: key);
+  const WomDbTablePage({Key? key, this.woms}) : super(key: key);
   @override
   _WomDbTablePageState createState() => _WomDbTablePageState();
 }
 
 class _WomDbTablePageState extends State<WomDbTablePage> {
-  int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
-  int _sortColumnIndex;
+  int? _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
+  int? _sortColumnIndex;
   bool _sortAscending = true;
-  _WomsDataSources _womsDataSources;
+  _WomsDataSources? _womsDataSources;
 
   @override
   void didChangeDependencies() {
@@ -24,8 +24,8 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
   }
 
   void _sort<T>(
-      Comparable<T> getField(WomModel d), int columnIndex, bool ascending) {
-    _womsDataSources._sort<T>(getField, ascending);
+      Comparable<T>? getField(WomModel d), int columnIndex, bool ascending) {
+    _womsDataSources!._sort<T>(getField, ascending);
     setState(() {
       _sortColumnIndex = columnIndex;
       _sortAscending = ascending;
@@ -45,7 +45,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
           children: [
             PaginatedDataTable(
               header: Text('WOM DataBase'),
-              rowsPerPage: _rowsPerPage,
+              rowsPerPage: _rowsPerPage!,
               onRowsPerPageChanged: (value) {
                 setState(() {
                   _rowsPerPage = value;
@@ -53,7 +53,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
               },
               sortColumnIndex: _sortColumnIndex,
               sortAscending: _sortAscending,
-              onSelectAll: _womsDataSources._selectAll,
+              onSelectAll: _womsDataSources!._selectAll,
               columns: [
                 DataColumn(
                   label: Text(WomModel.dbId),
@@ -82,7 +82,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                   label: Text(WomModel.dbLive),
                   numeric: true,
                   onSort: (columnIndex, ascending) =>
-                      _sort<num>((d) => d.live.index, columnIndex, ascending),
+                      _sort<num>((d) => d.live!.index, columnIndex, ascending),
                 ),
                 DataColumn(
                   label: Text(WomModel.dbSecret),
@@ -103,7 +103,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                       (d) => d.transactionId, columnIndex, ascending),
                 ),
               ],
-              source: _womsDataSources,
+              source: _womsDataSources!,
             ),
           ],
         ),
@@ -116,15 +116,15 @@ class _WomsDataSources extends DataTableSource {
   _WomsDataSources(this.context, this.woms);
 
   final BuildContext context;
-  final List<WomModel> woms;
+  final List<WomModel>? woms;
 
-  void _sort<T>(Comparable<T> getField(WomModel d), bool ascending) {
-    woms.sort((a, b) {
-      final Comparable<T> aValue = getField(a);
-      final Comparable<T> bValue = getField(b);
+  void _sort<T>(Comparable<T>? getField(WomModel d), bool ascending) {
+    woms!.sort((a, b) {
+      final Comparable<T>? aValue = getField(a);
+      final Comparable<T>? bValue = getField(b);
       return ascending
-          ? Comparable.compare(aValue, bValue)
-          : Comparable.compare(bValue, aValue);
+          ? Comparable.compare(aValue!, bValue!)
+          : Comparable.compare(bValue!, aValue!);
     });
     notifyListeners();
   }
@@ -132,10 +132,10 @@ class _WomsDataSources extends DataTableSource {
   int _selectedCount = 0;
 
   @override
-  DataRow getRow(int index) {
+  DataRow? getRow(int index) {
     assert(index >= 0);
-    if (index >= woms.length) return null;
-    final WomModel wom = woms[index];
+    if (index >= woms!.length) return null;
+    final WomModel wom = woms![index];
     return DataRow.byIndex(
       index: index,
 //      selected: wom.selected,
@@ -148,20 +148,20 @@ class _WomsDataSources extends DataTableSource {
         }
       },*/
       cells: [
-        DataCell(Text(wom.id)),
+        DataCell(Text(wom.id!)),
         DataCell(Text('${wom.aim}')),
         DataCell(Text(wom.sourceId.toString())),
-        DataCell(Text(wom.sourceName)),
+        DataCell(Text(wom.sourceName!)),
         DataCell(Text(wom.live.toString().replaceAll('WomStatus.', ''))),
-        DataCell(Text(wom.secret)),
-        DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.timestamp)}')),
+        DataCell(Text(wom.secret!)),
+        DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.timestamp!)}')),
         DataCell(Text('${wom.transactionId}')),
       ],
     );
   }
 
   @override
-  int get rowCount => woms.length;
+  int get rowCount => woms!.length;
 
   @override
   bool get isRowCountApproximate => false;
@@ -169,7 +169,7 @@ class _WomsDataSources extends DataTableSource {
   @override
   int get selectedRowCount => _selectedCount;
 
-  void _selectAll(bool checked) {
+  void _selectAll(bool? checked) {
 //    for (final WomModel dessert in _woms) {
 //      dessert.selected = checked;
 //    }

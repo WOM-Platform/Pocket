@@ -1,18 +1,18 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:pocket/src/utils/colors.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import '../my_logger.dart';
 
 class TicketCard extends StatelessWidget {
-  final TransactionModel transaction;
+  final TransactionModel? transaction;
   final bool isForHome;
 
-  const TicketCard({Key key, this.transaction, this.isForHome = false})
+  const TicketCard({Key? key, this.transaction, this.isForHome = false})
       : super(key: key);
 
   @override
@@ -65,24 +65,24 @@ class TicketCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           AutoSizeText(
-            transaction.formatDate(),
+            transaction!.formatDate(),
             maxLines: 1,
             style: voucherIdStyle,
           ),
           Divider(),
           Text(
-            '${transaction.size} wom',
+            '${transaction!.size} wom',
             style: TextStyle(color: Colors.green, fontSize: 30.0),
           ),
           Divider(),
           Text.rich(
             TextSpan(children: <TextSpan>[
               TextSpan(
-                text: AppLocalizations.of(context).translate('from'),
+                text: AppLocalizations.of(context)!.translate('from'),
                 style: TextStyle(color: backgroundColor, fontSize: 20.0),
               ),
               TextSpan(
-                text: ' ${transaction.source}',
+                text: ' ${transaction!.source}',
                 style: TextStyle(
                     color: backgroundColor,
                     fontSize: 20.0,
@@ -99,8 +99,8 @@ class TicketCard extends StatelessWidget {
     TextStyle voucherIdStyle =
         new TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
     bool isEarnTransaction =
-        transaction.transactionType == TransactionType.VOUCHERS;
-    final languageCode = AppLocalizations.of(context).locale.languageCode;
+        transaction!.transactionType == TransactionType.VOUCHERS;
+    final languageCode = AppLocalizations.of(context)!.locale.languageCode;
 
     return Container(
       height: 160.0,
@@ -115,11 +115,11 @@ class TicketCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    transaction.formatDate(),
+                    transaction!.formatDate(),
                     style: voucherIdStyle,
                   ),
                   Expanded(child: SizedBox()),
-                  transaction.transactionType == TransactionType.PAYMENT
+                  transaction!.transactionType == TransactionType.PAYMENT
                       ? Icon(
                           Icons.payment,
                           color: Colors.red,
@@ -138,15 +138,14 @@ class TicketCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    transaction.source ?? "",
+                    transaction!.source ?? "",
                     style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w500,
                         color: baseIconColor),
                   ),
                   Expanded(child: Container()),
-                  Text((transaction?.aim?.titles ??
-                          const {})[languageCode ?? 'en'] ??
+                  Text((transaction?.aim?.titles ?? const {})[languageCode] ??
                       '-'),
                 ],
               ),
@@ -159,14 +158,14 @@ class TicketCard extends StatelessWidget {
                 children: <TextSpan>[
                   TextSpan(
                     text:
-                        "${AppLocalizations.of(context).translate('you')} ${isEarnTransaction ? AppLocalizations.of(context).translate("earned") : AppLocalizations.of(context).translate("used")}",
+                        "${AppLocalizations.of(context)!.translate('you')} ${isEarnTransaction ? AppLocalizations.of(context)!.translate("earned") : AppLocalizations.of(context)!.translate("used")}",
                     style: TextStyle(
                         fontSize: 22.0,
                         color: isEarnTransaction ? Colors.green : Colors.red,
                         fontWeight: FontWeight.w400),
                   ),
                   TextSpan(
-                      text: ' ${transaction.size.toString()}',
+                      text: ' ${transaction!.size.toString()}',
                       style: TextStyle(
                           fontSize: 22.0,
                           color: isEarnTransaction ? Colors.green : Colors.red,
@@ -211,12 +210,12 @@ class VoucherClipper extends CustomClipper<Path> {
 }
 
 class AimsRow extends StatelessWidget {
-  final String aims;
+  final String? aims;
   Set<String> aimsSet = Set();
 
-  AimsRow({Key key, this.aims}) {
+  AimsRow({Key? key, this.aims}) {
     if (aims != null) {
-      final aimsArray = aims.split(',');
+      final aimsArray = aims!.split(',');
       aimsArray.forEach((aim) {
         if (aim.contains('/')) {
           aimsSet.add(aim.split('/')[0]);

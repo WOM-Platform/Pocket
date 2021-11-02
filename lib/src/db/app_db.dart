@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pocket/src/db/aim_database.dart';
 import 'package:pocket/src/models/transaction_model.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pocket/src/models/wom_model.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
 import '../my_logger.dart';
@@ -20,7 +21,7 @@ class AppDatabase {
   //private internal constructor to make it singleton
   AppDatabase._internal();
 
-  Database _database;
+  Database? _database;
 
   static AppDatabase get() {
     return _appDatabase;
@@ -37,7 +38,7 @@ class AppDatabase {
         }
       });
     }
-    return _database;
+    return _database!;
   }
 
   Future<String> getPath() async {
@@ -109,7 +110,7 @@ class AppDatabase {
     try {
       batch.rawInsert('INSERT INTO '
           '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbAim},${TransactionModel.dbType},${TransactionModel.dbAckUrl})'
-          ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.transactionType.index},"${tx.ackUrl}")');
+          ' VALUES(${tx.size},${tx.date!.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.transactionType!.index},"${tx.ackUrl}")');
     } catch (e) {
       logger.i(e.toString());
       analytics.logEvent(
@@ -142,7 +143,7 @@ class AppDatabase {
     try {
       batch.rawInsert('INSERT INTO '
           '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
-          ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live.index}", ${wom.gLocation.latitude},${wom.gLocation.longitude},"${wom.sourceName}","${wom.sourceId}","${wom.aim}",${wom.transactionId})');
+          ' VALUES("${wom.id}","${wom.secret}","${wom.geohash}",${wom.timestamp},"${wom.live!.index}", ${wom.gLocation!.latitude},${wom.gLocation!.longitude},"${wom.sourceName}","${wom.sourceId}","${wom.aim}",${wom.transactionId})');
     } catch (e) {
       logger.i(e.toString());
       analytics.logEvent(
@@ -161,13 +162,13 @@ class AppDatabase {
       logger.i(e.toString());
       analytics.logEvent(
           name: 'app_db_getAllWoms_error', parameters: {'error': e.toString()});
-      return List<WomModel>();
+      return <WomModel>[];
     }
   }
 
   //Connvert Json from DB to List of WomModel
   List<WomModel> _bindData(List<Map<String, dynamic>> result) {
-    List<WomModel> woms = new List();
+    final woms = <WomModel>[];
     for (Map<String, dynamic> item in result) {
       var wom = new WomModel.fromDB(item);
       woms.add(wom);
@@ -182,7 +183,7 @@ class AppDatabase {
       var result = await db.rawQuery(
           'SELECT ${TransactionModel.tblTransaction}.* '
           'FROM ${TransactionModel.tblTransaction} ORDER BY ${TransactionModel.dbTimestamp} DESC;');
-      final List<TransactionModel> transactions = List();
+      final transactions = <TransactionModel>[];
       for (Map<String, dynamic> item in result) {
         var tx = new TransactionModel.fromMap(item);
         transactions.add(tx);
@@ -272,8 +273,8 @@ class AppDatabase {
   }
 
   Future<void> closeDatabase() async {
-    if (_database != null && _database.isOpen) {
-      await _database.close();
+    if (_database != null && _database!.isOpen) {
+      await _database!.close();
       _database = null;
       logger.i("database closed");
     }

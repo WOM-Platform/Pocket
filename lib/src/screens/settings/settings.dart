@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/db/app_db.dart';
 import 'package:pocket/src/screens/table_page/db_page.dart';
 import 'package:pocket/src/utils/config.dart';
 import 'package:pocket/src/utils/utils.dart';
-import 'package:package_info/package_info.dart';
+
 import '../../../constants.dart';
 import '../../my_logger.dart';
 import '../../utils/my_extensions.dart';
@@ -21,7 +22,7 @@ class SettingsScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context).translate('settings_title'),
+          AppLocalizations.of(context)!.translate('settings_title'),
           style: TextStyle(
             color: Colors.white,
           ),
@@ -35,31 +36,31 @@ class SettingsScreen extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: Text(context.translate('settings_redeem_demo_title')),
-            subtitle: Text(context.translate('settings_redeem_demo_desc')),
+            title: Text(context.translate('settings_redeem_demo_title')!),
+            subtitle: Text(context.translate('settings_redeem_demo_desc')!),
             trailing: Icon(Icons.arrow_forward_ios),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUrl(
                 'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/redeem'),
           ),
           ListTile(
-            title: Text(context.translate('settings_pay_demo_title')),
-            subtitle: Text(context.translate('settings_pay_demo_desc')),
+            title: Text(context.translate('settings_pay_demo_title')!),
+            subtitle: Text(context.translate('settings_pay_demo_desc')!),
             trailing: Icon(Icons.arrow_forward_ios),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUrl(
                 'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/pay'),
           ),
           ListTile(
-            title: Text(context.translate('settings_info_title')),
-            subtitle: Text(context.translate('settings_info_desc')),
+            title: Text(context.translate('settings_info_title')!),
+            subtitle: Text(context.translate('settings_info_desc')!),
             trailing: Icon(Icons.arrow_forward_ios),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUrl('https://wom.social'),
           ),
           ListTile(
-            title: Text(context.translate('settings_show_intro_title')),
-            subtitle: Text(context.translate('settings_show_intro_desc')),
+            title: Text(context.translate('settings_show_intro_title')!),
+            subtitle: Text(context.translate('settings_show_intro_desc')!),
             trailing: StatefulBuilder(
               builder: (ctx, setState) {
                 return FutureBuilder<bool>(
@@ -70,7 +71,7 @@ class SettingsScreen extends StatelessWidget {
                     }
                     logger.i(value);
                     return Switch(
-                      value: value.data,
+                      value: value.data!,
                       onChanged: (bool v) async {
                         await Utils.setIsFirstOpen(v);
                         setState(() {});
@@ -165,13 +166,13 @@ class SettingsScreen extends StatelessWidget {
 class SettingsItem extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData icon;
-  final VoidCallback onTap;
+  final IconData? icon;
+  final VoidCallback? onTap;
 
   const SettingsItem(
-      {Key key,
-      @required this.title,
-      @required this.subtitle,
+      {Key? key,
+      required this.title,
+      required this.subtitle,
       this.icon,
       this.onTap})
       : super(key: key);
@@ -200,7 +201,7 @@ class SettingsItem extends StatelessWidget {
 
 class VersionInfo extends StatelessWidget {
   const VersionInfo({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -209,7 +210,7 @@ class VersionInfo extends StatelessWidget {
       future: PackageInfo.fromPlatform(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final pkg = snapshot.data;
+          final pkg = snapshot.data!;
           return ListTile(
             title: Text('Versione dell\'app'),
             subtitle: Text(pkg.version),

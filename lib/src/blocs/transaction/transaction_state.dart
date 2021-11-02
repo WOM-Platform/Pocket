@@ -26,7 +26,7 @@ class TransactionCompleteState extends TransactionState {
 
 class TransactionInfoPaymentState extends TransactionState {
   final InfoPayResponse infoPayment;
-  final String password;
+  final String? password;
 
   TransactionInfoPaymentState(this.infoPayment, this.password);
 
@@ -34,7 +34,7 @@ class TransactionInfoPaymentState extends TransactionState {
   String toString() => 'TransactionInfoPayment';
 
   @override
-  List<Object> get props => [infoPayment, password];
+  List<Object?> get props => [infoPayment, password];
 }
 
 class TransactionLoadingState extends TransactionState {
@@ -48,18 +48,18 @@ class TransactionLoadingState extends TransactionState {
 class TransactionErrorState extends TransactionState {
   final String error;
 
-  TransactionErrorState(this.error) : assert(error != null && error.isNotEmpty);
+  TransactionErrorState(this.error) : assert(error.isNotEmpty);
 
   @override
   String toString() => 'TransactionError';
 
   @override
-  List<Object> get props => [error];
+  List<Object?> get props => [error];
 }
 
 class TransactionNoDataConnectionState extends TransactionState {
-  final InfoPayResponse infoPay;
-  final String password;
+  final InfoPayResponse? infoPay;
+  final String? password;
 
   TransactionNoDataConnectionState({this.infoPay, this.password});
 
@@ -67,5 +67,5 @@ class TransactionNoDataConnectionState extends TransactionState {
   String toString() => 'TransactionNoDataConnectionState';
 
   @override
-  List<Object> get props => [infoPay, password];
+  List<Object?> get props => [infoPay, password];
 }

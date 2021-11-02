@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pocket/src/db/app_db.dart';
-import '../../my_logger.dart';
+
 import './bloc.dart';
+import '../../my_logger.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc() : super(InitialSettingsState());
@@ -17,16 +19,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Future<bool> deleteDB() async {
-    final File dbFile = await getDbFile('pocket.db');
-    if (dbFile != null) {
-      await AppDatabase.get().deleteDb();
-      final delDb = await dbFile.delete();
-      if (delDb != null) return true;
+    try {
+      final dbFile = await getDbFile('pocket.db');
+      if (dbFile != null) {
+        await AppDatabase.get().deleteDb();
+        await dbFile.delete();
+        return true;
+      }
+      return false;
+    } catch (ex) {
+      logger.e(ex);
+      return false;
     }
-    return false;
   }
 
-  getDbFile(String name) async {
+  Future<File?> getDbFile(String name) async {
     final dir = await getApplicationDocumentsDirectory();
     logger.i(dir.path);
     if (await dir.exists()) {
@@ -39,7 +46,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   closeDb() async {
-    final File dbFile = await getDbFile('pocket.db');
+    final dbFile = await getDbFile('pocket.db');
     if (dbFile != null) {
       await AppDatabase.get().closeDatabase();
     }

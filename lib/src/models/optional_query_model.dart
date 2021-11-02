@@ -7,10 +7,10 @@ class OptionalQuery {
   final int startDate;
   final int endDate;
   final WomStatus womStatus;
-  final Set<String> sources;
-  final Set<String> aims;
-  final SimpleFilter filters;
-  final int amount;
+  final Set<String?>? sources;
+  final Set<String?>? aims;
+  final SimpleFilter? filters;
+  final int? amount;
   final bool enabledRandom;
 
   OptionalQuery({
@@ -38,7 +38,7 @@ class OptionalQuery {
     }
 
     if (sources != null) {
-      final sourceWhereClause = buildSourceClause(sources);
+      final sourceWhereClause = buildSourceClause(sources!);
 
       whereClause = whereClause.isEmpty
           ? "WHERE $sourceWhereClause"
@@ -46,7 +46,7 @@ class OptionalQuery {
     }
 
     if (aims != null) {
-      final aimWhereClause = buildAimClause(aims);
+      final aimWhereClause = buildAimClause(aims!);
 
       whereClause = whereClause.isEmpty
           ? "WHERE $aimWhereClause"
@@ -87,7 +87,7 @@ class OptionalQuery {
     return whereClause;
   }
 
-  buildSourceClause(Set<String> sources) {
+  buildSourceClause(Set<String?> sources) {
     var sourceWhereClause = "";
     if (sources.isEmpty) {
       return "${WomModel.tblWom}.${WomModel.dbSourceName} = \"NULL_SOURCE\"";
@@ -101,7 +101,7 @@ class OptionalQuery {
     return "($sourceWhereClause)";
   }
 
-  buildAimClause(Set<String> aims) {
+  buildAimClause(Set<String?> aims) {
     var aimWhereClause = "";
     if (aims.isEmpty) {
       return "${WomModel.tblWom}.${WomModel.dbAim} = \"NULL_SOURCE\"";
@@ -117,8 +117,8 @@ class OptionalQuery {
 
   buildSimpleFiltersQuery() {
     String filtersWhereClause = "";
-    final String aim = filters.aimCode;
-    final bounds = filters.bounds;
+    final String? aim = filters!.aimCode;
+    final bounds = filters!.bounds;
 
     String aimClause;
 
@@ -136,8 +136,8 @@ class OptionalQuery {
         ? "$aimClause"
         : "$filtersWhereClause AND $aimClause";
 
-    if (filters.maxAge != null) {
-      final int maxAgeInMilliseconds = filters.maxAgeToMilliseconds;
+    if (filters!.maxAge != null) {
+      final int maxAgeInMilliseconds = filters!.maxAgeToMilliseconds;
       final todayInMillisecons = DateTime.now().toUtc().millisecondsSinceEpoch;
       final queryTimestamp = todayInMillisecons - maxAgeInMilliseconds;
 
@@ -152,10 +152,10 @@ class OptionalQuery {
 
     if (bounds != null) {
       String boundsClause = "";
-      final double leftTopLatitude = bounds.leftTop[0];
-      final double leftTopLongitude = bounds.leftTop[1];
-      final double rightBottomLatitude = bounds.rightBottom[0];
-      final double rightBottomLongitude = bounds.rightBottom[1];
+      final double leftTopLatitude = bounds.leftTop![0];
+      final double leftTopLongitude = bounds.leftTop![1];
+      final double rightBottomLatitude = bounds.rightBottom![0];
+      final double rightBottomLongitude = bounds.rightBottom![1];
 
       final latQuery = (leftTopLatitude > rightBottomLatitude)
           ? "(${WomModel.dbLat} <= $leftTopLatitude AND ${WomModel.dbLat} >= $rightBottomLatitude)"

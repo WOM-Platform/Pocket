@@ -26,13 +26,13 @@ class TransactionDB {
       return _bindData(result);
     } catch (e) {
       logger.i(e.toString());
-      return List<TransactionModel>();
+      return <TransactionModel>[];
     }
   }
 
   //Connvert Json from DB to List of WomModel
   List<TransactionModel> _bindData(List<Map<String, dynamic>> result) {
-    List<TransactionModel> transactions = new List();
+    final transactions = <TransactionModel>[];
     try {
       for (Map<String, dynamic> item in result) {
         var tx = new TransactionModel.fromMap(item);
@@ -48,11 +48,11 @@ class TransactionDB {
   /// Inserts or replaces the task.
   Future<int> insertTransaction(TransactionModel tx) async {
     var db = await _appDatabase.getDb();
-    int id;
+    late int id;
     await db.transaction((Transaction txn) async {
       id = await txn.rawInsert('INSERT INTO '
           '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbAim},${TransactionModel.dbType},${TransactionModel.dbAckUrl})'
-          ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.transactionType.index},"${tx.ackUrl}")');
+          ' VALUES(${tx.size},${tx.date!.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.transactionType!.index},"${tx.ackUrl}")');
     });
     logger.i("insertTransaction id: $id");
     return id;

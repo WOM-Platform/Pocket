@@ -1,24 +1,28 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 import 'package:share/share.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class TransactionCard extends StatelessWidget {
-  final TransactionModel transaction;
-  final Function onDelete;
-  final Function onEdit;
-  final Function onDuplicate;
+  final TransactionModel? transaction;
+  final Function? onDelete;
+  final Function? onEdit;
+  final Function? onDuplicate;
 
   const TransactionCard(
-      {Key key, this.transaction, this.onDelete, this.onEdit, this.onDuplicate})
+      {Key? key,
+      this.transaction,
+      this.onDelete,
+      this.onEdit,
+      this.onDuplicate})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final languageCode = AppLocalizations.of(context).locale.languageCode;
+    final languageCode = AppLocalizations.of(context)!.locale.languageCode;
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
@@ -41,7 +45,7 @@ class TransactionCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Text(
-                          '${transaction.size} WOM',
+                          '${transaction!.size} WOM',
                           style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontSize: 22.0,
@@ -53,10 +57,10 @@ class TransactionCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Icon(
-                        transaction.transactionType == TransactionType.VOUCHERS
+                        transaction!.transactionType == TransactionType.VOUCHERS
                             ? Icons.monetization_on
                             : Icons.credit_card,
-                        color: transaction.transactionType ==
+                        color: transaction!.transactionType ==
                                 TransactionType.VOUCHERS
                             ? Colors.green
                             : Colors.red,
@@ -88,8 +92,8 @@ class TransactionCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           ItemRow(
-                              t1: 'id', t2: transaction.id?.toString() ?? '-'),
-                          ItemRow(t1: 'date', t2: transaction.formatDate()),
+                              t1: 'id', t2: transaction!.id?.toString() ?? '-'),
+                          ItemRow(t1: 'date', t2: transaction!.formatDate()),
                         ],
                       ),
                     ),
@@ -101,14 +105,14 @@ class TransactionCard extends StatelessWidget {
                           ItemRow(
                               t1: 'aim',
                               t2: (transaction?.aim?.titles ??
-                                      const {})[languageCode ?? 'en'] ??
+                                      const {})[languageCode] ??
                                   '-'),
                           ItemRow(
-                              t1: transaction.transactionType !=
+                              t1: transaction!.transactionType !=
                                       TransactionType.VOUCHERS
                                   ? 'pos'
                                   : 'instrument',
-                              t2: transaction.source),
+                              t2: transaction!.source),
                         ],
                       ),
                     ),
@@ -136,9 +140,9 @@ class TransactionCard extends StatelessWidget {
           color: Colors.blue,
           onTap: () {
             Share.share(
-                'I ${transaction.transactionType == TransactionType.VOUCHERS ? 'earned' : 'used'} '
-                '${transaction.size} WOM  ${transaction.transactionType == TransactionType.VOUCHERS ? 'from' : 'at'} '
-                '${transaction.source} ${transaction.aim?.title != null ? 'for ${transaction.aim?.title}' : ''}');
+                'I ${transaction!.transactionType == TransactionType.VOUCHERS ? 'earned' : 'used'} '
+                '${transaction!.size} WOM  ${transaction!.transactionType == TransactionType.VOUCHERS ? 'from' : 'at'} '
+                '${transaction!.source} ${transaction!.aim?.title != null ? 'for ${transaction!.aim?.title}' : ''}');
           },
         ),
       ],
@@ -147,10 +151,10 @@ class TransactionCard extends StatelessWidget {
 }
 
 class ItemRow extends StatelessWidget {
-  final String t1;
-  final String t2;
+  final String? t1;
+  final String? t2;
 
-  const ItemRow({Key key, this.t1, this.t2}) : super(key: key);
+  const ItemRow({Key? key, this.t1, this.t2}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -180,13 +184,13 @@ class ItemRow extends StatelessWidget {
 }
 
 class MySlideAction extends StatelessWidget {
-  final Function onTap;
-  final IconData icon;
-  final Color color;
-  final String caption;
+  final Function? onTap;
+  final IconData? icon;
+  final Color? color;
+  final String? caption;
 
   const MySlideAction(
-      {Key key, this.onTap, this.icon, this.color, this.caption})
+      {Key? key, this.onTap, this.icon, this.color, this.caption})
       : super(key: key);
 
   @override
@@ -207,7 +211,7 @@ class MySlideAction extends StatelessWidget {
           color: Colors.transparent,
           foregroundColor: Colors.white,
           icon: icon,
-          onTap: onTap,
+          onTap: onTap as void Function()?,
         ),
       ),
     );

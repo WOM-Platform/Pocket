@@ -16,7 +16,7 @@ import 'src/utils/utils.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   await Hive.initFlutter();
   await Hive.openBox('settings');
   logger.i('DEV VERSION');

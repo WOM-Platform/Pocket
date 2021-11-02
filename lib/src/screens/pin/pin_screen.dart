@@ -5,14 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/pin/bloc.dart';
+import 'package:pocket/src/blocs/transaction/bloc.dart';
 import 'package:pocket/src/screens/pin/widgets/code_panel.dart';
 import 'package:pocket/src/screens/pin/widgets/keyboard.dart';
-import 'package:pocket/src/blocs/transaction/bloc.dart';
 import 'package:pocket/src/screens/transaction/transaction_screen.dart';
 import 'package:pocket/src/services/transaction_repository.dart';
 
 class PinScreen extends StatelessWidget {
-  PinBloc bloc;
+  late PinBloc bloc;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class PinScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: Text(
-          AppLocalizations.of(context).translate('pin_title'),
+          AppLocalizations.of(context)!.translate('pin_title'),
           style: TextStyle(color: Colors.white, fontSize: 20.0),
         ),
         centerTitle: true,
@@ -72,7 +72,7 @@ class PinScreen extends StatelessWidget {
 
     final blocProviderTransaction = BlocProvider<TransactionBloc>(
       create: (context) => TransactionBloc(
-          repository, bloc.deepLinkModel.otc, bloc.deepLinkModel.type)
+          repository, bloc.deepLinkModel.otc!, bloc.deepLinkModel.type)
         ..add(TransactionStarted(password)),
       child: TransactionScreen(),
     );

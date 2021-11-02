@@ -14,10 +14,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final TransactionType type;
 
   TransactionBloc(this._repository, this.otc, this.type)
-      : assert(_repository != null),
-        assert(otc != null),
-        assert(type != null),
-        super(TransactionLoadingState());
+      : super(TransactionLoadingState());
 
   exception() {
     throw Exception('fake exception');
@@ -32,7 +29,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           TransactionModel transaction;
           if (type == TransactionType.VOUCHERS) {
             logger.i("bloc: " + otc);
-            transaction = await _repository.getWoms(otc, event.password);
+            transaction = await _repository.getWoms(otc, event.password!);
             logger.i("transaction saved");
             yield TransactionCompleteState(transaction);
           } else {
@@ -45,7 +42,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           yield TransactionErrorState(
               'Non hai voucher a sufficienza per questa richiesta');
         } on ServerException catch (ex) {
-          yield TransactionErrorState(ex.error);
+          yield TransactionErrorState(ex.error ?? 'Errore sconosciuto');
         } on TimeoutException catch (ex) {
           yield TransactionErrorState('La richiesta ha impiegato troppo tempo');
         } catch (ex) {
@@ -59,13 +56,13 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       if (await InternetConnectionChecker().hasConnection) {
         try {
           final transaction =
-              await _repository.pay(otc, event.password, event.infoPay);
+              await _repository.pay(otc, event.password, event.infoPay!);
           yield TransactionCompleteState(transaction);
         } on InsufficientVouchers catch (ex) {
           yield TransactionErrorState(
               'Non hai voucher a sufficienza per questa richiesta');
         } on ServerException catch (ex) {
-          yield TransactionErrorState(ex.error);
+          yield TransactionErrorState(ex.error ?? 'Errore sconosciuto');
         } on TimeoutException catch (ex) {
           yield TransactionErrorState('La richiesta ha impiegato troppo tempo');
         } catch (ex) {

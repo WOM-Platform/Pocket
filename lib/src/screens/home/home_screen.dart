@@ -33,11 +33,11 @@ class HomeScreen2 extends StatefulWidget {
 }
 
 class _HomeScreen2State extends State<HomeScreen2> {
-  PinBloc _pinBloc;
+  PinBloc? _pinBloc;
 
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
+    SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
       if (isFirstOpen) {
         _showTutorial(context);
       }
@@ -53,6 +53,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
       appBar: AppBar(
         title: Text('${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
         centerTitle: true,
+        brightness: Brightness.dark,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.info),
@@ -88,7 +89,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
           elevation: 0,
           backgroundColor: Colors.white,
           label: Text(
-            AppLocalizations.of(context).translate('scan'),
+            AppLocalizations.of(context)!.translate('scan'),
             style: TextStyle(color: baseIconColor),
           ),
           icon: const Icon(
@@ -98,15 +99,15 @@ class _HomeScreen2State extends State<HomeScreen2> {
           onPressed: null,
         ),
         // The widget that will be displayed as the tap target.
-        title: Text(context.translate('tutorial_welcome_title')),
-        description: Text('tutorial_welcome_desc'.translate(context)),
+        title: Text(context.translate('tutorial_welcome_title')!),
+        description: Text('tutorial_welcome_desc'.translate(context)!),
         backgroundColor: Theme.of(context).accentColor,
         targetColor: Colors.white,
         textColor: Theme.of(context).primaryColor,
         child: FloatingActionButton.extended(
           backgroundColor: Theme.of(context).accentColor,
           label: Text(
-            AppLocalizations.of(context).translate('scan'),
+            AppLocalizations.of(context)!.translate('scan'),
             style: TextStyle(color: baseIconColor),
           ),
           icon: const Icon(
@@ -129,8 +130,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
               // Unique id that identifies this overlay.
               tapTarget: const Icon(Icons.map),
               // The widget that will be displayed as the tap target.
-              title: Text(context.translate('tutorial_map_title')),
-              description: Text(context.translate('tutorial_map_desc')),
+              title: Text(context.translate('tutorial_map_title')!),
+              description: Text(context.translate('tutorial_map_desc')!),
               backgroundColor: Theme.of(context).accentColor,
               targetColor: Colors.white,
               textColor: Theme.of(context).primaryColor,
@@ -147,8 +148,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
               // Unique id that identifies this overlay.
               tapTarget: const Icon(Icons.settings),
               // The widget that will be displayed as the tap target.
-              title: Text(context.translate('tutorial_settings_title')),
-              description: Text(context.translate('tutorial_settings_desc')),
+              title: Text(context.translate('tutorial_settings_title')!),
+              description: Text(context.translate('tutorial_settings_desc')!),
               backgroundColor: Theme.of(context).accentColor,
               targetColor: Colors.white,
               textColor: Theme.of(context).primaryColor,
@@ -200,7 +201,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //            );
         _pinBloc = PinBloc(deepLinkModel);
         var blocProviderPin = BlocProvider(
-          create: (context) => _pinBloc,
+          create: (context) => _pinBloc!,
           child: PinScreen(),
         );
         await Navigator.push(
@@ -225,8 +226,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
         context: context,
         style: AlertStyle(),
         type: AlertType.warning,
-        title: AppLocalizations.of(context).translate('no_connection_title'),
-        desc: AppLocalizations.of(context).translate('no_connection_desc'),
+        title: AppLocalizations.of(context)!.translate('no_connection_title'),
+        desc: AppLocalizations.of(context)!.translate('no_connection_desc'),
         buttons: [
           DialogButton(
             child: Text('Ok'),
@@ -295,7 +296,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 }
 
 class ScanScreen extends StatefulWidget {
-  const ScanScreen({Key key}) : super(key: key);
+  const ScanScreen({Key? key}) : super(key: key);
 
   @override
   _ScanScreenState createState() => _ScanScreenState();
@@ -303,8 +304,8 @@ class ScanScreen extends StatefulWidget {
 
 class _ScanScreenState extends State<ScanScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode result;
-  QRViewController controller;
+  Barcode? result;
+  QRViewController? controller;
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -312,9 +313,9 @@ class _ScanScreenState extends State<ScanScreen> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller.pauseCamera();
+      controller!.pauseCamera();
     } else if (Platform.isIOS) {
-      controller.resumeCamera();
+      controller!.resumeCamera();
     }
   }
 

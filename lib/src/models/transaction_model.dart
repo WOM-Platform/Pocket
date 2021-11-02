@@ -1,6 +1,5 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../my_logger.dart';
@@ -16,28 +15,26 @@ class TransactionModel extends Equatable {
   static const dbAim = "Aim";
   static const dbAckUrl = "ackUrl";
 
-  TransactionType transactionType;
-  String source;
-  String country;
-  String aimCode;
-  DateTime date;
-  Aim aim;
-  int id;
-  int size;
-  String ackUrl;
+  TransactionType? transactionType;
+  String? source;
+  String? country;
+  String? aimCode;
+  DateTime? date;
+  Aim? aim;
+  int? id;
+  int? size;
+  String? ackUrl;
 
   TransactionModel({
-    @required this.country,
-    @required this.date,
-    @required this.size,
-    @required this.transactionType,
-    @required this.source,
-    @required this.aimCode,
+    required this.country,
+    required DateTime this.date,
+    required this.size,
+    required TransactionType this.transactionType,
+    required String this.source,
+    required this.aimCode,
     this.id,
     this.ackUrl,
-  })  : assert(transactionType != null),
-        assert(source != null),
-        assert(date != null);
+  });
 
 //        super(date: date, country: country, size: size);
 
@@ -57,7 +54,7 @@ class TransactionModel extends Equatable {
   String formatDate() {
     logger.i(Intl.getCurrentLocale());
     var format = new DateFormat.yMMMEd(Intl.getCurrentLocale());
-    return format.format(this.date);
+    return format.format(this.date!);
   }
 
   @override
@@ -66,6 +63,6 @@ class TransactionModel extends Equatable {
   }
 
   @override
-  List<Object> get props =>
+  List<Object?> get props =>
       [transactionType, source, aimCode, size, date, ackUrl];
 }

@@ -6,8 +6,8 @@ import '../../constants.dart';
 import '../my_logger.dart';
 
 class AimRepository {
-  AimRemoteDataSources _apiProvider;
-  AimDatabase _aimDbHelper;
+  late AimRemoteDataSources _apiProvider;
+  late AimDatabase _aimDbHelper;
 
   AimRepository() {
     _apiProvider = AimRemoteDataSources(domain);
@@ -16,34 +16,32 @@ class AimRepository {
 
   // check if there is update of Aim
   //TODO delete la riga sotto quando verranno scaricati solo gli aim nuovi
-  Future<List<Aim>> updateAim({Future<Database> database}) async {
+  Future<List<Aim>> updateAim(Future<Database> Function() database) async {
     logger.i("AimRepository: updateAim()");
     try {
-      final List<Aim> newList = await _apiProvider.checkUpdate();
-      if (newList != null) {
-        final db = await database;
-        await db.delete(AimDbKeys.TABLE_NAME);
-        logger.i("${newList.length} NUOVI AIM");
-        saveAimToDb(db, newList);
-      }
+      final newList = await _apiProvider.checkUpdate();
+      final db = await database();
+      await db.delete(AimDbKeys.TABLE_NAME);
+      logger.i("${newList.length} NUOVI AIM");
+      saveAimToDb(db, newList);
       return newList;
     } catch (e) {
       logger.e(e);
-      return [];
+      return <Aim>[];
     }
   }
 
-  Future<List<Aim>> getFlatAimList({
-    Future<Database> database,
-  }) async {
+  Future<List<Aim>> getFlatAimList(
+    Future<Database> Function() database,
+  ) async {
     logger.i("AimRepository: getFlatAimList()");
-    final db = await database;
+    final db = await database();
     return await _aimDbHelper.getFlatAimList(db: db);
   }
 
-  Future<Aim> getAim({Future<Database> database, String aimCode}) async {
+  Future<Aim?> getAim({Future<Database>? database, String? aimCode}) async {
     logger.i("AimRepository: getAim()");
-    final db = await database;
+    final db = await database!;
     return await _aimDbHelper.getAim(db: db, aimCode: aimCode);
   }
 
@@ -78,7 +76,7 @@ class AimRepository {
   //   }
   // }
 
-  saveAimToDb(Database db, List<Aim> list) async {
+  saveAimToDb(Database db, List<Aim?> list) async {
     logger.i("AimRepository: saveAimToDb()");
     logger.i("SAVING AIM");
     list.forEach(

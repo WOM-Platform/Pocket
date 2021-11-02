@@ -41,7 +41,7 @@ class SuggestionsSection extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 4.0),
                                   child: Text(
-                                    s.type.toUpperCase(),
+                                    s.type!.toUpperCase(),
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                         fontSize: 20.0,
@@ -53,7 +53,7 @@ class SuggestionsSection extends StatelessWidget {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 4.0),
                                   child: Text(
-                                    s.text,
+                                    s.text!,
                                     maxLines: 2,
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
@@ -99,7 +99,7 @@ class SuggestionsSection extends StatelessWidget {
         }
         return Center(
           child: Text(
-            AppLocalizations.of(context).translate('somethings_wrong'),
+            AppLocalizations.of(context)!.translate('somethings_wrong'),
           ),
         );
       },

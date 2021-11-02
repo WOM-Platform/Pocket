@@ -25,7 +25,7 @@ class MapScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context).translate('map_title'),
+          AppLocalizations.of(context)!.translate('map_title'),
           style: TextStyle(
             color: Colors.white,
           ),
@@ -57,11 +57,11 @@ class MapBody extends StatelessWidget {
       key: new PageStorageKey('map'),
       child: BlocBuilder<MapBloc, MapState>(
         buildWhen: (MapState p, MapState c) {
-          if (p.markers.isEmpty && c.markers.isNotEmpty) {
+          if (p.markers!.isEmpty && c.markers!.isNotEmpty) {
             logger.i("move camera");
             bloc.clusteringHelper.mapController.animateCamera(
                 CameraUpdate.newCameraPosition(
-                    CameraPosition(target: c.markers.first.position)));
+                    CameraPosition(target: c.markers!.first.position)));
           }
           return true;
         },
@@ -71,7 +71,7 @@ class MapBody extends StatelessWidget {
             onMapCreated: (mapController) => bloc.onMapCreated(mapController),
             onCameraIdle: bloc.clusteringHelper.onMapIdle,
             onCameraMove: bloc.clusteringHelper.onCameraMove,
-            markers: state.markers,
+            markers: state.markers!,
           );
         },
       ),
@@ -109,21 +109,21 @@ class MapPanel extends StatelessWidget {
             height: Platform.isIOS ? 40.0 : 25.0,
           ),
           Text(
-            AppLocalizations.of(context).translate('filter_by_time'),
+            AppLocalizations.of(context)!.translate('filter_by_time'),
             textAlign: TextAlign.start,
             style: style,
           ),
           CustomSlider(),
           Divider(),
           Text(
-            AppLocalizations.of(context).translate('filter_by_source'),
+            AppLocalizations.of(context)!.translate('filter_by_source'),
             textAlign: TextAlign.start,
             style: style,
           ),
           SourcesList(),
           Divider(),
           Text(
-            AppLocalizations.of(context).translate('filter_by_aim'),
+            AppLocalizations.of(context)!.translate('filter_by_aim'),
             textAlign: TextAlign.start,
             style: style,
           ),

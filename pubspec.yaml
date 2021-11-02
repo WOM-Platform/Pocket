@@ -10,7 +10,7 @@ description: A new Flutter application.
 version: 0.2.4+20
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -44,7 +44,7 @@ dependencies:
   intro_views_flutter: ^3.2.0
   webview_flutter: ^2.0.10
   flutter_lock_screen: ^2.0.1
-  clustering_google_maps: ^0.1.2-nullsafety.1
+  clustering_google_maps: ^0.1.2-nullsafety.3
   google_maps_cluster_manager: ^1.0.0
   auto_size_text: ^3.0.0-nullsafety.0
   flare_flutter: ^3.0.1

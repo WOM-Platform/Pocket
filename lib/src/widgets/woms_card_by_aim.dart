@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pocket/src/models/source_group_wom.dart';
 
 class WomGroupCard extends StatelessWidget {
-  final WomGroupBy wom;
+  final WomGroupBy? wom;
 
-  const WomGroupCard({Key key, this.wom}) : super(key: key);
+  const WomGroupCard({Key? key, this.wom}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +13,8 @@ class WomGroupCard extends StatelessWidget {
       child: Card(
         child: Column(
           children: <Widget>[
-            Text(wom.type),
-            Text(wom.count.toString()),
+            Text(wom!.type!),
+            Text(wom!.count.toString()),
           ],
         ),
       ),

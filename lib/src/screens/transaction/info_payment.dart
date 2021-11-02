@@ -6,20 +6,20 @@ import 'package:pocket/src/blocs/transaction/bloc.dart';
 import 'package:pocket/src/utils/colors.dart';
 
 class InfoPayment extends StatelessWidget {
-  final InfoPayResponse responseInfoPay;
-  final String password;
+  final InfoPayResponse? responseInfoPay;
+  final String? password;
 
   const InfoPayment({
     this.responseInfoPay,
     this.password,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final TransactionBloc bloc = BlocProvider.of<TransactionBloc>(context);
 
-    final SimpleFilter simpleFilters = responseInfoPay.simpleFilter;
+    final SimpleFilter? simpleFilters = responseInfoPay!.simpleFilter;
 
     final greyStyle = TextStyle(
         color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 15.0);
@@ -39,7 +39,7 @@ class InfoPayment extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context).translate('info_payment'),
+                    AppLocalizations.of(context)!.translate('info_payment'),
                     style:
                         TextStyle(fontWeight: FontWeight.w600, fontSize: 20.0),
                     textAlign: TextAlign.start,
@@ -62,11 +62,11 @@ class InfoPayment extends StatelessWidget {
                     Column(
                       children: <Widget>[
                         Text(
-                          AppLocalizations.of(context).translate('merchant'),
+                          AppLocalizations.of(context)!.translate('merchant'),
                           style: greyStyle,
                         ),
                         Text(
-                          responseInfoPay.posName,
+                          responseInfoPay!.posName!,
                           style: valueStyle,
                         ),
                       ],
@@ -74,11 +74,11 @@ class InfoPayment extends StatelessWidget {
                     Column(
                       children: <Widget>[
                         Text(
-                          AppLocalizations.of(context).translate('amount'),
+                          AppLocalizations.of(context)!.translate('amount'),
                           style: greyStyle,
                         ),
                         Text(
-                          responseInfoPay?.amount?.toString(),
+                          responseInfoPay?.amount?.toString() ?? '-',
                           style: valueStyle,
                         ),
                       ],
@@ -99,7 +99,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters?.aimCode ?? "-",
+                                simpleFilters.aimCode ?? "-",
                                 style: valueStyle,
                               ),
                             ],
@@ -111,7 +111,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters?.bounds?.toString() ?? "-",
+                                simpleFilters.bounds?.toString() ?? "-",
                                 style: valueStyle,
                               ),
                             ],
@@ -123,7 +123,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters?.maxAge?.toString() ?? "-",
+                                simpleFilters.maxAge?.toString() ?? "-",
                                 style: valueStyle,
                               ),
                             ],
@@ -141,7 +141,7 @@ class InfoPayment extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
-                        AppLocalizations.of(context)
+                        AppLocalizations.of(context)!
                             .translate('confirm_payment'),
                         style: TextStyle(color: Colors.white, fontSize: 20.0),
                       ),
