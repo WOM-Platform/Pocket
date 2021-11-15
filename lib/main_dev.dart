@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:pocket/src/blocs/migration/migration_data.dart';
 import 'package:pocket/src/my_logger.dart';
 import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/utils/config.dart';
@@ -18,7 +19,10 @@ Future<void> main() async {
   await Firebase.initializeApp();
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   await Hive.initFlutter();
+  Hive.registerAdapter(MigrationDataAdapter());
   await Hive.openBox('settings');
+  final box = await Hive.openBox<MigrationData>('migration');
+  final migrationData = box.get(exportedMigrationDataKey);
   logger.i('DEV VERSION');
   flavor = Flavor.DEVELOPMENT;
   domain = 'dev.wom.social';
@@ -32,6 +36,7 @@ Future<void> main() async {
       enabled: !kDebugMode,
       builder: (context) => App(
         appRepository: AppRepository(),
+        migrationData: migrationData,
       ),
     ),
   );

@@ -51,13 +51,14 @@ class _HomeScreen2State extends State<HomeScreen2> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
         centerTitle: true,
         brightness: Brightness.dark,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.info),
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
             onPressed: () async {
               await _clearTutorial(context);
               _showTutorial(context);
@@ -101,11 +102,11 @@ class _HomeScreen2State extends State<HomeScreen2> {
         // The widget that will be displayed as the tap target.
         title: Text(context.translate('tutorial_welcome_title')!),
         description: Text('tutorial_welcome_desc'.translate(context)!),
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         targetColor: Colors.white,
         textColor: Theme.of(context).primaryColor,
         child: FloatingActionButton.extended(
-          backgroundColor: Theme.of(context).accentColor,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           label: Text(
             AppLocalizations.of(context)!.translate('scan'),
             style: TextStyle(color: baseIconColor),
@@ -132,11 +133,12 @@ class _HomeScreen2State extends State<HomeScreen2> {
               // The widget that will be displayed as the tap target.
               title: Text(context.translate('tutorial_map_title')!),
               description: Text(context.translate('tutorial_map_desc')!),
-              backgroundColor: Theme.of(context).accentColor,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               targetColor: Colors.white,
               textColor: Theme.of(context).primaryColor,
               child: IconButton(
-                icon: Icon(Icons.map, color: Theme.of(context).accentColor),
+                icon: Icon(Icons.map,
+                    color: Theme.of(context).colorScheme.secondary),
                 onPressed: () => _goToMap(),
               ),
             ),
@@ -150,13 +152,13 @@ class _HomeScreen2State extends State<HomeScreen2> {
               // The widget that will be displayed as the tap target.
               title: Text(context.translate('tutorial_settings_title')!),
               description: Text(context.translate('tutorial_settings_desc')!),
-              backgroundColor: Theme.of(context).accentColor,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               targetColor: Colors.white,
               textColor: Theme.of(context).primaryColor,
               child: IconButton(
                 icon: Icon(
                   Icons.settings,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 onPressed: () => _goToSettings(),
               ),

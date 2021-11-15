@@ -90,7 +90,7 @@ class _ChipFilterState extends State<ChipFilter> {
                   '${(a.titles ?? const {})[languageCode] ?? '-'} (${a.count})',
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
-                selectedColor: Theme.of(context).accentColor,
+                selectedColor: Theme.of(context).colorScheme.secondary,
                 selected: chips.contains(a.type),
                 onSelected: (selected) {
                   if (selected) {

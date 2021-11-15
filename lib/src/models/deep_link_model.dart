@@ -11,6 +11,7 @@ class DeepLinkModel extends Equatable {
 
   final Uri? uri;
   String? otc;
+  String? migrationPartialKey;
   late TransactionType type;
 
   DeepLinkModel.fromUri(this.uri) {
@@ -39,21 +40,29 @@ class DeepLinkModel extends Equatable {
             break;
           default:
             throw Exception("Type of transaction is NOT valid");
-            break;
         }
 
         otc = pathSegments[1];
-      } else if (scheme == 'wom' && (host == 'pay' || host == 'transfer')) {
+      } else if (scheme == 'wom' &&
+          (host == 'pay' || host == 'transfer' || host == 'migration')) {
         type = host == 'transfer'
             ? TransactionType.VOUCHERS
-            : TransactionType.PAYMENT;
+            : host == 'pay'
+                ? TransactionType.PAYMENT
+                : TransactionType.MIGRATION;
         otc = uri!.pathSegments.isEmpty ? null : uri!.pathSegments[0];
+        migrationPartialKey =
+            uri!.pathSegments.isEmpty ? null : uri!.pathSegments[1];
       } else {
         throw Exception("Scheme: $scheme OR host: $host not valid");
       }
 
       if (otc == null || otc!.isEmpty) {
         throw Exception("OTC is null or empty");
+      }
+      if (type == TransactionType.MIGRATION &&
+          (migrationPartialKey == null || migrationPartialKey!.isEmpty)) {
+        throw Exception("migrationPartialKey is null or empty");
       }
     } else {
       throw Exception("URI is null");

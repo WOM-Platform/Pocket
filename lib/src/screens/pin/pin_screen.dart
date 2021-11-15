@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riv;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,8 +68,9 @@ class PinScreen extends StatelessWidget {
 
   goToAcceptCredits(BuildContext context, String password) {
     final repository = TransactionRepository(
-      bloc.deepLinkModel,
-    );
+        bloc.deepLinkModel,
+        riv.ProviderScope.containerOf(context, listen: false)
+            .read(pocketProvider));
 
     final blocProviderTransaction = BlocProvider<TransactionBloc>(
       create: (context) => TransactionBloc(

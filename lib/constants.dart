@@ -7,6 +7,10 @@ Flavor? flavor;
 const IS_FIRST_OPEN = 'isFirstOpen';
 const IS_SUGGESTIONS_DISABLED = 'isSuggestionsDisabled';
 const IS_FAKE_MODE = 'isFakeMode';
+const boxMigrationKey = 'migration';
+const exportedMigrationDataKey = 'exportedMigrationDataKey';
+const exportDeeplinkKey = 'exportDeeplinkKey';
+const exportPartialKeyKey = 'exportPartialKeyKey';
 
 //Image Path
 const IMAGE_PATH_INTRO_1 = 'assets/images/team.png';

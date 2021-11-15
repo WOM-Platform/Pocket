@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/db/app_db.dart';
+import 'package:pocket/src/screens/migration/migration_screen.dart';
 import 'package:pocket/src/screens/table_page/db_page.dart';
 import 'package:pocket/src/utils/config.dart';
 import 'package:pocket/src/utils/utils.dart';
@@ -67,7 +68,7 @@ class SettingsScreen extends StatelessWidget {
                   future: Utils.readIsFirstOpen(),
                   builder: (ctx, AsyncSnapshot<bool> value) {
                     if (!value.hasData) {
-                      return Container();
+                      return SizedBox.shrink();
                     }
                     logger.i(value);
                     return Switch(
@@ -104,8 +105,6 @@ class SettingsScreen extends StatelessWidget {
               subtitle: "Delete all data of local database",
               icon: Icons.delete,
               onTap: () async {
-//              final result = await bloc.deleteDB();
-//              logger.i("delete: " + result.toString());
                 AppDatabase.get().deleteDb();
               },
             ),
@@ -115,48 +114,18 @@ class SettingsScreen extends StatelessWidget {
               icon: Icons.close,
               onTap: () async {
                 AppDatabase.get().closeDatabase();
-//              final result = await bloc.closeDb();
               },
             ),
           ],
-//          SettingsItem(
-//            title: 'Reset suggestions',
-//            subtitle: "Reset all suggestions in home screen",
-//            icon: Icons.refresh,
-//            onTap: () {
-//              logger.i("reset suggestion");
-//            },
-//          ),
-//          SettingsItem(
-//            title: AppLocalizations.of(context).translate('info_about_title'),
-//            subtitle: AppLocalizations.of(context).translate('info_about_desc'),
-//            icon: Icons.info_outline,
-//            onTap: null,
-//          ),
-//          SettingsItem(
-//            subtitle: "Enabled or disabled fake mode",
-//            title: "Fake Mode",
-//            onTap: null,
-//            trailing: StreamBuilder<bool>(
-//              stream: bloc.fakeMode,
-//              builder: (ctx, snap) {
-//                if (!snap.hasData) {
-//                  return CircularProgressIndicator();
-//                }
-//
-//                return Switch(
-//                  value: snap.data,
-//                  onChanged: (status) async {
-//                    bloc.setFakeMode(status);
-//                    if (fakeData == null) {
-//                      fakeData = await DefaultAssetBundle.of(ctx)
-//                          .loadString('assets/map_point.json');
-//                    }
-//                  },
-//                );
-//              },
-//            ),
-//          ),
+          SettingsItem(
+            title: 'Export woms',
+            subtitle: "Migration flow",
+            icon: Icons.close,
+            onTap: () async {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (c) => MigrationScreen()));
+            },
+          ),
         ],
       ),
     );

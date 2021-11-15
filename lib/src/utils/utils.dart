@@ -1,8 +1,19 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
+
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pocket/constants.dart';
+import 'package:pocket/src/db/app_db.dart';
+import 'package:pocket/src/db/wom_db.dart';
 import 'package:pocket/src/utils/config.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:encrypt/encrypt.dart';
+
+import '../my_logger.dart';
 
 class Utils {
   // //TODO delete in release
@@ -96,4 +107,101 @@ class Utils {
   static Future<String> _loadKey(String path) async {
     return await rootBundle.loadString(path);
   }
+
+  // static Future<void> closeDb() async {
+  //   final dbFile = await getDbFile('pocket.db');
+  //   if (dbFile != null) {
+  //     await AppDatabase.get().closeDatabase();
+  //   }
+  // }
+  //
+  // static Future<bool> deleteDB() async {
+  //   try {
+  //     final dbFile = await getDbFile('pocket.db');
+  //     if (dbFile != null) {
+  //       await AppDatabase.get().deleteDb();
+  //       await dbFile.delete();
+  //       return true;
+  //     }
+  //     return false;
+  //   } catch (ex) {
+  //     logger.e(ex);
+  //     return false;
+  //   }
+  // }
+  //
+  // static Future<File?> getDbFile(String name) async {
+  //   final dir = await getApplicationDocumentsDirectory();
+  //   logger.i(dir.path);
+  //   if (await dir.exists()) {
+  //     File dbFile = File(dir.path + "/" + name);
+  //     if (await dbFile.exists()) {
+  //       return dbFile;
+  //     }
+  //   }
+  //   return null;
+  // }
+
+  static Future<WomExportData> exportWomToJson(String pin) async {
+    final woms = await WomDB.get().getAllWoms();
+    if (woms.isEmpty) {
+      print('woms empty');
+      //TODO
+      // throw Exception('Woms table is Empty');
+    }
+    final dir = await getTemporaryDirectory();
+    print(dir.path);
+    final path = '${dir.path}/wom_migration';
+    final file = File(path);
+    final jsonString = jsonEncode(woms);
+    final key = getRandomString(28);
+    final bytes = encryptWithAes(jsonString, '$key$pin');
+    await file.writeAsBytes(bytes);
+    print(file.path);
+    return WomExportData(file.path, bytes, key);
+  }
+
+  static List<int> encryptWithAes(String text, String k) {
+    final key = Key.fromUtf8(k);
+    final iv = IV.fromLength(16);
+
+    final encrypter = Encrypter(AES(key));
+
+    final encrypted = encrypter.encrypt(text, iv: iv);
+    final decrypted = encrypter.decrypt(encrypted, iv: iv);
+
+    print(decrypted);
+    // print(encrypted.base64);
+    return encrypted.bytes;
+  }
+
+  static String decryptWithAes(Uint8List bytes, String k) {
+    final key = Key.fromUtf8(k);
+    final iv = IV.fromLength(16);
+
+    final encrypter = Encrypter(AES(key));
+
+    // final encrypted = encrypter.encrypt(text, iv: iv);
+    final decrypted = encrypter.decrypt(Encrypted(bytes), iv: iv);
+
+    // print(decrypted);
+    // print(encrypted.base64);
+    return decrypted;
+  }
+
+  static String getRandomString(int length) {
+    final _rnd = Random();
+    return String.fromCharCodes(Iterable.generate(
+        length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  }
+}
+
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
+class WomExportData {
+  final String path;
+  final String partialKey;
+  final List<int> bytes;
+
+  WomExportData(this.path, this.bytes, this.partialKey);
 }

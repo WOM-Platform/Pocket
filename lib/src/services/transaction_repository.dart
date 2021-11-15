@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket/constants.dart';
 import 'package:pocket/src/db/transaction_db.dart';
 import 'package:pocket/src/db/wom_db.dart';
@@ -9,17 +10,18 @@ import 'package:pocket/src/models/transaction_model.dart';
 
 import '../my_logger.dart';
 
+final pocketProvider = Provider<Pocket>((ref) => Pocket(domain, registryKey));
+
 class TransactionRepository {
   final DeepLinkModel deepLinkModel;
   late TransactionDB transactionsDB;
   late WomDB womDB;
   late Pocket pocket;
 
-  TransactionRepository(this.deepLinkModel) {
+  TransactionRepository(this.deepLinkModel, this.pocket) {
     logger.i('Repository constructor');
     transactionsDB = TransactionDB.get();
     womDB = WomDB.get();
-    pocket = Pocket(domain, registryKey);
   }
 
   Future<TransactionModel> getWoms(String otc, String password) async {

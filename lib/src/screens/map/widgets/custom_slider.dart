@@ -12,12 +12,12 @@ class CustomSlider extends StatelessWidget {
     return SliderTheme(
       data: theme.sliderTheme.copyWith(
         activeTrackColor: Colors.grey[100],
-        inactiveTrackColor: Theme.of(context).accentColor,
+        inactiveTrackColor: Theme.of(context).colorScheme.secondary,
         activeTickMarkColor: Colors.grey,
         inactiveTickMarkColor: Colors.white,
         overlayColor: Colors.black12,
-        thumbColor: Theme.of(context).accentColor,
-        valueIndicatorColor: Theme.of(context).accentColor,
+        thumbColor: Theme.of(context).colorScheme.secondary,
+        valueIndicatorColor: Theme.of(context).colorScheme.secondary,
         valueIndicatorTextStyle: TextStyle(
             color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
 //            thumbShape: _CustomThumbShape(),
