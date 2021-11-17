@@ -54,6 +54,7 @@
   "settings_info_desc": "Visita il nostro sito",
   "settings_show_intro_title": "Mostra l'intro",
   "settings_show_intro_desc": "Abilita per visualizzare l'intro al prossimo avvio",
-  "no_sources": "Nessuna sorgente"
+  "no_sources": "Nessuna sorgente",
+  "missing_location_error": "Errore durante il rilevamento della posizione"
 
 }

@@ -1,5 +1,7 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pocket/src/blocs/transaction/bloc.dart';
+import 'package:pocket/src/blocs/transaction/transaction_event.dart';
 import 'package:pocket/src/models/transaction_model.dart';
 
 abstract class TransactionState extends Equatable {}
@@ -43,6 +45,17 @@ class TransactionLoadingState extends TransactionState {
 
   @override
   List<Object> get props => [];
+}
+
+class TransactionMissingLocationState extends TransactionState {
+  final TransactionEvent eventToRepeat;
+  final LocationServiceException exception;
+  TransactionMissingLocationState(this.eventToRepeat, this.exception);
+  @override
+  String toString() => 'TransactionMissingLocationState';
+
+  @override
+  List<Object> get props => [eventToRepeat];
 }
 
 class TransactionErrorState extends TransactionState {

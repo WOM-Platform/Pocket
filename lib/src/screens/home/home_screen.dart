@@ -51,6 +51,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
         centerTitle: true,
         brightness: Brightness.dark,

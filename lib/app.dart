@@ -55,6 +55,12 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = ThemeData(
+      primaryColor: primaryColor,
+      accentColor: accentColor,
+      backgroundColor: backgroundColor,
+    );
+
     return BlocProvider<AppBloc>(
       create: (context) => _appBloc,
       child: MaterialApp(
@@ -82,10 +88,8 @@ class _AppState extends State<App> {
             const Locale('en', 'US'),
             const Locale('it', 'IT'),
           ],
-          theme: ThemeData(
-            primaryColor: primaryColor,
-            accentColor: accentColor,
-            backgroundColor: backgroundColor,
+          theme: themeData.copyWith(
+            colorScheme: themeData.colorScheme.copyWith(secondary: accentColor),
           ),
           home: BlocListener<AppBloc, AppState>(
             listener: (ctx, state) {

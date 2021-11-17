@@ -22,10 +22,12 @@ class TransactionRepository {
     pocket = Pocket(domain, registryKey);
   }
 
-  Future<TransactionModel> getWoms(String otc, String password) async {
+  Future<TransactionModel> getWoms(String otc, String password,
+      {double? lat, double? long}) async {
     logger.i('getWoms');
     try {
-      final response = await pocket.redeemVouchers(otc, password);
+      final response =
+          await pocket.redeemVouchers(otc, password, lat: lat, long: long);
       return saveWoms(response);
     } on ServerException catch (ex) {
       logger.i(ex.error);

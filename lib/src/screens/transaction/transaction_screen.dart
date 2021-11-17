@@ -141,6 +141,39 @@ class TransactionScreenState extends State<TransactionScreen>
                     ],
                   ),
                 );
+              } else if (state is TransactionMissingLocationState) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Icon(Icons.warning, color: Colors.orange, size: 120),
+                        SizedBox(height: 40.0),
+                        Text(
+                          AppLocalizations.of(context)!
+                              .translate('missing_location_error'),textAlign: TextAlign.center,
+                          style: whiteTextStyle.copyWith(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 24.0),
+                        Text(
+                          'La posizione rilevata viene assegnata ai WOM che ne sono sprovvisti.',textAlign: TextAlign.center,
+                          style: whiteTextStyle,
+                        ),
+                        SizedBox(height: 24.0),
+                        FloatingActionButton.extended(
+                            onPressed: () {
+                              bloc.add(state.eventToRepeat);
+                            },
+                            label: Text(
+                              AppLocalizations.of(context)!
+                                  .translate('try_again'),
+                            )),
+                      ],
+                    ),
+                  ),
+                );
               } else if (state is TransactionCompleteState) {
                 _controller.forward();
                 return AnimatedBuilder(

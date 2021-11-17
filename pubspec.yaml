@@ -1,5 +1,6 @@
 name: pocket
 description: A new Flutter application.
+publish_to: none
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -63,9 +64,10 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   logger: ^1.0.0
   pin_code_fields: ^7.3.0
-  location: ^4.3.0
+#  location: ^4.3.0
+  geolocator: ^7.7.1
   dart_wom_connector:
-    path: /Volumes/Samsung_X5/Dart/dart_wom_connector
+    path: /Users/gianmarcodifrancesco/Work/Digit/Dart/dart_wom_connector
 #  flare_flutter:
 #    git:
 #      url: git://github.com/2d-inc/Flare-Flutter.git
@@ -106,7 +108,7 @@ flutter:
     - assets/images/m4.png
     - assets/images/wom.png
     - assets/images/wom_pin.png
-    - assets/images/migration.png
+#    - assets/images/migration.png
     - assets/flare/check.flr
     - assets/registry.pub
     - assets/registry_dev.pub
