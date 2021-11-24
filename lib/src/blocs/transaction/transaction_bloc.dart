@@ -9,12 +9,17 @@ import 'package:pocket/src/services/transaction_repository.dart';
 
 import '../../my_logger.dart';
 
+class PocketException implements Exception {}
 
-class PocketException implements Exception{}
-class LocationServiceException extends PocketException{}
-class ServiceGPSDisabled extends LocationServiceException{}
-class LocationPermissionDenied extends LocationServiceException{}
-class LocationPermissionDeniedForever extends LocationServiceException{}
+class LocationServiceException extends PocketException {}
+
+class ServiceGPSDisabled extends LocationServiceException {}
+
+class GetLocationTimeout extends LocationServiceException {}
+
+class LocationPermissionDenied extends LocationServiceException {}
+
+class LocationPermissionDeniedForever extends LocationServiceException {}
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final TransactionRepository _repository;
@@ -114,7 +119,14 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    final locData = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low,).timeout(
+    Duration(seconds: 7),
+    onTimeout: (){
+      print('requestService timeout');
+      throw GetLocationTimeout();
+    },
+  );
+  return locData;
   }
 
   @override
@@ -147,7 +159,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
             logger.i(infoPayment);
             yield TransactionInfoPaymentState(infoPayment, event.password);
           }
-        } on LocationServiceException catch(ex){
+        } on LocationServiceException catch (ex) {
           yield TransactionMissingLocationState(event, ex);
         } on InsufficientVouchers catch (ex) {
           yield TransactionErrorState(

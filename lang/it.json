@@ -55,6 +55,13 @@
   "settings_show_intro_title": "Mostra l'intro",
   "settings_show_intro_desc": "Abilita per visualizzare l'intro al prossimo avvio",
   "no_sources": "Nessuna sorgente",
-  "missing_location_error": "Errore durante il rilevamento della posizione"
+  "missing_location_error": "Errore durante il rilevamento della posizione",
+  "enable_gps": "Attiva GPS",
+  "grant_permission": "Concedi permessi",
+  "open_permission_settings": "Impostazioni autorizzazione",
+  "gps_service_on_description": "Il servizio GPS è stato attivato. Riprova premendo il pulsante qui sotto.",
+  "gps_service_off_description": "Il servizio GPS risulta spento, attivalo per accedere alla posizione.",
+  "gps_permission_denied_description": "Il Pocket ha bisogno dei permessi per l'utilizzo del GPS",
+  "gps_permission_denied_forever_description": "Hai disattivato la richiesa di permessi, per l'utilizzo del GPS il Pocket necessita dell'autorizzazione utente."
 
 }

@@ -55,5 +55,13 @@
   "settings_show_intro_title": "Show the intro",
   "settings_show_intro_desc": "Enable to view the intro at next startup",
   "no_sources": "No sources",
-  "missing_location_error": "Errore durante il rilevamento della posizione"
+  "missing_location_error": "Error while detecting the position",
+  "enable_gps": "Enable GPS",
+  "grant_permission": "Grant permissions",
+  "open_permission_settings": "Authorization settings",
+  "gps_service_on_description": "The GPS service has been activated. Please try again by pressing the button below.",
+  "gps_service_off_description": "The GPS service is turned off, activate it to access the position.",
+  "gps_permission_denied_description": "The Pocket needs permission to use the GPS",
+  "gps_permission_denied_forever_description": "You have deactivated the request for permissions, to use the GPS the Pocket requires user authorization."
+
 }
