@@ -5,6 +5,7 @@ import 'package:pocket/src/utils/config.dart';
 import '../../constants.dart';
 import '../my_logger.dart';
 
+// adb shell am start -a android.intent.action.VIEW -d "https://dev.wom.social/vouchers/1718f4eb-94c9-428c-9058-317bd3f406aa" social.wom.pocket.dev
 class DeepLinkModel extends Equatable {
   static const PAYMENT = 'payment';
   static const VOUCHERS = 'vouchers';

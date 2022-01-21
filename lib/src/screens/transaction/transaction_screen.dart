@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:pocket/localization/app_localizations.dart';
 import 'package:pocket/src/blocs/app/app_bloc.dart';
 import 'package:pocket/src/blocs/transaction/bloc.dart';
@@ -140,6 +143,10 @@ class TransactionScreenState extends State<TransactionScreen>
                           label: Text("Ok")),
                     ],
                   ),
+                );
+              } else if (state is TransactionMissingLocationState) {
+                return MissingLocationWidget(
+                  state: state,
                 );
               } else if (state is TransactionCompleteState) {
                 _controller.forward();
@@ -281,6 +288,143 @@ class CircleButton extends StatelessWidget {
         ),
       ),
       onTap: onTap,
+    );
+  }
+}
+
+class MissingLocationWidget extends StatefulWidget {
+  final TransactionMissingLocationState state;
+
+  const MissingLocationWidget({Key? key, required this.state})
+      : super(key: key);
+
+  @override
+  _MissingLocationWidgetState createState() => _MissingLocationWidgetState();
+}
+
+class _MissingLocationWidgetState extends State<MissingLocationWidget> {
+  StreamSubscription<ServiceStatus>? _gpsServiceStream;
+  bool _serviceEnabled = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.state.exception is ServiceGPSDisabled) {
+      _serviceEnabled = false;
+      _gpsServiceStream = Geolocator.getServiceStatusStream().listen((status) {
+        //XOR
+        if (_serviceEnabled ^ (status == ServiceStatus.enabled))
+          setState(() {
+            _serviceEnabled = status == ServiceStatus.enabled;
+          });
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _gpsServiceStream?.cancel();
+    super.dispose();
+  }
+
+  Future tryAgain() async {
+    final event = widget.state.eventToRepeat;
+    final exception = widget.state.exception;
+    if (exception is ServiceGPSDisabled) {
+      await Geolocator.openLocationSettings();
+      return;
+    } else if (exception is LocationPermissionDenied) {
+      final permission = await Geolocator.requestPermission();
+      print(permission);
+      BlocProvider.of<TransactionBloc>(context, listen: false).add(event);
+    } else if (exception is LocationPermissionDeniedForever) {
+      await Geolocator.openAppSettings();
+      return;
+    }
+  }
+
+  String failureToWarningText(BuildContext context, exception) {
+    if (exception is ServiceGPSDisabled) {
+      if (_serviceEnabled) {
+        return AppLocalizations.of(context)!
+            .translate('gps_service_on_description');
+      }
+      return AppLocalizations.of(context)!
+          .translate('gps_service_off_description');
+    } else if (exception is LocationPermissionDenied) {
+      return AppLocalizations.of(context)!
+          .translate('gps_permission_denied_description');
+    } else if (exception is LocationPermissionDeniedForever) {
+      return AppLocalizations.of(context)!
+          .translate('gps_permission_denied_forever_description');
+    }
+    return AppLocalizations.of(context)!.translate('missing_location_error');
+  }
+
+  String failureToActionText(BuildContext context, exception) {
+    if (exception is ServiceGPSDisabled) {
+      return AppLocalizations.of(context)!.translate('enable_gps');
+    } else if (exception is LocationPermissionDenied) {
+      return AppLocalizations.of(context)!.translate('grant_permission');
+    } else if (exception is LocationPermissionDeniedForever) {
+      return AppLocalizations.of(context)!
+          .translate('open_permission_settings');
+    }
+    return AppLocalizations.of(context)!.translate('try_again');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final whiteTextStyle = TextStyle(color: Colors.white);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Spacer(),
+            Icon(Icons.warning, color: Colors.orange, size: 120),
+            SizedBox(height: 40.0),
+            Text(
+              failureToWarningText(context, widget.state.exception),
+              textAlign: TextAlign.center,
+              style: whiteTextStyle.copyWith(
+                  fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            if (!(widget.state.exception is ServiceGPSDisabled &&
+                _serviceEnabled) && widget.state.exception is! GetLocationTimeout) ...[
+              SizedBox(height: 24.0),
+              FloatingActionButton.extended(
+                backgroundColor: Colors.green,
+                onPressed: tryAgain,
+                label: Text(
+                  failureToActionText(context, widget.state.exception),
+                  style: whiteTextStyle,
+                ),
+              ),
+            ],
+            if (widget.state.exception is ServiceGPSDisabled ||
+                widget.state.exception is LocationPermissionDeniedForever || widget.state.exception is GetLocationTimeout ) ...[
+              const SizedBox(height: 32),
+              FloatingActionButton.extended(
+                onPressed: () =>
+                    BlocProvider.of<TransactionBloc>(context, listen: false)
+                        .add(widget.state.eventToRepeat),
+                label: Text(
+                  AppLocalizations.of(context)!.translate('try_again'),
+                ),
+              ),
+            ],
+            const Spacer(),
+            Text(
+              'La posizione rilevata verrà assegnata ai WOM che ne sono sprovvisti.',
+              textAlign: TextAlign.center,
+              style: whiteTextStyle,
+            ),
+            SizedBox(height: 24.0),
+          ],
+        ),
+      ),
     );
   }
 }

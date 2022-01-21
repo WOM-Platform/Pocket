@@ -74,7 +74,6 @@ class _AppState extends State<App> {
               if (locale == null) {
                 return supportedLocales.first;
               }
-
               for (var supportedLocale in supportedLocales) {
                 if (supportedLocale.languageCode == locale.languageCode &&
                     supportedLocale.countryCode == locale.countryCode) {

@@ -7,5 +7,7 @@
 		<string>applinks:wom.social</string>
 		<string>applinks:link.wom.social</string>
 	</array>
+	<key>com.apple.developer.associated-domains.mdm-managed</key>
+	<true/>
 </dict>
 </plist>
