@@ -5,13 +5,12 @@ import 'package:pocket/src/blocs/migration/import_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 final pageControllerProvider =
-    Provider<PageController>((ref) => PageController());
+    Provider.autoDispose<PageController>((ref) => PageController());
 
-final confirmImportProvider = StateProvider<bool>((_) => false);
+final confirmImportProvider = StateProvider.autoDispose<bool>((_) => false);
 
-final pinControllerProvider = Provider<TextEditingController>((ref) {
+final pinControllerProvider = Provider.autoDispose<TextEditingController>((ref) {
   final t = TextEditingController();
-
   ref.onDispose(() {
     t.dispose();
   });
@@ -57,13 +56,19 @@ class PageOne extends ConsumerWidget {
             const SizedBox(
               height: 16,
             ),
-            Text('Migrazione guidata di importazione',
-                style: TextStyle(fontSize: 30, color: Colors.white)),
+            Text('Migrazione WOM',
+                style: TextStyle(fontSize: 18, color: Colors.white)),
+            Text('Importazione guidata',
+                style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600)),
             const SizedBox(
               height: 32,
             ),
             Text(
-                'Questa procedura ti consentirà di importare i WOM che hai esportato da un altro borsellino.',
+                'Questa procedura ti consentirà di importare i WOM che hai esportato da un altro borsellino.\n\n'
+                'Tieni a portata di mano il PIN inserito per effettuare l\'esportazione. Senza di esso non potrai completare l\'operazione.',
                 style: TextStyle(color: Colors.white)),
           ],
         ),
