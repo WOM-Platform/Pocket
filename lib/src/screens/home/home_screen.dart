@@ -8,10 +8,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:pocket/localization/app_localizations.dart';
+import 'package:pocket/src/services/app_repository.dart';
 import 'package:pocket/src/utils/config.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
+import 'package:store_redirect/store_redirect.dart';
 import '../../../constants.dart';
 import '../../blocs/app/app_bloc.dart';
 import '../../blocs/map/bloc.dart';
@@ -43,6 +44,50 @@ class _HomeScreen2State extends State<HomeScreen2> {
       }
     });
     super.initState();
+    checkVersion();
+  }
+
+  checkVersion() async {
+    final status = await context.read<AppBloc>().getAppStatus();
+    logger.i(status);
+    if (!status.isOk) {
+      // SchedulerBinding.instance?.addPostFrameCallback((Duration duration) {
+      final actionText = status.isOutOfService
+          ? context.translate('closeApp')?.toUpperCase()
+          : context.translate('update')?.toUpperCase();
+
+      Alert(
+          context: context,
+          title: getTitle(status.status),
+          onWillPopActive: !status.isCanUpdate,
+          closeFunction: () {},
+          closeIcon: const SizedBox.shrink(),
+          buttons: [
+            DialogButton(
+                child: Text(actionText ?? '-'),
+                onPressed: () {
+                  if (status.isOutOfService) {
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  } else {
+                    StoreRedirect.redirect(
+                        androidAppId: 'social.wom.app', iOSAppId: '1466969163');
+                  }
+                }),
+          ]).show();
+      // });
+    }
+  }
+
+  String getTitle(AppStatusEnum status) {
+    switch (status) {
+      case AppStatusEnum.mustUpdate:
+        return context.translate('appMustUpdateDesc') ?? '';
+      case AppStatusEnum.shouldUpdate:
+        return context.translate('appShouldUpdateDesc') ?? '';
+      case AppStatusEnum.outOfService:
+      default:
+        return context.translate('appOutOfService') ?? '';
+    }
   }
 
   @override
@@ -330,6 +375,7 @@ class _ScanScreenState extends State<ScanScreen> {
   }
 
   bool scanned = false;
+
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {

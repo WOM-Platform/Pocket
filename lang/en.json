@@ -55,5 +55,10 @@
   "settings_show_intro_title": "Show the intro",
   "settings_show_intro_desc": "Enable to view the intro at next startup",
   "no_sources": "No sources",
-  "missing_location_error": "Errore durante il rilevamento della posizione"
+  "missing_location_error": "Errore durante il rilevamento della posizione",
+  "appMustUpdateDesc": "L'applicazione deve essere aggiornata per continuare il corretto funzionamento",
+  "appShouldUpdateDesc": "C'è una nuova versione disponibile!",
+  "appOutOfService": "Il servizio è offline, torniamo subito",
+  "update": "Update",
+  "closeApp": "Close"
 }

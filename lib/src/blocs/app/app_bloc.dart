@@ -87,6 +87,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     return deepLinkModel;
   }
 
+  Future<AppStatus> getAppStatus(){
+    return _appRepository.getAppStatus();
+  }
+
   @override
   void dispose() {
     _sub.cancel();
