@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/db/app_db.dart';
 
 import './bloc.dart';
 import '../../my_logger.dart';

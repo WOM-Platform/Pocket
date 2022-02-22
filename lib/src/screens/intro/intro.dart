@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:pocket/constants.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/blocs/app/app_bloc.dart';
-import 'package:pocket/src/blocs/app/app_event.dart';
-import 'package:pocket/src/utils/colors.dart';
+import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/blocs/app/app_bloc.dart';
+import 'package:wom_pocket/src/blocs/app/app_event.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 class IntroScreen extends StatelessWidget {
   final TextStyle whiteTextStyle = TextStyle(color: Colors.white);

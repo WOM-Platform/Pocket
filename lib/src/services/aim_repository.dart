@@ -1,5 +1,5 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:pocket/src/db/aim_database.dart';
+import 'package:wom_pocket/src/db/aim_database.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../constants.dart';

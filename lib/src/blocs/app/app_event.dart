@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
+import 'package:wom_pocket/src/models/deep_link_model.dart';
 
 @immutable
 abstract class AppEvent extends Equatable {}

@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/blocs/map/bloc.dart';
-import 'package:pocket/src/screens/map/widgets/aims_list.dart';
-import 'package:pocket/src/screens/map/widgets/custom_slider.dart';
-import 'package:pocket/src/screens/map/widgets/sources_list.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/screens/map/widgets/aims_list.dart';
+import 'package:wom_pocket/src/screens/map/widgets/custom_slider.dart';
+import 'package:wom_pocket/src/screens/map/widgets/sources_list.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../my_logger.dart';

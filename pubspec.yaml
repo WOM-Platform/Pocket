@@ -1,4 +1,4 @@
-name: pocket
+name: wom_pocket
 description: A new Flutter application.
 publish_to: none
 
@@ -8,7 +8,7 @@ publish_to: none
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.3.0+21
+version: 0.3.1+22
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -20,11 +20,11 @@ dependencies:
     sdk: flutter
 
   # Firebase
-  firebase_core: ^1.4.0
-  firebase_crashlytics: ^2.1.1
-  firebase_analytics: ^8.2.0
+  firebase_core: ^1.12.0
+  firebase_crashlytics: ^2.5.1
+  firebase_analytics: ^9.1.0
 
-  flutter_riverpod: ^1.0.0
+  flutter_riverpod: ^1.0.3
   equatable:
   cupertino_icons: ^1.0.3
   uni_links: ^0.5.1

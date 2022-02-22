@@ -1,8 +1,9 @@
-import 'package:pocket/src/utils/config.dart';
+import 'package:wom_pocket/src/utils/config.dart';
 
 late String domain;
 late String registryKey;
 Flavor? flavor;
+final isDev = flavor == Flavor.DEVELOPMENT;
 //Shared Preferences
 const IS_FIRST_OPEN = 'isFirstOpen';
 const IS_SUGGESTIONS_DISABLED = 'isSuggestionsDisabled';

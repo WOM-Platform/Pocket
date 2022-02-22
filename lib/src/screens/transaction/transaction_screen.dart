@@ -3,13 +3,13 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/blocs/app/app_bloc.dart';
-import 'package:pocket/src/blocs/transaction/bloc.dart';
-import 'package:pocket/src/blocs/transactions_list/transactions_list_event.dart';
-import 'package:pocket/src/screens/transaction/info_payment.dart';
-import 'package:pocket/src/utils/utils.dart';
-import 'package:pocket/src/widgets/voucher_card.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/blocs/app/app_bloc.dart';
+import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
+import 'package:wom_pocket/src/blocs/transactions_list/transactions_list_event.dart';
+import 'package:wom_pocket/src/screens/transaction/info_payment.dart';
+import 'package:wom_pocket/src/utils/utils.dart';
+import 'package:wom_pocket/src/widgets/voucher_card.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({Key? key}) : super(key: key);

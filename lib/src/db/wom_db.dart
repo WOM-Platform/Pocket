@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:dart_geohash/dart_geohash.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:pocket/src/db/app_db.dart';
-import 'package:pocket/src/models/optional_query_model.dart';
-import 'package:pocket/src/models/source_group_wom.dart';
-import 'package:pocket/src/models/wom_model.dart';
-import 'package:pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/models/optional_query_model.dart';
+import 'package:wom_pocket/src/models/source_group_wom.dart';
+import 'package:wom_pocket/src/models/wom_model.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../constants.dart';

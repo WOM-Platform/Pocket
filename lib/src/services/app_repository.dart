@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart';
-import 'package:pocket/app.dart';
-import 'package:pocket/src/db/app_db.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:pocket/src/services/aim_repository.dart';
+import 'package:wom_pocket/app.dart';
+import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/models/deep_link_model.dart';
+import 'package:wom_pocket/src/services/aim_repository.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:http/http.dart' as http;
 

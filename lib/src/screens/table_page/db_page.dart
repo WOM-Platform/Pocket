@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pocket/src/models/wom_model.dart';
+import 'package:wom_pocket/src/models/wom_model.dart';
 
 class WomDbTablePage extends StatefulWidget {
   final List<WomModel>? woms;

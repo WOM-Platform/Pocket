@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pocket/src/models/source_group_wom.dart';
+import 'package:wom_pocket/src/models/source_group_wom.dart';
 
 class WomGroupCard extends StatelessWidget {
   final WomGroupBy? wom;

@@ -1,5 +1,5 @@
-import 'package:pocket/src/db/wom_db.dart';
-import 'package:pocket/src/models/source_group_wom.dart';
+import 'package:wom_pocket/src/db/wom_db.dart';
+import 'package:wom_pocket/src/models/source_group_wom.dart';
 
 import '../my_logger.dart';
 

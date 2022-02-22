@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:pocket/constants.dart';
-import 'package:pocket/src/db/transaction_db.dart';
-import 'package:pocket/src/db/wom_db.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/db/transaction_db.dart';
+import 'package:wom_pocket/src/db/wom_db.dart';
+import 'package:wom_pocket/src/models/deep_link_model.dart';
+import 'package:wom_pocket/src/models/transaction_model.dart';
 
 import '../my_logger.dart';
 
@@ -30,7 +30,7 @@ class TransactionRepository {
           await pocket.redeemVouchers(otc, password, lat: lat, long: long);
       return saveWoms(response);
     } on ServerException catch (ex) {
-      logger.i(ex.error);
+      logger.i(ex);
       rethrow;
     } catch (ex) {
       logger.e(ex);

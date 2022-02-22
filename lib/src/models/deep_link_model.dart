@@ -1,9 +1,13 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pocket/src/utils/config.dart';
+import 'package:wom_pocket/src/utils/config.dart';
 
 import '../../constants.dart';
 import '../my_logger.dart';
+
+final protocol = isDev ? 'wom-dev' : 'wom';
+final oldDeepLink = isDev ? 'dev.wom.social' : 'wom.social';
+final deepLink = isDev ? 'link.dev.wom.social' : 'link.wom.social';
 
 class DeepLinkModel extends Equatable {
   static const PAYMENT = 'payment';
@@ -23,10 +27,7 @@ class DeepLinkModel extends Equatable {
       final scheme = uri!.scheme;
       final host = uri!.host;
 
-      if (scheme == 'https' &&
-          (host == '${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social' ||
-              host ==
-                  '${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}link.wom.social')) {
+      if (scheme == 'https' && (host == oldDeepLink || host == deepLink)) {
         final List<String> pathSegments = uri!.pathSegments;
         final transactionType = pathSegments[0].toLowerCase();
 
@@ -39,11 +40,10 @@ class DeepLinkModel extends Equatable {
             break;
           default:
             throw Exception("Type of transaction is NOT valid");
-            break;
         }
 
         otc = pathSegments[1];
-      } else if (scheme == 'wom' && (host == 'pay' || host == 'transfer')) {
+      } else if (scheme == protocol && (host == 'pay' || host == 'transfer')) {
         type = host == 'transfer'
             ? TransactionType.VOUCHERS
             : TransactionType.PAYMENT;

@@ -1,5 +1,5 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart' show SimpleFilter;
-import 'package:pocket/src/models/wom_model.dart';
+import 'package:wom_pocket/src/models/wom_model.dart';
 
 import '../my_logger.dart';
 

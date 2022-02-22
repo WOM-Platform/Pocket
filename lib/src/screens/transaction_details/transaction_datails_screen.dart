@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pocket/src/models/transaction_model.dart';
-import 'package:pocket/src/widgets/voucher_card.dart';
+import 'package:wom_pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/src/widgets/voucher_card.dart';
 class TransactionDetailsScreen extends StatefulWidget {
   final TransactionModel? transactionModel;
 

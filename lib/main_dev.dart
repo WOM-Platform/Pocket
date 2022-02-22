@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pocket/src/my_logger.dart';
-import 'package:pocket/src/services/app_repository.dart';
-import 'package:pocket/src/utils/config.dart';
+import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/services/app_repository.dart';
+import 'package:wom_pocket/src/utils/config.dart';
 
 import 'app.dart';
 import 'constants.dart';

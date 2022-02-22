@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 
 extension StringTranslateExtension on String {
   String? translate(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show Marker;
 import 'package:meta/meta.dart';
-import 'package:pocket/src/models/source_group_wom.dart';
+import 'package:wom_pocket/src/models/source_group_wom.dart';
 
 @immutable
 abstract class MapEvent extends Equatable {}

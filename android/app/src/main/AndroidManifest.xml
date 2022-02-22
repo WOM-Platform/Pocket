@@ -84,13 +84,13 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="wom" android:host="pay"/>
+                <data android:scheme="@string/deep_protocol" android:host="pay"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="wom" android:host="transfer"/>
+                <data android:scheme="@string/deep_protocol" android:host="transfer"/>
             </intent-filter>
         </activity>
         <meta-data

@@ -2,10 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart' hide Location;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:pocket/src/blocs/transaction/transaction_event.dart';
-import 'package:pocket/src/blocs/transaction/transaction_state.dart';
-import 'package:pocket/src/models/transaction_model.dart';
-import 'package:pocket/src/services/transaction_repository.dart';
+import 'package:wom_pocket/src/blocs/transaction/transaction_event.dart';
+import 'package:wom_pocket/src/blocs/transaction/transaction_state.dart';
+import 'package:wom_pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/src/services/transaction_repository.dart';
 
 import '../../my_logger.dart';
 

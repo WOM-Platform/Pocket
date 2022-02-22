@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:pocket/src/db/app_db.dart';
-import 'package:pocket/src/db/transaction_db.dart';
-import 'package:pocket/src/models/transaction_model.dart';
-import 'package:pocket/src/services/aim_repository.dart';
+import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/db/transaction_db.dart';
+import 'package:wom_pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/src/services/aim_repository.dart';
 
 import './bloc.dart';
 import '../../my_logger.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/db/app_db.dart';
-import 'package:pocket/src/screens/table_page/db_page.dart';
-import 'package:pocket/src/utils/config.dart';
-import 'package:pocket/src/utils/utils.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/screens/table_page/db_page.dart';
+import 'package:wom_pocket/src/utils/config.dart';
+import 'package:wom_pocket/src/utils/utils.dart';
 
 import '../../../constants.dart';
 import '../../my_logger.dart';
@@ -35,22 +35,22 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          ListTile(
-            title: Text(context.translate('settings_redeem_demo_title')!),
-            subtitle: Text(context.translate('settings_redeem_demo_desc')!),
-            trailing: Icon(Icons.arrow_forward_ios),
-            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUrl(
-                'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/redeem'),
-          ),
-          ListTile(
-            title: Text(context.translate('settings_pay_demo_title')!),
-            subtitle: Text(context.translate('settings_pay_demo_desc')!),
-            trailing: Icon(Icons.arrow_forward_ios),
-            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUrl(
-                'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/pay'),
-          ),
+          // ListTile(
+          //   title: Text(context.translate('settings_redeem_demo_title')!),
+          //   subtitle: Text(context.translate('settings_redeem_demo_desc')!),
+          //   trailing: Icon(Icons.arrow_forward_ios),
+          //   contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+          //   onTap: () => Utils.launchUrl(
+          //       'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/redeem'),
+          // ),
+          // ListTile(
+          //   title: Text(context.translate('settings_pay_demo_title')!),
+          //   subtitle: Text(context.translate('settings_pay_demo_desc')!),
+          //   trailing: Icon(Icons.arrow_forward_ios),
+          //   contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+          //   onTap: () => Utils.launchUrl(
+          //       'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/pay'),
+          // ),
           ListTile(
             title: Text(context.translate('settings_info_title')!),
             subtitle: Text(context.translate('settings_info_desc')!),

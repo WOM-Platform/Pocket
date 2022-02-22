@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/blocs/pin/bloc.dart';
-import 'package:pocket/src/blocs/transaction/bloc.dart';
-import 'package:pocket/src/screens/pin/widgets/code_panel.dart';
-import 'package:pocket/src/screens/pin/widgets/keyboard.dart';
-import 'package:pocket/src/screens/transaction/transaction_screen.dart';
-import 'package:pocket/src/services/transaction_repository.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/blocs/pin/bloc.dart';
+import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
+import 'package:wom_pocket/src/screens/pin/widgets/code_panel.dart';
+import 'package:wom_pocket/src/screens/pin/widgets/keyboard.dart';
+import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
+import 'package:wom_pocket/src/services/transaction_repository.dart';
 
 class PinScreen extends StatelessWidget {
   late PinBloc bloc;
