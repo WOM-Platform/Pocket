@@ -40,4 +40,6 @@ void main() async {
 //https://link.wom.social/vouchers/a769134e-b2af-4c3c-bdf0-013dc609de7c
 
 // adb shell am start -a android.intent.action.VIEW -d https://link.wom.social/vouchers/a769134e-b2af-4c3c-bdf0-013dc609de7c
-// adb shell am start -a android.intent.action.VIEW -d https://link.dev.wom.social/vouchers/a769134e-b2af-4c3c-bdf0-013dc609de7c
+// adb shell am start -a android.intent.action.VIEW -d https://link.wom.social/vouchers/aca81697-1e93-49d0-be20-5e3897d09296
+
+//fvm flutter build apk --flavor development -t lib/main_dev.dart

@@ -24,73 +24,18 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   TransactionBloc(this._repository, this.otc, this.type)
       : super(TransactionLoadingState());
 
-  exception() {
-    throw Exception('fake exception');
-  }
-
-//   Future<LocationData?> getLocation() async {
-// try{
-//   final location = new Location();
-//
-//   bool _serviceEnabled;
-//   PermissionStatus _permissionGranted;
-//
-//   _serviceEnabled = await location.serviceEnabled();
-//   if (!_serviceEnabled) {
-//     print('SERVICE NOT Enabled');
-//     _serviceEnabled = await location.requestService().timeout(
-//       Duration(seconds: 5),
-//       onTimeout: (){
-//         print('requestService timeout');
-//         throw 'Unknown error occurred. Please reload.';
-//       },
-//     );
-//     if (!_serviceEnabled) {
-//       print('SERVICE NOT Enabled after request');
-//       return null;
-//     }
-//     print('SERVICE Enabled after request');
-//   }
-//
-//   _permissionGranted = await location.hasPermission();
-//   print('Permission $_permissionGranted');
-//   if (_permissionGranted == PermissionStatus.denied) {
-//     print('Permission denied');
-//     _permissionGranted = await location.requestPermission();
-//     if (_permissionGranted != PermissionStatus.granted) {
-//       print('Permission NOT granted after request');
-//       return null;
-//     }
-//   }
-//
-//   // final result = await location.changeSettings(accuracy: LocationAccuracy.reduced);
-//   print('changeSettings $result');
-//   print('get Location');
-//   final locData = await location.getLocation().timeout(
-//     Duration(seconds: 5),
-//     onTimeout: (){
-//       print('requestService timeout');
-//       throw 'Failed to get Location';
-//     },
-//   );
-//   return locData;
-// }catch(ex){
-//   return null;
-// }
-//   }
-
   Future<Position> getLocation2() async {
-    bool serviceEnabled;
     LocationPermission permission;
 
     // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
-      throw ServiceGPSDisabled();
-    }
+    // bool serviceEnabled;
+    // serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    // if (!serviceEnabled) {
+    //   // Location services are not enabled don't continue
+    //   // accessing the position and request users of the
+    //   // App to enable the location services.
+    //   throw ServiceGPSDisabled();
+    // }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
