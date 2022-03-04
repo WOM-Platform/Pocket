@@ -57,8 +57,4 @@ class TransactionDB {
     logger.i("insertTransaction id: $id");
     return id;
   }
-
-//  closeDb() async {
-//    await _appDatabase.closeDatabase();
-//  }
 }

@@ -25,6 +25,7 @@ import '../../screens/pin/pin_screen.dart';
 import '../../screens/settings/settings.dart';
 import '../../utils/colors.dart';
 import '../../utils/my_extensions.dart';
+import 'widgets/wom_stats_widget.dart';
 
 class HomeScreen2 extends StatefulWidget {
   static const String path = '/home';
@@ -98,8 +99,12 @@ class _HomeScreen2State extends State<HomeScreen2> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text('${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
-        centerTitle: true,
+        // centerTitle: true,
         brightness: Brightness.dark,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: WomStatsWidget(),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.info),

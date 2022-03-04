@@ -47,4 +47,12 @@ class WomRepository {
         "BY AIM: fetchGroupedWoms: reading complete woms : ${groupedWoms.length}");
     return groupedWoms;
   }
+
+  Future<int> getWomCount()async{
+    logger.i("getWomCount");
+    final womCount = await _womDb.getWomCount();
+    logger.i(
+        "getWomCount: $womCount");
+    return womCount;
+  }
 }

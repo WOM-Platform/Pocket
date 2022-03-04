@@ -1,6 +1,5 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
-import 'package:wom_pocket/src/utils/config.dart';
 
 import '../../constants.dart';
 import '../my_logger.dart';

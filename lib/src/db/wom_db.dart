@@ -128,8 +128,8 @@ class WomDB {
       final vouchers = result
           .map<Voucher>((Map<String, dynamic> v) => Voucher(
                 id: v[WomModel.dbId],
-                lat: v[WomModel.dbLat],
-                long: v[WomModel.dbLong],
+                lat: v[WomModel.dbLat]?.toDouble(),
+                long: v[WomModel.dbLong]?.toDouble(),
                 secret: v[WomModel.dbSecret],
                 aim: v[WomModel.dbAim],
                 dateTime: v[WomModel.dbTimestamp] != null
@@ -285,6 +285,25 @@ class WomDB {
     return list;
   }
 
+  //Fetch Wom from DB
+  Future<int> getWomCount() async {
+    logger.i('[WomDb] getWomCount');
+    final db = await _appDatabase.getDb();
+    try {
+      //SELECT COUNT(*) FROM t1;
+      var result = await db.rawQuery('SELECT COUNT(*) as liveWoms '
+          'FROM ${WomModel.tblWom} WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index};');
+      print(result);
+      if(result.isNotEmpty ){
+        return result.first['liveWoms'] as int;
+      }
+      throw Exception();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
   Future deleteWom(int womID) async {
     var db = await _appDatabase.getDb();
     await db.transaction((Transaction txn) async {
@@ -337,7 +356,7 @@ class WomDB {
       await db.transaction((Transaction txn) async {
         int id = await txn.rawInsert('INSERT INTO '
             '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
-            ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.dateTime!.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.lat},${voucher.long},"$sourceName","$sourceId","${voucher.aim}",$transactionId)');
+            ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.dateTime!.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.lat ?? 0.0},${voucher.long ?? 0.0},"$sourceName","$sourceId","${voucher.aim}",$transactionId)');
       });
     } catch (e) {
       logger.i(e.toString());

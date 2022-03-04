@@ -3,15 +3,17 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/blocs/app/app_bloc.dart';
 import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
 import 'package:wom_pocket/src/blocs/transactions_list/transactions_list_event.dart';
+import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/transaction/info_payment.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 import 'package:wom_pocket/src/widgets/voucher_card.dart';
 
-class TransactionScreen extends StatefulWidget {
+class TransactionScreen extends ConsumerStatefulWidget {
   const TransactionScreen({Key? key}) : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class TransactionScreen extends StatefulWidget {
   }
 }
 
-class TransactionScreenState extends State<TransactionScreen>
+class TransactionScreenState extends ConsumerState<TransactionScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation _animation;
@@ -39,9 +41,21 @@ class TransactionScreenState extends State<TransactionScreen>
     ));
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   Future<bool> _onWillPop() {
     backToHome();
     return Future.value(false);
+  }
+
+  void backToHome() {
+    BlocProvider.of<AppBloc>(context).transactionsBloc!.add(LoadTransactions());
+    ref.refresh(womStatsProvider);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 
   final whiteTextStyle = TextStyle(color: Colors.white);
@@ -270,17 +284,6 @@ class TransactionScreenState extends State<TransactionScreen>
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void backToHome() {
-    BlocProvider.of<AppBloc>(context).transactionsBloc!.add(LoadTransactions());
-    Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 }
 

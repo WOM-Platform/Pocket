@@ -96,6 +96,10 @@ class TransactionRepository {
       final vouchers = satisfyingVouchers.sublist(0, infoPay.amount);
       final ack = await pocket.pay(infoPay, otc, password, vouchers);
 
+      if (ack == null) {
+        throw Exception('Errore nel pagamento');
+      }
+
       //TODO change italy
       TransactionModel tx = TransactionModel(
         date: DateTime.now(),
@@ -110,9 +114,6 @@ class TransactionRepository {
       final id = await transactionsDB.insertTransaction(tx);
 
       int count = 0;
-      if (ack == null) {
-        throw Exception('Errore nel pagamento');
-      }
 
       for (int i = 0; i < vouchers.length; i++) {
         final c = await womDB.updateWomStatusToOff(vouchers[i].id, id);

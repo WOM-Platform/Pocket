@@ -1,4 +1,5 @@
 import 'package:feature_discovery/feature_discovery.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/blocs/pin/bloc.dart';
 import 'package:wom_pocket/src/blocs/settings/bloc.dart';
 import 'package:wom_pocket/src/blocs/suggestions/bloc.dart';
@@ -61,102 +62,104 @@ class _AppState extends State<App> {
       backgroundColor: backgroundColor,
     );
 
-    return BlocProvider<AppBloc>(
-      create: (context) => _appBloc,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+    return ProviderScope(
+      child: BlocProvider<AppBloc>(
+        create: (context) => _appBloc,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
 //          locale: DevicePreview.of(context).locale, // <--- Add the locale
 //          builder: DevicePreview.appBuilder, // <--- Add the build
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          localeResolutionCallback: (locale, supportedLocales) {
-            if (locale == null) {
-              return supportedLocales.first;
-            }
-
-            for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode &&
-                  supportedLocale.countryCode == locale.countryCode) {
-                return supportedLocale;
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            localeResolutionCallback: (locale, supportedLocales) {
+              if (locale == null) {
+                return supportedLocales.first;
               }
-            }
-            return supportedLocales.first;
-          },
-          supportedLocales: [
-            const Locale('en', 'US'),
-            const Locale('it', 'IT'),
-          ],
-          theme: themeData.copyWith(
-            colorScheme: themeData.colorScheme.copyWith(secondary: accentColor),
-          ),
-          home: BlocListener<AppBloc, AppState>(
-            listener: (ctx, state) {
-              logger.i("APP BLOC LISTENER ----> state is: $state");
-              if (state is DeepLinkMode) {
-                logger.i("Go to pin screen");
+
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode &&
+                    supportedLocale.countryCode == locale.countryCode) {
+                  return supportedLocale;
+                }
+              }
+              return supportedLocales.first;
+            },
+            supportedLocales: [
+              const Locale('en', 'US'),
+              const Locale('it', 'IT'),
+            ],
+            theme: themeData.copyWith(
+              colorScheme: themeData.colorScheme.copyWith(secondary: accentColor),
+            ),
+            home: BlocListener<AppBloc, AppState>(
+              listener: (ctx, state) {
+                logger.i("APP BLOC LISTENER ----> state is: $state");
+                if (state is DeepLinkMode) {
+                  logger.i("Go to pin screen");
 //                var blocProviderPin = myBlocProvider.BlocProvider(
 //                  bloc: PinBloc(),
 //                  child: PinScreen(
 //                    deepLinkModel: state.deepLinkModel,
 //                  ),
 //                );
-                _pinBloc = PinBloc(state.deepLinkModel);
-                var blocProviderPin = BlocProvider(
-                  create: (context) => _pinBloc,
-                  child: PinScreen(),
-                );
-                Navigator.push(
-                  ctx,
-                  MaterialPageRoute<bool>(
-                      builder: (context) => blocProviderPin),
-                ).then((value) {
-                  _appBloc.add(HomeEvent());
-                });
-              }
-            },
-            child:
-                BlocBuilder<AppBloc, AppState>(buildWhen: (previous, current) {
-              final r = (previous != current) && (current is! DeepLinkMode);
-              return r;
-            }, builder: (ctx, AppState state) {
-              logger.i("APP BLOC BUILDER ----> state is: $state");
+                  _pinBloc = PinBloc(state.deepLinkModel);
+                  var blocProviderPin = BlocProvider(
+                    create: (context) => _pinBloc,
+                    child: PinScreen(),
+                  );
+                  Navigator.push(
+                    ctx,
+                    MaterialPageRoute<bool>(
+                        builder: (context) => blocProviderPin),
+                  ).then((value) {
+                    _appBloc.add(HomeEvent());
+                  });
+                }
+              },
+              child:
+                  BlocBuilder<AppBloc, AppState>(buildWhen: (previous, current) {
+                final r = (previous != current) && (current is! DeepLinkMode);
+                return r;
+              }, builder: (ctx, AppState state) {
+                logger.i("APP BLOC BUILDER ----> state is: $state");
 
-              if (state is IntroMode) {
-                return IntroScreen();
-              }
+                if (state is IntroMode) {
+                  return IntroScreen();
+                }
 
-              if (state is NormalMode) {
+                if (state is NormalMode) {
 //                    final homeProvider = myBlocProvider.BlocProvider(
 //                        child: HomeScreen2(), bloc: _homeBloc);
 
-                final homeProvider = MultiBlocProvider(
-                  child: FeatureDiscovery(
-                    child: HomeScreen2(),
-                  ),
-                  providers: <BlocProvider>[
-                    BlocProvider<TransactionsListBloc>(
-                        create: (context) => _transactionsBloc!),
-                    BlocProvider<SuggestionsBloc>(
-                        create: (context) => _suggestionsBloc),
-                  ],
+                  final homeProvider = MultiBlocProvider(
+                    child: FeatureDiscovery(
+                      child: HomeScreen2(),
+                    ),
+                    providers: <BlocProvider>[
+                      BlocProvider<TransactionsListBloc>(
+                          create: (context) => _transactionsBloc!),
+                      BlocProvider<SuggestionsBloc>(
+                          create: (context) => _suggestionsBloc),
+                    ],
+                  );
+                  return homeProvider;
+                }
+                return SplashScreen();
+              }),
+            ),
+            routes: {
+              '/settings': (context) {
+                final settingsProvider = BlocProvider<SettingsBloc>(
+                  create: (context) => SettingsBloc(),
+                  child: SettingsScreen(),
                 );
-                return homeProvider;
-              }
-              return SplashScreen();
+                return settingsProvider;
+              },
             }),
-          ),
-          routes: {
-            '/settings': (context) {
-              final settingsProvider = BlocProvider<SettingsBloc>(
-                create: (context) => SettingsBloc(),
-                child: SettingsScreen(),
-              );
-              return settingsProvider;
-            },
-          }),
+      ),
     );
   }
 

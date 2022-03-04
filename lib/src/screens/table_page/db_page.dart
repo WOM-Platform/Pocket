@@ -36,7 +36,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         title: Text('DB'),
       ),
       body: Scrollbar(
