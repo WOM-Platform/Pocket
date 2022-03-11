@@ -12,6 +12,7 @@ class UpdateMap extends MapEvent {
   final List<WomGroupBy>? sources;
   final List<WomGroupBy>? aims;
   final bool forceFilterUpdate;
+  final int? womCountWithoutLocation;
 
   UpdateMap({
     this.sliderValue,
@@ -19,12 +20,19 @@ class UpdateMap extends MapEvent {
     this.forceFilterUpdate = false,
     this.sources,
     this.aims,
+    this.womCountWithoutLocation,
   });
 
   @override
-  String toString() => "UpdateMap";
+  String toString() => "UpdateMap: $womCountWithoutLocation";
 
   @override
-  List<Object?> get props =>
-      [sliderValue, markers, forceFilterUpdate, sources, aims];
+  List<Object?> get props => [
+        sliderValue,
+        markers,
+        forceFilterUpdate,
+        sources,
+        aims,
+        womCountWithoutLocation,
+      ];
 }

@@ -60,5 +60,6 @@
   "appShouldUpdateDesc": "C'è una nuova versione disponibile!",
   "appOutOfService": "Il servizio è offline, torniamo subito",
   "update": "Update",
-  "closeApp": "Close"
+  "closeApp": "Close",
+  "wom_without_location": "WOM without location not shown on map:"
 }

@@ -255,8 +255,13 @@ class WomDB {
   Future<List<WomGroupBy>> getWomsGroupedBySources() async {
     logger.i('[WomDb] getWomsGroupedBySources');
     var db = await _appDatabase.getDb();
-    final query =
-        'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type FROM ${WomModel.tblWom} WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%" GROUP BY ${WomModel.dbSourceName};';
+    final query = 'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type '
+        'FROM ${WomModel.tblWom} '
+        'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} '
+        'AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%" '
+        'AND ${WomModel.tblWom}.${WomModel.dbLat} > 0 '
+        'AND ${WomModel.tblWom}.${WomModel.dbLong} > 0 '
+        'GROUP BY ${WomModel.dbSourceName};';
     logger.i('[WomDb]: $query');
     var result = await db.rawQuery(query);
     return _bindGroupedWoms(result);
@@ -275,7 +280,13 @@ class WomDB {
     logger.i('[WomDb] getWomGroupedByAim');
     var db = await _appDatabase.getDb();
     final query =
-        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${AimDbKeys.TITLES} as titles FROM ${WomModel.tblWom} w INNER JOIN ${AimDbKeys.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${AimDbKeys.CODE} AND w.${WomModel.dbLive} = ${WomStatus.ON.index} AND w.${WomModel.dbAim} NOT LIKE "0%" GROUP BY ${WomModel.dbAim};';
+        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${AimDbKeys.TITLES} as titles '
+        'FROM ${WomModel.tblWom} w INNER JOIN ${AimDbKeys.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${AimDbKeys.CODE} '
+        'AND w.${WomModel.dbLive} = ${WomStatus.ON.index} '
+        'AND w.${WomModel.dbAim} NOT LIKE "0%" '
+        'AND w.${WomModel.dbLat} > 0 '
+        'AND w.${WomModel.dbLong} > 0 '
+        'GROUP BY ${WomModel.dbAim};';
     logger.i('[WomDb]: $query');
     var result = await db.rawQuery(query);
     final list = result.map((m) {
@@ -285,16 +296,37 @@ class WomDB {
     return list;
   }
 
+  Future<int> getWomCountWithoutLocation() async {
+    logger.i('[WomDb] getWomCountWithoutLocation');
+    final db = await _appDatabase.getDb();
+    try {
+      var result = await db.rawQuery(
+        'SELECT COUNT(*) as wom '
+        'FROM ${WomModel.tblWom} '
+        'WHERE ${WomModel.tblWom}.${WomModel.dbLat} = 0 '
+        'AND ${WomModel.tblWom}.${WomModel.dbLong} = 0',
+      );
+      print(result);
+      if (result.isNotEmpty) {
+        return result.first['wom'] as int;
+      }
+      return 0;
+    } catch (e, stack) {
+      logger.e(e);
+      logger.e(stack);
+      return 0;
+    }
+  }
+
   //Fetch Wom from DB
   Future<int> getWomCount() async {
     logger.i('[WomDb] getWomCount');
     final db = await _appDatabase.getDb();
     try {
-      //SELECT COUNT(*) FROM t1;
       var result = await db.rawQuery('SELECT COUNT(*) as liveWoms '
           'FROM ${WomModel.tblWom} WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index};');
       print(result);
-      if(result.isNotEmpty ){
+      if (result.isNotEmpty) {
         return result.first['liveWoms'] as int;
       }
       throw Exception();
@@ -302,7 +334,6 @@ class WomDB {
       rethrow;
     }
   }
-
 
   Future deleteWom(int womID) async {
     var db = await _appDatabase.getDb();

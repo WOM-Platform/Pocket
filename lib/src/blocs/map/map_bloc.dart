@@ -28,7 +28,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       dbLongColumn: WomModel.dbLong,
       dbTable: WomModel.tblWom,
       whereClause:
-          'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%"',
+      'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} '
+          'AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%" '
+          'AND ${WomModel.tblWom}.${WomModel.dbLat} > 0 '
+          'AND ${WomModel.tblWom}.${WomModel.dbLong} > 0',
       updateMarkers: (markers) {
         add(UpdateMap(markers: markers));
       },
@@ -42,12 +45,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     final s = await _womRepository.getWomGroupedBySource();
     final a = await _womRepository.getWomGroupedByAim();
+    final womCountWithoutLocation = await _womRepository
+        .getWomCountWithoutLocation();
     sources.addAll(s.map((g) => g.type).toList());
     aims.addAll(a.map((g) => g.type).toList());
     aims.removeWhere((a) => a!.startsWith('0'));
     add(UpdateMap(
-      sources: s,
-      aims: a,
+        sources: s,
+        aims: a,
+        womCountWithoutLocation: womCountWithoutLocation
     ));
   }
 
@@ -59,22 +65,24 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   @override
-  Stream<MapState> mapEventToState(
-    MapEvent event,
-  ) async* {
+  Stream<MapState> mapEventToState(MapEvent event,) async* {
     if (event is UpdateMap) {
+      print(event);
       if (state is MapUpdated) {
         if (event.forceFilterUpdate == true) {
           filter();
         }
         yield (state as MapUpdated).copyWith(
-            event.markers, event.sliderValue, event.sources, event.aims);
+          event.markers, event.sliderValue, event.sources, event.aims,
+          event.womCountWithoutLocation,);
       } else {
+        print('quiiiiiiiii');
         yield MapUpdated(
           sliderValue: event.sliderValue ?? 0.0,
           markers: event.markers ?? {},
           sources: event.sources ?? [],
           aims: event.aims ?? [],
+          womCountWithoutLocation: event.womCountWithoutLocation  ?? 0,
         );
       }
     }
@@ -106,6 +114,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       womStatus: WomStatus.ON,
       sources: sources,
       aims: aims,
+      excludeWomWithouLocation: true
     ).build();
 
     logger.i("Clustering filter query:");

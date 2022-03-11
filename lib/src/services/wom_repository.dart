@@ -55,4 +55,12 @@ class WomRepository {
         "getWomCount: $womCount");
     return womCount;
   }
+
+  Future<int> getWomCountWithoutLocation() async{
+    logger.i("BY AIM: fetchGroupedWoms: loading woms");
+    final groupedWoms = await _womDb.getWomCountWithoutLocation();
+    logger.i(
+        "BY AIM: getWomCountWithoutLocation: reading complete woms : ${groupedWoms}");
+    return groupedWoms;
+  }
 }

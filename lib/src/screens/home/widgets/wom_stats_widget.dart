@@ -39,7 +39,7 @@ class WomStatsWidget extends ConsumerWidget {
           ),
           const SizedBox(width: 16),
           Text(
-            '${count ?? '-'} wom',
+            '$count wom',
             style: TextStyle(
               color: Colors.white,
               fontSize: 40.0,

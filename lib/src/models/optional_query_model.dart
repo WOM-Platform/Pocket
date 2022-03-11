@@ -12,6 +12,7 @@ class OptionalQuery {
   final SimpleFilter? filters;
   final int? amount;
   final bool enabledRandom;
+  final bool excludeWomWithouLocation;
 
   OptionalQuery({
     this.amount,
@@ -22,6 +23,7 @@ class OptionalQuery {
     this.filters,
     this.aims,
     this.enabledRandom = false,
+    this.excludeWomWithouLocation = false,
   });
 
   build() {
@@ -71,6 +73,11 @@ class OptionalQuery {
       final aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \"0%\"";
       whereClause =
           whereClause.isEmpty ? '$aimClause' : "$whereClause AND $aimClause";
+    }
+
+    if (excludeWomWithouLocation) {
+      whereClause = "$whereClause AND ${WomModel.tblWom}.${WomModel.dbLat} > 0 "
+          "AND ${WomModel.tblWom}.${WomModel.dbLong} > 0";
     }
 
     if (enabledRandom) {

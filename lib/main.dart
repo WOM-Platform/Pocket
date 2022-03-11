@@ -43,3 +43,4 @@ void main() async {
 // adb shell am start -a android.intent.action.VIEW -d https://link.wom.social/vouchers/aca81697-1e93-49d0-be20-5e3897d09296
 
 //fvm flutter build apk --flavor development -t lib/main_dev.dart
+//xcrun simctl openurl booted https://dev.wom.social/vouchers/5722523d-3257-493e-9107-d8954a1fcd91

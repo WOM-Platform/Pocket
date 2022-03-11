@@ -40,7 +40,7 @@ class MapScreen extends StatelessWidget {
       body: SlidingUpPanel(
         parallaxEnabled: true,
         parallaxOffset: 0.3,
-        maxHeight: Platform.isIOS ? 355.0 : 330,
+        maxHeight: Platform.isIOS ? 375.0 : 350,
         minHeight: Platform.isIOS ? 60.0 : 45.0,
         panel: MapPanel(),
         body: MapBody(),
@@ -128,6 +128,23 @@ class MapPanel extends StatelessWidget {
             style: style,
           ),
           AimsList(),
+          Divider(),
+          BlocBuilder<MapBloc, MapState>(
+            buildWhen: (MapState p, MapState c) {
+              return p.womCountWithoutLocation != c.womCountWithoutLocation;
+            },
+            builder: (BuildContext context, MapState state) {
+              logger.i("build wom withoud location: ${state.womCountWithoutLocation}");
+              if (state.womCountWithoutLocation == 0) {
+                return SizedBox.shrink();
+              }
+              return Text(
+                '${AppLocalizations.of(context)?.translate('wom_without_location') ?? ''} ${state.womCountWithoutLocation}',
+                textAlign: TextAlign.start,
+                style: style,);
+            },
+          )
+
         ],
       ),
     );

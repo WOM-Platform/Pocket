@@ -79,6 +79,18 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                       (d) => d.sourceName, columnIndex, ascending),
                 ),
                 DataColumn(
+                  label: Text(WomModel.dbLat),
+                  numeric: true,
+                  onSort: (latIndex, ascending) =>
+                      _sort<String>((d) => d.gLocation?.latitude.toString(), latIndex, ascending),
+                ),
+                DataColumn(
+                  label: Text(WomModel.dbLong),
+                  numeric: true,
+                  onSort: (longIndex, ascending) =>
+                      _sort<String>((d) => d.gLocation?.longitude.toString(), longIndex, ascending),
+                ),
+                DataColumn(
                   label: Text(WomModel.dbLive),
                   numeric: true,
                   onSort: (columnIndex, ascending) =>
@@ -152,6 +164,8 @@ class _WomsDataSources extends DataTableSource {
         DataCell(Text('${wom.aim}')),
         DataCell(Text(wom.sourceId.toString())),
         DataCell(Text(wom.sourceName!)),
+        DataCell(Text(wom.gLocation?.latitude.toString() ?? 'NULL')),
+        DataCell(Text(wom.gLocation?.longitude.toString() ?? 'NULL')),
         DataCell(Text(wom.live.toString().replaceAll('WomStatus.', ''))),
         DataCell(Text(wom.secret!)),
         DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.timestamp!)}')),
