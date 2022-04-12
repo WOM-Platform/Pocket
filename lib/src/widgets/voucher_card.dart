@@ -53,8 +53,7 @@ class TicketCard extends StatelessWidget {
   }
 
   _buildVoucherContent(BuildContext context) {
-    TextStyle voucherIdStyle =
-        new TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600);
+    final voucherIdStyle = TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600, color: backgroundColor);
 
     return Container(
       padding: const EdgeInsets.all(15.0),
@@ -72,11 +71,12 @@ class TicketCard extends StatelessWidget {
           Divider(),
           Text(
             '${transaction!.size} wom',
-            style: TextStyle(color: Colors.green, fontSize: 30.0),
+            style: TextStyle(color: Colors.green, fontSize: 30.0, fontWeight: FontWeight.bold),
           ),
           Divider(),
-          Text.rich(
-            TextSpan(children: <TextSpan>[
+          AutoSizeText.rich(
+            TextSpan(
+                children: <TextSpan>[
               TextSpan(
                 text: AppLocalizations.of(context)!.translate('from'),
                 style: TextStyle(color: backgroundColor, fontSize: 20.0),
@@ -89,6 +89,8 @@ class TicketCard extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ]),
+            maxLines: 1,
+            minFontSize: 8,
           ),
         ],
       ),
