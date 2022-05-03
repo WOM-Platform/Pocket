@@ -23,7 +23,7 @@ class MapScreen extends StatelessWidget {
 //    );
 
     return Scaffold(
-      appBar: AppBar(
+      /*  appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.translate('map_title'),
           style: TextStyle(
@@ -36,14 +36,32 @@ class MapScreen extends StatelessWidget {
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
-      ),
-      body: SlidingUpPanel(
-        parallaxEnabled: true,
-        parallaxOffset: 0.3,
-        maxHeight: Platform.isIOS ? 375.0 : 350,
-        minHeight: Platform.isIOS ? 60.0 : 45.0,
-        panel: MapPanel(),
-        body: MapBody(),
+      ),*/
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SlidingUpPanel(
+              parallaxEnabled: true,
+              parallaxOffset: 0.3,
+              maxHeight: Platform.isIOS ? 375.0 : 350,
+              minHeight: Platform.isIOS ? 60.0 : 45.0,
+              panel: MapPanel(),
+              body: MapBody(),
+            ),
+            Positioned(
+              left: 16,
+              top: 16,
+              child: IconButton(
+                  icon: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.arrow_back,
+                          color: Theme.of(context).primaryColor)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -68,6 +86,8 @@ class MapBody extends StatelessWidget {
         builder: (BuildContext context, MapState state) {
           return GoogleMap(
             initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
+            zoomControlsEnabled: false,
+            // myLocationButtonEnabled: true,
             onMapCreated: (mapController) => bloc.onMapCreated(mapController),
             onCameraIdle: bloc.clusteringHelper.onMapIdle,
             onCameraMove: bloc.clusteringHelper.onCameraMove,
@@ -134,17 +154,18 @@ class MapPanel extends StatelessWidget {
               return p.womCountWithoutLocation != c.womCountWithoutLocation;
             },
             builder: (BuildContext context, MapState state) {
-              logger.i("build wom withoud location: ${state.womCountWithoutLocation}");
+              logger.i(
+                  "build wom withoud location: ${state.womCountWithoutLocation}");
               if (state.womCountWithoutLocation == 0) {
                 return SizedBox.shrink();
               }
               return Text(
                 '${AppLocalizations.of(context)?.translate('wom_without_location') ?? ''} ${state.womCountWithoutLocation}',
                 textAlign: TextAlign.start,
-                style: style,);
+                style: style,
+              );
             },
           )
-
         ],
       ),
     );
