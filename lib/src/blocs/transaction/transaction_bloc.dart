@@ -1,6 +1,11 @@
+import 'dart:async' show TimeoutException;
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:dart_wom_connector/dart_wom_connector.dart' hide Location;
+import 'package:dart_wom_connector/dart_wom_connector.dart'
+    hide Location, Position;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:wom_pocket/src/blocs/transaction/transaction_event.dart';
 import 'package:wom_pocket/src/blocs/transaction/transaction_state.dart';
@@ -8,13 +13,17 @@ import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
 
 import '../../my_logger.dart';
+import '../../utils/my_extensions.dart';
 
+class PocketException implements Exception {}
 
-class PocketException implements Exception{}
-class LocationServiceException extends PocketException{}
-class ServiceGPSDisabled extends LocationServiceException{}
-class LocationPermissionDenied extends LocationServiceException{}
-class LocationPermissionDeniedForever extends LocationServiceException{}
+class LocationServiceException extends PocketException {}
+
+class ServiceGPSDisabled extends LocationServiceException {}
+
+class LocationPermissionDenied extends LocationServiceException {}
+
+class LocationPermissionDeniedForever extends LocationServiceException {}
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final TransactionRepository _repository;
@@ -59,7 +68,12 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    final position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.low,
+      timeLimit: Duration(seconds: 7),
+    );
+
+    return position;
   }
 
   @override
@@ -67,17 +81,12 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     if (event is TransactionStarted) {
       yield TransactionLoadingState();
       if (await InternetConnectionChecker().hasConnection) {
-        try {
+        yield* handleEvent(() async* {
           TransactionModel transaction;
           if (type == TransactionType.VOUCHERS) {
             logger.i("bloc: " + otc);
 
             final location = await getLocation2();
-            /*print(location);
-            if (location == null) {
-              yield TransactionMissingLocationState(event);
-              return;
-            }*/
             transaction = await _repository.getWoms(
               otc,
               event.password!,
@@ -85,49 +94,55 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
               long: location.longitude,
             );
             logger.i("transaction saved");
+            logEvent('wom_redeemed');
             yield TransactionCompleteState(transaction);
           } else {
             final infoPayment =
                 await _repository.requestPayment(otc, event.password);
             logger.i(infoPayment);
+            logEvent('wom_info_payment_retrieved');
             yield TransactionInfoPaymentState(infoPayment, event.password);
           }
-        } on LocationServiceException catch(ex){
-          yield TransactionMissingLocationState(event, ex);
-        } on InsufficientVouchers catch (ex) {
-          yield TransactionErrorState(
-              'Non hai voucher a sufficienza per questa richiesta');
-        } on ServerException catch (ex) {
-          yield TransactionErrorState(ex.error ?? 'Errore sconosciuto');
-        } on TimeoutException catch (ex) {
-          yield TransactionErrorState('La richiesta ha impiegato troppo tempo');
-        } catch (ex) {
-          yield TransactionErrorState(ex.toString());
-        }
+        });
       } else {
         yield TransactionNoDataConnectionState();
       }
     } else if (event is TransactionConfirmPayment) {
       yield TransactionLoadingState();
       if (await InternetConnectionChecker().hasConnection) {
-        try {
+        yield* handleEvent(() async* {
           final transaction =
               await _repository.pay(otc, event.password, event.infoPay!);
+          logEvent('wom_payment_done');
           yield TransactionCompleteState(transaction);
-        } on InsufficientVouchers catch (ex) {
-          yield TransactionErrorState(
-              'Non hai voucher a sufficienza per questa richiesta');
-        } on ServerException catch (ex) {
-          yield TransactionErrorState(ex.error ?? 'Errore sconosciuto');
-        } on TimeoutException catch (ex) {
-          yield TransactionErrorState('La richiesta ha impiegato troppo tempo');
-        } catch (ex) {
-          logger.i(ex.toString());
-          yield TransactionErrorState(ex.toString());
-        }
+        });
       } else {
         yield TransactionNoDataConnectionState(infoPay: event.infoPay);
       }
+    }
+  }
+
+  handleEvent(Stream Function() operation) async* {
+    try {
+      yield operation();
+    } on InsufficientVouchers catch (ex) {
+      yield TransactionErrorState(
+          error: 'Non hai voucher a sufficienza per questa richiesta',
+          translationKey: 'wrong_number_of_vouchers');
+    } on ServerException catch (ex) {
+      FirebaseCrashlytics.instance.recordError(ex, null, reason: ex.error);
+      yield TransactionErrorState(
+          error: ex.error, translationKey: ex.translationKey);
+    } on TimeoutException catch (ex, stack) {
+      FirebaseCrashlytics.instance.recordError(ex, stack);
+      yield TransactionErrorState(
+          error: 'La richiesta ha impiegato troppo tempo',
+          translationKey: 'request_timeout_exception');
+    } catch (ex, stack) {
+      logger.i(ex.toString());
+      FirebaseCrashlytics.instance.recordError(ex, stack);
+      yield TransactionErrorState(
+          error: ex.toString(), translationKey: 'unknown-error');
     }
   }
 }

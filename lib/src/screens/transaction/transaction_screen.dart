@@ -138,8 +138,10 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       CircleButton(
-                          text:
-                              AppLocalizations.of(context)!.translate('error'),
+                          text: state.translationKey != null
+                              ? AppLocalizations.of(context)
+                                  ?.translate(state.translationKey!)
+                              : state.error,
                           color: Colors.red),
                       SizedBox(height: 15.0),
                       Text(
@@ -166,13 +168,16 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                         SizedBox(height: 40.0),
                         Text(
                           AppLocalizations.of(context)!
-                              .translate('missing_location_error'),textAlign: TextAlign.center,
+                              .translate('missing_location_error'),
+                          textAlign: TextAlign.center,
                           style: whiteTextStyle.copyWith(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 24.0),
                         Text(
-                          'La posizione rilevata viene assegnata ai WOM che ne sono sprovvisti.',textAlign: TextAlign.center,
+                          AppLocalizations.of(context)!
+                              .translate('missing_location_error_desc'),
+                          textAlign: TextAlign.center,
                           style: whiteTextStyle,
                         ),
                         SizedBox(height: 24.0),
@@ -227,8 +232,8 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                     child: Text(
                                   state.transaction.transactionType ==
                                           TransactionType.VOUCHERS
-                                      ? 'You got:'
-                                      : 'Payment Completed',
+                                      ? '${AppLocalizations.of(context)!.translate('you_got')}:'
+                                      : AppLocalizations.of(context)!.translate('payment_completed'),
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20.0),
                                 )),

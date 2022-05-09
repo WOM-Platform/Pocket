@@ -50,6 +50,7 @@ class AppDatabase {
 
   Future _init() async {
     logger.i("AppDatabase: init database");
+    // analytics.
     // Get a location using path_provider
     final path = await getPath();
     _database = await openDatabase(path, version: 3,
