@@ -116,18 +116,21 @@ class CarouselItem extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
+                       const SizedBox(height: 8),
                       if (store.url != null)
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: TextButton(
-                            onPressed: () {
-                              Utils.launchUrl(store.url!);
-                            },
-                            child: Text(
-                              store.url!,
-                              textAlign: TextAlign.start,
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Utils.launchUrl(store.url!);
+                              },
+                              child: Text(
+                                store.url!,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(decoration: TextDecoration.underline),
+                              ),
                             ),
-                          ),
+                          ],
                         )
                     ],
                   ),

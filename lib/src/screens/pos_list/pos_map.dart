@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -110,12 +111,14 @@ class PosMapNotifier extends StateNotifier<AsyncValue<PosMapData>> {
     return s;
   }
 
+  Future<BitmapDescriptor> _getPosPin() async {
+    final image = await rootBundle.load('assets/images/wom_pos_pin.png');
+    return await BitmapDescriptor.fromBytes(image.buffer.asUint8List());
+  }
+  BitmapDescriptor? _standardPin;
+
   Future<Marker> buildMarker(POSMap point, int index) async {
-    // _standardPin ??= await getCustomPinWithBorder(
-    //   iconHeight,
-    //   Colors.white,
-    //   NewPalette.chivadoColor,
-    // );
+    _standardPin ??= await _getPosPin();
     // _selectedPin ??= await getCustomPinWithBorder(
     //   iconHeight,
     //   NewPalette.chivadoColor,
@@ -136,6 +139,7 @@ class PosMapNotifier extends StateNotifier<AsyncValue<PosMapData>> {
       // },
       zIndex: index == 0 ? 1 : 0,
       infoWindow: InfoWindow(title: point.name),
+      icon: _standardPin!,
       // icon: (markerId == selectedMarkerId ? _selectedPin : _standardPin) ??
       //     BitmapDescriptor.defaultMarker,
     );
