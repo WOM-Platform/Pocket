@@ -115,6 +115,7 @@ class PosMapNotifier extends StateNotifier<AsyncValue<PosMapData>> {
     final image = await rootBundle.load('assets/images/wom_pos_pin.png');
     return await BitmapDescriptor.fromBytes(image.buffer.asUint8List());
   }
+
   BitmapDescriptor? _standardPin;
 
   Future<Marker> buildMarker(POSMap point, int index) async {
@@ -162,6 +163,34 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
   final minZoom = 11.0;
   final initialZoom = 11.0;
 
+  @override
+  void initState() {
+    super.initState();
+    Geolocator.requestPermission().then(
+      (permission) {
+        print('map pos: $permission');
+        if (permission == LocationPermission.whileInUse ||
+            permission == LocationPermission.always) {
+          Geolocator.getCurrentPosition().then((position) {
+            print('map pos: $position');
+            _controller.future.then((controller) {
+              print('map pos: controller retrieved');
+              controller.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(
+                    bearing: 0,
+                    target: LatLng(position.latitude, position.longitude),
+                    zoom: 11.0,
+                  ),
+                ),
+              );
+            });
+          });
+        }
+      },
+    );
+  }
+
   Future<void> onSearchPressed() async {
     final bounds = await (await _controller.future).getVisibleRegion();
 
@@ -197,7 +226,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                         myLocationButtonEnabled: true,
                         zoomControlsEnabled: false,
                         mapToolbarEnabled: false,
-                        onCameraIdle: () {},
+                        // onCameraIdle: () {},
                         onCameraMove: (cameraPosition) async {
                           // ref.read(serviceFiltersShowProvider.notifier).state = false;
                           if ((cameraPosition.zoom * 10).round() / 10 <
