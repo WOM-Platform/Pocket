@@ -28,7 +28,7 @@ class TransactionCompleteState extends TransactionState {
 
 class TransactionInfoPaymentState extends TransactionState {
   final InfoPayResponse infoPayment;
-  final String? password;
+  final String password;
 
   TransactionInfoPaymentState(this.infoPayment, this.password);
 
@@ -49,9 +49,9 @@ class TransactionLoadingState extends TransactionState {
 
 class TransactionMissingLocationState extends TransactionState {
   final TransactionEvent eventToRepeat;
-  final LocationServiceException exception;
+  // final LocationServiceException exception;
 
-  TransactionMissingLocationState(this.eventToRepeat, this.exception);
+  TransactionMissingLocationState(this.eventToRepeat);
 
   @override
   String toString() => 'TransactionMissingLocationState';
@@ -76,9 +76,9 @@ class TransactionErrorState extends TransactionState {
 
 class TransactionNoDataConnectionState extends TransactionState {
   final InfoPayResponse? infoPay;
-  final String? password;
+  final String password;
 
-  TransactionNoDataConnectionState({this.infoPay, this.password});
+  TransactionNoDataConnectionState({this.infoPay, required this.password});
 
   @override
   String toString() => 'TransactionNoDataConnectionState';

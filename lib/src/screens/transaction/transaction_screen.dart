@@ -81,50 +81,19 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                   child: CircularProgressIndicator(),
                 );
               } else if (state is TransactionNoDataConnectionState) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.warning,
-                        size: MediaQuery.of(context).size.width / 3,
-                        color: Colors.orange,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!
-                            .translate('no_connection_title'),
-                        textAlign: TextAlign.center,
-                        style: whiteTextStyle.copyWith(
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!
-                            .translate('no_connection_transaction_desc'),
-                        textAlign: TextAlign.center,
-                        style: whiteTextStyle,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      FloatingActionButton.extended(
-                        onPressed: () {
-                          if (state.infoPay == null) {
-                            bloc.add(TransactionStarted(state.password));
-                          } else {
-                            bloc.add(TransactionConfirmPayment(
-                                state.infoPay, state.password));
-                          }
-                        },
-                        label: Text(
-                          AppLocalizations.of(context)!.translate('try_again'),
-                        ),
-                      ),
-                    ],
-                  ),
+                return TransactionWarningWidget(
+                  title: AppLocalizations.of(context)!
+                      .translate('no_connection_title'),
+                  desc: AppLocalizations.of(context)!
+                      .translate('no_connection_transaction_desc'),
+                  tryAgain: () {
+                    if (state.infoPay == null) {
+                      bloc.add(TransactionStarted(state.password));
+                    } else {
+                      bloc.add(TransactionConfirmPayment(
+                          state.infoPay!, state.password));
+                    }
+                  },
                 );
               } else if (state is TransactionInfoPaymentState) {
                 return Center(
@@ -133,65 +102,22 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                   password: state.password,
                 ));
               } else if (state is TransactionErrorState) {
-                return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      CircleButton(
-                          text: state.translationKey != null
-                              ? AppLocalizations.of(context)
-                                  ?.translate(state.translationKey!)
-                              : state.error,
-                          color: Colors.red),
-                      SizedBox(height: 15.0),
-                      Text(
-                        state.error,
-                        style: whiteTextStyle,
-                      ),
-                      SizedBox(height: 15.0),
-                      FloatingActionButton.extended(
-                          onPressed: () {
-                            backToHome();
-                          },
-                          label: Text("Ok")),
-                    ],
-                  ),
+                return TransactionErrorWidget(
+                  error: state.translationKey != null
+                      ? AppLocalizations.of(context)!
+                          .translate(state.translationKey!)
+                      : state.error,
+                  backToHome: ()=>backToHome(),
                 );
               } else if (state is TransactionMissingLocationState) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Icon(Icons.warning, color: Colors.orange, size: 120),
-                        SizedBox(height: 40.0),
-                        Text(
-                          AppLocalizations.of(context)!
-                              .translate('missing_location_error'),
-                          textAlign: TextAlign.center,
-                          style: whiteTextStyle.copyWith(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 24.0),
-                        Text(
-                          AppLocalizations.of(context)!
-                              .translate('missing_location_error_desc'),
-                          textAlign: TextAlign.center,
-                          style: whiteTextStyle,
-                        ),
-                        SizedBox(height: 24.0),
-                        FloatingActionButton.extended(
-                            onPressed: () {
-                              bloc.add(state.eventToRepeat);
-                            },
-                            label: Text(
-                              AppLocalizations.of(context)!
-                                  .translate('try_again'),
-                            )),
-                      ],
-                    ),
-                  ),
+                return TransactionWarningWidget(
+                  title: AppLocalizations.of(context)!
+                      .translate('missing_location_error'),
+                  desc: AppLocalizations.of(context)!
+                      .translate('missing_location_error_desc'),
+                  tryAgain: () {
+                    bloc.add(state.eventToRepeat);
+                  },
                 );
               } else if (state is TransactionCompleteState) {
                 _controller.forward();
@@ -233,7 +159,8 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                   state.transaction.transactionType ==
                                           TransactionType.VOUCHERS
                                       ? '${AppLocalizations.of(context)!.translate('you_got')}:'
-                                      : AppLocalizations.of(context)!.translate('payment_completed'),
+                                      : AppLocalizations.of(context)!
+                                          .translate('payment_completed'),
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20.0),
                                 )),
@@ -322,6 +249,93 @@ class CircleButton extends StatelessWidget {
         ),
       ),
       onTap: onTap,
+    );
+  }
+}
+
+class TransactionErrorWidget extends StatelessWidget {
+  final String error;
+  final Function()? backToHome;
+
+  const TransactionErrorWidget({Key? key, required this.error, this.backToHome})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              Icons.error,
+              size: MediaQuery.of(context).size.width / 3,
+              color: Colors.red,
+            ),
+            SizedBox(height: 16.0),
+            Text(
+              error,
+              style: TextStyle(fontSize: 22, color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 32.0),
+            FloatingActionButton.extended(
+                onPressed: () {
+                  backToHome?.call();
+                },
+                label: Text("Ok")),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TransactionWarningWidget extends StatelessWidget {
+  final Function()? tryAgain;
+  final String title;
+  final String desc;
+
+  const TransactionWarningWidget(
+      {Key? key, this.tryAgain, required this.title, required this.desc})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(Icons.warning, color: Colors.orange, size: 120),
+            SizedBox(height: 40.0),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 24.0),
+            Text(
+              desc,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            SizedBox(height: 24.0),
+            FloatingActionButton.extended(
+                onPressed: () {
+                  tryAgain?.call();
+                },
+                label: Text(
+                  AppLocalizations.of(context)!.translate('try_again'),
+                )),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -81,7 +81,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     if (event is TransactionStarted) {
       yield TransactionLoadingState();
       if (await InternetConnectionChecker().hasConnection) {
-        yield* handleEvent(() async* {
+        yield* handleEvent(event, () async {
           TransactionModel transaction;
           if (type == TransactionType.VOUCHERS) {
             logger.i("bloc: " + otc);
@@ -89,42 +89,44 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
             final location = await getLocation2();
             transaction = await _repository.getWoms(
               otc,
-              event.password!,
+              event.password,
               lat: location.latitude,
               long: location.longitude,
             );
             logger.i("transaction saved");
             logEvent('wom_redeemed');
-            yield TransactionCompleteState(transaction);
+            return TransactionCompleteState(transaction);
           } else {
             final infoPayment =
                 await _repository.requestPayment(otc, event.password);
             logger.i(infoPayment);
             logEvent('wom_info_payment_retrieved');
-            yield TransactionInfoPaymentState(infoPayment, event.password);
+            return TransactionInfoPaymentState(infoPayment, event.password);
           }
         });
       } else {
-        yield TransactionNoDataConnectionState();
+        yield TransactionNoDataConnectionState(password: event.password);
       }
     } else if (event is TransactionConfirmPayment) {
       yield TransactionLoadingState();
       if (await InternetConnectionChecker().hasConnection) {
-        yield* handleEvent(() async* {
+        yield* handleEvent(event, () async {
           final transaction =
-              await _repository.pay(otc, event.password, event.infoPay!);
+              await _repository.pay(otc, event.password, event.infoPay);
           logEvent('wom_payment_done');
-          yield TransactionCompleteState(transaction);
+          return TransactionCompleteState(transaction);
         });
       } else {
-        yield TransactionNoDataConnectionState(infoPay: event.infoPay);
+        yield TransactionNoDataConnectionState(
+            infoPay: event.infoPay, password: event.password);
       }
     }
   }
 
-  handleEvent(Stream Function() operation) async* {
+  Stream<TransactionState> handleEvent(TransactionEvent event,
+      Future<TransactionState> Function() operation) async* {
     try {
-      yield operation();
+      yield await operation();
     } on InsufficientVouchers catch (ex) {
       yield TransactionErrorState(
           error: 'Non hai voucher a sufficienza per questa richiesta',
@@ -138,11 +140,15 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       yield TransactionErrorState(
           error: 'La richiesta ha impiegato troppo tempo',
           translationKey: 'request_timeout_exception');
+    } on LocationServiceException {
+      yield TransactionMissingLocationState(event);
+    } on LocationServiceDisabledException {
+      yield TransactionMissingLocationState(event);
     } catch (ex, stack) {
       logger.i(ex.toString());
       FirebaseCrashlytics.instance.recordError(ex, stack);
       yield TransactionErrorState(
-          error: ex.toString(), translationKey: 'unknown-error');
+          error: ex.toString(), translationKey: 'unknown_error');
     }
   }
 }

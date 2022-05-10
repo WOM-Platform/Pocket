@@ -27,7 +27,7 @@ extension ServerExceptionX on ServerException{
   }
 }
 
-const typeBase = 'https://wom.social/api/problems';
+const typeBase = 'https://wom.social/api/problems/';
 const serverExceptionError = [
   'wrong-parameter',
   'request-void',
