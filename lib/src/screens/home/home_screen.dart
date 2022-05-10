@@ -331,11 +331,13 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 //                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
 //            final String link = await bloc.scanQRCode();
     if (await InternetConnectionChecker().hasConnection) {
+      logEvent('wom_scan_opened');
       try {
         final link = await Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => ScanScreen()));
-        final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
+        final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
+        logEvent('wom_scan_done');
 //            var blocProviderPin = myBlocProvider.BlocProvider(
 //              bloc: PinBloc(),
 //              child: PinScreen(

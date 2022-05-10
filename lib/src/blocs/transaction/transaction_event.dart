@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 abstract class TransactionEvent extends Equatable {}
 
 class TransactionStarted extends TransactionEvent {
-  final String? password;
+  final String password;
 
   TransactionStarted(this.password);
 
@@ -16,8 +16,8 @@ class TransactionStarted extends TransactionEvent {
 }
 
 class TransactionConfirmPayment extends TransactionEvent {
-  final InfoPayResponse? infoPay;
-  final String? password;
+  final InfoPayResponse infoPay;
+  final String password;
 
   TransactionConfirmPayment(this.infoPay, this.password);
 

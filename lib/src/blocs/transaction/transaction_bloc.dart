@@ -1,6 +1,11 @@
+import 'dart:async' show TimeoutException;
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:dart_wom_connector/dart_wom_connector.dart' hide Location;
+import 'package:dart_wom_connector/dart_wom_connector.dart'
+    hide Location, Position;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:wom_pocket/src/blocs/transaction/transaction_event.dart';
 import 'package:wom_pocket/src/blocs/transaction/transaction_state.dart';
@@ -8,13 +13,17 @@ import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
 
 import '../../my_logger.dart';
+import '../../utils/my_extensions.dart';
 
+class PocketException implements Exception {}
 
-class PocketException implements Exception{}
-class LocationServiceException extends PocketException{}
-class ServiceGPSDisabled extends LocationServiceException{}
-class LocationPermissionDenied extends LocationServiceException{}
-class LocationPermissionDeniedForever extends LocationServiceException{}
+class LocationServiceException extends PocketException {}
+
+class ServiceGPSDisabled extends LocationServiceException {}
+
+class LocationPermissionDenied extends LocationServiceException {}
+
+class LocationPermissionDeniedForever extends LocationServiceException {}
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final TransactionRepository _repository;
@@ -59,7 +68,12 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    final position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.low,
+      timeLimit: Duration(seconds: 7),
+    );
+
+    return position;
   }
 
   @override
@@ -67,67 +81,74 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     if (event is TransactionStarted) {
       yield TransactionLoadingState();
       if (await InternetConnectionChecker().hasConnection) {
-        try {
+        yield* handleEvent(event, () async {
           TransactionModel transaction;
           if (type == TransactionType.VOUCHERS) {
             logger.i("bloc: " + otc);
 
             final location = await getLocation2();
-            /*print(location);
-            if (location == null) {
-              yield TransactionMissingLocationState(event);
-              return;
-            }*/
             transaction = await _repository.getWoms(
               otc,
-              event.password!,
+              event.password,
               lat: location.latitude,
               long: location.longitude,
             );
             logger.i("transaction saved");
-            yield TransactionCompleteState(transaction);
+            logEvent('wom_redeemed');
+            return TransactionCompleteState(transaction);
           } else {
             final infoPayment =
                 await _repository.requestPayment(otc, event.password);
             logger.i(infoPayment);
-            yield TransactionInfoPaymentState(infoPayment, event.password);
+            logEvent('wom_info_payment_retrieved');
+            return TransactionInfoPaymentState(infoPayment, event.password);
           }
-        } on LocationServiceException catch(ex){
-          yield TransactionMissingLocationState(event, ex);
-        } on InsufficientVouchers catch (ex) {
-          yield TransactionErrorState(
-              'Non hai voucher a sufficienza per questa richiesta');
-        } on ServerException catch (ex) {
-          yield TransactionErrorState(ex.error ?? 'Errore sconosciuto');
-        } on TimeoutException catch (ex) {
-          yield TransactionErrorState('La richiesta ha impiegato troppo tempo');
-        } catch (ex) {
-          yield TransactionErrorState(ex.toString());
-        }
+        });
       } else {
-        yield TransactionNoDataConnectionState();
+        yield TransactionNoDataConnectionState(password: event.password);
       }
     } else if (event is TransactionConfirmPayment) {
       yield TransactionLoadingState();
       if (await InternetConnectionChecker().hasConnection) {
-        try {
+        yield* handleEvent(event, () async {
           final transaction =
-              await _repository.pay(otc, event.password, event.infoPay!);
-          yield TransactionCompleteState(transaction);
-        } on InsufficientVouchers catch (ex) {
-          yield TransactionErrorState(
-              'Non hai voucher a sufficienza per questa richiesta');
-        } on ServerException catch (ex) {
-          yield TransactionErrorState(ex.error ?? 'Errore sconosciuto');
-        } on TimeoutException catch (ex) {
-          yield TransactionErrorState('La richiesta ha impiegato troppo tempo');
-        } catch (ex) {
-          logger.i(ex.toString());
-          yield TransactionErrorState(ex.toString());
-        }
+              await _repository.pay(otc, event.password, event.infoPay);
+          logEvent('wom_payment_done');
+          return TransactionCompleteState(transaction);
+        });
       } else {
-        yield TransactionNoDataConnectionState(infoPay: event.infoPay);
+        yield TransactionNoDataConnectionState(
+            infoPay: event.infoPay, password: event.password);
       }
+    }
+  }
+
+  Stream<TransactionState> handleEvent(TransactionEvent event,
+      Future<TransactionState> Function() operation) async* {
+    try {
+      yield await operation();
+    } on InsufficientVouchers catch (ex) {
+      yield TransactionErrorState(
+          error: 'Non hai voucher a sufficienza per questa richiesta',
+          translationKey: 'wrong_number_of_vouchers');
+    } on ServerException catch (ex) {
+      FirebaseCrashlytics.instance.recordError(ex, null, reason: ex.error);
+      yield TransactionErrorState(
+          error: ex.error, translationKey: ex.translationKey);
+    } on TimeoutException catch (ex, stack) {
+      FirebaseCrashlytics.instance.recordError(ex, stack);
+      yield TransactionErrorState(
+          error: 'La richiesta ha impiegato troppo tempo',
+          translationKey: 'request_timeout_exception');
+    } on LocationServiceException {
+      yield TransactionMissingLocationState(event);
+    } on LocationServiceDisabledException {
+      yield TransactionMissingLocationState(event);
+    } catch (ex, stack) {
+      logger.i(ex.toString());
+      FirebaseCrashlytics.instance.recordError(ex, stack);
+      yield TransactionErrorState(
+          error: ex.toString(), translationKey: 'unknown_error');
     }
   }
 }
