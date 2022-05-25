@@ -53,7 +53,7 @@ class MigrationExportScreen extends ConsumerWidget {
             const SizedBox(height: 32),
             Center(
               child: Text(
-                'Scasione il QrCode con il nuovo Pocket',
+                'Scansione il QrCode con il nuovo Pocket',
                 style: TextStyle(fontSize: 20, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
