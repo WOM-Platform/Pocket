@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/db/app_db.dart';
@@ -37,7 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         backgroundColor: Theme.of(context).primaryColor,
-        brightness: Brightness.dark,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: IconThemeData(
           color: Colors.white,
         ),

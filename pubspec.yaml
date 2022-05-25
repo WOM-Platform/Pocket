@@ -8,7 +8,7 @@ publish_to: none
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.3.7+29
+version: 0.4.3+33
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -45,7 +45,7 @@ dependencies:
   dart_geohash: ^2.0.1
   http: ^0.13.4
   intro_views_flutter: ^3.2.0
-  webview_flutter: ^2.0.10
+  webview_flutter: ^3.0.4
   flutter_lock_screen: ^2.0.1
   clustering_google_maps: ^0.1.2-nullsafety.3
   google_maps_cluster_manager: ^1.0.0
@@ -101,6 +101,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/urbino.jpeg
     - assets/images/wom_pos_pin.png
     - assets/images/logo.png
     - assets/images/banking.png

@@ -70,7 +70,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     // continue accessing the position of the device.
     final position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.low,
-      timeLimit: Duration(seconds: 7),
+      timeLimit: Duration(seconds: 15),
     );
 
     return position;

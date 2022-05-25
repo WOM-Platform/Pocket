@@ -13,49 +13,57 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../my_logger.dart';
 
+final maxHeight = Platform.isIOS ? 375.0 : 350.0;
+final minHeight = Platform.isIOS ? 80.0 : 45.0;
+
 class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-//    SystemChrome.setSystemUIOverlayStyle(
-//      SystemUiOverlayStyle(
-//        statusBarIconBrightness: Brightness.dark,
-//      ),
-//    );
-
-    return Scaffold(
-      /*  appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context)!.translate('map_title'),
-          style: TextStyle(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark,
+      child: Scaffold(
+        /*  appBar: AppBar(
+          title: Text(
+            AppLocalizations.of(context)!.translate('map_title'),
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: Theme.of(context).primaryColor,
+          brightness: Brightness.dark,
+          iconTheme: IconThemeData(
             color: Colors.white,
           ),
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-        brightness: Brightness.dark,
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-      ),*/
-      body: SafeArea(
-        child: Stack(
+        ),*/
+        body: Stack(
           children: [
             SlidingUpPanel(
               parallaxEnabled: true,
               parallaxOffset: 0.3,
-              maxHeight: Platform.isIOS ? 375.0 : 350,
-              minHeight: Platform.isIOS ? 60.0 : 45.0,
+              maxHeight: maxHeight,
+              minHeight: minHeight,
               panel: MapPanel(),
               body: MapBody(),
             ),
             Positioned(
               left: 16,
-              top: 16,
+              top: 8 + MediaQuery.of(context).padding.top,
               child: IconButton(
-                  icon: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.arrow_back,
-                          color: Theme.of(context).primaryColor)),
+                  icon: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 2, color: Colors.grey, spreadRadius: 1)
+                      ],
+                    ),
+                    child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.arrow_back,
+                            color: Theme.of(context).primaryColor)),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   }),
@@ -68,18 +76,22 @@ class MapScreen extends StatelessWidget {
 }
 
 class MapBody extends StatelessWidget {
+  double lastZoom = 0.0;
+
   @override
   Widget build(BuildContext context) {
     final MapBloc bloc = BlocProvider.of<MapBloc>(context);
     return Container(
+      padding: EdgeInsets.only(bottom: minHeight),
       key: new PageStorageKey('map'),
       child: BlocBuilder<MapBloc, MapState>(
         buildWhen: (MapState p, MapState c) {
-          if (p.markers!.isEmpty && c.markers!.isNotEmpty) {
+          if (p.markers.isEmpty && c.markers.isNotEmpty) {
             logger.i("move camera");
-            bloc.clusteringHelper.mapController.animateCamera(
-                CameraUpdate.newCameraPosition(
-                    CameraPosition(target: c.markers!.first.position)));
+            bloc.clusteringHelper.mapController
+                .animateCamera(CameraUpdate.newCameraPosition(
+              CameraPosition(target: c.markers.first.position, zoom: lastZoom),
+            ));
           }
           return true;
         },
@@ -87,11 +99,16 @@ class MapBody extends StatelessWidget {
           return GoogleMap(
             initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
             zoomControlsEnabled: false,
-            // myLocationButtonEnabled: true,
+            minMaxZoomPreference: MinMaxZoomPreference(0.0, 16.0),
+            myLocationButtonEnabled: true,
+            myLocationEnabled: true,
             onMapCreated: (mapController) => bloc.onMapCreated(mapController),
             onCameraIdle: bloc.clusteringHelper.onMapIdle,
-            onCameraMove: bloc.clusteringHelper.onCameraMove,
-            markers: state.markers!,
+            onCameraMove: (cameraPosition) {
+              bloc.clusteringHelper.onCameraMove(cameraPosition);
+              lastZoom = cameraPosition.zoom;
+            },
+            markers: state.markers,
           );
         },
       ),
@@ -126,7 +143,7 @@ class MapPanel extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: Platform.isIOS ? 40.0 : 25.0,
+            height: Platform.isIOS ? 60.0 : 25.0,
           ),
           Text(
             AppLocalizations.of(context)!.translate('filter_by_time'),

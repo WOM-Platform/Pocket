@@ -6,7 +6,7 @@ import 'package:wom_pocket/src/models/source_group_wom.dart';
 @immutable
 abstract class MapState extends Equatable {
   final double? sliderValue;
-  final Set<Marker>? markers;
+  final Set<Marker> markers;
   final List<WomGroupBy> sources;
   final List<WomGroupBy> aims;
   final int womCountWithoutLocation;
@@ -31,7 +31,7 @@ class InitialMapState extends MapState {
 
 class MapUpdated extends MapState {
   MapUpdated(
-      {Set<Marker>? markers,
+      {Set<Marker> markers = const {},
       double? sliderValue,
       List<WomGroupBy> sources = const [],
       List<WomGroupBy> aims = const [],

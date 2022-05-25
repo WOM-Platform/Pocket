@@ -78,5 +78,6 @@
   "wrong_password": "Wrong PIN code",
   "wrong_number_of_vouchers": "Insufficient WOM vouchers supplied in payment",
   "insufficient_valid_vouchers": "Some of your WOM vouchers are not valid for this payment",
-  "unknown_error": "Unexpected error"
+  "unknown_error": "Unexpected error",
+  "search_here": "Search here"
 }

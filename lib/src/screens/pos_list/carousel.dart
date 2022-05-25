@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_list_screen.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
+import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 
 import 'search_button.dart';
@@ -116,18 +117,22 @@ class CarouselItem extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                       const SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       if (store.url != null)
                         Row(
                           children: [
                             InkWell(
                               onTap: () {
-                                Utils.launchUrl(store.url!);
+                                // Utils.launchUrl(store.url!);
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (_) =>
+                                        SuggestionScreen(url: store.url!)));
                               },
                               child: Text(
                                 store.url!,
                                 textAlign: TextAlign.start,
-                                style: TextStyle(decoration: TextDecoration.underline),
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline),
                               ),
                             ),
                           ],

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/services/wom_repository.dart';
@@ -22,13 +23,13 @@ class WomStatsWidget extends ConsumerWidget {
     }
     return Container(
       height: 50,
-      margin: const EdgeInsets.symmetric(horizontal: 16.0,),
+      margin: const EdgeInsets.fromLTRB(16.0,0,16,0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.ideographic,
-        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Spacer(),
+          // Spacer(),
           Text(
             'Saldo:',
             style: TextStyle(
@@ -38,12 +39,16 @@ class WomStatsWidget extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: 16),
-          Text(
-            '$count wom',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 40.0,
-              fontWeight: FontWeight.bold,
+          Flexible(
+            child: AutoSizeText(
+              // '10000000000000 wom',
+              '$count wom',
+              maxLines: 1,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 40.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           /*Expanded(

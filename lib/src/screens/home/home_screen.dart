@@ -46,11 +46,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 
   @override
   void initState() {
-    SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
-      if (isFirstOpen) {
-        _showTutorial(context);
-      }
-    });
+    // SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
+    //   if (isFirstOpen) {
+    //     _showTutorial(context);
+    //   }
+    // });
     super.initState();
     checkVersion();
   }
@@ -135,7 +135,8 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
               title: Text(
                   '${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
               // centerTitle: true,
-              brightness: Brightness.dark,
+              systemOverlayStyle: SystemUiOverlayStyle.light,
+              // brightness: Brightness.dark,
               bottom: PreferredSize(
                 preferredSize: Size.fromHeight(50),
                 child: WomStatsWidget(),
@@ -467,9 +468,23 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: QRView(
-      key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
+        body: Stack(
+      children: [
+        QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+            overlay: QrScannerOverlayShape()),
+        Positioned(
+          top: MediaQuery.of(context).padding.top + 8,
+          right: 16,
+          child: IconButton(
+              icon: CircleAvatar(child: Icon(Icons.clear),backgroundColor: Colors.white,),
+              color: Colors.black,
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
+        )
+      ],
     ));
   }
 

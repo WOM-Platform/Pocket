@@ -78,5 +78,6 @@
   "wrong_password": "PIN non valido",
   "wrong_number_of_vouchers": "Numero di WOM insufficiente per il pagamento",
   "insufficient_valid_vouchers": "Alcuni dei tuoi WOM non sono validi per il pagamento",
-  "unknown_error": "Errore imprevisto"
+  "unknown_error": "Errore imprevisto",
+  "search_here": "Cerca qui"
 }

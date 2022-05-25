@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -13,25 +15,29 @@ import 'constants.dart';
 import 'src/utils/utils.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  await Hive.initFlutter();
-  await Hive.openBox('settings');
-  logger.i('DEV VERSION');
-  flavor = Flavor.DEVELOPMENT;
-  domain = 'dev.wom.social';
-  registryKey = await Utils.getPublicKey();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-    statusBarColor: Colors.red,
-  ));
+  runZonedGuarded<Future<void>>(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+    await Hive.initFlutter();
+    await Hive.openBox('settings');
+    logger.i('DEV VERSION');
+    flavor = Flavor.DEVELOPMENT;
+    domain = 'dev.wom.social';
+    registryKey = await Utils.getPublicKey();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.red,
+    ));
 
-  runApp(
-    DevicePreview(
-      enabled: false,
-      builder: (context) => App(
-        appRepository: AppRepository(),
+    runApp(
+      DevicePreview(
+        enabled: false,
+        builder: (context) => App(
+          appRepository: AppRepository(),
+        ),
       ),
-    ),
-  );
+    );
+  },
+      (error, stack) =>
+          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
 }

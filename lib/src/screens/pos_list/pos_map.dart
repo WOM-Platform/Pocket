@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
@@ -13,14 +14,16 @@ import 'package:wom_pocket/src/screens/pos_list/search_button.dart';
 import 'carousel.dart';
 import 'pos_list_screen.dart';
 
+enum PosScreen { map, list }
+
 final showMapListFilterProvider = StateProvider<bool>((ref) {
   return true;
 });
 
 class LocalizationException implements Exception {}
 
-final mapIndexProvider = StateProvider<int>((ref) {
-  return 0;
+final mapIndexProvider = StateProvider<PosScreen>((ref) {
+  return PosScreen.map;
 });
 
 final currentLocationProvider = FutureProvider<Location>((ref) async {
@@ -134,10 +137,10 @@ class PosMapNotifier extends StateNotifier<AsyncValue<PosMapData>> {
     return Marker(
       markerId: markerId,
       position: LatLng(point.position.latitude, point.position.longitude),
-      // onTap: () {
-      //   ref.read(carouselControllerProvider).jumpToPage(index);
-      //   selectMarker(markerId);
-      // },
+      onTap: () {
+        read(carouselControllerProvider).jumpToPage(index);
+        // selectMarker(markerId);
+      },
       zIndex: index == 0 ? 1 : 0,
       infoWindow: InfoWindow(title: point.name),
       icon: _standardPin!,
@@ -160,38 +163,58 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  final minZoom = 11.0;
-  final initialZoom = 11.0;
+  final minZoom = 15.0;
+
+  // final initialZoom = 11.0;
 
   @override
   void initState() {
     super.initState();
-    Geolocator.requestPermission().then(
-      (permission) {
-        print('map pos: $permission');
-        if (permission == LocationPermission.whileInUse ||
-            permission == LocationPermission.always) {
-          Geolocator.getCurrentPosition().then((position) {
-            print('map pos: $position');
-            _controller.future.then((controller) {
-              print('map pos: controller retrieved');
-              controller.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                    bearing: 0,
-                    target: LatLng(position.latitude, position.longitude),
-                    zoom: 11.0,
-                  ),
-                ),
-              );
-            });
-          });
-        }
-      },
-    );
+    _goToCurrentLocation();
+  }
+
+  _goToCurrentLocation() async {
+    if (await _requestPermission()) {
+      final currentPosition = await Geolocator.getCurrentPosition();
+      await _goToLocation(
+          LatLng(currentPosition.latitude, currentPosition.longitude));
+    }
+  }
+
+  Future<bool> _requestPermission() async {
+    final permission = await Geolocator.requestPermission();
+    return permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always;
+  }
+
+  Future<void> _goToLocation(LatLng latLng, {bool withAnimation = true}) async {
+    final controller = await _controller.future;
+    print('map pos: controller retrieved');
+    if (withAnimation) {
+      await controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            bearing: 0,
+            target: latLng,
+            zoom: minZoom,
+          ),
+        ),
+      );
+    } else {
+      await controller.moveCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            bearing: 0,
+            target: latLng,
+            zoom: minZoom,
+          ),
+        ),
+      );
+    }
   }
 
   Future<void> onSearchPressed() async {
+    print('onSearchPressed');
     final bounds = await (await _controller.future).getVisibleRegion();
 
     await ref.read(posMapListProvider.notifier).loadPos(
@@ -209,248 +232,143 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
 
     final selectedIndex = ref.watch(mapIndexProvider);
 
-    return SafeArea(
-      child: Stack(
-        children: [
-          IndexedStack(
-            index: selectedIndex,
-            children: [
-              Scaffold(
-                body: SafeArea(
-                  child: Stack(
-                    children: [
-                      GoogleMap(
-                        initialCameraPosition:
-                            CameraPosition(target: LatLng(0.0, 0.0)),
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: true,
-                        zoomControlsEnabled: false,
-                        mapToolbarEnabled: false,
-                        // onCameraIdle: () {},
-                        onCameraMove: (cameraPosition) async {
-                          // ref.read(serviceFiltersShowProvider.notifier).state = false;
-                          if ((cameraPosition.zoom * 10).round() / 10 <
-                              minZoom) {
-                            ref
-                                .read(enableSearchButtonProvider.notifier)
-                                .state = ZoomStatus.outside;
-                          } else {
-                            ref
-                                .read(enableSearchButtonProvider.notifier)
-                                .state = ZoomStatus.enabled;
-                          }
-                          ref
-                              .read(mapControllerProvider)
-                              ?.getVisibleRegion()
-                              .then((value) => ref
-                                  .read(latLongBoundsProvider.notifier)
-                                  .state = value);
-                        },
-                        onMapCreated: (GoogleMapController controller) {
-                          ref.read(mapControllerProvider.notifier).state =
-                              controller;
-                          _controller.complete(controller);
-                        },
-                        markers: posData.markers,
-                      ),
-                      Positioned(
-                        bottom: 16.0,
-                        left: 0.0,
-                        right: 0.0,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SearchNewPointButton(
-                              onPressed: onSearchPressed,
-                            ),
-                            const SizedBox(height: 4),
-                            ListingCarouselWidget(posData.posList),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              PosListScreen(posData.posList),
-            ],
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Consumer(
-              builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                final show = ref.watch(showMapListFilterProvider);
-                if (show && child != null) {
-                  return child;
-                } else {
-                  return SizedBox.shrink();
-                }
-              },
-              child: ElasticIn(
-                duration: const Duration(milliseconds: 500),
-                child: Container(
-                  // color: Colors.green,
-                  height: 50,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // ElevatedButton(
-                      //   style: ElevatedButton.styleFrom(
-                      //       shape: const CircleBorder(), primary: Colors.white),
-                      //   child: const Icon(
-                      //     Icons.arrow_back,
-                      //     color: Colors.black,
-                      //   ),
-                      //   onPressed: () {
-                      //     Navigator.of(context).pop();
-                      //   },
-                      // ),
-                      ToggleSwitch(
-                        minWidth: 90.0,
-                        initialLabelIndex: selectedIndex,
-                        cornerRadius: 20.0,
-                        activeFgColor: Colors.white,
-                        inactiveBgColor: Colors.grey,
-                        inactiveFgColor: Colors.white,
-                        totalSwitches: 2,
-                        labels: ['Map', 'List'],
-                        icons: [Icons.map, Icons.list],
-                        activeBgColors: [
-                          [Colors.blue],
-                          [Colors.pink]
-                        ],
-                        onToggle: (index) {
-                          print('switched to: $index');
-                          if (index == null || index == selectedIndex) return;
-                          ref.read(mapIndexProvider.notifier).state = index;
-                        },
-                      ),
-                      // SearchNewPointButton(
-                      //   onPressed: onSearchPressed,
-                      // ),
-                      /* ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                shape: const CircleBorder(), primary: Colors.white),
-                            child: const Icon(
-                              Icons.gps_fixed,
-                              color: Colors.black,
-                            ),
-                            onPressed: () async {
-                              final c = await _controller.future;
-                              final position =
-                                  await ref.read(currentLocationProvider.future);
-                              c.animateCamera(CameraUpdate.newLatLng(
-                                  LatLng(position.latitude, position.longitude)));
-                            },
-                          )*/
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
-    return Scaffold(
-      body: SafeArea(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark,
+      child: SafeArea(
         child: Stack(
           children: [
-            GoogleMap(
-              initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              zoomControlsEnabled: false,
-              mapToolbarEnabled: false,
-              onCameraIdle: () {},
-              onCameraMove: (cameraPosition) async {
-                // ref.read(serviceFiltersShowProvider.notifier).state = false;
-                if ((cameraPosition.zoom * 10).round() / 10 < minZoom) {
-                  ref.read(enableSearchButtonProvider.notifier).state =
-                      ZoomStatus.outside;
-                } else {
-                  ref.read(enableSearchButtonProvider.notifier).state =
-                      ZoomStatus.enabled;
-                }
-                ref.read(mapControllerProvider)?.getVisibleRegion().then(
-                    (value) =>
-                        ref.read(latLongBoundsProvider.notifier).state = value);
-              },
-              onMapCreated: (GoogleMapController controller) {
-                ref.read(mapControllerProvider.notifier).state = controller;
-                _controller.complete(controller);
-              },
-              markers: posData.markers,
+            IndexedStack(
+              index: selectedIndex.index,
+              children: [
+                Scaffold(
+                  body: SafeArea(
+                    child: Stack(
+                      children: [
+                        GoogleMap(
+                          initialCameraPosition:
+                              CameraPosition(target: LatLng(0.0, 0.0)),
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: Platform.isAndroid,
+                          zoomControlsEnabled: false,
+                          mapToolbarEnabled: false,
+                          // onCameraIdle: () {},
+                          onCameraMove: (cameraPosition) async {
+                            print(cameraPosition.zoom);
+                            // ref.read(serviceFiltersShowProvider.notifier).state = false;
+                            if ((cameraPosition.zoom * 10).round() / 10 <
+                                minZoom) {
+                              ref
+                                  .read(enableSearchButtonProvider.notifier)
+                                  .state = ZoomStatus.outside;
+                            } else {
+                              ref
+                                  .read(enableSearchButtonProvider.notifier)
+                                  .state = ZoomStatus.enabled;
+                            }
+                            ref
+                                .read(mapControllerProvider)
+                                ?.getVisibleRegion()
+                                .then((value) => ref
+                                    .read(latLongBoundsProvider.notifier)
+                                    .state = value);
+                          },
+                          onMapCreated: (GoogleMapController controller) {
+                            ref.read(mapControllerProvider.notifier).state =
+                                controller;
+                            _controller.complete(controller);
+                          },
+                          markers: posData.markers,
+                        ),
+                        if (Platform.isIOS)
+                          Positioned(
+                            top: 16,
+                            right: 16.0,
+                            child: Card(
+                              margin: EdgeInsets.zero,
+                              child: IconButton(
+                                  icon: Icon(Icons.gps_fixed),
+                                  color: Colors.grey,
+                                  onPressed: () {
+                                    _goToCurrentLocation();
+                                  }),
+                            ),
+                          ),
+                        Positioned(
+                          bottom: 16.0,
+                          left: 0.0,
+                          right: 0.0,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SearchNewPointButton(
+                                onPressed: onSearchPressed,
+                              ),
+                              const SizedBox(height: 4),
+                              ListingCarouselWidget(posData.posList),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                PosListScreen(
+                  items: posData.posList,
+                  goToLocation: (l) async {
+                    await _goToLocation(l, withAnimation: false);
+                    await Future.delayed(Duration(milliseconds: 200));
+                    onSearchPressed();
+                  },
+                ),
+              ],
             ),
             Align(
               alignment: Alignment.topCenter,
-              child: Container(
-                // color: Colors.green,
-                height: 50,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // ElevatedButton(
-                    //   style: ElevatedButton.styleFrom(
-                    //       shape: const CircleBorder(), primary: Colors.white),
-                    //   child: const Icon(
-                    //     Icons.arrow_back,
-                    //     color: Colors.black,
-                    //   ),
-                    //   onPressed: () {
-                    //     Navigator.of(context).pop();
-                    //   },
-                    // ),
-                    ToggleSwitch(
-                      minWidth: 90.0,
-                      initialLabelIndex: 1,
-                      cornerRadius: 20.0,
-                      activeFgColor: Colors.white,
-                      inactiveBgColor: Colors.grey,
-                      inactiveFgColor: Colors.white,
-                      totalSwitches: 2,
-                      labels: ['Map', 'List'],
-                      icons: [Icons.map, Icons.list],
-                      activeBgColors: [
-                        [Colors.blue],
-                        [Colors.pink]
+              child: Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  final show = ref.watch(showMapListFilterProvider);
+                  if (show && child != null) {
+                    return child;
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
+                child: ElasticIn(
+                  duration: const Duration(milliseconds: 500),
+                  child: Container(
+                    // color: Colors.green,
+                    height: 50,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 8, vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ToggleSwitch(
+                          minWidth: 90.0,
+                          initialLabelIndex: selectedIndex.index,
+                          cornerRadius: 20.0,
+                          activeFgColor: Colors.white,
+                          inactiveBgColor: Colors.grey,
+                          inactiveFgColor: Colors.white,
+                          totalSwitches: 2,
+                          labels: ['Map', 'List'],
+                          icons: [Icons.map, Icons.list],
+                          activeBgColors: [
+                            [Colors.blue],
+                            [Colors.pink]
+                          ],
+                          onToggle: (index) {
+                            print('switched to: $index');
+                            if (index == null || index == selectedIndex) return;
+                            ref.read(mapIndexProvider.notifier).state =
+                                PosScreen.values[index];
+                          },
+                        ),
                       ],
-                      onToggle: (index) {
-                        print('switched to: $index');
-                      },
                     ),
-                    // SearchNewPointButton(
-                    //   onPressed: onSearchPressed,
-                    // ),
-                    /* ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(), primary: Colors.white),
-                      child: const Icon(
-                        Icons.gps_fixed,
-                        color: Colors.black,
-                      ),
-                      onPressed: () async {
-                        final c = await _controller.future;
-                        final position =
-                            await ref.read(currentLocationProvider.future);
-                        c.animateCamera(CameraUpdate.newLatLng(
-                            LatLng(position.latitude, position.longitude)));
-                      },
-                    )*/
-                  ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 16.0,
-              left: 0.0,
-              right: 0.0,
-              child: ListingCarouselWidget(posData.posList),
             ),
           ],
         ),

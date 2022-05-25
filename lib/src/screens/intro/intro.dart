@@ -61,27 +61,22 @@ class IntroScreen extends StatelessWidget {
       ),
     ];
 
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ), //ThemeData
-      home: Builder(
-        builder: (ctx) => IntroViewsFlutter(
-          pages,
-          onTapDoneButton: () {
+    return Builder(
+      builder: (ctx) => IntroViewsFlutter(
+        pages,
+        onTapDoneButton: () {
 //                Navigator.pushReplacementNamed(context, "/home");
-            appBloc.add(HomeEvent());
-          },
-          pageButtonTextStyles: TextStyle(
-            color: Colors.white,
-            fontSize: 16.0,
-          ),
-          doneText:
-              Text(AppLocalizations.of(context)!.translate('introDoneText')),
-          skipText:
-              Text(AppLocalizations.of(context)!.translate('introSkipText')),
-        ), //IntroViewsFlutter
-      ), //Builder
+          appBloc.add(HomeEvent());
+        },
+        pageButtonTextStyles: TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+        ),
+        doneText:
+        Text(AppLocalizations.of(context)!.translate('introDoneText')),
+        skipText:
+        Text(AppLocalizations.of(context)!.translate('introSkipText')),
+      ), //IntroViewsFlutter
     ); //Material App
   }
 }

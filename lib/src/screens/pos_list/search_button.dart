@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
 
 enum ZoomStatus { outside, enabled, disabled, loading }
@@ -54,7 +55,7 @@ class SearchNewPointButton extends ConsumerWidget {
             ),
             onPressed: onPressed,
             child: Text(
-              'Search here',
+             AppLocalizations.of(context)!.translate('search_here'),
               style: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
