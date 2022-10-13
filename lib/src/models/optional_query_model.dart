@@ -76,8 +76,8 @@ class OptionalQuery {
     }
 
     if (excludeWomWithouLocation) {
-      whereClause = "$whereClause AND ${WomModel.tblWom}.${WomModel.dbLat} > 0 "
-          "AND ${WomModel.tblWom}.${WomModel.dbLong} > 0";
+      whereClause = "$whereClause AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 "
+          "AND ${WomModel.tblWom}.${WomModel.dbLong} != 0";
     }
 
     if (enabledRandom) {

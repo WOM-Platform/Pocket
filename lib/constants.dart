@@ -1,4 +1,7 @@
+import 'package:flutter/services.dart';
 import 'package:wom_pocket/src/utils/config.dart';
+
+import 'src/utils/colors.dart';
 
 late String domain;
 late String registryKey;
@@ -26,3 +29,11 @@ class AimDbKeys {
   static const CHILDREN = 'children';
   static const TITLES = 'titles';
 }
+
+
+final dark = SystemUiOverlayStyle.light.copyWith(
+  statusBarColor: primaryColor,
+  systemNavigationBarColor: primaryColor,
+  statusBarBrightness: Brightness.light, //iOS
+  statusBarIconBrightness: Brightness.light, //Android
+);

@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
 
+import '../../my_logger.dart';
+
 enum ZoomStatus { outside, enabled, disabled, loading }
 
 final enableSearchButtonProvider = StateProvider.autoDispose<ZoomStatus>((ref) {
@@ -53,7 +55,10 @@ class SearchNewPointButton extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(50),
               ),
             ),
-            onPressed: onPressed,
+            onPressed: (){
+              logEvent('search_pos_map');
+              onPressed?.call();
+            },
             child: Text(
              AppLocalizations.of(context)!.translate('search_here'),
               style: TextStyle(

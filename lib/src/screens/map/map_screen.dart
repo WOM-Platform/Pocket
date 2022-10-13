@@ -11,7 +11,9 @@ import 'package:wom_pocket/src/screens/map/widgets/custom_slider.dart';
 import 'package:wom_pocket/src/screens/map/widgets/sources_list.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../../constants.dart';
 import '../../my_logger.dart';
+import '../../utils/colors.dart';
 
 final maxHeight = Platform.isIOS ? 375.0 : 350.0;
 final minHeight = Platform.isIOS ? 80.0 : 45.0;
@@ -20,22 +22,8 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark,
+      value: dark,
       child: Scaffold(
-        /*  appBar: AppBar(
-          title: Text(
-            AppLocalizations.of(context)!.translate('map_title'),
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Theme.of(context).primaryColor,
-          brightness: Brightness.dark,
-          iconTheme: IconThemeData(
-            color: Colors.white,
-          ),
-        ),*/
         body: Stack(
           children: [
             SlidingUpPanel(
@@ -82,7 +70,8 @@ class MapBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final MapBloc bloc = BlocProvider.of<MapBloc>(context);
     return Container(
-      padding: EdgeInsets.only(bottom: minHeight),
+      padding: EdgeInsets.only(
+          bottom: minHeight, top: MediaQuery.of(context).padding.top),
       key: new PageStorageKey('map'),
       child: BlocBuilder<MapBloc, MapState>(
         buildWhen: (MapState p, MapState c) {

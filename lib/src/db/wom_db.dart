@@ -259,8 +259,8 @@ class WomDB {
         'FROM ${WomModel.tblWom} '
         'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} '
         'AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%" '
-        'AND ${WomModel.tblWom}.${WomModel.dbLat} > 0 '
-        'AND ${WomModel.tblWom}.${WomModel.dbLong} > 0 '
+        'AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 '
+        'AND ${WomModel.tblWom}.${WomModel.dbLong} != 0 '
         'GROUP BY ${WomModel.dbSourceName};';
     logger.i('[WomDb]: $query');
     var result = await db.rawQuery(query);
@@ -284,8 +284,8 @@ class WomDB {
         'FROM ${WomModel.tblWom} w INNER JOIN ${AimDbKeys.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${AimDbKeys.CODE} '
         'AND w.${WomModel.dbLive} = ${WomStatus.ON.index} '
         'AND w.${WomModel.dbAim} NOT LIKE "0%" '
-        'AND w.${WomModel.dbLat} > 0 '
-        'AND w.${WomModel.dbLong} > 0 '
+        'AND w.${WomModel.dbLat} != 0 '
+        'AND w.${WomModel.dbLong} != 0 '
         'GROUP BY ${WomModel.dbAim};';
     logger.i('[WomDb]: $query');
     var result = await db.rawQuery(query);

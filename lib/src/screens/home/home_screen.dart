@@ -237,6 +237,13 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         ],
         currentIndex: index,
         onTap: (index) {
+          if (index == 0) {
+            logEvent('open_wom_transactions');
+          } else if (index == 1) {
+            logEvent('open_pos_map');
+          } else if (index == 2) {
+            logEvent('open_settings');
+          }
           ref.read(selectedIndexProvider.notifier).state = index;
         },
       ),
@@ -317,9 +324,10 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   }
 
   _goToMap() {
+    logEvent('open_wom_map');
     final mapProvider = BlocProvider<MapBloc>(
-      child: MapScreen(),
       create: (context) => MapBloc(),
+      child: MapScreen(),
     );
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => mapProvider));
@@ -332,7 +340,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 //                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
 //            final String link = await bloc.scanQRCode();
     if (await InternetConnectionChecker().hasConnection) {
-      logEvent('wom_scan_opened');
+      logEvent('open_wom_scan');
       try {
         final link = await Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => ScanScreen()));
@@ -478,7 +486,10 @@ class _ScanScreenState extends State<ScanScreen> {
           top: MediaQuery.of(context).padding.top + 8,
           right: 16,
           child: IconButton(
-              icon: CircleAvatar(child: Icon(Icons.clear),backgroundColor: Colors.white,),
+              icon: CircleAvatar(
+                child: Icon(Icons.clear),
+                backgroundColor: Colors.white,
+              ),
               color: Colors.black,
               onPressed: () {
                 Navigator.of(context).pop();

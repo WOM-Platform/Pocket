@@ -32,8 +32,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       whereClause:
           'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} '
           'AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%" '
-          'AND ${WomModel.tblWom}.${WomModel.dbLat} > 0 '
-          'AND ${WomModel.tblWom}.${WomModel.dbLong} > 0',
+          'AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 '
+          'AND ${WomModel.tblWom}.${WomModel.dbLong} != 0',
       updateMarkers: (markers) {
         add(UpdateMap(markers: markers));
       },
