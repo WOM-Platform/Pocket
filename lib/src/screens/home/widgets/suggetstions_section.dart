@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/blocs/suggestions/bloc.dart';
-import 'package:pocket/src/utils/colors.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/blocs/suggestions/bloc.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 class SuggestionsSection extends StatelessWidget {
   @override

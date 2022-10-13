@@ -1,4 +1,4 @@
-name: pocket
+name: wom_pocket
 description: A new Flutter application.
 publish_to: none
 
@@ -8,7 +8,7 @@ publish_to: none
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.3.0+21
+version: 0.5.0+34
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -20,11 +20,11 @@ dependencies:
     sdk: flutter
 
   # Firebase
-  firebase_core: ^1.4.0
-  firebase_crashlytics: ^2.1.1
-  firebase_analytics: ^8.2.0
+  firebase_core: ^1.12.0
+  firebase_crashlytics: ^2.5.1
+  firebase_analytics: ^9.1.0
 
-  flutter_riverpod: ^1.0.0
+  flutter_riverpod: ^1.0.3
   equatable:
   cupertino_icons: ^1.0.3
   uni_links: ^0.5.1
@@ -43,40 +43,48 @@ dependencies:
   flutter_map: ^0.13.1
   #geohash: ^0.2.1
   dart_geohash: ^2.0.1
-  http: ^0.13.3
+  http: ^0.13.4
   intro_views_flutter: ^3.2.0
-  webview_flutter: ^2.0.10
+  webview_flutter: ^3.0.4
   flutter_lock_screen: ^2.0.1
   clustering_google_maps: ^0.1.2-nullsafety.3
   google_maps_cluster_manager: ^1.0.0
+  google_maps_flutter: ^2.1.3
   auto_size_text: ^3.0.0-nullsafety.0
   flare_flutter: ^3.0.1
   clippy_flutter: ^2.0.0-nullsafety.1
   flutter_slidable: ^0.6.0
   share: ^2.0.4
-  rflutter_alert: ^2.0.2
+  rflutter_alert: ^2.0.4
   #data_connection_checker: ^0.3.4
   internet_connection_checker: ^0.0.1+2
   url_launcher: ^6.0.9
   feature_discovery: ^0.14.0
   package_info: ^2.0.2
-  device_preview: ^0.7.4
+#  device_preview: ^0.7.4
   sliding_up_panel: ^2.0.0+1
   logger: ^1.0.0
   pin_code_fields: ^7.3.0
 #  location: ^4.3.0
   geolocator: ^7.7.1
+  animate_do:
+  carousel_slider: ^4.0.0
+  toggle_switch: ^2.0.1
   dart_wom_connector:
     path: /Users/gianmarcodifrancesco/Work/Digit/Dart/dart_wom_connector
+
+  store_redirect: ^2.0.1
 #  flare_flutter:
 #    git:
 #      url: git://github.com/2d-inc/Flare-Flutter.git
 #      ref: dev
 #      path: flare_flutter
 
+#dependency_overrides:
+#  meta: 1.4.0
+#  analyzer: 1.7.0
 dependency_overrides:
-  meta: 1.4.0
-  analyzer: 1.7.0
+  platform: ^3.1.0
 
 dev_dependencies:
   hive_generator: ^1.1.0
@@ -95,6 +103,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/urbino.jpeg
+    - assets/images/wom_pos_pin.png
     - assets/images/migration.png
     - assets/images/logo.png
     - assets/images/banking.png

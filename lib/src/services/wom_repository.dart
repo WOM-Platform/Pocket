@@ -1,5 +1,5 @@
-import 'package:pocket/src/db/wom_db.dart';
-import 'package:pocket/src/models/source_group_wom.dart';
+import 'package:wom_pocket/src/db/wom_db.dart';
+import 'package:wom_pocket/src/models/source_group_wom.dart';
 
 import '../my_logger.dart';
 
@@ -45,6 +45,22 @@ class WomRepository {
     final groupedWoms = await _womDb.getWomGroupedByAim();
     logger.i(
         "BY AIM: fetchGroupedWoms: reading complete woms : ${groupedWoms.length}");
+    return groupedWoms;
+  }
+
+  Future<int> getWomCount()async{
+    logger.i("getWomCount");
+    final womCount = await _womDb.getWomCount();
+    logger.i(
+        "getWomCount: $womCount");
+    return womCount;
+  }
+
+  Future<int> getWomCountWithoutLocation() async{
+    logger.i("BY AIM: fetchGroupedWoms: loading woms");
+    final groupedWoms = await _womDb.getWomCountWithoutLocation();
+    logger.i(
+        "BY AIM: getWomCountWithoutLocation: reading complete woms : ${groupedWoms}");
     return groupedWoms;
   }
 }

@@ -1,5 +1,5 @@
-import 'package:pocket/src/db/app_db.dart';
-import 'package:pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../my_logger.dart';
@@ -57,8 +57,4 @@ class TransactionDB {
     logger.i("insertTransaction id: $id");
     return id;
   }
-
-//  closeDb() async {
-//    await _appDatabase.closeDatabase();
-//  }
 }

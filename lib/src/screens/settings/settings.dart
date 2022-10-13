@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/db/app_db.dart';
-import 'package:pocket/src/screens/migration/migration_screen.dart';
-import 'package:pocket/src/screens/table_page/db_page.dart';
-import 'package:pocket/src/utils/config.dart';
-import 'package:pocket/src/utils/utils.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/screens/table_page/db_page.dart';
+import 'package:wom_pocket/src/utils/config.dart';
+import 'package:wom_pocket/src/utils/utils.dart';
 
 import '../../../constants.dart';
 import '../../my_logger.dart';
 import '../../utils/my_extensions.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   bool current = false;
+
+  bool get showDBViewer => tap > 6;
+
+  int tap = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,29 +38,29 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
         backgroundColor: Theme.of(context).primaryColor,
-        brightness: Brightness.dark,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
       ),
       body: ListView(
         children: <Widget>[
-          ListTile(
-            title: Text(context.translate('settings_redeem_demo_title')!),
-            subtitle: Text(context.translate('settings_redeem_demo_desc')!),
-            trailing: Icon(Icons.arrow_forward_ios),
-            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUrl(
-                'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/redeem'),
-          ),
-          ListTile(
-            title: Text(context.translate('settings_pay_demo_title')!),
-            subtitle: Text(context.translate('settings_pay_demo_desc')!),
-            trailing: Icon(Icons.arrow_forward_ios),
-            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUrl(
-                'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social/demo/pay'),
-          ),
+          if (flavor == Flavor.RELEASE) ...[
+            ListTile(
+              title: Text(context.translate('settings_redeem_demo_title')!),
+              subtitle: Text(context.translate('settings_redeem_demo_desc')!),
+              trailing: Icon(Icons.arrow_forward_ios),
+              contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+              onTap: () => Utils.launchUrl('https://demo.wom.social/redeem'),
+            ),
+            ListTile(
+              title: Text(context.translate('settings_pay_demo_title')!),
+              subtitle: Text(context.translate('settings_pay_demo_desc')!),
+              trailing: Icon(Icons.arrow_forward_ios),
+              contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+              onTap: () => Utils.launchUrl('https://demo.wom.social/pay'),
+            ),
+          ],
           ListTile(
             title: Text(context.translate('settings_info_title')!),
             subtitle: Text(context.translate('settings_info_desc')!),
@@ -86,8 +95,14 @@ class SettingsScreen extends StatelessWidget {
             onTap: () => Utils.launchUrl(
                 'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social'),
           ),
-          VersionInfo(),
-          if (flavor == Flavor.DEVELOPMENT) ...[
+          VersionInfo(
+            onTap: () {
+              setState(() {
+                tap++;
+              });
+            },
+          ),
+          if (showDBViewer)
             ListTile(
               title: Text('Visita WOM DB'),
               trailing: Icon(Icons.data_usage),
@@ -100,6 +115,7 @@ class SettingsScreen extends StatelessWidget {
                         WomDbTablePage(woms: woms)));
               },
             ),
+          if (flavor == Flavor.DEVELOPMENT) ...[
             SettingsItem(
               title: 'Clear DB (only for debug)',
               subtitle: "Delete all data of local database",
@@ -169,8 +185,11 @@ class SettingsItem extends StatelessWidget {
 }
 
 class VersionInfo extends StatelessWidget {
+  final Function()? onTap;
+
   const VersionInfo({
     Key? key,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -185,7 +204,7 @@ class VersionInfo extends StatelessWidget {
             subtitle: Text(pkg.version),
             trailing: Icon(Icons.info),
             contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: null,
+            onTap: onTap,
           );
         }
         return Container();

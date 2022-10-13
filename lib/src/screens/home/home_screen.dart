@@ -6,12 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/utils/config.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/screens/pos_list/pos_list_screen.dart';
+import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
+import 'package:wom_pocket/src/services/app_repository.dart';
+import 'package:wom_pocket/src/utils/config.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
+import 'package:store_redirect/store_redirect.dart';
 import '../../../constants.dart';
 import '../../blocs/app/app_bloc.dart';
 import '../../blocs/map/bloc.dart';
@@ -24,101 +28,226 @@ import '../../screens/pin/pin_screen.dart';
 import '../../screens/settings/settings.dart';
 import '../../utils/colors.dart';
 import '../../utils/my_extensions.dart';
+import 'widgets/wom_stats_widget.dart';
 
-class HomeScreen2 extends StatefulWidget {
+final selectedIndexProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
+class HomeScreen2 extends ConsumerStatefulWidget {
   static const String path = '/home';
 
   @override
   _HomeScreen2State createState() => _HomeScreen2State();
 }
 
-class _HomeScreen2State extends State<HomeScreen2> {
+class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   PinBloc? _pinBloc;
 
   @override
   void initState() {
-    SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
-      if (isFirstOpen) {
-        _showTutorial(context);
-      }
-    });
+    // SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
+    //   if (isFirstOpen) {
+    //     _showTutorial(context);
+    //   }
+    // });
     super.initState();
+    checkVersion();
+  }
+
+  checkVersion() async {
+    final status = await context.read<AppBloc>().getAppStatus();
+    logger.i(status);
+    if (!status.isOk) {
+      // SchedulerBinding.instance?.addPostFrameCallback((Duration duration) {
+      final actionText = status.isOutOfService
+          ? context.translate('closeApp')?.toUpperCase()
+          : context.translate('update')?.toUpperCase();
+
+      Alert(
+          context: context,
+          title: getTitle(status.status),
+          onWillPopActive: !status.isCanUpdate,
+          closeFunction: () {},
+          closeIcon: const SizedBox.shrink(),
+          buttons: [
+            DialogButton(
+                child: Text(actionText ?? '-'),
+                onPressed: () {
+                  if (status.isOutOfService) {
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  } else {
+                    StoreRedirect.redirect(
+                        androidAppId: 'social.wom.app', iOSAppId: '1466969163');
+                  }
+                }),
+          ]).show();
+      // });
+    }
+  }
+
+  String getTitle(AppStatusEnum status) {
+    switch (status) {
+      case AppStatusEnum.mustUpdate:
+        return context.translate('appMustUpdateDesc') ?? '';
+      case AppStatusEnum.shouldUpdate:
+        return context.translate('appShouldUpdateDesc') ?? '';
+      case AppStatusEnum.outOfService:
+      default:
+        return context.translate('appOutOfService') ?? '';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     logger.i('HomeScreen: build');
+    final index = ref.watch(selectedIndexProvider);
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text('${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
-        centerTitle: true,
-        brightness: Brightness.dark,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.info),
-            color: Theme.of(context).colorScheme.secondary,
-            onPressed: () async {
-              await _clearTutorial(context);
-              _showTutorial(context);
-            },
-          ),
-        ],
-      ),
-      extendBody: true,
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topCenter,
-            child: Arc(
-              child: Container(
-                color: Theme.of(context).primaryColor,
-                height: MediaQuery.of(context).size.height / 3,
+      // backgroundColor: Colors.grey[100],
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).primaryColor,
+      //   title: Text('${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
+      //   // centerTitle: true,
+      //   brightness: Brightness.dark,
+      //   bottom: PreferredSize(
+      //     preferredSize: Size.fromHeight(50),
+      //     child: WomStatsWidget(),
+      //   ),
+      //   actions: <Widget>[
+      //     IconButton(
+      //       icon: Icon(Icons.info),
+      //       color: Theme.of(context).accentColor,
+      //       onPressed: () async {
+      //         await _clearTutorial(context);
+      //         _showTutorial(context);
+      //       },
+      //     ),
+      //   ],
+      // ),
+      // extendBody: true,
+      body: IndexedStack(
+        index: index,
+        children: [
+          Scaffold(
+            backgroundColor: Colors.grey[100],
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).primaryColor,
+              title: Text(
+                  '${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
+              // centerTitle: true,
+              systemOverlayStyle: SystemUiOverlayStyle.light,
+              // brightness: Brightness.dark,
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(50),
+                child: WomStatsWidget(),
               ),
-              height: 50,
+              actions: <Widget>[
+                // IconButton(
+                //   icon: Icon(Icons.info),
+                //   color: Theme.of(context).accentColor,
+                //   onPressed: () async {
+                //     await _clearTutorial(context);
+                //     _showTutorial(context);
+                //   },
+                // ),
+                IconButton(
+                  icon: Icon(Icons.map),
+                  color: Theme.of(context).accentColor,
+                  onPressed: () async {
+                    _goToMap();
+                  },
+                ),
+              ],
+            ),
+            extendBody: true,
+            body: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Arc(
+                    child: Container(
+                      color: Theme.of(context).primaryColor,
+                      height: MediaQuery.of(context).size.height / 3,
+                    ),
+                    height: 50,
+                  ),
+                ),
+                TransactionsList(),
+              ],
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: DescribedFeatureOverlay(
+              featureId: 'add_item_feature_id',
+              tapTarget: FloatingActionButton.extended(
+                elevation: 0,
+                backgroundColor: Colors.white,
+                label: Text(
+                  AppLocalizations.of(context)!.translate('scan'),
+                  style: TextStyle(color: baseIconColor),
+                ),
+                icon: const Icon(
+                  Icons.camera_enhance,
+                  color: baseIconColor,
+                ),
+                onPressed: null,
+              ),
+              // The widget that will be displayed as the tap target.
+              title: Text(context.translate('tutorial_welcome_title')!),
+              description: Text('tutorial_welcome_desc'.translate(context)!),
+              backgroundColor: Theme.of(context).accentColor,
+              targetColor: Colors.white,
+              textColor: Theme.of(context).primaryColor,
+              child: FloatingActionButton.extended(
+                backgroundColor: Theme.of(context).accentColor,
+                label: Text(
+                  AppLocalizations.of(context)!.translate('scan'),
+                  style: TextStyle(color: baseIconColor),
+                ),
+                icon: const Icon(
+                  Icons.camera_enhance,
+                  color: baseIconColor,
+                ),
+                onPressed: () => _startScan(),
+              ),
             ),
           ),
-          TransactionsList(),
+          PosMapScreen(),
+          SettingsScreen(),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: DescribedFeatureOverlay(
-        featureId: 'add_item_feature_id',
-        tapTarget: FloatingActionButton.extended(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          label: Text(
-            AppLocalizations.of(context)!.translate('scan'),
-            style: TextStyle(color: baseIconColor),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        selectedItemColor: Theme.of(context).accentColor,
+        unselectedItemColor: Colors.white,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet),
+            label: 'Movimenti',
           ),
-          icon: const Icon(
-            Icons.camera_enhance,
-            color: baseIconColor,
+          BottomNavigationBarItem(
+            icon: Icon(Icons.store),
+            label: 'POS',
           ),
-          onPressed: null,
-        ),
-        // The widget that will be displayed as the tap target.
-        title: Text(context.translate('tutorial_welcome_title')!),
-        description: Text('tutorial_welcome_desc'.translate(context)!),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        targetColor: Colors.white,
-        textColor: Theme.of(context).primaryColor,
-        child: FloatingActionButton.extended(
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          label: Text(
-            AppLocalizations.of(context)!.translate('scan'),
-            style: TextStyle(color: baseIconColor),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
-          icon: const Icon(
-            Icons.camera_enhance,
-            color: baseIconColor,
-          ),
-          onPressed: () => _startScan(),
-        ),
+        ],
+        currentIndex: index,
+        onTap: (index) {
+          if (index == 0) {
+            logEvent('open_wom_transactions');
+          } else if (index == 1) {
+            logEvent('open_pos_map');
+          } else if (index == 2) {
+            logEvent('open_settings');
+          }
+          ref.read(selectedIndexProvider.notifier).state = index;
+        },
       ),
-      bottomNavigationBar: BottomAppBar(
+      /*bottomNavigationBar: BottomAppBar(
         shape: AutomaticNotchedShape(
             RoundedRectangleBorder(), StadiumBorder(side: BorderSide())),
         color: Theme.of(context).primaryColor,
@@ -157,6 +286,27 @@ class _HomeScreen2State extends State<HomeScreen2> {
               textColor: Theme.of(context).primaryColor,
               child: IconButton(
                 icon: Icon(
+                  Icons.list,
+                  color: Theme.of(context).accentColor,
+                ),
+                onPressed: () => _goToSettings(),
+              ),
+            ),
+            Expanded(
+              child: SizedBox(),
+            ),
+            DescribedFeatureOverlay(
+              featureId: 'show_demo_info',
+              // Unique id that identifies this overlay.
+              tapTarget: const Icon(Icons.settings),
+              // The widget that will be displayed as the tap target.
+              title: Text(context.translate('tutorial_settings_title')!),
+              description: Text(context.translate('tutorial_settings_desc')!),
+              backgroundColor: Theme.of(context).accentColor,
+              targetColor: Colors.white,
+              textColor: Theme.of(context).primaryColor,
+              child: IconButton(
+                icon: Icon(
                   Icons.settings,
                   color: Theme.of(context).colorScheme.secondary,
                 ),
@@ -165,7 +315,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
             ),
           ],
         ),
-      ),
+      ),*/
     );
   }
 
@@ -175,9 +325,10 @@ class _HomeScreen2State extends State<HomeScreen2> {
   }
 
   _goToMap() {
+    logEvent('open_wom_map');
     final mapProvider = BlocProvider<MapBloc>(
-      child: MapScreen(),
       create: (context) => MapBloc(),
+      child: MapScreen(),
     );
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => mapProvider));
@@ -190,11 +341,13 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
 //            final String link = await bloc.scanQRCode();
     if (await InternetConnectionChecker().hasConnection) {
+      logEvent('open_wom_scan');
       try {
         final link = await Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => ScanScreen()));
-        final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
 
+        final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
+        logEvent('wom_scan_done');
 //            var blocProviderPin = myBlocProvider.BlocProvider(
 //              bloc: PinBloc(),
 //              child: PinScreen(
@@ -324,13 +477,31 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: QRView(
-      key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
+        body: Stack(
+      children: [
+        QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+            overlay: QrScannerOverlayShape()),
+        Positioned(
+          top: MediaQuery.of(context).padding.top + 8,
+          right: 16,
+          child: IconButton(
+              icon: CircleAvatar(
+                child: Icon(Icons.clear),
+                backgroundColor: Colors.white,
+              ),
+              color: Colors.black,
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
+        )
+      ],
     ));
   }
 
   bool scanned = false;
+
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {

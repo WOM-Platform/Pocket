@@ -1,17 +1,17 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/blocs/transaction/bloc.dart';
-import 'package:pocket/src/utils/colors.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 class InfoPayment extends StatelessWidget {
-  final InfoPayResponse? responseInfoPay;
-  final String? password;
+  final InfoPayResponse responseInfoPay;
+  final String password;
 
   const InfoPayment({
-    this.responseInfoPay,
-    this.password,
+    required this.responseInfoPay,
+    required this.password,
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +19,7 @@ class InfoPayment extends StatelessWidget {
   Widget build(BuildContext context) {
     final TransactionBloc bloc = BlocProvider.of<TransactionBloc>(context);
 
-    final SimpleFilter? simpleFilters = responseInfoPay!.simpleFilter;
+    final SimpleFilter? simpleFilters = responseInfoPay.simpleFilter;
 
     final greyStyle = TextStyle(
         color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 15.0);
@@ -66,7 +66,7 @@ class InfoPayment extends StatelessWidget {
                           style: greyStyle,
                         ),
                         Text(
-                          responseInfoPay!.posName!,
+                          responseInfoPay.posName!,
                           style: valueStyle,
                         ),
                       ],
@@ -78,7 +78,7 @@ class InfoPayment extends StatelessWidget {
                           style: greyStyle,
                         ),
                         Text(
-                          responseInfoPay?.amount?.toString() ?? '-',
+                          responseInfoPay.amount?.toString() ?? '-',
                           style: valueStyle,
                         ),
                       ],

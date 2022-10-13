@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/blocs/map/bloc.dart';
-import 'package:pocket/src/models/source_group_wom.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/models/source_group_wom.dart';
 
 import '../../../my_logger.dart';
 

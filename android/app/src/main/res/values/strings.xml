@@ -3,4 +3,5 @@
     <string name="app_name">WOM Pocket</string>
     <string name="deep_host">wom.social</string>
     <string name="new_deep_host">link.wom.social</string>
+    <string name="deep_protocol">wom</string>
 </resources>

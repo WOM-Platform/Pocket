@@ -53,6 +53,10 @@ android {
         multiDexEnabled true
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']

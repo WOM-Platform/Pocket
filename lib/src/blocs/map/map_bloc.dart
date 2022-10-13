@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:clustering_google_maps/clustering_google_maps.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pocket/src/db/app_db.dart';
-import 'package:pocket/src/models/optional_query_model.dart';
-import 'package:pocket/src/models/wom_model.dart';
-import 'package:pocket/src/services/wom_repository.dart';
+import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/models/optional_query_model.dart';
+import 'package:wom_pocket/src/models/wom_model.dart';
+import 'package:wom_pocket/src/services/wom_repository.dart';
 
 import '../../my_logger.dart';
 import './bloc.dart';
@@ -23,12 +24,16 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   initDatabaseClustering() {
     clusteringHelper = ClusteringHelper.forDB(
+      maxZoomForAggregatePoints: 18,
       dbGeohashColumn: WomModel.dbGeohash,
       dbLatColumn: WomModel.dbLat,
       dbLongColumn: WomModel.dbLong,
       dbTable: WomModel.tblWom,
       whereClause:
-          'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%"',
+          'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} '
+          'AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%" '
+          'AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 '
+          'AND ${WomModel.tblWom}.${WomModel.dbLong} != 0',
       updateMarkers: (markers) {
         add(UpdateMap(markers: markers));
       },
@@ -42,13 +47,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     final s = await _womRepository.getWomGroupedBySource();
     final a = await _womRepository.getWomGroupedByAim();
+    final womCountWithoutLocation =
+        await _womRepository.getWomCountWithoutLocation();
     sources.addAll(s.map((g) => g.type).toList());
     aims.addAll(a.map((g) => g.type).toList());
     aims.removeWhere((a) => a!.startsWith('0'));
     add(UpdateMap(
-      sources: s,
-      aims: a,
-    ));
+        sources: s, aims: a, womCountWithoutLocation: womCountWithoutLocation));
   }
 
   void onMapCreated(GoogleMapController controller) async {
@@ -63,18 +68,25 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     MapEvent event,
   ) async* {
     if (event is UpdateMap) {
+      debugPrint(event.toString());
       if (state is MapUpdated) {
         if (event.forceFilterUpdate == true) {
           filter();
         }
         yield (state as MapUpdated).copyWith(
-            event.markers, event.sliderValue, event.sources, event.aims);
+          event.markers,
+          event.sliderValue,
+          event.sources,
+          event.aims,
+          event.womCountWithoutLocation,
+        );
       } else {
         yield MapUpdated(
           sliderValue: event.sliderValue ?? 0.0,
           markers: event.markers ?? {},
           sources: event.sources ?? [],
           aims: event.aims ?? [],
+          womCountWithoutLocation: event.womCountWithoutLocation ?? 0,
         );
       }
     }
@@ -101,12 +113,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     }
 
     clusteringHelper.whereClause = OptionalQuery(
-      startDate: startDateQuery,
-      endDate: endDateQuery,
-      womStatus: WomStatus.ON,
-      sources: sources,
-      aims: aims,
-    ).build();
+            startDate: startDateQuery,
+            endDate: endDateQuery,
+            womStatus: WomStatus.ON,
+            sources: sources,
+            aims: aims,
+            excludeWomWithouLocation: true)
+        .build();
 
     logger.i("Clustering filter query:");
     logger.i(clusteringHelper.whereClause);

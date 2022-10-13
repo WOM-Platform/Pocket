@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/services.dart';
-import 'package:pocket/src/blocs/transactions_list/bloc.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:pocket/src/services/app_repository.dart';
-import 'package:pocket/src/utils/utils.dart';
+import 'package:wom_pocket/src/blocs/transactions_list/bloc.dart';
+import 'package:wom_pocket/src/models/deep_link_model.dart';
+import 'package:wom_pocket/src/services/app_repository.dart';
+import 'package:wom_pocket/src/utils/utils.dart';
 import 'package:uni_links/uni_links.dart';
 
 import '../../my_logger.dart';
@@ -85,6 +85,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 //      return Future.error(e);
     }
     return deepLinkModel;
+  }
+
+  Future<AppStatus> getAppStatus(){
+    return _appRepository.getAppStatus();
   }
 
   @override

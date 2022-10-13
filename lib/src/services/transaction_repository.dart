@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pocket/constants.dart';
-import 'package:pocket/src/db/transaction_db.dart';
-import 'package:pocket/src/db/wom_db.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/db/transaction_db.dart';
+import 'package:wom_pocket/src/db/wom_db.dart';
+import 'package:wom_pocket/src/models/deep_link_model.dart';
+import 'package:wom_pocket/src/models/transaction_model.dart';
 
 import '../my_logger.dart';
 
@@ -32,7 +31,7 @@ class TransactionRepository {
           await pocket.redeemVouchers(otc, password, lat: lat, long: long);
       return saveWoms(response);
     } on ServerException catch (ex) {
-      logger.i(ex.error);
+      logger.i(ex);
       rethrow;
     } catch (ex) {
       logger.e(ex);
@@ -98,6 +97,10 @@ class TransactionRepository {
       final vouchers = satisfyingVouchers.sublist(0, infoPay.amount);
       final ack = await pocket.pay(infoPay, otc, password, vouchers);
 
+      if (ack == null) {
+        throw Exception('Errore nel pagamento');
+      }
+
       //TODO change italy
       TransactionModel tx = TransactionModel(
         date: DateTime.now(),
@@ -112,9 +115,6 @@ class TransactionRepository {
       final id = await transactionsDB.insertTransaction(tx);
 
       int count = 0;
-      if (ack == null) {
-        throw Exception('Errore nel pagamento');
-      }
 
       for (int i = 0; i < vouchers.length; i++) {
         final c = await womDB.updateWomStatusToOff(vouchers[i].id, id);

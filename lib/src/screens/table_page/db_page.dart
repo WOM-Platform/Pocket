@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pocket/src/models/wom_model.dart';
+import 'package:wom_pocket/src/models/wom_model.dart';
 
 class WomDbTablePage extends StatefulWidget {
   final List<WomModel>? woms;
@@ -36,7 +36,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         title: Text('DB'),
       ),
       body: Scrollbar(
@@ -77,6 +77,18 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                   numeric: true,
                   onSort: (columnIndex, ascending) => _sort<String>(
                       (d) => d.sourceName, columnIndex, ascending),
+                ),
+                DataColumn(
+                  label: Text(WomModel.dbLat),
+                  numeric: true,
+                  onSort: (latIndex, ascending) =>
+                      _sort<String>((d) => d.gLocation?.latitude.toString(), latIndex, ascending),
+                ),
+                DataColumn(
+                  label: Text(WomModel.dbLong),
+                  numeric: true,
+                  onSort: (longIndex, ascending) =>
+                      _sort<String>((d) => d.gLocation?.longitude.toString(), longIndex, ascending),
                 ),
                 DataColumn(
                   label: Text(WomModel.dbLive),
@@ -152,6 +164,8 @@ class _WomsDataSources extends DataTableSource {
         DataCell(Text('${wom.aim}')),
         DataCell(Text(wom.sourceId.toString())),
         DataCell(Text(wom.sourceName!)),
+        DataCell(Text(wom.gLocation?.latitude.toString() ?? 'NULL')),
+        DataCell(Text(wom.gLocation?.longitude.toString() ?? 'NULL')),
         DataCell(Text(wom.live.toString().replaceAll('WomStatus.', ''))),
         DataCell(Text(wom.secret!)),
         DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.timestamp!)}')),

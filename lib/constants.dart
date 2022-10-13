@@ -1,8 +1,12 @@
-import 'package:pocket/src/utils/config.dart';
+import 'package:flutter/services.dart';
+import 'package:wom_pocket/src/utils/config.dart';
+
+import 'src/utils/colors.dart';
 
 late String domain;
 late String registryKey;
 Flavor? flavor;
+final isDev = flavor == Flavor.DEVELOPMENT;
 //Shared Preferences
 const IS_FIRST_OPEN = 'isFirstOpen';
 const IS_SUGGESTIONS_DISABLED = 'isSuggestionsDisabled';
@@ -29,3 +33,11 @@ class AimDbKeys {
   static const CHILDREN = 'children';
   static const TITLES = 'titles';
 }
+
+
+final dark = SystemUiOverlayStyle.light.copyWith(
+  statusBarColor: primaryColor,
+  systemNavigationBarColor: primaryColor,
+  statusBarBrightness: Brightness.light, //iOS
+  statusBarIconBrightness: Brightness.light, //Android
+);

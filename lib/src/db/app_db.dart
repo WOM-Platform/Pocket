@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pocket/src/db/aim_database.dart';
-import 'package:pocket/src/models/transaction_model.dart';
-import 'package:pocket/src/models/wom_model.dart';
+import 'package:wom_pocket/src/db/aim_database.dart';
+import 'package:wom_pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/src/models/wom_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -16,7 +16,7 @@ import '../my_logger.dart';
 /// All the task raw queries is handle here and return a Future<T> with result
 class AppDatabase {
   static final AppDatabase _appDatabase = new AppDatabase._internal();
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   //private internal constructor to make it singleton
   AppDatabase._internal();
@@ -50,6 +50,7 @@ class AppDatabase {
 
   Future _init() async {
     logger.i("AppDatabase: init database");
+    // analytics.
     // Get a location using path_provider
     final path = await getPath();
     _database = await openDatabase(path, version: 3,

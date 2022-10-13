@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/src/blocs/pin/bloc.dart';
+import 'package:wom_pocket/src/blocs/pin/bloc.dart';
 
 import 'code_button.dart';
 

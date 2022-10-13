@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/src/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/blocs/map/bloc.dart';
 
 class CustomSlider extends StatelessWidget {
   final double value = 0.0;

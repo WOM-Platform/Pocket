@@ -1,23 +1,23 @@
 import 'package:feature_discovery/feature_discovery.dart';
-import 'package:pocket/src/blocs/migration/migration_data.dart';
-import 'package:pocket/src/blocs/pin/bloc.dart';
-import 'package:pocket/src/blocs/suggestions/bloc.dart';
-import 'package:pocket/src/blocs/transactions_list/transactions_list_bloc.dart';
-import 'package:pocket/src/my_logger.dart';
-import 'package:pocket/src/screens/home/home_screen.dart';
-import 'package:pocket/src/screens/migration/export_screen.dart';
-import 'package:pocket/src/screens/pin/pin_screen.dart';
-import 'package:pocket/src/services/app_repository.dart';
-import 'package:pocket/localization/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/src/blocs/pin/bloc.dart';
+import 'package:wom_pocket/src/blocs/settings/bloc.dart';
+import 'package:wom_pocket/src/blocs/suggestions/bloc.dart';
+import 'package:wom_pocket/src/blocs/transactions_list/transactions_list_bloc.dart';
+import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/screens/home/home_screen.dart';
+import 'package:wom_pocket/src/screens/pin/pin_screen.dart';
+import 'package:wom_pocket/src/services/app_repository.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/src/db/transaction_db.dart';
-import 'package:pocket/src/screens/intro/intro.dart';
-import 'package:pocket/src/screens/settings/settings.dart';
-import 'package:pocket/src/screens/splash/splash_screen.dart';
+import 'package:wom_pocket/src/db/transaction_db.dart';
+import 'package:wom_pocket/src/screens/intro/intro.dart';
+import 'package:wom_pocket/src/screens/settings/settings.dart';
+import 'package:wom_pocket/src/screens/splash/splash_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:pocket/src/utils/colors.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'src/blocs/app/bloc.dart';
@@ -61,10 +61,14 @@ class _AppState extends State<App> {
       accentColor: accentColor,
       backgroundColor: backgroundColor,
     );
-    return BlocProvider<AppBloc>(
-      create: (context) => _appBloc,
-      child: ProviderScope(
+
+    return ProviderScope(
+      child: BlocProvider<AppBloc>(
+        create: (context) => _appBloc,
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+//          locale: DevicePreview.of(context).locale, // <--- Add the locale
+//          builder: DevicePreview.appBuilder, // <--- Add the build
             localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -74,6 +78,7 @@ class _AppState extends State<App> {
               if (locale == null) {
                 return supportedLocales.first;
               }
+
               for (var supportedLocale in supportedLocales) {
                 if (supportedLocale.languageCode == locale.languageCode &&
                     supportedLocale.countryCode == locale.countryCode) {
@@ -98,10 +103,11 @@ class _AppState extends State<App> {
                       if (state is DeepLinkMode) {
                         logger.i("Go to pin screen");
                         _pinBloc = PinBloc(state.deepLinkModel);
-                        var blocProviderPin = BlocProvider(
-                          create: (context) => _pinBloc,
-                          child: PinScreen(),
-                        );
+                      _pinBloc = PinBloc(state.deepLinkModel);
+                  var blocProviderPin = BlocProvider(
+                    create: (context) => _pinBloc,
+                    child: PinScreen(),
+                  );
                         Navigator.push(
                           ctx,
                           MaterialPageRoute<bool>(

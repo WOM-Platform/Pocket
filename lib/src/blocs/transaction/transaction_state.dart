@@ -1,8 +1,8 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pocket/src/blocs/transaction/bloc.dart';
-import 'package:pocket/src/blocs/transaction/transaction_event.dart';
-import 'package:pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
+import 'package:wom_pocket/src/blocs/transaction/transaction_event.dart';
+import 'package:wom_pocket/src/models/transaction_model.dart';
 
 abstract class TransactionState extends Equatable {}
 
@@ -28,7 +28,7 @@ class TransactionCompleteState extends TransactionState {
 
 class TransactionInfoPaymentState extends TransactionState {
   final InfoPayResponse infoPayment;
-  final String? password;
+  final String password;
 
   TransactionInfoPaymentState(this.infoPayment, this.password);
 
@@ -49,8 +49,10 @@ class TransactionLoadingState extends TransactionState {
 
 class TransactionMissingLocationState extends TransactionState {
   final TransactionEvent eventToRepeat;
-  final LocationServiceException exception;
-  TransactionMissingLocationState(this.eventToRepeat, this.exception);
+  // final LocationServiceException exception;
+
+  TransactionMissingLocationState(this.eventToRepeat);
+
   @override
   String toString() => 'TransactionMissingLocationState';
 
@@ -60,21 +62,23 @@ class TransactionMissingLocationState extends TransactionState {
 
 class TransactionErrorState extends TransactionState {
   final String error;
+  final String? translationKey;
 
-  TransactionErrorState(this.error) : assert(error.isNotEmpty);
+  TransactionErrorState({required this.error, this.translationKey})
+      : assert(error.isNotEmpty);
 
   @override
   String toString() => 'TransactionError';
 
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [error, translationKey ?? ''];
 }
 
 class TransactionNoDataConnectionState extends TransactionState {
   final InfoPayResponse? infoPay;
-  final String? password;
+  final String password;
 
-  TransactionNoDataConnectionState({this.infoPay, this.password});
+  TransactionNoDataConnectionState({this.infoPay, required this.password});
 
   @override
   String toString() => 'TransactionNoDataConnectionState';

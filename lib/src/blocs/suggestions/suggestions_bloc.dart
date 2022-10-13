@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:pocket/src/models/suggestion_model.dart';
+import 'package:wom_pocket/src/models/suggestion_model.dart';
 import './bloc.dart';
 
 class SuggestionsBloc extends Bloc<SuggestionsEvent, SuggestionsState> {

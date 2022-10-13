@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pocket/localization/app_localizations.dart';
-import 'package:pocket/src/blocs/transactions_list/bloc.dart';
-import 'package:pocket/src/screens/home/widgets/transaction_card.dart';
-import 'package:pocket/src/utils/colors.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/blocs/transactions_list/bloc.dart';
+import 'package:wom_pocket/src/screens/home/widgets/transaction_card.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 class TransactionsList extends StatelessWidget {
   @override
