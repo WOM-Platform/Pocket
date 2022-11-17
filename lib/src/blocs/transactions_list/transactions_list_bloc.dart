@@ -43,20 +43,20 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
 
         logger.i('aim letti : ${aims.length}');
         final transactions = await _transactionDB.getTransactions();
-        for (TransactionModel t in transactions) {
-          if (t.aimCode != null) {
-            final String aimCode = t.aimCode!.split(',').first;
-            try {
-              final aim = aims.firstWhere((a) {
-                return a.code == aimCode;
-              });
-              t.aim = aim;
-            } catch (ex, st) {
-              logger.e(ex);
-              logger.e(st);
-            }
-          }
-        }
+        // for (TransactionModel t in transactions) {
+        //   if (t.aimCode != null && t.aimCode!.isNotEmpty) {
+        //     final String aimCode = t.aimCode!.split(',').first;
+        //     try {
+        //       final aim = aims.firstWhere((a) {
+        //         return a.code == aimCode;
+        //       });
+        //       // t.aim = aim;
+        //     } catch (ex, st) {
+        //       logger.e(ex);
+        //       logger.e(st);
+        //     }
+        //   }
+        // }
         yield TransactionsLoaded(transactions);
       } catch (ex) {
         logger.e(ex.toString());

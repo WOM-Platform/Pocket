@@ -1,28 +1,34 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:share/share.dart';
+import 'package:collection/collection.dart';
 
-class TransactionCard extends StatelessWidget {
-  final TransactionModel? transaction;
+class TransactionCard extends ConsumerWidget {
+  final TransactionModel transaction;
   final Function? onDelete;
   final Function? onEdit;
   final Function? onDuplicate;
 
   const TransactionCard(
       {Key? key,
-      this.transaction,
+      required this.transaction,
       this.onDelete,
       this.onEdit,
       this.onDuplicate})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final languageCode = AppLocalizations.of(context)!.locale.languageCode;
+    final aims = ref.watch(aimNotifierProvider).valueOrNull ?? [];
+    final aimCode = transaction.firstAimCode;
+    final aim = aims.firstWhereOrNull((element) => element.code == aimCode);
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
@@ -45,7 +51,7 @@ class TransactionCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Text(
-                          '${transaction!.size} WOM',
+                          '${transaction.size} WOM',
                           style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontSize: 22.0,
@@ -57,11 +63,10 @@ class TransactionCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Icon(
-                        transaction!.transactionType == TransactionType.VOUCHERS
+                        transaction.type == TransactionType.VOUCHERS
                             ? Icons.monetization_on
                             : Icons.credit_card,
-                        color: transaction!.transactionType ==
-                                TransactionType.VOUCHERS
+                        color: transaction.type == TransactionType.VOUCHERS
                             ? Colors.green
                             : Colors.red,
                       ),
@@ -92,8 +97,8 @@ class TransactionCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           ItemRow(
-                              t1: 'id', t2: transaction!.id?.toString() ?? '-'),
-                          ItemRow(t1: 'date', t2: transaction!.formatDate()),
+                              t1: 'id', t2: transaction.id.toString() ?? '-'),
+                          ItemRow(t1: 'date', t2: transaction.formatDate()),
                         ],
                       ),
                     ),
@@ -104,15 +109,13 @@ class TransactionCard extends StatelessWidget {
                         children: <Widget>[
                           ItemRow(
                               t1: 'aim',
-                              t2: (transaction?.aim?.titles ??
-                                      const {})[languageCode] ??
+                              t2: (aim?.titles ?? const {})[languageCode] ??
                                   '-'),
                           ItemRow(
-                              t1: transaction!.transactionType !=
-                                      TransactionType.VOUCHERS
+                              t1: transaction.type != TransactionType.VOUCHERS
                                   ? 'pos'
                                   : 'instrument',
-                              t2: transaction!.source),
+                              t2: transaction.source),
                         ],
                       ),
                     ),
@@ -138,11 +141,24 @@ class TransactionCard extends StatelessWidget {
         MySlideAction(
           icon: Icons.share,
           color: Colors.blue,
-          onTap: () {
-            Share.share(
-                'I ${transaction!.transactionType == TransactionType.VOUCHERS ? 'earned' : 'used'} '
-                '${transaction!.size} WOM  ${transaction!.transactionType == TransactionType.VOUCHERS ? 'from' : 'at'} '
-                '${transaction!.source} ${transaction!.aim?.title != null ? 'for ${transaction!.aim?.title}' : ''}');
+          onTap: () async {
+            // final aimCode = transaction.aimCodes.isNotEmpty
+            //     ? transaction.aimCodes.first
+            //     : null;
+            // Aim? aim;
+            // if (aimCode != null) {
+            //   final aims = await ref.read(aimNotifierProvider.future);
+            //   aim = aims.firstWhere((element) => element.code == aimCode);
+            // }
+            var message =
+                'I ${transaction.type == TransactionType.VOUCHERS ? 'earned' : 'used'} '
+                '${transaction.size} WOM  ${transaction.type == TransactionType.VOUCHERS ? 'from' : 'at'} '
+                '${transaction.source}';
+            if (aim != null) {
+              message =
+                  '$message  ${aim.title != null ? 'for ${aim.title}' : ''}';
+            }
+            Share.share(message);
           },
         ),
       ],

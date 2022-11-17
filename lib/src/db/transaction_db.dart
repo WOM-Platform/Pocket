@@ -24,8 +24,9 @@ class TransactionDB {
           'SELECT ${TransactionModel.tblTransaction}.* '
           'FROM ${TransactionModel.tblTransaction} ORDER BY ${TransactionModel.dbTimestamp} DESC;');
       return _bindData(result);
-    } catch (e) {
-      logger.i(e.toString());
+    } catch (e,st) {
+      logger.e(e.toString());
+      logger.e(st);
       return <TransactionModel>[];
     }
   }
@@ -35,7 +36,7 @@ class TransactionDB {
     final transactions = <TransactionModel>[];
     try {
       for (Map<String, dynamic> item in result) {
-        var tx = new TransactionModel.fromMap(item);
+        var tx = new TransactionModel.fromJson(item);
         transactions.add(tx);
       }
       logger.i("--------- COMPLETE QUERY TRANSACTION");
@@ -52,7 +53,7 @@ class TransactionDB {
     await db.transaction((Transaction txn) async {
       id = await txn.rawInsert('INSERT INTO '
           '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbAim},${TransactionModel.dbType},${TransactionModel.dbAckUrl})'
-          ' VALUES(${tx.size},${tx.date!.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.transactionType!.index},"${tx.ackUrl}")');
+          ' VALUES(${tx.size},${tx.date!.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.type!.index},"${tx.ackUrl}")');
     });
     logger.i("insertTransaction id: $id");
     return id;

@@ -1,10 +1,17 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
 import '../my_logger.dart';
 
-class TransactionModel extends Equatable {
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'transaction_model.freezed.dart';
+
+part 'transaction_model.g.dart';
+
+@freezed
+class TransactionModel with _$TransactionModel {
   static const tblTransaction = "Transactions";
   static const dbId = "Id";
   static const dbTimestamp = "Timestamp";
@@ -14,6 +21,69 @@ class TransactionModel extends Equatable {
   static const dbSource = "source";
   static const dbAim = "Aim";
   static const dbAckUrl = "ackUrl";
+
+  const factory TransactionModel({
+    @TransactionTypeConverter() required TransactionType type,
+    required String source,
+    required String country,
+    @JsonKey(name: 'Aim') required String? aimCode,
+    @DateTimeConverter() @JsonKey(name: 'Timestamp') required DateTime date,
+    // @JsonKey(name: 'Aim') required Aim aim,
+    @JsonKey(name: 'Id') required int id,
+    String? ackUrl,
+    int? size,
+  }) = _TransactionModel;
+
+  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
+      _$TransactionModelFromJson(json);
+}
+
+extension TransactionModelX on TransactionModel {
+  String formatDate() {
+    logger.i(Intl.getCurrentLocale());
+    var format = new DateFormat.yMMMEd(Intl.getCurrentLocale());
+    return format.format(this.date!);
+  }
+
+  List<String> get aimCodes {
+    if (aimCode == null || aimCode!.isEmpty) return [];
+    final list = aimCode!.split(',');
+    return list;
+  }
+
+  String? get firstAimCode {
+    return aimCodes.isNotEmpty ? aimCodes.first : null;
+  }
+}
+
+class DateTimeConverter implements JsonConverter<DateTime, dynamic> {
+  const DateTimeConverter();
+
+  @override
+  DateTime fromJson(dynamic value) {
+    return value is String
+        ? DateTime.parse(value)
+        : DateTime.fromMillisecondsSinceEpoch(value);
+  }
+
+  @override
+  String toJson(DateTime data) => data.toIso8601String();
+}
+
+class TransactionTypeConverter implements JsonConverter<TransactionType, int> {
+  const TransactionTypeConverter();
+
+  @override
+  TransactionType fromJson(int value) {
+    return TransactionType.values[value];
+  }
+
+  @override
+  int toJson(TransactionType data) => data.index;
+}
+/*
+class TransactionModel extends Equatable {
+
 
   TransactionType? transactionType;
   String? source;
@@ -65,4 +135,4 @@ class TransactionModel extends Equatable {
   @override
   List<Object?> get props =>
       [transactionType, source, aimCode, size, date, ackUrl];
-}
+}*/

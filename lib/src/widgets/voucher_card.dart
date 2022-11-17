@@ -1,18 +1,23 @@
-import 'package:auto_size_text/auto_size_text.dart';
+import  'package:auto_size_text/auto_size_text.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 import '../my_logger.dart';
+import 'package:collection/collection.dart';
+
 
 class TicketCard extends StatelessWidget {
-  final TransactionModel? transaction;
+  final TransactionModel transaction;
   final bool isForHome;
 
-  const TicketCard({Key? key, this.transaction, this.isForHome = false})
+  const TicketCard(
+      {Key? key, required this.transaction, this.isForHome = false})
       : super(key: key);
 
   @override
@@ -53,7 +58,8 @@ class TicketCard extends StatelessWidget {
   }
 
   _buildVoucherContent(BuildContext context) {
-    final voucherIdStyle = TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600, color: backgroundColor);
+    final voucherIdStyle = TextStyle(
+        fontSize: 25.0, fontWeight: FontWeight.w600, color: backgroundColor);
 
     return Container(
       padding: const EdgeInsets.all(15.0),
@@ -71,12 +77,14 @@ class TicketCard extends StatelessWidget {
           Divider(),
           Text(
             '${transaction!.size} wom',
-            style: TextStyle(color: Colors.green, fontSize: 30.0, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.green,
+                fontSize: 30.0,
+                fontWeight: FontWeight.bold),
           ),
           Divider(),
           AutoSizeText.rich(
-            TextSpan(
-                children: <TextSpan>[
+            TextSpan(children: <TextSpan>[
               TextSpan(
                 text: AppLocalizations.of(context)!.translate('from'),
                 style: TextStyle(color: backgroundColor, fontSize: 20.0),
@@ -100,8 +108,7 @@ class TicketCard extends StatelessWidget {
   _buildTransactionContent(BuildContext context) {
     TextStyle voucherIdStyle =
         new TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
-    bool isEarnTransaction =
-        transaction!.transactionType == TransactionType.VOUCHERS;
+    bool isEarnTransaction = transaction!.type == TransactionType.VOUCHERS;
     final languageCode = AppLocalizations.of(context)!.locale.languageCode;
 
     return Container(
@@ -121,7 +128,7 @@ class TicketCard extends StatelessWidget {
                     style: voucherIdStyle,
                   ),
                   Expanded(child: SizedBox()),
-                  transaction!.transactionType == TransactionType.PAYMENT
+                  transaction!.type == TransactionType.PAYMENT
                       ? Icon(
                           Icons.payment,
                           color: Colors.red,
@@ -147,8 +154,23 @@ class TicketCard extends StatelessWidget {
                         color: baseIconColor),
                   ),
                   Expanded(child: Container()),
-                  Text((transaction?.aim?.titles ?? const {})[languageCode] ??
-                      '-'),
+                  if (transaction.aimCodes.isEmpty)
+                    Text(
+                      '-',
+                    )
+                  else
+                    Consumer(
+                      builder: (c, ref, child) {
+                        final aim = ref
+                            .watch(aimNotifierProvider)
+                            .valueOrNull
+                            ?.firstWhereOrNull(
+                                (a) => a.code == transaction.aimCodes.first);
+                        return Text(
+                          aim?.titles?[languageCode] ?? '-',
+                        );
+                      },
+                    ),
                 ],
               ),
             ],

@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/widgets/voucher_card.dart';
-class TransactionDetailsScreen extends StatefulWidget {
-  final TransactionModel? transactionModel;
 
-  const TransactionDetailsScreen({Key? key, this.transactionModel}) : super(key: key);
+class TransactionDetailsScreen extends StatefulWidget {
+  final TransactionModel transactionModel;
+
+  const TransactionDetailsScreen({
+    Key? key,
+    required this.transactionModel,
+  }) : super(key: key);
+
   @override
-  _TransactionDetailsScreenState createState() => _TransactionDetailsScreenState();
+  _TransactionDetailsScreenState createState() =>
+      _TransactionDetailsScreenState();
 }
 
 class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
-
 //  String _animationName = "success";
 
   @override
@@ -63,4 +68,3 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
     );
   }
 }
-

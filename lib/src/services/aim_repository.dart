@@ -1,9 +1,14 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/db/aim_database.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../constants.dart';
 import '../my_logger.dart';
+
+final aimRepositoryProvider = Provider<AimRepository>((ref) {
+  return AimRepository();
+});
 
 class AimRepository {
   late AimRemoteDataSources _apiProvider;
@@ -23,7 +28,7 @@ class AimRepository {
       final db = await database();
       await db.delete(AimDbKeys.TABLE_NAME);
       logger.i("${newList.length} NUOVI AIM");
-      saveAimToDb(db, newList);
+      await saveAimToDb(db, newList);
       return newList;
     } catch (e) {
       logger.e(e);
@@ -76,14 +81,12 @@ class AimRepository {
   //   }
   // }
 
-  saveAimToDb(Database db, List<Aim?> list) async {
+  Future<void> saveAimToDb(Database db, List<Aim?> list) async {
     logger.i("AimRepository: saveAimToDb()");
     logger.i("SAVING AIM");
-    list.forEach(
-      (aim) async {
-        await _aimDbHelper.insert(db: db, aim: aim);
-      },
-    );
+    for (int i = 0; i < list.length; i++) {
+      await _aimDbHelper.insert(db: db, aim: list[i]);
+    }
     logger.i("AIM SAVED");
   }
 }

@@ -158,7 +158,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                     horizontal: 10.0),
                                 child: Center(
                                     child: Text(
-                                  state.transaction.transactionType ==
+                                  state.transaction.type ==
                                           TransactionType.VOUCHERS
                                       ? '${AppLocalizations.of(context)!.translate('you_got')}:'
                                       : AppLocalizations.of(context)!
@@ -189,7 +189,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                 margin: EdgeInsets.symmetric(horizontal: 80.0),
                                 child: FloatingActionButton.extended(
                                     onPressed: () {
-                                      if (state.transaction.transactionType ==
+                                      if (state.transaction.type ==
                                               TransactionType.PAYMENT &&
                                           url != null) {
                                         Utils.launchUrl(url);
@@ -197,7 +197,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                       backToHome();
                                     },
                                     label: Text(
-                                        '${state.transaction.transactionType == TransactionType.PAYMENT && url != null ? 'Continue' : 'Ok'}')),
+                                        '${state.transaction.type == TransactionType.PAYMENT && url != null ? 'Continue' : 'Ok'}')),
                               ),
                             )
                           ],

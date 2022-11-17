@@ -19,15 +19,14 @@ void main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
-await Firebase.initializeApp();
-  await Hive.initFlutter();
-  Hive.registerAdapter(MigrationDataAdapter());
-  await Hive.openBox('settings');
-  final box = await Hive.openBox<MigrationData>('migration');
-  final migrationData = box.get(exportedMigrationDataKey);
-  flavor = Flavor.RELEASE;
-  domain = 'wom.social';
-  registryKey = await Utils.getPublicKey();
+    await Hive.initFlutter();
+    Hive.registerAdapter(MigrationDataAdapter());
+    await Hive.openBox('settings');
+    final box = await Hive.openBox<MigrationData>('migration');
+    final migrationData = box.get(exportedMigrationDataKey);
+    flavor = Flavor.RELEASE;
+    domain = 'wom.social';
+    registryKey = await Utils.getPublicKey();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
     SystemChrome.setSystemUIOverlayStyle(
@@ -39,9 +38,12 @@ await Firebase.initializeApp();
       ),
     );
 
-    runApp(App(
-      appRepository: AppRepository(),
-    ));
+    runApp(
+      App(
+        appRepository: AppRepository(),
+        migrationData: migrationData,
+      ),
+    );
   },
       (error, stack) =>
           FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
@@ -55,6 +57,5 @@ await Firebase.initializeApp();
 
 //fvm flutter build apk --flavor development -t lib/main_dev.dart
 //xcrun simctl openurl booted https://dev.wom.social/vouchers/5722523d-3257-493e-9107-d8954a1fcd91
-
 
 //xcrun simctl openurl booted https://link.dev.wom.social/vouchers/2bfa24d3-27a7-4a45-816c-39826fc210dd

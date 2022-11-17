@@ -59,10 +59,11 @@ class TransactionRepository {
     logger.i(tmp);
 
     TransactionModel tx = TransactionModel(
+      id: 0,
       date: DateTime.now(),
       country: "italy",
       size: vouchers.length,
-      transactionType: TransactionType.VOUCHERS,
+      type: TransactionType.VOUCHERS,
       source: redeem.sourceName!,
       aimCode: tmp,
     );
@@ -75,7 +76,7 @@ class TransactionRepository {
       // logger.i("wom_$i saved");
     }
 
-    return tx;
+    return tx.copyWith(id: id);
   }
 
   Future<InfoPayResponse> requestPayment(String otc, String? password) async {
@@ -104,10 +105,11 @@ class TransactionRepository {
 
       //TODO change italy
       TransactionModel tx = TransactionModel(
+        id: 0,
         date: DateTime.now(),
         country: "italy",
         size: infoPay.amount,
-        transactionType: TransactionType.PAYMENT,
+        type: TransactionType.PAYMENT,
         source: infoPay.posName!,
         aimCode: infoPay.simpleFilter?.aimCode,
         ackUrl: ack,
@@ -124,7 +126,7 @@ class TransactionRepository {
       logger.i("wom to off = $count");
       logger.i(ack.toString());
 
-      return tx;
+      return tx.copyWith(id: id);
     } catch (e) {
       logger.e(e);
       rethrow;
