@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:pocket/src/blocs/migration/export_notifier.dart';
+import 'package:wom_pocket/src/blocs/migration/export_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'export_screen.dart';
@@ -200,15 +200,19 @@ class PageThree extends ConsumerWidget {
                     ),
                     DialogButton(
                       child: Text('Procedi'),
-                      onPressed: () {
+                      onPressed: () async{
                         Navigator.pop(context);
-                        ref
-                            .read(exportNotifierProvider.notifier)
-                            .exportWom(pinController.text.trim());
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (c) => MigrationExportScreen()),
-                            (route) => false);
+                       try{
+                         await ref
+                             .read(exportNotifierProvider.notifier)
+                             .exportWom(pinController.text.trim());
+                         Navigator.of(context).pushAndRemoveUntil(
+                             MaterialPageRoute(
+                                 builder: (c) => MigrationExportScreen()),
+                                 (route) => false);
+                       }catch(ex){
+
+                       }
                       },
                     )
                   ],

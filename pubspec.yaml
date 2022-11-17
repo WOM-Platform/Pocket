@@ -11,7 +11,7 @@ publish_to: none
 version: 0.5.0+34
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -20,9 +20,9 @@ dependencies:
     sdk: flutter
 
   # Firebase
-  firebase_core: ^1.12.0
-  firebase_crashlytics: ^2.5.1
-  firebase_analytics: ^9.1.0
+  firebase_core: ^2.2.0
+  firebase_crashlytics: ^3.0.5
+  firebase_analytics: ^10.0.5
 
   flutter_riverpod: ^1.0.3
   equatable:
@@ -30,18 +30,13 @@ dependencies:
   uni_links: ^0.5.1
   flutter_bloc: ^7.0.1
   sqflite: ^2.0.0+3
-  #simple_rsa: ^0.0.5
   encrypt: ^5.0.0
-  #mmkv_flutter: ^1.0.10 #per salvare le preferenze (firstOpen ecc) + veloce delle normali shared preference
   hive: ^2.0.4
   hive_flutter: ^1.1.0
-  #barcode_scan: ^1.0.0
-  qr_code_scanner: ^0.5.2
+  mobile_scanner: ^3.0.0-beta.1
   qr_flutter: ^4.0.0
   intl: ^0.17.0
-  #intl_translation:
   flutter_map: ^0.13.1
-  #geohash: ^0.2.1
   dart_geohash: ^2.0.1
   http: ^0.13.4
   intro_views_flutter: ^3.2.0
@@ -65,20 +60,15 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   logger: ^1.0.0
   pin_code_fields: ^7.3.0
-#  location: ^4.3.0
   geolocator: ^7.7.1
   animate_do:
   carousel_slider: ^4.0.0
   toggle_switch: ^2.0.1
+  json_annotation: ^4.7.0
   dart_wom_connector:
     path: /Users/gianmarcodifrancesco/Work/Digit/Dart/dart_wom_connector
 
   store_redirect: ^2.0.1
-#  flare_flutter:
-#    git:
-#      url: git://github.com/2d-inc/Flare-Flutter.git
-#      ref: dev
-#      path: flare_flutter
 
 #dependency_overrides:
 #  meta: 1.4.0
@@ -89,6 +79,7 @@ dependency_overrides:
 dev_dependencies:
   hive_generator: ^1.1.0
   build_runner: ^2.0.6
+  json_serializable: ^6.0.0
   freezed:
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

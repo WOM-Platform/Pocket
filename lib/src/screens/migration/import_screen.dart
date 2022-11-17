@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:pocket/src/blocs/migration/import_notifier.dart';
+import 'package:wom_pocket/src/blocs/migration/import_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 final pageControllerProvider =

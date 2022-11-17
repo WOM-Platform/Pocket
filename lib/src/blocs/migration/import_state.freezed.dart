@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'import_state.dart';
@@ -11,29 +12,7 @@ part of 'import_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$ImportStateTearOff {
-  const _$ImportStateTearOff();
-
-  ImportLoading loading() {
-    return const ImportLoading();
-  }
-
-  ImportError error(Exception ex) {
-    return ImportError(
-      ex,
-    );
-  }
-
-  ImportCompleted completed() {
-    return const ImportCompleted();
-  }
-}
-
-/// @nodoc
-const $ImportState = _$ImportStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$ImportState {
@@ -100,21 +79,22 @@ class _$ImportStateCopyWithImpl<$Res> implements $ImportStateCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class $ImportLoadingCopyWith<$Res> {
-  factory $ImportLoadingCopyWith(
-          ImportLoading value, $Res Function(ImportLoading) then) =
-      _$ImportLoadingCopyWithImpl<$Res>;
+abstract class _$$ImportLoadingCopyWith<$Res> {
+  factory _$$ImportLoadingCopyWith(
+          _$ImportLoading value, $Res Function(_$ImportLoading) then) =
+      __$$ImportLoadingCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$ImportLoadingCopyWithImpl<$Res> extends _$ImportStateCopyWithImpl<$Res>
-    implements $ImportLoadingCopyWith<$Res> {
-  _$ImportLoadingCopyWithImpl(
-      ImportLoading _value, $Res Function(ImportLoading) _then)
-      : super(_value, (v) => _then(v as ImportLoading));
+class __$$ImportLoadingCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res>
+    implements _$$ImportLoadingCopyWith<$Res> {
+  __$$ImportLoadingCopyWithImpl(
+      _$ImportLoading _value, $Res Function(_$ImportLoading) _then)
+      : super(_value, (v) => _then(v as _$ImportLoading));
 
   @override
-  ImportLoading get _value => super._value as ImportLoading;
+  _$ImportLoading get _value => super._value as _$ImportLoading;
 }
 
 /// @nodoc
@@ -130,12 +110,13 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'ImportState.loading'));
+    properties.add(DiagnosticsProperty('type', 'ImportState.loading'));
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is ImportLoading);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ImportLoading);
   }
 
   @override
@@ -215,28 +196,28 @@ abstract class ImportLoading implements ImportState {
 }
 
 /// @nodoc
-abstract class $ImportErrorCopyWith<$Res> {
-  factory $ImportErrorCopyWith(
-          ImportError value, $Res Function(ImportError) then) =
-      _$ImportErrorCopyWithImpl<$Res>;
+abstract class _$$ImportErrorCopyWith<$Res> {
+  factory _$$ImportErrorCopyWith(
+          _$ImportError value, $Res Function(_$ImportError) then) =
+      __$$ImportErrorCopyWithImpl<$Res>;
   $Res call({Exception ex});
 }
 
 /// @nodoc
-class _$ImportErrorCopyWithImpl<$Res> extends _$ImportStateCopyWithImpl<$Res>
-    implements $ImportErrorCopyWith<$Res> {
-  _$ImportErrorCopyWithImpl(
-      ImportError _value, $Res Function(ImportError) _then)
-      : super(_value, (v) => _then(v as ImportError));
+class __$$ImportErrorCopyWithImpl<$Res> extends _$ImportStateCopyWithImpl<$Res>
+    implements _$$ImportErrorCopyWith<$Res> {
+  __$$ImportErrorCopyWithImpl(
+      _$ImportError _value, $Res Function(_$ImportError) _then)
+      : super(_value, (v) => _then(v as _$ImportError));
 
   @override
-  ImportError get _value => super._value as ImportError;
+  _$ImportError get _value => super._value as _$ImportError;
 
   @override
   $Res call({
     Object? ex = freezed,
   }) {
-    return _then(ImportError(
+    return _then(_$ImportError(
       ex == freezed
           ? _value.ex
           : ex // ignore: cast_nullable_to_non_nullable
@@ -269,19 +250,19 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ImportError &&
-            (identical(other.ex, ex) ||
-                const DeepCollectionEquality().equals(other.ex, ex)));
+        (other.runtimeType == runtimeType &&
+            other is _$ImportError &&
+            const DeepCollectionEquality().equals(other.ex, ex));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(ex);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(ex));
 
   @JsonKey(ignore: true)
   @override
-  $ImportErrorCopyWith<ImportError> get copyWith =>
-      _$ImportErrorCopyWithImpl<ImportError>(this, _$identity);
+  _$$ImportErrorCopyWith<_$ImportError> get copyWith =>
+      __$$ImportErrorCopyWithImpl<_$ImportError>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -353,31 +334,31 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
 }
 
 abstract class ImportError implements ImportState {
-  const factory ImportError(Exception ex) = _$ImportError;
+  const factory ImportError(final Exception ex) = _$ImportError;
 
-  Exception get ex => throw _privateConstructorUsedError;
+  Exception get ex;
   @JsonKey(ignore: true)
-  $ImportErrorCopyWith<ImportError> get copyWith =>
+  _$$ImportErrorCopyWith<_$ImportError> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ImportCompletedCopyWith<$Res> {
-  factory $ImportCompletedCopyWith(
-          ImportCompleted value, $Res Function(ImportCompleted) then) =
-      _$ImportCompletedCopyWithImpl<$Res>;
+abstract class _$$ImportCompletedCopyWith<$Res> {
+  factory _$$ImportCompletedCopyWith(
+          _$ImportCompleted value, $Res Function(_$ImportCompleted) then) =
+      __$$ImportCompletedCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$ImportCompletedCopyWithImpl<$Res>
+class __$$ImportCompletedCopyWithImpl<$Res>
     extends _$ImportStateCopyWithImpl<$Res>
-    implements $ImportCompletedCopyWith<$Res> {
-  _$ImportCompletedCopyWithImpl(
-      ImportCompleted _value, $Res Function(ImportCompleted) _then)
-      : super(_value, (v) => _then(v as ImportCompleted));
+    implements _$$ImportCompletedCopyWith<$Res> {
+  __$$ImportCompletedCopyWithImpl(
+      _$ImportCompleted _value, $Res Function(_$ImportCompleted) _then)
+      : super(_value, (v) => _then(v as _$ImportCompleted));
 
   @override
-  ImportCompleted get _value => super._value as ImportCompleted;
+  _$ImportCompleted get _value => super._value as _$ImportCompleted;
 }
 
 /// @nodoc
@@ -395,12 +376,13 @@ class _$ImportCompleted
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'ImportState.completed'));
+    properties.add(DiagnosticsProperty('type', 'ImportState.completed'));
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is ImportCompleted);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ImportCompleted);
   }
 
   @override

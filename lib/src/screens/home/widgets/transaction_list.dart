@@ -98,13 +98,14 @@ class TransactionsList extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
-                    child: Text(
-                        AppLocalizations.of(context)!.translate('try_again')),
-                    onPressed: () {
-                      BlocProvider.of<TransactionsListBloc>(context)
-                          .add(LoadTransactions());
-                    }),
+                ElevatedButton(
+                  child: Text(
+                      AppLocalizations.of(context)!.translate('try_again')),
+                  onPressed: () {
+                    BlocProvider.of<TransactionsListBloc>(context)
+                        .add(LoadTransactions());
+                  },
+                ),
               ],
             ),
           );

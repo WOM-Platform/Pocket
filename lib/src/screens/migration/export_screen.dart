@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pocket/src/blocs/migration/export_notifier.dart';
-import 'package:pocket/src/blocs/migration/import_notifier.dart';
-import 'package:pocket/src/blocs/migration/migration_data.dart';
-import 'package:pocket/src/models/deep_link_model.dart';
-import 'package:pocket/src/screens/migration/import_screen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:wom_pocket/src/blocs/migration/export_notifier.dart';
+import 'package:wom_pocket/src/blocs/migration/import_notifier.dart';
+import 'package:wom_pocket/src/blocs/migration/migration_data.dart';
+import 'package:wom_pocket/src/models/deep_link_model.dart';
+import 'package:wom_pocket/src/screens/migration/import_screen.dart';
 
 import '../../../constants.dart';
 
@@ -63,13 +63,19 @@ class MigrationExportScreen extends ConsumerWidget {
               child: GestureDetector(
                 onTap: () {
                   if (kDebugMode) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (c) => ProviderScope(overrides: [
-                              deepModelProvider.overrideWithValue(
-                                DeepLinkModel.fromUri(Uri.parse(data.link)),
-                              ),
-                              importNotifierProvider,
-                            ], child: ImportScreen())));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (c) => ProviderScope(
+                          overrides: [
+                            deepModelProvider.overrideWithValue(
+                              DeepLinkModel.fromUri(Uri.parse(data.link)),
+                            ),
+                            importNotifierProvider,
+                          ],
+                          child: ImportScreen(),
+                        ),
+                      ),
+                    );
                   }
                 },
                 child: Container(

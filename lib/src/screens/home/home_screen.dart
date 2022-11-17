@@ -8,14 +8,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
-import 'package:wom_pocket/src/screens/pos_list/pos_list_screen.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:wom_pocket/src/utils/config.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:store_redirect/store_redirect.dart';
+import 'package:wom_pocket/src/widgets/scanner_overlay_shape.dart';
 import '../../../constants.dart';
 import '../../blocs/app/app_bloc.dart';
 import '../../blocs/map/bloc.dart';
@@ -373,7 +373,8 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
       } on FormatException {
         throw FormatException(
             "Hai premuto il pulsante back prima di acquisire il dato");
-      } catch (ex) {
+      } catch (ex, st) {
+        logger.e(st);
         throw ex;
       }
     } else {
@@ -460,9 +461,9 @@ class ScanScreen extends StatefulWidget {
 class _ScanScreenState extends State<ScanScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
-  QRViewController? controller;
+  MobileScannerController? controller;
 
-  // In order to get hot reload to work we need to pause the camera if the platform
+/*  // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
   void reassemble() {
@@ -472,17 +473,33 @@ class _ScanScreenState extends State<ScanScreen> {
     } else if (Platform.isIOS) {
       controller!.resumeCamera();
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
       children: [
-        QRView(
-            key: qrKey,
-            onQRViewCreated: _onQRViewCreated,
-            overlay: QrScannerOverlayShape()),
+        MobileScanner(
+          key: qrKey,
+          // onQRViewCreated: _onQRViewCreated,
+          onDetect: (barcode,args){
+            if (scanned) return;
+            scanned = true;
+            Navigator.of(context).pop(barcode.rawValue);
+          },
+        ),
+        Container(
+          decoration: ShapeDecoration(
+            shape: QrScannerOverlayShape(
+              // overlayColor: Palette.chivadoColor.withAlpha(160),
+              borderColor: Colors.red,
+              borderRadius: 3,
+              borderWidth: 10,
+              cutOutSize: MediaQuery.of(context).size.width * (3 / 4),
+            ),
+          ),
+        ),
         Positioned(
           top: MediaQuery.of(context).padding.top + 8,
           right: 16,
@@ -502,7 +519,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
   bool scanned = false;
 
-  void _onQRViewCreated(QRViewController controller) {
+/*  void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       if (scanned) return;
@@ -511,7 +528,7 @@ class _ScanScreenState extends State<ScanScreen> {
       print(scanData.code);
       Navigator.of(context).pop(scanData.code);
     });
-  }
+  }*/
 
   @override
   void dispose() {

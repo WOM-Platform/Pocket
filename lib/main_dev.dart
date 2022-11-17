@@ -5,11 +5,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:wom_pocket/src/blocs/migration/migration_data.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:wom_pocket/src/utils/config.dart';
-import 'package:pocket/src/blocs/migration/migration_data.dart';
-
 
 import 'app.dart';
 import 'constants.dart';
@@ -33,14 +32,9 @@ Future<void> main() async {
   ));
 
   runApp(
-    DevicePreview(
-      enabled: false,
-      builder: (context) => App(
-        appRepository: AppRepository(),
-        migrationData: migrationData,
-      ),
-    );
-  },
-      (error, stack) =>
-          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
+    App(
+      appRepository: AppRepository(),
+      migrationData: migrationData,
+    ),
+  );
 }

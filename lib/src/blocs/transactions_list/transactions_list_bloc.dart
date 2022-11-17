@@ -51,8 +51,9 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
                 return a.code == aimCode;
               });
               t.aim = aim;
-            } catch (ex) {
+            } catch (ex, st) {
               logger.e(ex);
+              logger.e(st);
             }
           }
         }

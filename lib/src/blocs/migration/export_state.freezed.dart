@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'export_state.dart';
@@ -11,31 +12,7 @@ part of 'export_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$ExportStateTearOff {
-  const _$ExportStateTearOff();
-
-  ExportLoading loading() {
-    return const ExportLoading();
-  }
-
-  ExportError error(Exception ex) {
-    return ExportError(
-      ex,
-    );
-  }
-
-  ExportCompleted completed(MigrationData data) {
-    return ExportCompleted(
-      data,
-    );
-  }
-}
-
-/// @nodoc
-const $ExportState = _$ExportStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$ExportState {
@@ -102,21 +79,22 @@ class _$ExportStateCopyWithImpl<$Res> implements $ExportStateCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class $ExportLoadingCopyWith<$Res> {
-  factory $ExportLoadingCopyWith(
-          ExportLoading value, $Res Function(ExportLoading) then) =
-      _$ExportLoadingCopyWithImpl<$Res>;
+abstract class _$$ExportLoadingCopyWith<$Res> {
+  factory _$$ExportLoadingCopyWith(
+          _$ExportLoading value, $Res Function(_$ExportLoading) then) =
+      __$$ExportLoadingCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$ExportLoadingCopyWithImpl<$Res> extends _$ExportStateCopyWithImpl<$Res>
-    implements $ExportLoadingCopyWith<$Res> {
-  _$ExportLoadingCopyWithImpl(
-      ExportLoading _value, $Res Function(ExportLoading) _then)
-      : super(_value, (v) => _then(v as ExportLoading));
+class __$$ExportLoadingCopyWithImpl<$Res>
+    extends _$ExportStateCopyWithImpl<$Res>
+    implements _$$ExportLoadingCopyWith<$Res> {
+  __$$ExportLoadingCopyWithImpl(
+      _$ExportLoading _value, $Res Function(_$ExportLoading) _then)
+      : super(_value, (v) => _then(v as _$ExportLoading));
 
   @override
-  ExportLoading get _value => super._value as ExportLoading;
+  _$ExportLoading get _value => super._value as _$ExportLoading;
 }
 
 /// @nodoc
@@ -132,12 +110,13 @@ class _$ExportLoading with DiagnosticableTreeMixin implements ExportLoading {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'ExportState.loading'));
+    properties.add(DiagnosticsProperty('type', 'ExportState.loading'));
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is ExportLoading);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ExportLoading);
   }
 
   @override
@@ -217,28 +196,28 @@ abstract class ExportLoading implements ExportState {
 }
 
 /// @nodoc
-abstract class $ExportErrorCopyWith<$Res> {
-  factory $ExportErrorCopyWith(
-          ExportError value, $Res Function(ExportError) then) =
-      _$ExportErrorCopyWithImpl<$Res>;
+abstract class _$$ExportErrorCopyWith<$Res> {
+  factory _$$ExportErrorCopyWith(
+          _$ExportError value, $Res Function(_$ExportError) then) =
+      __$$ExportErrorCopyWithImpl<$Res>;
   $Res call({Exception ex});
 }
 
 /// @nodoc
-class _$ExportErrorCopyWithImpl<$Res> extends _$ExportStateCopyWithImpl<$Res>
-    implements $ExportErrorCopyWith<$Res> {
-  _$ExportErrorCopyWithImpl(
-      ExportError _value, $Res Function(ExportError) _then)
-      : super(_value, (v) => _then(v as ExportError));
+class __$$ExportErrorCopyWithImpl<$Res> extends _$ExportStateCopyWithImpl<$Res>
+    implements _$$ExportErrorCopyWith<$Res> {
+  __$$ExportErrorCopyWithImpl(
+      _$ExportError _value, $Res Function(_$ExportError) _then)
+      : super(_value, (v) => _then(v as _$ExportError));
 
   @override
-  ExportError get _value => super._value as ExportError;
+  _$ExportError get _value => super._value as _$ExportError;
 
   @override
   $Res call({
     Object? ex = freezed,
   }) {
-    return _then(ExportError(
+    return _then(_$ExportError(
       ex == freezed
           ? _value.ex
           : ex // ignore: cast_nullable_to_non_nullable
@@ -271,19 +250,19 @@ class _$ExportError with DiagnosticableTreeMixin implements ExportError {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ExportError &&
-            (identical(other.ex, ex) ||
-                const DeepCollectionEquality().equals(other.ex, ex)));
+        (other.runtimeType == runtimeType &&
+            other is _$ExportError &&
+            const DeepCollectionEquality().equals(other.ex, ex));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(ex);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(ex));
 
   @JsonKey(ignore: true)
   @override
-  $ExportErrorCopyWith<ExportError> get copyWith =>
-      _$ExportErrorCopyWithImpl<ExportError>(this, _$identity);
+  _$$ExportErrorCopyWith<_$ExportError> get copyWith =>
+      __$$ExportErrorCopyWithImpl<_$ExportError>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -355,38 +334,38 @@ class _$ExportError with DiagnosticableTreeMixin implements ExportError {
 }
 
 abstract class ExportError implements ExportState {
-  const factory ExportError(Exception ex) = _$ExportError;
+  const factory ExportError(final Exception ex) = _$ExportError;
 
-  Exception get ex => throw _privateConstructorUsedError;
+  Exception get ex;
   @JsonKey(ignore: true)
-  $ExportErrorCopyWith<ExportError> get copyWith =>
+  _$$ExportErrorCopyWith<_$ExportError> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ExportCompletedCopyWith<$Res> {
-  factory $ExportCompletedCopyWith(
-          ExportCompleted value, $Res Function(ExportCompleted) then) =
-      _$ExportCompletedCopyWithImpl<$Res>;
+abstract class _$$ExportCompletedCopyWith<$Res> {
+  factory _$$ExportCompletedCopyWith(
+          _$ExportCompleted value, $Res Function(_$ExportCompleted) then) =
+      __$$ExportCompletedCopyWithImpl<$Res>;
   $Res call({MigrationData data});
 }
 
 /// @nodoc
-class _$ExportCompletedCopyWithImpl<$Res>
+class __$$ExportCompletedCopyWithImpl<$Res>
     extends _$ExportStateCopyWithImpl<$Res>
-    implements $ExportCompletedCopyWith<$Res> {
-  _$ExportCompletedCopyWithImpl(
-      ExportCompleted _value, $Res Function(ExportCompleted) _then)
-      : super(_value, (v) => _then(v as ExportCompleted));
+    implements _$$ExportCompletedCopyWith<$Res> {
+  __$$ExportCompletedCopyWithImpl(
+      _$ExportCompleted _value, $Res Function(_$ExportCompleted) _then)
+      : super(_value, (v) => _then(v as _$ExportCompleted));
 
   @override
-  ExportCompleted get _value => super._value as ExportCompleted;
+  _$ExportCompleted get _value => super._value as _$ExportCompleted;
 
   @override
   $Res call({
     Object? data = freezed,
   }) {
-    return _then(ExportCompleted(
+    return _then(_$ExportCompleted(
       data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -421,19 +400,19 @@ class _$ExportCompleted
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ExportCompleted &&
-            (identical(other.data, data) ||
-                const DeepCollectionEquality().equals(other.data, data)));
+        (other.runtimeType == runtimeType &&
+            other is _$ExportCompleted &&
+            const DeepCollectionEquality().equals(other.data, data));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(data);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
 
   @JsonKey(ignore: true)
   @override
-  $ExportCompletedCopyWith<ExportCompleted> get copyWith =>
-      _$ExportCompletedCopyWithImpl<ExportCompleted>(this, _$identity);
+  _$$ExportCompletedCopyWith<_$ExportCompleted> get copyWith =>
+      __$$ExportCompletedCopyWithImpl<_$ExportCompleted>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -505,10 +484,10 @@ class _$ExportCompleted
 }
 
 abstract class ExportCompleted implements ExportState {
-  const factory ExportCompleted(MigrationData data) = _$ExportCompleted;
+  const factory ExportCompleted(final MigrationData data) = _$ExportCompleted;
 
-  MigrationData get data => throw _privateConstructorUsedError;
+  MigrationData get data;
   @JsonKey(ignore: true)
-  $ExportCompletedCopyWith<ExportCompleted> get copyWith =>
+  _$$ExportCompletedCopyWith<_$ExportCompleted> get copyWith =>
       throw _privateConstructorUsedError;
 }

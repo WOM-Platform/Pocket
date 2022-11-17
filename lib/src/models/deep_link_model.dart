@@ -4,10 +4,14 @@ import 'package:equatable/equatable.dart';
 import '../../constants.dart';
 import '../my_logger.dart';
 
-// adb shell am start -a android.intent.action.VIEW -d "https://dev.wom.social/vouchers/1718f4eb-94c9-428c-9058-317bd3f406aa" social.wom.pocket.dev
+final protocol = isDev ? 'wom-dev' : 'wom';
+final oldDeepLink = isDev ? 'dev.wom.social' : 'wom.social';
+final deepLink = isDev ? 'link.dev.wom.social' : 'link.wom.social';
+
 class DeepLinkModel extends Equatable {
   static const PAYMENT = 'payment';
   static const VOUCHERS = 'vouchers';
+  static const MIGRATION = 'migration';
 
   final Uri? uri;
   String? otc;
@@ -34,6 +38,11 @@ class DeepLinkModel extends Equatable {
             break;
           case VOUCHERS:
             type = TransactionType.VOUCHERS;
+            break;
+          case MIGRATION:
+            type = TransactionType.MIGRATION;
+            migrationPartialKey =
+                uri!.pathSegments.length > 1 ? null : uri!.pathSegments[2];
             break;
           default:
             throw Exception("Type of transaction is NOT valid");

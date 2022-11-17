@@ -10,6 +10,7 @@ import 'package:wom_pocket/src/my_logger.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../constants.dart';
+import '../blocs/migration/wom_export.dart';
 
 class WomDB {
   static final WomDB _womDb = new WomDB._internal(AppDatabase.get());
@@ -22,20 +23,27 @@ class WomDB {
     return _womDb;
   }
 
-  Future<List<Voucher>> getAllWoms() async {
+  Future<List<WomExport>> getAllWoms() async {
     final db = await _appDatabase.getDb();
-    final result = await db.rawQuery('SELECT * FROM ${WomModel.tblWom}');
+    final result = await db.rawQuery(
+        'SELECT * FROM ${WomModel.tblWom} WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index}');
     final vouchers = result
-        .map<Voucher>((Map<String, dynamic> v) => Voucher(
+        .map<WomExport>(
+          (Map<String, dynamic> v) => WomExport(
+            wom: Voucher(
               id: v[WomModel.dbId],
-              lat: v[WomModel.dbLat],
-              long: v[WomModel.dbLong],
+              latitude: v[WomModel.dbLat].toDouble(),
+              longitude: v[WomModel.dbLong].toDouble(),
               secret: v[WomModel.dbSecret],
               aim: v[WomModel.dbAim],
-              dateTime: v[WomModel.dbTimestamp] != null
-                  ? DateTime.fromMillisecondsSinceEpoch(v[WomModel.dbTimestamp])
-                  : null,
-            ))
+              timestamp: DateTime.fromMillisecondsSinceEpoch(
+                v[WomModel.dbTimestamp].toInt(),
+              ),
+            ),
+            sourceName: v[WomModel.dbSourceName],
+            sourceId: v[WomModel.dbSourceId],
+          ),
+        )
         .toList();
     return vouchers;
   }
@@ -58,14 +66,14 @@ class WomDB {
       final vouchers = result
           .map<Voucher>((Map<String, dynamic> v) => Voucher(
                 id: v[WomModel.dbId],
-                lat: v[WomModel.dbLat]?.toDouble(),
-                long: v[WomModel.dbLong]?.toDouble(),
+                latitude: v[WomModel.dbLat]?.toDouble(),
+                longitude: v[WomModel.dbLong]?.toDouble(),
                 secret: v[WomModel.dbSecret],
                 aim: v[WomModel.dbAim],
-                dateTime: v[WomModel.dbTimestamp] != null
+                timestamp: v[WomModel.dbTimestamp] != null
                     ? DateTime.fromMillisecondsSinceEpoch(
                         v[WomModel.dbTimestamp])
-                    : null,
+                    : DateTime.fromMillisecondsSinceEpoch(0),
               ))
           .toList();
       logger.i("--------- COMPLETE QUERY WOM");
@@ -174,13 +182,39 @@ class WomDB {
     try {
       final geoHasher = GeoHasher();
       final geohash = geoHasher.encode(
-        voucher.long!,
-        voucher.lat!,
+        voucher.longitude,
+        voucher.latitude,
       );
       await db.transaction((Transaction txn) async {
         int id = await txn.rawInsert('INSERT INTO '
             '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
-            ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.dateTime!.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.lat ?? 0.0},${voucher.long ?? 0.0},"$sourceName","$sourceId","${voucher.aim}",$transactionId)');
+            ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.timestamp!.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.latitude ?? 0.0},${voucher.longitude ?? 0.0},"$sourceName","$sourceId","${voucher.aim}",$transactionId)');
+      });
+    } catch (e) {
+      logger.i(e.toString());
+      throw e;
+    }
+  }
+
+  /// Inserts or replaces the task.
+  Future<void> importVouchers(
+      List<WomExport> vouchers, int? transactionId) async {
+    var db = await _appDatabase.getDb();
+    try {
+      final geoHasher = GeoHasher();
+      await db.transaction((Transaction txn) async {
+        for (int i = 0; i < vouchers.length; i++) {
+          final data = vouchers[i];
+          final voucher = vouchers[i].wom;
+          final geohash = geoHasher.encode(
+            voucher.longitude,
+            voucher.latitude,
+          );
+          int res = await txn.rawInsert('INSERT INTO '
+              '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
+              ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.timestamp.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.latitude ?? 0.0},${voucher.longitude ?? 0.0},"${data.sourceName}","${data.sourceId}","${voucher.aim}",$transactionId)');
+          print('inserted: ${voucher.id} with $res');
+        }
       });
     } catch (e) {
       logger.i(e.toString());

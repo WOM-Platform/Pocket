@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pocket/src/blocs/migration/export_state.dart';
-import 'package:pocket/src/db/app_db.dart';
-import 'package:pocket/src/db/wom_db.dart';
-import 'package:pocket/src/services/transaction_repository.dart';
-import 'package:pocket/src/utils/utils.dart';
+import 'package:wom_pocket/src/blocs/migration/export_state.dart';
+import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/db/wom_db.dart';
+import 'package:wom_pocket/src/services/transaction_repository.dart';
+import 'package:wom_pocket/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
@@ -54,8 +54,10 @@ class ExportNotifier extends StateNotifier<ExportState> {
       // TODO clean wom db
       // await AppDatabase.get().deleteDb();
       state = ExportCompleted(migrationData);
-    } catch (ex) {
-      state = ExportError(Exception(ex.toString()));
+    } catch (ex,st) {
+      // state = ExportError(Exception(ex.toString()));
+      print(st);
+      rethrow;
     }
   }
 }

@@ -9,8 +9,8 @@ import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 import 'package:wom_pocket/src/utils/config.dart';
-import 'package:pocket/app.dart';
-import 'package:pocket/src/blocs/migration/migration_data.dart';
+import 'package:wom_pocket/app.dart';
+import 'package:wom_pocket/src/blocs/migration/migration_data.dart';
 
 import 'constants.dart';
 import 'src/utils/utils.dart';

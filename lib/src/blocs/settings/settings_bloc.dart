@@ -1,22 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wom_pocket/src/db/app_db.dart';
 
-import './bloc.dart';
 import '../../my_logger.dart';
 
-class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc() : super(InitialSettingsState());
-
-  @override
-  Stream<SettingsState> mapEventToState(
-    SettingsEvent event,
-  ) async* {
-    // TODO: Add Logic
-  }
+class SettingsBloc{
 
   Future<bool> deleteDB() async {
     try {

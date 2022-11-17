@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/db/transaction_db.dart';
 import 'package:wom_pocket/src/db/wom_db.dart';
@@ -66,12 +67,12 @@ class TransactionRepository {
       aimCode: tmp,
     );
 
-    final int? id = await transactionsDB.insertTransaction(tx);
+    final id = await transactionsDB.insertTransaction(tx);
 
     for (int i = 0; i < vouchers.length; i++) {
       await womDB.insertVoucher(
           vouchers[i], redeem.sourceName, redeem.sourceId, id);
-      logger.i("wom_$i saved");
+      // logger.i("wom_$i saved");
     }
 
     return tx;

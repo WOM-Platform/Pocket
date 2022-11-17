@@ -137,7 +137,10 @@ class InfoPayment extends StatelessWidget {
                 indent: 10.0,
               ),
               Center(
-                child: RaisedButton(
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: darkPrimaryColor,
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
@@ -146,7 +149,6 @@ class InfoPayment extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 20.0),
                       ),
                     ),
-                    color: darkPrimaryColor,
                     onPressed: () {
                       bloc.add(
                           TransactionConfirmPayment(responseInfoPay, password));

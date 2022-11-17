@@ -1,12 +1,16 @@
-import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
+
+import 'package:path_provider/path_provider.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wom_pocket/constants.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/db/wom_db.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'my_extensions.dart';
 
 class Utils {
   // //TODO delete in release
@@ -146,7 +150,11 @@ class Utils {
     print(dir.path);
     final path = '${dir.path}/wom_migration';
     final file = File(path);
-    final jsonString = jsonEncode(woms);
+    if(await file.exists()){
+      await file.delete();
+    }
+    print('wom da esportare: ${woms.length}');
+    final jsonString = jsonEncode(woms.map((e) => e.toJson()).toList());
     final key = getRandomString(28);
     final bytes = encryptWithAes(jsonString, '$key$pin');
     await file.writeAsBytes(bytes);
