@@ -74,7 +74,7 @@ final mapControllerProvider = StateProvider<GoogleMapController?>((ref) {
 
 final posMapListProvider =
     StateNotifierProvider<PosMapNotifier, AsyncValue<PosMapData>>((ref) {
-  return PosMapNotifier(ref.read);
+  return PosMapNotifier(ref);
 });
 
 class PosMapData {
@@ -87,9 +87,9 @@ class PosMapData {
 }
 
 class PosMapNotifier extends StateNotifier<AsyncValue<PosMapData>> {
-  final Reader read;
+  final Ref ref;
 
-  PosMapNotifier(this.read) : super(AsyncValue.data(PosMapData.empty()));
+  PosMapNotifier(this.ref) : super(AsyncValue.data(PosMapData.empty()));
 
   Future<void> loadPos({
     required double llx,
@@ -97,7 +97,7 @@ class PosMapNotifier extends StateNotifier<AsyncValue<PosMapData>> {
     required double urx,
     required double ury,
   }) async {
-    final posList = await read(registryClientProvider)
+    final posList = await ref.read(registryClientProvider)
         .getPosListAroundMe(llx: llx, lly: lly, urx: urx, ury: ury);
 
     final markers = await buildMarkers(posList);
@@ -138,7 +138,7 @@ class PosMapNotifier extends StateNotifier<AsyncValue<PosMapData>> {
       markerId: markerId,
       position: LatLng(point.position.latitude, point.position.longitude),
       onTap: () {
-        read(carouselControllerProvider).jumpToPage(index);
+        ref.read(carouselControllerProvider).jumpToPage(index);
         // selectMarker(markerId);
       },
       zIndex: index == 0 ? 1 : 0,

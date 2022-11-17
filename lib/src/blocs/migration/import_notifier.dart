@@ -21,7 +21,7 @@ import 'migration_data.dart';
 
 final importNotifierProvider =
     StateNotifierProvider<ImportNotifier, ImportState>((ref) {
-  return ImportNotifier(ref.read, ImportState.loading()
+  return ImportNotifier(ref, ImportState.loading()
       // migrationData != null
       //     ? ExportState.completed(migrationData)
       //     : ExportState.loading(),
@@ -29,22 +29,22 @@ final importNotifierProvider =
 });
 
 class ImportNotifier extends StateNotifier<ImportState> {
-  final Reader read;
+  final Ref ref;
 
-  ImportNotifier(this.read, state)
-      : super(state ?? const ImportState.loading());
+  ImportNotifier(this.ref, state) : super(state ?? const ImportState.loading());
 
   Future<void> importWom(String password) async {
     try {
-      final otc = read(deepModelProvider).otc;
+      final otc = ref.read(deepModelProvider).otc;
       if (otc == null) throw Exception('Otc is null');
       final response =
-          await read(pocketProvider).getInfoAboutMigration(otc, password);
+          await ref.read(pocketProvider).getInfoAboutMigration(otc, password);
       print(response);
-      final responseBytes =
-          await read(pocketProvider).retrieveMigrationPayload(otc, password);
+      final responseBytes = await ref
+          .read(pocketProvider)
+          .retrieveMigrationPayload(otc, password);
       // final file = File.fromRawPath(responseBytes);
-      final partialKey = read(deepModelProvider).migrationPartialKey;
+      final partialKey = ref.read(deepModelProvider).migrationPartialKey;
       final json = Utils.decryptWithAes(responseBytes, '$partialKey$password');
       final list = List<Map<String, dynamic>>.from(jsonDecode(json));
       final woms = list.map((e) => WomExport.fromJson(e)).toList();

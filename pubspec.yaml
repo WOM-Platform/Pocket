@@ -24,43 +24,40 @@ dependencies:
   firebase_crashlytics: ^3.0.5
   firebase_analytics: ^10.0.5
 
-  flutter_riverpod: ^1.0.3
+  flutter_riverpod: ^2.1.1
   equatable:
-  cupertino_icons: ^1.0.3
   uni_links: ^0.5.1
   flutter_bloc: ^7.0.1
   sqflite: ^2.0.0+3
-  encrypt: ^5.0.0
-  hive: ^2.0.4
+  encrypt: ^5.0.1
+  hive: ^2.2.3
   hive_flutter: ^1.1.0
   mobile_scanner: ^3.0.0-beta.1
   qr_flutter: ^4.0.0
   intl: ^0.17.0
-  flutter_map: ^0.13.1
-  dart_geohash: ^2.0.1
-  http: ^0.13.4
+  dart_geohash: ^2.0.2
+  http: ^0.13.5
   intro_views_flutter: ^3.2.0
   webview_flutter: ^3.0.4
   flutter_lock_screen: ^2.0.1
   clustering_google_maps: ^0.1.2-nullsafety.3
   google_maps_cluster_manager: ^1.0.0
-  google_maps_flutter: ^2.1.3
-  auto_size_text: ^3.0.0-nullsafety.0
+  google_maps_flutter: ^2.2.1
+  auto_size_text: ^3.0.0
   flare_flutter: ^3.0.1
   clippy_flutter: ^2.0.0-nullsafety.1
   flutter_slidable: ^0.6.0
   share: ^2.0.4
   rflutter_alert: ^2.0.4
-  #data_connection_checker: ^0.3.4
-  internet_connection_checker: ^0.0.1+2
+  internet_connection_checker: ^1.0.0+1
   url_launcher: ^6.0.9
-  feature_discovery: ^0.14.0
+  feature_discovery: ^0.14.1
   package_info: ^2.0.2
 #  device_preview: ^0.7.4
   sliding_up_panel: ^2.0.0+1
-  logger: ^1.0.0
-  pin_code_fields: ^7.3.0
-  geolocator: ^7.7.1
+  logger: ^1.1.0
+  pin_code_fields: ^7.4.0
+  geolocator: ^9.0.2
   animate_do:
   carousel_slider: ^4.0.0
   toggle_switch: ^2.0.1

@@ -17,7 +17,7 @@ final exportNotifierProvider =
       Hive.box<MigrationData>(boxMigrationKey).get(exportedMigrationDataKey);
 
   return ExportNotifier(
-    ref.read,
+    ref,
     migrationData != null
         ? ExportState.completed(migrationData)
         : ExportState.loading(),
@@ -25,8 +25,8 @@ final exportNotifierProvider =
 });
 
 class ExportNotifier extends StateNotifier<ExportState> {
-  final Reader read;
-  ExportNotifier(this.read, state)
+  final Ref ref;
+  ExportNotifier(this.ref, state)
       : super(state ?? const ExportState.loading());
 
   Future exportWom(String pin) async {
@@ -45,7 +45,7 @@ class ExportNotifier extends StateNotifier<ExportState> {
       // v1
       final data = await Utils.exportWomToJson(pin);
       final response =
-          await read(pocketProvider).createNewMigration(data.bytes, pin);
+          await ref.read(pocketProvider).createNewMigration(data.bytes, pin);
 
       final migrationData =
           MigrationData.fromMigrationResponse(response, data.partialKey);
