@@ -16,7 +16,7 @@ class TransactionStarted extends TransactionEvent {
 }
 
 class TransactionConfirmPayment extends TransactionEvent {
-  final InfoPayResponse infoPay;
+  final PaymentInfoResponse infoPay;
   final String password;
 
   TransactionConfirmPayment(this.infoPay, this.password);

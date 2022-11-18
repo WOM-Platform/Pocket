@@ -188,7 +188,7 @@ class WomDB {
       await db.transaction((Transaction txn) async {
         int id = await txn.rawInsert('INSERT INTO '
             '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
-            ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.timestamp!.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.latitude ?? 0.0},${voucher.longitude ?? 0.0},"$sourceName","$sourceId","${voucher.aim}",$transactionId)');
+            ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.timestamp.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.latitude},${voucher.longitude},"$sourceName","$sourceId","${voucher.aim}",$transactionId)');
       });
     } catch (e) {
       logger.i(e.toString());
@@ -212,7 +212,7 @@ class WomDB {
           );
           int res = await txn.rawInsert('INSERT INTO '
               '${WomModel.tblWom}(${WomModel.dbId},${WomModel.dbSecret},${WomModel.dbGeohash},${WomModel.dbTimestamp},${WomModel.dbLive},${WomModel.dbLat},${WomModel.dbLong},${WomModel.dbSourceName},${WomModel.dbSourceId},${WomModel.dbAim},${WomModel.dbTransactionId})'
-              ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.timestamp.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.latitude ?? 0.0},${voucher.longitude ?? 0.0},"${data.sourceName}","${data.sourceId}","${voucher.aim}",$transactionId)');
+              ' VALUES("${voucher.id}","${voucher.secret}","$geohash",${voucher.timestamp.millisecondsSinceEpoch},"${WomStatus.ON.index}", ${voucher.latitude},${voucher.longitude},"${data.sourceName}","${data.sourceId}","${voucher.aim}",$transactionId)');
           print('inserted: ${voucher.id} with $res');
         }
       });

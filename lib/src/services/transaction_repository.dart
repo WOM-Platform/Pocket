@@ -79,20 +79,20 @@ class TransactionRepository {
     return tx.copyWith(id: id);
   }
 
-  Future<InfoPayResponse> requestPayment(String otc, String? password) async {
+  Future<PaymentInfoResponse> requestPayment(String otc, String? password) async {
     logger.i("requestPayment");
     return pocket.requestInfoPayment(otc, password);
   }
 
   Future<TransactionModel> pay(
-      String otc, String? password, InfoPayResponse infoPay) async {
+      String otc, String? password, PaymentInfoResponse infoPay) async {
     logger.i("pay");
 
     try {
       final satisfyingVouchers =
           await womDB.getVouchersForPay(simpleFilter: infoPay.simpleFilter);
 
-      if (infoPay.amount! > satisfyingVouchers.length) {
+      if (infoPay.amount > satisfyingVouchers.length) {
         throw InsufficientVouchers();
       }
       // satisfyingVouchers.shuffle();
@@ -110,8 +110,8 @@ class TransactionRepository {
         country: "italy",
         size: infoPay.amount,
         type: TransactionType.PAYMENT,
-        source: infoPay.posName!,
-        aimCode: infoPay.simpleFilter?.aimCode,
+        source: infoPay.posName,
+        aimCode: infoPay.simpleFilter?.aim,
         ackUrl: ack,
       );
 

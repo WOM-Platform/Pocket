@@ -6,7 +6,7 @@ import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 class InfoPayment extends StatelessWidget {
-  final InfoPayResponse responseInfoPay;
+  final PaymentInfoResponse responseInfoPay;
   final String password;
 
   const InfoPayment({
@@ -66,7 +66,7 @@ class InfoPayment extends StatelessWidget {
                           style: greyStyle,
                         ),
                         Text(
-                          responseInfoPay.posName!,
+                          responseInfoPay.posName,
                           style: valueStyle,
                         ),
                       ],
@@ -78,7 +78,7 @@ class InfoPayment extends StatelessWidget {
                           style: greyStyle,
                         ),
                         Text(
-                          responseInfoPay.amount?.toString() ?? '-',
+                          responseInfoPay.amount.toString(),
                           style: valueStyle,
                         ),
                       ],
@@ -99,7 +99,7 @@ class InfoPayment extends StatelessWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters.aimCode ?? "-",
+                                simpleFilters.aim ?? "-",
                                 style: valueStyle,
                               ),
                             ],

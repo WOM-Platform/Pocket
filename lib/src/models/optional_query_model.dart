@@ -1,4 +1,4 @@
-import 'package:dart_wom_connector/dart_wom_connector.dart' show SimpleFilter;
+import 'package:dart_wom_connector/dart_wom_connector.dart' show SimpleFilter, SimpleFilterX;
 import 'package:wom_pocket/src/models/wom_model.dart';
 
 import '../my_logger.dart';
@@ -124,7 +124,7 @@ class OptionalQuery {
 
   buildSimpleFiltersQuery() {
     String filtersWhereClause = "";
-    final String? aim = filters!.aimCode;
+    final String? aim = filters!.aim;
     final bounds = filters!.bounds;
 
     String aimClause;
@@ -143,10 +143,10 @@ class OptionalQuery {
         ? "$aimClause"
         : "$filtersWhereClause AND $aimClause";
 
-    if (filters!.maxAge != null) {
-      final int maxAgeInMilliseconds = filters!.maxAgeToMilliseconds;
-      final todayInMillisecons = DateTime.now().toUtc().millisecondsSinceEpoch;
-      final queryTimestamp = todayInMillisecons - maxAgeInMilliseconds;
+    if (filters?.maxAge != null) {
+      final int maxAgeInMilliseconds = filters!.maxAgeToMilliseconds!;
+      final todayInMilliseconds = DateTime.now().toUtc().millisecondsSinceEpoch;
+      final queryTimestamp = todayInMilliseconds - maxAgeInMilliseconds;
 
       final maxAgeClause =
           "${WomModel.tblWom}.${WomModel.dbTimestamp} >= $queryTimestamp";
@@ -159,10 +159,10 @@ class OptionalQuery {
 
     if (bounds != null) {
       String boundsClause = "";
-      final double leftTopLatitude = bounds.leftTop![0];
-      final double leftTopLongitude = bounds.leftTop![1];
-      final double rightBottomLatitude = bounds.rightBottom![0];
-      final double rightBottomLongitude = bounds.rightBottom![1];
+      final double leftTopLatitude = bounds.leftTop[0];
+      final double leftTopLongitude = bounds.leftTop[1];
+      final double rightBottomLatitude = bounds.rightBottom[0];
+      final double rightBottomLongitude = bounds.rightBottom[1];
 
       final latQuery = (leftTopLatitude > rightBottomLatitude)
           ? "(${WomModel.dbLat} <= $leftTopLatitude AND ${WomModel.dbLat} >= $rightBottomLatitude)"

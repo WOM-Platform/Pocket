@@ -41,7 +41,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
           ),
           SizedBox(height: 40.0),
           Hero(
-            tag: widget.transactionModel!.date!,
+            tag: widget.transactionModel.date,
             child: TicketCard(
               transaction: widget.transactionModel,
               isForHome: true,

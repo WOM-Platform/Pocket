@@ -42,7 +42,7 @@ extension TransactionModelX on TransactionModel {
   String formatDate() {
     logger.i(Intl.getCurrentLocale());
     var format = new DateFormat.yMMMEd(Intl.getCurrentLocale());
-    return format.format(this.date!);
+    return format.format(this.date);
   }
 
   List<String> get aimCodes {

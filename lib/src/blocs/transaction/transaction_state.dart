@@ -27,7 +27,7 @@ class TransactionCompleteState extends TransactionState {
 }
 
 class TransactionInfoPaymentState extends TransactionState {
-  final InfoPayResponse infoPayment;
+  final PaymentInfoResponse infoPayment;
   final String password;
 
   TransactionInfoPaymentState(this.infoPayment, this.password);
@@ -75,7 +75,7 @@ class TransactionErrorState extends TransactionState {
 }
 
 class TransactionNoDataConnectionState extends TransactionState {
-  final InfoPayResponse? infoPay;
+  final PaymentInfoResponse? infoPay;
   final String password;
 
   TransactionNoDataConnectionState({this.infoPay, required this.password});

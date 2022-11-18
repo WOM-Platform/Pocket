@@ -97,7 +97,7 @@ class TransactionCard extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           ItemRow(
-                              t1: 'id', t2: transaction.id.toString() ?? '-'),
+                              t1: 'id', t2: transaction.id.toString()),
                           ItemRow(t1: 'date', t2: transaction.formatDate()),
                         ],
                       ),

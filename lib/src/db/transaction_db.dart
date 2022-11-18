@@ -53,7 +53,7 @@ class TransactionDB {
     await db.transaction((Transaction txn) async {
       id = await txn.rawInsert('INSERT INTO '
           '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbAim},${TransactionModel.dbType},${TransactionModel.dbAckUrl})'
-          ' VALUES(${tx.size},${tx.date!.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.type!.index},"${tx.ackUrl}")');
+          ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.type.index},"${tx.ackUrl}")');
     });
     logger.i("insertTransaction id: $id");
     return id;

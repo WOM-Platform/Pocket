@@ -70,13 +70,13 @@ class TicketCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           AutoSizeText(
-            transaction!.formatDate(),
+            transaction.formatDate(),
             maxLines: 1,
             style: voucherIdStyle,
           ),
           Divider(),
           Text(
-            '${transaction!.size} wom',
+            '${transaction.size} wom',
             style: TextStyle(
                 color: Colors.green,
                 fontSize: 30.0,
@@ -90,7 +90,7 @@ class TicketCard extends StatelessWidget {
                 style: TextStyle(color: backgroundColor, fontSize: 20.0),
               ),
               TextSpan(
-                text: ' ${transaction!.source}',
+                text: ' ${transaction.source}',
                 style: TextStyle(
                     color: backgroundColor,
                     fontSize: 20.0,
@@ -108,7 +108,7 @@ class TicketCard extends StatelessWidget {
   _buildTransactionContent(BuildContext context) {
     TextStyle voucherIdStyle =
         new TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
-    bool isEarnTransaction = transaction!.type == TransactionType.VOUCHERS;
+    bool isEarnTransaction = transaction.type == TransactionType.VOUCHERS;
     final languageCode = AppLocalizations.of(context)!.locale.languageCode;
 
     return Container(
@@ -124,11 +124,11 @@ class TicketCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    transaction!.formatDate(),
+                    transaction.formatDate(),
                     style: voucherIdStyle,
                   ),
                   Expanded(child: SizedBox()),
-                  transaction!.type == TransactionType.PAYMENT
+                  transaction.type == TransactionType.PAYMENT
                       ? Icon(
                           Icons.payment,
                           color: Colors.red,
@@ -147,7 +147,7 @@ class TicketCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    transaction!.source ?? "",
+                    transaction.source,
                     style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w500,
@@ -189,7 +189,7 @@ class TicketCard extends StatelessWidget {
                         fontWeight: FontWeight.w400),
                   ),
                   TextSpan(
-                      text: ' ${transaction!.size.toString()}',
+                      text: ' ${transaction.size.toString()}',
                       style: TextStyle(
                           fontSize: 22.0,
                           color: isEarnTransaction ? Colors.green : Colors.red,
