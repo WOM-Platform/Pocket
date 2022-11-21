@@ -516,11 +516,11 @@ class $WomTable extends Wom with TableInfo<$WomTable, WomRow> {
   }
 }
 
-class aims extends DataClass implements Insertable<aims> {
+class AimRow extends DataClass implements Insertable<AimRow> {
   final int id;
   final String code;
   final String titles;
-  const aims({required this.id, required this.code, required this.titles});
+  const AimRow({required this.id, required this.code, required this.titles});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -538,10 +538,10 @@ class aims extends DataClass implements Insertable<aims> {
     );
   }
 
-  factory aims.fromJson(Map<String, dynamic> json,
+  factory AimRow.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return aims(
+    return AimRow(
       id: serializer.fromJson<int>(json['id']),
       code: serializer.fromJson<String>(json['code']),
       titles: serializer.fromJson<String>(json['titles']),
@@ -557,14 +557,14 @@ class aims extends DataClass implements Insertable<aims> {
     };
   }
 
-  aims copyWith({int? id, String? code, String? titles}) => aims(
+  AimRow copyWith({int? id, String? code, String? titles}) => AimRow(
         id: id ?? this.id,
         code: code ?? this.code,
         titles: titles ?? this.titles,
       );
   @override
   String toString() {
-    return (StringBuffer('aims(')
+    return (StringBuffer('AimRow(')
           ..write('id: $id, ')
           ..write('code: $code, ')
           ..write('titles: $titles')
@@ -577,13 +577,13 @@ class aims extends DataClass implements Insertable<aims> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is aims &&
+      (other is AimRow &&
           other.id == this.id &&
           other.code == this.code &&
           other.titles == this.titles);
 }
 
-class AimsCompanion extends UpdateCompanion<aims> {
+class AimsCompanion extends UpdateCompanion<AimRow> {
   final Value<int> id;
   final Value<String> code;
   final Value<String> titles;
@@ -599,7 +599,7 @@ class AimsCompanion extends UpdateCompanion<aims> {
   })  : id = Value(id),
         code = Value(code),
         titles = Value(titles);
-  static Insertable<aims> custom({
+  static Insertable<AimRow> custom({
     Expression<int>? id,
     Expression<String>? code,
     Expression<String>? titles,
@@ -646,7 +646,7 @@ class AimsCompanion extends UpdateCompanion<aims> {
   }
 }
 
-class $AimsTable extends Aims with TableInfo<$AimsTable, aims> {
+class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -673,7 +673,7 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, aims> {
   @override
   String get actualTableName => 'aims';
   @override
-  VerificationContext validateIntegrity(Insertable<aims> instance,
+  VerificationContext validateIntegrity(Insertable<AimRow> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -700,9 +700,9 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, aims> {
   @override
   Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
-  aims map(Map<String, dynamic> data, {String? tablePrefix}) {
+  AimRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return aims(
+    return AimRow(
       id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       code: attachedDatabase.options.types
@@ -718,7 +718,7 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, aims> {
   }
 }
 
-class MyTransactions extends DataClass implements Insertable<MyTransactions> {
+class MyTransaction extends DataClass implements Insertable<MyTransaction> {
   final int id;
   final String source;
   final String country;
@@ -727,7 +727,7 @@ class MyTransactions extends DataClass implements Insertable<MyTransactions> {
   final int type;
   final int size;
   final String? ackUrl;
-  const MyTransactions(
+  const MyTransaction(
       {required this.id,
       required this.source,
       required this.country,
@@ -766,10 +766,10 @@ class MyTransactions extends DataClass implements Insertable<MyTransactions> {
     );
   }
 
-  factory MyTransactions.fromJson(Map<String, dynamic> json,
+  factory MyTransaction.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return MyTransactions(
+    return MyTransaction(
       id: serializer.fromJson<int>(json['id']),
       source: serializer.fromJson<String>(json['source']),
       country: serializer.fromJson<String>(json['country']),
@@ -795,7 +795,7 @@ class MyTransactions extends DataClass implements Insertable<MyTransactions> {
     };
   }
 
-  MyTransactions copyWith(
+  MyTransaction copyWith(
           {int? id,
           String? source,
           String? country,
@@ -804,7 +804,7 @@ class MyTransactions extends DataClass implements Insertable<MyTransactions> {
           int? type,
           int? size,
           Value<String?> ackUrl = const Value.absent()}) =>
-      MyTransactions(
+      MyTransaction(
         id: id ?? this.id,
         source: source ?? this.source,
         country: country ?? this.country,
@@ -816,7 +816,7 @@ class MyTransactions extends DataClass implements Insertable<MyTransactions> {
       );
   @override
   String toString() {
-    return (StringBuffer('MyTransactions(')
+    return (StringBuffer('MyTransaction(')
           ..write('id: $id, ')
           ..write('source: $source, ')
           ..write('country: $country, ')
@@ -835,7 +835,7 @@ class MyTransactions extends DataClass implements Insertable<MyTransactions> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is MyTransactions &&
+      (other is MyTransaction &&
           other.id == this.id &&
           other.source == this.source &&
           other.country == this.country &&
@@ -846,7 +846,7 @@ class MyTransactions extends DataClass implements Insertable<MyTransactions> {
           other.ackUrl == this.ackUrl);
 }
 
-class TransactionsCompanion extends UpdateCompanion<MyTransactions> {
+class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   final Value<int> id;
   final Value<String> source;
   final Value<String> country;
@@ -880,7 +880,7 @@ class TransactionsCompanion extends UpdateCompanion<MyTransactions> {
         timestamp = Value(timestamp),
         type = Value(type),
         size = Value(size);
-  static Insertable<MyTransactions> custom({
+  static Insertable<MyTransaction> custom({
     Expression<int>? id,
     Expression<String>? source,
     Expression<String>? country,
@@ -970,7 +970,7 @@ class TransactionsCompanion extends UpdateCompanion<MyTransactions> {
 }
 
 class $TransactionsTable extends Transactions
-    with TableInfo<$TransactionsTable, MyTransactions> {
+    with TableInfo<$TransactionsTable, MyTransaction> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -1025,7 +1025,7 @@ class $TransactionsTable extends Transactions
   @override
   String get actualTableName => 'transactions';
   @override
-  VerificationContext validateIntegrity(Insertable<MyTransactions> instance,
+  VerificationContext validateIntegrity(Insertable<MyTransaction> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1078,9 +1078,9 @@ class $TransactionsTable extends Transactions
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  MyTransactions map(Map<String, dynamic> data, {String? tablePrefix}) {
+  MyTransaction map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return MyTransactions(
+    return MyTransaction(
       id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}Id'])!,
       source: attachedDatabase.options.types
@@ -1111,6 +1111,7 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   late final $WomTable wom = $WomTable(this);
   late final $AimsTable aims = $AimsTable(this);
   late final $TransactionsTable transactions = $TransactionsTable(this);
+  late final WomsDao womsDao = WomsDao(this as MyDatabase);
   @override
   Iterable<TableInfo<Table, dynamic>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

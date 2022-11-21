@@ -17,14 +17,14 @@ class Wom extends Table {
   RealColumn get longitude => real().named('Longitude')();
 }
 
-@DataClassName('aims')
+@DataClassName('AimRow')
 class Aims extends Table {
   IntColumn get id => integer()();
   TextColumn get code => text().named('code')();
   TextColumn get titles => text().named('titles')();
 }
 
-@DataClassName('MyTransactions')
+@DataClassName('MyTransaction')
 class Transactions extends Table {
   IntColumn get id => integer().autoIncrement().named('Id')();
   TextColumn get source => text().named('source')();

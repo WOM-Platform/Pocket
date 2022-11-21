@@ -118,7 +118,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             womStatus: WomStatus.ON,
             sources: sources,
             aims: aims,
-            excludeWomWithouLocation: true)
+            excludeWomWithoutLocation: true)
         .build();
 
     logger.i("Clustering filter query:");

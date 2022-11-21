@@ -16,6 +16,7 @@ class TransactionDB {
     return _transactionDb;
   }
 
+  //Done
   Future<List<TransactionModel>> getTransactions() async {
     logger.i("--------- START QUERY TRANSACTION");
     var db = await _appDatabase.getDb();
@@ -46,6 +47,7 @@ class TransactionDB {
     }
   }
 
+  //Done
   /// Inserts or replaces the task.
   Future<int> insertTransaction(TransactionModel tx) async {
     var db = await _appDatabase.getDb();

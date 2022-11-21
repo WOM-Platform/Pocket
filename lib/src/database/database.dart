@@ -7,10 +7,13 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:wom_pocket/src/database/tables.dart';
+import 'package:wom_pocket/src/database/woms_dao.dart';
+
+import '../models/wom_model.dart' show WomStatus;
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [Wom, Aims, Transactions])
+@DriftDatabase(tables: [Wom, Aims, Transactions],daos: [WomsDao])
 class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
   MyDatabase() : super(_openConnection());

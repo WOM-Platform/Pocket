@@ -24,33 +24,34 @@ class AimDatabase {
         "${AimDbKeys.TITLES} TEXT);");
   }
 
-  Future<List<Aim>> getAimWithLevel(
-      {required Database db, int? deepLevel, String? code}) async {
-    try {
-      logger.i("AimDatabase: getAimWithLevel()");
-      final String whereClause = code != null
-          ? "LENGTH(${AimDbKeys.CODE}) = ? AND ${AimDbKeys.CODE} LIKE '$code%'"
-          : "LENGTH(${AimDbKeys.CODE}) = ?";
-      List<Map> maps = await db.query(
-        AimDbKeys.TABLE_NAME,
-        columns: null,
-        where: whereClause,
-        whereArgs: [deepLevel],
-      );
-      return maps.map((a) {
-        return Aim(
-          code: a[AimDbKeys.CODE],
-          titles: json.decode(a[AimDbKeys.TITLES]),
-          iconFile: a[AimDbKeys.ICON_URL],
-          children: [],
-        );
-      }).toList();
-    } catch (e) {
-      logger.i(e.toString());
-      return <Aim>[];
-    }
-  }
+  // Future<List<Aim>> getAimWithLevel(
+  //     {required Database db, int? deepLevel, String? code}) async {
+  //   try {
+  //     logger.i("AimDatabase: getAimWithLevel()");
+  //     final String whereClause = code != null
+  //         ? "LENGTH(${AimDbKeys.CODE}) = ? AND ${AimDbKeys.CODE} LIKE '$code%'"
+  //         : "LENGTH(${AimDbKeys.CODE}) = ?";
+  //     List<Map> maps = await db.query(
+  //       AimDbKeys.TABLE_NAME,
+  //       columns: null,
+  //       where: whereClause,
+  //       whereArgs: [deepLevel],
+  //     );
+  //     return maps.map((a) {
+  //       return Aim(
+  //         code: a[AimDbKeys.CODE],
+  //         titles: json.decode(a[AimDbKeys.TITLES]),
+  //         iconFile: a[AimDbKeys.ICON_URL],
+  //         children: [],
+  //       );
+  //     }).toList();
+  //   } catch (e) {
+  //     logger.i(e.toString());
+  //     return <Aim>[];
+  //   }
+  // }
 
+  //Done
   Future<List<Aim>> getFlatAimList({required Database db}) async {
     logger.i("AimDatabase: getFlatAimList()");
     try {
@@ -71,6 +72,7 @@ class AimDatabase {
     }
   }
 
+  //Done
   Future<Aim?> getAim({required Database db, String? aimCode}) async {
     logger.i("AimDatabase: getAim()");
     try {
@@ -93,6 +95,7 @@ class AimDatabase {
     }
   }
 
+  //Done
   Future<int?> insert({required Database db, Aim? aim}) async {
     logger.i("AimDatabase: insert()");
     int? result;

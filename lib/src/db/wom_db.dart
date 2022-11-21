@@ -23,6 +23,7 @@ class WomDB {
     return _womDb;
   }
 
+  // Done
   Future<List<WomExport>> getAllWoms() async {
     final db = await _appDatabase.getDb();
     final result = await db.rawQuery(
@@ -150,6 +151,7 @@ class WomDB {
     }
   }
 
+  //Done
   //Fetch Wom from DB
   Future<int> getWomCount() async {
     logger.i('[WomDb] getWomCount');
@@ -167,14 +169,15 @@ class WomDB {
     }
   }
 
-  Future deleteWom(int womID) async {
-    var db = await _appDatabase.getDb();
-    await db.transaction((Transaction txn) async {
-      await txn.rawDelete(
-          'DELETE FROM ${WomModel.tblWom} WHERE ${WomModel.dbId}=$womID;');
-    });
-  }
+  // Future deleteWom(int womID) async {
+  //   var db = await _appDatabase.getDb();
+  //   await db.transaction((Transaction txn) async {
+  //     await txn.rawDelete(
+  //         'DELETE FROM ${WomModel.tblWom} WHERE ${WomModel.dbId}=$womID;');
+  //   });
+  // }
 
+  //Done
   /// Inserts or replaces the task.
   Future<void> insertVoucher(Voucher voucher, String? sourceName,
       String? sourceId, int? transactionId) async {
@@ -222,6 +225,7 @@ class WomDB {
     }
   }
 
+  // Done
   /// Inserts or replaces the task.
   Future<int> updateWomStatusToOff(String? womId, int? transactionId) async {
     var db = await _appDatabase.getDb();
