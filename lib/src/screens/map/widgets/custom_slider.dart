@@ -29,7 +29,8 @@ class CustomSlider extends ConsumerWidget {
         ),
         child: Slider(
           divisions: 10,
-          label: valueIndicatorTextSlider[state.sliderValue?.toInt() ?? 0],
+          label: valueIndicatorTextSlider[
+              state.valueOrNull?.sliderValue?.toInt() ?? 0],
           min: 0.0,
           max: 10.0,
           onChangeEnd: (v) {
@@ -37,7 +38,7 @@ class CustomSlider extends ConsumerWidget {
                 .read(mapNotifierProvider.notifier)
                 .updateMap(UpdateMap(sliderValue: v, forceFilterUpdate: true));
           },
-          value: state.sliderValue!,
+          value: state.valueOrNull?.sliderValue ?? 0,
           onChanged: (v) {
             ref
                 .read(mapNotifierProvider.notifier)

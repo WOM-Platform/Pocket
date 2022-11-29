@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info/package_info.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/application/aim_notifier.dart';
+import 'package:wom_pocket/src/database/extensions.dart';
 import 'package:wom_pocket/src/db/app_db.dart';
 import 'package:wom_pocket/src/screens/table_page/db_page.dart';
 import 'package:wom_pocket/src/utils/config.dart';
@@ -12,12 +15,12 @@ import '../../my_logger.dart';
 import '../../utils/my_extensions.dart';
 import '../migration/migration_screen.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool current = false;
 
   bool get showDBViewer => tap > 6;
@@ -109,11 +112,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               trailing: Icon(Icons.data_usage),
               contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
               onTap: () async {
-                final woms = await AppDatabase.get()
-                    .getAllWoms(await AppDatabase.get().getDb());
-                Navigator.of(context).push(MaterialPageRoute(
+                final woms =
+                    await ref.read(databaseProvider).womsDao.getAllWoms;
+                Navigator.of(context).push(
+                  MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        WomDbTablePage(woms: woms)));
+                        WomDbTablePage(woms: woms),
+                  ),
+                );
               },
             ),
           if (flavor == Flavor.DEVELOPMENT) ...[
@@ -122,7 +128,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               subtitle: "Delete all data of local database",
               icon: Icons.delete,
               onTap: () async {
-                AppDatabase.get().deleteDb();
+                // ref.read(databaseProvider).de+
+                // AppDatabase.get().deleteDb();
               },
             ),
             SettingsItem(
@@ -130,7 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               subtitle: "Close DB and save locally",
               icon: Icons.close,
               onTap: () async {
-                AppDatabase.get().closeDatabase();
+                await ref.read(databaseProvider).close();
               },
             ),
           ],

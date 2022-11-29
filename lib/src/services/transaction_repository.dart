@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dart_geohash/dart_geohash.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/constants.dart';
@@ -10,6 +11,7 @@ import 'package:wom_pocket/src/db/transaction_db.dart';
 import 'package:wom_pocket/src/db/wom_db.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/src/models/wom_model.dart';
 
 import '../my_logger.dart';
 
@@ -51,8 +53,7 @@ class TransactionRepository {
   }
 
   Future<TransactionModel> saveWoms(ResponseRedeem redeem) async {
-    final womDB = WomDB.get();
-    final vouchers = redeem.vouchers!;
+    final vouchers = redeem.vouchers;
     final aims = <String?>{};
 
     for (int i = 0; i < vouchers.length; i++) {
@@ -74,18 +75,35 @@ class TransactionRepository {
       // country: "italy",
       size: vouchers.length,
       type: TransactionType.VOUCHERS,
-      source: redeem.sourceName!,
+      source: redeem.sourceName,
       aimCode: tmp,
     );
 
     final id = await database.transactionsDao
         .addTransaction(tx.toTransactionCompanion());
 
-    for (int i = 0; i < vouchers.length; i++) {
-      await womDB.insertVoucher(
-          vouchers[i], redeem.sourceName, redeem.sourceId, id);
-      // logger.i("wom_$i saved");
-    }
+    final geoHasher = GeoHasher();
+
+    await database.womsDao.addVouchers(vouchers
+        .map(
+          (e) => WomCompanion.insert(
+              id: e.id,
+              sourceName: redeem.sourceName,
+              secret: e.secret,
+              geohash: geoHasher.encode(
+                e.longitude,
+                e.latitude,
+              ),
+              aim: e.aim,
+              sourceId: redeem.sourceId,
+              transactionId: id,
+              timestamp: e.timestamp.millisecondsSinceEpoch,
+              live: WomStatus.ON.index,
+              latitude: e.latitude,
+              longitude: e.longitude),
+        )
+        .toList());
+    // logger.i("wom_$i saved");
 
     return tx.copyWith(id: id);
   }

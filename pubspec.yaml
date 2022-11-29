@@ -29,15 +29,15 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.11+1
   path_provider: ^2.0.11
   path: ^1.8.2
-  sqflite: ^2.0.0+3
+#  sqflite: ^2.0.0+3
   hive: ^2.2.3
   hive_flutter: ^1.1.0
 
-  flutter_riverpod: ^2.1.1
-  riverpod_annotation: ^1.0.4
+  flutter_hooks: ^0.18.5+1
+  hooks_riverpod: ^2.1.1
+  riverpod_annotation: ^1.0.6
   equatable:
   uni_links: ^0.5.1
-#  flutter_bloc: ^7.0.1
   encrypt: ^5.0.1
   mobile_scanner: ^3.0.0-beta.1
   qr_flutter: ^4.0.0
@@ -48,7 +48,7 @@ dependencies:
   webview_flutter: ^3.0.4
   flutter_lock_screen: ^2.0.1
   clustering_google_maps: ^0.1.2-nullsafety.3
-  google_maps_cluster_manager: ^1.0.0
+  google_maps_cluster_manager: ^3.0.0+1
   google_maps_flutter: ^2.2.1
   auto_size_text: ^3.0.0
   flare_flutter: ^3.0.1

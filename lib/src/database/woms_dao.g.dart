@@ -8,4 +8,5 @@ part of 'woms_dao.dart';
 
 mixin _$WomsDaoMixin on DatabaseAccessor<MyDatabase> {
   $WomTable get wom => attachedDatabase.wom;
+  $AimsTable get aims => attachedDatabase.aims;
 }

@@ -139,29 +139,6 @@ class Utils {
   //   return null;
   // }
 
-  static Future<WomExportData> exportWomToJson(String pin) async {
-    final woms = await WomDB.get().getAllWoms();
-    if (woms.isEmpty) {
-      print('woms empty');
-      //TODO
-      // throw Exception('Woms table is Empty');
-    }
-    final dir = await getTemporaryDirectory();
-    print(dir.path);
-    final path = '${dir.path}/wom_migration';
-    final file = File(path);
-    if(await file.exists()){
-      await file.delete();
-    }
-    print('wom da esportare: ${woms.length}');
-    final jsonString = jsonEncode(woms.map((e) => e.toJson()).toList());
-    final key = getRandomString(28);
-    final bytes = encryptWithAes(jsonString, '$key$pin');
-    await file.writeAsBytes(bytes);
-    print(file.path);
-    return WomExportData(file.path, bytes, key);
-  }
-
   static List<int> encryptWithAes(String text, String k) {
     final key = Key.fromUtf8(k);
     final iv = IV.fromLength(16);

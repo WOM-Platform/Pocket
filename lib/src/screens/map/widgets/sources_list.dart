@@ -11,14 +11,21 @@ class SourcesList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(mapNotifierProvider);
     logger.i("build source list");
-    if (state.sources.isEmpty) {
+
+    if (state is! AsyncData) {
+      return Text(
+        '-',
+        style: TextStyle(color: Colors.white),
+      );
+    }
+    if (state.valueOrNull!.sources.isEmpty) {
       return Text(
         context.translate('no_sources')!,
         style: TextStyle(color: Colors.white),
       );
     }
     return ChipFilter(
-      sources: state.sources,
+      sources: state.valueOrNull!.sources,
       onAdd: (type) {
         ref.read(mapNotifierProvider.notifier).addSourceToFilter(type);
       },

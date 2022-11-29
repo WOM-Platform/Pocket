@@ -1,10 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/services/wom_repository.dart';
 
 final womRepositoryProvider = Provider<WomRepository>((ref) {
-  return WomRepository();
+  return WomRepository(ref.watch(databaseProvider));
   ;
 });
 

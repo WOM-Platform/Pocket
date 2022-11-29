@@ -12,7 +12,13 @@ class AimsList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(mapNotifierProvider);
     logger.i("build aims list");
-    if (state.aims.isEmpty) {
+    if (state is! AsyncData) {
+      return Text(
+        '-',
+        style: TextStyle(color: Colors.white),
+      );
+    }
+    if (state.valueOrNull!.aims.isEmpty) {
       return Text(
         AppLocalizations.of(context)!.translate('no_aims'),
         style: TextStyle(color: Colors.white),
@@ -20,7 +26,7 @@ class AimsList extends ConsumerWidget {
     }
 
     return ChipFilter(
-      aims: state.aims,
+      aims: state.valueOrNull?.aims ?? [],
       onAdd: (type) {
         ref.read(mapNotifierProvider.notifier).addAimToFilter(type);
       },
@@ -34,9 +40,9 @@ class AimsList extends ConsumerWidget {
 class ChipFilter extends StatefulWidget {
   final Function? onAdd;
   final Function? onRemove;
-  final List<WomGroupBy>? aims;
+  final List<WomGroupBy> aims;
 
-  const ChipFilter({Key? key, this.aims, this.onAdd, this.onRemove})
+  const ChipFilter({Key? key,required this.aims, this.onAdd, this.onRemove})
       : super(key: key);
 
   @override
@@ -48,7 +54,7 @@ class _ChipFilterState extends State<ChipFilter> {
 
   @override
   void initState() {
-    chips.addAll(widget.aims!.map((a) => a.type));
+    chips.addAll(widget.aims.map((a) => a.type));
     super.initState();
   }
 
@@ -60,9 +66,9 @@ class _ChipFilterState extends State<ChipFilter> {
       padding: const EdgeInsets.only(top: 8),
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: widget.aims!.length,
+          itemCount: widget.aims.length,
           itemBuilder: (context, index) {
-            final a = widget.aims![index];
+            final a = widget.aims[index];
             return Padding(
               padding: const EdgeInsets.only(right: 2.0),
               child: FilterChip(

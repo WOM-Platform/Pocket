@@ -21,6 +21,15 @@ class MyDatabase extends _$MyDatabase {
 
   @override
   int get schemaVersion => 3;
+
+  Future<void> deleteEverything() async {
+    await transaction(() async {
+      // Deleting tables in reverse topological order to avoid foreign-key conflicts
+      final tables = allTables.toList().reversed;
+
+      for (final table in tables) await delete(table).go();
+    });
+  }
 }
 
 @override

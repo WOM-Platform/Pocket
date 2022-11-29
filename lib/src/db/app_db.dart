@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 import 'dart:io';
 
@@ -243,7 +244,8 @@ class AppDatabase {
         "${WomModel.dbLat} LONG,"
         "${WomModel.dbLong} LONG);");
 
-    /*return db.execute("CREATE TABLE ${WomModel.tblWom} ("
+    */
+/*return db.execute("CREATE TABLE ${WomModel.tblWom} ("
         "${WomModel.dbId} TEXT PRIMARY KEY,"
         "${WomModel.dbSecret} TEXT,"
         "${WomModel.dbAim} TEXT,"
@@ -254,7 +256,8 @@ class AppDatabase {
         "${WomModel.dbSourceId} INTEGER,"
         "${WomModel.dbTransactionId} INTEGER,"
         "${WomModel.dbLat} LONG,"
-        "${WomModel.dbLong} LONG);");*/
+        "${WomModel.dbLong} LONG);");*//*
+
   }
 
   // OLD
@@ -287,3 +290,4 @@ class AppDatabase {
     await deleteDatabase(path);
   }
 }
+*/

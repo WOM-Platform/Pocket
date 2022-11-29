@@ -70,13 +70,18 @@ class MapBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(mapNotifierProvider);
-    ref.listen<MapState>(mapNotifierProvider,(p,n){
-      if ((p?.markers.isEmpty ?? true) && n.markers.isNotEmpty) {
-        logger.i("move camera");
-        ref.read(mapNotifierProvider.notifier).clusteringHelper.mapController
-            .animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(target: n.markers.first.position, zoom: lastZoom),
-        ));
+    ref.listen<AsyncValue<MapState>>(mapNotifierProvider, (p, n) {
+      if (p != null && p is AsyncData && n is AsyncData) {
+        if (p.value!.markers.isEmpty && n.value!.markers.isNotEmpty) {
+          logger.i("move camera");
+          ref
+              .read(mapNotifierProvider.notifier)
+              .controller
+              ?.animateCamera(CameraUpdate.newCameraPosition(
+                CameraPosition(
+                    target: n.value!.markers.first.position, zoom: lastZoom),
+              ));
+        }
       }
     });
     return Container(
@@ -89,13 +94,18 @@ class MapBody extends ConsumerWidget {
         minMaxZoomPreference: MinMaxZoomPreference(0.0, 16.0),
         myLocationButtonEnabled: true,
         myLocationEnabled: true,
-        onMapCreated: (mapController) => ref.read(mapNotifierProvider.notifier).onMapCreated(mapController),
-        onCameraIdle: ref.read(mapNotifierProvider.notifier).clusteringHelper.onMapIdle,
+        onMapCreated: (mapController) =>
+            ref.read(mapNotifierProvider.notifier).onMapCreated(mapController),
+        onCameraIdle:
+            ref.read(mapNotifierProvider.notifier).clusterManager.updateMap,
         onCameraMove: (cameraPosition) {
-          ref.read(mapNotifierProvider.notifier).clusteringHelper.onCameraMove(cameraPosition);
+          ref
+              .read(mapNotifierProvider.notifier)
+              .clusterManager
+              .onCameraMove(cameraPosition);
           lastZoom = cameraPosition.zoom;
         },
-        markers: state.markers,
+        markers: state.valueOrNull?.markers ?? {},
       ),
     );
   }
@@ -107,7 +117,6 @@ class MapPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     return Container(
       color: Theme.of(context).primaryColor,
       padding: const EdgeInsets.all(8.0),
@@ -152,19 +161,21 @@ class MapPanel extends ConsumerWidget {
           ),
           AimsList(),
           Divider(),
-          Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
-            final state = ref.watch(mapNotifierProvider);
-            logger.i(
-                "build wom withoud location: ${state.womCountWithoutLocation}");
-            if (state.womCountWithoutLocation == 0) {
-              return SizedBox.shrink();
-            }
-            return Text(
-              '${AppLocalizations.of(context)?.translate('wom_without_location') ?? ''} ${state.womCountWithoutLocation}',
-              textAlign: TextAlign.start,
-              style: style,
-            );
-          },),
+          Consumer(
+            builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              final state = ref.watch(mapNotifierProvider);
+              logger.i(
+                  "build wom withoud location: ${state.valueOrNull?.womCountWithoutLocation}");
+              if (state.valueOrNull?.womCountWithoutLocation == 0) {
+                return SizedBox.shrink();
+              }
+              return Text(
+                '${AppLocalizations.of(context)?.translate('wom_without_location') ?? ''} ${state.valueOrNull?.womCountWithoutLocation}',
+                textAlign: TextAlign.start,
+                style: style,
+              );
+            },
+          ),
           /*BlocBuilder<MapBloc, MapState>(
             buildWhen: (MapState p, MapState c) {
               return p.womCountWithoutLocation != c.womCountWithoutLocation;

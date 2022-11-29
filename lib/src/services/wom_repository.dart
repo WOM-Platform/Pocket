@@ -1,12 +1,14 @@
+import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/db/wom_db.dart';
 import 'package:wom_pocket/src/models/source_group_wom.dart';
 
 import '../my_logger.dart';
 
 class WomRepository {
-  final WomDB _womDb = WomDB.get();
+  // final WomDB _womDb = WomDB.get();
+  final MyDatabase database;
 
-  WomRepository();
+  WomRepository(this.database);
 
 //  Future<List<WomModel>> getWoms({
 //    int startDate,
@@ -34,7 +36,7 @@ class WomRepository {
 
   Future<List<WomGroupBy>> getWomGroupedBySource() async {
     logger.i("BY SOURCES: fetchGroupedWoms: loading woms");
-    final groupedWoms = await _womDb.getWomsGroupedBySources();
+    final groupedWoms = await database.womsDao.getWomsGroupedBySources();
     logger.i(
         "BY SOURCES: fetchGroupedWoms: reading complete woms : ${groupedWoms.length}");
     return groupedWoms;
@@ -42,23 +44,22 @@ class WomRepository {
 
   Future<List<WomGroupBy>> getWomGroupedByAim() async {
     logger.i("BY AIM: fetchGroupedWoms: loading woms");
-    final groupedWoms = await _womDb.getWomGroupedByAim();
+    final groupedWoms = await database.womsDao.getWomGroupedByAim();
     logger.i(
         "BY AIM: fetchGroupedWoms: reading complete woms : ${groupedWoms.length}");
     return groupedWoms;
   }
 
-  Future<int> getWomCount()async{
+  Future<int> getWomCount() async {
     logger.i("getWomCount");
-    final womCount = await _womDb.getWomCount();
-    logger.i(
-        "getWomCount: $womCount");
+    final womCount = await database.womsDao.getWomCount();
+    logger.i("getWomCount: $womCount");
     return womCount;
   }
 
-  Future<int> getWomCountWithoutLocation() async{
+  Future<int> getWomCountWithoutLocation() async {
     logger.i("BY AIM: fetchGroupedWoms: loading woms");
-    final groupedWoms = await _womDb.getWomCountWithoutLocation();
+    final groupedWoms = await database.womsDao.getWomCountWithoutLocation();
     logger.i(
         "BY AIM: getWomCountWithoutLocation: reading complete woms : ${groupedWoms}");
     return groupedWoms;

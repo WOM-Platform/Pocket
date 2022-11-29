@@ -1,16 +1,19 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:drift/drift.dart';
+import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/database/tables.dart';
 import 'package:wom_pocket/src/models/optional_query_model.dart';
+import 'package:wom_pocket/src/models/source_group_wom.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 part 'woms_dao.g.dart';
 
 // the _TodosDaoMixin will be created by drift. It contains all the necessary
 // fields for the tables. The <MyDatabase> type annotation is the database class
 // that should use this dao.
-@DriftAccessor(tables: [Wom])
+@DriftAccessor(tables: [Wom, Aims])
 class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   // this constructor is required so that the main database can create an instance
   // of this object.
@@ -22,6 +25,25 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
 
   Future<int> getWomCount() async {
     var countExp = wom.id.count(filter: wom.live.equals(WomStatus.ON.index));
+    final query = selectOnly(wom)..addColumns([countExp]);
+    var result = await query.map((row) => row.read(countExp)).getSingle();
+    return result ?? 0;
+  }
+
+  Future<int> getWomCountWithoutLocation() async {
+    // var result = await db.rawQuery(
+    //   'SELECT COUNT(*) as wom '
+    //       'FROM ${WomModel.tblWom} '
+    //       'WHERE ${WomModel.tblWom}.${WomModel.dbLat} = 0 '
+    //       'AND ${WomModel.tblWom}.${WomModel.dbLong} = 0',
+    // );
+    // print(result);
+    // if (result.isNotEmpty) {
+    //   return result.first['wom'] as int;
+    // }
+
+    var countExp =
+        wom.id.count(filter: wom.latitude.equals(0) & wom.longitude.equals(0));
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
     return result ?? 0;
@@ -58,5 +80,57 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
       return WomRow.fromJson(row.data);
     }).toList();
     return list;
+  }
+
+  Future<List<WomGroupBy>> getWomGroupedByAim() async {
+    logger.i('[WomDb] getWomGroupedByAim');
+    final customQuery =
+        'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${AimDbKeys.TITLES} as titles '
+        'FROM ${WomModel.tblWom} w INNER JOIN ${AimDbKeys.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${AimDbKeys.CODE} '
+        'AND w.${WomModel.dbLive} = ${WomStatus.ON.index} '
+        'AND w.${WomModel.dbAim} NOT LIKE "0%" '
+        'AND w.${WomModel.dbLat} != 0 '
+        'AND w.${WomModel.dbLong} != 0 '
+        'GROUP BY ${WomModel.dbAim};';
+    /* logger.i('[WomDb]: $customQuery');
+    var result = await db.rawQuery(query);
+    final list = result.map((m) {
+      return WomGroupBy(m['aim'] as String?, m['woms'] as int?,
+          titles: json.decode(m['titles'] as String));
+    }).toList();
+    return list;*/
+
+    final list = (await customSelect(
+      customQuery,
+      readsFrom: {wom, aims},
+    ).get())
+        .map((row) {
+          return row;
+      // return WomGroupBy(row['aim'] as String?, row['woms'] as int?,
+      //     titles: json.decode(row['titles'] as String));
+    }).toList();
+    return [];
+  }
+
+  Future<List<WomGroupBy>> getWomsGroupedBySources() async {
+    logger.i('[WomDb] getWomsGroupedBySources');
+    final customQuery = 'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type '
+        'FROM ${WomModel.tblWom} '
+        'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} '
+        'AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%" '
+        'AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 '
+        'AND ${WomModel.tblWom}.${WomModel.dbLong} != 0 '
+        'GROUP BY ${WomModel.dbSourceName};';
+    logger.i('[WomDb]: $customQuery');
+    final list = (await customSelect(
+      customQuery,
+      readsFrom: {wom},
+    ).get())
+        .map((row) {
+      return row;
+      // return WomGroupBy(row['aim'] as String?, row['woms'] as int?,
+      //     titles: json.decode(row['titles'] as String));
+    }).toList();
+    return [];
   }
 }

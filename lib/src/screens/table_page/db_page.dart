@@ -1,10 +1,13 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
+import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';
 
 class WomDbTablePage extends StatefulWidget {
-  final List<WomModel>? woms;
+  final List<WomRow> woms;
 
-  const WomDbTablePage({Key? key, this.woms}) : super(key: key);
+  const WomDbTablePage({Key? key, required this.woms}) : super(key: key);
+
   @override
   _WomDbTablePageState createState() => _WomDbTablePageState();
 }
@@ -24,7 +27,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
   }
 
   void _sort<T>(
-      Comparable<T>? getField(WomModel d), int columnIndex, bool ascending) {
+      Comparable<T>? getField(WomRow d), int columnIndex, bool ascending) {
     _womsDataSources!._sort<T>(getField, ascending);
     setState(() {
       _sortColumnIndex = columnIndex;
@@ -81,20 +84,20 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                 DataColumn(
                   label: Text(WomModel.dbLat),
                   numeric: true,
-                  onSort: (latIndex, ascending) =>
-                      _sort<String>((d) => d.gLocation?.latitude.toString(), latIndex, ascending),
+                  onSort: (latIndex, ascending) => _sort<String>(
+                      (d) => d.latitude.toString(), latIndex, ascending),
                 ),
                 DataColumn(
                   label: Text(WomModel.dbLong),
                   numeric: true,
-                  onSort: (longIndex, ascending) =>
-                      _sort<String>((d) => d.gLocation?.longitude.toString(), longIndex, ascending),
+                  onSort: (longIndex, ascending) => _sort<String>(
+                      (d) => d.longitude.toString(), longIndex, ascending),
                 ),
                 DataColumn(
                   label: Text(WomModel.dbLive),
                   numeric: true,
                   onSort: (columnIndex, ascending) =>
-                      _sort<num>((d) => d.live!.index, columnIndex, ascending),
+                      _sort<num>((d) => d.live, columnIndex, ascending),
                 ),
                 DataColumn(
                   label: Text(WomModel.dbSecret),
@@ -128,10 +131,10 @@ class _WomsDataSources extends DataTableSource {
   _WomsDataSources(this.context, this.woms);
 
   final BuildContext context;
-  final List<WomModel>? woms;
+  final List<WomRow> woms;
 
-  void _sort<T>(Comparable<T>? getField(WomModel d), bool ascending) {
-    woms!.sort((a, b) {
+  void _sort<T>(Comparable<T>? getField(WomRow d), bool ascending) {
+    woms.sort((a, b) {
       final Comparable<T>? aValue = getField(a);
       final Comparable<T>? bValue = getField(b);
       return ascending
@@ -146,8 +149,8 @@ class _WomsDataSources extends DataTableSource {
   @override
   DataRow? getRow(int index) {
     assert(index >= 0);
-    if (index >= woms!.length) return null;
-    final WomModel wom = woms![index];
+    if (index >= woms.length) return null;
+    final wom = woms[index];
     return DataRow.byIndex(
       index: index,
 //      selected: wom.selected,
@@ -160,22 +163,22 @@ class _WomsDataSources extends DataTableSource {
         }
       },*/
       cells: [
-        DataCell(Text(wom.id!)),
+        DataCell(Text(wom.id)),
         DataCell(Text('${wom.aim}')),
         DataCell(Text(wom.sourceId.toString())),
-        DataCell(Text(wom.sourceName!)),
-        DataCell(Text(wom.gLocation?.latitude.toString() ?? 'NULL')),
-        DataCell(Text(wom.gLocation?.longitude.toString() ?? 'NULL')),
+        DataCell(Text(wom.sourceName)),
+        DataCell(Text(wom.latitude.toString())),
+        DataCell(Text(wom.longitude.toString())),
         DataCell(Text(wom.live.toString().replaceAll('WomStatus.', ''))),
-        DataCell(Text(wom.secret!)),
-        DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.timestamp!)}')),
+        DataCell(Text(wom.secret)),
+        DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.timestamp)}')),
         DataCell(Text('${wom.transactionId}')),
       ],
     );
   }
 
   @override
-  int get rowCount => woms!.length;
+  int get rowCount => woms.length;
 
   @override
   bool get isRowCountApproximate => false;

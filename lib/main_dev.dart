@@ -6,17 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wom_pocket/src/blocs/migration/migration_data.dart';
-import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:wom_pocket/src/utils/config.dart';
-
+import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'app.dart';
 import 'constants.dart';
 import 'src/utils/utils.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterError.demangleStackTrace = (StackTrace stack) {
+    if (stack is stack_trace.Trace) return stack.vmTrace;
+    if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
+    return stack;
+  };
 
   // Drift DB
 /*  final database = MyDatabase();

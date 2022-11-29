@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/blocs/migration/export_state.dart';
+import 'package:wom_pocket/src/database/extensions.dart';
 import 'package:wom_pocket/src/db/app_db.dart';
 import 'package:wom_pocket/src/db/wom_db.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
@@ -43,7 +49,7 @@ class ExportNotifier extends StateNotifier<ExportState> {
       //     await read(pocketProvider).createNewMigrationV2(vouchers, pin);
 
       // v1
-      final data = await Utils.exportWomToJson(pin);
+      final data = await exportWomToJson(pin);
       final response =
           await ref.read(pocketProvider).createNewMigration(data.bytes, pin);
 
@@ -59,5 +65,30 @@ class ExportNotifier extends StateNotifier<ExportState> {
       print(st);
       rethrow;
     }
+  }
+
+
+
+  Future<WomExportData> exportWomToJson(String pin) async {
+    final woms = (await ref.read(databaseProvider).womsDao.getAllWoms).map((e) => e.toVoucher());
+    if (woms.isEmpty) {
+      print('woms empty');
+      //TODO
+      // throw Exception('Woms table is Empty');
+    }
+    final dir = await getTemporaryDirectory();
+    print(dir.path);
+    final path = '${dir.path}/wom_migration';
+    final file = File(path);
+    if(await file.exists()){
+      await file.delete();
+    }
+    print('wom da esportare: ${woms.length}');
+    final jsonString = jsonEncode(woms.map((e) => e.toJson()).toList());
+    final key = Utils.getRandomString(28);
+    final bytes = Utils.encryptWithAes(jsonString, '$key$pin');
+    await file.writeAsBytes(bytes);
+    print(file.path);
+    return WomExportData(file.path, bytes, key);
   }
 }

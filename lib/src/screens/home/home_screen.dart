@@ -5,8 +5,10 @@ import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
@@ -31,12 +33,12 @@ import '../../utils/colors.dart';
 import '../../utils/my_extensions.dart';
 import 'widgets/wom_stats_widget.dart';
 
-final selectedIndexProvider = StateProvider<int>((ref) {
-  logger.w('selectedIndexProvider CREATE');
-  return 0;
-});
+// final selectedIndexProvider = StateProvider<int>((ref) {
+//   logger.w('selectedIndexProvider CREATE');
+//   return 0;
+// });
 
-class HomeScreen2 extends ConsumerStatefulWidget {
+class HomeScreen2 extends StatefulHookConsumerWidget {
   static const String path = '/home';
 
   @override
@@ -103,33 +105,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   @override
   Widget build(BuildContext context) {
     logger.i('HomeScreen: build');
-    final index = ref.watch(selectedIndexProvider);
+    final index = useState<int>(0);
     print('index is $index');
     return Scaffold(
-      // backgroundColor: Colors.grey[100],
-      // appBar: AppBar(
-      //   backgroundColor: Theme.of(context).primaryColor,
-      //   title: Text('${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
-      //   // centerTitle: true,
-      //   brightness: Brightness.dark,
-      //   bottom: PreferredSize(
-      //     preferredSize: Size.fromHeight(50),
-      //     child: WomStatsWidget(),
-      //   ),
-      //   actions: <Widget>[
-      //     IconButton(
-      //       icon: Icon(Icons.info),
-      //       color: Theme.of(context).accentColor,
-      //       onPressed: () async {
-      //         await _clearTutorial(context);
-      //         _showTutorial(context);
-      //       },
-      //     ),
-      //   ],
-      // ),
-      // extendBody: true,
       body: IndexedStack(
-        index: index,
+        index: index.value,
         children: [
           Scaffold(
             backgroundColor: Colors.grey[100],
@@ -238,17 +218,18 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             label: 'Settings',
           ),
         ],
-        currentIndex: index,
-        onTap: (index) {
-          if (index == 0) {
+        currentIndex: index.value,
+        onTap: (i) {
+          if (i == 0) {
             logEvent('open_wom_transactions');
-          } else if (index == 1) {
+          } else if (i == 1) {
             logEvent('open_pos_map');
-          } else if (index == 2) {
+          } else if (i == 2) {
             logEvent('open_settings');
           }
           print('qui');
-          ref.read(selectedIndexProvider.notifier).update((state) => index);
+          // ref.read(selectedIndexProvider.notifier).update((state) => i);
+          index.value = i;
           print('qui end' );
         },
       ),
