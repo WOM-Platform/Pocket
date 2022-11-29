@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 
 @immutable

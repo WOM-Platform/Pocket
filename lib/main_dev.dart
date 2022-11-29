@@ -19,7 +19,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Drift DB
-  final database = MyDatabase();
+/*  final database = MyDatabase();
   final allAims = await database.select(database.aims).get();
   allAims.forEach(print);
   final woms = await database.select(database.wom).get();
@@ -27,7 +27,7 @@ Future<void> main() async {
   print(woms[0]);
   final myTransactions = await database.select(database.transactions).get();
   print(myTransactions.length);
-  print(myTransactions[0]);
+  print(myTransactions[0]);*/
 
   // Firebase
   await Firebase.initializeApp();
@@ -50,7 +50,6 @@ Future<void> main() async {
 
   runApp(
     App(
-      appRepository: AppRepository(),
       migrationData: migrationData,
     ),
   );

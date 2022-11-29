@@ -1,34 +1,36 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/src/db/aim_database.dart';
+import 'package:wom_pocket/src/application/aim_notifier.dart';
+import 'package:wom_pocket/src/database/database.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../constants.dart';
 import '../my_logger.dart';
 
 final aimRepositoryProvider = Provider<AimRepository>((ref) {
-  return AimRepository();
+  return AimRepository(ref.watch(databaseProvider));
 });
 
 class AimRepository {
+  final MyDatabase db;
   late AimRemoteDataSources _apiProvider;
-  late AimDatabase _aimDbHelper;
+  // late AimDatabase _aimDbHelper;
 
-  AimRepository() {
+  AimRepository(this.db) {
     _apiProvider = AimRemoteDataSources(domain);
-    _aimDbHelper = AimDatabase.get();
+    // _aimDbHelper = AimDatabase.get();
   }
 
   // check if there is update of Aim
   //TODO delete la riga sotto quando verranno scaricati solo gli aim nuovi
-  Future<List<Aim>> updateAim(Future<Database> Function() database) async {
+  Future<List<Aim>> updateAim() async {
     logger.i("AimRepository: updateAim()");
     try {
       final newList = await _apiProvider.checkUpdate();
-      final db = await database();
-      await db.delete(AimDbKeys.TABLE_NAME);
+      // final db = await database();
+      await db.aimsDao.deleteTable();
       logger.i("${newList.length} NUOVI AIM");
-      await saveAimToDb(db, newList);
+      await saveAimToDb(newList);
       return newList;
     } catch (e) {
       logger.e(e);
@@ -36,18 +38,21 @@ class AimRepository {
     }
   }
 
-  Future<List<Aim>> getFlatAimList(
-    Future<Database> Function() database,
-  ) async {
+  Future<List<Aim>> getFlatAimList() async {
     logger.i("AimRepository: getFlatAimList()");
-    final db = await database();
-    return await _aimDbHelper.getFlatAimList(db: db);
+    // final db = await database();
+    final list = await db.aimsDao.getFlatAimList;
+    return list.map((e) => Aim(code: e.code, titles: e.titles)).toList();
+    // return await _aimDbHelper.getFlatAimList(db: db);
   }
 
-  Future<Aim?> getAim({Future<Database>? database, String? aimCode}) async {
+  Future<Aim?> getAim(
+      {Future<Database>? database, required String aimCode}) async {
     logger.i("AimRepository: getAim()");
-    final db = await database!;
-    return await _aimDbHelper.getAim(db: db, aimCode: aimCode);
+    // final db = await database!;
+    final a = await db.aimsDao.getAim(aimCode);
+    return Aim(code: a.code, titles: a.titles);
+    // return await _aimDbHelper.getAim(db: db, aimCode: aimCode);
   }
 
   // Future<List<Aim>> getAimList({
@@ -81,12 +86,12 @@ class AimRepository {
   //   }
   // }
 
-  Future<void> saveAimToDb(Database db, List<Aim?> list) async {
+  Future<void> saveAimToDb(List<Aim> list) async {
     logger.i("AimRepository: saveAimToDb()");
     logger.i("SAVING AIM");
-    for (int i = 0; i < list.length; i++) {
-      await _aimDbHelper.insert(db: db, aim: list[i]);
-    }
+    await db.aimsDao.addAims(list
+        .map((e) => AimsCompanion.insert(code: e.code, titles: e.titles))
+        .toList());
     logger.i("AIM SAVED");
   }
 }

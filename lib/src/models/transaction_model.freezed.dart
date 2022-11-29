@@ -22,10 +22,10 @@ TransactionModel _$TransactionModelFromJson(Map<String, dynamic> json) {
 mixin _$TransactionModel {
   @TransactionTypeConverter()
   TransactionType get type => throw _privateConstructorUsedError;
-  String get source => throw _privateConstructorUsedError;
-  String get country => throw _privateConstructorUsedError;
+  String get source =>
+      throw _privateConstructorUsedError; // required String country,
   @JsonKey(name: 'Aim')
-  String? get aimCode => throw _privateConstructorUsedError;
+  String get aimCode => throw _privateConstructorUsedError;
   @DateTimeConverter()
   @JsonKey(name: 'Timestamp')
   DateTime get date =>
@@ -33,7 +33,7 @@ mixin _$TransactionModel {
   @JsonKey(name: 'Id')
   int get id => throw _privateConstructorUsedError;
   String? get ackUrl => throw _privateConstructorUsedError;
-  int? get size => throw _privateConstructorUsedError;
+  int get size => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,72 +45,69 @@ mixin _$TransactionModel {
 abstract class $TransactionModelCopyWith<$Res> {
   factory $TransactionModelCopyWith(
           TransactionModel value, $Res Function(TransactionModel) then) =
-      _$TransactionModelCopyWithImpl<$Res>;
+      _$TransactionModelCopyWithImpl<$Res, TransactionModel>;
+  @useResult
   $Res call(
       {@TransactionTypeConverter() TransactionType type,
       String source,
-      String country,
-      @JsonKey(name: 'Aim') String? aimCode,
+      @JsonKey(name: 'Aim') String aimCode,
       @DateTimeConverter() @JsonKey(name: 'Timestamp') DateTime date,
       @JsonKey(name: 'Id') int id,
       String? ackUrl,
-      int? size});
+      int size});
 }
 
 /// @nodoc
-class _$TransactionModelCopyWithImpl<$Res>
+class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
     implements $TransactionModelCopyWith<$Res> {
   _$TransactionModelCopyWithImpl(this._value, this._then);
 
-  final TransactionModel _value;
   // ignore: unused_field
-  final $Res Function(TransactionModel) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? source = freezed,
-    Object? country = freezed,
-    Object? aimCode = freezed,
-    Object? date = freezed,
-    Object? id = freezed,
+    Object? type = null,
+    Object? source = null,
+    Object? aimCode = null,
+    Object? date = null,
+    Object? id = null,
     Object? ackUrl = freezed,
-    Object? size = freezed,
+    Object? size = null,
   }) {
     return _then(_value.copyWith(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as TransactionType,
-      source: source == freezed
+      source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
               as String,
-      country: country == freezed
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String,
-      aimCode: aimCode == freezed
+      aimCode: null == aimCode
           ? _value.aimCode
           : aimCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      date: date == freezed
+              as String,
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      ackUrl: ackUrl == freezed
+      ackUrl: freezed == ackUrl
           ? _value.ackUrl
           : ackUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      size: size == freezed
+      size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
+              as int,
+    ) as $Val);
   }
 }
 
@@ -121,72 +118,65 @@ abstract class _$$_TransactionModelCopyWith<$Res>
           _$_TransactionModel value, $Res Function(_$_TransactionModel) then) =
       __$$_TransactionModelCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@TransactionTypeConverter() TransactionType type,
       String source,
-      String country,
-      @JsonKey(name: 'Aim') String? aimCode,
+      @JsonKey(name: 'Aim') String aimCode,
       @DateTimeConverter() @JsonKey(name: 'Timestamp') DateTime date,
       @JsonKey(name: 'Id') int id,
       String? ackUrl,
-      int? size});
+      int size});
 }
 
 /// @nodoc
 class __$$_TransactionModelCopyWithImpl<$Res>
-    extends _$TransactionModelCopyWithImpl<$Res>
+    extends _$TransactionModelCopyWithImpl<$Res, _$_TransactionModel>
     implements _$$_TransactionModelCopyWith<$Res> {
   __$$_TransactionModelCopyWithImpl(
       _$_TransactionModel _value, $Res Function(_$_TransactionModel) _then)
-      : super(_value, (v) => _then(v as _$_TransactionModel));
+      : super(_value, _then);
 
-  @override
-  _$_TransactionModel get _value => super._value as _$_TransactionModel;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? source = freezed,
-    Object? country = freezed,
-    Object? aimCode = freezed,
-    Object? date = freezed,
-    Object? id = freezed,
+    Object? type = null,
+    Object? source = null,
+    Object? aimCode = null,
+    Object? date = null,
+    Object? id = null,
     Object? ackUrl = freezed,
-    Object? size = freezed,
+    Object? size = null,
   }) {
     return _then(_$_TransactionModel(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as TransactionType,
-      source: source == freezed
+      source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
               as String,
-      country: country == freezed
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String,
-      aimCode: aimCode == freezed
+      aimCode: null == aimCode
           ? _value.aimCode
           : aimCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      date: date == freezed
+              as String,
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      ackUrl: ackUrl == freezed
+      ackUrl: freezed == ackUrl
           ? _value.ackUrl
           : ackUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      size: size == freezed
+      size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
     ));
   }
 }
@@ -199,12 +189,11 @@ class _$_TransactionModel
   const _$_TransactionModel(
       {@TransactionTypeConverter() required this.type,
       required this.source,
-      required this.country,
       @JsonKey(name: 'Aim') required this.aimCode,
       @DateTimeConverter() @JsonKey(name: 'Timestamp') required this.date,
       @JsonKey(name: 'Id') required this.id,
       this.ackUrl,
-      this.size});
+      required this.size});
 
   factory _$_TransactionModel.fromJson(Map<String, dynamic> json) =>
       _$$_TransactionModelFromJson(json);
@@ -214,11 +203,10 @@ class _$_TransactionModel
   final TransactionType type;
   @override
   final String source;
-  @override
-  final String country;
+// required String country,
   @override
   @JsonKey(name: 'Aim')
-  final String? aimCode;
+  final String aimCode;
   @override
   @DateTimeConverter()
   @JsonKey(name: 'Timestamp')
@@ -230,11 +218,11 @@ class _$_TransactionModel
   @override
   final String? ackUrl;
   @override
-  final int? size;
+  final int size;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'TransactionModel(type: $type, source: $source, country: $country, aimCode: $aimCode, date: $date, id: $id, ackUrl: $ackUrl, size: $size)';
+    return 'TransactionModel(type: $type, source: $source, aimCode: $aimCode, date: $date, id: $id, ackUrl: $ackUrl, size: $size)';
   }
 
   @override
@@ -244,7 +232,6 @@ class _$_TransactionModel
       ..add(DiagnosticsProperty('type', 'TransactionModel'))
       ..add(DiagnosticsProperty('type', type))
       ..add(DiagnosticsProperty('source', source))
-      ..add(DiagnosticsProperty('country', country))
       ..add(DiagnosticsProperty('aimCode', aimCode))
       ..add(DiagnosticsProperty('date', date))
       ..add(DiagnosticsProperty('id', id))
@@ -257,37 +244,31 @@ class _$_TransactionModel
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TransactionModel &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.source, source) &&
-            const DeepCollectionEquality().equals(other.country, country) &&
-            const DeepCollectionEquality().equals(other.aimCode, aimCode) &&
-            const DeepCollectionEquality().equals(other.date, date) &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.ackUrl, ackUrl) &&
-            const DeepCollectionEquality().equals(other.size, size));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.aimCode, aimCode) || other.aimCode == aimCode) &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.ackUrl, ackUrl) || other.ackUrl == ackUrl) &&
+            (identical(other.size, size) || other.size == size));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(source),
-      const DeepCollectionEquality().hash(country),
-      const DeepCollectionEquality().hash(aimCode),
-      const DeepCollectionEquality().hash(date),
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(ackUrl),
-      const DeepCollectionEquality().hash(size));
+  int get hashCode =>
+      Object.hash(runtimeType, type, source, aimCode, date, id, ackUrl, size);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_TransactionModelCopyWith<_$_TransactionModel> get copyWith =>
       __$$_TransactionModelCopyWithImpl<_$_TransactionModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TransactionModelToJson(this);
+    return _$$_TransactionModelToJson(
+      this,
+    );
   }
 }
 
@@ -296,16 +277,15 @@ abstract class _TransactionModel implements TransactionModel {
       {@TransactionTypeConverter()
           required final TransactionType type,
       required final String source,
-      required final String country,
       @JsonKey(name: 'Aim')
-          required final String? aimCode,
+          required final String aimCode,
       @DateTimeConverter()
       @JsonKey(name: 'Timestamp')
           required final DateTime date,
       @JsonKey(name: 'Id')
           required final int id,
       final String? ackUrl,
-      final int? size}) = _$_TransactionModel;
+      required final int size}) = _$_TransactionModel;
 
   factory _TransactionModel.fromJson(Map<String, dynamic> json) =
       _$_TransactionModel.fromJson;
@@ -315,11 +295,9 @@ abstract class _TransactionModel implements TransactionModel {
   TransactionType get type;
   @override
   String get source;
-  @override
-  String get country;
-  @override
+  @override // required String country,
   @JsonKey(name: 'Aim')
-  String? get aimCode;
+  String get aimCode;
   @override
   @DateTimeConverter()
   @JsonKey(name: 'Timestamp')
@@ -330,7 +308,7 @@ abstract class _TransactionModel implements TransactionModel {
   @override
   String? get ackUrl;
   @override
-  int? get size;
+  int get size;
   @override
   @JsonKey(ignore: true)
   _$$_TransactionModelCopyWith<_$_TransactionModel> get copyWith =>

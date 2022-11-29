@@ -167,7 +167,7 @@ class TicketCard extends StatelessWidget {
                             ?.firstWhereOrNull(
                                 (a) => a.code == transaction.aimCodes.first);
                         return Text(
-                          aim?.titles?[languageCode] ?? '-',
+                          aim?.titles[languageCode] ?? '-',
                         );
                       },
                     ),

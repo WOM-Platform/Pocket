@@ -48,16 +48,16 @@ class TransactionLoadingState extends TransactionState {
 }
 
 class TransactionMissingLocationState extends TransactionState {
-  final TransactionEvent eventToRepeat;
+  // final TransactionEvent eventToRepeat;
   // final LocationServiceException exception;
 
-  TransactionMissingLocationState(this.eventToRepeat);
+  TransactionMissingLocationState();
 
   @override
   String toString() => 'TransactionMissingLocationState';
 
   @override
-  List<Object> get props => [eventToRepeat];
+  List<Object> get props => [];
 }
 
 class TransactionErrorState extends TransactionState {

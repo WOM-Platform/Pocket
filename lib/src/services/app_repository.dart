@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info/package_info.dart';
-import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/db/app_db.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/services/aim_repository.dart';
@@ -14,15 +14,20 @@ import 'package:http/http.dart' as http;
 import '../../constants.dart';
 import '../my_logger.dart';
 
-class AppRepository {
-  late AimRepository _aimRepository;
 
-  AppRepository() {
-    _aimRepository = AimRepository();
+final appRepositoryProvider = Provider<AppRepository>((ref) {
+  return AppRepository(ref.watch(aimRepositoryProvider));
+});
+
+class AppRepository {
+  final AimRepository _aimRepository;
+
+  AppRepository(this._aimRepository) {
+    // _aimRepository = AimRepository();
   }
 
   Future<List<Aim?>> updateAim() async {
-    return _aimRepository.updateAim(AppDatabase.get().getDb);
+    return _aimRepository.updateAim();
   }
 
   Future<DeepLinkModel> getDeepLink() async {

@@ -33,46 +33,51 @@ mixin _$WomExport {
 /// @nodoc
 abstract class $WomExportCopyWith<$Res> {
   factory $WomExportCopyWith(WomExport value, $Res Function(WomExport) then) =
-      _$WomExportCopyWithImpl<$Res>;
+      _$WomExportCopyWithImpl<$Res, WomExport>;
+  @useResult
   $Res call({Voucher wom, String sourceId, String sourceName});
 
   $VoucherCopyWith<$Res> get wom;
 }
 
 /// @nodoc
-class _$WomExportCopyWithImpl<$Res> implements $WomExportCopyWith<$Res> {
+class _$WomExportCopyWithImpl<$Res, $Val extends WomExport>
+    implements $WomExportCopyWith<$Res> {
   _$WomExportCopyWithImpl(this._value, this._then);
 
-  final WomExport _value;
   // ignore: unused_field
-  final $Res Function(WomExport) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? wom = freezed,
-    Object? sourceId = freezed,
-    Object? sourceName = freezed,
+    Object? wom = null,
+    Object? sourceId = null,
+    Object? sourceName = null,
   }) {
     return _then(_value.copyWith(
-      wom: wom == freezed
+      wom: null == wom
           ? _value.wom
           : wom // ignore: cast_nullable_to_non_nullable
               as Voucher,
-      sourceId: sourceId == freezed
+      sourceId: null == sourceId
           ? _value.sourceId
           : sourceId // ignore: cast_nullable_to_non_nullable
               as String,
-      sourceName: sourceName == freezed
+      sourceName: null == sourceName
           ? _value.sourceName
           : sourceName // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $VoucherCopyWith<$Res> get wom {
     return $VoucherCopyWith<$Res>(_value.wom, (value) {
-      return _then(_value.copyWith(wom: value));
+      return _then(_value.copyWith(wom: value) as $Val);
     });
   }
 }
@@ -83,6 +88,7 @@ abstract class _$$_WomExportCopyWith<$Res> implements $WomExportCopyWith<$Res> {
           _$_WomExport value, $Res Function(_$_WomExport) then) =
       __$$_WomExportCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({Voucher wom, String sourceId, String sourceName});
 
   @override
@@ -90,31 +96,30 @@ abstract class _$$_WomExportCopyWith<$Res> implements $WomExportCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_WomExportCopyWithImpl<$Res> extends _$WomExportCopyWithImpl<$Res>
+class __$$_WomExportCopyWithImpl<$Res>
+    extends _$WomExportCopyWithImpl<$Res, _$_WomExport>
     implements _$$_WomExportCopyWith<$Res> {
   __$$_WomExportCopyWithImpl(
       _$_WomExport _value, $Res Function(_$_WomExport) _then)
-      : super(_value, (v) => _then(v as _$_WomExport));
+      : super(_value, _then);
 
-  @override
-  _$_WomExport get _value => super._value as _$_WomExport;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? wom = freezed,
-    Object? sourceId = freezed,
-    Object? sourceName = freezed,
+    Object? wom = null,
+    Object? sourceId = null,
+    Object? sourceName = null,
   }) {
     return _then(_$_WomExport(
-      wom: wom == freezed
+      wom: null == wom
           ? _value.wom
           : wom // ignore: cast_nullable_to_non_nullable
               as Voucher,
-      sourceId: sourceId == freezed
+      sourceId: null == sourceId
           ? _value.sourceId
           : sourceId // ignore: cast_nullable_to_non_nullable
               as String,
-      sourceName: sourceName == freezed
+      sourceName: null == sourceName
           ? _value.sourceName
           : sourceName // ignore: cast_nullable_to_non_nullable
               as String,
@@ -158,28 +163,28 @@ class _$_WomExport with DiagnosticableTreeMixin implements _WomExport {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_WomExport &&
-            const DeepCollectionEquality().equals(other.wom, wom) &&
-            const DeepCollectionEquality().equals(other.sourceId, sourceId) &&
-            const DeepCollectionEquality()
-                .equals(other.sourceName, sourceName));
+            (identical(other.wom, wom) || other.wom == wom) &&
+            (identical(other.sourceId, sourceId) ||
+                other.sourceId == sourceId) &&
+            (identical(other.sourceName, sourceName) ||
+                other.sourceName == sourceName));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(wom),
-      const DeepCollectionEquality().hash(sourceId),
-      const DeepCollectionEquality().hash(sourceName));
+  int get hashCode => Object.hash(runtimeType, wom, sourceId, sourceName);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_WomExportCopyWith<_$_WomExport> get copyWith =>
       __$$_WomExportCopyWithImpl<_$_WomExport>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_WomExportToJson(this);
+    return _$$_WomExportToJson(
+      this,
+    );
   }
 }
 

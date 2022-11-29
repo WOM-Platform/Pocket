@@ -29,4 +29,8 @@ class AimsDao extends DatabaseAccessor<MyDatabase> with _$AimsDaoMixin {
       batch.insertAll(aims, entries, mode: InsertMode.insertOrReplace);
     });
   }
+
+  Future<void> deleteTable() async {
+    await delete(aims);
+  }
 }

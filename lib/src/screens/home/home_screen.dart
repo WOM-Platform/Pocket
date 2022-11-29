@@ -5,11 +5,12 @@ import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/application/app_notifier.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:wom_pocket/src/utils/config.dart';
@@ -31,6 +32,7 @@ import '../../utils/my_extensions.dart';
 import 'widgets/wom_stats_widget.dart';
 
 final selectedIndexProvider = StateProvider<int>((ref) {
+  logger.w('selectedIndexProvider CREATE');
   return 0;
 });
 
@@ -42,7 +44,7 @@ class HomeScreen2 extends ConsumerStatefulWidget {
 }
 
 class _HomeScreen2State extends ConsumerState<HomeScreen2> {
-  PinBloc? _pinBloc;
+  // PinBloc? _pinBloc;
 
   @override
   void initState() {
@@ -56,7 +58,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   }
 
   checkVersion() async {
-    final status = await context.read<AppBloc>().getAppStatus();
+    final status = await ref.read(appNotifierProvider.notifier).getAppStatus();
     logger.i(status);
     if (!status.isOk) {
       // SchedulerBinding.instance?.addPostFrameCallback((Duration duration) {
@@ -102,6 +104,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   Widget build(BuildContext context) {
     logger.i('HomeScreen: build');
     final index = ref.watch(selectedIndexProvider);
+    print('index is $index');
     return Scaffold(
       // backgroundColor: Colors.grey[100],
       // appBar: AppBar(
@@ -244,7 +247,9 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           } else if (index == 2) {
             logEvent('open_settings');
           }
-          ref.read(selectedIndexProvider.notifier).state = index;
+          print('qui');
+          ref.read(selectedIndexProvider.notifier).update((state) => index);
+          print('qui end' );
         },
       ),
       /*bottomNavigationBar: BottomAppBar(
@@ -326,12 +331,12 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 
   _goToMap() {
     logEvent('open_wom_map');
-    final mapProvider = BlocProvider<MapBloc>(
-      create: (context) => MapBloc(),
-      child: MapScreen(),
-    );
+    // final mapProvider = BlocProvider<MapBloc>(
+    //   create: (context) => MapBloc(),
+    //   child: MapScreen(),
+    // );
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => mapProvider));
+        context, MaterialPageRoute(builder: (context) => MapScreen()));
   }
 
   _startScan() async {
@@ -354,14 +359,19 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 //                deepLinkModel: deepLinkModel,
 //              ),
 //            );
-        _pinBloc = PinBloc(deepLinkModel);
-        var blocProviderPin = BlocProvider(
-          create: (context) => _pinBloc!,
-          child: PinScreen(),
-        );
+//         _pinBloc = PinBloc(deepLinkModel);
+//         var blocProviderPin = BlocProvider(
+//           create: (context) => _pinBloc!,
+//           child: PinScreen(),
+//         );
         await Navigator.push(
           context,
-          MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
+          MaterialPageRoute<bool>(
+            builder: (context) => ProviderScope(
+              overrides: [deeplinkProvider.overrideWithValue(deepLinkModel)],
+              child: PinScreen(),
+            ),
+          ),
         );
       } on PlatformException catch (ex) {
         // if (ex == BarcodeScanner.CameraAccessDenied) {
@@ -423,7 +433,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 
   @override
   void dispose() {
-    _pinBloc?.close();
+    // _pinBloc?.close();
 //    _sub.cancel();
     super.dispose();
   }
@@ -483,7 +493,7 @@ class _ScanScreenState extends State<ScanScreen> {
         MobileScanner(
           key: qrKey,
           // onQRViewCreated: _onQRViewCreated,
-          onDetect: (barcode,args){
+          onDetect: (barcode, args) {
             if (scanned) return;
             scanned = true;
             Navigator.of(context).pop(barcode.rawValue);

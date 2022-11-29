@@ -40,7 +40,6 @@ void main() async {
 
     runApp(
       App(
-        appRepository: AppRepository(),
         migrationData: migrationData,
       ),
     );

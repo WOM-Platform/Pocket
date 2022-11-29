@@ -25,9 +25,9 @@ mixin _$ExportState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function(MigrationData data)? completed,
+    TResult? Function()? loading,
+    TResult? Function(Exception ex)? error,
+    TResult? Function(MigrationData data)? completed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -47,9 +47,9 @@ mixin _$ExportState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ExportLoading value)? loading,
-    TResult Function(ExportError value)? error,
-    TResult Function(ExportCompleted value)? completed,
+    TResult? Function(ExportLoading value)? loading,
+    TResult? Function(ExportError value)? error,
+    TResult? Function(ExportCompleted value)? completed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -66,16 +66,18 @@ mixin _$ExportState {
 abstract class $ExportStateCopyWith<$Res> {
   factory $ExportStateCopyWith(
           ExportState value, $Res Function(ExportState) then) =
-      _$ExportStateCopyWithImpl<$Res>;
+      _$ExportStateCopyWithImpl<$Res, ExportState>;
 }
 
 /// @nodoc
-class _$ExportStateCopyWithImpl<$Res> implements $ExportStateCopyWith<$Res> {
+class _$ExportStateCopyWithImpl<$Res, $Val extends ExportState>
+    implements $ExportStateCopyWith<$Res> {
   _$ExportStateCopyWithImpl(this._value, this._then);
 
-  final ExportState _value;
   // ignore: unused_field
-  final $Res Function(ExportState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -87,14 +89,11 @@ abstract class _$$ExportLoadingCopyWith<$Res> {
 
 /// @nodoc
 class __$$ExportLoadingCopyWithImpl<$Res>
-    extends _$ExportStateCopyWithImpl<$Res>
+    extends _$ExportStateCopyWithImpl<$Res, _$ExportLoading>
     implements _$$ExportLoadingCopyWith<$Res> {
   __$$ExportLoadingCopyWithImpl(
       _$ExportLoading _value, $Res Function(_$ExportLoading) _then)
-      : super(_value, (v) => _then(v as _$ExportLoading));
-
-  @override
-  _$ExportLoading get _value => super._value as _$ExportLoading;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -135,9 +134,9 @@ class _$ExportLoading with DiagnosticableTreeMixin implements ExportLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function(MigrationData data)? completed,
+    TResult? Function()? loading,
+    TResult? Function(Exception ex)? error,
+    TResult? Function(MigrationData data)? completed,
   }) {
     return loading?.call();
   }
@@ -169,9 +168,9 @@ class _$ExportLoading with DiagnosticableTreeMixin implements ExportLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ExportLoading value)? loading,
-    TResult Function(ExportError value)? error,
-    TResult Function(ExportCompleted value)? completed,
+    TResult? Function(ExportLoading value)? loading,
+    TResult? Function(ExportError value)? error,
+    TResult? Function(ExportCompleted value)? completed,
   }) {
     return loading?.call(this);
   }
@@ -200,25 +199,25 @@ abstract class _$$ExportErrorCopyWith<$Res> {
   factory _$$ExportErrorCopyWith(
           _$ExportError value, $Res Function(_$ExportError) then) =
       __$$ExportErrorCopyWithImpl<$Res>;
+  @useResult
   $Res call({Exception ex});
 }
 
 /// @nodoc
-class __$$ExportErrorCopyWithImpl<$Res> extends _$ExportStateCopyWithImpl<$Res>
+class __$$ExportErrorCopyWithImpl<$Res>
+    extends _$ExportStateCopyWithImpl<$Res, _$ExportError>
     implements _$$ExportErrorCopyWith<$Res> {
   __$$ExportErrorCopyWithImpl(
       _$ExportError _value, $Res Function(_$ExportError) _then)
-      : super(_value, (v) => _then(v as _$ExportError));
+      : super(_value, _then);
 
-  @override
-  _$ExportError get _value => super._value as _$ExportError;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ex = freezed,
+    Object? ex = null,
   }) {
     return _then(_$ExportError(
-      ex == freezed
+      null == ex
           ? _value.ex
           : ex // ignore: cast_nullable_to_non_nullable
               as Exception,
@@ -252,15 +251,15 @@ class _$ExportError with DiagnosticableTreeMixin implements ExportError {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ExportError &&
-            const DeepCollectionEquality().equals(other.ex, ex));
+            (identical(other.ex, ex) || other.ex == ex));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(ex));
+  int get hashCode => Object.hash(runtimeType, ex);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ExportErrorCopyWith<_$ExportError> get copyWith =>
       __$$ExportErrorCopyWithImpl<_$ExportError>(this, _$identity);
 
@@ -277,9 +276,9 @@ class _$ExportError with DiagnosticableTreeMixin implements ExportError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function(MigrationData data)? completed,
+    TResult? Function()? loading,
+    TResult? Function(Exception ex)? error,
+    TResult? Function(MigrationData data)? completed,
   }) {
     return error?.call(ex);
   }
@@ -311,9 +310,9 @@ class _$ExportError with DiagnosticableTreeMixin implements ExportError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ExportLoading value)? loading,
-    TResult Function(ExportError value)? error,
-    TResult Function(ExportCompleted value)? completed,
+    TResult? Function(ExportLoading value)? loading,
+    TResult? Function(ExportError value)? error,
+    TResult? Function(ExportCompleted value)? completed,
   }) {
     return error?.call(this);
   }
@@ -347,26 +346,25 @@ abstract class _$$ExportCompletedCopyWith<$Res> {
   factory _$$ExportCompletedCopyWith(
           _$ExportCompleted value, $Res Function(_$ExportCompleted) then) =
       __$$ExportCompletedCopyWithImpl<$Res>;
+  @useResult
   $Res call({MigrationData data});
 }
 
 /// @nodoc
 class __$$ExportCompletedCopyWithImpl<$Res>
-    extends _$ExportStateCopyWithImpl<$Res>
+    extends _$ExportStateCopyWithImpl<$Res, _$ExportCompleted>
     implements _$$ExportCompletedCopyWith<$Res> {
   __$$ExportCompletedCopyWithImpl(
       _$ExportCompleted _value, $Res Function(_$ExportCompleted) _then)
-      : super(_value, (v) => _then(v as _$ExportCompleted));
+      : super(_value, _then);
 
-  @override
-  _$ExportCompleted get _value => super._value as _$ExportCompleted;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? data = null,
   }) {
     return _then(_$ExportCompleted(
-      data == freezed
+      null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as MigrationData,
@@ -402,15 +400,15 @@ class _$ExportCompleted
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ExportCompleted &&
-            const DeepCollectionEquality().equals(other.data, data));
+            (identical(other.data, data) || other.data == data));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+  int get hashCode => Object.hash(runtimeType, data);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ExportCompletedCopyWith<_$ExportCompleted> get copyWith =>
       __$$ExportCompletedCopyWithImpl<_$ExportCompleted>(this, _$identity);
 
@@ -427,9 +425,9 @@ class _$ExportCompleted
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function(MigrationData data)? completed,
+    TResult? Function()? loading,
+    TResult? Function(Exception ex)? error,
+    TResult? Function(MigrationData data)? completed,
   }) {
     return completed?.call(data);
   }
@@ -461,9 +459,9 @@ class _$ExportCompleted
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ExportLoading value)? loading,
-    TResult Function(ExportError value)? error,
-    TResult Function(ExportCompleted value)? completed,
+    TResult? Function(ExportLoading value)? loading,
+    TResult? Function(ExportError value)? error,
+    TResult? Function(ExportCompleted value)? completed,
   }) {
     return completed?.call(this);
   }

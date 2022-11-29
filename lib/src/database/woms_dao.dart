@@ -1,6 +1,8 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:drift/drift.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/database/tables.dart';
+import 'package:wom_pocket/src/models/optional_query_model.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';
 
 part 'woms_dao.g.dart';
@@ -32,7 +34,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     });
   }
 
-  Future updateWomStatusToOff(String womId, int transactionId) {
+  Future<int> updateWomStatusToOff(String womId, int transactionId) {
     return (update(wom)..where((t) => t.id.equals(womId))).write(
       WomCompanion(
         live: Value(WomStatus.OFF.index),
@@ -41,4 +43,20 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     );
   }
 
+  Future<List<WomRow>> getVouchersForPay({SimpleFilter? simpleFilter}) async {
+    var whereClause = OptionalQuery(
+            filters: simpleFilter, womStatus: WomStatus.ON, enabledRandom: true)
+        .build();
+    final customQuery = 'SELECT * '
+        'FROM ${WomModel.tblWom} $whereClause;';
+
+    final list = (await customSelect(
+      customQuery,
+      readsFrom: {wom},
+    ).get())
+        .map((row) {
+      return WomRow.fromJson(row.data);
+    }).toList();
+    return list;
+  }
 }

@@ -4,19 +4,23 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
-import 'package:wom_pocket/src/blocs/app/app_bloc.dart';
+import 'package:wom_pocket/src/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
-import 'package:wom_pocket/src/blocs/transactions_list/transactions_list_event.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/transaction/info_payment.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 import 'package:wom_pocket/src/widgets/voucher_card.dart';
 
 class TransactionScreen extends ConsumerStatefulWidget {
-  const TransactionScreen({Key? key}) : super(key: key);
+  final TransactionNotifierParams params;
+
+  const TransactionScreen({
+    Key? key,
+    required this.params,
+  }) : super(key: key);
 
   @override
   TransactionScreenState createState() {
@@ -28,7 +32,8 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation _animation;
-  late TransactionBloc bloc;
+
+  // late TransactionBloc bloc;
 
   @override
   void initState() {
@@ -55,8 +60,9 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
   }
 
   void backToHome() {
-    BlocProvider.of<AppBloc>(context).transactionsBloc!.add(LoadTransactions());
-    ref.refresh(womStatsProvider);
+    // BlocProvider.of<AppBloc>(context).transactionsBloc!.add(LoadTransactions());
+    ref.invalidate(fetchTransactionsProvider);
+    ref.invalidate(womStatsProvider);
     Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 
@@ -65,7 +71,10 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    bloc = BlocProvider.of<TransactionBloc>(context);
+    // bloc = BlocProvider.of<TransactionBloc>(context);
+
+    final state = ref.watch(transactionNotifierProvider(widget.params));
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
@@ -76,143 +85,158 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
         onWillPop: () => _onWillPop(),
         child: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
-          body: BlocBuilder<TransactionBloc, TransactionState>(
-            builder: (BuildContext context, TransactionState state) {
-              if (state is TransactionLoadingState) {
+          body: Builder(
+            builder: (BuildContext context) {
+              return state.when(data: (state) {
+                if (state is TransactionNoDataConnectionState) {
+                  return TransactionWarningWidget(
+                    title: AppLocalizations.of(context)!
+                        .translate('no_connection_title'),
+                    desc: AppLocalizations.of(context)!
+                        .translate('no_connection_transaction_desc'),
+                    tryAgain: () {
+                      if (state.infoPay == null) {
+                        ref.invalidate(
+                            transactionNotifierProvider(widget.params));
+                      } else {
+                        ref
+                            .read(transactionNotifierProvider(widget.params)
+                                .notifier)
+                            .confirmPayment(state.infoPay!);
+                      }
+                    },
+                  );
+                } else if (state is TransactionInfoPaymentState) {
+                  return Center(
+                      child: InfoPayment(
+                    params: widget.params,
+                    responseInfoPay: state.infoPayment,
+                    password: state.password,
+                  ));
+                } else if (state is TransactionErrorState) {
+                  return TransactionErrorWidget(
+                    error: state.translationKey != null
+                        ? AppLocalizations.of(context)!
+                            .translate(state.translationKey!)
+                        : state.error,
+                    backToHome: () => backToHome(),
+                  );
+                } else if (state is TransactionMissingLocationState) {
+                  return TransactionWarningWidget(
+                    title: AppLocalizations.of(context)!
+                        .translate('missing_location_error'),
+                    desc: AppLocalizations.of(context)!
+                        .translate('missing_location_error_desc'),
+                    tryAgain: () {
+                      ref.invalidate(
+                          transactionNotifierProvider(widget.params));
+                    },
+                  );
+                } else if (state is TransactionCompleteState) {
+                  _controller.forward();
+                  return AnimatedBuilder(
+                    animation: _controller,
+                    builder: (BuildContext context, Widget? child) {
+                      final url = state.transaction.ackUrl;
+                      return Transform(
+                        transform: Matrix4.translationValues(
+                            0.0, _animation.value * (-10), 0.0),
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                height: height / 3,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                child: FlareActor(
+                                  "assets/flare/check.flr",
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.contain,
+                                  animation: 'success',
+                                ),
+                              ),
+                              SizedBox(
+                                height: _animation.value * 5.0,
+                              ),
+                              FadeTransition(
+                                opacity: _animation as Animation<double>,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: Center(
+                                      child: Text(
+                                    state.transaction.type ==
+                                            TransactionType.VOUCHERS
+                                        ? '${AppLocalizations.of(context)!.translate('you_got')}:'
+                                        : AppLocalizations.of(context)!
+                                            .translate('payment_completed'),
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20.0),
+                                  )),
+                                ),
+                              ),
+                              SizedBox(
+                                height: _animation.value * 10.0,
+                              ),
+                              FadeTransition(
+                                opacity: _animation as Animation<double>,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: TicketCard(
+                                      transaction: state.transaction),
+                                ),
+                              ),
+                              SizedBox(
+                                height: _animation.value * 30.0,
+                              ),
+                              FadeTransition(
+                                opacity: _animation as Animation<double>,
+                                child: Container(
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 80.0),
+                                  child: FloatingActionButton.extended(
+                                      onPressed: () {
+                                        if (state.transaction.type ==
+                                                TransactionType.PAYMENT &&
+                                            url != null) {
+                                          Utils.launchUrl(url);
+                                        }
+                                        backToHome();
+                                      },
+                                      label: Text(
+                                          '${state.transaction.type == TransactionType.PAYMENT && url != null ? 'Continue' : 'Ok'}')),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+                return Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.translate('somethings_wrong'),
+                    style: whiteTextStyle,
+                  ),
+                );
+              }, error: (err, st) {
+                return Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.translate('somethings_wrong'),
+                    style: whiteTextStyle,
+                  ),
+                );
+              }, loading: () {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (state is TransactionNoDataConnectionState) {
-                return TransactionWarningWidget(
-                  title: AppLocalizations.of(context)!
-                      .translate('no_connection_title'),
-                  desc: AppLocalizations.of(context)!
-                      .translate('no_connection_transaction_desc'),
-                  tryAgain: () {
-                    if (state.infoPay == null) {
-                      bloc.add(TransactionStarted(state.password));
-                    } else {
-                      bloc.add(TransactionConfirmPayment(
-                          state.infoPay!, state.password));
-                    }
-                  },
-                );
-              } else if (state is TransactionInfoPaymentState) {
-                return Center(
-                    child: InfoPayment(
-                  responseInfoPay: state.infoPayment,
-                  password: state.password,
-                ));
-              } else if (state is TransactionErrorState) {
-                return TransactionErrorWidget(
-                  error: state.translationKey != null
-                      ? AppLocalizations.of(context)!
-                          .translate(state.translationKey!)
-                      : state.error,
-                  backToHome: ()=>backToHome(),
-                );
-              } else if (state is TransactionMissingLocationState) {
-                return TransactionWarningWidget(
-                  title: AppLocalizations.of(context)!
-                      .translate('missing_location_error'),
-                  desc: AppLocalizations.of(context)!
-                      .translate('missing_location_error_desc'),
-                  tryAgain: () {
-                    bloc.add(state.eventToRepeat);
-                  },
-                );
-              } else if (state is TransactionCompleteState) {
-                _controller.forward();
-                return AnimatedBuilder(
-                  animation: _controller,
-                  builder: (BuildContext context, Widget? child) {
-                    final url = state.transaction.ackUrl;
-                    return Transform(
-                      transform: Matrix4.translationValues(
-                          0.0, _animation.value * (-10), 0.0),
-                      child: Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Container(
-                              height: height / 3,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              child: FlareActor(
-                                "assets/flare/check.flr",
-                                alignment: Alignment.center,
-                                fit: BoxFit.contain,
-                                animation: 'success',
-                              ),
-                            ),
-                            SizedBox(
-                              height: _animation.value * 5.0,
-                            ),
-                            FadeTransition(
-                              opacity: _animation as Animation<double>,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: Center(
-                                    child: Text(
-                                  state.transaction.type ==
-                                          TransactionType.VOUCHERS
-                                      ? '${AppLocalizations.of(context)!.translate('you_got')}:'
-                                      : AppLocalizations.of(context)!
-                                          .translate('payment_completed'),
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20.0),
-                                )),
-                              ),
-                            ),
-                            SizedBox(
-                              height: _animation.value * 10.0,
-                            ),
-                            FadeTransition(
-                              opacity: _animation as Animation<double>,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child:
-                                    TicketCard(transaction: state.transaction),
-                              ),
-                            ),
-                            SizedBox(
-                              height: _animation.value * 30.0,
-                            ),
-                            FadeTransition(
-                              opacity: _animation as Animation<double>,
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 80.0),
-                                child: FloatingActionButton.extended(
-                                    onPressed: () {
-                                      if (state.transaction.type ==
-                                              TransactionType.PAYMENT &&
-                                          url != null) {
-                                        Utils.launchUrl(url);
-                                      }
-                                      backToHome();
-                                    },
-                                    label: Text(
-                                        '${state.transaction.type == TransactionType.PAYMENT && url != null ? 'Continue' : 'Ok'}')),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              }
-              return Center(
-                child: Text(
-                  AppLocalizations.of(context)!.translate('somethings_wrong'),
-                  style: whiteTextStyle,
-                ),
-              );
+              });
             },
           ),
         ),

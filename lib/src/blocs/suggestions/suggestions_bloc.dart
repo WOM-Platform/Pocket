@@ -1,22 +1,27 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/models/suggestion_model.dart';
 import './bloc.dart';
 
-class SuggestionsBloc extends Bloc<SuggestionsEvent, SuggestionsState> {
-  SuggestionsBloc() : super(InitialSuggestionsState()) {
-    add(LoadSuggestions());
-  }
+final suggestionNotifierProvider =
+    AsyncNotifierProvider<SuggestionsNotifier, SuggestionsLoaded>(
+        SuggestionsNotifier.new);
+
+class SuggestionsNotifier extends AsyncNotifier<SuggestionsLoaded> {
+  // SuggestionsBloc() : super(InitialSuggestionsState()) {
+  //   add(LoadSuggestions());
+  // }
 
   @override
-  Stream<SuggestionsState> mapEventToState(
-    SuggestionsEvent event,
-  ) async* {
-    if (event is LoadSuggestions) {
-      yield SuggestionsLoading();
-      await Future.delayed(Duration(milliseconds: 500));
-      yield SuggestionsLoaded(suggestionsItem);
-    }
+  FutureOr<SuggestionsLoaded> build() async {
+    return await loadSusggestion();
+  }
+
+  loadSusggestion() async {
+    state = AsyncLoading();
+    await Future.delayed(Duration(milliseconds: 500));
+    return AsyncData(SuggestionsLoaded(suggestionsItem));
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:intl/intl.dart';
+import 'package:wom_pocket/src/database/database.dart';
 
 import '../my_logger.dart';
 
@@ -25,13 +26,13 @@ class TransactionModel with _$TransactionModel {
   const factory TransactionModel({
     @TransactionTypeConverter() required TransactionType type,
     required String source,
-    required String country,
-    @JsonKey(name: 'Aim') required String? aimCode,
+    // required String country,
+    @JsonKey(name: 'Aim') required String aimCode,
     @DateTimeConverter() @JsonKey(name: 'Timestamp') required DateTime date,
     // @JsonKey(name: 'Aim') required Aim aim,
     @JsonKey(name: 'Id') required int id,
     String? ackUrl,
-    int? size,
+    required int size,
   }) = _TransactionModel;
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) =>
@@ -39,6 +40,17 @@ class TransactionModel with _$TransactionModel {
 }
 
 extension TransactionModelX on TransactionModel {
+  TransactionsCompanion toTransactionCompanion() {
+    return TransactionsCompanion.insert(
+      source: source,
+      // country: country,
+      aim: aimCode,
+      timestamp: date.millisecondsSinceEpoch,
+      type: type.index,
+      size: size,
+    );
+  }
+
   String formatDate() {
     logger.i(Intl.getCurrentLocale());
     var format = new DateFormat.yMMMEd(Intl.getCurrentLocale());
@@ -46,8 +58,8 @@ extension TransactionModelX on TransactionModel {
   }
 
   List<String> get aimCodes {
-    if (aimCode == null || aimCode!.isEmpty) return [];
-    final list = aimCode!.split(',');
+    if (aimCode == null || aimCode.isEmpty) return [];
+    final list = aimCode.split(',');
     return list;
   }
 

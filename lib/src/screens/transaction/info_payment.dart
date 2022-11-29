@@ -1,23 +1,27 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
-class InfoPayment extends StatelessWidget {
+class InfoPayment extends ConsumerWidget {
+  final TransactionNotifierParams params;
   final PaymentInfoResponse responseInfoPay;
   final String password;
 
   const InfoPayment({
     required this.responseInfoPay,
     required this.password,
+    required this.params,
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final TransactionBloc bloc = BlocProvider.of<TransactionBloc>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final TransactionBloc bloc = BlocProvider.of<TransactionBloc>(context);
 
     final SimpleFilter? simpleFilters = responseInfoPay.simpleFilter;
 
@@ -150,8 +154,7 @@ class InfoPayment extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      bloc.add(
-                          TransactionConfirmPayment(responseInfoPay, password));
+                      ref.read(transactionNotifierProvider(params).notifier).confirmPayment(responseInfoPay);
                     }),
               )
             ],

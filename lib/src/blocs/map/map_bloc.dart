@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
+
 import 'package:clustering_google_maps/clustering_google_maps.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/src/db/app_db.dart';
 import 'package:wom_pocket/src/models/optional_query_model.dart';
@@ -11,16 +12,26 @@ import 'package:wom_pocket/src/services/wom_repository.dart';
 import '../../my_logger.dart';
 import './bloc.dart';
 
-class MapBloc extends Bloc<MapEvent, MapState> {
+final mapNotifierProvider = NotifierProvider<MapBloc, MapState>(MapBloc.new);
+
+class MapBloc extends Notifier<MapState> {
   WomRepository _womRepository = WomRepository();
   late ClusteringHelper clusteringHelper;
   Set<String?> sources = Set();
   Set<String?> aims = Set();
 
-  MapBloc() : super(InitialMapState()) {
+  @override
+  build() {
+    state = InitialMapState();
     initDatabaseClustering();
-    loadSources();
+    return loadSources();
   }
+
+  //
+  // MapBloc() : super(InitialMapState()) {
+  //   initDatabaseClustering();
+  //   loadSources();
+  // }
 
   initDatabaseClustering() {
     clusteringHelper = ClusteringHelper.forDB(
@@ -35,7 +46,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           'AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 '
           'AND ${WomModel.tblWom}.${WomModel.dbLong} != 0',
       updateMarkers: (markers) {
-        add(UpdateMap(markers: markers));
+        state = updateMap(UpdateMap(markers: markers));
       },
       aggregationSetup: AggregationSetup(),
     );
@@ -52,7 +63,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     sources.addAll(s.map((g) => g.type).toList());
     aims.addAll(a.map((g) => g.type).toList());
     aims.removeWhere((a) => a!.startsWith('0'));
-    add(UpdateMap(
+    return updateMap(UpdateMap(
         sources: s, aims: a, womCountWithoutLocation: womCountWithoutLocation));
   }
 
@@ -63,32 +74,26 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     clusteringHelper.updateMap();
   }
 
-  @override
-  Stream<MapState> mapEventToState(
-    MapEvent event,
-  ) async* {
-    if (event is UpdateMap) {
-      debugPrint(event.toString());
-      if (state is MapUpdated) {
-        if (event.forceFilterUpdate == true) {
-          filter();
-        }
-        yield (state as MapUpdated).copyWith(
-          event.markers,
-          event.sliderValue,
-          event.sources,
-          event.aims,
-          event.womCountWithoutLocation,
-        );
-      } else {
-        yield MapUpdated(
-          sliderValue: event.sliderValue ?? 0.0,
-          markers: event.markers ?? {},
-          sources: event.sources ?? [],
-          aims: event.aims ?? [],
-          womCountWithoutLocation: event.womCountWithoutLocation ?? 0,
-        );
+  MapUpdated updateMap(UpdateMap event) {
+    if (state is MapUpdated) {
+      if (event.forceFilterUpdate == true) {
+        filter();
       }
+      return (state as MapUpdated).copyWith(
+        event.markers,
+        event.sliderValue,
+        event.sources,
+        event.aims,
+        event.womCountWithoutLocation,
+      );
+    } else {
+      return MapUpdated(
+        sliderValue: event.sliderValue ?? 0.0,
+        markers: event.markers ?? {},
+        sources: event.sources ?? [],
+        aims: event.aims ?? [],
+        womCountWithoutLocation: event.womCountWithoutLocation ?? 0,
+      );
     }
   }
 
@@ -130,28 +135,28 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   addSourceToFilter(String source) {
     logger.i("addSourceToFilter: $source");
     sources.add(source);
-    add(UpdateMap(forceFilterUpdate: true));
+    state = updateMap(UpdateMap(forceFilterUpdate: true));
   }
 
   removeSourceFromFilter(String source) {
     logger.i("removeSourceFromFilter: $source");
     if (sources.contains(source)) {
       sources.remove(source);
-      add(UpdateMap(forceFilterUpdate: true));
+      state = updateMap(UpdateMap(forceFilterUpdate: true));
     }
   }
 
   void addAimToFilter(String aim) {
     logger.i("addAimToFilter: $aim");
     aims.add(aim);
-    add(UpdateMap(forceFilterUpdate: true));
+    state = updateMap(UpdateMap(forceFilterUpdate: true));
   }
 
   void removeAimFromFilter(String aim) {
     logger.i("removeAimFromFilter: $aim");
     if (aims.contains(aim)) {
       aims.remove(aim);
-      add(UpdateMap(forceFilterUpdate: true));
+      state = updateMap(UpdateMap(forceFilterUpdate: true));
     }
   }
 }

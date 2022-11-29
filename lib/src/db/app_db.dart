@@ -111,7 +111,7 @@ class AppDatabase {
     try {
       batch.rawInsert('INSERT INTO '
           '${TransactionModel.tblTransaction}(${TransactionModel.dbSize},${TransactionModel.dbTimestamp},${TransactionModel.dbCountry},${TransactionModel.dbSource},${TransactionModel.dbAim},${TransactionModel.dbType},${TransactionModel.dbAckUrl})'
-          ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"${tx.country}","${tx.source}","${tx.aimCode}",${tx.type.index},"${tx.ackUrl}")');
+          ' VALUES(${tx.size},${tx.date.millisecondsSinceEpoch},"italy","${tx.source}","${tx.aimCode}",${tx.type.index},"${tx.ackUrl}")');
     } catch (e) {
       logger.i(e.toString());
       analytics.logEvent(

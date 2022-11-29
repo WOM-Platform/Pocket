@@ -1,34 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import '../../../../src/models/source_group_wom.dart';
 import '../../../../src/utils/my_extensions.dart';
 import '../../../my_logger.dart';
 
-class SourcesList extends StatelessWidget {
+class SourcesList extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<MapBloc, MapState>(
-      buildWhen: (MapState p, MapState c) {
-        return p.sources != c.sources;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(mapNotifierProvider);
+    logger.i("build source list");
+    if (state.sources.isEmpty) {
+      return Text(
+        context.translate('no_sources')!,
+        style: TextStyle(color: Colors.white),
+      );
+    }
+    return ChipFilter(
+      sources: state.sources,
+      onAdd: (type) {
+        ref.read(mapNotifierProvider.notifier).addSourceToFilter(type);
       },
-      builder: (BuildContext context, MapState state) {
-        logger.i("build source list");
-        if (state.sources == null || state.sources.isEmpty) {
-          return Text(
-            context.translate('no_sources')!,
-            style: TextStyle(color: Colors.white),
-          );
-        }
-        return ChipFilter(
-          sources: state.sources,
-          onAdd: (type) {
-            BlocProvider.of<MapBloc>(context).addSourceToFilter(type);
-          },
-          onRemove: (type) {
-            BlocProvider.of<MapBloc>(context).removeSourceFromFilter(type);
-          },
-        );
+      onRemove: (type) {
+        ref.read(mapNotifierProvider.notifier).removeSourceFromFilter(type);
       },
     );
   }

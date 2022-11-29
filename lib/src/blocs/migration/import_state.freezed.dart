@@ -25,9 +25,9 @@ mixin _$ImportState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function()? completed,
+    TResult? Function()? loading,
+    TResult? Function(Exception ex)? error,
+    TResult? Function()? completed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -47,9 +47,9 @@ mixin _$ImportState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ImportLoading value)? loading,
-    TResult Function(ImportError value)? error,
-    TResult Function(ImportCompleted value)? completed,
+    TResult? Function(ImportLoading value)? loading,
+    TResult? Function(ImportError value)? error,
+    TResult? Function(ImportCompleted value)? completed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -66,16 +66,18 @@ mixin _$ImportState {
 abstract class $ImportStateCopyWith<$Res> {
   factory $ImportStateCopyWith(
           ImportState value, $Res Function(ImportState) then) =
-      _$ImportStateCopyWithImpl<$Res>;
+      _$ImportStateCopyWithImpl<$Res, ImportState>;
 }
 
 /// @nodoc
-class _$ImportStateCopyWithImpl<$Res> implements $ImportStateCopyWith<$Res> {
+class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
+    implements $ImportStateCopyWith<$Res> {
   _$ImportStateCopyWithImpl(this._value, this._then);
 
-  final ImportState _value;
   // ignore: unused_field
-  final $Res Function(ImportState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -87,14 +89,11 @@ abstract class _$$ImportLoadingCopyWith<$Res> {
 
 /// @nodoc
 class __$$ImportLoadingCopyWithImpl<$Res>
-    extends _$ImportStateCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$ImportLoading>
     implements _$$ImportLoadingCopyWith<$Res> {
   __$$ImportLoadingCopyWithImpl(
       _$ImportLoading _value, $Res Function(_$ImportLoading) _then)
-      : super(_value, (v) => _then(v as _$ImportLoading));
-
-  @override
-  _$ImportLoading get _value => super._value as _$ImportLoading;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -135,9 +134,9 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function()? completed,
+    TResult? Function()? loading,
+    TResult? Function(Exception ex)? error,
+    TResult? Function()? completed,
   }) {
     return loading?.call();
   }
@@ -169,9 +168,9 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ImportLoading value)? loading,
-    TResult Function(ImportError value)? error,
-    TResult Function(ImportCompleted value)? completed,
+    TResult? Function(ImportLoading value)? loading,
+    TResult? Function(ImportError value)? error,
+    TResult? Function(ImportCompleted value)? completed,
   }) {
     return loading?.call(this);
   }
@@ -200,25 +199,25 @@ abstract class _$$ImportErrorCopyWith<$Res> {
   factory _$$ImportErrorCopyWith(
           _$ImportError value, $Res Function(_$ImportError) then) =
       __$$ImportErrorCopyWithImpl<$Res>;
+  @useResult
   $Res call({Exception ex});
 }
 
 /// @nodoc
-class __$$ImportErrorCopyWithImpl<$Res> extends _$ImportStateCopyWithImpl<$Res>
+class __$$ImportErrorCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$ImportError>
     implements _$$ImportErrorCopyWith<$Res> {
   __$$ImportErrorCopyWithImpl(
       _$ImportError _value, $Res Function(_$ImportError) _then)
-      : super(_value, (v) => _then(v as _$ImportError));
+      : super(_value, _then);
 
-  @override
-  _$ImportError get _value => super._value as _$ImportError;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ex = freezed,
+    Object? ex = null,
   }) {
     return _then(_$ImportError(
-      ex == freezed
+      null == ex
           ? _value.ex
           : ex // ignore: cast_nullable_to_non_nullable
               as Exception,
@@ -252,15 +251,15 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ImportError &&
-            const DeepCollectionEquality().equals(other.ex, ex));
+            (identical(other.ex, ex) || other.ex == ex));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(ex));
+  int get hashCode => Object.hash(runtimeType, ex);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ImportErrorCopyWith<_$ImportError> get copyWith =>
       __$$ImportErrorCopyWithImpl<_$ImportError>(this, _$identity);
 
@@ -277,9 +276,9 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function()? completed,
+    TResult? Function()? loading,
+    TResult? Function(Exception ex)? error,
+    TResult? Function()? completed,
   }) {
     return error?.call(ex);
   }
@@ -311,9 +310,9 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ImportLoading value)? loading,
-    TResult Function(ImportError value)? error,
-    TResult Function(ImportCompleted value)? completed,
+    TResult? Function(ImportLoading value)? loading,
+    TResult? Function(ImportError value)? error,
+    TResult? Function(ImportCompleted value)? completed,
   }) {
     return error?.call(this);
   }
@@ -351,14 +350,11 @@ abstract class _$$ImportCompletedCopyWith<$Res> {
 
 /// @nodoc
 class __$$ImportCompletedCopyWithImpl<$Res>
-    extends _$ImportStateCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$ImportCompleted>
     implements _$$ImportCompletedCopyWith<$Res> {
   __$$ImportCompletedCopyWithImpl(
       _$ImportCompleted _value, $Res Function(_$ImportCompleted) _then)
-      : super(_value, (v) => _then(v as _$ImportCompleted));
-
-  @override
-  _$ImportCompleted get _value => super._value as _$ImportCompleted;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -401,9 +397,9 @@ class _$ImportCompleted
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function()? completed,
+    TResult? Function()? loading,
+    TResult? Function(Exception ex)? error,
+    TResult? Function()? completed,
   }) {
     return completed?.call();
   }
@@ -435,9 +431,9 @@ class _$ImportCompleted
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ImportLoading value)? loading,
-    TResult Function(ImportError value)? error,
-    TResult Function(ImportCompleted value)? completed,
+    TResult? Function(ImportLoading value)? loading,
+    TResult? Function(ImportError value)? error,
+    TResult? Function(ImportCompleted value)? completed,
   }) {
     return completed?.call(this);
   }

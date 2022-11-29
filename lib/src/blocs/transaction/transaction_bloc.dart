@@ -1,7 +1,8 @@
+/*
 import 'dart:async' show TimeoutException;
 import 'dart:math';
 
-import 'package:bloc/bloc.dart';
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart'
@@ -147,9 +148,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           error: 'La richiesta ha impiegato troppo tempo',
           translationKey: 'request_timeout_exception');
     } on LocationServiceException {
-      yield TransactionMissingLocationState(event);
+      yield TransactionMissingLocationState();
     } on LocationServiceDisabledException {
-      yield TransactionMissingLocationState(event);
+      yield TransactionMissingLocationState();
     } catch (ex, stack) {
       logger.i(ex.toString());
       FirebaseCrashlytics.instance.recordError(ex, stack);
@@ -158,3 +159,4 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     }
   }
 }
+*/

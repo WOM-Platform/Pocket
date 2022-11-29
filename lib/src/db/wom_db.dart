@@ -63,7 +63,7 @@ class WomDB {
       var result = await db.rawQuery('SELECT * '
           'FROM ${WomModel.tblWom} $whereClause;');
       logger.i(result);
-      ;
+
       final vouchers = result
           .map<Voucher>((Map<String, dynamic> v) => Voucher(
                 id: v[WomModel.dbId],

@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:wom_pocket/src/blocs/app/bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../my_logger.dart';
@@ -18,13 +18,13 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  AppBloc? bloc;
+  // AppBloc? bloc;
   late AnimationController _controller;
   late Animation<double> opacityLogo;
 
   @override
   void initState() {
-    bloc = BlocProvider.of<AppBloc>(context);
+    // bloc = BlocProvider.of<AppBloc>(context);
     logger.i("splash init");
     super.initState();
 

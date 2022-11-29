@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
@@ -63,54 +64,50 @@ class MapScreen extends StatelessWidget {
   }
 }
 
-class MapBody extends StatelessWidget {
+class MapBody extends ConsumerWidget {
   double lastZoom = 0.0;
 
   @override
-  Widget build(BuildContext context) {
-    final MapBloc bloc = BlocProvider.of<MapBloc>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(mapNotifierProvider);
+    ref.listen<MapState>(mapNotifierProvider,(p,n){
+      if ((p?.markers.isEmpty ?? true) && n.markers.isNotEmpty) {
+        logger.i("move camera");
+        ref.read(mapNotifierProvider.notifier).clusteringHelper.mapController
+            .animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: n.markers.first.position, zoom: lastZoom),
+        ));
+      }
+    });
     return Container(
       padding: EdgeInsets.only(
           bottom: minHeight, top: MediaQuery.of(context).padding.top),
       key: new PageStorageKey('map'),
-      child: BlocBuilder<MapBloc, MapState>(
-        buildWhen: (MapState p, MapState c) {
-          if (p.markers.isEmpty && c.markers.isNotEmpty) {
-            logger.i("move camera");
-            bloc.clusteringHelper.mapController
-                .animateCamera(CameraUpdate.newCameraPosition(
-              CameraPosition(target: c.markers.first.position, zoom: lastZoom),
-            ));
-          }
-          return true;
+      child: GoogleMap(
+        initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
+        zoomControlsEnabled: false,
+        minMaxZoomPreference: MinMaxZoomPreference(0.0, 16.0),
+        myLocationButtonEnabled: true,
+        myLocationEnabled: true,
+        onMapCreated: (mapController) => ref.read(mapNotifierProvider.notifier).onMapCreated(mapController),
+        onCameraIdle: ref.read(mapNotifierProvider.notifier).clusteringHelper.onMapIdle,
+        onCameraMove: (cameraPosition) {
+          ref.read(mapNotifierProvider.notifier).clusteringHelper.onCameraMove(cameraPosition);
+          lastZoom = cameraPosition.zoom;
         },
-        builder: (BuildContext context, MapState state) {
-          return GoogleMap(
-            initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
-            zoomControlsEnabled: false,
-            minMaxZoomPreference: MinMaxZoomPreference(0.0, 16.0),
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            onMapCreated: (mapController) => bloc.onMapCreated(mapController),
-            onCameraIdle: bloc.clusteringHelper.onMapIdle,
-            onCameraMove: (cameraPosition) {
-              bloc.clusteringHelper.onCameraMove(cameraPosition);
-              lastZoom = cameraPosition.zoom;
-            },
-            markers: state.markers,
-          );
-        },
+        markers: state.markers,
       ),
     );
   }
 }
 
-class MapPanel extends StatelessWidget {
+class MapPanel extends ConsumerWidget {
   final style = TextStyle(
       fontSize: 15.0, fontWeight: FontWeight.w600, color: Colors.white);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
     return Container(
       color: Theme.of(context).primaryColor,
       padding: const EdgeInsets.all(8.0),
@@ -155,23 +152,27 @@ class MapPanel extends StatelessWidget {
           ),
           AimsList(),
           Divider(),
-          BlocBuilder<MapBloc, MapState>(
+          Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            final state = ref.watch(mapNotifierProvider);
+            logger.i(
+                "build wom withoud location: ${state.womCountWithoutLocation}");
+            if (state.womCountWithoutLocation == 0) {
+              return SizedBox.shrink();
+            }
+            return Text(
+              '${AppLocalizations.of(context)?.translate('wom_without_location') ?? ''} ${state.womCountWithoutLocation}',
+              textAlign: TextAlign.start,
+              style: style,
+            );
+          },),
+          /*BlocBuilder<MapBloc, MapState>(
             buildWhen: (MapState p, MapState c) {
               return p.womCountWithoutLocation != c.womCountWithoutLocation;
             },
             builder: (BuildContext context, MapState state) {
-              logger.i(
-                  "build wom withoud location: ${state.womCountWithoutLocation}");
-              if (state.womCountWithoutLocation == 0) {
-                return SizedBox.shrink();
-              }
-              return Text(
-                '${AppLocalizations.of(context)?.translate('wom_without_location') ?? ''} ${state.womCountWithoutLocation}',
-                textAlign: TextAlign.start,
-                style: style,
-              );
+
             },
-          )
+          )*/
         ],
       ),
     );

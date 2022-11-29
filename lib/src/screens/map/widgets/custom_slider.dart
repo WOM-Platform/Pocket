@@ -1,56 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 
-class CustomSlider extends StatelessWidget {
+class CustomSlider extends ConsumerWidget {
   final double value = 0.0;
 
   @override
-  Widget build(BuildContext context) {
-    final MapBloc bloc = BlocProvider.of<MapBloc>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(mapNotifierProvider);
+    // final MapBloc bloc = BlocProvider.of<MapBloc>(context);
     final ThemeData theme = Theme.of(context);
     return SliderTheme(
-      data: theme.sliderTheme.copyWith(
-        activeTrackColor: Colors.grey[100],
-        inactiveTrackColor: Theme.of(context).colorScheme.secondary,
-        activeTickMarkColor: Colors.grey,
-        inactiveTickMarkColor: Colors.white,
-        overlayColor: Colors.black12,
-        thumbColor: Theme.of(context).colorScheme.secondary,
-        valueIndicatorColor: Theme.of(context).colorScheme.secondary,
-        valueIndicatorTextStyle: TextStyle(
-            color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
+        data: theme.sliderTheme.copyWith(
+          activeTrackColor: Colors.grey[100],
+          inactiveTrackColor: Theme.of(context).colorScheme.secondary,
+          activeTickMarkColor: Colors.grey,
+          inactiveTickMarkColor: Colors.white,
+          overlayColor: Colors.black12,
+          thumbColor: Theme.of(context).colorScheme.secondary,
+          valueIndicatorColor: Theme.of(context).colorScheme.secondary,
+          valueIndicatorTextStyle: TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.bold),
 //            thumbShape: _CustomThumbShape(),
 //            valueIndicatorShape: _CustomValueIndicatorShape(),
 //            valueIndicatorTextStyle:
-      ),
-      child: BlocBuilder<MapBloc, MapState>(
-        buildWhen: (previous, current) {
-          if (previous is MapUpdated && current is MapUpdated) {
-            if (previous.sliderValue != current.sliderValue) {
-              return true;
-            }
-            return false;
-          }
-          return true;
-        },
-        builder: (context, MapState state) {
-          return Slider(
-            divisions: 10,
-            label: valueIndicatorTextSlider[state.sliderValue?.toInt() ?? 0],
-            min: 0.0,
-            max: 10.0,
-            onChangeEnd: (v) {
-              bloc.add(UpdateMap(sliderValue: v, forceFilterUpdate: true));
-            },
-            value: state.sliderValue!,
-            onChanged: (v) {
-              bloc.add(UpdateMap(sliderValue: v));
-            },
-          );
-        },
-      ),
-    );
+        ),
+        child: Slider(
+          divisions: 10,
+          label: valueIndicatorTextSlider[state.sliderValue?.toInt() ?? 0],
+          min: 0.0,
+          max: 10.0,
+          onChangeEnd: (v) {
+            ref
+                .read(mapNotifierProvider.notifier)
+                .updateMap(UpdateMap(sliderValue: v, forceFilterUpdate: true));
+          },
+          value: state.sliderValue!,
+          onChanged: (v) {
+            ref
+                .read(mapNotifierProvider.notifier)
+                .updateMap(UpdateMap(sliderValue: v));
+          },
+        ));
   }
 }
 

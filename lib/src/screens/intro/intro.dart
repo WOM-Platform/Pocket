@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/application/app_notifier.dart';
 import 'package:wom_pocket/src/blocs/app/app_bloc.dart';
 import 'package:wom_pocket/src/blocs/app/app_event.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
-class IntroScreen extends StatelessWidget {
+class IntroScreen extends ConsumerWidget {
   final TextStyle whiteTextStyle = TextStyle(color: Colors.white);
   final TextStyle descStyle = TextStyle(color: Colors.white);
 
   @override
-  Widget build(BuildContext context) {
-    final appBloc = BlocProvider.of<AppBloc>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final appBloc = BlocProvider.of<AppBloc>(context);
     final pages = [
       PageViewModel(
           pageColor: Colors.grey,
@@ -66,7 +68,7 @@ class IntroScreen extends StatelessWidget {
         pages,
         onTapDoneButton: () {
 //                Navigator.pushReplacementNamed(context, "/home");
-          appBloc.add(HomeEvent());
+          ref.read(appNotifierProvider.notifier).goIntoNormalMode();
         },
         pageButtonTextStyles: TextStyle(
           color: Colors.white,

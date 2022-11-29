@@ -1,51 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/models/source_group_wom.dart';
 
 import '../../../my_logger.dart';
 
-class AimsList extends StatelessWidget {
+class AimsList extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<MapBloc, MapState>(
-      buildWhen: (MapState p, MapState c) {
-        return p.aims != c.aims;
-      },
-      builder: (BuildContext context, MapState state) {
-        logger.i("build aims list");
-        if (state.aims == null || state.aims.isEmpty) {
-          return Text(
-            AppLocalizations.of(context)!.translate('no_aims'),
-            style: TextStyle(color: Colors.white),
-          );
-        }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(mapNotifierProvider);
+    logger.i("build aims list");
+    if (state.aims.isEmpty) {
+      return Text(
+        AppLocalizations.of(context)!.translate('no_aims'),
+        style: TextStyle(color: Colors.white),
+      );
+    }
 
-        return ChipFilter(
-          aims: state.aims,
-          onAdd: (type) {
-            BlocProvider.of<MapBloc>(context).addAimToFilter(type);
-          },
-          onRemove: (type) {
-            BlocProvider.of<MapBloc>(context).removeAimFromFilter(type);
-          },
-        );
-//          return Column(
-//            children: [
-//              for (WomGroupBy aim in state.aims)
-//                CheckboxRowFilter(
-//                  group: aim,
-//                  onChanged: (value) {
-//                    if (value) {
-//                      bloc.addAimToFilter(aim.type);
-//                    } else {
-//                      bloc.removeAimFromFilter(aim.type);
-//                    }
-//                  },
-//                ),
-//            ],
-//          );
+    return ChipFilter(
+      aims: state.aims,
+      onAdd: (type) {
+        ref.read(mapNotifierProvider.notifier).addAimToFilter(type);
+      },
+      onRemove: (type) {
+        ref.read(mapNotifierProvider.notifier).removeAimFromFilter(type);
       },
     );
   }

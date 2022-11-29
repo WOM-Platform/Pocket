@@ -1,6 +1,7 @@
+/*
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:wom_pocket/src/db/app_db.dart';
 import 'package:wom_pocket/src/db/transaction_db.dart';
@@ -16,7 +17,7 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
 
   TransactionsListBloc(this._transactionDB)
       : super(InitialTransactionsState()) {
-    _aimRepository = AimRepository();
+    // _aimRepository = AimRepository();
   }
 
   @override
@@ -26,7 +27,7 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
     if (event is LoadTransactions) {
       yield TransactionsLoading();
 
-      var aims = await _aimRepository.getFlatAimList(AppDatabase.get().getDb);
+      var aims = await _aimRepository.getFlatAimList();
 
       try {
         //Se non ho gli aim salvati nel db li scarico da internet
@@ -65,3 +66,4 @@ class TransactionsListBloc extends Bloc<TransactionsEvent, TransactionsState> {
     }
   }
 }
+*/

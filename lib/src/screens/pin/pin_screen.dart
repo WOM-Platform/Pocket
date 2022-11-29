@@ -1,29 +1,41 @@
 import 'dart:io';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart' as riv;
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/application/pin_notifier.dart';
+import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/blocs/pin/bloc.dart';
-import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
+import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/code_panel.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/keyboard.dart';
 import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
-import 'package:wom_pocket/src/services/transaction_repository.dart';
 
-class PinScreen extends StatelessWidget {
-  late PinBloc bloc;
+final deeplinkProvider = Provider<DeepLinkModel>((ref) {
+  throw UnimplementedError();
+});
+
+class PinScreen extends ConsumerWidget {
+  // late PinBloc bloc;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Theme.of(context).primaryColor,
         statusBarIconBrightness: Brightness.dark,
       ),
     );
-    bloc = BlocProvider.of<PinBloc>(context);
+    // bloc = BlocProvider.of<PinBloc>(context);
+    final pinState = ref.watch(pinNotifierProvider);
+    final deeplinkModel = ref.watch(deeplinkProvider);
+    ref.listen<PinState>(pinNotifierProvider, (previous, next) {
+      if (next is PinVerified) {
+        goToAcceptCredits(context, next.pin, deeplinkModel);
+      }
+    });
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -35,54 +47,49 @@ class PinScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: BlocListener<PinBloc, PinState>(
-        listener: (BuildContext context, PinState state) {
-          if (state is PinVerified) {
-            goToAcceptCredits(context, state.pin);
-          }
-        },
-        child: Column(
-          children: <Widget>[
-            Spacer(),
-            BlocBuilder<PinBloc, PinState>(
-              builder: (BuildContext context, PinState state) {
-                return CodePanel(
-                  codeLength: 4,
-                  currentLength: state.pin.length,
-                  borderColor: Colors.white,
-                  foregroundColor: Colors.transparent,
-                  status: state is PinVerified ? 1 : 2,
-                );
-              },
-            ),
-            Spacer(),
-            Expanded(
-              flex: Platform.isIOS ? 5 : 8,
-              child: PinKeyboard(),
-            ),
-            Spacer(),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          Spacer(),
+          CodePanel(
+            codeLength: 4,
+            currentLength: pinState.pin.length,
+            borderColor: Colors.white,
+            foregroundColor: Colors.transparent,
+            status: pinState is PinVerified ? 1 : 2,
+          ),
+          Spacer(),
+          Expanded(
+            flex: Platform.isIOS ? 5 : 8,
+            child: PinKeyboard(),
+          ),
+          Spacer(),
+        ],
       ),
     );
   }
 
-  goToAcceptCredits(BuildContext context, String password) {
-    final repository = TransactionRepository(
-        bloc.deepLinkModel,
-        riv.ProviderScope.containerOf(context, listen: false)
-            .read(pocketProvider));
-
-    final blocProviderTransaction = BlocProvider<TransactionBloc>(
-      create: (context) => TransactionBloc(
-          repository, bloc.deepLinkModel.otc!, bloc.deepLinkModel.type)
-        ..add(TransactionStarted(password)),
-      child: TransactionScreen(),
-    );
+  goToAcceptCredits(
+    BuildContext context,
+    // String otc,
+    // TransactionType type,
+    String password,
+    // WidgetRef ref,
+    DeepLinkModel deepLinkModel,
+  ) {
+    // final blocProviderTransaction = BlocProvider<TransactionBloc>(
+    //   create: (context) => TransactionBloc(
+    //       repository, bloc.deepLinkModel.otc!, bloc.deepLinkModel.type)
+    //     ..add(TransactionStarted(password)),
+    //   child: TransactionScreen(),
+    // );
 
     Navigator.push(
       context,
-      MaterialPageRoute<bool>(builder: (context) => blocProviderTransaction),
+      MaterialPageRoute<bool>(
+        builder: (context) => TransactionScreen(
+          params: TransactionNotifierParams(deepLinkModel, password),
+        ),
+      ),
     );
   }
 }

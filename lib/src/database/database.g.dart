@@ -519,14 +519,17 @@ class $WomTable extends Wom with TableInfo<$WomTable, WomRow> {
 class AimRow extends DataClass implements Insertable<AimRow> {
   final int id;
   final String code;
-  final String titles;
+  final Map<String, dynamic> titles;
   const AimRow({required this.id, required this.code, required this.titles});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['code'] = Variable<String>(code);
-    map['titles'] = Variable<String>(titles);
+    {
+      final converter = $AimsTable.$converter0;
+      map['titles'] = Variable<String>(converter.toSql(titles));
+    }
     return map;
   }
 
@@ -544,7 +547,7 @@ class AimRow extends DataClass implements Insertable<AimRow> {
     return AimRow(
       id: serializer.fromJson<int>(json['id']),
       code: serializer.fromJson<String>(json['code']),
-      titles: serializer.fromJson<String>(json['titles']),
+      titles: serializer.fromJson<Map<String, dynamic>>(json['titles']),
     );
   }
   @override
@@ -553,11 +556,12 @@ class AimRow extends DataClass implements Insertable<AimRow> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'code': serializer.toJson<String>(code),
-      'titles': serializer.toJson<String>(titles),
+      'titles': serializer.toJson<Map<String, dynamic>>(titles),
     };
   }
 
-  AimRow copyWith({int? id, String? code, String? titles}) => AimRow(
+  AimRow copyWith({int? id, String? code, Map<String, dynamic>? titles}) =>
+      AimRow(
         id: id ?? this.id,
         code: code ?? this.code,
         titles: titles ?? this.titles,
@@ -586,18 +590,17 @@ class AimRow extends DataClass implements Insertable<AimRow> {
 class AimsCompanion extends UpdateCompanion<AimRow> {
   final Value<int> id;
   final Value<String> code;
-  final Value<String> titles;
+  final Value<Map<String, dynamic>> titles;
   const AimsCompanion({
     this.id = const Value.absent(),
     this.code = const Value.absent(),
     this.titles = const Value.absent(),
   });
   AimsCompanion.insert({
-    required int id,
+    this.id = const Value.absent(),
     required String code,
-    required String titles,
-  })  : id = Value(id),
-        code = Value(code),
+    required Map<String, dynamic> titles,
+  })  : code = Value(code),
         titles = Value(titles);
   static Insertable<AimRow> custom({
     Expression<int>? id,
@@ -612,7 +615,9 @@ class AimsCompanion extends UpdateCompanion<AimRow> {
   }
 
   AimsCompanion copyWith(
-      {Value<int>? id, Value<String>? code, Value<String>? titles}) {
+      {Value<int>? id,
+      Value<String>? code,
+      Value<Map<String, dynamic>>? titles}) {
     return AimsCompanion(
       id: id ?? this.id,
       code: code ?? this.code,
@@ -630,7 +635,8 @@ class AimsCompanion extends UpdateCompanion<AimRow> {
       map['code'] = Variable<String>(code.value);
     }
     if (titles.present) {
-      map['titles'] = Variable<String>(titles.value);
+      final converter = $AimsTable.$converter0;
+      map['titles'] = Variable<String>(converter.toSql(titles.value));
     }
     return map;
   }
@@ -655,7 +661,9 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _codeMeta = const VerificationMeta('code');
   @override
   late final GeneratedColumn<String> code = GeneratedColumn<String>(
@@ -663,9 +671,10 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
       type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _titlesMeta = const VerificationMeta('titles');
   @override
-  late final GeneratedColumn<String> titles = GeneratedColumn<String>(
-      'titles', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumnWithTypeConverter<Map<String, dynamic>, String>
+      titles = GeneratedColumn<String>('titles', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<Map<String, dynamic>>($AimsTable.$converter0);
   @override
   List<GeneratedColumn> get $columns => [id, code, titles];
   @override
@@ -679,8 +688,6 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('code')) {
       context.handle(
@@ -688,17 +695,12 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
     } else if (isInserting) {
       context.missing(_codeMeta);
     }
-    if (data.containsKey('titles')) {
-      context.handle(_titlesMeta,
-          titles.isAcceptableOrUnknown(data['titles']!, _titlesMeta));
-    } else if (isInserting) {
-      context.missing(_titlesMeta);
-    }
+    context.handle(_titlesMeta, const VerificationResult.success());
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   AimRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -707,8 +709,8 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       code: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}code'])!,
-      titles: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}titles'])!,
+      titles: $AimsTable.$converter0.fromSql(attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}titles'])!),
     );
   }
 
@@ -716,12 +718,14 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
   $AimsTable createAlias(String alias) {
     return $AimsTable(attachedDatabase, alias);
   }
+
+  static TypeConverter<Map<String, dynamic>, String> $converter0 =
+      const AimTitlesConverter();
 }
 
 class MyTransaction extends DataClass implements Insertable<MyTransaction> {
   final int id;
   final String source;
-  final String country;
   final String aim;
   final int timestamp;
   final int type;
@@ -730,7 +734,6 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
   const MyTransaction(
       {required this.id,
       required this.source,
-      required this.country,
       required this.aim,
       required this.timestamp,
       required this.type,
@@ -741,7 +744,6 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
     final map = <String, Expression>{};
     map['Id'] = Variable<int>(id);
     map['source'] = Variable<String>(source);
-    map['country'] = Variable<String>(country);
     map['Aim'] = Variable<String>(aim);
     map['Timestamp'] = Variable<int>(timestamp);
     map['type'] = Variable<int>(type);
@@ -756,7 +758,6 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
     return TransactionsCompanion(
       id: Value(id),
       source: Value(source),
-      country: Value(country),
       aim: Value(aim),
       timestamp: Value(timestamp),
       type: Value(type),
@@ -772,7 +773,6 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
     return MyTransaction(
       id: serializer.fromJson<int>(json['id']),
       source: serializer.fromJson<String>(json['source']),
-      country: serializer.fromJson<String>(json['country']),
       aim: serializer.fromJson<String>(json['aim']),
       timestamp: serializer.fromJson<int>(json['timestamp']),
       type: serializer.fromJson<int>(json['type']),
@@ -786,7 +786,6 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'source': serializer.toJson<String>(source),
-      'country': serializer.toJson<String>(country),
       'aim': serializer.toJson<String>(aim),
       'timestamp': serializer.toJson<int>(timestamp),
       'type': serializer.toJson<int>(type),
@@ -798,7 +797,6 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
   MyTransaction copyWith(
           {int? id,
           String? source,
-          String? country,
           String? aim,
           int? timestamp,
           int? type,
@@ -807,7 +805,6 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
       MyTransaction(
         id: id ?? this.id,
         source: source ?? this.source,
-        country: country ?? this.country,
         aim: aim ?? this.aim,
         timestamp: timestamp ?? this.timestamp,
         type: type ?? this.type,
@@ -819,7 +816,6 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
     return (StringBuffer('MyTransaction(')
           ..write('id: $id, ')
           ..write('source: $source, ')
-          ..write('country: $country, ')
           ..write('aim: $aim, ')
           ..write('timestamp: $timestamp, ')
           ..write('type: $type, ')
@@ -831,14 +827,13 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
 
   @override
   int get hashCode =>
-      Object.hash(id, source, country, aim, timestamp, type, size, ackUrl);
+      Object.hash(id, source, aim, timestamp, type, size, ackUrl);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is MyTransaction &&
           other.id == this.id &&
           other.source == this.source &&
-          other.country == this.country &&
           other.aim == this.aim &&
           other.timestamp == this.timestamp &&
           other.type == this.type &&
@@ -849,7 +844,6 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
 class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   final Value<int> id;
   final Value<String> source;
-  final Value<String> country;
   final Value<String> aim;
   final Value<int> timestamp;
   final Value<int> type;
@@ -858,7 +852,6 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   const TransactionsCompanion({
     this.id = const Value.absent(),
     this.source = const Value.absent(),
-    this.country = const Value.absent(),
     this.aim = const Value.absent(),
     this.timestamp = const Value.absent(),
     this.type = const Value.absent(),
@@ -868,14 +861,12 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   TransactionsCompanion.insert({
     this.id = const Value.absent(),
     required String source,
-    required String country,
     required String aim,
     required int timestamp,
     required int type,
     required int size,
     this.ackUrl = const Value.absent(),
   })  : source = Value(source),
-        country = Value(country),
         aim = Value(aim),
         timestamp = Value(timestamp),
         type = Value(type),
@@ -883,7 +874,6 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   static Insertable<MyTransaction> custom({
     Expression<int>? id,
     Expression<String>? source,
-    Expression<String>? country,
     Expression<String>? aim,
     Expression<int>? timestamp,
     Expression<int>? type,
@@ -893,7 +883,6 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     return RawValuesInsertable({
       if (id != null) 'Id': id,
       if (source != null) 'source': source,
-      if (country != null) 'country': country,
       if (aim != null) 'Aim': aim,
       if (timestamp != null) 'Timestamp': timestamp,
       if (type != null) 'type': type,
@@ -905,7 +894,6 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   TransactionsCompanion copyWith(
       {Value<int>? id,
       Value<String>? source,
-      Value<String>? country,
       Value<String>? aim,
       Value<int>? timestamp,
       Value<int>? type,
@@ -914,7 +902,6 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     return TransactionsCompanion(
       id: id ?? this.id,
       source: source ?? this.source,
-      country: country ?? this.country,
       aim: aim ?? this.aim,
       timestamp: timestamp ?? this.timestamp,
       type: type ?? this.type,
@@ -931,9 +918,6 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     }
     if (source.present) {
       map['source'] = Variable<String>(source.value);
-    }
-    if (country.present) {
-      map['country'] = Variable<String>(country.value);
     }
     if (aim.present) {
       map['Aim'] = Variable<String>(aim.value);
@@ -958,7 +942,6 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     return (StringBuffer('TransactionsCompanion(')
           ..write('id: $id, ')
           ..write('source: $source, ')
-          ..write('country: $country, ')
           ..write('aim: $aim, ')
           ..write('timestamp: $timestamp, ')
           ..write('type: $type, ')
@@ -987,11 +970,6 @@ class $TransactionsTable extends Transactions
   late final GeneratedColumn<String> source = GeneratedColumn<String>(
       'source', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _countryMeta = const VerificationMeta('country');
-  @override
-  late final GeneratedColumn<String> country = GeneratedColumn<String>(
-      'country', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _aimMeta = const VerificationMeta('aim');
   @override
   late final GeneratedColumn<String> aim = GeneratedColumn<String>(
@@ -1019,7 +997,7 @@ class $TransactionsTable extends Transactions
       type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, source, country, aim, timestamp, type, size, ackUrl];
+      [id, source, aim, timestamp, type, size, ackUrl];
   @override
   String get aliasedName => _alias ?? 'transactions';
   @override
@@ -1037,12 +1015,6 @@ class $TransactionsTable extends Transactions
           source.isAcceptableOrUnknown(data['source']!, _sourceMeta));
     } else if (isInserting) {
       context.missing(_sourceMeta);
-    }
-    if (data.containsKey('country')) {
-      context.handle(_countryMeta,
-          country.isAcceptableOrUnknown(data['country']!, _countryMeta));
-    } else if (isInserting) {
-      context.missing(_countryMeta);
     }
     if (data.containsKey('Aim')) {
       context.handle(
@@ -1085,8 +1057,6 @@ class $TransactionsTable extends Transactions
           .read(DriftSqlType.int, data['${effectivePrefix}Id'])!,
       source: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}source'])!,
-      country: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}country'])!,
       aim: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}Aim'])!,
       timestamp: attachedDatabase.options.types
@@ -1112,6 +1082,9 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   late final $AimsTable aims = $AimsTable(this);
   late final $TransactionsTable transactions = $TransactionsTable(this);
   late final WomsDao womsDao = WomsDao(this as MyDatabase);
+  late final AimsDao aimsDao = AimsDao(this as MyDatabase);
+  late final TransactionsDao transactionsDao =
+      TransactionsDao(this as MyDatabase);
   @override
   Iterable<TableInfo<Table, dynamic>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

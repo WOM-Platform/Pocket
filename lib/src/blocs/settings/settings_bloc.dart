@@ -1,12 +1,18 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wom_pocket/src/db/app_db.dart';
 
 import '../../my_logger.dart';
 
-class SettingsBloc{
+
+final settingRepositoryProvider = Provider<DatabaseUtility>((ref) {
+  return DatabaseUtility();
+});
+
+class DatabaseUtility{
 
   Future<bool> deleteDB() async {
     try {
