@@ -88,12 +88,12 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
         'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${AimDbKeys.TITLES} as titles '
         'FROM ${WomModel.tblWom} w INNER JOIN ${AimDbKeys.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${AimDbKeys.CODE} '
         'AND w.${WomModel.dbLive} = ${WomStatus.ON.index} '
-        'AND w.${WomModel.dbAim} NOT LIKE "0%" '
+        'AND w.${WomModel.dbAim} NOT LIKE \'0%\' '
         'AND w.${WomModel.dbLat} != 0 '
         'AND w.${WomModel.dbLong} != 0 '
         'GROUP BY ${WomModel.dbAim};';
-    /* logger.i('[WomDb]: $customQuery');
-    var result = await db.rawQuery(query);
+    logger.i('[WomDb]: $customQuery');
+    /* var result = await db.rawQuery(query);
     final list = result.map((m) {
       return WomGroupBy(m['aim'] as String?, m['woms'] as int?,
           titles: json.decode(m['titles'] as String));
@@ -105,19 +105,18 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
       readsFrom: {wom, aims},
     ).get())
         .map((row) {
-          return row;
-      // return WomGroupBy(row['aim'] as String?, row['woms'] as int?,
-      //     titles: json.decode(row['titles'] as String));
+      return WomGroupBy.fromAimMap(row.data);
     }).toList();
-    return [];
+    return list;
   }
 
   Future<List<WomGroupBy>> getWomsGroupedBySources() async {
     logger.i('[WomDb] getWomsGroupedBySources');
-    final customQuery = 'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type '
+    final customQuery =
+        'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type '
         'FROM ${WomModel.tblWom} '
         'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} '
-        'AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE "0%" '
+        'AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \'0%\' '
         'AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 '
         'AND ${WomModel.tblWom}.${WomModel.dbLong} != 0 '
         'GROUP BY ${WomModel.dbSourceName};';
@@ -127,10 +126,11 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
       readsFrom: {wom},
     ).get())
         .map((row) {
-      return row;
+      return WomGroupBy.fromSourceMap(row.data);
+
       // return WomGroupBy(row['aim'] as String?, row['woms'] as int?,
       //     titles: json.decode(row['titles'] as String));
     }).toList();
-    return [];
+    return list;
   }
 }

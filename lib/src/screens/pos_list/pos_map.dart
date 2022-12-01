@@ -10,21 +10,50 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:wom_pocket/src/screens/pos_list/pos_map_data.dart';
+import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 import 'package:wom_pocket/src/screens/pos_list/search_button.dart';
 import 'carousel.dart';
 import 'pos_list_screen.dart';
 
 enum PosScreen { map, list }
 
-final showMapListFilterProvider = StateProvider<bool>((ref) {
-  return true;
-});
+final showMapListFilterProvider =
+    NotifierProvider<ShowMapListFilterNotifier, bool>(
+        ShowMapListFilterNotifier.new);
+
+class ShowMapListFilterNotifier extends Notifier<bool> {
+  @override
+  bool build() {
+    return true;
+  }
+
+  show(){
+    print('show map list filters');
+    state = true;
+  }
+
+  hide(){
+    print('hide map list filters');
+    state = false;
+  }
+}
 
 class LocalizationException implements Exception {}
 
-final mapIndexProvider = StateProvider<PosScreen>((ref) {
-  return PosScreen.map;
-});
+final mapIndexProvider =
+    NotifierProvider<MapIndexNotifier, PosScreen>(MapIndexNotifier.new);
+
+class MapIndexNotifier extends Notifier<PosScreen> {
+  @override
+  PosScreen build() {
+    return PosScreen.map;
+  }
+
+  toggle() {
+    state = state == PosScreen.map ? PosScreen.list : PosScreen.map;
+  }
+}
 
 final currentLocationProvider = FutureProvider<Location>((ref) async {
   print('currentLocationProvider CREATE');
@@ -72,83 +101,6 @@ final mapControllerProvider = StateProvider<GoogleMapController?>((ref) {
   return null;
 });
 
-final posMapListProvider =
-    StateNotifierProvider<PosMapNotifier, AsyncValue<PosMapData>>((ref) {
-  return PosMapNotifier(ref);
-});
-
-class PosMapData {
-  final List<POSMap> posList;
-  final Set<Marker> markers;
-
-  PosMapData(this.posList, this.markers);
-
-  factory PosMapData.empty() => PosMapData([], {});
-}
-
-class PosMapNotifier extends StateNotifier<AsyncValue<PosMapData>> {
-  final Ref ref;
-
-  PosMapNotifier(this.ref) : super(AsyncValue.data(PosMapData.empty()));
-
-  Future<void> loadPos({
-    required double llx,
-    required double lly,
-    required double urx,
-    required double ury,
-  }) async {
-    final posList = await ref.read(registryClientProvider)
-        .getPosListAroundMe(llx: llx, lly: lly, urx: urx, ury: ury);
-
-    final markers = await buildMarkers(posList);
-    state = AsyncData(PosMapData(posList, markers));
-  }
-
-  Future<Set<Marker>> buildMarkers(List<POSMap> points) async {
-    final s = <Marker>{};
-    for (int i = 0; i < points.length; i++) {
-      final p = points[i];
-      final marker = await buildMarker(p, i);
-      s.add(marker);
-    }
-    return s;
-  }
-
-  Future<BitmapDescriptor> _getPosPin() async {
-    final image = await rootBundle.load('assets/images/wom_pos_pin.png');
-    return await BitmapDescriptor.fromBytes(image.buffer.asUint8List());
-  }
-
-  BitmapDescriptor? _standardPin;
-
-  Future<Marker> buildMarker(POSMap point, int index) async {
-    _standardPin ??= await _getPosPin();
-    // _selectedPin ??= await getCustomPinWithBorder(
-    //   iconHeight,
-    //   NewPalette.chivadoColor,
-    //   Colors.white,
-    // );
-    final markerId = MarkerId(point.id);
-
-    // if (index == 0 && selectedMarkerId == null) {
-    //   selectedMarkerId = markerId;
-    //   selectedIndex = 0;
-    // }
-    return Marker(
-      markerId: markerId,
-      position: LatLng(point.position.latitude, point.position.longitude),
-      onTap: () {
-        ref.read(carouselControllerProvider).jumpToPage(index);
-        // selectMarker(markerId);
-      },
-      zIndex: index == 0 ? 1 : 0,
-      infoWindow: InfoWindow(title: point.name),
-      icon: _standardPin!,
-      // icon: (markerId == selectedMarkerId ? _selectedPin : _standardPin) ??
-      //     BitmapDescriptor.defaultMarker,
-    );
-  }
-}
 
 class PosMapScreen extends ConsumerStatefulWidget {
   const PosMapScreen({
@@ -164,8 +116,6 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
       Completer<GoogleMapController>();
 
   final minZoom = 15.0;
-
-  // final initialZoom = 11.0;
 
   @override
   void initState() {
@@ -217,7 +167,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
     print('onSearchPressed');
     final bounds = await (await _controller.future).getVisibleRegion();
 
-    await ref.read(posMapListProvider.notifier).loadPos(
+    await ref.read(posMapNotifierProvider.notifier).loadPos(
           lly: bounds.southwest.latitude,
           llx: bounds.southwest.longitude,
           ury: bounds.northeast.latitude,
@@ -228,7 +178,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
   @override
   Widget build(BuildContext context) {
     final posData =
-        ref.watch(posMapListProvider).asData?.value ?? PosMapData.empty();
+        ref.watch(posMapNotifierProvider);
 
     final selectedIndex = ref.watch(mapIndexProvider);
 
@@ -258,12 +208,10 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                             if ((cameraPosition.zoom * 10).round() / 10 <
                                 minZoom) {
                               ref
-                                  .read(enableSearchButtonProvider.notifier)
-                                  .state = ZoomStatus.outside;
+                                  .read(enableSearchButtonProvider.notifier).outside();
                             } else {
                               ref
-                                  .read(enableSearchButtonProvider.notifier)
-                                  .state = ZoomStatus.enabled;
+                                  .read(enableSearchButtonProvider.notifier).enabled();
                             }
                             ref
                                 .read(mapControllerProvider)
@@ -360,8 +308,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                           onToggle: (index) {
                             print('switched to: $index');
                             if (index == null || index == selectedIndex) return;
-                            ref.read(mapIndexProvider.notifier).state =
-                                PosScreen.values[index];
+                            ref.read(mapIndexProvider.notifier).toggle();
                           },
                         ),
                       ],

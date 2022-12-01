@@ -96,13 +96,14 @@ class MapBody extends ConsumerWidget {
         myLocationEnabled: true,
         onMapCreated: (mapController) =>
             ref.read(mapNotifierProvider.notifier).onMapCreated(mapController),
-        onCameraIdle:
-            ref.read(mapNotifierProvider.notifier).clusterManager.updateMap,
+        onCameraIdle:(){
+          ref.read(mapNotifierProvider.notifier).clusterManager?.updateMap();
+        },
         onCameraMove: (cameraPosition) {
           ref
               .read(mapNotifierProvider.notifier)
               .clusterManager
-              .onCameraMove(cameraPosition);
+              ?.onCameraMove(cameraPosition);
           lastZoom = cameraPosition.zoom;
         },
         markers: state.valueOrNull?.markers ?? {},
@@ -165,7 +166,7 @@ class MapPanel extends ConsumerWidget {
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
               final state = ref.watch(mapNotifierProvider);
               logger.i(
-                  "build wom withoud location: ${state.valueOrNull?.womCountWithoutLocation}");
+                  "build wom without location: ${state.valueOrNull?.womCountWithoutLocation}");
               if (state.valueOrNull?.womCountWithoutLocation == 0) {
                 return SizedBox.shrink();
               }

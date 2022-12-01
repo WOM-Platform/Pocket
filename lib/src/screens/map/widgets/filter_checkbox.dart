@@ -37,7 +37,7 @@ class CheckboxRowFilterState extends State<CheckboxRowFilter> {
               widget.onChanged(value);
             }),
 //        Text(widget.group.type),
-        Text(widget.group.type!, style: TextStyle(color: Colors.white)),
+        Text(widget.group.type, style: TextStyle(color: Colors.white)),
         Expanded(
           child: Container(),
         ),

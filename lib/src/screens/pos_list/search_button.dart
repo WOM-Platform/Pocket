@@ -2,21 +2,44 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
-import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
+import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 
 import '../../my_logger.dart';
 
 enum ZoomStatus { outside, enabled, disabled, loading }
 
-final enableSearchButtonProvider = StateProvider.autoDispose<ZoomStatus>((ref) {
-  final listAsync = ref.watch(posMapListProvider);
-  if (listAsync is AsyncError) {
+// final enableSearchButtonProvider = StateProvider.autoDispose<ZoomStatus>((ref) {
+//   final posMapData = ref.watch(posMapNotifierProvider);
+//   if (posMapData.isLoading) {
+//     return ZoomStatus.loading;
+//   }
+//   return ZoomStatus.disabled;
+// });
+
+final enableSearchButtonProvider =
+    AutoDisposeNotifierProvider<EnableSearchButtonNotifier, ZoomStatus>(
+        EnableSearchButtonNotifier.new);
+
+class EnableSearchButtonNotifier extends AutoDisposeNotifier<ZoomStatus> {
+  @override
+  ZoomStatus build() {
+    final posMapData = ref.watch(posMapNotifierProvider);
+    if (posMapData.isLoading) {
+      return ZoomStatus.loading;
+    }
     return ZoomStatus.disabled;
-  } else if (listAsync is AsyncLoading) {
-    return ZoomStatus.loading;
   }
-  return ZoomStatus.disabled;
-});
+
+  enabled() {
+    print('enabled');
+    state=  ZoomStatus.enabled;
+  }
+
+  outside() {
+    print('outside');
+    state= ZoomStatus.outside;
+  }
+}
 
 class SearchNewPointButton extends ConsumerWidget {
   final Function()? onPressed;
@@ -30,6 +53,7 @@ class SearchNewPointButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fontSize = 18.0;
     final searchButtonStatus = ref.watch(enableSearchButtonProvider);
+    logger.wtf('SEARCH NEW POINT $searchButtonStatus');
     switch (searchButtonStatus) {
       case ZoomStatus.outside:
         return Container(
@@ -55,12 +79,12 @@ class SearchNewPointButton extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(50),
               ),
             ),
-            onPressed: (){
+            onPressed: () {
               logEvent('search_pos_map');
               onPressed?.call();
             },
             child: Text(
-             AppLocalizations.of(context)!.translate('search_here'),
+              AppLocalizations.of(context)!.translate('search_here'),
               style: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,

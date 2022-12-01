@@ -51,18 +51,18 @@ class PosListScreen extends ConsumerWidget {
                 if (notification is ScrollUpdateNotification) {
                   if ((notification.scrollDelta?.abs() ?? 0) > 10 &&
                       notification.dragDetails != null)
-                    ref.read(showMapListFilterProvider.notifier).state = false;
+                    ref.read(showMapListFilterProvider.notifier).hide();
                 }
 
                 if (scrollController.position.userScrollDirection ==
                     ScrollDirection.reverse) {
                   print('User is going down');
-                  ref.read(showMapListFilterProvider.notifier).state = false;
+                  ref.read(showMapListFilterProvider.notifier).hide();
                 } else {
                   if (scrollController.position.userScrollDirection ==
                       ScrollDirection.forward) {
                     print('User is going up');
-                    ref.read(showMapListFilterProvider.notifier).state = true;
+                    ref.read(showMapListFilterProvider.notifier).show();
                   }
                 }
                 return false;
@@ -182,7 +182,7 @@ class EmptyListWidget extends ConsumerWidget {
                 child: InkWell(
                   onTap: () {
                     final l = LatLng(43.725201, 12.635312);
-                    ref.read(mapIndexProvider.notifier).state = PosScreen.map;
+                    ref.read(mapIndexProvider.notifier).toggle();
                     goToLocation?.call(l);
                   },
                   child: Card(

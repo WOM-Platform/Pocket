@@ -1,17 +1,20 @@
 import 'dart:async';
-
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/database/database.dart';
+import 'package:wom_pocket/src/models/optional_query_model.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 
 import '../../my_logger.dart';
 import './bloc.dart';
 
 final mapNotifierProvider =
-    AsyncNotifierProvider<MapBloc, MapState>(MapBloc.new);
+    AutoDisposeAsyncNotifierProvider<MapBloc, MapState>(MapBloc.new);
 
 class Place with ClusterItem {
   final WomRow voucher;
@@ -22,13 +25,13 @@ class Place with ClusterItem {
   LatLng get location => LatLng(voucher.latitude, voucher.longitude);
 }
 
-class MapBloc extends AsyncNotifier<MapState> {
+class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
   // WomRepository _womRepository = WomRepository();
   // late ClusteringHelper clusteringHelper;
-  late ClusterManager clusterManager;
+  ClusterManager<Place>? clusterManager;
   GoogleMapController? controller;
-  Set<String?> sources = Set();
-  Set<String?> aims = Set();
+  Set<String> sources = Set();
+  Set<String> aims = Set();
   List<Place> places = [];
 
   @override
@@ -46,20 +49,46 @@ class MapBloc extends AsyncNotifier<MapState> {
   //   loadSources();
   // }
 
-  Future initDatabaseClustering() async {
-    clusterManager = ClusterManager<Place>(places,
-        // Your items to be clustered on the map (of Place type for this example)
-        (markers) {
-      state = AsyncData(updateMap(UpdateMap(markers: markers)));
-    }, // Method to be called when markers are updated
-        // markerBuilder: _markerBuilder, // Optional : Method to implement if you want to customize markers
-        levels: [1, 4.25, 6.75, 8.25, 11.5, 14.5, 16.0, 16.5, 20.0],
-        // Optional : Configure this if you want to change zoom levels at which the clustering precision change
-        extraPercent: 0.2,
-        // Optional : This number represents the percentage (0.2 for 20%) of latitude and longitude (in each direction) to be considered on top of the visible map bounds to render clusters. This way, clusters don't "pop out" when you cross the map.
-        stopClusteringZoom:
-            17.0 // Optional : The zoom level to stop clustering, so it's only rendering single item "clusters"
+  initDatabaseClustering() {
+    clusterManager = ClusterManager<Place>(
+      places,
+      (markers) {
+        logger
+            .wtf('update from cluster manager with ${markers.length} markers');
+        state = AsyncData(updateMap(UpdateMap(markers: markers)));
+      },
+      markerBuilder: (place) async {
+        BitmapDescriptor bitmapDescriptor;
+
+        if (!place.isMultiple) {
+          bitmapDescriptor = await BitmapDescriptor.fromAssetImage(
+              ImageConfiguration(), 'assets/images/wom_pin.png');
+        } else {
+          // >1
+          final markerIcon = await getBytesFromCanvas(
+              150, place.count.toString(), getColor(place.count));
+          if (markerIcon != null) {
+            bitmapDescriptor = BitmapDescriptor.fromBytes(markerIcon);
+          } else {
+            bitmapDescriptor = BitmapDescriptor.defaultMarker;
+          }
+        }
+
+        final MarkerId markerId = MarkerId(place.getId());
+
+        final marker = Marker(
+          markerId: markerId,
+          position: place.location,
+          infoWindow: InfoWindow(title: place.count.toString()),
+          icon: bitmapDescriptor,
         );
+
+        return marker;
+      },
+      levels: [1, 4.25, 6.75, 8.25, 11.5, 14.5, 16.0, 16.5, 20.0],
+      extraPercent: 0.2,
+      stopClusteringZoom: 17.0,
+    );
 
     // clusteringHelper = ClusteringHelper.forDB(
     //   maxZoomForAggregatePoints: 18,
@@ -79,19 +108,30 @@ class MapBloc extends AsyncNotifier<MapState> {
     // );
   }
 
-  loadSources() async {
+  Future<MapState> loadSources() async {
     logger.i("Clustering query:");
     // logger.i(clusteringHelper.whereClause);
 
-    final s = await ref.read(womRepositoryProvider).getWomGroupedBySource();
-    final a = await ref.read(womRepositoryProvider).getWomGroupedByAim();
-    final womCountWithoutLocation =
-        await ref.read(womRepositoryProvider).getWomCountWithoutLocation();
-    sources.addAll(s.map((g) => g.type).toList());
-    aims.addAll(a.map((g) => g.type).toList());
-    aims.removeWhere((a) => a!.startsWith('0'));
-    return updateMap(UpdateMap(
-        sources: s, aims: a, womCountWithoutLocation: womCountWithoutLocation));
+    try {
+      final s = await ref.read(womRepositoryProvider).getWomGroupedBySource();
+      final a = await ref.read(womRepositoryProvider).getWomGroupedByAim();
+      final womCountWithoutLocation =
+          await ref.read(womRepositoryProvider).getWomCountWithoutLocation();
+      sources.addAll(s.map((g) => g.type).toSet());
+      aims.addAll(a.map((g) => g.type).toSet());
+      aims.removeWhere((a) => a.startsWith('0'));
+      return updateMap(
+        UpdateMap(
+          sources: s,
+          aims: a,
+          womCountWithoutLocation: womCountWithoutLocation,
+        ),
+      );
+    } catch (ex, st) {
+      logger.e(ex);
+      logger.e(st);
+      rethrow;
+    }
   }
 
   void onMapCreated(GoogleMapController controller) async {
@@ -100,39 +140,48 @@ class MapBloc extends AsyncNotifier<MapState> {
     this.controller = controller;
     // clusteringHelper.database = ref.read(databaseProvider);
     // clusteringHelper.updateMap();
-    clusterManager.setMapId(controller.mapId);
-    clusterManager.updateMap();
+    clusterManager?.setMapId(controller.mapId);
+    clusterManager?.updateMap();
   }
 
-  MapUpdated updateMap(UpdateMap event) {
-    if (state is MapUpdated) {
-      if (event.forceFilterUpdate == true) {
-        // filter();
+  MapState updateMap(UpdateMap event) {
+    if (state is AsyncData) {
+      if (state.value! is MapUpdated) {
+        if (event.forceFilterUpdate == true) {
+          filter(event.sliderValue?.toInt() ?? 0);
+        }
+        return (state.value! as MapUpdated).copyWith(
+          event.markers,
+          event.sliderValue,
+          event.sources,
+          event.aims,
+          event.womCountWithoutLocation,
+        );
+      } else {
+        return MapUpdated(
+          sliderValue: event.sliderValue ?? 0.0,
+          markers: event.markers ?? {},
+          sources: event.sources ?? [],
+          aims: event.aims ?? [],
+          womCountWithoutLocation: event.womCountWithoutLocation ?? 0,
+        );
       }
-      return (state as MapUpdated).copyWith(
-        event.markers,
-        event.sliderValue,
-        event.sources,
-        event.aims,
-        event.womCountWithoutLocation,
-      );
-    } else {
-      return MapUpdated(
-        sliderValue: event.sliderValue ?? 0.0,
-        markers: event.markers ?? {},
-        sources: event.sources ?? [],
-        aims: event.aims ?? [],
-        womCountWithoutLocation: event.womCountWithoutLocation ?? 0,
-      );
     }
+    return MapUpdated(
+      sliderValue: event.sliderValue ?? 0.0,
+      markers: event.markers ?? {},
+      sources: event.sources ?? [],
+      aims: event.aims ?? [],
+      womCountWithoutLocation: event.womCountWithoutLocation ?? 0,
+    );
   }
 
-  filter() {
+  filter(int currentSliderValueInt) {
     final currentState = state;
     if (currentState is! AsyncData) {
       return;
     }
-    final int currentSliderValueInt = state.value!.sliderValue!.toInt();
+    // final int currentSliderValueInt = state.value!.sliderValue!.toInt();
 
     int startDateQuery = 0;
     int endDateQuery = 0;
@@ -151,6 +200,32 @@ class MapBloc extends AsyncNotifier<MapState> {
       endDateQuery = todayInMillisecondsSinceEpoch;
     }
 
+    if (sources.isEmpty || aims.isEmpty) {
+      clusterManager?.setItems([]);
+      return;
+    }
+
+    final newItems = places.where((element) {
+      var timeCondition = true;
+      var sourceCondition = false;
+      var aimCondition = false;
+      if (startDateQuery > 0 && endDateQuery > 0) {
+        timeCondition = element.voucher.timestamp >= startDateQuery &&
+            element.voucher.timestamp <= endDateQuery;
+      }
+      for (final s in sources) {
+        sourceCondition = sourceCondition || element.voucher.sourceName == s;
+      }
+
+      for (final a in aims) {
+        aimCondition = aimCondition || a == element.voucher.aim;
+      }
+      if (!aimCondition) {
+        print('aimCondition false');
+      }
+
+      return timeCondition && sourceCondition && aimCondition;
+    }).toList();
     // clusteringHelper.whereClause = OptionalQuery(
     //         startDate: startDateQuery,
     //         endDate: endDateQuery,
@@ -165,6 +240,7 @@ class MapBloc extends AsyncNotifier<MapState> {
 
     // clusteringHelper.updateMap();
     // clusterManager.updateMap();
+    clusterManager?.setItems(newItems);
   }
 
   addSourceToFilter(String source) {
@@ -192,6 +268,68 @@ class MapBloc extends AsyncNotifier<MapState> {
     if (aims.contains(aim)) {
       aims.remove(aim);
       state = AsyncData(updateMap(UpdateMap(forceFilterUpdate: true)));
+    }
+  }
+
+  Future<Uint8List?> getBytesFromCanvas(
+      int size, String text, MaterialColor color) async {
+    final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+    final Canvas canvas = Canvas(pictureRecorder);
+    final Paint paint1 = Paint()..color = color[400]!;
+    final Paint paint2 = Paint()..color = color[300]!;
+    final Paint paint3 = Paint()..color = color[100]!;
+    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, paint3);
+    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.4, paint2);
+    canvas.drawCircle(Offset(size / 2, size / 2), size / 3.3, paint1);
+    TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
+    painter.text = TextSpan(
+      text: text,
+      style: TextStyle(
+          fontSize: size / 4, color: Colors.black, fontWeight: FontWeight.bold),
+    );
+    painter.layout();
+    painter.paint(
+      canvas,
+      Offset(size / 2 - painter.width / 2, size / 2 - painter.height / 2),
+    );
+
+    final img = await pictureRecorder.endRecording().toImage(size, size);
+    final data = await img.toByteData(format: ui.ImageByteFormat.png);
+    return data?.buffer.asUint8List();
+  }
+
+  MaterialColor getColor(int count) {
+    final maxAggregationItems = const [10, 25, 50, 100, 500, 1000];
+    final colors = const [
+      Colors.grey,
+      Colors.blue,
+      Colors.green,
+      Colors.yellow,
+      Colors.orange,
+      Colors.red,
+      Colors.pink
+    ];
+    if (count < maxAggregationItems[0]) {
+      // + 2
+      return colors[0];
+    } else if (count < maxAggregationItems[1]) {
+      // + 10
+      return colors[1];
+    } else if (count < maxAggregationItems[2]) {
+      // + 25
+      return colors[2];
+    } else if (count < maxAggregationItems[3]) {
+      // + 50
+      return colors[3];
+    } else if (count < maxAggregationItems[4]) {
+      // + 100
+      return colors[4];
+    } else if (count < maxAggregationItems[5]) {
+      // +500
+      return colors[5];
+    } else {
+      // + 1k
+      return colors[6];
     }
   }
 }

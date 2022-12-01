@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/database/tables.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 part 'aims_dao.g.dart';
 
@@ -31,6 +32,7 @@ class AimsDao extends DatabaseAccessor<MyDatabase> with _$AimsDaoMixin {
   }
 
   Future<void> deleteTable() async {
-    await delete(aims);
+    final deleted = await delete(aims).go();
+    logger.i('Deleted $deleted rows');
   }
 }

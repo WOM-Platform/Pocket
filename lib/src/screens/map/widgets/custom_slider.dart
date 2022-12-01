@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
-class CustomSlider extends ConsumerWidget {
+class CustomSlider extends HookConsumerWidget {
   final double value = 0.0;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(mapNotifierProvider);
+    // final state = ref.watch(mapNotifierProvider);
     // final MapBloc bloc = BlocProvider.of<MapBloc>(context);
+    // final sliderValue = state.valueOrNull?.sliderValue ?? 0.0;
+    final sliderValue = useState(0.0);
+    logger.wtf('sliderValue = $sliderValue');
     final ThemeData theme = Theme.of(context);
     return SliderTheme(
         data: theme.sliderTheme.copyWith(
@@ -29,8 +35,7 @@ class CustomSlider extends ConsumerWidget {
         ),
         child: Slider(
           divisions: 10,
-          label: valueIndicatorTextSlider[
-              state.valueOrNull?.sliderValue?.toInt() ?? 0],
+          label: valueIndicatorTextSlider[sliderValue.value.toInt()],
           min: 0.0,
           max: 10.0,
           onChangeEnd: (v) {
@@ -38,11 +43,12 @@ class CustomSlider extends ConsumerWidget {
                 .read(mapNotifierProvider.notifier)
                 .updateMap(UpdateMap(sliderValue: v, forceFilterUpdate: true));
           },
-          value: state.valueOrNull?.sliderValue ?? 0,
+          value: sliderValue.value,
           onChanged: (v) {
-            ref
-                .read(mapNotifierProvider.notifier)
-                .updateMap(UpdateMap(sliderValue: v));
+            sliderValue.value = v;
+            // ref
+            //     .read(mapNotifierProvider.notifier)
+            //     .updateMap(UpdateMap(sliderValue: v));
           },
         ));
   }
