@@ -120,9 +120,7 @@ class TransactionRepository {
 
     try {
       final satisfyingVouchers = (await database.womsDao
-              .getVouchersForPay(simpleFilter: infoPay.simpleFilter))
-          .map((e) => e.toVoucher())
-          .toList();
+              .getVouchersForPay(simpleFilter: infoPay.simpleFilter)).map((e) => e.toVoucher()).toList();
 
       if (infoPay.amount > satisfyingVouchers.length) {
         throw InsufficientVouchers();
@@ -160,8 +158,9 @@ class TransactionRepository {
       logger.i(ack.toString());
 
       return tx.copyWith(id: id);
-    } catch (e) {
+    } catch (e,st) {
       logger.e(e);
+      logger.e(st);
       rethrow;
     }
   }

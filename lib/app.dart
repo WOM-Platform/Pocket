@@ -5,6 +5,7 @@ import 'package:wom_pocket/src/blocs/migration/migration_data.dart';
 import 'package:wom_pocket/src/blocs/pin/bloc.dart';
 import 'package:wom_pocket/src/blocs/suggestions/bloc.dart';
 import 'package:wom_pocket/src/blocs/transactions_list/transactions_list_bloc.dart';
+import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/screens/home/home_screen.dart';
 import 'package:wom_pocket/src/screens/migration/export_screen.dart';
@@ -157,35 +158,32 @@ class GateWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(appNotifierProvider);
-    ref.listen<AsyncValue<AppState>>(appNotifierProvider, (previous, next) {
-      logger.i("APP BLOC LISTENER ----> state is: $next");
-      if (next is AsyncData) {
-        final data = next.value;
-        if (data is DeepLinkMode) {
-          logger.i("Go to pin screen");
-          // _pinBloc = PinBloc(state.value);
-          // _pinBloc = PinBloc(state.deepLinkModel);
-          // var blocProviderPin = BlocProvider(
-          //   create: (context) => _pinBloc,
-          //   child: PinScreen(),
-          // );
-          Navigator.push(
-            context,
-            MaterialPageRoute<bool>(
-              builder: (context) => ProviderScope(
-                overrides: [
-                  deeplinkProvider.overrideWithValue(data.deepLinkModel)
-                ],
-                child: PinScreen(),
+    ref.listen<AsyncValue<DeepLinkModel?>>(
+      deepLinkNotifierProvider,
+      (previous, next) {
+        logger.i("APP BLOC LISTENER ----> state is: $next");
+        if (next is AsyncData) {
+          final data = next.value;
+          if (data != null) {
+            // _pinBloc = PinBloc(state.value);
+            // _pinBloc = PinBloc(state.deepLinkModel);
+            // var blocProviderPin = BlocProvider(
+            //   create: (context) => _pinBloc,
+            //   child: PinScreen(),
+            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute<bool>(
+                builder: (context) => ProviderScope(
+                  overrides: [deeplinkProvider.overrideWithValue(data)],
+                  child: PinScreen(),
+                ),
               ),
-            ),
-          ).then((value) {
-            ref.read(appNotifierProvider.notifier).goIntoNormalMode();
-            // _appBloc.add(HomeEvent());
-          });
+            );
+          }
         }
-      }
-    });
+      },
+    );
 
     logger.i("APP BLOC BUILDER ----> state is: $state");
 

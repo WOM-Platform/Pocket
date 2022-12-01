@@ -12,31 +12,35 @@ import '../blocs/app/app_state.dart';
 
 bool isFirstOpen = false;
 
-final appNotifierProvider = AsyncNotifierProvider<AppNotifier, AppState>(AppNotifier.new);
+final _deepLinkStreamNotifierProvider =
+    StreamProvider<DeepLinkModel>((ref) async* {
+  await for (final s in uriLinkStream) {
+    logger.i("Subscription stream uri : $s");
+    final deepLinkModel = DeepLinkModel.fromUri(s);
+    yield deepLinkModel;
+  }
+});
 
-class AppNotifier extends AsyncNotifier<AppState>{
+final deepLinkNotifierProvider =
+    AsyncNotifierProvider<DeepLinkNotifier, DeepLinkModel?>(
+        DeepLinkNotifier.new);
 
+class DeepLinkNotifier extends AsyncNotifier<DeepLinkModel?> {
   @override
-  FutureOr<AppState> build() async{
-    // state =  LoadingData();
-    await ref.read(appRepositoryProvider).updateAim();
-    // transactionsBloc!.add(LoadTransactions());
-    final deepLink = await getDeepLink();
-    if (deepLink != null) {
-      //TODO remove delay?
-      await Future.delayed(Duration(milliseconds: 500));
-      return DeepLinkMode(deepLink);
-    } else {
-      isFirstOpen = await Utils.readIsFirstOpen();
-      if (isFirstOpen) {
-        await Utils.setIsFirstOpen(false);
-      }
-      if (isFirstOpen) {
-        return IntroMode();
-      } else {
-        return NormalMode();
+  FutureOr<DeepLinkModel?> build() async {
+    final streamDeepLink = ref.watch(_deepLinkStreamNotifierProvider);
+    final initialDeepLink = await getDeepLink();
+    if (initialDeepLink != null) {
+      await Future.delayed(Duration(milliseconds: 250));
+      return initialDeepLink;
+    }
+    if (streamDeepLink is AsyncData) {
+      final deepLink = streamDeepLink.valueOrNull;
+      if (deepLink != null) {
+        return deepLink;
       }
     }
+    return null;
   }
 
   Future<DeepLinkModel?> getDeepLink() async {
@@ -60,16 +64,37 @@ class AppNotifier extends AsyncNotifier<AppState>{
     }
     return deepLinkModel;
   }
+}
 
-  Future<AppStatus> getAppStatus(){
+final appNotifierProvider =
+    AsyncNotifierProvider<AppNotifier, AppState>(AppNotifier.new);
+
+class AppNotifier extends AsyncNotifier<AppState> {
+  late StreamSubscription _sub;
+
+  @override
+  FutureOr<AppState> build() async {
+    await ref.read(appRepositoryProvider).updateAim();
+    isFirstOpen = await Utils.readIsFirstOpen();
+    if (isFirstOpen) {
+      await Utils.setIsFirstOpen(false);
+    }
+    if (isFirstOpen) {
+      return IntroMode();
+    } else {
+      return NormalMode();
+    }
+  }
+
+  Future<AppStatus> getAppStatus() {
     return ref.read(appRepositoryProvider).getAppStatus();
   }
 
-  goIntoNormalMode(){
+  goIntoNormalMode() {
     state = AsyncData(NormalMode());
   }
 
-  goIntoDeepLinkMode(DeepLinkModel deepLinkModel){
+  goIntoDeepLinkMode(DeepLinkModel deepLinkModel) {
     state = AsyncData(DeepLinkMode(deepLinkModel));
   }
 }

@@ -183,7 +183,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
     final selectedIndex = ref.watch(mapIndexProvider);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark,
+      value: SystemUiOverlayStyle.light,
       child: SafeArea(
         child: Stack(
           children: [

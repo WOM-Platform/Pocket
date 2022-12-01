@@ -77,7 +77,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
       readsFrom: {wom},
     ).get())
         .map((row) {
-      return WomRow.fromJson(row.data);
+          return wom.map(row.data);
     }).toList();
     return list;
   }

@@ -70,7 +70,7 @@ class OptionalQuery {
 //          : "$whereClause AND $filterClause";
     } else {
       // se non c'è simple filter allora prendo i wom di tutti gli aim eccetto quelli che iniziano con 0
-      final aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \"0%\"";
+      final aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \'0%\'";
       whereClause =
           whereClause.isEmpty ? '$aimClause' : "$whereClause AND $aimClause";
     }
@@ -134,7 +134,7 @@ class OptionalQuery {
       aimClause = "${WomModel.tblWom}.${WomModel.dbAim} LIKE \"$aim%\"";
     } else {
       // se non c'è aimCode prendo i wom di tutti gli aim eccetto quelli che iniziano con 0
-      aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \"0%\"";
+      aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \'0%\'";
     }
 
     logger.i(aimClause);
