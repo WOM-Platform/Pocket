@@ -2,10 +2,7 @@
 
 part of 'woms_dao.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
+// ignore_for_file: type=lint
 mixin _$WomsDaoMixin on DatabaseAccessor<MyDatabase> {
   $WomTable get wom => attachedDatabase.wom;
   $AimsTable get aims => attachedDatabase.aims;

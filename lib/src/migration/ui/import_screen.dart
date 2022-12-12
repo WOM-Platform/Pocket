@@ -5,6 +5,7 @@ import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/migration/application/import_state.dart';
+import 'package:wom_pocket/src/widgets/my_error.dart';
 
 final pageControllerProvider =
     Provider.autoDispose<PageController>((ref) => PageController());
@@ -167,11 +168,9 @@ class PageThree extends ConsumerWidget {
             loading: () => Center(
                   child: CircularProgressIndicator(),
                 ),
-            error: (ex, st) {
-              return Center(
-                child: Text(ex.toString()),
-              );
-            },
+            error: (ex, st) => MyErrorWidget(
+                  ex: ex,
+                ),
             completed: (womCount) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -201,17 +200,20 @@ class PageThree extends ConsumerWidget {
       floatingActionButton: importState is ImportLoading
           ? null
           : FloatingActionButton.extended(
-              label: Text(importState is ImportCompleted
+              label: Text(importState is ImportCompleted ||importState is ImportError
                   ? 'Torna alla home'
-                  : 'Concludi'),
+                  // : importState is ImportError
+                  //     ? 'Riprova'
+                      : 'Concludi'),
               onPressed: confirm
                   ? () {
-                      if (importState is ImportCompleted) {
+                      if (importState is ImportCompleted ||importState is ImportError ) {
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                               builder: (c) => GateWidget(),
                             ),
-                                (route) => false);
+                            (route) => false);
+                      } else if (importState is ImportError) {
                       } else {
                         Alert(
                           context: context,

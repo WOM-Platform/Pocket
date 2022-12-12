@@ -2,10 +2,6 @@
 
 part of 'database.dart';
 
-// **************************************************************************
-// DriftDatabaseGenerator
-// **************************************************************************
-
 // ignore_for_file: type=lint
 class WomRow extends DataClass implements Insertable<WomRow> {
   final String id;
@@ -328,58 +324,66 @@ class $WomTable extends Wom with TableInfo<$WomTable, WomRow> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $WomTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'Id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _sourceNameMeta = const VerificationMeta('sourceName');
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+  static const VerificationMeta _sourceNameMeta =
+      const VerificationMeta('sourceName');
   @override
   late final GeneratedColumn<String> sourceName = GeneratedColumn<String>(
       'SourceName', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _secretMeta = const VerificationMeta('secret');
+  static const VerificationMeta _secretMeta = const VerificationMeta('secret');
   @override
   late final GeneratedColumn<String> secret = GeneratedColumn<String>(
       'Secret', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _geohashMeta = const VerificationMeta('geohash');
+  static const VerificationMeta _geohashMeta =
+      const VerificationMeta('geohash');
   @override
   late final GeneratedColumn<String> geohash = GeneratedColumn<String>(
       'geohash', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _aimMeta = const VerificationMeta('aim');
+  static const VerificationMeta _aimMeta = const VerificationMeta('aim');
   @override
   late final GeneratedColumn<String> aim = GeneratedColumn<String>(
       'Aim', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _sourceIdMeta = const VerificationMeta('sourceId');
+  static const VerificationMeta _sourceIdMeta =
+      const VerificationMeta('sourceId');
   @override
   late final GeneratedColumn<String> sourceId = GeneratedColumn<String>(
       'SourceId', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _transactionIdMeta =
+  static const VerificationMeta _transactionIdMeta =
       const VerificationMeta('transactionId');
   @override
   late final GeneratedColumn<int> transactionId = GeneratedColumn<int>(
       'TransactionId', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _timestampMeta = const VerificationMeta('timestamp');
+  static const VerificationMeta _timestampMeta =
+      const VerificationMeta('timestamp');
   @override
   late final GeneratedColumn<int> timestamp = GeneratedColumn<int>(
       'Timestamp', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _liveMeta = const VerificationMeta('live');
+  static const VerificationMeta _liveMeta = const VerificationMeta('live');
   @override
   late final GeneratedColumn<int> live = GeneratedColumn<int>(
       'live', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _latitudeMeta = const VerificationMeta('latitude');
+  static const VerificationMeta _latitudeMeta =
+      const VerificationMeta('latitude');
   @override
   late final GeneratedColumn<double> latitude = GeneratedColumn<double>(
       'Latitude', aliasedName, false,
       type: DriftSqlType.double, requiredDuringInsert: true);
-  final VerificationMeta _longitudeMeta = const VerificationMeta('longitude');
+  static const VerificationMeta _longitudeMeta =
+      const VerificationMeta('longitude');
   @override
   late final GeneratedColumn<double> longitude = GeneratedColumn<double>(
       'Longitude', aliasedName, false,
@@ -485,27 +489,27 @@ class $WomTable extends Wom with TableInfo<$WomTable, WomRow> {
   WomRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return WomRow(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}Id'])!,
-      sourceName: attachedDatabase.options.types
+      sourceName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}SourceName'])!,
-      secret: attachedDatabase.options.types
+      secret: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}Secret'])!,
-      geohash: attachedDatabase.options.types
+      geohash: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}geohash'])!,
-      aim: attachedDatabase.options.types
+      aim: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}Aim'])!,
-      sourceId: attachedDatabase.options.types
+      sourceId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}SourceId'])!,
-      transactionId: attachedDatabase.options.types
+      transactionId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}TransactionId'])!,
-      timestamp: attachedDatabase.options.types
+      timestamp: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}Timestamp'])!,
-      live: attachedDatabase.options.types
+      live: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}live'])!,
-      latitude: attachedDatabase.options.types
+      latitude: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}Latitude'])!,
-      longitude: attachedDatabase.options.types
+      longitude: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}Longitude'])!,
     );
   }
@@ -527,7 +531,7 @@ class AimRow extends DataClass implements Insertable<AimRow> {
     map['id'] = Variable<int>(id);
     map['code'] = Variable<String>(code);
     {
-      final converter = $AimsTable.$converter0;
+      final converter = $AimsTable.$convertertitles;
       map['titles'] = Variable<String>(converter.toSql(titles));
     }
     return map;
@@ -635,7 +639,7 @@ class AimsCompanion extends UpdateCompanion<AimRow> {
       map['code'] = Variable<String>(code.value);
     }
     if (titles.present) {
-      final converter = $AimsTable.$converter0;
+      final converter = $AimsTable.$convertertitles;
       map['titles'] = Variable<String>(converter.toSql(titles.value));
     }
     return map;
@@ -657,24 +661,26 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $AimsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _codeMeta = const VerificationMeta('code');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
   @override
   late final GeneratedColumn<String> code = GeneratedColumn<String>(
       'code', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _titlesMeta = const VerificationMeta('titles');
+  static const VerificationMeta _titlesMeta = const VerificationMeta('titles');
   @override
   late final GeneratedColumnWithTypeConverter<Map<String, dynamic>, String>
       titles = GeneratedColumn<String>('titles', aliasedName, false,
               type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<Map<String, dynamic>>($AimsTable.$converter0);
+          .withConverter<Map<String, dynamic>>($AimsTable.$convertertitles);
   @override
   List<GeneratedColumn> get $columns => [id, code, titles];
   @override
@@ -705,11 +711,11 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
   AimRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return AimRow(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      code: attachedDatabase.options.types
+      code: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}code'])!,
-      titles: $AimsTable.$converter0.fromSql(attachedDatabase.options.types
+      titles: $AimsTable.$convertertitles.fromSql(attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}titles'])!),
     );
   }
@@ -719,7 +725,7 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
     return $AimsTable(attachedDatabase, alias);
   }
 
-  static TypeConverter<Map<String, dynamic>, String> $converter0 =
+  static TypeConverter<Map<String, dynamic>, String> $convertertitles =
       const AimTitlesConverter();
 }
 
@@ -958,39 +964,42 @@ class $TransactionsTable extends Transactions
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $TransactionsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'Id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _sourceMeta = const VerificationMeta('source');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _sourceMeta = const VerificationMeta('source');
   @override
   late final GeneratedColumn<String> source = GeneratedColumn<String>(
       'source', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _aimMeta = const VerificationMeta('aim');
+  static const VerificationMeta _aimMeta = const VerificationMeta('aim');
   @override
   late final GeneratedColumn<String> aim = GeneratedColumn<String>(
       'Aim', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _timestampMeta = const VerificationMeta('timestamp');
+  static const VerificationMeta _timestampMeta =
+      const VerificationMeta('timestamp');
   @override
   late final GeneratedColumn<int> timestamp = GeneratedColumn<int>(
       'Timestamp', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _typeMeta = const VerificationMeta('type');
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
   late final GeneratedColumn<int> type = GeneratedColumn<int>(
       'type', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _sizeMeta = const VerificationMeta('size');
+  static const VerificationMeta _sizeMeta = const VerificationMeta('size');
   @override
   late final GeneratedColumn<int> size = GeneratedColumn<int>(
       'size', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _ackUrlMeta = const VerificationMeta('ackUrl');
+  static const VerificationMeta _ackUrlMeta = const VerificationMeta('ackUrl');
   @override
   late final GeneratedColumn<String> ackUrl = GeneratedColumn<String>(
       'ackUrl', aliasedName, true,
@@ -1053,19 +1062,19 @@ class $TransactionsTable extends Transactions
   MyTransaction map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return MyTransaction(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}Id'])!,
-      source: attachedDatabase.options.types
+      source: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}source'])!,
-      aim: attachedDatabase.options.types
+      aim: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}Aim'])!,
-      timestamp: attachedDatabase.options.types
+      timestamp: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}Timestamp'])!,
-      type: attachedDatabase.options.types
+      type: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}type'])!,
-      size: attachedDatabase.options.types
+      size: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}size'])!,
-      ackUrl: attachedDatabase.options.types
+      ackUrl: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}ackUrl']),
     );
   }
@@ -1086,7 +1095,7 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   late final TransactionsDao transactionsDao =
       TransactionsDao(this as MyDatabase);
   @override
-  Iterable<TableInfo<Table, dynamic>> get allTables =>
+  Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [wom, aims, transactions];

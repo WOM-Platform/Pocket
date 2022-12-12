@@ -1,11 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/migration/application/export_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/migration/application/migration_notifier.dart';
 import 'package:wom_pocket/src/migration/application/migration_state.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
+import 'package:wom_pocket/src/widgets/my_error.dart';
 
 import 'export_screen.dart';
 
@@ -282,58 +285,59 @@ class SummaryPage extends ConsumerWidget {
             child: Text('Dati mancanti'),
           );
         },
-        error: (ex, st) {
-          return Center(
-            child: Text(ex.toString()),
-          );
-        },
+        error: (ex, st) => MyErrorWidget(
+          ex: ex,
+        ),
         complete: (MigrationData data) {
           return MigrationExportScreen(
             data: data,
           );
         },
       ),
-      floatingActionButton: migrationState is MigrationStateData ? FloatingActionButton.extended(
-        label: Text('Concludi'),
-        onPressed: migrationState is MigrationStateData
-            ? () async {
-                final res = await Alert(
-                  context: context,
-                  style: AlertStyle(
-                      descStyle: TextStyle(fontSize: 14, color: Colors.grey)),
-                  type: AlertType.warning,
-                  title: 'Confermi di voler esportare i tuoi WOM?',
-                  desc: 'Continuando perderai i tuoi WOM localmente',
-                  buttons: [
-                    DialogButton(
-                      color: Colors.white,
-                      child: Text('Annulla'),
-                      onPressed: () {
-                        Navigator.of(context).pop(false);
-                      },
-                    ),
-                    DialogButton(
-                      child: Text('Procedi'),
-                      onPressed: () async {
-                        Navigator.of(context).pop(true);
-                      },
-                    )
-                  ],
-                ).show();
+      floatingActionButton: migrationState is MigrationStateData
+          ? FloatingActionButton.extended(
+              label: Text('Concludi'),
+              onPressed: () async {
+                      final res = await Alert(
+                        context: context,
+                        style: AlertStyle(
+                            descStyle:
+                                TextStyle(fontSize: 14, color: Colors.grey)),
+                        type: AlertType.warning,
+                        title: 'Confermi di voler esportare i tuoi WOM?',
+                        desc: 'Continuando perderai i tuoi WOM localmente',
+                        buttons: [
+                          DialogButton(
+                            color: Colors.white,
+                            child: Text('Annulla'),
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                            },
+                          ),
+                          DialogButton(
+                            child: Text('Procedi'),
+                            onPressed: () async {
+                              Navigator.of(context).pop(true);
+                            },
+                          )
+                        ],
+                      ).show();
 
-                if (res ?? false) {
-                  // Navigator.of(context).pushAndRemoveUntil(
-                  //     MaterialPageRoute(
-                  //       builder: (c) =>
-                  //           MigrationExportScreen(data: migrationState.pin),
-                  //     ),
-                  //     (route) => false);
+                      if (res ?? false) {
+                        // Navigator.of(context).pushAndRemoveUntil(
+                        //     MaterialPageRoute(
+                        //       builder: (c) =>
+                        //           MigrationExportScreen(data: migrationState.pin),
+                        //     ),
+                        //     (route) => false);
 
-                  ref.read(migrationNotifierProvider.notifier).exportWom();
-                }
-              }
-            : null,
-      ) : null,
+                        ref
+                            .read(migrationNotifierProvider.notifier)
+                            .exportWom();
+                      }
+                    },
+            )
+          : null,
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:drift/drift.dart';
 // be represented by a class called "Todo".
 @DataClassName('WomRow')
 class Wom extends Table {
-  TextColumn get id => text().named('Id')();
+  TextColumn get id => text().named('Id').unique()();
 
   TextColumn get sourceName => text().named('SourceName')();
 

@@ -2,10 +2,7 @@
 
 part of 'aims_dao.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
+// ignore_for_file: type=lint
 mixin _$AimsDaoMixin on DatabaseAccessor<MyDatabase> {
   $AimsTable get aims => attachedDatabase.aims;
 }
