@@ -1,17 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:wom_pocket/src/blocs/migration/export_notifier.dart';
+import 'package:wom_pocket/src/migration/application/export_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:wom_pocket/src/migration/application/migration_notifier.dart';
+import 'package:wom_pocket/src/migration/application/migration_state.dart';
+import 'package:wom_pocket/src/migration/data/migration_data.dart';
 
 import 'export_screen.dart';
 
 final pageControllerProvider =
-    Provider<PageController>((ref) => PageController());
+    Provider.autoDispose<PageController>((ref) => PageController());
 
-final confirmExportProvider = StateProvider<bool>((_) => false);
+final confirmExportProvider = StateProvider.autoDispose<bool>((_) => true);
 
-final pinControllerProvider = Provider<TextEditingController>((ref) {
+class MyWidget extends ConsumerWidget {
+  const MyWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final confirm = ref.watch(confirmExportProvider);
+    return Checkbox(
+        value: confirm,
+        onChanged: (value) {
+          if (value == null || value == confirm) return;
+          ref.read(confirmExportProvider.notifier).update((state) => !state);
+          // OR
+          // ref.read(confirmExportProvider.notifier).state = !confirm;
+        });
+  }
+}
+
+final pinControllerProvider =
+    Provider.autoDispose<TextEditingController>((ref) {
   final t = TextEditingController();
 
   ref.onDispose(() {
@@ -25,13 +46,15 @@ class MigrationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(migrationNotifierProvider, (previous, next) {});
+    ref.listen(pinControllerProvider, (previous, next) {});
     return Scaffold(
         body: PageView(
       controller: ref.watch(pageControllerProvider),
       children: [
         PageOne(),
-        PageTwo(),
         PageThree(),
+        SummaryPage(),
       ],
     ));
   }
@@ -83,29 +106,12 @@ class PageOne extends ConsumerWidget {
   }
 }
 
-class PageTwo extends ConsumerWidget {
-  const PageTwo({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      backgroundColor: Colors.orange,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.arrow_forward_ios),
-        onPressed: () {
-          ref.read(pageControllerProvider).jumpToPage(2);
-        },
-      ),
-    );
-  }
-}
-
 class PageThree extends ConsumerWidget {
   const PageThree({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final confirm = ref.watch(confirmExportProvider);
+    // final confirm = ref.watch(confirmExportProvider);
     final pinController = ref.watch(pinControllerProvider);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -159,16 +165,19 @@ class PageThree extends ConsumerWidget {
             const SizedBox(height: 16),
             GestureDetector(
               onTap: () {
-                ref.read(confirmExportProvider.notifier).state = !confirm;
+                ref
+                    .read(confirmExportProvider.notifier)
+                    .update((state) => !state);
               },
               child: Row(
                 children: [
-                  Checkbox(
+                  /*Checkbox(
                       value: confirm,
                       onChanged: (value) {
                         if (value == null || value == confirm) return;
-                        ref.read(confirmExportProvider.notifier).state = value;
-                      }),
+                        // ref.read(confirmExportProvider.notifier).update((state) => !state);
+                      }),*/
+                  MyWidget(),
                   Flexible(
                     child: Text(
                         'Confermo di voler esportare tutti i tuoi wom ed elimnarli da questo dispositivo'),
@@ -179,11 +188,116 @@ class PageThree extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.arrow_forward_ios),
+        onPressed: () {
+          if (pinController.text.trim().length != 4) return;
+          ref.read(pageControllerProvider).jumpToPage(2);
+          ref
+              .read(migrationNotifierProvider.notifier)
+              .addPin(pinController.text.trim());
+        },
+      ),
+    );
+  }
+}
+
+class SummaryPage extends ConsumerWidget {
+  const SummaryPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final migrationState = ref.watch(migrationNotifierProvider);
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: migrationState.when(
+        data: (pin, woms) {
+          return SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                Text(
+                  'Info migrazione',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 34.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Wom da migrare:',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      woms.length.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'PIN scelto: ',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      pin,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+        loading: () => Center(
+          child: CircularProgressIndicator(),
+        ),
+        initial: () {
+          return Center(
+            child: Text('Dati mancanti'),
+          );
+        },
+        error: (ex, st) {
+          return Center(
+            child: Text(ex.toString()),
+          );
+        },
+        complete: (MigrationData data) {
+          return MigrationExportScreen(
+            data: data,
+          );
+        },
+      ),
+      floatingActionButton: migrationState is MigrationStateData ? FloatingActionButton.extended(
         label: Text('Concludi'),
-        onPressed: confirm
-            ? () {
-                Alert(
+        onPressed: migrationState is MigrationStateData
+            ? () async {
+                final res = await Alert(
                   context: context,
                   style: AlertStyle(
                       descStyle: TextStyle(fontSize: 14, color: Colors.grey)),
@@ -195,31 +309,31 @@ class PageThree extends ConsumerWidget {
                       color: Colors.white,
                       child: Text('Annulla'),
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.of(context).pop(false);
                       },
                     ),
                     DialogButton(
                       child: Text('Procedi'),
-                      onPressed: () async{
-                        Navigator.pop(context);
-                       try{
-                         await ref
-                             .read(exportNotifierProvider.notifier)
-                             .exportWom(pinController.text.trim());
-                         Navigator.of(context).pushAndRemoveUntil(
-                             MaterialPageRoute(
-                                 builder: (c) => MigrationExportScreen()),
-                                 (route) => false);
-                       }catch(ex){
-
-                       }
+                      onPressed: () async {
+                        Navigator.of(context).pop(true);
                       },
                     )
                   ],
                 ).show();
+
+                if (res ?? false) {
+                  // Navigator.of(context).pushAndRemoveUntil(
+                  //     MaterialPageRoute(
+                  //       builder: (c) =>
+                  //           MigrationExportScreen(data: migrationState.pin),
+                  //     ),
+                  //     (route) => false);
+
+                  ref.read(migrationNotifierProvider.notifier).exportWom();
+                }
               }
             : null,
-      ),
+      ) : null,
     );
   }
 }

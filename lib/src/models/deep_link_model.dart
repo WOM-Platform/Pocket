@@ -40,9 +40,9 @@ class DeepLinkModel extends Equatable {
             type = TransactionType.VOUCHERS;
             break;
           case MIGRATION:
-            type = TransactionType.MIGRATION;
+            type = TransactionType.MIGRATION_IMPORT;
             migrationPartialKey =
-                uri!.pathSegments.length > 1 ? null : uri!.pathSegments[2];
+                uri!.pathSegments.length > 2 ? uri!.pathSegments[2]:null;
             break;
           default:
             throw Exception("Type of transaction is NOT valid");
@@ -55,7 +55,7 @@ class DeepLinkModel extends Equatable {
             ? TransactionType.VOUCHERS
             : host == 'pay'
                 ? TransactionType.PAYMENT
-                : TransactionType.MIGRATION;
+                : TransactionType.MIGRATION_IMPORT;
         otc = uri!.pathSegments.isEmpty ? null : uri!.pathSegments[0];
         migrationPartialKey =
             uri!.pathSegments.isEmpty ? null : uri!.pathSegments[1];
@@ -66,7 +66,7 @@ class DeepLinkModel extends Equatable {
       if (otc == null || otc!.isEmpty) {
         throw Exception("OTC is null or empty");
       }
-      if (type == TransactionType.MIGRATION &&
+      if (type == TransactionType.MIGRATION_IMPORT &&
           (migrationPartialKey == null || migrationPartialKey!.isEmpty)) {
         throw Exception("migrationPartialKey is null or empty");
       }

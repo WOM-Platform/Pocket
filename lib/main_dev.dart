@@ -5,7 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:wom_pocket/src/blocs/migration/migration_data.dart';
+import 'package:wom_pocket/src/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;

@@ -10,7 +10,7 @@ import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 import 'package:wom_pocket/app.dart';
-import 'package:wom_pocket/src/blocs/migration/migration_data.dart';
+import 'package:wom_pocket/src/migration/data/migration_data.dart';
 
 import 'constants.dart';
 import 'src/utils/utils.dart';
@@ -51,7 +51,7 @@ void main() async {
 //https://link.wom.social/vouchers/69b20bd6-0d12-4793-97ab-5e01c193320f
 //https://link.wom.social/vouchers/a769134e-b2af-4c3c-bdf0-013dc609de7c
 
-// adb shell am start -a android.intent.action.VIEW -d https://link.dev.wom.social/vouchers/09bb2f8a-d6d3-4b71-ba34-2c776dba5001
+// adb shell am start -a android.intent.action.VIEW -d https://link.dev.wom.social/migration/65a2056f-c745-4b12-97b2-18daf4b95314/TpbZJvpickSHuVAHEmiQXStzq2je
 // adb shell am start -a android.intent.action.VIEW -d https://link.wom.social/vouchers/aca81697-1e93-49d0-be20-5e3897d09296
 
 //fvm flutter build apk --flavor development -t lib/main_dev.dart

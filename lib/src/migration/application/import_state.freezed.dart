@@ -18,28 +18,32 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ImportState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Exception ex) error,
-    required TResult Function() completed,
+    required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function(int count) completed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Exception ex)? error,
-    TResult? Function()? completed,
+    TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function(int count)? completed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function()? completed,
+    TResult Function(Object ex, StackTrace st)? error,
+    TResult Function(int count)? completed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ImportInitial value) initial,
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
     required TResult Function(ImportCompleted value) completed,
@@ -47,6 +51,7 @@ mixin _$ImportState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImportInitial value)? initial,
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
     TResult? Function(ImportCompleted value)? completed,
@@ -54,6 +59,7 @@ mixin _$ImportState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImportInitial value)? initial,
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
     TResult Function(ImportCompleted value)? completed,
@@ -78,6 +84,126 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$ImportInitialCopyWith<$Res> {
+  factory _$$ImportInitialCopyWith(
+          _$ImportInitial value, $Res Function(_$ImportInitial) then) =
+      __$$ImportInitialCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ImportInitialCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$ImportInitial>
+    implements _$$ImportInitialCopyWith<$Res> {
+  __$$ImportInitialCopyWithImpl(
+      _$ImportInitial _value, $Res Function(_$ImportInitial) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$ImportInitial with DiagnosticableTreeMixin implements ImportInitial {
+  const _$ImportInitial();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ImportState.initial()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'ImportState.initial'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ImportInitial);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function(int count) completed,
+  }) {
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function(int count)? completed,
+  }) {
+    return initial?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(Object ex, StackTrace st)? error,
+    TResult Function(int count)? completed,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ImportInitial value) initial,
+    required TResult Function(ImportLoading value) loading,
+    required TResult Function(ImportError value) error,
+    required TResult Function(ImportCompleted value) completed,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImportInitial value)? initial,
+    TResult? Function(ImportLoading value)? loading,
+    TResult? Function(ImportError value)? error,
+    TResult? Function(ImportCompleted value)? completed,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImportInitial value)? initial,
+    TResult Function(ImportLoading value)? loading,
+    TResult Function(ImportError value)? error,
+    TResult Function(ImportCompleted value)? completed,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ImportInitial implements ImportState {
+  const factory ImportInitial() = _$ImportInitial;
 }
 
 /// @nodoc
@@ -124,9 +250,10 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Exception ex) error,
-    required TResult Function() completed,
+    required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function(int count) completed,
   }) {
     return loading();
   }
@@ -134,9 +261,10 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Exception ex)? error,
-    TResult? Function()? completed,
+    TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function(int count)? completed,
   }) {
     return loading?.call();
   }
@@ -144,9 +272,10 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function()? completed,
+    TResult Function(Object ex, StackTrace st)? error,
+    TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -158,6 +287,7 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ImportInitial value) initial,
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
     required TResult Function(ImportCompleted value) completed,
@@ -168,6 +298,7 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImportInitial value)? initial,
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
     TResult? Function(ImportCompleted value)? completed,
@@ -178,6 +309,7 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImportInitial value)? initial,
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
     TResult Function(ImportCompleted value)? completed,
@@ -200,7 +332,7 @@ abstract class _$$ImportErrorCopyWith<$Res> {
           _$ImportError value, $Res Function(_$ImportError) then) =
       __$$ImportErrorCopyWithImpl<$Res>;
   @useResult
-  $Res call({Exception ex});
+  $Res call({Object ex, StackTrace st});
 }
 
 /// @nodoc
@@ -215,12 +347,14 @@ class __$$ImportErrorCopyWithImpl<$Res>
   @override
   $Res call({
     Object? ex = null,
+    Object? st = null,
   }) {
     return _then(_$ImportError(
-      null == ex
-          ? _value.ex
-          : ex // ignore: cast_nullable_to_non_nullable
-              as Exception,
+      null == ex ? _value.ex : ex,
+      null == st
+          ? _value.st
+          : st // ignore: cast_nullable_to_non_nullable
+              as StackTrace,
     ));
   }
 }
@@ -228,14 +362,16 @@ class __$$ImportErrorCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ImportError with DiagnosticableTreeMixin implements ImportError {
-  const _$ImportError(this.ex);
+  const _$ImportError(this.ex, this.st);
 
   @override
-  final Exception ex;
+  final Object ex;
+  @override
+  final StackTrace st;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ImportState.error(ex: $ex)';
+    return 'ImportState.error(ex: $ex, st: $st)';
   }
 
   @override
@@ -243,7 +379,8 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'ImportState.error'))
-      ..add(DiagnosticsProperty('ex', ex));
+      ..add(DiagnosticsProperty('ex', ex))
+      ..add(DiagnosticsProperty('st', st));
   }
 
   @override
@@ -251,11 +388,13 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ImportError &&
-            (identical(other.ex, ex) || other.ex == ex));
+            const DeepCollectionEquality().equals(other.ex, ex) &&
+            (identical(other.st, st) || other.st == st));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, ex);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(ex), st);
 
   @JsonKey(ignore: true)
   @override
@@ -266,33 +405,36 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Exception ex) error,
-    required TResult Function() completed,
+    required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function(int count) completed,
   }) {
-    return error(ex);
+    return error(ex, st);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Exception ex)? error,
-    TResult? Function()? completed,
+    TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function(int count)? completed,
   }) {
-    return error?.call(ex);
+    return error?.call(ex, st);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function()? completed,
+    TResult Function(Object ex, StackTrace st)? error,
+    TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(ex);
+      return error(ex, st);
     }
     return orElse();
   }
@@ -300,6 +442,7 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ImportInitial value) initial,
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
     required TResult Function(ImportCompleted value) completed,
@@ -310,6 +453,7 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImportInitial value)? initial,
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
     TResult? Function(ImportCompleted value)? completed,
@@ -320,6 +464,7 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImportInitial value)? initial,
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
     TResult Function(ImportCompleted value)? completed,
@@ -333,9 +478,11 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
 }
 
 abstract class ImportError implements ImportState {
-  const factory ImportError(final Exception ex) = _$ImportError;
+  const factory ImportError(final Object ex, final StackTrace st) =
+      _$ImportError;
 
-  Exception get ex;
+  Object get ex;
+  StackTrace get st;
   @JsonKey(ignore: true)
   _$$ImportErrorCopyWith<_$ImportError> get copyWith =>
       throw _privateConstructorUsedError;
@@ -346,6 +493,8 @@ abstract class _$$ImportCompletedCopyWith<$Res> {
   factory _$$ImportCompletedCopyWith(
           _$ImportCompleted value, $Res Function(_$ImportCompleted) then) =
       __$$ImportCompletedCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int count});
 }
 
 /// @nodoc
@@ -355,6 +504,19 @@ class __$$ImportCompletedCopyWithImpl<$Res>
   __$$ImportCompletedCopyWithImpl(
       _$ImportCompleted _value, $Res Function(_$ImportCompleted) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? count = null,
+  }) {
+    return _then(_$ImportCompleted(
+      null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
 
 /// @nodoc
@@ -362,58 +524,74 @@ class __$$ImportCompletedCopyWithImpl<$Res>
 class _$ImportCompleted
     with DiagnosticableTreeMixin
     implements ImportCompleted {
-  const _$ImportCompleted();
+  const _$ImportCompleted(this.count);
+
+  @override
+  final int count;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ImportState.completed()';
+    return 'ImportState.completed(count: $count)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'ImportState.completed'));
+    properties
+      ..add(DiagnosticsProperty('type', 'ImportState.completed'))
+      ..add(DiagnosticsProperty('count', count));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ImportCompleted);
+        (other.runtimeType == runtimeType &&
+            other is _$ImportCompleted &&
+            (identical(other.count, count) || other.count == count));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, count);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImportCompletedCopyWith<_$ImportCompleted> get copyWith =>
+      __$$ImportCompletedCopyWithImpl<_$ImportCompleted>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Exception ex) error,
-    required TResult Function() completed,
+    required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function(int count) completed,
   }) {
-    return completed();
+    return completed(count);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Exception ex)? error,
-    TResult? Function()? completed,
+    TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function(int count)? completed,
   }) {
-    return completed?.call();
+    return completed?.call(count);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Exception ex)? error,
-    TResult Function()? completed,
+    TResult Function(Object ex, StackTrace st)? error,
+    TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
     if (completed != null) {
-      return completed();
+      return completed(count);
     }
     return orElse();
   }
@@ -421,6 +599,7 @@ class _$ImportCompleted
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ImportInitial value) initial,
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
     required TResult Function(ImportCompleted value) completed,
@@ -431,6 +610,7 @@ class _$ImportCompleted
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImportInitial value)? initial,
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
     TResult? Function(ImportCompleted value)? completed,
@@ -441,6 +621,7 @@ class _$ImportCompleted
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImportInitial value)? initial,
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
     TResult Function(ImportCompleted value)? completed,
@@ -454,5 +635,10 @@ class _$ImportCompleted
 }
 
 abstract class ImportCompleted implements ImportState {
-  const factory ImportCompleted() = _$ImportCompleted;
+  const factory ImportCompleted(final int count) = _$ImportCompleted;
+
+  int get count;
+  @JsonKey(ignore: true)
+  _$$ImportCompletedCopyWith<_$ImportCompleted> get copyWith =>
+      throw _privateConstructorUsedError;
 }

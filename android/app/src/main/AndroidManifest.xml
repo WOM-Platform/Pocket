@@ -66,6 +66,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https"
+                      android:host="@string/deep_host"
+                      android:pathPrefix="/migration"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https"
                     android:host="@string/deep_host"
                     android:pathPrefix="/vouchers"/>
             </intent-filter>
@@ -79,6 +88,14 @@
                       android:pathPrefix="/payment"/>
             </intent-filter>
 
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https"
+                  android:host="@string/new_deep_host"
+                  android:pathPrefix="/migration"/>
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

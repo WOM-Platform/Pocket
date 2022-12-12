@@ -1,14 +1,17 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/application/app_notifier.dart';
-import 'package:wom_pocket/src/blocs/migration/migration_data.dart';
+import 'package:wom_pocket/src/migration/application/import_notifier.dart';
+import 'package:wom_pocket/src/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/blocs/pin/bloc.dart';
 import 'package:wom_pocket/src/blocs/suggestions/bloc.dart';
 import 'package:wom_pocket/src/blocs/transactions_list/transactions_list_bloc.dart';
+import 'package:wom_pocket/src/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/screens/home/home_screen.dart';
-import 'package:wom_pocket/src/screens/migration/export_screen.dart';
+import 'package:wom_pocket/src/migration/ui/export_screen.dart';
 import 'package:wom_pocket/src/screens/pin/pin_screen.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
@@ -95,7 +98,11 @@ class App extends ConsumerWidget {
           theme: themeData.copyWith(
             colorScheme: themeData.colorScheme.copyWith(secondary: accentColor),
           ),
-          home: migrationData != null ? MigrationExportScreen() : GateWidget(),
+          home: migrationData != null
+              ? MigrationExportScreen(
+                  data: migrationData!,
+                )
+              : GateWidget(),
           // : BlocListener<AppBloc, AppState>(
           //     listener: (ctx, state) {
           //       logger.i("APP BLOC LISTENER ----> state is: $state");
@@ -171,15 +178,30 @@ class GateWidget extends ConsumerWidget {
             //   create: (context) => _pinBloc,
             //   child: PinScreen(),
             // );
-            Navigator.push(
-              context,
-              MaterialPageRoute<bool>(
-                builder: (context) => ProviderScope(
-                  overrides: [deeplinkProvider.overrideWithValue(data)],
-                  child: PinScreen(),
+            if (data.type == TransactionType.MIGRATION_IMPORT) {
+              Navigator.push(
+                context,
+                MaterialPageRoute<bool>(
+                  builder: (context) => ProviderScope(
+                    overrides: [
+                      deeplinkProvider.overrideWithValue(data),
+                      importNotifierProvider
+                    ],
+                    child: ImportScreen(),
+                  ),
                 ),
-              ),
-            );
+              );
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute<bool>(
+                  builder: (context) => ProviderScope(
+                    overrides: [deeplinkProvider.overrideWithValue(data)],
+                    child: PinScreen(),
+                  ),
+                ),
+              );
+            }
           }
         }
       },

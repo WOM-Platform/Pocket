@@ -63,12 +63,8 @@ class TransactionCard extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Icon(
-                        transaction.type == TransactionType.VOUCHERS
-                            ? Icons.monetization_on
-                            : Icons.credit_card,
-                        color: transaction.type == TransactionType.VOUCHERS
-                            ? Colors.green
-                            : Colors.red,
+                        icon(transaction.type),
+                        color: iconColor(transaction.type),
                       ),
                     ),
                   ],
@@ -96,8 +92,7 @@ class TransactionCard extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          ItemRow(
-                              t1: 'id', t2: transaction.id.toString()),
+                          ItemRow(t1: 'id', t2: transaction.id.toString()),
                           ItemRow(t1: 'date', t2: transaction.formatDate()),
                         ],
                       ),
@@ -109,12 +104,16 @@ class TransactionCard extends ConsumerWidget {
                         children: <Widget>[
                           ItemRow(
                               t1: 'aim',
-                              t2: (aim?.titles ?? const {})[languageCode] ??
-                                  '-'),
+                              t2: transaction.aimCodes.length > 1
+                                  ? transaction.aimCode
+                                  : (aim?.titles ?? const {})[languageCode] ??
+                                      '-'),
                           ItemRow(
-                              t1: transaction.type != TransactionType.VOUCHERS
-                                  ? 'pos'
-                                  : 'instrument',
+                              t1: transaction.type == TransactionType.VOUCHERS
+                                  ? 'instrument'
+                                  : transaction.type == TransactionType.PAYMENT
+                                      ? 'pos'
+                                      : 'device',
                               t2: transaction.source),
                         ],
                       ),
@@ -150,10 +149,7 @@ class TransactionCard extends ConsumerWidget {
             //   final aims = await ref.read(aimNotifierProvider.future);
             //   aim = aims.firstWhere((element) => element.code == aimCode);
             // }
-            var message =
-                'I ${transaction.type == TransactionType.VOUCHERS ? 'earned' : 'used'} '
-                '${transaction.size} WOM  ${transaction.type == TransactionType.VOUCHERS ? 'from' : 'at'} '
-                '${transaction.source}';
+            var message = shareMessage(transaction.type);
             if (aim != null) {
               message =
                   '$message  ${aim.title != null ? 'for ${aim.title}' : ''}';
@@ -163,6 +159,52 @@ class TransactionCard extends ConsumerWidget {
         ),
       ],
     );
+  }
+
+  String shareMessage(TransactionType type) {
+    switch (type) {
+      case TransactionType.VOUCHERS:
+        return 'I earned '
+            '${transaction.size} WOM  from '
+            '${transaction.source}';
+      case TransactionType.PAYMENT:
+        return 'I used '
+            '${transaction.size} WOM  at '
+            '${transaction.source}';
+      case TransactionType.MIGRATION_IMPORT:
+        return 'I imported '
+            '${transaction.size} WOM  from '
+            '${transaction.source}';
+      case TransactionType.MIGRATION_EXPORT:
+        return 'I exported '
+            '${transaction.size} WOM';
+    }
+  }
+
+  IconData icon(TransactionType type) {
+    switch (type) {
+      case TransactionType.VOUCHERS:
+        return Icons.monetization_on;
+      case TransactionType.PAYMENT:
+        return Icons.credit_card;
+      case TransactionType.MIGRATION_IMPORT:
+        return Icons.cloud_download;
+      case TransactionType.MIGRATION_EXPORT:
+        return Icons.cloud_upload;
+    }
+  }
+
+  Color iconColor(TransactionType type) {
+    switch (type) {
+      case TransactionType.VOUCHERS:
+        return Colors.green;
+      case TransactionType.PAYMENT:
+        return Colors.red;
+      case TransactionType.MIGRATION_IMPORT:
+        return Colors.blue;
+      case TransactionType.MIGRATION_EXPORT:
+        return Colors.grey;
+    }
   }
 }
 

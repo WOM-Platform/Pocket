@@ -146,10 +146,19 @@ class Utils {
     final encrypter = Encrypter(AES(key));
 
     final encrypted = encrypter.encrypt(text, iv: iv);
-    final decrypted = encrypter.decrypt(encrypted, iv: iv);
-
-    print(decrypted);
+    // final decrypted = encrypter.decrypt(encrypted, iv: iv);
+    // print(decrypted);
     // print(encrypted.base64);
+    return encrypted.bytes;
+  }
+
+  static List<int> encryptBytesWithAes(Uint8List bytes, String k) {
+    final key = Key.fromUtf8(k);
+    final iv = IV.fromLength(16);
+
+    final encrypter = Encrypter(AES(key));
+
+    final encrypted = encrypter.encryptBytes(bytes, iv: iv);
     return encrypted.bytes;
   }
 
@@ -167,6 +176,18 @@ class Utils {
     return decrypted;
   }
 
+  static Uint8List decryptBytesWithAes(Uint8List bytes, String k) {
+    final key = Key.fromUtf8(k);
+    final iv = IV.fromLength(16);
+
+    final encrypter = Encrypter(AES(key));
+    final decrypted = encrypter.decryptBytes(Encrypted(bytes), iv: iv);
+
+    // print(decrypted);
+    // print(encrypted.base64);
+    return Uint8List.fromList(decrypted) ;
+  }
+
   static String getRandomString(int length) {
     final _rnd = Random();
     return String.fromCharCodes(Iterable.generate(
@@ -180,6 +201,7 @@ class WomExportData {
   final String path;
   final String partialKey;
   final List<int> bytes;
+  final int womCount;
 
-  WomExportData(this.path, this.bytes, this.partialKey);
+  WomExportData(this.path, this.bytes, this.partialKey, this.womCount);
 }

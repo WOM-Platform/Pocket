@@ -11,9 +11,9 @@ import 'package:wom_pocket/src/utils/config.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 
 import '../../../constants.dart';
+import '../../migration/ui/migration_screen.dart';
 import '../../my_logger.dart';
 import '../../utils/my_extensions.dart';
-import '../migration/migration_screen.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   @override

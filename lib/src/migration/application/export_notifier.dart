@@ -1,3 +1,4 @@
+/*
 import 'dart:convert';
 import 'dart:io';
 
@@ -5,19 +6,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
-import 'package:wom_pocket/src/blocs/migration/export_state.dart';
 import 'package:wom_pocket/src/database/extensions.dart';
-import 'package:wom_pocket/src/db/app_db.dart';
-import 'package:wom_pocket/src/db/wom_db.dart';
+import 'package:wom_pocket/src/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../constants.dart';
-import 'migration_data.dart';
 
-final exportNotifierProvider =
+part 'export_notifier.g.dart';
+
+*/
+/*final exportNotifierProvider =
     StateNotifierProvider<ExportNotifier, ExportState>((ref) {
   final migrationData =
       Hive.box<MigrationData>(boxMigrationKey).get(exportedMigrationDataKey);
@@ -28,16 +28,28 @@ final exportNotifierProvider =
         ? ExportState.completed(migrationData)
         : ExportState.loading(),
   );
-});
+});*//*
 
-class ExportNotifier extends StateNotifier<ExportState> {
-  final Ref ref;
-  ExportNotifier(this.ref, state)
-      : super(state ?? const ExportState.loading());
 
-  Future exportWom(String pin) async {
+@riverpod
+class ExportNotifier extends _$ExportNotifier {
+  FutureOr<MigrationData> build(String? pin) async {
+    final migrationData =
+        Hive.box<MigrationData>(boxMigrationKey).get(exportedMigrationDataKey);
+
+    if (migrationData != null) {
+      return migrationData;
+    }
+    return await _exportWom(pin);
+  }
+
+  Future _exportWom(String? pin) async {
+    if (pin == null) {
+      throw Exception();
+    }
+
     try {
-      state = ExportLoading();
+      // state = ExportLoading();
       final integerPin = int.tryParse(pin);
       if (integerPin == null) {
         throw Exception('pin must to be integer');
@@ -57,30 +69,26 @@ class ExportNotifier extends StateNotifier<ExportState> {
           MigrationData.fromMigrationResponse(response, data.partialKey);
       await Hive.box<MigrationData>(boxMigrationKey)
           .put(exportedMigrationDataKey, migrationData);
-      // TODO clean wom db
-      // await AppDatabase.get().deleteDb();
-      state = ExportCompleted(migrationData);
-    } catch (ex,st) {
+      await ref.read(databaseProvider).deleteEverything();
+      return migrationData;
+    } catch (ex, st) {
       // state = ExportError(Exception(ex.toString()));
       print(st);
       rethrow;
     }
   }
 
-
-
   Future<WomExportData> exportWomToJson(String pin) async {
-    final woms = (await ref.read(databaseProvider).womsDao.getAllWoms).map((e) => e.toVoucher());
+    final woms = (await ref.read(databaseProvider).womsDao.getAllWoms);
     if (woms.isEmpty) {
       print('woms empty');
-      //TODO
-      // throw Exception('Woms table is Empty');
+      throw Exception('Woms table is Empty');
     }
     final dir = await getTemporaryDirectory();
     print(dir.path);
     final path = '${dir.path}/wom_migration';
     final file = File(path);
-    if(await file.exists()){
+    if (await file.exists()) {
       await file.delete();
     }
     print('wom da esportare: ${woms.length}');
@@ -92,3 +100,4 @@ class ExportNotifier extends StateNotifier<ExportState> {
     return WomExportData(file.path, bytes, key);
   }
 }
+*/

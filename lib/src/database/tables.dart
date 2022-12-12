@@ -27,6 +27,9 @@ class Wom extends Table {
   RealColumn get latitude => real().named('Latitude')();
 
   RealColumn get longitude => real().named('Longitude')();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }
 
 @DataClassName('AimRow')

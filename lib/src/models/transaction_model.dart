@@ -60,6 +60,7 @@ extension TransactionModelX on TransactionModel {
   List<String> get aimCodes {
     if (aimCode == null || aimCode.isEmpty) return [];
     final list = aimCode.split(',');
+    list.removeWhere((element) => element == '');
     return list;
   }
 

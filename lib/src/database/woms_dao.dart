@@ -77,7 +77,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
       readsFrom: {wom},
     ).get())
         .map((row) {
-          return wom.map(row.data);
+      return wom.map(row.data);
     }).toList();
     return list;
   }
@@ -132,5 +132,9 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
       //     titles: json.decode(row['titles'] as String));
     }).toList();
     return list;
+  }
+
+  Future deleteTable() async {
+    await delete(wom).go();
   }
 }
