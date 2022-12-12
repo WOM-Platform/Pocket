@@ -201,9 +201,9 @@ class TransactionCard extends ConsumerWidget {
       case TransactionType.PAYMENT:
         return Colors.red;
       case TransactionType.MIGRATION_IMPORT:
-        return Colors.blue;
+        return Colors.green;
       case TransactionType.MIGRATION_EXPORT:
-        return Colors.grey;
+        return Colors.red;
     }
   }
 }

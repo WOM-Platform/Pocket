@@ -52,7 +52,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   // returns the generated id
   Future<void> addVouchers(List<WomCompanion> entries) async {
     await batch((batch) {
-      batch.insertAll(wom, entries);
+      batch.insertAll(wom, entries, mode: InsertMode.insertOrAbort);
     });
   }
 

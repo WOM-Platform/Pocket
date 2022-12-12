@@ -14,7 +14,9 @@ import 'package:wom_pocket/src/database/woms_dao.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [Wom, Aims, Transactions], daos: [WomsDao, AimsDao, TransactionsDao])
+@DriftDatabase(
+    tables: [Wom, Aims, Transactions],
+    daos: [WomsDao, AimsDao, TransactionsDao])
 class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
   MyDatabase() : super(_openConnection());
@@ -51,7 +53,7 @@ MigrationStrategy get migration {
       // }
       print('from $from to $to');
     },
-    beforeOpen: (details)async {
+    beforeOpen: (details) async {
       print('version before: ${details.versionBefore}');
       print('version now: ${details.versionNow}');
 
