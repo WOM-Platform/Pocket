@@ -21,6 +21,7 @@ mixin _$ImportState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function() justImported,
     required TResult Function(int count) completed,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,6 +30,7 @@ mixin _$ImportState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function()? justImported,
     TResult? Function(int count)? completed,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,6 +39,7 @@ mixin _$ImportState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
+    TResult Function()? justImported,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) =>
@@ -46,6 +49,7 @@ mixin _$ImportState {
     required TResult Function(ImportInitial value) initial,
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
+    required TResult Function(JustImported value) justImported,
     required TResult Function(ImportCompleted value) completed,
   }) =>
       throw _privateConstructorUsedError;
@@ -54,6 +58,7 @@ mixin _$ImportState {
     TResult? Function(ImportInitial value)? initial,
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
+    TResult? Function(JustImported value)? justImported,
     TResult? Function(ImportCompleted value)? completed,
   }) =>
       throw _privateConstructorUsedError;
@@ -62,6 +67,7 @@ mixin _$ImportState {
     TResult Function(ImportInitial value)? initial,
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
+    TResult Function(JustImported value)? justImported,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) =>
@@ -133,6 +139,7 @@ class _$ImportInitial with DiagnosticableTreeMixin implements ImportInitial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function() justImported,
     required TResult Function(int count) completed,
   }) {
     return initial();
@@ -144,6 +151,7 @@ class _$ImportInitial with DiagnosticableTreeMixin implements ImportInitial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function()? justImported,
     TResult? Function(int count)? completed,
   }) {
     return initial?.call();
@@ -155,6 +163,7 @@ class _$ImportInitial with DiagnosticableTreeMixin implements ImportInitial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
+    TResult Function()? justImported,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
@@ -170,6 +179,7 @@ class _$ImportInitial with DiagnosticableTreeMixin implements ImportInitial {
     required TResult Function(ImportInitial value) initial,
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
+    required TResult Function(JustImported value) justImported,
     required TResult Function(ImportCompleted value) completed,
   }) {
     return initial(this);
@@ -181,6 +191,7 @@ class _$ImportInitial with DiagnosticableTreeMixin implements ImportInitial {
     TResult? Function(ImportInitial value)? initial,
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
+    TResult? Function(JustImported value)? justImported,
     TResult? Function(ImportCompleted value)? completed,
   }) {
     return initial?.call(this);
@@ -192,6 +203,7 @@ class _$ImportInitial with DiagnosticableTreeMixin implements ImportInitial {
     TResult Function(ImportInitial value)? initial,
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
+    TResult Function(JustImported value)? justImported,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) {
@@ -253,6 +265,7 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function() justImported,
     required TResult Function(int count) completed,
   }) {
     return loading();
@@ -264,6 +277,7 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function()? justImported,
     TResult? Function(int count)? completed,
   }) {
     return loading?.call();
@@ -275,6 +289,7 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
+    TResult Function()? justImported,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
@@ -290,6 +305,7 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
     required TResult Function(ImportInitial value) initial,
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
+    required TResult Function(JustImported value) justImported,
     required TResult Function(ImportCompleted value) completed,
   }) {
     return loading(this);
@@ -301,6 +317,7 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
     TResult? Function(ImportInitial value)? initial,
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
+    TResult? Function(JustImported value)? justImported,
     TResult? Function(ImportCompleted value)? completed,
   }) {
     return loading?.call(this);
@@ -312,6 +329,7 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
     TResult Function(ImportInitial value)? initial,
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
+    TResult Function(JustImported value)? justImported,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) {
@@ -408,6 +426,7 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function() justImported,
     required TResult Function(int count) completed,
   }) {
     return error(ex, st);
@@ -419,6 +438,7 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function()? justImported,
     TResult? Function(int count)? completed,
   }) {
     return error?.call(ex, st);
@@ -430,6 +450,7 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
+    TResult Function()? justImported,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
@@ -445,6 +466,7 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
     required TResult Function(ImportInitial value) initial,
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
+    required TResult Function(JustImported value) justImported,
     required TResult Function(ImportCompleted value) completed,
   }) {
     return error(this);
@@ -456,6 +478,7 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
     TResult? Function(ImportInitial value)? initial,
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
+    TResult? Function(JustImported value)? justImported,
     TResult? Function(ImportCompleted value)? completed,
   }) {
     return error?.call(this);
@@ -467,6 +490,7 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
     TResult Function(ImportInitial value)? initial,
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
+    TResult Function(JustImported value)? justImported,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) {
@@ -486,6 +510,132 @@ abstract class ImportError implements ImportState {
   @JsonKey(ignore: true)
   _$$ImportErrorCopyWith<_$ImportError> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$JustImportedCopyWith<$Res> {
+  factory _$$JustImportedCopyWith(
+          _$JustImported value, $Res Function(_$JustImported) then) =
+      __$$JustImportedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$JustImportedCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$JustImported>
+    implements _$$JustImportedCopyWith<$Res> {
+  __$$JustImportedCopyWithImpl(
+      _$JustImported _value, $Res Function(_$JustImported) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$JustImported with DiagnosticableTreeMixin implements JustImported {
+  const _$JustImported();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ImportState.justImported()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'ImportState.justImported'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$JustImported);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function() justImported,
+    required TResult Function(int count) completed,
+  }) {
+    return justImported();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function()? justImported,
+    TResult? Function(int count)? completed,
+  }) {
+    return justImported?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(Object ex, StackTrace st)? error,
+    TResult Function()? justImported,
+    TResult Function(int count)? completed,
+    required TResult orElse(),
+  }) {
+    if (justImported != null) {
+      return justImported();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ImportInitial value) initial,
+    required TResult Function(ImportLoading value) loading,
+    required TResult Function(ImportError value) error,
+    required TResult Function(JustImported value) justImported,
+    required TResult Function(ImportCompleted value) completed,
+  }) {
+    return justImported(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImportInitial value)? initial,
+    TResult? Function(ImportLoading value)? loading,
+    TResult? Function(ImportError value)? error,
+    TResult? Function(JustImported value)? justImported,
+    TResult? Function(ImportCompleted value)? completed,
+  }) {
+    return justImported?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImportInitial value)? initial,
+    TResult Function(ImportLoading value)? loading,
+    TResult Function(ImportError value)? error,
+    TResult Function(JustImported value)? justImported,
+    TResult Function(ImportCompleted value)? completed,
+    required TResult orElse(),
+  }) {
+    if (justImported != null) {
+      return justImported(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class JustImported implements ImportState {
+  const factory JustImported() = _$JustImported;
 }
 
 /// @nodoc
@@ -565,6 +715,7 @@ class _$ImportCompleted
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function() justImported,
     required TResult Function(int count) completed,
   }) {
     return completed(count);
@@ -576,6 +727,7 @@ class _$ImportCompleted
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function()? justImported,
     TResult? Function(int count)? completed,
   }) {
     return completed?.call(count);
@@ -587,6 +739,7 @@ class _$ImportCompleted
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
+    TResult Function()? justImported,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
@@ -602,6 +755,7 @@ class _$ImportCompleted
     required TResult Function(ImportInitial value) initial,
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
+    required TResult Function(JustImported value) justImported,
     required TResult Function(ImportCompleted value) completed,
   }) {
     return completed(this);
@@ -613,6 +767,7 @@ class _$ImportCompleted
     TResult? Function(ImportInitial value)? initial,
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
+    TResult? Function(JustImported value)? justImported,
     TResult? Function(ImportCompleted value)? completed,
   }) {
     return completed?.call(this);
@@ -624,6 +779,7 @@ class _$ImportCompleted
     TResult Function(ImportInitial value)? initial,
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
+    TResult Function(JustImported value)? justImported,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) {

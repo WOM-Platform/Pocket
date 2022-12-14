@@ -59,6 +59,8 @@ class Transactions extends Table {
   IntColumn get size => integer().named('size')();
 
   TextColumn get ackUrl => text().named('ackUrl').nullable()();
+  TextColumn get pin => text().named('pin').nullable()();
+  TextColumn get link => text().named('link').nullable()();
 }
 
 // This will make drift generate a class called "Category" to represent a row in

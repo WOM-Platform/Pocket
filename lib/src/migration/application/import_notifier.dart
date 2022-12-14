@@ -37,6 +37,11 @@ class ImportNotifier extends _$ImportNotifier {
       if (otc == null) throw Exception('Otc is null');
       final response =
           await ref.read(pocketProvider).getInfoAboutMigration(otc, password);
+
+      if (response.completed) {
+        state = JustImported();
+        return;
+      }
       print(response);
       final responseBytes = await ref
           .read(pocketProvider)
@@ -60,8 +65,7 @@ class ImportNotifier extends _$ImportNotifier {
       final womEncryptedJsonFile = File('${migrationDir.path}/woms');
       final womEncryptedJson = await womEncryptedJsonFile.readAsString();
       final map = Map.from(jsonDecode(womEncryptedJson));
-      final list =
-          List<Map<String, dynamic>>.from(map['woms']);
+      final list = List<Map<String, dynamic>>.from(map['woms']);
       final woms = list.map((e) => WomRow.fromJson(e)).toList();
       final device = map['device'] as String;
       print('Hai importato: ${woms.length}');
@@ -104,6 +108,9 @@ class ImportNotifier extends _$ImportNotifier {
           .read(databaseProvider)
           .womsDao
           .addVouchers(finalWoms.map((w) => w.toCompanion(true)).toList());
+      await ref.read(pocketProvider).completeMigration(otc, password);
+
+      //TODO remove hive data when insert qrcode and pin into transactions table
       await Hive.box<MigrationData>(boxMigrationKey)
           .delete(exportedMigrationDataKey);
       ref.invalidate(fetchTransactionsProvider);

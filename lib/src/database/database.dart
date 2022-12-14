@@ -11,6 +11,7 @@ import 'package:wom_pocket/src/database/aims_dao.dart';
 import 'package:wom_pocket/src/database/tables.dart';
 import 'package:wom_pocket/src/database/transactions_dao.dart';
 import 'package:wom_pocket/src/database/woms_dao.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 part 'database.g.dart';
 
@@ -22,50 +23,54 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   Future<void> deleteEverything() async {
     await transaction(() async {
       // Deleting tables in reverse topological order to avoid foreign-key conflicts
       final tables = allTables.toList().reversed;
-
       for (final table in tables) await delete(table).go();
     });
   }
-}
 
-@override
-MigrationStrategy get migration {
-  return MigrationStrategy(
-    onCreate: (Migrator m) async {
-      await m.createAll();
-    },
-    onUpgrade: (Migrator m, int from, int to) async {
-      // if (from < 2) {
-      //   // we added the dueDate property in the change from version 1 to
-      //   // version 2
-      //   await m.addColumn(todos, todos.dueDate);
-      // }
-      // if (from < 3) {
-      //   // we added the priority property in the change from version 1 or 2
-      //   // to version 3
-      //   await m.addColumn(todos, todos.priority);
-      // }
-      print('from $from to $to');
-    },
-    beforeOpen: (details) async {
-      print('version before: ${details.versionBefore}');
-      print('version now: ${details.versionNow}');
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        // if (from < 2) {
+        //   // we added the dueDate property in the change from version 1 to
+        //   // version 2
+        //   await m.addColumn(todos, todos.dueDate);
+        // }
+        // if (from < 3) {
+        //   // we added the priority property in the change from version 1 or 2
+        //   // to version 3
+        //   await m.addColumn(todos, todos.priority);
+        // }
+        logger.wtf('from $from to $to');
+        if (from < 4) {
+          // m.renameColumn(yourTable, 'Wom', yourTable.newColumn);
+          await m.addColumn(transactions, transactions.pin);
+          await m.addColumn(transactions, transactions.link);
+        }
+      },
+      beforeOpen: (details) async {
+        print('version before: ${details.versionBefore}');
+        print('version now: ${details.versionNow}');
 
-      if (kDebugMode) {
-        // This check pulls in a fair amount of code that's not needed
-        // anywhere else, so we recommend only doing it in debug builds.
-        // await validateDatabaseSchema();
-      }
+        if (kDebugMode) {
+          // This check pulls in a fair amount of code that's not needed
+          // anywhere else, so we recommend only doing it in debug builds.
+          // await validateDatabaseSchema();
+        }
 
-      return Future.value();
-    },
-  );
+        return Future.value();
+      },
+    );
+  }
 }
 
 LazyDatabase _openConnection() {

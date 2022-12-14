@@ -737,6 +737,8 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
   final int type;
   final int size;
   final String? ackUrl;
+  final String? pin;
+  final String? link;
   const MyTransaction(
       {required this.id,
       required this.source,
@@ -744,7 +746,9 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
       required this.timestamp,
       required this.type,
       required this.size,
-      this.ackUrl});
+      this.ackUrl,
+      this.pin,
+      this.link});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -756,6 +760,12 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
     map['size'] = Variable<int>(size);
     if (!nullToAbsent || ackUrl != null) {
       map['ackUrl'] = Variable<String>(ackUrl);
+    }
+    if (!nullToAbsent || pin != null) {
+      map['pin'] = Variable<String>(pin);
+    }
+    if (!nullToAbsent || link != null) {
+      map['link'] = Variable<String>(link);
     }
     return map;
   }
@@ -770,6 +780,8 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
       size: Value(size),
       ackUrl:
           ackUrl == null && nullToAbsent ? const Value.absent() : Value(ackUrl),
+      pin: pin == null && nullToAbsent ? const Value.absent() : Value(pin),
+      link: link == null && nullToAbsent ? const Value.absent() : Value(link),
     );
   }
 
@@ -784,6 +796,8 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
       type: serializer.fromJson<int>(json['type']),
       size: serializer.fromJson<int>(json['size']),
       ackUrl: serializer.fromJson<String?>(json['ackUrl']),
+      pin: serializer.fromJson<String?>(json['pin']),
+      link: serializer.fromJson<String?>(json['link']),
     );
   }
   @override
@@ -797,6 +811,8 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
       'type': serializer.toJson<int>(type),
       'size': serializer.toJson<int>(size),
       'ackUrl': serializer.toJson<String?>(ackUrl),
+      'pin': serializer.toJson<String?>(pin),
+      'link': serializer.toJson<String?>(link),
     };
   }
 
@@ -807,7 +823,9 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
           int? timestamp,
           int? type,
           int? size,
-          Value<String?> ackUrl = const Value.absent()}) =>
+          Value<String?> ackUrl = const Value.absent(),
+          Value<String?> pin = const Value.absent(),
+          Value<String?> link = const Value.absent()}) =>
       MyTransaction(
         id: id ?? this.id,
         source: source ?? this.source,
@@ -816,6 +834,8 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
         type: type ?? this.type,
         size: size ?? this.size,
         ackUrl: ackUrl.present ? ackUrl.value : this.ackUrl,
+        pin: pin.present ? pin.value : this.pin,
+        link: link.present ? link.value : this.link,
       );
   @override
   String toString() {
@@ -826,14 +846,16 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
           ..write('timestamp: $timestamp, ')
           ..write('type: $type, ')
           ..write('size: $size, ')
-          ..write('ackUrl: $ackUrl')
+          ..write('ackUrl: $ackUrl, ')
+          ..write('pin: $pin, ')
+          ..write('link: $link')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode =>
-      Object.hash(id, source, aim, timestamp, type, size, ackUrl);
+      Object.hash(id, source, aim, timestamp, type, size, ackUrl, pin, link);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -844,7 +866,9 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
           other.timestamp == this.timestamp &&
           other.type == this.type &&
           other.size == this.size &&
-          other.ackUrl == this.ackUrl);
+          other.ackUrl == this.ackUrl &&
+          other.pin == this.pin &&
+          other.link == this.link);
 }
 
 class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
@@ -855,6 +879,8 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   final Value<int> type;
   final Value<int> size;
   final Value<String?> ackUrl;
+  final Value<String?> pin;
+  final Value<String?> link;
   const TransactionsCompanion({
     this.id = const Value.absent(),
     this.source = const Value.absent(),
@@ -863,6 +889,8 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     this.type = const Value.absent(),
     this.size = const Value.absent(),
     this.ackUrl = const Value.absent(),
+    this.pin = const Value.absent(),
+    this.link = const Value.absent(),
   });
   TransactionsCompanion.insert({
     this.id = const Value.absent(),
@@ -872,6 +900,8 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     required int type,
     required int size,
     this.ackUrl = const Value.absent(),
+    this.pin = const Value.absent(),
+    this.link = const Value.absent(),
   })  : source = Value(source),
         aim = Value(aim),
         timestamp = Value(timestamp),
@@ -885,6 +915,8 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     Expression<int>? type,
     Expression<int>? size,
     Expression<String>? ackUrl,
+    Expression<String>? pin,
+    Expression<String>? link,
   }) {
     return RawValuesInsertable({
       if (id != null) 'Id': id,
@@ -894,6 +926,8 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
       if (type != null) 'type': type,
       if (size != null) 'size': size,
       if (ackUrl != null) 'ackUrl': ackUrl,
+      if (pin != null) 'pin': pin,
+      if (link != null) 'link': link,
     });
   }
 
@@ -904,7 +938,9 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
       Value<int>? timestamp,
       Value<int>? type,
       Value<int>? size,
-      Value<String?>? ackUrl}) {
+      Value<String?>? ackUrl,
+      Value<String?>? pin,
+      Value<String?>? link}) {
     return TransactionsCompanion(
       id: id ?? this.id,
       source: source ?? this.source,
@@ -913,6 +949,8 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
       type: type ?? this.type,
       size: size ?? this.size,
       ackUrl: ackUrl ?? this.ackUrl,
+      pin: pin ?? this.pin,
+      link: link ?? this.link,
     );
   }
 
@@ -940,6 +978,12 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     if (ackUrl.present) {
       map['ackUrl'] = Variable<String>(ackUrl.value);
     }
+    if (pin.present) {
+      map['pin'] = Variable<String>(pin.value);
+    }
+    if (link.present) {
+      map['link'] = Variable<String>(link.value);
+    }
     return map;
   }
 
@@ -952,7 +996,9 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
           ..write('timestamp: $timestamp, ')
           ..write('type: $type, ')
           ..write('size: $size, ')
-          ..write('ackUrl: $ackUrl')
+          ..write('ackUrl: $ackUrl, ')
+          ..write('pin: $pin, ')
+          ..write('link: $link')
           ..write(')'))
         .toString();
   }
@@ -1004,9 +1050,19 @@ class $TransactionsTable extends Transactions
   late final GeneratedColumn<String> ackUrl = GeneratedColumn<String>(
       'ackUrl', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _pinMeta = const VerificationMeta('pin');
+  @override
+  late final GeneratedColumn<String> pin = GeneratedColumn<String>(
+      'pin', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _linkMeta = const VerificationMeta('link');
+  @override
+  late final GeneratedColumn<String> link = GeneratedColumn<String>(
+      'link', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, source, aim, timestamp, type, size, ackUrl];
+      [id, source, aim, timestamp, type, size, ackUrl, pin, link];
   @override
   String get aliasedName => _alias ?? 'transactions';
   @override
@@ -1053,6 +1109,14 @@ class $TransactionsTable extends Transactions
       context.handle(_ackUrlMeta,
           ackUrl.isAcceptableOrUnknown(data['ackUrl']!, _ackUrlMeta));
     }
+    if (data.containsKey('pin')) {
+      context.handle(
+          _pinMeta, pin.isAcceptableOrUnknown(data['pin']!, _pinMeta));
+    }
+    if (data.containsKey('link')) {
+      context.handle(
+          _linkMeta, link.isAcceptableOrUnknown(data['link']!, _linkMeta));
+    }
     return context;
   }
 
@@ -1076,6 +1140,10 @@ class $TransactionsTable extends Transactions
           .read(DriftSqlType.int, data['${effectivePrefix}size'])!,
       ackUrl: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}ackUrl']),
+      pin: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}pin']),
+      link: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}link']),
     );
   }
 
