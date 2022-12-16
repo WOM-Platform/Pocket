@@ -509,6 +509,8 @@ abstract class _$$MigrationStateCompleteCopyWith<$Res> {
       __$$MigrationStateCompleteCopyWithImpl<$Res>;
   @useResult
   $Res call({MigrationData data});
+
+  $MigrationDataCopyWith<$Res> get data;
 }
 
 /// @nodoc
@@ -530,6 +532,14 @@ class __$$MigrationStateCompleteCopyWithImpl<$Res>
           : data // ignore: cast_nullable_to_non_nullable
               as MigrationData,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MigrationDataCopyWith<$Res> get data {
+    return $MigrationDataCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value));
+    });
   }
 }
 

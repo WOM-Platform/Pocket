@@ -110,9 +110,6 @@ class ImportNotifier extends _$ImportNotifier {
           .addVouchers(finalWoms.map((w) => w.toCompanion(true)).toList());
       await ref.read(pocketProvider).completeMigration(otc, password);
 
-      //TODO remove hive data when insert qrcode and pin into transactions table
-      await Hive.box<MigrationData>(boxMigrationKey)
-          .delete(exportedMigrationDataKey);
       ref.invalidate(fetchTransactionsProvider);
       ref.invalidate(womStatsProvider);
       state = ImportCompleted(woms.length);

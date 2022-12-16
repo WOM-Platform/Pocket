@@ -22,7 +22,7 @@ class Wom extends Table {
 
   IntColumn get timestamp => integer().named('Timestamp')();
 
-  IntColumn get live => integer().named('live')();
+  IntColumn get spent => integer()();
 
   RealColumn get latitude => real().named('Latitude')();
 
@@ -59,7 +59,11 @@ class Transactions extends Table {
   IntColumn get size => integer().named('size')();
 
   TextColumn get ackUrl => text().named('ackUrl').nullable()();
+
   TextColumn get pin => text().named('pin').nullable()();
+
+  IntColumn get deadline => integer().nullable()();
+
   TextColumn get link => text().named('link').nullable()();
 }
 

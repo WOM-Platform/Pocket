@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String $MigrationNotifierHash() => r'1c0372e8aafee04a20e4f9b5b8ff60bfad03ab4f';
+String $MigrationNotifierHash() => r'80d351fa8175c43aee5ba1e1b3e3639c4d215674';
 
 /// See also [MigrationNotifier].
 final migrationNotifierProvider =

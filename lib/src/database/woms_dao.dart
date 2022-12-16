@@ -21,10 +21,10 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
 
   // Get all woms not spent
   Future<List<WomRow>> get getAllWoms =>
-      (select(wom)..where((tbl) => tbl.live.equals(WomStatus.ON.index))).get();
+      (select(wom)..where((tbl) => tbl.spent.equals(WomStatus.ON.index))).get();
 
   Future<int> getWomCount() async {
-    var countExp = wom.id.count(filter: wom.live.equals(WomStatus.ON.index));
+    var countExp = wom.id.count(filter: wom.spent.equals(WomStatus.ON.index));
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
     return result ?? 0;
@@ -59,7 +59,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   Future<int> updateWomStatusToOff(String womId, int transactionId) {
     return (update(wom)..where((t) => t.id.equals(womId))).write(
       WomCompanion(
-        live: Value(WomStatus.OFF.index),
+          spent: Value(WomStatus.OFF.index),
         transactionId: Value(transactionId),
       ),
     );

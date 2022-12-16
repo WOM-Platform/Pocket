@@ -97,7 +97,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                   label: Text(WomModel.dbLive),
                   numeric: true,
                   onSort: (columnIndex, ascending) =>
-                      _sort<num>((d) => d.live, columnIndex, ascending),
+                      _sort<num>((d) => d.spent, columnIndex, ascending),
                 ),
                 DataColumn(
                   label: Text(WomModel.dbSecret),
@@ -169,7 +169,7 @@ class _WomsDataSources extends DataTableSource {
         DataCell(Text(wom.sourceName)),
         DataCell(Text(wom.latitude.toString())),
         DataCell(Text(wom.longitude.toString())),
-        DataCell(Text(wom.live.toString().replaceAll('WomStatus.', ''))),
+        DataCell(Text(WomStatus.values[wom.spent].toString().replaceAll('WomStatus.', ''))),
         DataCell(Text(wom.secret)),
         DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.timestamp)}')),
         DataCell(Text('${wom.transactionId}')),

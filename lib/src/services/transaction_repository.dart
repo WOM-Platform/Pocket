@@ -98,7 +98,7 @@ class TransactionRepository {
               sourceId: redeem.sourceId,
               transactionId: id,
               timestamp: e.timestamp.millisecondsSinceEpoch,
-              live: WomStatus.ON.index,
+              spent: WomStatus.ON.index,
               latitude: e.latitude,
               longitude: e.longitude),
         )

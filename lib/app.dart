@@ -34,9 +34,7 @@ String? fakeData;
 class App extends ConsumerWidget {
   // final AppRepository appRepository;
 
-  final MigrationData? migrationData;
-
-  App({Key? key, this.migrationData}) : super(key: key);
+  App({Key? key}) : super(key: key);
 
 //   @override
 //   State<App> createState() => _AppState();
@@ -98,11 +96,7 @@ class App extends ConsumerWidget {
           theme: themeData.copyWith(
             colorScheme: themeData.colorScheme.copyWith(secondary: accentColor),
           ),
-          home: migrationData != null
-              ? MigrationExportScreen(
-                  data: migrationData!,
-                )
-              : GateWidget(),
+          // home: GateWidget(),
           // : BlocListener<AppBloc, AppState>(
           //     listener: (ctx, state) {
           //       logger.i("APP BLOC LISTENER ----> state is: $state");
@@ -153,6 +147,7 @@ class App extends ConsumerWidget {
           //     }),
           //   ),
           routes: {
+            '/': (_)=>GateWidget(),
             '/settings': (context) => SettingsScreen(),
           }),
     );

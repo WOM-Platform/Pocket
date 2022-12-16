@@ -3,10 +3,9 @@ import 'dart:io';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:drift/drift.dart';
 import 'package:flutter_archive/flutter_archive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/database/database.dart';
@@ -63,10 +62,13 @@ class MigrationNotifier extends _$MigrationNotifier {
       final response =
           await ref.read(pocketProvider).createNewMigration(data.bytes, pin);
 
-      final migrationData =
-          MigrationData.fromMigrationResponse(response, data.partialKey);
-      await Hive.box<MigrationData>(boxMigrationKey)
-          .put(exportedMigrationDataKey, migrationData);
+      final link = '${response.link}/${data.partialKey}';
+      final migrationData = MigrationData(
+        code: pin,
+        link: link,
+        importDeadline: response.deadline,
+      );
+
       await ref.read(databaseProvider).womsDao.deleteTable();
 
       await ref.read(databaseProvider).transactionsDao.addTransaction(
@@ -76,6 +78,9 @@ class MigrationNotifier extends _$MigrationNotifier {
               timestamp: DateTime.now().millisecondsSinceEpoch,
               type: TransactionType.MIGRATION_EXPORT.index,
               size: data.womCount,
+              pin: Value(pin),
+              link: Value(link),
+              deadline: Value(migrationData.importDeadline.millisecondsSinceEpoch)
             ),
           );
       ref.invalidate(fetchTransactionsProvider);
@@ -134,10 +139,11 @@ class MigrationNotifier extends _$MigrationNotifier {
 
       String device = '';
 
-      if(Platform.isAndroid){
-        final deviceInfo = await deviceInfoPlugin.deviceInfo as AndroidDeviceInfo;
+      if (Platform.isAndroid) {
+        final deviceInfo =
+            await deviceInfoPlugin.deviceInfo as AndroidDeviceInfo;
         device = deviceInfo.model;
-      }else if(Platform.isIOS){
+      } else if (Platform.isIOS) {
         final deviceInfo = await deviceInfoPlugin.deviceInfo as IosDeviceInfo;
         device = deviceInfo.utsname.machine ?? '';
       }

@@ -55,6 +55,8 @@ class MyDatabase extends _$MyDatabase {
           // m.renameColumn(yourTable, 'Wom', yourTable.newColumn);
           await m.addColumn(transactions, transactions.pin);
           await m.addColumn(transactions, transactions.link);
+          await m.addColumn(transactions, transactions.deadline);
+          await m.renameColumn(wom, 'live', wom.spent);
         }
       },
       beforeOpen: (details) async {

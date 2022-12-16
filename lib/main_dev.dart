@@ -39,10 +39,7 @@ Future<void> main() async {
 
   // Hive
   await Hive.initFlutter();
-  Hive.registerAdapter(MigrationDataAdapter());
   await Hive.openBox('settings');
-  final box = await Hive.openBox<MigrationData>('migration');
-  final migrationData = box.get(exportedMigrationDataKey);
 
   logger.i('DEV VERSION');
   flavor = Flavor.DEVELOPMENT;
@@ -53,8 +50,6 @@ Future<void> main() async {
   ));
 
   runApp(
-    App(
-      migrationData: migrationData,
-    ),
+    App(),
   );
 }

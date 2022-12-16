@@ -12,7 +12,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
   final String sourceId;
   final int transactionId;
   final int timestamp;
-  final int live;
+  final int spent;
   final double latitude;
   final double longitude;
   const WomRow(
@@ -24,7 +24,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
       required this.sourceId,
       required this.transactionId,
       required this.timestamp,
-      required this.live,
+      required this.spent,
       required this.latitude,
       required this.longitude});
   @override
@@ -38,7 +38,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
     map['SourceId'] = Variable<String>(sourceId);
     map['TransactionId'] = Variable<int>(transactionId);
     map['Timestamp'] = Variable<int>(timestamp);
-    map['live'] = Variable<int>(live);
+    map['spent'] = Variable<int>(spent);
     map['Latitude'] = Variable<double>(latitude);
     map['Longitude'] = Variable<double>(longitude);
     return map;
@@ -54,7 +54,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
       sourceId: Value(sourceId),
       transactionId: Value(transactionId),
       timestamp: Value(timestamp),
-      live: Value(live),
+      spent: Value(spent),
       latitude: Value(latitude),
       longitude: Value(longitude),
     );
@@ -72,7 +72,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
       sourceId: serializer.fromJson<String>(json['sourceId']),
       transactionId: serializer.fromJson<int>(json['transactionId']),
       timestamp: serializer.fromJson<int>(json['timestamp']),
-      live: serializer.fromJson<int>(json['live']),
+      spent: serializer.fromJson<int>(json['spent']),
       latitude: serializer.fromJson<double>(json['latitude']),
       longitude: serializer.fromJson<double>(json['longitude']),
     );
@@ -89,7 +89,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
       'sourceId': serializer.toJson<String>(sourceId),
       'transactionId': serializer.toJson<int>(transactionId),
       'timestamp': serializer.toJson<int>(timestamp),
-      'live': serializer.toJson<int>(live),
+      'spent': serializer.toJson<int>(spent),
       'latitude': serializer.toJson<double>(latitude),
       'longitude': serializer.toJson<double>(longitude),
     };
@@ -104,7 +104,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
           String? sourceId,
           int? transactionId,
           int? timestamp,
-          int? live,
+          int? spent,
           double? latitude,
           double? longitude}) =>
       WomRow(
@@ -116,7 +116,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
         sourceId: sourceId ?? this.sourceId,
         transactionId: transactionId ?? this.transactionId,
         timestamp: timestamp ?? this.timestamp,
-        live: live ?? this.live,
+        spent: spent ?? this.spent,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
       );
@@ -131,7 +131,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
           ..write('sourceId: $sourceId, ')
           ..write('transactionId: $transactionId, ')
           ..write('timestamp: $timestamp, ')
-          ..write('live: $live, ')
+          ..write('spent: $spent, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude')
           ..write(')'))
@@ -140,7 +140,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
 
   @override
   int get hashCode => Object.hash(id, sourceName, secret, geohash, aim,
-      sourceId, transactionId, timestamp, live, latitude, longitude);
+      sourceId, transactionId, timestamp, spent, latitude, longitude);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -153,7 +153,7 @@ class WomRow extends DataClass implements Insertable<WomRow> {
           other.sourceId == this.sourceId &&
           other.transactionId == this.transactionId &&
           other.timestamp == this.timestamp &&
-          other.live == this.live &&
+          other.spent == this.spent &&
           other.latitude == this.latitude &&
           other.longitude == this.longitude);
 }
@@ -167,7 +167,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
   final Value<String> sourceId;
   final Value<int> transactionId;
   final Value<int> timestamp;
-  final Value<int> live;
+  final Value<int> spent;
   final Value<double> latitude;
   final Value<double> longitude;
   const WomCompanion({
@@ -179,7 +179,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     this.sourceId = const Value.absent(),
     this.transactionId = const Value.absent(),
     this.timestamp = const Value.absent(),
-    this.live = const Value.absent(),
+    this.spent = const Value.absent(),
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
   });
@@ -192,7 +192,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     required String sourceId,
     required int transactionId,
     required int timestamp,
-    required int live,
+    required int spent,
     required double latitude,
     required double longitude,
   })  : id = Value(id),
@@ -203,7 +203,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
         sourceId = Value(sourceId),
         transactionId = Value(transactionId),
         timestamp = Value(timestamp),
-        live = Value(live),
+        spent = Value(spent),
         latitude = Value(latitude),
         longitude = Value(longitude);
   static Insertable<WomRow> custom({
@@ -215,7 +215,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     Expression<String>? sourceId,
     Expression<int>? transactionId,
     Expression<int>? timestamp,
-    Expression<int>? live,
+    Expression<int>? spent,
     Expression<double>? latitude,
     Expression<double>? longitude,
   }) {
@@ -228,7 +228,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
       if (sourceId != null) 'SourceId': sourceId,
       if (transactionId != null) 'TransactionId': transactionId,
       if (timestamp != null) 'Timestamp': timestamp,
-      if (live != null) 'live': live,
+      if (spent != null) 'spent': spent,
       if (latitude != null) 'Latitude': latitude,
       if (longitude != null) 'Longitude': longitude,
     });
@@ -243,7 +243,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
       Value<String>? sourceId,
       Value<int>? transactionId,
       Value<int>? timestamp,
-      Value<int>? live,
+      Value<int>? spent,
       Value<double>? latitude,
       Value<double>? longitude}) {
     return WomCompanion(
@@ -255,7 +255,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
       sourceId: sourceId ?? this.sourceId,
       transactionId: transactionId ?? this.transactionId,
       timestamp: timestamp ?? this.timestamp,
-      live: live ?? this.live,
+      spent: spent ?? this.spent,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
     );
@@ -288,8 +288,8 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     if (timestamp.present) {
       map['Timestamp'] = Variable<int>(timestamp.value);
     }
-    if (live.present) {
-      map['live'] = Variable<int>(live.value);
+    if (spent.present) {
+      map['spent'] = Variable<int>(spent.value);
     }
     if (latitude.present) {
       map['Latitude'] = Variable<double>(latitude.value);
@@ -311,7 +311,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
           ..write('sourceId: $sourceId, ')
           ..write('transactionId: $transactionId, ')
           ..write('timestamp: $timestamp, ')
-          ..write('live: $live, ')
+          ..write('spent: $spent, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude')
           ..write(')'))
@@ -371,10 +371,10 @@ class $WomTable extends Wom with TableInfo<$WomTable, WomRow> {
   late final GeneratedColumn<int> timestamp = GeneratedColumn<int>(
       'Timestamp', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _liveMeta = const VerificationMeta('live');
+  static const VerificationMeta _spentMeta = const VerificationMeta('spent');
   @override
-  late final GeneratedColumn<int> live = GeneratedColumn<int>(
-      'live', aliasedName, false,
+  late final GeneratedColumn<int> spent = GeneratedColumn<int>(
+      'spent', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _latitudeMeta =
       const VerificationMeta('latitude');
@@ -398,7 +398,7 @@ class $WomTable extends Wom with TableInfo<$WomTable, WomRow> {
         sourceId,
         transactionId,
         timestamp,
-        live,
+        spent,
         latitude,
         longitude
       ];
@@ -462,11 +462,11 @@ class $WomTable extends Wom with TableInfo<$WomTable, WomRow> {
     } else if (isInserting) {
       context.missing(_timestampMeta);
     }
-    if (data.containsKey('live')) {
+    if (data.containsKey('spent')) {
       context.handle(
-          _liveMeta, live.isAcceptableOrUnknown(data['live']!, _liveMeta));
+          _spentMeta, spent.isAcceptableOrUnknown(data['spent']!, _spentMeta));
     } else if (isInserting) {
-      context.missing(_liveMeta);
+      context.missing(_spentMeta);
     }
     if (data.containsKey('Latitude')) {
       context.handle(_latitudeMeta,
@@ -505,8 +505,8 @@ class $WomTable extends Wom with TableInfo<$WomTable, WomRow> {
           .read(DriftSqlType.int, data['${effectivePrefix}TransactionId'])!,
       timestamp: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}Timestamp'])!,
-      live: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}live'])!,
+      spent: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}spent'])!,
       latitude: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}Latitude'])!,
       longitude: attachedDatabase.typeMapping
@@ -738,6 +738,7 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
   final int size;
   final String? ackUrl;
   final String? pin;
+  final int? deadline;
   final String? link;
   const MyTransaction(
       {required this.id,
@@ -748,6 +749,7 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
       required this.size,
       this.ackUrl,
       this.pin,
+      this.deadline,
       this.link});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -763,6 +765,9 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
     }
     if (!nullToAbsent || pin != null) {
       map['pin'] = Variable<String>(pin);
+    }
+    if (!nullToAbsent || deadline != null) {
+      map['deadline'] = Variable<int>(deadline);
     }
     if (!nullToAbsent || link != null) {
       map['link'] = Variable<String>(link);
@@ -781,6 +786,9 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
       ackUrl:
           ackUrl == null && nullToAbsent ? const Value.absent() : Value(ackUrl),
       pin: pin == null && nullToAbsent ? const Value.absent() : Value(pin),
+      deadline: deadline == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deadline),
       link: link == null && nullToAbsent ? const Value.absent() : Value(link),
     );
   }
@@ -797,6 +805,7 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
       size: serializer.fromJson<int>(json['size']),
       ackUrl: serializer.fromJson<String?>(json['ackUrl']),
       pin: serializer.fromJson<String?>(json['pin']),
+      deadline: serializer.fromJson<int?>(json['deadline']),
       link: serializer.fromJson<String?>(json['link']),
     );
   }
@@ -812,6 +821,7 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
       'size': serializer.toJson<int>(size),
       'ackUrl': serializer.toJson<String?>(ackUrl),
       'pin': serializer.toJson<String?>(pin),
+      'deadline': serializer.toJson<int?>(deadline),
       'link': serializer.toJson<String?>(link),
     };
   }
@@ -825,6 +835,7 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
           int? size,
           Value<String?> ackUrl = const Value.absent(),
           Value<String?> pin = const Value.absent(),
+          Value<int?> deadline = const Value.absent(),
           Value<String?> link = const Value.absent()}) =>
       MyTransaction(
         id: id ?? this.id,
@@ -835,6 +846,7 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
         size: size ?? this.size,
         ackUrl: ackUrl.present ? ackUrl.value : this.ackUrl,
         pin: pin.present ? pin.value : this.pin,
+        deadline: deadline.present ? deadline.value : this.deadline,
         link: link.present ? link.value : this.link,
       );
   @override
@@ -848,14 +860,15 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
           ..write('size: $size, ')
           ..write('ackUrl: $ackUrl, ')
           ..write('pin: $pin, ')
+          ..write('deadline: $deadline, ')
           ..write('link: $link')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, source, aim, timestamp, type, size, ackUrl, pin, link);
+  int get hashCode => Object.hash(
+      id, source, aim, timestamp, type, size, ackUrl, pin, deadline, link);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -868,6 +881,7 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
           other.size == this.size &&
           other.ackUrl == this.ackUrl &&
           other.pin == this.pin &&
+          other.deadline == this.deadline &&
           other.link == this.link);
 }
 
@@ -880,6 +894,7 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   final Value<int> size;
   final Value<String?> ackUrl;
   final Value<String?> pin;
+  final Value<int?> deadline;
   final Value<String?> link;
   const TransactionsCompanion({
     this.id = const Value.absent(),
@@ -890,6 +905,7 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     this.size = const Value.absent(),
     this.ackUrl = const Value.absent(),
     this.pin = const Value.absent(),
+    this.deadline = const Value.absent(),
     this.link = const Value.absent(),
   });
   TransactionsCompanion.insert({
@@ -901,6 +917,7 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     required int size,
     this.ackUrl = const Value.absent(),
     this.pin = const Value.absent(),
+    this.deadline = const Value.absent(),
     this.link = const Value.absent(),
   })  : source = Value(source),
         aim = Value(aim),
@@ -916,6 +933,7 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     Expression<int>? size,
     Expression<String>? ackUrl,
     Expression<String>? pin,
+    Expression<int>? deadline,
     Expression<String>? link,
   }) {
     return RawValuesInsertable({
@@ -927,6 +945,7 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
       if (size != null) 'size': size,
       if (ackUrl != null) 'ackUrl': ackUrl,
       if (pin != null) 'pin': pin,
+      if (deadline != null) 'deadline': deadline,
       if (link != null) 'link': link,
     });
   }
@@ -940,6 +959,7 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
       Value<int>? size,
       Value<String?>? ackUrl,
       Value<String?>? pin,
+      Value<int?>? deadline,
       Value<String?>? link}) {
     return TransactionsCompanion(
       id: id ?? this.id,
@@ -950,6 +970,7 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
       size: size ?? this.size,
       ackUrl: ackUrl ?? this.ackUrl,
       pin: pin ?? this.pin,
+      deadline: deadline ?? this.deadline,
       link: link ?? this.link,
     );
   }
@@ -981,6 +1002,9 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
     if (pin.present) {
       map['pin'] = Variable<String>(pin.value);
     }
+    if (deadline.present) {
+      map['deadline'] = Variable<int>(deadline.value);
+    }
     if (link.present) {
       map['link'] = Variable<String>(link.value);
     }
@@ -998,6 +1022,7 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
           ..write('size: $size, ')
           ..write('ackUrl: $ackUrl, ')
           ..write('pin: $pin, ')
+          ..write('deadline: $deadline, ')
           ..write('link: $link')
           ..write(')'))
         .toString();
@@ -1055,6 +1080,12 @@ class $TransactionsTable extends Transactions
   late final GeneratedColumn<String> pin = GeneratedColumn<String>(
       'pin', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _deadlineMeta =
+      const VerificationMeta('deadline');
+  @override
+  late final GeneratedColumn<int> deadline = GeneratedColumn<int>(
+      'deadline', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _linkMeta = const VerificationMeta('link');
   @override
   late final GeneratedColumn<String> link = GeneratedColumn<String>(
@@ -1062,7 +1093,7 @@ class $TransactionsTable extends Transactions
       type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, source, aim, timestamp, type, size, ackUrl, pin, link];
+      [id, source, aim, timestamp, type, size, ackUrl, pin, deadline, link];
   @override
   String get aliasedName => _alias ?? 'transactions';
   @override
@@ -1113,6 +1144,10 @@ class $TransactionsTable extends Transactions
       context.handle(
           _pinMeta, pin.isAcceptableOrUnknown(data['pin']!, _pinMeta));
     }
+    if (data.containsKey('deadline')) {
+      context.handle(_deadlineMeta,
+          deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta));
+    }
     if (data.containsKey('link')) {
       context.handle(
           _linkMeta, link.isAcceptableOrUnknown(data['link']!, _linkMeta));
@@ -1142,6 +1177,8 @@ class $TransactionsTable extends Transactions
           .read(DriftSqlType.string, data['${effectivePrefix}ackUrl']),
       pin: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}pin']),
+      deadline: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}deadline']),
       link: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}link']),
     );

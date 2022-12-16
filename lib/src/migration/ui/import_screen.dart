@@ -1,14 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:wom_pocket/app.dart';
+import 'package:wom_pocket/src/application/pin_notifier.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/migration/application/import_state.dart';
+import 'package:wom_pocket/src/screens/pin/widgets/keyboard.dart';
 import 'package:wom_pocket/src/widgets/my_error.dart';
 
-final pageControllerProvider =
-    Provider.autoDispose<PageController>((ref) => PageController());
+final pageControllerProvider = Provider.autoDispose<PageController>((ref) {
+  final p = PageController();
+  ref.onDispose(() {
+    p.dispose();
+  });
+  return p;
+});
 
 final confirmImportProvider = StateProvider.autoDispose<bool>((_) => true);
 
@@ -27,13 +36,14 @@ class ImportScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        body: PageView(
-      controller: ref.watch(pageControllerProvider),
-      children: [
-        PageOne(),
-        PageThree(),
-      ],
-    ));
+      body: PageView(
+        controller: ref.watch(pageControllerProvider),
+        children: [
+          PageOne(),
+          PageThree(),
+        ],
+      ),
+    );
   }
 }
 
@@ -43,7 +53,7 @@ class PageOne extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
@@ -93,83 +103,79 @@ class PageThree extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final confirm = ref.watch(confirmImportProvider);
-    final pinController = ref.watch(pinControllerProvider);
     final importState = ref.watch(importNotifierProvider);
+    final pinState = ref.watch(pinNotifierProvider);
+    final descStyle = TextStyle(color: Colors.white, fontSize: 18);
+
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
         child: importState.when(
           initial: () {
-            return ListView(
+            return Padding(
               padding: const EdgeInsets.all(16),
-              children: [
-                Text(
-                    'Inserisci il pin utilizzato per eseguire l\'esportazione.'),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: PinCodeTextField(
-                    keyboardType: TextInputType.number,
-                    appContext: context,
-                    length: 4,
-                    textStyle: TextStyle(color: Colors.grey),
-                    obscureText: false,
-                    // animationType: AnimationType.fade,
-                    pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.underline,
-                      // borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 50,
-                      fieldWidth: 50,
-                      // activeColor: Colors.green,
-                      // activeFillColor: Colors.pink,
+              child: Column(
+                // paddin_/**/g: const EdgeInsets.all(16),
+                children: [
+                  const SizedBox(height: 16),
+                  Icon(
+                    Icons.security,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Inserisci il pin utilizzato per eseguire l\'esportazione.',
+                    style: descStyle,
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(16)),
+                    height: 80,
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        for (int i = 0; i < 4; i++)
+                          Expanded(
+                            child: Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                      width: 1.0, color: Colors.black),
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                pinState.pin.length > i
+                                    ? pinState.pin[i]
+                                    : "  ",
+                                style: TextStyle(
+                                    fontSize: 40,
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
-                    animationDuration: Duration(milliseconds: 300),
-                    backgroundColor: Colors.transparent,
-                    enableActiveFill: false,
-                    // errorAnimationController: errorController,
-                    controller: pinController,
-                    onCompleted: (v) {
-                      print("Completed");
-                    },
-                    onChanged: (value) {
-                      print(value);
-                    },
-                    beforeTextPaste: (text) {
-                      print("Allowing to paste $text");
-                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                      return true;
-                    },
                   ),
-                ),
-                const SizedBox(height: 16),
-                GestureDetector(
-                  onTap: () {
-                    ref.read(confirmImportProvider.notifier).state = !confirm;
-                  },
-                  child: Row(
-                    children: [
-                      Checkbox(
-                          value: confirm,
-                          onChanged: (value) {
-                            if (value == null || value == confirm) return;
-                            ref.read(confirmImportProvider.notifier).state =
-                                value;
-                          }),
-                      Flexible(
-                        child: Text('Confermo di voler importare i tuoi wom.'),
-                      ),
-                    ],
+                  Flexible(
+                    flex: Platform.isIOS ? 5 : 8,
+                    child: PinKeyboard(),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           },
           loading: () => Center(
             child: CircularProgressIndicator(),
           ),
-          error: (ex, st) => MyErrorWidget(
-            ex: ex,
-          ),
+          error: (ex, st) => MyErrorWidget(ex: ex),
           completed: (womCount) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
@@ -197,30 +203,50 @@ class PageThree extends ConsumerWidget {
           },
           justImported: () {
             return Center(
-              child: Text('Questo backup è stato già importato! '),
+              child: Text(
+                'Questo backup è stato già importato!',
+                style: TextStyle(color: Colors.white, fontSize: 22),
+              ),
             );
           },
         ),
       ),
-      floatingActionButton: importState is ImportLoading
-          ? null
-          : FloatingActionButton.extended(
+      floatingActionButton: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Annulla',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          Spacer(),
+          if (importState is! ImportLoading && pinState.pin.length == 4)
+            FloatingActionButton.extended(
               label: Text(
-                  importState is ImportCompleted || importState is ImportError
-                      ? 'Torna alla home'
-                      // : importState is ImportError
-                      //     ? 'Riprova'
-                      : 'Concludi'),
+                importState is ImportCompleted ||
+                        importState is ImportError ||
+                        importState is JustImported
+                    ? 'Torna alla home'
+                    // : importState is ImportError
+                    //     ? 'Riprova'
+                    : 'Concludi',
+              ),
               onPressed: confirm
                   ? () {
                       if (importState is ImportCompleted ||
-                          importState is ImportError) {
+                          importState is ImportError ||
+                          importState is JustImported) {
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                               builder: (c) => GateWidget(),
                             ),
                             (route) => false);
-                      } else if (importState is ImportError) {
                       } else {
                         Alert(
                           context: context,
@@ -243,9 +269,11 @@ class PageThree extends ConsumerWidget {
                               child: Text('Procedi'),
                               onPressed: () {
                                 Navigator.pop(context);
+
+                                if (pinState.pin.length != 4) return;
                                 ref
                                     .read(importNotifierProvider.notifier)
-                                    .importWom(pinController.text.trim());
+                                    .importWom(pinState.pin);
                               },
                             )
                           ],
@@ -254,6 +282,8 @@ class PageThree extends ConsumerWidget {
                     }
                   : null,
             ),
+        ],
+      ),
     );
   }
 }

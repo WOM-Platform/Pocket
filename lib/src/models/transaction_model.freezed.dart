@@ -33,6 +33,10 @@ mixin _$TransactionModel {
   @JsonKey(name: 'Id')
   int get id => throw _privateConstructorUsedError;
   String? get ackUrl => throw _privateConstructorUsedError;
+  String? get pin => throw _privateConstructorUsedError;
+  String? get link => throw _privateConstructorUsedError;
+  @DateTimeConverter()
+  DateTime? get importDeadline => throw _privateConstructorUsedError;
   int get size => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,6 +58,9 @@ abstract class $TransactionModelCopyWith<$Res> {
       @DateTimeConverter() @JsonKey(name: 'Timestamp') DateTime date,
       @JsonKey(name: 'Id') int id,
       String? ackUrl,
+      String? pin,
+      String? link,
+      @DateTimeConverter() DateTime? importDeadline,
       int size});
 }
 
@@ -76,6 +83,9 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
     Object? date = null,
     Object? id = null,
     Object? ackUrl = freezed,
+    Object? pin = freezed,
+    Object? link = freezed,
+    Object? importDeadline = freezed,
     Object? size = null,
   }) {
     return _then(_value.copyWith(
@@ -103,6 +113,18 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
           ? _value.ackUrl
           : ackUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      pin: freezed == pin
+          ? _value.pin
+          : pin // ignore: cast_nullable_to_non_nullable
+              as String?,
+      link: freezed == link
+          ? _value.link
+          : link // ignore: cast_nullable_to_non_nullable
+              as String?,
+      importDeadline: freezed == importDeadline
+          ? _value.importDeadline
+          : importDeadline // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
@@ -126,6 +148,9 @@ abstract class _$$_TransactionModelCopyWith<$Res>
       @DateTimeConverter() @JsonKey(name: 'Timestamp') DateTime date,
       @JsonKey(name: 'Id') int id,
       String? ackUrl,
+      String? pin,
+      String? link,
+      @DateTimeConverter() DateTime? importDeadline,
       int size});
 }
 
@@ -146,6 +171,9 @@ class __$$_TransactionModelCopyWithImpl<$Res>
     Object? date = null,
     Object? id = null,
     Object? ackUrl = freezed,
+    Object? pin = freezed,
+    Object? link = freezed,
+    Object? importDeadline = freezed,
     Object? size = null,
   }) {
     return _then(_$_TransactionModel(
@@ -173,6 +201,18 @@ class __$$_TransactionModelCopyWithImpl<$Res>
           ? _value.ackUrl
           : ackUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      pin: freezed == pin
+          ? _value.pin
+          : pin // ignore: cast_nullable_to_non_nullable
+              as String?,
+      link: freezed == link
+          ? _value.link
+          : link // ignore: cast_nullable_to_non_nullable
+              as String?,
+      importDeadline: freezed == importDeadline
+          ? _value.importDeadline
+          : importDeadline // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
@@ -183,9 +223,7 @@ class __$$_TransactionModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TransactionModel
-    with DiagnosticableTreeMixin
-    implements _TransactionModel {
+class _$_TransactionModel implements _TransactionModel {
   const _$_TransactionModel(
       {@TransactionTypeConverter() required this.type,
       required this.source,
@@ -193,6 +231,9 @@ class _$_TransactionModel
       @DateTimeConverter() @JsonKey(name: 'Timestamp') required this.date,
       @JsonKey(name: 'Id') required this.id,
       this.ackUrl,
+      this.pin,
+      this.link,
+      @DateTimeConverter() this.importDeadline,
       required this.size});
 
   factory _$_TransactionModel.fromJson(Map<String, dynamic> json) =>
@@ -218,25 +259,18 @@ class _$_TransactionModel
   @override
   final String? ackUrl;
   @override
+  final String? pin;
+  @override
+  final String? link;
+  @override
+  @DateTimeConverter()
+  final DateTime? importDeadline;
+  @override
   final int size;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'TransactionModel(type: $type, source: $source, aimCode: $aimCode, date: $date, id: $id, ackUrl: $ackUrl, size: $size)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'TransactionModel'))
-      ..add(DiagnosticsProperty('type', type))
-      ..add(DiagnosticsProperty('source', source))
-      ..add(DiagnosticsProperty('aimCode', aimCode))
-      ..add(DiagnosticsProperty('date', date))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('ackUrl', ackUrl))
-      ..add(DiagnosticsProperty('size', size));
+  String toString() {
+    return 'TransactionModel(type: $type, source: $source, aimCode: $aimCode, date: $date, id: $id, ackUrl: $ackUrl, pin: $pin, link: $link, importDeadline: $importDeadline, size: $size)';
   }
 
   @override
@@ -250,13 +284,17 @@ class _$_TransactionModel
             (identical(other.date, date) || other.date == date) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.ackUrl, ackUrl) || other.ackUrl == ackUrl) &&
+            (identical(other.pin, pin) || other.pin == pin) &&
+            (identical(other.link, link) || other.link == link) &&
+            (identical(other.importDeadline, importDeadline) ||
+                other.importDeadline == importDeadline) &&
             (identical(other.size, size) || other.size == size));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, type, source, aimCode, date, id, ackUrl, size);
+  int get hashCode => Object.hash(runtimeType, type, source, aimCode, date, id,
+      ackUrl, pin, link, importDeadline, size);
 
   @JsonKey(ignore: true)
   @override
@@ -285,6 +323,10 @@ abstract class _TransactionModel implements TransactionModel {
       @JsonKey(name: 'Id')
           required final int id,
       final String? ackUrl,
+      final String? pin,
+      final String? link,
+      @DateTimeConverter()
+          final DateTime? importDeadline,
       required final int size}) = _$_TransactionModel;
 
   factory _TransactionModel.fromJson(Map<String, dynamic> json) =
@@ -307,6 +349,13 @@ abstract class _TransactionModel implements TransactionModel {
   int get id;
   @override
   String? get ackUrl;
+  @override
+  String? get pin;
+  @override
+  String? get link;
+  @override
+  @DateTimeConverter()
+  DateTime? get importDeadline;
   @override
   int get size;
   @override

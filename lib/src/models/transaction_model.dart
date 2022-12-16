@@ -1,10 +1,8 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:drift/drift.dart' as drift;
 import 'package:intl/intl.dart';
 import 'package:wom_pocket/src/database/database.dart';
 
-import '../my_logger.dart';
-
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transaction_model.freezed.dart';
@@ -32,6 +30,9 @@ class TransactionModel with _$TransactionModel {
     // @JsonKey(name: 'Aim') required Aim aim,
     @JsonKey(name: 'Id') required int id,
     String? ackUrl,
+    String? pin,
+    String? link,
+    @DateTimeConverter() DateTime? importDeadline,
     required int size,
   }) = _TransactionModel;
 
@@ -48,6 +49,7 @@ extension TransactionModelX on TransactionModel {
       timestamp: date.millisecondsSinceEpoch,
       type: type.index,
       size: size,
+      ackUrl: ackUrl != null ? drift.Value(ackUrl) : drift.Value.absent(),
     );
   }
 

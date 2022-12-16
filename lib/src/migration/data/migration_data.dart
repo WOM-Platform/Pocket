@@ -1,24 +1,18 @@
-import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:wom_pocket/src/models/transaction_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'migration_data.freezed.dart';
 part 'migration_data.g.dart';
 
-@HiveType(typeId: 0)
-class MigrationData extends HiveObject {
-  @HiveField(0)
-  final String registryUrl;
-  @HiveField(1)
-  final String code;
-  @HiveField(2)
-  final String link;
-  @HiveField(3)
-  final DateTime deadline;
+@freezed
+class MigrationData with _$MigrationData {
+  const factory MigrationData({
+    required String code,
+    required String link,
+    @DateTimeConverter() required DateTime importDeadline,
+  }) = _MigrationData;
 
-  MigrationData(this.registryUrl, this.code, this.link, this.deadline);
-
-  factory MigrationData.fromMigrationResponse(
-      CreateMigrationResponse r, String partialKey) {
-    return MigrationData(
-        r.registryUrl, r.code, '${r.link}/$partialKey', r.deadline);
-  }
+  factory MigrationData.fromJson(Map<String, dynamic> json) =>
+      _$MigrationDataFromJson(json);
 }
+

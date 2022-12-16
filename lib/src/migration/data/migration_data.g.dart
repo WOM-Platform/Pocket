@@ -3,48 +3,21 @@
 part of 'migration_data.dart';
 
 // **************************************************************************
-// TypeAdapterGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-class MigrationDataAdapter extends TypeAdapter<MigrationData> {
-  @override
-  final int typeId = 0;
-
-  @override
-  MigrationData read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return MigrationData(
-      fields[0] as String,
-      fields[1] as String,
-      fields[2] as String,
-      fields[3] as DateTime,
+_$_MigrationData _$$_MigrationDataFromJson(Map<String, dynamic> json) =>
+    _$_MigrationData(
+      code: json['code'] as String,
+      link: json['link'] as String,
+      importDeadline:
+          const DateTimeConverter().fromJson(json['importDeadline']),
     );
-  }
 
-  @override
-  void write(BinaryWriter writer, MigrationData obj) {
-    writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.registryUrl)
-      ..writeByte(1)
-      ..write(obj.code)
-      ..writeByte(2)
-      ..write(obj.link)
-      ..writeByte(3)
-      ..write(obj.deadline);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is MigrationDataAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
+Map<String, dynamic> _$$_MigrationDataToJson(_$_MigrationData instance) =>
+    <String, dynamic>{
+      'code': instance.code,
+      'link': instance.link,
+      'importDeadline':
+          const DateTimeConverter().toJson(instance.importDeadline),
+    };

@@ -24,6 +24,8 @@ extension MyTransactionX on MyTransaction {
       aimCode: aim,
       date: DateTime.fromMillisecondsSinceEpoch(timestamp),
       size: size,
+      pin: pin,
+      link: link
     );
   }
 }

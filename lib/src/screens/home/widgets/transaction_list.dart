@@ -17,56 +17,28 @@ class TransactionsList extends ConsumerWidget {
     } else if (state is AsyncData) {
       final data = state.value;
       if (data is TransactionsLoaded) {
-        if (data.transactions != null) {
-          if (data.transactions.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    AppLocalizations.of(context)!.translate('no_transactions'),
-                    style: TextStyle(color: darkBlueColor),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return ListView.builder(
-              padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 90),
-              shrinkWrap: true,
-              itemCount: data.transactions.length,
-              itemBuilder: (c, int index) {
-                return TransactionCard(
-                  transaction: data.transactions[index],
-                );
-              },
-            );
-          }
-        } else {
-          return Container(
-            height: MediaQuery.of(context).size.height / 2,
+        if (data.transactions.isEmpty) {
+          return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    AppLocalizations.of(context)!.translate('somethings_wrong'),
-                  ),
-                ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    ref.invalidate(fetchTransactionsProvider);
-                  },
-                  label: Text(
-                    AppLocalizations.of(context)!
-                        .translate('update_transactions'),
-                  ),
+                Text(
+                  AppLocalizations.of(context)!.translate('no_transactions'),
+                  style: TextStyle(color: darkBlueColor),
                 ),
               ],
             ),
+          );
+        } else {
+          return ListView.builder(
+            padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 90),
+            shrinkWrap: true,
+            itemCount: data.transactions.length,
+            itemBuilder: (c, int index) {
+              return TransactionCard(
+                transaction: data.transactions[index],
+              );
+            },
           );
         }
       } else if (data is TransactionsErrorState) {

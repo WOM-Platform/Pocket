@@ -3,8 +3,11 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
+import 'package:wom_pocket/src/migration/data/migration_data.dart';
+import 'package:wom_pocket/src/migration/ui/export_screen.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:share/share.dart';
 import 'package:collection/collection.dart';
@@ -130,11 +133,45 @@ class TransactionCard extends ConsumerWidget {
         ),
       ),
       actions: <Widget>[
-//        MySlideAction(
-//          icon: Icons.map,
-//          color: Colors.green,
-//          onTap: null,
-//        ),
+        if (transaction.type == TransactionType.MIGRATION_EXPORT &&
+            !(transaction.pin == null ||
+                transaction.importDeadline == null ||
+                transaction.link == null))
+          MySlideAction(
+            icon: Icons.qr_code_2,
+            color: Colors.green,
+            onTap: () async {
+              if (transaction.pin == null ||
+                  transaction.importDeadline == null ||
+                  transaction.link == null) {
+                return;
+              }
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MigrationExportScreen(
+                    backTo: false,
+                    data: MigrationData(
+                      code: transaction.pin!,
+                      importDeadline: transaction.importDeadline!,
+                      link: transaction.link!,
+                    ),
+                  ),
+                ),
+              );
+            },
+          )
+        else if (transaction.type == TransactionType.PAYMENT &&
+            transaction.ackUrl != null)
+          MySlideAction(
+            icon: Icons.receipt,
+            color: Colors.orange,
+            onTap: () async {
+              if (await canLaunch(transaction.ackUrl!)) {
+                launch(transaction.ackUrl!);
+              }
+            },
+          )
       ],
       secondaryActions: <Widget>[
         MySlideAction(
