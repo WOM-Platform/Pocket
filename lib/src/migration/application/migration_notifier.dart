@@ -8,6 +8,7 @@ import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
+import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/migration/application/migration_state.dart';
 
@@ -84,7 +85,8 @@ class MigrationNotifier extends _$MigrationNotifier {
             ),
           );
       ref.invalidate(fetchTransactionsProvider);
-      ref.invalidate(womStatsProvider);
+      ref.invalidate(availableWomCountProvider);
+      ref.invalidate(mapNotifierProvider);
       logger.i(migrationData.link);
       state = MigrationStateComplete(data: migrationData);
     } catch (ex, st) {

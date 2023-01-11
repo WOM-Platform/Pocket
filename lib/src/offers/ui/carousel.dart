@@ -1,0 +1,163 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
+import 'package:wom_pocket/src/offers/ui/map_screen.dart';
+import 'package:wom_pocket/src/offers/ui/search_button.dart';
+import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
+
+import '../../utils/colors.dart';
+
+final carouselControllerProvider =
+    Provider.autoDispose<CarouselController>((ref) {
+  return CarouselController();
+});
+
+class ListingCarouselWidget extends ConsumerWidget {
+  //
+  const ListingCarouselWidget({Key? key}) : super(key: key);
+
+  void onPageChanged(OfferPOS item, int index, CarouselPageChangedReason reason,
+      WidgetRef ref) {
+    if (reason == CarouselPageChangedReason.manual) {
+      final markerId = MarkerId(item.posId);
+      final controller = ref.read(mapControllerProvider);
+      controller
+          ?.animateCamera(
+        CameraUpdate.newLatLng(
+          LatLng(item.position.latitude, item.position.longitude),
+        ),
+      )
+          .then((value) {
+        // ref.read(markerNotifierProvider.notifier).selectMarker(markerId);
+        controller.isMarkerInfoWindowShown(markerId).then(
+          (value) {
+            if (!value) {
+              controller.showMarkerInfoWindow(markerId);
+            }
+          },
+        );
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(offersMapNotifierProvider).valueOrNull;
+    final enabled = ref.watch(enableCarouselProvider);
+    // final items = ref.watch(filteredStoresProvider).asData?.value ?? [];
+
+    // final items = ref.watch(filterListProvider);
+    if (!enabled || data == null || data.isLoading || data.offers.isEmpty)
+      return const SizedBox.shrink();
+    print('ListingCarouselWidget there are ${data.offers}');
+    return CarouselSlider.builder(
+      carouselController: ref.watch(carouselControllerProvider),
+      options: CarouselOptions(
+        height: 116,
+        viewportFraction: 0.8,
+        initialPage: 0,
+        enableInfiniteScroll: false,
+        enlargeCenterPage: true,
+        onPageChanged: (index, reason) =>
+            onPageChanged(data.offers[index], index, reason, ref),
+      ),
+      itemCount: data.offers.length,
+      itemBuilder: (BuildContext context, int index, int realIndex) {
+        return CarouselItem(offer: data.offers[index]);
+      },
+    );
+  }
+}
+
+class CarouselItem extends StatelessWidget {
+  final OfferPOS offer;
+
+  const CarouselItem({
+    Key? key,
+    required this.offer,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const iconRadius = 14.0;
+    const iconSize = 18.0;
+
+    return InkWell(
+      // key: Key(store.storeId),
+      onTap: () {},
+      child: Card(
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              // shrinkWrap: true,
+              // padding: const EdgeInsets.only(left: 8.0),
+              // physics: const  NeverScrollableScrollPhysics(),
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: lightBlue,
+                      backgroundImage: CachedNetworkImageProvider(
+                        offer.cover.squareThumbnailUrl,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        // Characters(offer.name).toList().join('\u{200B}'),
+                        offer.name,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            height: 1),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${offer.offers.length} offert${offer.offers.length == 1 ? 'a' : 'e'} attiv${offer.offers.length == 1 ? 'a' : 'e'}',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                if (offer.url != null)
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          // Utils.launchUrl(store.url!);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) =>
+                                  SuggestionScreen(url: offer.url!)));
+                        },
+                        child: Text(
+                          offer.url!,
+                          textAlign: TextAlign.start,
+                          style:
+                              TextStyle(decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    ],
+                  )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String $ImportNotifierHash() => r'9883deac71853bb25e183cd50471d867c5c60bad';
+String _$ImportNotifierHash() => r'18bc53f35cdf7770b78016526259e88395583d25';
 
 /// See also [ImportNotifier].
 final importNotifierProvider =
@@ -38,7 +38,7 @@ final importNotifierProvider =
   name: r'importNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : $ImportNotifierHash,
+      : _$ImportNotifierHash,
 );
 typedef ImportNotifierRef = AutoDisposeNotifierProviderRef<ImportState>;
 

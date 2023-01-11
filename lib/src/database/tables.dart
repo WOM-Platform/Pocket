@@ -20,13 +20,17 @@ class Wom extends Table {
 
   IntColumn get transactionId => integer().named('TransactionId')();
 
-  IntColumn get timestamp => integer().named('Timestamp')();
+  IntColumn get addedOn => integer().named('addedOn')();
+
+  IntColumn get spentOn => integer().named('spentOn').nullable()();
 
   IntColumn get spent => integer()();
 
   RealColumn get latitude => real().named('Latitude')();
 
   RealColumn get longitude => real().named('Longitude')();
+
+  TextColumn get donationId => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -65,6 +69,13 @@ class Transactions extends Table {
   IntColumn get deadline => integer().nullable()();
 
   TextColumn get link => text().named('link').nullable()();
+}
+
+class Badges extends Table {
+  TextColumn get id => text().unique()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }
 
 // This will make drift generate a class called "Category" to represent a row in

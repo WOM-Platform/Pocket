@@ -18,63 +18,85 @@ class TransactionCard extends ConsumerWidget {
   final Function? onEdit;
   final Function? onDuplicate;
 
-  const TransactionCard(
-      {Key? key,
-      required this.transaction,
-      this.onDelete,
-      this.onEdit,
-      this.onDuplicate})
+  const TransactionCard({Key? key,
+    required this.transaction,
+    this.onDelete,
+    this.onEdit,
+    this.onDuplicate})
       : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final languageCode = AppLocalizations.of(context)!.locale.languageCode;
-    final aims = ref.watch(aimNotifierProvider).valueOrNull ?? [];
+    final languageCode = AppLocalizations
+        .of(context)!
+        .locale
+        .languageCode;
+    final aims = ref
+        .watch(aimNotifierProvider)
+        .valueOrNull ?? [];
     final aimCode = transaction.firstAimCode;
     final aim = aims.firstWhereOrNull((element) => element.code == aimCode);
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Card(
-          elevation: 8.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(
-                          '${transaction.size} WOM',
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.bold),
+      child: Card(
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  Text(
+                    transaction.formatDate(),
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Icon(
+                      icon(transaction.type),
+                      color: iconColor(transaction.type),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text(
+                        '${getSign(transaction.type)}${transaction.size} WOM',
+                        style: TextStyle(
+                          color: Theme
+                              .of(context)
+                              .primaryColor,
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Icon(
-                        icon(transaction.type),
-                        color: iconColor(transaction.type),
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(
-                  height: 2,
-                ),
+                  ),
+                  Spacer(),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 8.0),
+                  //   child: Icon(
+                  //     icon(transaction.type),
+                  //     color: iconColor(transaction.type),
+                  //   ),
+                  // ),
+                ],
+              ),
+              Divider(
+                height: 2,
+              ),
 //              Padding(
 //                padding: const EdgeInsets.symmetric(vertical: 4.0),
 //                child: Text(
@@ -83,52 +105,57 @@ class TransactionCard extends ConsumerWidget {
 //                  textAlign: TextAlign.start,
 //                ),
 //              ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Row(
+              SizedBox(
+                height: 10.0,
+              ),
+              Row(
 //              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
 //                Spacer(),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          ItemRow(t1: 'id', t2: transaction.id.toString()),
-                          ItemRow(t1: 'date', t2: transaction.formatDate()),
-                        ],
-                      ),
-                    ),
+//                     Expanded(
+//                       child: Column(
+//                         crossAxisAlignment: CrossAxisAlignment.stretch,
+//                         children: <Widget>[
+//                           // ItemRow(t1: 'id', t2: transaction.id.toString()),
+//                           // ItemRow(t1: 'date', t2: transaction.formatDate()),
+//                         ],
+//                       ),
+//                     ),
 //                Spacer(),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        if(transaction.importDeadline != null)
+                          ItemRow(t1: 'Importa entro il ',
+                            t2: transaction.importDeadline.toString(),),
+                        if ((aim?.titles ?? const {})[languageCode] != null)
                           ItemRow(
                               t1: 'aim',
                               t2: transaction.aimCodes.length > 1
                                   ? transaction.aimCode
                                   : (aim?.titles ?? const {})[languageCode] ??
-                                      '-'),
+                                  '-'),
+                        if (transaction.source.isNotEmpty)
                           ItemRow(
                               t1: transaction.type == TransactionType.VOUCHERS
                                   ? 'instrument'
-                                  : transaction.type == TransactionType.PAYMENT
-                                      ? 'pos'
-                                      : 'device',
+                                  : transaction.type ==
+                                  TransactionType.PAYMENT
+                                  ? 'pos'
+                                  : 'device',
                               t2: transaction.source),
-                        ],
-                      ),
+                      ],
                     ),
+                  ),
 //                Spacer(),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                )
-              ],
-            ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              )
+            ],
           ),
         ),
       ),
@@ -149,29 +176,31 @@ class TransactionCard extends ConsumerWidget {
 
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => MigrationExportScreen(
-                    backTo: false,
-                    data: MigrationData(
-                      code: transaction.pin!,
-                      importDeadline: transaction.importDeadline!,
-                      link: transaction.link!,
-                    ),
-                  ),
+                  builder: (_) =>
+                      MigrationExportScreen(
+                        backTo: false,
+                        data: MigrationData(
+                          code: transaction.pin!,
+                          importDeadline: transaction.importDeadline!,
+                          link: transaction.link!,
+                        ),
+                      ),
                 ),
               );
             },
           )
-        else if (transaction.type == TransactionType.PAYMENT &&
-            transaction.ackUrl != null)
-          MySlideAction(
-            icon: Icons.receipt,
-            color: Colors.orange,
-            onTap: () async {
-              if (await canLaunch(transaction.ackUrl!)) {
-                launch(transaction.ackUrl!);
-              }
-            },
-          )
+        else
+          if (transaction.type == TransactionType.PAYMENT &&
+              transaction.ackUrl != null)
+            MySlideAction(
+              icon: Icons.receipt,
+              color: Colors.orange,
+              onTap: () async {
+                if (await canLaunch(transaction.ackUrl!)) {
+                  launch(transaction.ackUrl!);
+                }
+              },
+            )
       ],
       secondaryActions: <Widget>[
         MySlideAction(
@@ -189,7 +218,7 @@ class TransactionCard extends ConsumerWidget {
             var message = shareMessage(transaction.type);
             if (aim != null) {
               message =
-                  '$message  ${aim.title != null ? 'for ${aim.title}' : ''}';
+              '$message  ${aim.title != null ? 'for ${aim.title}' : ''}';
             }
             Share.share(message);
           },
@@ -228,6 +257,17 @@ class TransactionCard extends ConsumerWidget {
         return Icons.cloud_download;
       case TransactionType.MIGRATION_EXPORT:
         return Icons.cloud_upload;
+    }
+  }
+
+  String getSign(TransactionType type) {
+    switch (type) {
+      case TransactionType.MIGRATION_IMPORT:
+      case TransactionType.VOUCHERS:
+        return '+';
+      case TransactionType.PAYMENT:
+      case TransactionType.MIGRATION_EXPORT:
+        return '-';
     }
   }
 
@@ -299,7 +339,7 @@ class MySlideAction extends StatelessWidget {
         color: color,
         elevation: 8.0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         child: IconSlideAction(
           caption: caption,

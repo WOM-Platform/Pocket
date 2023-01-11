@@ -2,20 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/application/pin_notifier.dart';
-import 'package:wom_pocket/src/migration/application/export_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/migration/application/migration_notifier.dart';
 import 'package:wom_pocket/src/migration/application/migration_state.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
-import 'package:wom_pocket/src/screens/pin/widgets/code_panel.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/keyboard.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 import 'package:wom_pocket/src/widgets/my_error.dart';
 
-import '../../blocs/pin/pin_state.dart';
 import 'export_screen.dart';
 
 final pageControllerProvider =
@@ -123,92 +121,95 @@ class PageThree extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pinState = ref.watch(pinNotifierProvider);
     final descStyle = TextStyle(color: Colors.white, fontSize: 18);
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              Icon(
-                Icons.security,
-                color: Colors.white,
-                size: 50,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Inserisci il pin utile a importare i tuoi wom nel nuovo borsellino',
-                style: descStyle,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 16),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(16)),
-                height: 80,
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    for (int i = 0; i < 4; i++)
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 1.0, color: Colors.black),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: darkUiOverlayStyle,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                Icon(
+                  Icons.security,
+                  color: Colors.white,
+                  size: 50,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Inserisci il pin utile a importare i tuoi wom nel nuovo borsellino',
+                  style: descStyle,
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 16),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                      color: lightBackground,
+                      borderRadius: BorderRadius.circular(10)),
+                  height: 80,
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      for (int i = 0; i < 4; i++)
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom:
+                                    BorderSide(width: 1.0, color: Colors.black),
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              pinState.pin.length > i ? pinState.pin[i] : "  ",
+                              style: TextStyle(
+                                  fontSize: 40,
+                                  color: Theme.of(context).primaryColor),
                             ),
                           ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            pinState.pin.length > i ? pinState.pin[i] : "  ",
-                            style: TextStyle(
-                                fontSize: 40,
-                                color: Theme.of(context).primaryColor),
-                          ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Flexible(
-                flex: Platform.isIOS ? 5 : 8,
-                child: PinKeyboard(),
-              ),
-            ],
+                Flexible(
+                  flex: Platform.isIOS ? 5 : 8,
+                  child: PinKeyboard(),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButton: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Annulla',
-                style: TextStyle(color: Colors.white),
+        floatingActionButton: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Annulla',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
-          ),
-          Spacer(),
-          if (pinState.pin.length == 4)
-            FloatingActionButton(
-              child: Icon(Icons.arrow_forward_ios),
-              onPressed: () {
-                if (pinState.pin.length != 4) return;
-                ref.read(pageControllerProvider).jumpToPage(2);
-                ref
-                    .read(migrationNotifierProvider.notifier)
-                    .addPin(pinState.pin);
-              },
-            ),
-        ],
+            Spacer(),
+            if (pinState.pin.length == 4)
+              FloatingActionButton(
+                child: Icon(Icons.arrow_forward_ios),
+                onPressed: () {
+                  if (pinState.pin.length != 4) return;
+                  ref.read(pageControllerProvider).jumpToPage(2);
+                  ref
+                      .read(migrationNotifierProvider.notifier)
+                      .addPin(pinState.pin);
+                },
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -237,20 +238,24 @@ class SummaryPage extends ConsumerWidget {
               padding: const EdgeInsets.all(16),
               children: [
                 const SizedBox(height: 16),
-                Icon(
-                  Icons.cloud_upload,
-                  color: Colors.white,
-                  size: 50,
+                Row(
+                  children: [
+                    Icon(
+                      Icons.cloud_upload,
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                    const SizedBox(width: 16),
+                    Text(
+                      'Esportazione',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                // const SizedBox(height: 16),
-                // Text(
-                //   'Info migrazione',
-                //   style: TextStyle(
-                //     color: Colors.white,
-                //     fontSize: 30,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
                 const SizedBox(height: 32),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -310,7 +315,9 @@ class SummaryPage extends ConsumerWidget {
           Spacer(),
           if (migrationState is MigrationStateData)
             FloatingActionButton.extended(
-              label: Text('Concludi'),
+              label: Text(
+                'Concludi',
+              ),
               onPressed: () async {
                 final res = await Alert(
                   context: context,

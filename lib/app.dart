@@ -1,6 +1,7 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wom_pocket/src/application/app_notifier.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
@@ -62,8 +63,8 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeData = ThemeData(
       primaryColor: primaryColor,
-      accentColor: accentColor,
       backgroundColor: backgroundColor,
+      scaffoldBackgroundColor: backgroundColor
     );
 
     return ProviderScope(
@@ -94,6 +95,12 @@ class App extends ConsumerWidget {
             const Locale('it', 'IT'),
           ],
           theme: themeData.copyWith(
+            textTheme: GoogleFonts.ralewayTextTheme(themeData.textTheme),
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              backgroundColor: primaryColor,
+              selectedItemColor: accentColor,
+              unselectedItemColor: Colors.white,
+            ),
             colorScheme: themeData.colorScheme.copyWith(secondary: accentColor),
           ),
           // home: GateWidget(),
@@ -147,7 +154,7 @@ class App extends ConsumerWidget {
           //     }),
           //   ),
           routes: {
-            '/': (_)=>GateWidget(),
+            '/': (_) => GateWidget(),
             '/settings': (context) => SettingsScreen(),
           }),
     );

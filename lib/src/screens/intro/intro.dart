@@ -10,8 +10,11 @@ import 'package:wom_pocket/src/blocs/app/app_event.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 class IntroScreen extends ConsumerWidget {
+  final bool fromSettings;
   final TextStyle whiteTextStyle = TextStyle(color: Colors.white);
   final TextStyle descStyle = TextStyle(color: Colors.white);
+
+  IntroScreen({this.fromSettings = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,18 +69,22 @@ class IntroScreen extends ConsumerWidget {
     return Builder(
       builder: (ctx) => IntroViewsFlutter(
         pages,
+        showSkipButton:false,
         onTapDoneButton: () {
-//                Navigator.pushReplacementNamed(context, "/home");
-          ref.read(appNotifierProvider.notifier).goIntoNormalMode();
+          if (fromSettings) {
+            Navigator.of(context).pop();
+          } else {
+            ref.read(appNotifierProvider.notifier).goIntoNormalMode();
+          }
         },
         pageButtonTextStyles: TextStyle(
           color: Colors.white,
           fontSize: 16.0,
         ),
         doneText:
-        Text(AppLocalizations.of(context)!.translate('introDoneText')),
+            Text(AppLocalizations.of(context)!.translate('introDoneText')),
         skipText:
-        Text(AppLocalizations.of(context)!.translate('introSkipText')),
+            Text(AppLocalizations.of(context)!.translate('introSkipText')),
       ), //IntroViewsFlutter
     ); //Material App
   }

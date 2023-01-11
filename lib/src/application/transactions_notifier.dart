@@ -11,7 +11,7 @@ import '../blocs/transactions_list/transactions_list_state.dart';
 
 part 'transactions_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<TransactionsState> fetchTransactions(FetchTransactionsRef ref) async {
   var aims = await ref.read(aimRepositoryProvider).getFlatAimList();
 

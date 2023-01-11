@@ -1,4 +1,4 @@
-import  'package:auto_size_text/auto_size_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,7 +10,6 @@ import 'package:wom_pocket/src/utils/colors.dart';
 
 import '../my_logger.dart';
 import 'package:collection/collection.dart';
-
 
 class TicketCard extends StatelessWidget {
   final TransactionModel transaction;
@@ -59,7 +58,10 @@ class TicketCard extends StatelessWidget {
 
   _buildVoucherContent(BuildContext context) {
     final voucherIdStyle = TextStyle(
-        fontSize: 25.0, fontWeight: FontWeight.w600, color: backgroundColor);
+      fontSize: 25.0,
+      fontWeight: FontWeight.w600,
+      color: primaryColor,
+    );
 
     return Container(
       padding: const EdgeInsets.all(15.0),
@@ -87,12 +89,12 @@ class TicketCard extends StatelessWidget {
             TextSpan(children: <TextSpan>[
               TextSpan(
                 text: AppLocalizations.of(context)!.translate('from'),
-                style: TextStyle(color: backgroundColor, fontSize: 20.0),
+                style: TextStyle(color: primaryColor, fontSize: 20.0),
               ),
               TextSpan(
                 text: ' ${transaction.source}',
                 style: TextStyle(
-                    color: backgroundColor,
+                    color: primaryColor,
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold),
               ),

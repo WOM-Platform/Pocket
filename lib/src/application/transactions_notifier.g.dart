@@ -29,14 +29,14 @@ class _SystemHash {
   }
 }
 
-String $fetchTransactionsHash() => r'a2f4dead70c8cda287b460c8b9d9d98da563ef9d';
+String _$fetchTransactionsHash() => r'471aa0d490b78e6a48fb972d9a167e465ff88ce2';
 
 /// See also [fetchTransactions].
-final fetchTransactionsProvider = AutoDisposeFutureProvider<TransactionsState>(
+final fetchTransactionsProvider = FutureProvider<TransactionsState>(
   fetchTransactions,
   name: r'fetchTransactionsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : $fetchTransactionsHash,
+      : _$fetchTransactionsHash,
 );
-typedef FetchTransactionsRef = AutoDisposeFutureProviderRef<TransactionsState>;
+typedef FetchTransactionsRef = FutureProviderRef<TransactionsState>;

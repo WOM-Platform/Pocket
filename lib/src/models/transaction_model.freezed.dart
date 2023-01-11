@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-TransactionModel _$TransactionModelFromJson(Map<String, dynamic> json) {
-  return _TransactionModel.fromJson(json);
-}
-
 /// @nodoc
 mixin _$TransactionModel {
   @TransactionTypeConverter()
@@ -39,7 +35,6 @@ mixin _$TransactionModel {
   DateTime? get importDeadline => throw _privateConstructorUsedError;
   int get size => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $TransactionModelCopyWith<TransactionModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -222,7 +217,7 @@ class __$$_TransactionModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_TransactionModel implements _TransactionModel {
   const _$_TransactionModel(
       {@TransactionTypeConverter() required this.type,
@@ -235,9 +230,6 @@ class _$_TransactionModel implements _TransactionModel {
       this.link,
       @DateTimeConverter() this.importDeadline,
       required this.size});
-
-  factory _$_TransactionModel.fromJson(Map<String, dynamic> json) =>
-      _$$_TransactionModelFromJson(json);
 
   @override
   @TransactionTypeConverter()
@@ -291,7 +283,6 @@ class _$_TransactionModel implements _TransactionModel {
             (identical(other.size, size) || other.size == size));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, type, source, aimCode, date, id,
       ackUrl, pin, link, importDeadline, size);
@@ -301,13 +292,6 @@ class _$_TransactionModel implements _TransactionModel {
   @pragma('vm:prefer-inline')
   _$$_TransactionModelCopyWith<_$_TransactionModel> get copyWith =>
       __$$_TransactionModelCopyWithImpl<_$_TransactionModel>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_TransactionModelToJson(
-      this,
-    );
-  }
 }
 
 abstract class _TransactionModel implements TransactionModel {
@@ -328,9 +312,6 @@ abstract class _TransactionModel implements TransactionModel {
       @DateTimeConverter()
           final DateTime? importDeadline,
       required final int size}) = _$_TransactionModel;
-
-  factory _TransactionModel.fromJson(Map<String, dynamic> json) =
-      _$_TransactionModel.fromJson;
 
   @override
   @TransactionTypeConverter()

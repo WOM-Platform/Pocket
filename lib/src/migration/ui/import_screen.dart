@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:wom_pocket/app.dart';
@@ -10,6 +11,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/migration/application/import_state.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/keyboard.dart';
 import 'package:wom_pocket/src/widgets/my_error.dart';
+
+import '../../utils/colors.dart';
 
 final pageControllerProvider = Provider.autoDispose<PageController>((ref) {
   final p = PageController();
@@ -35,13 +38,19 @@ class ImportScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: PageView(
-        controller: ref.watch(pageControllerProvider),
-        children: [
-          PageOne(),
-          PageThree(),
-        ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: primaryColor,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        body: PageView(
+          controller: ref.watch(pageControllerProvider),
+          children: [
+            PageOne(),
+            PageThree(),
+          ],
+        ),
       ),
     );
   }
@@ -133,8 +142,8 @@ class PageThree extends ConsumerWidget {
                     margin: const EdgeInsets.symmetric(vertical: 16),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(16)),
+                        color: lightBackground,
+                        borderRadius: BorderRadius.circular(10)),
                     height: 80,
                     child: Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceAround,

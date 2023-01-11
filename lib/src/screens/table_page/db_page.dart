@@ -94,7 +94,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                       (d) => d.longitude.toString(), longIndex, ascending),
                 ),
                 DataColumn(
-                  label: Text(WomModel.dbLive),
+                  label: Text('spent'),
                   numeric: true,
                   onSort: (columnIndex, ascending) =>
                       _sort<num>((d) => d.spent, columnIndex, ascending),
@@ -106,10 +106,10 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                       _sort<String>((d) => d.secret, columnIndex, ascending),
                 ),
                 DataColumn(
-                  label: Text(WomModel.dbTimestamp),
+                  label: Text(WomModel.dbAddedOn),
                   numeric: true,
                   onSort: (columnIndex, ascending) =>
-                      _sort<num>((d) => d.timestamp, columnIndex, ascending),
+                      _sort<num>((d) => d.addedOn, columnIndex, ascending),
                 ),
                 DataColumn(
                   label: Text(WomModel.dbTransactionId),
@@ -171,7 +171,7 @@ class _WomsDataSources extends DataTableSource {
         DataCell(Text(wom.longitude.toString())),
         DataCell(Text(WomStatus.values[wom.spent].toString().replaceAll('WomStatus.', ''))),
         DataCell(Text(wom.secret)),
-        DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.timestamp)}')),
+        DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.addedOn)}')),
         DataCell(Text('${wom.transactionId}')),
       ],
     );

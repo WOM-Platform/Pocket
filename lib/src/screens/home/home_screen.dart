@@ -1,37 +1,27 @@
-import 'dart:io';
-
-import 'package:clippy_flutter/arc.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/app_notifier.dart';
-import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
+import 'package:wom_pocket/src/new_home/ui/new_home.dart';
+import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
-import 'package:wom_pocket/src/utils/config.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:wom_pocket/src/widgets/scanner_overlay_shape.dart';
-import '../../../constants.dart';
-import '../../blocs/app/app_bloc.dart';
-import '../../blocs/map/bloc.dart';
-import '../../blocs/pin/bloc.dart';
 import '../../models/deep_link_model.dart';
 import '../../my_logger.dart';
-import '../../screens/home/widgets/transaction_list.dart';
 import '../../screens/map/map_screen.dart';
 import '../../screens/pin/pin_screen.dart';
 import '../../screens/settings/settings.dart';
 import '../../utils/colors.dart';
 import '../../utils/my_extensions.dart';
-import 'widgets/wom_stats_widget.dart';
 
 // final selectedIndexProvider = StateProvider<int>((ref) {
 //   logger.w('selectedIndexProvider CREATE');
@@ -46,16 +36,12 @@ class HomeScreen2 extends StatefulHookConsumerWidget {
 }
 
 class _HomeScreen2State extends ConsumerState<HomeScreen2> {
-  // PinBloc? _pinBloc;
-
   @override
   void initState() {
-    // SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
-    //   if (isFirstOpen) {
-    //     _showTutorial(context);
-    //   }
-    // });
     super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
+      _showTutorial(context);
+    });
     checkVersion();
   }
 
@@ -82,7 +68,8 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                   } else {
                     StoreRedirect.redirect(
-                        androidAppId: 'social.wom.app', iOSAppId: '1466969163');
+                        androidAppId: 'social.wom.pocket',
+                        iOSAppId: '1466969163');
                   }
                 }),
           ]).show();
@@ -104,19 +91,18 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 
   @override
   Widget build(BuildContext context) {
-    logger.i('HomeScreen: build');
     final index = useState<int>(0);
-    print('index is $index');
     return Scaffold(
       body: IndexedStack(
         index: index.value,
         children: [
-          Scaffold(
+          NewHome(),
+          /*Scaffold(
             backgroundColor: Colors.grey[100],
             appBar: AppBar(
               backgroundColor: Theme.of(context).primaryColor,
               title: Text(
-                  '${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET'),
+                  appName,
               // centerTitle: true,
               systemOverlayStyle: SystemUiOverlayStyle.light,
               // brightness: Brightness.dark,
@@ -127,7 +113,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
               actions: <Widget>[
                 // IconButton(
                 //   icon: Icon(Icons.info),
-                //   color: Theme.of(context).accentColor,
+                //   color: Theme.of(context).colorScheme.secondary,
                 //   onPressed: () async {
                 //     await _clearTutorial(context);
                 //     _showTutorial(context);
@@ -135,7 +121,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                 // ),
                 IconButton(
                   icon: Icon(Icons.map),
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                   onPressed: () async {
                     _goToMap();
                   },
@@ -179,11 +165,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
               // The widget that will be displayed as the tap target.
               title: Text(context.translate('tutorial_welcome_title')!),
               description: Text('tutorial_welcome_desc'.translate(context)!),
-              backgroundColor: Theme.of(context).accentColor,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               targetColor: Colors.white,
               textColor: Theme.of(context).primaryColor,
               child: FloatingActionButton.extended(
-                backgroundColor: Theme.of(context).accentColor,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 label: Text(
                   AppLocalizations.of(context)!.translate('scan'),
                   style: TextStyle(color: baseIconColor),
@@ -195,42 +181,124 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                 onPressed: () => _startScan(),
               ),
             ),
-          ),
-          PosMapScreen(),
+          ),*/
+          OffersListScreen(),
+          // BadgeScreen(),
           SettingsScreen(),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: DescribedFeatureOverlay(
+        featureId: 'add_item_feature_id',
+        tapTarget: FloatingActionButton.extended(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          label: Text(
+            AppLocalizations.of(context)!.translate('scan'),
+            style: TextStyle(color: baseIconColor),
+          ),
+          icon: const Icon(
+            Icons.camera_enhance,
+            color: baseIconColor,
+          ),
+          onPressed: null,
+        ),
+        // The widget that will be displayed as the tap target.
+        title: Text(context.translate('tutorial_welcome_title')!),
+        description: Text('tutorial_welcome_desc'.translate(context)!),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        targetColor: Colors.white,
+        textColor: Theme.of(context).primaryColor,
+        child: FloatingActionButton.extended(
+          backgroundColor: primaryColor,
+          label: Text(
+            AppLocalizations.of(context)!.translate('scan'),
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          icon: const Icon(
+            Icons.camera_enhance,
+            color: Colors.white,
+          ),
+          onPressed: () => _startScan(context),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        selectedItemColor: Theme.of(context).accentColor,
-        unselectedItemColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
+        backgroundColor: Colors.white,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: primaryColor,
+        unselectedItemColor: Color(0xFF96BBD9),
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label: 'Movimenti',
+            icon: DescribedFeatureOverlay(
+              featureId: 'home',
+              title: Text('Titolo'),
+              description: Text(
+                  'qui troverai un rapido resoconto sul tuo borsellino, potrai accedere a info pià dettagliate'),
+              backgroundColor: primaryColor,
+              // targetColor: lightBlue,
+              tapTarget: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.account_balance_wallet, color: primaryColor),
+                  Text('Home'),
+                ],
+              ),
+              child: Icon(Icons.account_balance_wallet),
+            ),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.store),
-            label: 'POS',
+            icon: DescribedFeatureOverlay(
+              featureId: 'offers',
+              title: Text('Titolo'),
+              description: Text(
+                  'qui troverai un rapido resoconto sul tuo borsellino, potrai accedere a info pià dettagliate'),
+              tapTarget: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.discount),
+                  Text('Offerte'),
+                ],
+              ),
+              child: Icon(Icons.discount),
+            ),
+            label: 'Offerte',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.badge),
+          //   label: 'Badge',
+          // ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: DescribedFeatureOverlay(
+              featureId: 'settings',
+              title: Text('Titolo'),
+              description: Text(
+                  'qui troverai un rapido resoconto sul tuo borsellino, potrai accedere a info pià dettagliate'),
+              tapTarget: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.settings),
+                  Text('Impostazioni'),
+                ],
+              ),
+              child: Icon(Icons.settings),
+            ),
+            label: 'Impostazioni',
           ),
         ],
         currentIndex: index.value,
         onTap: (i) {
           if (i == 0) {
-            logEvent('open_wom_transactions');
+            logEvent('open_home');
+            _clearTutorial(context);
           } else if (i == 1) {
-            logEvent('open_pos_map');
+            logEvent('open_offers');
           } else if (i == 2) {
             logEvent('open_settings');
           }
-          print('qui');
-          // ref.read(selectedIndexProvider.notifier).update((state) => i);
           index.value = i;
-          print('qui end' );
         },
       ),
       /*bottomNavigationBar: BottomAppBar(
@@ -273,7 +341,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
               child: IconButton(
                 icon: Icon(
                   Icons.list,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 onPressed: () => _goToSettings(),
               ),
@@ -288,7 +356,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
               // The widget that will be displayed as the tap target.
               title: Text(context.translate('tutorial_settings_title')!),
               description: Text(context.translate('tutorial_settings_desc')!),
-              backgroundColor: Theme.of(context).accentColor,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               targetColor: Colors.white,
               textColor: Theme.of(context).primaryColor,
               child: IconButton(
@@ -305,22 +373,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     );
   }
 
-  _goToSettings() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SettingsScreen()));
-  }
-
-  _goToMap() {
-    logEvent('open_wom_map');
-    // final mapProvider = BlocProvider<MapBloc>(
-    //   create: (context) => MapBloc(),
-    //   child: MapScreen(),
-    // );
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MapScreen()));
-  }
-
-  _startScan() async {
+  _startScan(BuildContext context) async {
 //            final String link = await showEditField(context);
 //          final link = "https://wom.social/vouchers/f6f8fd2a8c424a60aa23f8f444742f13";
 //            final link =
@@ -387,6 +440,73 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     }
   }
 
+  /*_startScan() async {
+//            final String link = await showEditField(context);
+//          final link = "https://wom.social/vouchers/f6f8fd2a8c424a60aa23f8f444742f13";
+//            final link =
+//                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
+//            final String link = await bloc.scanQRCode();
+    if (await InternetConnectionChecker().hasConnection) {
+      logEvent('open_wom_scan');
+      try {
+        final link = await Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => ScanScreen()));
+
+        final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
+        logEvent('wom_scan_done');
+//            var blocProviderPin = myBlocProvider.BlocProvider(
+//              bloc: PinBloc(),
+//              child: PinScreen(
+//                deepLinkModel: deepLinkModel,
+//              ),
+//            );
+//         _pinBloc = PinBloc(deepLinkModel);
+//         var blocProviderPin = BlocProvider(
+//           create: (context) => _pinBloc!,
+//           child: PinScreen(),
+//         );
+        await Navigator.push(
+          context,
+          MaterialPageRoute<bool>(
+            builder: (context) => ProviderScope(
+              overrides: [deeplinkProvider.overrideWithValue(deepLinkModel)],
+              child: PinScreen(),
+            ),
+          ),
+        );
+      } on PlatformException catch (ex) {
+        // if (ex == BarcodeScanner.CameraAccessDenied) {
+        //   throw ex;
+        // } else {
+        //   throw Exception("unknow error");
+        // }
+        rethrow;
+      } on FormatException {
+        throw FormatException(
+            "Hai premuto il pulsante back prima di acquisire il dato");
+      } catch (ex, st) {
+        logger.e(st);
+        throw ex;
+      }
+    } else {
+      Alert(
+        context: context,
+        style: AlertStyle(),
+        type: AlertType.warning,
+        title: AppLocalizations.of(context)!.translate('no_connection_title'),
+        desc: AppLocalizations.of(context)!.translate('no_connection_desc'),
+        buttons: [
+          DialogButton(
+            child: Text('Ok'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
+      ).show();
+    }
+  }*/
+
 /*  _showInfo() {
     Alert(
       context: context,
@@ -414,8 +534,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 
   @override
   void dispose() {
-    // _pinBloc?.close();
-//    _sub.cancel();
+    _clearTutorial(context);
     super.dispose();
   }
 
@@ -423,9 +542,9 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     await FeatureDiscovery.clearPreferences(
       context,
       const <String>{
-        'add_item_feature_id',
-        'show_map_info',
-        'show_demo_info',
+        'home',
+        'offers',
+        'settings',
       },
     );
   }
@@ -434,9 +553,9 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     FeatureDiscovery.discoverFeatures(
       context,
       const <String>{
-        'add_item_feature_id',
-        'show_map_info',
-        'show_demo_info',
+        'home',
+        'offers',
+        'settings',
       },
     );
   }
@@ -473,7 +592,6 @@ class _ScanScreenState extends State<ScanScreen> {
       children: [
         MobileScanner(
           key: qrKey,
-          // onQRViewCreated: _onQRViewCreated,
           onDetect: (barcode, args) {
             if (scanned) return;
             scanned = true;
@@ -483,8 +601,7 @@ class _ScanScreenState extends State<ScanScreen> {
         Container(
           decoration: ShapeDecoration(
             shape: QrScannerOverlayShape(
-              // overlayColor: Palette.chivadoColor.withAlpha(160),
-              borderColor: Colors.red,
+              borderColor: lightBlue,
               borderRadius: 3,
               borderWidth: 10,
               cutOutSize: MediaQuery.of(context).size.width * (3 / 4),

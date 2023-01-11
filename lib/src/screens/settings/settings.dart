@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info/package_info.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/database/extensions.dart';
 import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
+import 'package:wom_pocket/src/screens/intro/intro.dart';
 import 'package:wom_pocket/src/screens/table_page/db_page.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
+import 'package:wom_pocket/src/widgets/my_appbar.dart';
 
 import '../../../constants.dart';
 import '../../migration/ui/migration_screen.dart';
@@ -29,88 +33,34 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final titleStyle = TextStyle(fontWeight: FontWeight.bold);
 //    final SettingsBloc bloc = BlocProvider.of<SettingsBloc>(context);
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          AppLocalizations.of(context)!.translate('settings_title'),
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Theme.of(context).primaryColor,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-      ),
+      // backgroundColor: Colors.grey[100],
+      appBar: PocketAppBar(),
       body: ListView(
         children: <Widget>[
-          if (flavor == Flavor.RELEASE) ...[
-            ListTile(
-              title: Text(context.translate('settings_redeem_demo_title')!),
-              subtitle: Text(context.translate('settings_redeem_demo_desc')!),
-              trailing: Icon(Icons.arrow_forward_ios),
-              contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-              onTap: () => Utils.launchUrl('https://demo.wom.social/redeem'),
-            ),
-            ListTile(
-              title: Text(context.translate('settings_pay_demo_title')!),
-              subtitle: Text(context.translate('settings_pay_demo_desc')!),
-              trailing: Icon(Icons.arrow_forward_ios),
-              contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-              onTap: () => Utils.launchUrl('https://demo.wom.social/pay'),
-            ),
-          ],
-          ListTile(
-            title: Text(context.translate('settings_info_title')!),
-            subtitle: Text(context.translate('settings_info_desc')!),
-            trailing: Icon(Icons.arrow_forward_ios),
-            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUrl('https://wom.social'),
+          SettingsItem(
+            title: context.translate('settings_redeem_demo_title')!,
+            subtitle: context.translate('settings_redeem_demo_desc')!,
+            icon: Icons.monetization_on,
+            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            onTap: () => Utils.launchUrl('https://demo.wom.social/redeem'),
           ),
-          ListTile(
-            title: Text(context.translate('settings_show_intro_title')!),
-            subtitle: Text(context.translate('settings_show_intro_desc')!),
-            trailing: StatefulBuilder(
-              builder: (ctx, setState) {
-                return FutureBuilder<bool>(
-                  future: Utils.readIsFirstOpen(),
-                  builder: (ctx, AsyncSnapshot<bool> value) {
-                    if (!value.hasData) {
-                      return SizedBox.shrink();
-                    }
-                    logger.i(value);
-                    return Switch(
-                      value: value.data!,
-                      onChanged: (bool v) async {
-                        await Utils.setIsFirstOpen(v);
-                        setState(() {});
-                      },
-                    );
-                  },
-                );
-              },
-            ),
-            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUrl(
-                'https://${flavor == Flavor.DEVELOPMENT ? 'dev.' : ''}wom.social'),
-          ),
-          VersionInfo(
-            onTap: () {
-              setState(() {
-                tap++;
-              });
-            },
+          SettingsItem(
+            title: context.translate('settings_pay_demo_title')!,
+            subtitle: context.translate('settings_pay_demo_desc')!,
+            icon: Icons.credit_card,
+            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            onTap: () => Utils.launchUrl('https://demo.wom.social/pay'),
           ),
           if (showDBViewer)
-            ListTile(
-              title: Text('Visita WOM DB'),
-              trailing: Icon(Icons.data_usage),
-              contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            SettingsItem(
+              title: 'Visita WOM DB',
+
+              subtitle: '',
+              icon: Icons.data_usage,
+              // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
               onTap: () async {
                 final woms =
                     await ref.read(databaseProvider).womsDao.getAllWoms;
@@ -122,6 +72,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 );
               },
             ),
+          SettingsItem(
+            title: 'Esporta i tuoi wom',
+            subtitle:
+                "Crea un backup dei tuoi wom e importalo in un altro dispositivo",
+            icon: Icons.backup,
+            onTap: () async {
+              final count = await ref.read(
+                availableWomCountProvider.future,
+              );
+              if (count > 0) {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (c) => MigrationScreen()));
+              } else {
+                Alert(
+                  context: context,
+                  type: AlertType.warning,
+                  title: 'Non hai nessun wom da poter migrare!',
+                  buttons: [],
+                ).show();
+              }
+            },
+          ),
           if (flavor == Flavor.DEVELOPMENT) ...[
             SettingsItem(
               title: 'Clear DB (only for debug)',
@@ -142,14 +114,52 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
           ],
           SettingsItem(
-            title: 'Export woms',
-            subtitle: "Migration flow",
-            icon: Icons.close,
-            onTap: () async {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (c) => MigrationScreen()));
+            title: context.translate('settings_show_intro_title')!,
+            subtitle: context.translate('settings_show_intro_desc')!,
+            icon: Icons.question_mark,
+            // trailing: StatefulBuilder(
+            //   builder: (ctx, setState) {
+            //     return FutureBuilder<bool>(
+            //       future: Utils.readIsFirstOpen(),
+            //       builder: (ctx, AsyncSnapshot<bool> value) {
+            //         if (!value.hasData) {
+            //           return SizedBox.shrink();
+            //         }
+            //         logger.i(value);
+            //         return Switch(
+            //           value: value.data!,
+            //           onChanged: (bool v) async {
+            //             await Utils.setIsFirstOpen(v);
+            //             setState(() {});
+            //           },
+            //         );
+            //       },
+            //     );
+            //   },
+            // ),
+            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => IntroScreen(
+                        fromSettings: true,
+                      )));
             },
           ),
+          SettingsItem(
+            title: context.translate('settings_info_title')!,
+            subtitle: context.translate('settings_info_desc')!,
+            icon: Icons.info,
+            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            onTap: () => Utils.launchUrl('https://wom.social'),
+          ),
+          VersionInfo(
+            onTap: () {
+              setState(() {
+                tap++;
+              });
+            },
+          ),
+          const SizedBox(height: 48),
         ],
       ),
     );
@@ -178,13 +188,17 @@ class SettingsItem extends StatelessWidget {
       onTap: onTap,
       title: Text(
         title,
-        style: TextStyle(fontSize: 18.0, color: Theme.of(context).primaryColor),
+        style: TextStyle(
+          fontSize: 18.0,
+          color: Theme.of(context).primaryColor,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       subtitle: Text(
         subtitle,
         style: TextStyle(fontSize: 12.0, color: Colors.grey),
       ),
-      trailing: Icon(
+      leading: Icon(
         icon,
         color: Theme.of(context).primaryColor,
       ),
@@ -207,11 +221,11 @@ class VersionInfo extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final pkg = snapshot.data!;
-          return ListTile(
-            title: Text('Versione dell\'app'),
-            subtitle: Text(pkg.version),
-            trailing: Icon(Icons.info),
-            contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+          return SettingsItem(
+            title: 'Versione dell\'app',
+            subtitle: pkg.version,
+            icon: Icons.perm_device_info,
+            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: onTap,
           );
         }

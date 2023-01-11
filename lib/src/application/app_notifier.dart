@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:wom_pocket/src/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 
@@ -28,17 +31,20 @@ final deepLinkNotifierProvider =
 class DeepLinkNotifier extends AsyncNotifier<DeepLinkModel?> {
   @override
   FutureOr<DeepLinkModel?> build() async {
-    final streamDeepLink = ref.watch(_deepLinkStreamNotifierProvider);
+    // final streamDeepLink = ref.watch(_deepLinkStreamNotifierProvider);
+
+    ref.listen(_deepLinkStreamNotifierProvider, (previous, next) {
+      if (next is AsyncData) {
+        final deepLink = next.valueOrNull;
+        if (deepLink != null) {
+          state =  AsyncData(deepLink);
+        }
+      }
+    });
     final initialDeepLink = await getDeepLink();
     if (initialDeepLink != null) {
       await Future.delayed(Duration(milliseconds: 250));
       return initialDeepLink;
-    }
-    if (streamDeepLink is AsyncData) {
-      final deepLink = streamDeepLink.valueOrNull;
-      if (deepLink != null) {
-        return deepLink;
-      }
     }
     return null;
   }
@@ -75,6 +81,7 @@ class AppNotifier extends AsyncNotifier<AppState> {
   @override
   FutureOr<AppState> build() async {
     await ref.read(appRepositoryProvider).updateAim();
+    await ref.read(transactionCountNotifierProvider.future);
     isFirstOpen = await Utils.readIsFirstOpen();
     if (isFirstOpen) {
       await Utils.setIsFirstOpen(false);

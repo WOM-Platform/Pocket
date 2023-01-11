@@ -12,6 +12,7 @@ import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/code_panel.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/keyboard.dart';
 import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 final deeplinkProvider = Provider<DeepLinkModel>((ref) {
   throw UnimplementedError();
@@ -41,6 +42,10 @@ class PinScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: primaryColor, // Status bar
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: Text(
           AppLocalizations.of(context)!.translate('pin_title'),
           style: TextStyle(color: Colors.white, fontSize: 20.0),

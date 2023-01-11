@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String $MigrationNotifierHash() => r'80d351fa8175c43aee5ba1e1b3e3639c4d215674';
+String _$MigrationNotifierHash() => r'64e34e4b34c6c48bb6813b1d75fef605a7eb45d0';
 
 /// See also [MigrationNotifier].
 final migrationNotifierProvider =
@@ -38,7 +38,7 @@ final migrationNotifierProvider =
   name: r'migrationNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : $MigrationNotifierHash,
+      : _$MigrationNotifierHash,
 );
 typedef MigrationNotifierRef = AutoDisposeNotifierProviderRef<MigrationState>;
 

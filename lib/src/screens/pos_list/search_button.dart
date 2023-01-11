@@ -53,19 +53,24 @@ class SearchNewPointButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fontSize = 18.0;
     final searchButtonStatus = ref.watch(enableSearchButtonProvider);
-    logger.wtf('SEARCH NEW POINT $searchButtonStatus');
+    logger.i('SEARCH NEW POINT $searchButtonStatus');
     switch (searchButtonStatus) {
       case ZoomStatus.outside:
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
           decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(16)),
-          child: Text(
-            'Zoom in',
-            style: TextStyle(
-              fontSize: fontSize,
-            ),
+              borderRadius: BorderRadius.circular(10)),
+          child: Row(
+            children: [
+              Icon(Icons.pinch),
+              Text(
+                'Zoom in',
+                style: TextStyle(
+                  fontSize: fontSize,
+                ),
+              ),
+            ],
           ),
         );
 
@@ -74,7 +79,7 @@ class SearchNewPointButton extends ConsumerWidget {
           duration: const Duration(milliseconds: 500),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).accentColor,
+              primary: Theme.of(context).colorScheme.secondary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
               ),
@@ -98,7 +103,7 @@ class SearchNewPointButton extends ConsumerWidget {
       case ZoomStatus.loading:
         return ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: Theme.of(context).accentColor,
+            primary: Theme.of(context).colorScheme.secondary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),

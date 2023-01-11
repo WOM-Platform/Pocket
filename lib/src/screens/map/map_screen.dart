@@ -23,7 +23,7 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: dark,
+      value: darkUiOverlayStyle,
       child: Scaffold(
         body: Stack(
           children: [
@@ -65,7 +65,10 @@ class MapScreen extends StatelessWidget {
 }
 
 class MapBody extends ConsumerWidget {
+  final bool enabled;
   double lastZoom = 0.0;
+
+  MapBody({this.enabled = true});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -85,27 +88,36 @@ class MapBody extends ConsumerWidget {
       }
     });
     return Container(
-      padding: EdgeInsets.only(
-          bottom: minHeight, top: MediaQuery.of(context).padding.top),
-      key: new PageStorageKey('map'),
+      padding: enabled
+          ? EdgeInsets.only(
+              bottom: minHeight, top: MediaQuery.of(context).padding.top)
+          : null,
+      key: PageStorageKey('map'),
       child: GoogleMap(
         initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
         zoomControlsEnabled: false,
         minMaxZoomPreference: MinMaxZoomPreference(0.0, 16.0),
-        myLocationButtonEnabled: true,
-        myLocationEnabled: true,
+        myLocationButtonEnabled: enabled ? true : false,
+        compassEnabled: enabled ? true : false,
+        myLocationEnabled: enabled ? true : false,
+        rotateGesturesEnabled: enabled ? true : false,
+        tiltGesturesEnabled: enabled ? true : false,
+        mapToolbarEnabled: enabled ? true : false,
+        zoomGesturesEnabled: enabled ? true : false,
         onMapCreated: (mapController) =>
             ref.read(mapNotifierProvider.notifier).onMapCreated(mapController),
-        onCameraIdle:(){
+        onCameraIdle: () {
           ref.read(mapNotifierProvider.notifier).clusterManager?.updateMap();
         },
-        onCameraMove: (cameraPosition) {
-          ref
-              .read(mapNotifierProvider.notifier)
-              .clusterManager
-              ?.onCameraMove(cameraPosition);
-          lastZoom = cameraPosition.zoom;
-        },
+        onCameraMove: enabled
+            ? (cameraPosition) {
+                ref
+                    .read(mapNotifierProvider.notifier)
+                    .clusterManager
+                    ?.onCameraMove(cameraPosition);
+                lastZoom = cameraPosition.zoom;
+              }
+            : null,
         markers: state.valueOrNull?.markers ?? {},
       ),
     );

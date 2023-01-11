@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String $PosMapNotifierHash() => r'03a72a82d4732640ecc751e73bb3840f17c86530';
+String _$PosMapNotifierHash() => r'03a72a82d4732640ecc751e73bb3840f17c86530';
 
 /// See also [PosMapNotifier].
 final posMapNotifierProvider =
@@ -38,7 +38,7 @@ final posMapNotifierProvider =
   name: r'posMapNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : $PosMapNotifierHash,
+      : _$PosMapNotifierHash,
 );
 typedef PosMapNotifierRef = AutoDisposeNotifierProviderRef<PosMapData>;
 

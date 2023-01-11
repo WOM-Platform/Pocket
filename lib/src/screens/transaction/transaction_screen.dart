@@ -8,7 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
+import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
+import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/transaction/info_payment.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
@@ -61,9 +63,18 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
 
   void backToHome() {
     // BlocProvider.of<AppBloc>(context).transactionsBloc!.add(LoadTransactions());
-    ref.invalidate(fetchTransactionsProvider);
-    ref.invalidate(womStatsProvider);
+    refreshHome();
     Navigator.popUntil(context, ModalRoute.withName('/'));
+  }
+
+  refreshHome(){
+    ref.invalidate(fetchTransactionsProvider);
+    ref.invalidate(womCountProvider);
+    ref.invalidate(mapNotifierProvider);
+    ref.invalidate(availableWomCountProvider);
+    ref.invalidate(fetchAimInPercentageProvider);
+    ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
+    ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
   }
 
   final whiteTextStyle = TextStyle(color: Colors.white);
@@ -71,8 +82,6 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    // bloc = BlocProvider.of<TransactionBloc>(context);
-
     final state = ref.watch(transactionNotifierProvider(widget.params));
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -82,9 +91,9 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
         statusBarColor: Theme.of(context).primaryColor,
       ),
       child: WillPopScope(
-        onWillPop: () => _onWillPop(),
+        onWillPop: _onWillPop,
         child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).primaryColor,
           body: Builder(
             builder: (BuildContext context) {
               return state.when(data: (state) {

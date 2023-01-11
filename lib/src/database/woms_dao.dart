@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/database/tables.dart';
+import 'package:wom_pocket/src/models/aim_percentage.dart';
 import 'package:wom_pocket/src/models/optional_query_model.dart';
 import 'package:wom_pocket/src/models/source_group_wom.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';
@@ -25,6 +26,13 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
 
   Future<int> getWomCount() async {
     var countExp = wom.id.count(filter: wom.spent.equals(WomStatus.ON.index));
+    final query = selectOnly(wom)..addColumns([countExp]);
+    var result = await query.map((row) => row.read(countExp)).getSingle();
+    return result ?? 0;
+  }
+
+  Future<int> getAvailableWomCount() async {
+    var countExp = wom.id.count();
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
     return result ?? 0;
@@ -59,7 +67,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   Future<int> updateWomStatusToOff(String womId, int transactionId) {
     return (update(wom)..where((t) => t.id.equals(womId))).write(
       WomCompanion(
-          spent: Value(WomStatus.OFF.index),
+        spent: Value(WomStatus.OFF.index),
         transactionId: Value(transactionId),
       ),
     );
@@ -87,7 +95,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     final customQuery =
         'SELECT COUNT(*) as woms, ${WomModel.dbAim} as aim, a.${AimDbKeys.TITLES} as titles '
         'FROM ${WomModel.tblWom} w INNER JOIN ${AimDbKeys.TABLE_NAME} a ON w.${WomModel.dbAim}=a.${AimDbKeys.CODE} '
-        'AND w.${WomModel.dbLive} = ${WomStatus.ON.index} '
+        'AND w.spent = ${WomStatus.ON.index} '
         'AND w.${WomModel.dbAim} NOT LIKE \'0%\' '
         'AND w.${WomModel.dbLat} != 0 '
         'AND w.${WomModel.dbLong} != 0 '
@@ -115,7 +123,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     final customQuery =
         'SELECT COUNT(*) as n_type, ${WomModel.dbSourceName} as type '
         'FROM ${WomModel.tblWom} '
-        'WHERE ${WomModel.tblWom}.${WomModel.dbLive} = ${WomStatus.ON.index} '
+        'WHERE ${WomModel.tblWom}.spent = ${WomStatus.ON.index} '
         'AND ${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \'0%\' '
         'AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 '
         'AND ${WomModel.tblWom}.${WomModel.dbLong} != 0 '
@@ -132,6 +140,51 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
       //     titles: json.decode(row['titles'] as String));
     }).toList();
     return list;
+  }
+
+  Future<List<AimInPercentage>> getAimInPercentage() async {
+    logger.i('[WomDb] getAimInPercentage');
+    final customQuery =
+        'SELECT Aim as aim, count(*) as count, count(*) * 100.0/ sum(count(*)) over () as percentage '
+        'FROM Wom '
+        'GROUP BY Aim '
+        'ORDER BY percentage DESC;';
+    logger.i('[WomDb]: $customQuery');
+    final rowList  = await customSelect(
+      customQuery,
+      readsFrom: {wom},
+    ).get();
+    final list = rowList
+        .map((row) {
+          print(row);
+      return AimInPercentage.fromJson(row.data);
+    }).toList();
+    return list;
+  }
+
+  Future<int> getWomCountEarnedLastWeek() async {
+    logger.i('[WomDb] getWomEarnedLastWeek');
+    final oneWeekAgo = DateTime.now().subtract(Duration(days: 7)).millisecondsSinceEpoch;
+    var countExp = wom.id.count(filter: wom.addedOn.isBiggerThanValue(oneWeekAgo));
+    final query = selectOnly(wom)..addColumns([countExp]);
+    var result = await query.map((row) => row.read(countExp)).getSingle();
+    return result ?? 0;
+    // final count = wom.id.count();
+    //
+    // final query = selectOnly(wom)
+    //   ..addColumns([count])
+    //   ..where(wom.status.isIn(const [0, 1]))
+    //   ..groupBy([wom.status]);
+  }
+
+
+  Future<int> getWomCountSpentLastWeek() async {
+    logger.i('[WomDb] getWomEarnedLastWeek');
+    final oneWeekAgo = DateTime.now().subtract(Duration(days: 7)).millisecondsSinceEpoch;
+    var countExp = wom.id.count(filter: wom.spentOn.isBiggerThanValue(oneWeekAgo));
+    final query = selectOnly(wom)..addColumns([countExp]);
+    var result = await query.map((row) => row.read(countExp)).getSingle();
+    return result ?? 0;
   }
 
   Future deleteTable() async {

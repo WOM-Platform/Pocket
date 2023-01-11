@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:wom_pocket/src/database/aims_dao.dart';
+import 'package:wom_pocket/src/database/badge_dao.dart';
 import 'package:wom_pocket/src/database/tables.dart';
 import 'package:wom_pocket/src/database/transactions_dao.dart';
 import 'package:wom_pocket/src/database/woms_dao.dart';
@@ -16,8 +17,8 @@ import 'package:wom_pocket/src/my_logger.dart';
 part 'database.g.dart';
 
 @DriftDatabase(
-    tables: [Wom, Aims, Transactions],
-    daos: [WomsDao, AimsDao, TransactionsDao])
+    tables: [Wom, Aims, Transactions, Badges],
+    daos: [WomsDao, AimsDao, TransactionsDao, BadgeDao])
 class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
   MyDatabase() : super(_openConnection());
@@ -53,10 +54,13 @@ class MyDatabase extends _$MyDatabase {
         logger.wtf('from $from to $to');
         if (from < 4) {
           // m.renameColumn(yourTable, 'Wom', yourTable.newColumn);
+          await m.addColumn(wom, wom.donationId);
+          await m.addColumn(wom, wom.spentOn);
           await m.addColumn(transactions, transactions.pin);
           await m.addColumn(transactions, transactions.link);
           await m.addColumn(transactions, transactions.deadline);
           await m.renameColumn(wom, 'live', wom.spent);
+          await m.renameColumn(wom, 'Timestamp', wom.spent);
         }
       },
       beforeOpen: (details) async {

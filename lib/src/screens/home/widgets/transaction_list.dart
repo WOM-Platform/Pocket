@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +11,10 @@ import 'package:wom_pocket/src/screens/home/widgets/transaction_card.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 class TransactionsList extends ConsumerWidget {
+  final int limit;
+
+  const TransactionsList({this.limit = 6});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(fetchTransactionsProvider);
@@ -30,6 +36,14 @@ class TransactionsList extends ConsumerWidget {
             ),
           );
         } else {
+          return Column(
+            children: [
+              for (int i = 0; i < min(limit, data.transactions.length); i++)
+                TransactionCard(
+                  transaction: data.transactions[i],
+                )
+            ],
+          );
           return ListView.builder(
             padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 90),
             shrinkWrap: true,

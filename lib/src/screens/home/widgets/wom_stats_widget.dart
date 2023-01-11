@@ -9,7 +9,11 @@ final womRepositoryProvider = Provider<WomRepository>((ref) {
   ;
 });
 
-final womStatsProvider = FutureProvider<int>((ref) async {
+final availableWomCountProvider = FutureProvider<int>((ref) async {
+  return ref.watch(womRepositoryProvider).getAvailableWomCount();
+});
+
+final womCountProvider = FutureProvider<int>((ref) async {
   return ref.watch(womRepositoryProvider).getWomCount();
 });
 
@@ -18,7 +22,7 @@ class WomStatsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(womStatsProvider).asData?.value;
+    final count = ref.watch(availableWomCountProvider).asData?.value;
     if(count == null){
       return SizedBox.shrink();
     }

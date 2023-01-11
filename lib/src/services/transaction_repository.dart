@@ -97,7 +97,7 @@ class TransactionRepository {
               aim: e.aim,
               sourceId: redeem.sourceId,
               transactionId: id,
-              timestamp: e.timestamp.millisecondsSinceEpoch,
+              addedOn: e.timestamp.millisecondsSinceEpoch,
               spent: WomStatus.ON.index,
               latitude: e.latitude,
               longitude: e.longitude),

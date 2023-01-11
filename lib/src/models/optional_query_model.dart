@@ -28,12 +28,12 @@ class OptionalQuery {
 
   build() {
     var whereClause = startDate > 0 && endDate > 0
-        ? "WHERE ${WomModel.tblWom}.${WomModel.dbTimestamp} BETWEEN $startDate AND $endDate"
+        ? "WHERE ${WomModel.tblWom}.${WomModel.dbAddedOn} BETWEEN $startDate AND $endDate"
         : "";
 
     if (womStatus != null) {
       var statusWhereClause =
-          "${WomModel.tblWom}.${WomModel.dbLive} = ${womStatus.index}";
+          "${WomModel.tblWom}.spent = ${womStatus.index}";
       whereClause = whereClause.isEmpty
           ? "WHERE $statusWhereClause"
           : "$whereClause AND $statusWhereClause";
@@ -149,7 +149,7 @@ class OptionalQuery {
       final queryTimestamp = todayInMilliseconds - maxAgeInMilliseconds;
 
       final maxAgeClause =
-          "${WomModel.tblWom}.${WomModel.dbTimestamp} >= $queryTimestamp";
+          "${WomModel.tblWom}.${WomModel.dbAddedOn} >= $queryTimestamp";
       logger.i(maxAgeClause);
 
       filtersWhereClause = filtersWhereClause.isEmpty

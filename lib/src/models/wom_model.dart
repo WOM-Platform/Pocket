@@ -7,10 +7,10 @@ class WomModel {
   static final tblWom = "Wom";
   static final dbId = "Id";
   static final dbSecret = "Secret";
-  static const dbTimestamp = "Timestamp";
+  static const dbAddedOn = "adddeOn";
   static const dbLat = "Latitude";
   static const dbLong = "Longitude";
-  static const dbLive = "live";
+  //static const dbLive = "live";
   static const dbGeohash = "geohash";
   static const dbSourceName = "SourceName";
   static const dbSourceId = "SourceId";
@@ -62,21 +62,21 @@ class WomModel {
     this.live = WomStatus.values[map['live'] ?? 0];
   }
 
-  WomModel.fromDB(Map<String, dynamic> map)
-      : id = map[dbId].toString(),
-        timestamp = map[dbTimestamp] is String
-            ? DateTime.parse(map[dbTimestamp]).millisecondsSinceEpoch
-            : map[dbTimestamp],
-        gLocation = LatLng(map[dbLat].toDouble(), map[dbLong].toDouble()),
-        secret = map[dbSecret],
-        sourceName = map[dbSourceName],
-        sourceId = map[dbSourceId].toString(),
-        aim = map[dbAim] {
-    GeoHasher geoHasher = GeoHasher();
-    this.geohash =
-        geoHasher.encode(this.gLocation!.longitude, this.gLocation!.latitude);
-    this.live = WomStatus.values[map[dbLive] ?? 0];
-  }
+  // WomModel.fromDB(Map<String, dynamic> map)
+  //     : id = map[dbId].toString(),
+  //       timestamp = map[dbTimestamp] is String
+  //           ? DateTime.parse(map[dbTimestamp]).millisecondsSinceEpoch
+  //           : map[dbTimestamp],
+  //       gLocation = LatLng(map[dbLat].toDouble(), map[dbLong].toDouble()),
+  //       secret = map[dbSecret],
+  //       sourceName = map[dbSourceName],
+  //       sourceId = map[dbSourceId].toString(),
+  //       aim = map[dbAim] {
+  //   GeoHasher geoHasher = GeoHasher();
+  //   this.geohash =
+  //       geoHasher.encode(this.gLocation!.longitude, this.gLocation!.latitude);
+  //   this.live = WomStatus.values[map['spent'] ?? 0];
+  // }
 
   Map<String, dynamic> toDBJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -84,7 +84,7 @@ class WomModel {
     data[dbSecret] = this.secret;
     data[dbLat] = this.gLocation!.latitude;
     data[dbLong] = this.gLocation!.longitude;
-    data[dbTimestamp] = this.timestamp;
+    data[dbAddedOn] = this.timestamp;
     data[dbSourceName] = this.sourceName;
     data[dbSourceId] = this.sourceId;
     data[dbTransactionId] = this.transactionId;

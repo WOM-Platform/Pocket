@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wom_pocket/src/blocs/app/bloc.dart';
 
 import 'package:flutter/material.dart';
@@ -118,20 +119,11 @@ class SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Stack(
-        children: <Widget>[
-          Center(
-            child: Opacity(
-//              child: Image.asset("assets/images/logo.png"),
-              child: AutoSizeText(
-                'WOM POCKET',
-                maxLines: 1,
-                style: TextStyle(color: Colors.white, fontSize: 40.0),
-              ),
-              opacity: opacityLogo.value,
-            ),
-          ),
-        ],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: SvgPicture.asset('assets/images/wom-pocket-icon.svg'),
+        ),
       ),
     );
   }

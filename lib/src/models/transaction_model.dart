@@ -7,8 +7,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transaction_model.freezed.dart';
 
-part 'transaction_model.g.dart';
-
 @freezed
 class TransactionModel with _$TransactionModel {
   static const tblTransaction = "Transactions";
@@ -36,25 +34,25 @@ class TransactionModel with _$TransactionModel {
     required int size,
   }) = _TransactionModel;
 
-  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
-      _$TransactionModelFromJson(json);
 }
 
 extension TransactionModelX on TransactionModel {
   TransactionsCompanion toTransactionCompanion() {
     return TransactionsCompanion.insert(
       source: source,
-      // country: country,
       aim: aimCode,
       timestamp: date.millisecondsSinceEpoch,
       type: type.index,
       size: size,
       ackUrl: ackUrl != null ? drift.Value(ackUrl) : drift.Value.absent(),
+      deadline: drift.Value(importDeadline?.millisecondsSinceEpoch),
+      link: drift.Value(link),
+      pin: drift.Value(pin),
     );
   }
 
   String formatDate() {
-    var format = new DateFormat.yMMMEd(Intl.getCurrentLocale());
+    var format = DateFormat.yMMMEd(Intl.getCurrentLocale());
     return format.format(this.date);
   }
 

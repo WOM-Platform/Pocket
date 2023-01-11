@@ -79,7 +79,7 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
         final marker = Marker(
           markerId: markerId,
           position: place.location,
-          infoWindow: InfoWindow(title: place.count.toString()),
+          // infoWindow: InfoWindow(title: place.count.toString()),
           icon: bitmapDescriptor,
         );
 
@@ -210,8 +210,8 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
       var sourceCondition = false;
       var aimCondition = false;
       if (startDateQuery > 0 && endDateQuery > 0) {
-        timeCondition = element.voucher.timestamp >= startDateQuery &&
-            element.voucher.timestamp <= endDateQuery;
+        timeCondition = element.voucher.addedOn >= startDateQuery &&
+            element.voucher.addedOn <= endDateQuery;
       }
       for (final s in sources) {
         sourceCondition = sourceCondition || element.voucher.sourceName == s;

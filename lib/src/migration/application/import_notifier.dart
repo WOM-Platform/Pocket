@@ -10,6 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
+import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/migration/ui/export_screen.dart';
@@ -111,7 +112,8 @@ class ImportNotifier extends _$ImportNotifier {
       await ref.read(pocketProvider).completeMigration(otc, password);
 
       ref.invalidate(fetchTransactionsProvider);
-      ref.invalidate(womStatsProvider);
+      ref.invalidate(mapNotifierProvider);
+      ref.invalidate(availableWomCountProvider);
       state = ImportCompleted(woms.length);
     } catch (ex, st) {
       logger.e(ex);

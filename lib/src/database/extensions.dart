@@ -10,7 +10,7 @@ extension WomRowX on WomRow {
       latitude: latitude,
       longitude: longitude,
       aim: aim,
-      timestamp: DateTime.fromMillisecondsSinceEpoch(timestamp),
+      timestamp: DateTime.fromMillisecondsSinceEpoch(addedOn),
     );
   }
 }
@@ -25,7 +25,10 @@ extension MyTransactionX on MyTransaction {
       date: DateTime.fromMillisecondsSinceEpoch(timestamp),
       size: size,
       pin: pin,
-      link: link
+      link: link,
+      importDeadline: deadline != null
+          ? DateTime.fromMillisecondsSinceEpoch(deadline!)
+          : null,
     );
   }
 }

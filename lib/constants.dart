@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 
@@ -7,8 +8,10 @@ late String domain;
 late String registryKey;
 Flavor? flavor;
 final isDev = flavor == Flavor.DEVELOPMENT;
+final appName = '${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET';
+
 //Shared Preferences
-const IS_FIRST_OPEN = 'isFirstOpen';
+const IS_FIRST_OPEN = 'isFirstOpenV2';
 const IS_SUGGESTIONS_DISABLED = 'isSuggestionsDisabled';
 const IS_FAKE_MODE = 'isFakeMode';
 const boxMigrationKey = 'migration';
@@ -34,10 +37,17 @@ class AimDbKeys {
   static const TITLES = 'titles';
 }
 
-
-final dark = SystemUiOverlayStyle.light.copyWith(
+final t = SystemUiOverlayStyle();
+final darkUiOverlayStyle = SystemUiOverlayStyle.light.copyWith(
   statusBarColor: primaryColor,
   systemNavigationBarColor: primaryColor,
   statusBarBrightness: Brightness.light, //iOS
   statusBarIconBrightness: Brightness.light, //Android
+);
+
+final lightUiOverlayStyle = SystemUiOverlayStyle.dark.copyWith(
+  statusBarColor: Colors.white,
+  systemNavigationBarColor: Colors.white,
+  statusBarBrightness: Brightness.dark, //iOS
+  statusBarIconBrightness: Brightness.dark, //Android
 );
