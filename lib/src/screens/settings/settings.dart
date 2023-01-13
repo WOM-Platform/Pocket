@@ -1,3 +1,4 @@
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -79,7 +80,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             icon: Icons.backup,
             onTap: () async {
               final count = await ref.read(
-                availableWomCountProvider.future,
+                totalWomCountProvider.future,
               );
               if (count > 0) {
                 Navigator.of(context)
@@ -115,7 +116,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ],
           SettingsItem(
             title: context.translate('settings_show_intro_title')!,
-            subtitle: context.translate('settings_show_intro_desc')!,
+            subtitle: 'Ripercorri le schermate introduttive',
             icon: Icons.question_mark,
             // trailing: StatefulBuilder(
             //   builder: (ctx, setState) {
@@ -146,6 +147,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             },
           ),
           SettingsItem(
+            title: 'Abilita il tutorial nella home',
+            subtitle: 'Ripercorri il tutorial inziale nella pagina principale',
+            icon: Icons.cast_for_education,
+            onTap: () {
+              _clearTutorial(context);
+            },
+          ),
+          SettingsItem(
             title: context.translate('settings_info_title')!,
             subtitle: context.translate('settings_info_desc')!,
             icon: Icons.info,
@@ -162,6 +171,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SizedBox(height: 48),
         ],
       ),
+    );
+  }
+
+  Future<void> _clearTutorial(context) async {
+    await FeatureDiscovery.clearPreferences(
+      context,
+      const <String>{
+        'scan',
+        'home',
+        'offers',
+        'settings',
+      },
     );
   }
 }

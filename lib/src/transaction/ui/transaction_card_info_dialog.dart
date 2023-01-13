@@ -30,7 +30,7 @@ class TransactionTypeInfo extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 text,
-                style: TextStyle(fontWeight: FontWeight.w600),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),
             ],
           ),

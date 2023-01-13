@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
+import 'package:wom_pocket/src/offers/ui/pos_details_screen.dart';
 import 'package:wom_pocket/src/offers/ui/search_button.dart';
 import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
 
@@ -88,7 +89,9 @@ class CarouselItem extends StatelessWidget {
 
     return InkWell(
       // key: Key(store.storeId),
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_)=>POSDetailsScreen(pos:offer)));
+      },
       child: Card(
         elevation: 8.0,
         shape: RoundedRectangleBorder(

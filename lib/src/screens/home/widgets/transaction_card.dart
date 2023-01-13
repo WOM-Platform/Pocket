@@ -18,22 +18,18 @@ class TransactionCard extends ConsumerWidget {
   final Function? onEdit;
   final Function? onDuplicate;
 
-  const TransactionCard({Key? key,
-    required this.transaction,
-    this.onDelete,
-    this.onEdit,
-    this.onDuplicate})
+  const TransactionCard(
+      {Key? key,
+      required this.transaction,
+      this.onDelete,
+      this.onEdit,
+      this.onDuplicate})
       : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final languageCode = AppLocalizations
-        .of(context)!
-        .locale
-        .languageCode;
-    final aims = ref
-        .watch(aimNotifierProvider)
-        .valueOrNull ?? [];
+    final languageCode = AppLocalizations.of(context)!.locale.languageCode;
+    final aims = ref.watch(aimNotifierProvider).valueOrNull ?? [];
     final aimCode = transaction.firstAimCode;
     final aim = aims.firstWhereOrNull((element) => element.code == aimCode);
     return Slidable(
@@ -75,9 +71,7 @@ class TransactionCard extends ConsumerWidget {
                       child: Text(
                         '${getSign(transaction.type)}${transaction.size} WOM',
                         style: TextStyle(
-                          color: Theme
-                              .of(context)
-                              .primaryColor,
+                          color: Theme.of(context).primaryColor,
                           fontSize: 22.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -123,28 +117,30 @@ class TransactionCard extends ConsumerWidget {
 //                       ),
 //                     ),
 //                Spacer(),
+                  //TODO formatta la data di scadenza
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        if(transaction.importDeadline != null)
-                          ItemRow(t1: 'Importa entro il ',
-                            t2: transaction.importDeadline.toString(),),
+                        if (transaction.importDeadline != null)
+                          ItemRow(
+                            t1: 'Scadenza backup',
+                            t2: transaction.importDeadline.toString(),
+                          ),
                         if ((aim?.titles ?? const {})[languageCode] != null)
                           ItemRow(
                               t1: 'aim',
                               t2: transaction.aimCodes.length > 1
                                   ? transaction.aimCode
                                   : (aim?.titles ?? const {})[languageCode] ??
-                                  '-'),
+                                      '-'),
                         if (transaction.source.isNotEmpty)
                           ItemRow(
                               t1: transaction.type == TransactionType.VOUCHERS
                                   ? 'instrument'
-                                  : transaction.type ==
-                                  TransactionType.PAYMENT
-                                  ? 'pos'
-                                  : 'device',
+                                  : transaction.type == TransactionType.PAYMENT
+                                      ? 'pos'
+                                      : 'device',
                               t2: transaction.source),
                       ],
                     ),
@@ -176,31 +172,29 @@ class TransactionCard extends ConsumerWidget {
 
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) =>
-                      MigrationExportScreen(
-                        backTo: false,
-                        data: MigrationData(
-                          code: transaction.pin!,
-                          importDeadline: transaction.importDeadline!,
-                          link: transaction.link!,
-                        ),
-                      ),
+                  builder: (_) => MigrationExportScreen(
+                    backTo: false,
+                    data: MigrationData(
+                      code: transaction.pin!,
+                      importDeadline: transaction.importDeadline!,
+                      link: transaction.link!,
+                    ),
+                  ),
                 ),
               );
             },
           )
-        else
-          if (transaction.type == TransactionType.PAYMENT &&
-              transaction.ackUrl != null)
-            MySlideAction(
-              icon: Icons.receipt,
-              color: Colors.orange,
-              onTap: () async {
-                if (await canLaunch(transaction.ackUrl!)) {
-                  launch(transaction.ackUrl!);
-                }
-              },
-            )
+        else if (transaction.type == TransactionType.PAYMENT &&
+            transaction.ackUrl != null)
+          MySlideAction(
+            icon: Icons.receipt,
+            color: Colors.orange,
+            onTap: () async {
+              if (await canLaunch(transaction.ackUrl!)) {
+                launch(transaction.ackUrl!);
+              }
+            },
+          )
       ],
       secondaryActions: <Widget>[
         MySlideAction(
@@ -218,7 +212,7 @@ class TransactionCard extends ConsumerWidget {
             var message = shareMessage(transaction.type);
             if (aim != null) {
               message =
-              '$message  ${aim.title != null ? 'for ${aim.title}' : ''}';
+                  '$message  ${aim.title != null ? 'for ${aim.title}' : ''}';
             }
             Share.share(message);
           },

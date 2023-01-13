@@ -17,16 +17,10 @@ import 'package:store_redirect/store_redirect.dart';
 import 'package:wom_pocket/src/widgets/scanner_overlay_shape.dart';
 import '../../models/deep_link_model.dart';
 import '../../my_logger.dart';
-import '../../screens/map/map_screen.dart';
 import '../../screens/pin/pin_screen.dart';
 import '../../screens/settings/settings.dart';
 import '../../utils/colors.dart';
 import '../../utils/my_extensions.dart';
-
-// final selectedIndexProvider = StateProvider<int>((ref) {
-//   logger.w('selectedIndexProvider CREATE');
-//   return 0;
-// });
 
 class HomeScreen2 extends StatefulHookConsumerWidget {
   static const String path = '/home';
@@ -39,9 +33,14 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
-      _showTutorial(context);
+    FeatureDiscovery.hasPreviouslyCompleted(context, 'scan').then((value){
+      if(!value){
+        SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
+          _showTutorial(context);
+        });
+      }
     });
+
     checkVersion();
   }
 
@@ -92,96 +91,16 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   @override
   Widget build(BuildContext context) {
     final index = useState<int>(0);
+
+    final titleStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
+    final descStyle = TextStyle(
+      fontSize: 20,
+    );
     return Scaffold(
       body: IndexedStack(
         index: index.value,
         children: [
           NewHome(),
-          /*Scaffold(
-            backgroundColor: Colors.grey[100],
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).primaryColor,
-              title: Text(
-                  appName,
-              // centerTitle: true,
-              systemOverlayStyle: SystemUiOverlayStyle.light,
-              // brightness: Brightness.dark,
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(50),
-                child: WomStatsWidget(),
-              ),
-              actions: <Widget>[
-                // IconButton(
-                //   icon: Icon(Icons.info),
-                //   color: Theme.of(context).colorScheme.secondary,
-                //   onPressed: () async {
-                //     await _clearTutorial(context);
-                //     _showTutorial(context);
-                //   },
-                // ),
-                IconButton(
-                  icon: Icon(Icons.map),
-                  color: Theme.of(context).colorScheme.secondary,
-                  onPressed: () async {
-                    _goToMap();
-                  },
-                ),
-              ],
-            ),
-            extendBody: true,
-            body: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Arc(
-                    child: Container(
-                      color: Theme.of(context).primaryColor,
-                      height: MediaQuery.of(context).size.height / 3,
-                    ),
-                    height: 50,
-                  ),
-                ),
-                TransactionsList(),
-              ],
-            ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: DescribedFeatureOverlay(
-              featureId: 'add_item_feature_id',
-              tapTarget: FloatingActionButton.extended(
-                elevation: 0,
-                backgroundColor: Colors.white,
-                label: Text(
-                  AppLocalizations.of(context)!.translate('scan'),
-                  style: TextStyle(color: baseIconColor),
-                ),
-                icon: const Icon(
-                  Icons.camera_enhance,
-                  color: baseIconColor,
-                ),
-                onPressed: null,
-              ),
-              // The widget that will be displayed as the tap target.
-              title: Text(context.translate('tutorial_welcome_title')!),
-              description: Text('tutorial_welcome_desc'.translate(context)!),
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              targetColor: Colors.white,
-              textColor: Theme.of(context).primaryColor,
-              child: FloatingActionButton.extended(
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-                label: Text(
-                  AppLocalizations.of(context)!.translate('scan'),
-                  style: TextStyle(color: baseIconColor),
-                ),
-                icon: const Icon(
-                  Icons.camera_enhance,
-                  color: baseIconColor,
-                ),
-                onPressed: () => _startScan(),
-              ),
-            ),
-          ),*/
           OffersListScreen(),
           // BadgeScreen(),
           SettingsScreen(),
@@ -189,26 +108,40 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: DescribedFeatureOverlay(
-        featureId: 'add_item_feature_id',
-        tapTarget: FloatingActionButton.extended(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          label: Text(
-            AppLocalizations.of(context)!.translate('scan'),
-            style: TextStyle(color: baseIconColor),
+        featureId: 'scan',
+        contentLocation: ContentLocation.above,
+        overflowMode: OverflowMode.extendBackground,
+        // enablePulsingAnimation: false,
+        tapTarget: SizedBox(
+          // width: 200,
+          child: Row(
+            // crossAxisAlignment: ,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.camera_enhance,
+                color: primaryColor,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Scan',
+                style: TextStyle(
+                  color: primaryColor,
+                ),
+              ),
+            ],
           ),
-          icon: const Icon(
-            Icons.camera_enhance,
-            color: baseIconColor,
-          ),
-          onPressed: null,
         ),
         // The widget that will be displayed as the tap target.
-        title: Text(context.translate('tutorial_welcome_title')!),
-        description: Text('tutorial_welcome_desc'.translate(context)!),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        targetColor: Colors.white,
-        textColor: Theme.of(context).primaryColor,
+        title: Text(
+          'Lettore di QR-Code',
+          style: titleStyle,
+        ),
+        description: Text(
+            'da qui puoi attivare il lettore di QR-Code da usare per guadagnare, spendere e importare WOM'),
+        // backgroundColor: Theme.of(context).colorScheme.secondary,
+        // targetColor: Colors.white,
+        // textColor: Theme.of(context).primaryColor,
         child: FloatingActionButton.extended(
           backgroundColor: primaryColor,
           label: Text(
@@ -233,9 +166,14 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           BottomNavigationBarItem(
             icon: DescribedFeatureOverlay(
               featureId: 'home',
-              title: Text('Titolo'),
+              title: Text(
+                'Pagina principale',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
               description: Text(
-                  'qui troverai un rapido resoconto sul tuo borsellino, potrai accedere a info pià dettagliate'),
+                'da qui puoi consultare lo stato del tuo borsellino e la lista delle transazioni',
+                style: TextStyle(fontSize: 20),
+              ),
               backgroundColor: primaryColor,
               // targetColor: lightBlue,
               tapTarget: Column(
@@ -252,9 +190,14 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           BottomNavigationBarItem(
             icon: DescribedFeatureOverlay(
               featureId: 'offers',
-              title: Text('Titolo'),
+              title: Text(
+                'Attività convenzionate',
+                style: titleStyle,
+              ),
               description: Text(
-                  'qui troverai un rapido resoconto sul tuo borsellino, potrai accedere a info pià dettagliate'),
+                'qui trovi gli sconti e le agevolazioni che puoi ottenere in cambio di WOM',
+                style: descStyle,
+              ),
               tapTarget: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -273,9 +216,14 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           BottomNavigationBarItem(
             icon: DescribedFeatureOverlay(
               featureId: 'settings',
-              title: Text('Titolo'),
+              title: Text(
+                'Funzionalità avanzate',
+                style: titleStyle,
+              ),
               description: Text(
-                  'qui troverai un rapido resoconto sul tuo borsellino, potrai accedere a info pià dettagliate'),
+                'da qui puoi accedere a maggiori informazioni, ripercorre i tutorial e esportare i tuoi WOM',
+                style: descStyle,
+              ),
               tapTarget: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -292,7 +240,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         onTap: (i) {
           if (i == 0) {
             logEvent('open_home');
-            _clearTutorial(context);
+            FeatureDiscovery.hasPreviouslyCompleted(context, 'scan').then((value){
+              if(!value){
+                _showTutorial(context);
+              }
+            });
           } else if (i == 1) {
             logEvent('open_offers');
           } else if (i == 2) {
@@ -532,27 +484,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     }
   }*/
 
-  @override
-  void dispose() {
-    _clearTutorial(context);
-    super.dispose();
-  }
-
-  Future<void> _clearTutorial(context) async {
-    await FeatureDiscovery.clearPreferences(
-      context,
-      const <String>{
-        'home',
-        'offers',
-        'settings',
-      },
-    );
-  }
-
   void _showTutorial(BuildContext context) {
     FeatureDiscovery.discoverFeatures(
       context,
       const <String>{
+        'scan',
         'home',
         'offers',
         'settings',

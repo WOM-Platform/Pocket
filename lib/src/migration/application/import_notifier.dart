@@ -113,7 +113,7 @@ class ImportNotifier extends _$ImportNotifier {
 
       ref.invalidate(fetchTransactionsProvider);
       ref.invalidate(mapNotifierProvider);
-      ref.invalidate(availableWomCountProvider);
+      ref.invalidate(totalWomCountProvider);
       state = ImportCompleted(woms.length);
     } catch (ex, st) {
       logger.e(ex);

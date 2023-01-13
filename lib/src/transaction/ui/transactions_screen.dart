@@ -40,7 +40,7 @@ class TransactionInfo extends StatelessWidget {
           iconData: Icons.cloud_upload,
           color: Colors.red,
           description:
-              'L\'esportazione ti consente di migrare i wom da un dispositivo ad un altro',
+              'L\'esportazione ti consente di migrare i wom da un dispositivo a un altro',
         ),
         TransactionTypeInfo(
           text: 'Swipe destro e sinistro',

@@ -103,6 +103,15 @@ class App extends ConsumerWidget {
             ),
             colorScheme: themeData.colorScheme.copyWith(secondary: accentColor),
           ),
+          builder: (context, child) {
+            // Obtain the current media query information.
+            final mediaQueryData = MediaQuery.of(context);
+
+            return MediaQuery(
+              data: mediaQueryData.copyWith(textScaleFactor: 1.0),
+              child: child!,
+            );
+          },
           // home: GateWidget(),
           // : BlocListener<AppBloc, AppState>(
           //     listener: (ctx, state) {

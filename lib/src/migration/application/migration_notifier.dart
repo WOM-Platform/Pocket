@@ -85,7 +85,7 @@ class MigrationNotifier extends _$MigrationNotifier {
             ),
           );
       ref.invalidate(fetchTransactionsProvider);
-      ref.invalidate(availableWomCountProvider);
+      ref.invalidate(totalWomCountProvider);
       ref.invalidate(mapNotifierProvider);
       logger.i(migrationData.link);
       state = MigrationStateComplete(data: migrationData);

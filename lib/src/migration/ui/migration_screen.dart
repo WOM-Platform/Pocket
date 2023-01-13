@@ -97,10 +97,14 @@ class PageOne extends ConsumerWidget {
               height: 32,
             ),
             Text(
-                'Eseguendo la procedura guidata potrai trasferire i tuoi wom in '
-                'un altro borsellino, questa processo eliminerà tutti i wom '
-                'presenti su questo disopsitivo.',
-                style: TextStyle(color: Colors.white)),
+              'Eseguendo la procedura guidata potrai trasferire i tuoi WOM in '
+              'un altro borsellino, questo processo eliminerà tutti i WOM '
+              'presenti su questo disopsitivo.',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
           ],
         ),
       ),
@@ -138,7 +142,7 @@ class PageThree extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Inserisci il pin utile a importare i tuoi wom nel nuovo borsellino',
+                  'Crea il pin che dovrai utilizzare per importare i tuoi WOM nel nuovo borsellino',
                   style: descStyle,
                 ),
                 const SizedBox(height: 16),
@@ -325,7 +329,7 @@ class SummaryPage extends ConsumerWidget {
                       descStyle: TextStyle(fontSize: 14, color: Colors.grey)),
                   type: AlertType.warning,
                   title: 'Confermi di voler esportare i tuoi WOM?',
-                  desc: 'Continuando perderai i tuoi WOM localmente',
+                  desc: 'Continuando i tuoi WOM non saranno più disponibili su questo dispositivo',
                   buttons: [
                     DialogButton(
                       color: Colors.white,
@@ -335,7 +339,7 @@ class SummaryPage extends ConsumerWidget {
                       },
                     ),
                     DialogButton(
-                      child: Text('Procedi'),
+                      child: Text('Procedi', style: TextStyle(color: Colors.white),),
                       onPressed: () async {
                         Navigator.of(context).pop(true);
                       },

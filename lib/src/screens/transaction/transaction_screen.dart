@@ -69,9 +69,9 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
 
   refreshHome(){
     ref.invalidate(fetchTransactionsProvider);
-    ref.invalidate(womCountProvider);
-    ref.invalidate(mapNotifierProvider);
     ref.invalidate(availableWomCountProvider);
+    ref.invalidate(mapNotifierProvider);
+    ref.invalidate(totalWomCountProvider);
     ref.invalidate(fetchAimInPercentageProvider);
     ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
     ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);

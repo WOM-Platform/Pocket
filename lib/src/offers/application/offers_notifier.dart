@@ -44,9 +44,9 @@ class OffersNotifier extends _$OffersNotifier {
       if (tmp == null) throw Exception();
 
       final data = await ref.watch(pocketProvider).getOffers(
-            // latitude: 43.72, longitude: 12.63,
-            latitude: tmp.latitude,
-            longitude: tmp.longitude,
+            latitude: 43.72, longitude: 12.63,
+            // latitude: tmp.latitude,
+            // longitude: tmp.longitude,
           );
       // final posList = await ref
       //     .read(registryClientProvider)
@@ -202,12 +202,19 @@ class OffersMapNotifier extends _$OffersMapNotifier {
       final clusterItems = offers.map((o) => OfferCluster(offer: o)).toList();
       posList = offers;
       if (offers.isNotEmpty) {
-        controller.showMarkerInfoWindow(MarkerId(offers.first.posId));
-        ref.read(carouselControllerProvider).jumpToPage(0);
+        Future.delayed(const Duration(milliseconds: 500)).then((value) {
+          try {
+            controller.showMarkerInfoWindow(MarkerId(offers.first.posId));
+            ref.read(carouselControllerProvider).jumpToPage(0);
+          } catch (ex) {
+            logger.e(ex);
+          }
+        });
       }
       clusterManager!.setItems(clusterItems);
-    } catch (ex) {
+    } catch (ex,st) {
       logger.e(ex);
+      logger.e(st);
       state = currentState;
     }
   }

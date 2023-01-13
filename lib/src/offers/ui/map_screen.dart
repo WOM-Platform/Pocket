@@ -12,6 +12,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/offers/ui/search_button.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 import 'carousel.dart';
 
 enum PosScreen { list, map }
@@ -242,7 +243,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
   }
 
   Future<void> onSearchPressed() async {
-    print('onSearchPressed') ;
+    print('onSearchPressed');
     ref.read(offersMapNotifierProvider.notifier).loadOffers(_controller.future);
   }
 
@@ -250,13 +251,29 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(offersMapNotifierProvider);
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Mappa delle offerte'),
+        elevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: primaryColor,
+            statusBarIconBrightness: Brightness.light),
+        backgroundColor: Theme.of(context).primaryColor,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.gps_fixed),
+              color: Colors.white,
+              onPressed: () {
+                _goToCurrentLocation();
+              }),
+        ],
+      ),
       body: SafeArea(
         child: Stack(
           children: [
             GoogleMap(
               initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
               myLocationEnabled: true,
-              myLocationButtonEnabled: Platform.isAndroid,
+              myLocationButtonEnabled: false,
               zoomControlsEnabled: false,
               mapToolbarEnabled: false,
               onCameraIdle: () {
@@ -270,7 +287,6 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
                 // ref.read(serviceFiltersShowProvider.notifier).state = false;
 
                 ref.read(zoomMapProvider.notifier).state = cameraPosition.zoom;
-
 
                 // ref
                 //     .read(enableCarouselProvider.notifier)
@@ -303,20 +319,20 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
               },
               markers: state.valueOrNull?.markers ?? {},
             ),
-            if (Platform.isIOS)
-              Positioned(
-                top: 16,
-                right: 16.0,
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  child: IconButton(
-                      icon: Icon(Icons.gps_fixed),
-                      color: Colors.grey,
-                      onPressed: () {
-                        _goToCurrentLocation();
-                      }),
-                ),
-              ),
+            // if (Platform.isIOS)
+            //   Positioned(
+            //     top: 16,
+            //     right: 16.0,
+            //     child: Card(
+            //       margin: EdgeInsets.zero,
+            //       child: IconButton(
+            //           icon: Icon(Icons.gps_fixed),
+            //           color: Colors.grey,
+            //           onPressed: () {
+            //             _goToCurrentLocation();
+            //           }),
+            //     ),
+            //   ),
             Positioned(
               bottom: 16.0,
               left: 0.0,
@@ -332,7 +348,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
                 ],
               ),
             ),
-            Positioned(top: 16.0, left: 16.0, child: BackButton()),
+            // Positioned(top: 16.0, left: 16.0, child: BackButton()),
           ],
         ),
       ),

@@ -24,14 +24,21 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   Future<List<WomRow>> get getAllWoms =>
       (select(wom)..where((tbl) => tbl.spent.equals(WomStatus.ON.index))).get();
 
-  Future<int> getWomCount() async {
+  Future<int> getAvailableWomCount() async {
     var countExp = wom.id.count(filter: wom.spent.equals(WomStatus.ON.index));
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
     return result ?? 0;
   }
 
-  Future<int> getAvailableWomCount() async {
+  Future<int> getWomCountSpent() async {
+    var countExp = wom.id.count(filter: wom.spent.equals(WomStatus.OFF.index));
+    final query = selectOnly(wom)..addColumns([countExp]);
+    var result = await query.map((row) => row.read(countExp)).getSingle();
+    return result ?? 0;
+  }
+
+  Future<int> getTotalWomCount() async {
     var countExp = wom.id.count();
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
@@ -150,13 +157,12 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
         'GROUP BY Aim '
         'ORDER BY percentage DESC;';
     logger.i('[WomDb]: $customQuery');
-    final rowList  = await customSelect(
+    final rowList = await customSelect(
       customQuery,
       readsFrom: {wom},
     ).get();
-    final list = rowList
-        .map((row) {
-          print(row);
+    final list = rowList.map((row) {
+      print(row);
       return AimInPercentage.fromJson(row.data);
     }).toList();
     return list;
@@ -164,8 +170,10 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
 
   Future<int> getWomCountEarnedLastWeek() async {
     logger.i('[WomDb] getWomEarnedLastWeek');
-    final oneWeekAgo = DateTime.now().subtract(Duration(days: 7)).millisecondsSinceEpoch;
-    var countExp = wom.id.count(filter: wom.addedOn.isBiggerThanValue(oneWeekAgo));
+    final oneWeekAgo =
+        DateTime.now().subtract(Duration(days: 7)).millisecondsSinceEpoch;
+    var countExp =
+        wom.id.count(filter: wom.addedOn.isBiggerThanValue(oneWeekAgo));
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
     return result ?? 0;
@@ -177,11 +185,12 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     //   ..groupBy([wom.status]);
   }
 
-
   Future<int> getWomCountSpentLastWeek() async {
     logger.i('[WomDb] getWomEarnedLastWeek');
-    final oneWeekAgo = DateTime.now().subtract(Duration(days: 7)).millisecondsSinceEpoch;
-    var countExp = wom.id.count(filter: wom.spentOn.isBiggerThanValue(oneWeekAgo));
+    final oneWeekAgo =
+        DateTime.now().subtract(Duration(days: 7)).millisecondsSinceEpoch;
+    var countExp =
+        wom.id.count(filter: wom.spentOn.isBiggerThanValue(oneWeekAgo));
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
     return result ?? 0;

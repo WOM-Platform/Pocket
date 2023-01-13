@@ -4,14 +4,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:collection/collection.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
-import 'package:wom_pocket/src/transaction/ui/transactions_screen.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {
@@ -28,7 +26,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final count =
+    final availableWomCount =
         ref.watch(availableWomCountProvider).valueOrNull?.toString() ?? '-';
     final spentLastWeek = ref
             .watch(fetchWomCountSpentInTheLastWeekProvider)
@@ -58,39 +56,43 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Wom disponibili:',
-                style: labelStyle,
-              ),
-              Text(
-                count,
-                style: valueStyle,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Spesi nell\'ultima settimana:',
-                style: labelStyle,
-              ),
-              Text(
-                spentLastWeek,
-                style: valueStyle,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Guadagnati nell\'ultima settimana:',
-                style: labelStyle,
-              ),
-              Text(
-                earnedLastWeek,
-                style: valueStyle,
-              ),
-            ],
+          Text(
+            'Wom disponibili:',
+            style: labelStyle,
           ),
-          const SizedBox(height: 16),
+          Text(
+            availableWomCount,
+            style: valueStyle,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Wom spesi:',
+            style: labelStyle,
+          ),
+          Text(
+            availableWomCount,
+            style: valueStyle,
+          ),
+          const SizedBox(height: 24),
+          SectionTitle(title: 'Ultima settimana'),
+          Text(
+            'Guadagnati',
+            style: labelStyle,
+          ),
+          Text(
+            earnedLastWeek,
+            style: valueStyle,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Spesi',
+            style: labelStyle,
+          ),
+          Text(
+            spentLastWeek,
+            style: valueStyle,
+          ),
+          const SizedBox(height: 24),
           SectionTitle(
             title: 'Aim',
           ),

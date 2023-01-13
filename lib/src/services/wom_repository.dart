@@ -50,16 +50,16 @@ class WomRepository {
     return groupedWoms;
   }
 
-  Future<int> getWomCount() async {
+  Future<int> getAvailableWomCount() async {
     logger.i("getWomCount");
-    final womCount = await database.womsDao.getWomCount();
+    final womCount = await database.womsDao.getAvailableWomCount();
     logger.i("getWomCount: $womCount");
     return womCount;
   }
 
-  Future<int> getAvailableWomCount() async {
+  Future<int> getTotalWomCount() async {
     logger.i("getWomCount");
-    final womCount = await database.womsDao.getAvailableWomCount();
+    final womCount = await database.womsDao.getTotalWomCount();
     logger.i("getWomCount: $womCount");
     return womCount;
   }

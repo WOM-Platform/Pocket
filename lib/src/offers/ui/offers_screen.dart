@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/data/offer.dart';
 import 'package:wom_pocket/src/offers/domain/entities/offer.dart';
@@ -53,8 +54,8 @@ class OffersListScreen extends ConsumerWidget {
       //   ),
       // ),
       body: state.when(
-        data: (list) {
-          if (list.isEmpty) {
+        data: (offers) {
+          if (offers.isEmpty) {
             return Center(
                 child: Text(
               'Non ci sono offerte basate sulla tua posizione!',
@@ -65,9 +66,39 @@ class OffersListScreen extends ConsumerWidget {
               ),
             ));
           }
-          return OffersList(
-            offers: list,
-          );
+          return OffersList(offers: offers);
+          // return Column(
+          //   children: [
+          //     SectionTitle(
+          //       title: 'Offerte online',
+          //       leftPadding: 16,
+          //       text: 'Vedi tutte',
+          //     ),
+          //     SizedBox(
+          //       height: 100,
+          //       child: ListView.builder(
+          //           padding: const EdgeInsets.only(left: 16),
+          //           scrollDirection: Axis.horizontal,
+          //           itemCount: 5,
+          //           itemBuilder: (c, i) {
+          //             return AspectRatio(
+          //               aspectRatio: 1,
+          //               child: Card(),
+          //             );
+          //           }),
+          //     ),
+          //     const SizedBox(height: 24),
+          //     SectionTitle(
+          //       title: 'Offerte sul territorio',
+          //       leftPadding: 16,
+          //     ),
+          //     Expanded(
+          //       child: OffersList(
+          //         offers: list,
+          //       ),
+          //     ),
+          //   ],
+          // );
         },
         error: (ex, st) {
           if (ex is MyLocationException) {

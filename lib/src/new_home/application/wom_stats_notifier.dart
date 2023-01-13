@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
-import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/blocs/transactions_list/bloc.dart';
 import 'package:wom_pocket/src/models/aim_percentage.dart';
@@ -23,6 +22,11 @@ Future<int> fetchWomCountEarnedInTheLastWeek(
 Future<int> fetchWomCountSpentInTheLastWeek(
     FetchWomCountSpentInTheLastWeekRef ref) async {
   return ref.watch(databaseProvider).womsDao.getWomCountSpentLastWeek();
+}
+
+Future<int> fetchWomSpent(
+    FetchWomCountSpentInTheLastWeekRef ref) async {
+  return ref.watch(databaseProvider).womsDao.getWomCountSpent();
 }
 
 @Riverpod(keepAlive: true)
