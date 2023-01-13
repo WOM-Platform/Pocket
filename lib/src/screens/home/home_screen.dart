@@ -33,8 +33,8 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   @override
   void initState() {
     super.initState();
-    FeatureDiscovery.hasPreviouslyCompleted(context, 'scan').then((value){
-      if(!value){
+    FeatureDiscovery.hasPreviouslyCompleted(context, 'scan').then((value) {
+      if (!value) {
         SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
           _showTutorial(context);
         });
@@ -134,14 +134,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         ),
         // The widget that will be displayed as the tap target.
         title: Text(
-          'Lettore di QR-Code',
+          AppLocalizations.of(context)!.translate('homeTutorialTitle1'),
           style: titleStyle,
         ),
-        description: Text(
-            'da qui puoi attivare il lettore di QR-Code da usare per guadagnare, spendere e importare WOM'),
-        // backgroundColor: Theme.of(context).colorScheme.secondary,
-        // targetColor: Colors.white,
-        // textColor: Theme.of(context).primaryColor,
+        description:
+            Text(AppLocalizations.of(context)!.translate('homeTutorialDesc1')),
         child: FloatingActionButton.extended(
           backgroundColor: primaryColor,
           label: Text(
@@ -167,11 +164,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             icon: DescribedFeatureOverlay(
               featureId: 'home',
               title: Text(
-                'Pagina principale',
+                AppLocalizations.of(context)!.translate('homeTutorialTitle2'),
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               description: Text(
-                'da qui puoi consultare lo stato del tuo borsellino e la lista delle transazioni',
+                AppLocalizations.of(context)!.translate('homeTutorialDesc2'),
                 style: TextStyle(fontSize: 20),
               ),
               backgroundColor: primaryColor,
@@ -191,11 +188,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             icon: DescribedFeatureOverlay(
               featureId: 'offers',
               title: Text(
-                'Attività convenzionate',
+                AppLocalizations.of(context)!.translate('homeTutorialTitle3'),
                 style: titleStyle,
               ),
               description: Text(
-                'qui trovi gli sconti e le agevolazioni che puoi ottenere in cambio di WOM',
+                AppLocalizations.of(context)!.translate('homeTutorialDesc3'),
                 style: descStyle,
               ),
               tapTarget: Column(
@@ -217,11 +214,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             icon: DescribedFeatureOverlay(
               featureId: 'settings',
               title: Text(
-                'Funzionalità avanzate',
+                AppLocalizations.of(context)!.translate('homeTutorialTitle4'),
                 style: titleStyle,
               ),
               description: Text(
-                'da qui puoi accedere a maggiori informazioni, ripercorre i tutorial e esportare i tuoi WOM',
+                AppLocalizations.of(context)!.translate('homeTutorialDesc4'),
                 style: descStyle,
               ),
               tapTarget: Column(
@@ -240,8 +237,9 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         onTap: (i) {
           if (i == 0) {
             logEvent('open_home');
-            FeatureDiscovery.hasPreviouslyCompleted(context, 'scan').then((value){
-              if(!value){
+            FeatureDiscovery.hasPreviouslyCompleted(context, 'scan')
+                .then((value) {
+              if (!value) {
                 _showTutorial(context);
               }
             });
@@ -253,75 +251,6 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           index.value = i;
         },
       ),
-      /*bottomNavigationBar: BottomAppBar(
-        shape: AutomaticNotchedShape(
-            RoundedRectangleBorder(), StadiumBorder(side: BorderSide())),
-        color: Theme.of(context).primaryColor,
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            DescribedFeatureOverlay(
-              featureId: 'show_map_info',
-              // Unique id that identifies this overlay.
-              tapTarget: const Icon(Icons.map),
-              // The widget that will be displayed as the tap target.
-              title: Text(context.translate('tutorial_map_title')!),
-              description: Text(context.translate('tutorial_map_desc')!),
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              targetColor: Colors.white,
-              textColor: Theme.of(context).primaryColor,
-              child: IconButton(
-                icon: Icon(Icons.map,
-                    color: Theme.of(context).colorScheme.secondary),
-                onPressed: () => _goToMap(),
-              ),
-            ),
-            Expanded(
-              child: SizedBox(),
-            ),
-            DescribedFeatureOverlay(
-              featureId: 'show_demo_info',
-              // Unique id that identifies this overlay.
-              tapTarget: const Icon(Icons.settings),
-              // The widget that will be displayed as the tap target.
-              title: Text(context.translate('tutorial_settings_title')!),
-              description: Text(context.translate('tutorial_settings_desc')!),
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              targetColor: Colors.white,
-              textColor: Theme.of(context).primaryColor,
-              child: IconButton(
-                icon: Icon(
-                  Icons.list,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-                onPressed: () => _goToSettings(),
-              ),
-            ),
-            Expanded(
-              child: SizedBox(),
-            ),
-            DescribedFeatureOverlay(
-              featureId: 'show_demo_info',
-              // Unique id that identifies this overlay.
-              tapTarget: const Icon(Icons.settings),
-              // The widget that will be displayed as the tap target.
-              title: Text(context.translate('tutorial_settings_title')!),
-              description: Text(context.translate('tutorial_settings_desc')!),
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              targetColor: Colors.white,
-              textColor: Theme.of(context).primaryColor,
-              child: IconButton(
-                icon: Icon(
-                  Icons.settings,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-                onPressed: () => _goToSettings(),
-              ),
-            ),
-          ],
-        ),
-      ),*/
     );
   }
 
@@ -339,17 +268,6 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 
         final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
         logEvent('wom_scan_done');
-//            var blocProviderPin = myBlocProvider.BlocProvider(
-//              bloc: PinBloc(),
-//              child: PinScreen(
-//                deepLinkModel: deepLinkModel,
-//              ),
-//            );
-//         _pinBloc = PinBloc(deepLinkModel);
-//         var blocProviderPin = BlocProvider(
-//           create: (context) => _pinBloc!,
-//           child: PinScreen(),
-//         );
         await Navigator.push(
           context,
           MaterialPageRoute<bool>(
@@ -360,15 +278,10 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           ),
         );
       } on PlatformException catch (ex) {
-        // if (ex == BarcodeScanner.CameraAccessDenied) {
-        //   throw ex;
-        // } else {
-        //   throw Exception("unknow error");
-        // }
         rethrow;
       } on FormatException {
         throw FormatException(
-            "Hai premuto il pulsante back prima di acquisire il dato");
+            AppLocalizations.of(context)!.translate('scanError'));
       } catch (ex, st) {
         logger.e(st);
         throw ex;
@@ -391,98 +304,6 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
       ).show();
     }
   }
-
-  /*_startScan() async {
-//            final String link = await showEditField(context);
-//          final link = "https://wom.social/vouchers/f6f8fd2a8c424a60aa23f8f444742f13";
-//            final link =
-//                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
-//            final String link = await bloc.scanQRCode();
-    if (await InternetConnectionChecker().hasConnection) {
-      logEvent('open_wom_scan');
-      try {
-        final link = await Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => ScanScreen()));
-
-        final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
-        logEvent('wom_scan_done');
-//            var blocProviderPin = myBlocProvider.BlocProvider(
-//              bloc: PinBloc(),
-//              child: PinScreen(
-//                deepLinkModel: deepLinkModel,
-//              ),
-//            );
-//         _pinBloc = PinBloc(deepLinkModel);
-//         var blocProviderPin = BlocProvider(
-//           create: (context) => _pinBloc!,
-//           child: PinScreen(),
-//         );
-        await Navigator.push(
-          context,
-          MaterialPageRoute<bool>(
-            builder: (context) => ProviderScope(
-              overrides: [deeplinkProvider.overrideWithValue(deepLinkModel)],
-              child: PinScreen(),
-            ),
-          ),
-        );
-      } on PlatformException catch (ex) {
-        // if (ex == BarcodeScanner.CameraAccessDenied) {
-        //   throw ex;
-        // } else {
-        //   throw Exception("unknow error");
-        // }
-        rethrow;
-      } on FormatException {
-        throw FormatException(
-            "Hai premuto il pulsante back prima di acquisire il dato");
-      } catch (ex, st) {
-        logger.e(st);
-        throw ex;
-      }
-    } else {
-      Alert(
-        context: context,
-        style: AlertStyle(),
-        type: AlertType.warning,
-        title: AppLocalizations.of(context)!.translate('no_connection_title'),
-        desc: AppLocalizations.of(context)!.translate('no_connection_desc'),
-        buttons: [
-          DialogButton(
-            child: Text('Ok'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )
-        ],
-      ).show();
-    }
-  }*/
-
-/*  _showInfo() {
-    Alert(
-      context: context,
-      title: AppLocalizations.of(context).translate('more_info'),
-      desc: 'www.wom.social',
-      buttons: [
-        DialogButton(
-          child: Text(AppLocalizations.of(context).translate('go_to_website')),
-          onPressed: () {
-            _launchURL();
-          },
-        )
-      ],
-    ).show();
-  }
-
-  _launchURL() async {
-    const url = 'https://wom.social';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }*/
 
   void _showTutorial(BuildContext context) {
     FeatureDiscovery.discoverFeatures(
