@@ -127,7 +127,7 @@ class CarouselItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '${offer.offers.length} ${offer.offers.length == 1 ? AppLocalizations.of(context)!.translate('offer') : AppLocalizations.of(context)!.translate('offers')} ${offer.offers.length == 1 ? AppLocalizations.of(context)!.translate('active') : AppLocalizations.of(context)!.translate('activePlural')}',
+                  '${offer.offers.length} ${offer.offers.length == 1 ? AppLocalizations.of(context)!.translate('offer') : AppLocalizations.of(context)!.translate('offers')!.toLowerCase()} ${offer.offers.length == 1 ? AppLocalizations.of(context)!.translate('active') : AppLocalizations.of(context)!.translate('activePlural')}',
                   style: TextStyle(
                     fontSize: 16,
                   ),

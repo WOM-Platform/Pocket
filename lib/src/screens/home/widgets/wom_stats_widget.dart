@@ -17,7 +17,7 @@ final availableWomCountProvider = FutureProvider<int>((ref) async {
   return ref.watch(womRepositoryProvider).getAvailableWomCount();
 });
 
-class WomStatsWidget extends ConsumerWidget {
+/*class WomStatsWidget extends ConsumerWidget {
   const WomStatsWidget({Key? key}) : super(key: key);
 
   @override
@@ -56,7 +56,7 @@ class WomStatsWidget extends ConsumerWidget {
               ),
             ),
           ),
-          /*Expanded(
+          *//*Expanded(
                   child: Center(
                     child: Column(
                       children: [
@@ -106,9 +106,9 @@ class WomStatsWidget extends ConsumerWidget {
                       ],
                     ),
                   ),
-                ),*/
+                ),*//*
         ],
       ),
     );
   }
-}
+}*/
