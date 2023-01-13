@@ -2,6 +2,7 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/offers/ui/offer_tile.dart';
 import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
@@ -18,7 +19,7 @@ class POSDetailsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dettaglio POS'),
+        title: Text(AppLocalizations.of(context)!.translate('posDetail')),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: primaryColor,

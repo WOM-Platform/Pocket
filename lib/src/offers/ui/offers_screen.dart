@@ -3,11 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/constants.dart';
-import 'package:wom_pocket/src/new_home/ui/section_title.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
-import 'package:wom_pocket/src/offers/data/offer.dart';
-import 'package:wom_pocket/src/offers/domain/entities/offer.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/offers/ui/offer_tile.dart';
 import 'package:wom_pocket/src/widgets/my_appbar.dart';
@@ -26,39 +23,16 @@ class OffersListScreen extends ConsumerWidget {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (c) => OfferMapsScreen()));
             },
-            child: Text('Vedi mappa'),
+            child: Text(AppLocalizations.of(context)!.translate('showMap')),
           )
         ],
       ),
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   title: Text(
-      //     appName,
-      //     style: TextStyle(
-      //       color: Colors.white,
-      //     ),
-      //   ),
-      //   actions: [
-      //     TextButton(
-      //       onPressed: () {
-      //         Navigator.of(context)
-      //             .push(MaterialPageRoute(builder: (c) => OfferMapsScreen()));
-      //       },
-      //       child: Text('Vedi mappa'),
-      //     )
-      //   ],
-      //   backgroundColor: Theme.of(context).primaryColor,
-      //   systemOverlayStyle: SystemUiOverlayStyle.light,
-      //   iconTheme: IconThemeData(
-      //     color: Colors.white,
-      //   ),
-      // ),
       body: state.when(
         data: (offers) {
           if (offers.isEmpty) {
             return Center(
                 child: Text(
-              'Non ci sono offerte basate sulla tua posizione!',
+              AppLocalizations.of(context)!.translate('noOffersOnLocation'),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
@@ -102,21 +76,25 @@ class OffersListScreen extends ConsumerWidget {
         },
         error: (ex, st) {
           if (ex is MyLocationException) {
-            return Text('non hai i permessi per la posizione');
+            return Text(AppLocalizations.of(context)!
+                .translate('noLocationPermission'));
           }
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Si è verificato un errore imprevisto!',
+                AppLocalizations.of(context)!.translate('somethings_wrong'),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),
               ElevatedButton(
-                  onPressed: () {
-                    ref.invalidate(offersNotifierProvider);
-                  },
-                  child: Text('Riprova')),
+                onPressed: () {
+                  ref.invalidate(offersNotifierProvider);
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.translate('try_again'),
+                ),
+              ),
               if (kDebugMode) Text(ex.toString()),
             ],
           );

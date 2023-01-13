@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:collection/collection.dart';
@@ -45,7 +46,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
     final valueStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 20);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Statistiche'),
+        title: Text(AppLocalizations.of(context)!.translate('stats')),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: primaryColor,
@@ -57,7 +58,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           Text(
-            'Wom disponibili:',
+            AppLocalizations.of(context)!.translate('availableWom'),
             style: labelStyle,
           ),
           Text(
@@ -74,9 +75,9 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
             style: valueStyle,
           ),
           const SizedBox(height: 24),
-          SectionTitle(title: 'Ultima settimana'),
+          SectionTitle(title: AppLocalizations.of(context)!.translate('lastWeek'),),
           Text(
-            'Guadagnati',
+            AppLocalizations.of(context)!.translate('womEarned'),
             style: labelStyle,
           ),
           Text(
@@ -85,7 +86,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Spesi',
+            AppLocalizations.of(context)!.translate('womSpent'),
             style: labelStyle,
           ),
           Text(
@@ -94,7 +95,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
           ),
           const SizedBox(height: 24),
           SectionTitle(
-            title: 'Aim',
+            title: AppLocalizations.of(context)!.translate('aim'),
           ),
           Row(
             children: [

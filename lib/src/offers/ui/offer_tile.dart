@@ -3,6 +3,7 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 
 const loremIpsum =
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ";
@@ -90,22 +91,24 @@ class OfferTile extends ConsumerWidget {
                   offer.offers[i].title,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                 ),
-                // if (offer.offers[i].description != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: ReadMoreText(
-                    offer.offers[i].description ?? loremIpsum,
-                    trimLines: 2,
-                    colorClickableText: Colors.pink,
-                    trimMode: TrimMode.Line,
-                    trimCollapsedText: 'altro',
-                    trimExpandedText: 'nascondi',
-                    lessStyle:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    moreStyle:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                if (offer.offers[i].description != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ReadMoreText(
+                      offer.offers[i].description!,
+                      trimLines: 2,
+                      colorClickableText: Colors.pink,
+                      trimMode: TrimMode.Line,
+                      trimCollapsedText:
+                          AppLocalizations.of(context)!.translate('other'),
+                      trimExpandedText:
+                          AppLocalizations.of(context)!.translate('hide'),
+                      lessStyle:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      moreStyle:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
                 const SizedBox(height: 16),
                 Row(
                   children: [

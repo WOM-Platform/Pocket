@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/offers/ui/pos_details_screen.dart';
@@ -33,7 +34,6 @@ class ListingCarouselWidget extends ConsumerWidget {
         ),
       )
           .then((value) {
-        // ref.read(markerNotifierProvider.notifier).selectMarker(markerId);
         controller.isMarkerInfoWindowShown(markerId).then(
           (value) {
             if (!value) {
@@ -49,9 +49,7 @@ class ListingCarouselWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(offersMapNotifierProvider).valueOrNull;
     final enabled = ref.watch(enableCarouselProvider);
-    // final items = ref.watch(filteredStoresProvider).asData?.value ?? [];
 
-    // final items = ref.watch(filterListProvider);
     if (!enabled || data == null || data.isLoading || data.offers.isEmpty)
       return const SizedBox.shrink();
     print('ListingCarouselWidget there are ${data.offers}');
@@ -90,7 +88,8 @@ class CarouselItem extends StatelessWidget {
     return InkWell(
       // key: Key(store.storeId),
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (_)=>POSDetailsScreen(pos:offer)));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => POSDetailsScreen(pos: offer)));
       },
       child: Card(
         elevation: 8.0,
@@ -102,10 +101,6 @@ class CarouselItem extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              // shrinkWrap: true,
-              // padding: const EdgeInsets.only(left: 8.0),
-              // physics: const  NeverScrollableScrollPhysics(),
-              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -132,7 +127,7 @@ class CarouselItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '${offer.offers.length} offert${offer.offers.length == 1 ? 'a' : 'e'} attiv${offer.offers.length == 1 ? 'a' : 'e'}',
+                  '${offer.offers.length} ${offer.offers.length == 1 ? AppLocalizations.of(context)!.translate('offer') : AppLocalizations.of(context)!.translate('offers')} ${offer.offers.length == 1 ? AppLocalizations.of(context)!.translate('active') : AppLocalizations.of(context)!.translate('activePlural')}',
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -142,7 +137,6 @@ class CarouselItem extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          // Utils.launchUrl(store.url!);
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (_) =>
                                   SuggestionScreen(url: offer.url!)));

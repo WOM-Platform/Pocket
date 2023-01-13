@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
@@ -44,8 +45,8 @@ class AimChartState extends ConsumerState<AimChart> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionTitle(
-          title: 'Statistiche',
-          text: 'Vedi tutte',
+          title: AppLocalizations.of(context)!.translate('stats'),
+          text: AppLocalizations.of(context)!.translate('seeAll'),
           onTap: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => StatsScreen()));
@@ -59,7 +60,7 @@ class AimChartState extends ConsumerState<AimChart> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Wom disponibili:',
+                    AppLocalizations.of(context)!.translate('availableWom'),
                     style: labelStyle,
                   ),
                   Text(
@@ -68,20 +69,20 @@ class AimChartState extends ConsumerState<AimChart> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Spesi nell\'ultima settimana:',
-                    style: labelStyle,
-                  ),
-                  Text(
-                    spentLastWeek,
-                    style: valueStyle,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Guadagnati nell\'ultima settimana:',
+                    AppLocalizations.of(context)!.translate('earnLastWeek'),
                     style: labelStyle,
                   ),
                   Text(
                     earnedLastWeek,
+                    style: valueStyle,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    AppLocalizations.of(context)!.translate('spentLastWeek'),
+                    style: labelStyle,
+                  ),
+                  Text(
+                    spentLastWeek,
                     style: valueStyle,
                   ),
                 ],

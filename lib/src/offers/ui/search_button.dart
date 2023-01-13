@@ -4,20 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
-import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 import '../../my_logger.dart';
 
 enum ZoomStatus { outside, enabled, disabled, loading }
-
-// final enableSearchButtonProvider = StateProvider.autoDispose<ZoomStatus>((ref) {
-//   final posMapData = ref.watch(posMapNotifierProvider);
-//   if (posMapData.isLoading) {
-//     return ZoomStatus.loading;
-//   }
-//   return ZoomStatus.disabled;
-// });
 
 final enableCarouselProvider = Provider.autoDispose<bool>((ref) {
   final zoom = ref.watch(zoomMapProvider);
@@ -44,16 +35,6 @@ class EnableSearchButtonNotifier extends AutoDisposeNotifier<ZoomStatus> {
     }
     return ZoomStatus.outside;
   }
-
-// enabled() {
-//   logger.wtf('EnableSearchButtonNotifier build => enabled');
-//   state = ZoomStatus.enabled;
-// }
-//
-// outside() {
-//   logger.wtf('EnableSearchButtonNotifier build => outside');
-//   state = ZoomStatus.outside;
-// }
 }
 
 class SearchNewPointButton extends ConsumerWidget {
@@ -85,7 +66,7 @@ class SearchNewPointButton extends ConsumerWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Avvicinati per cercare',
+                AppLocalizations.of(context)!.translate('zoomInToSearch'),
                 style: TextStyle(
                   color: primaryColor,
                   fontSize: fontSize,

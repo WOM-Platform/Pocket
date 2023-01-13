@@ -1,18 +1,16 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:toggle_switch/toggle_switch.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
-import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/offers/ui/search_button.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
+import '../../my_logger.dart';
 import 'carousel.dart';
 
 enum PosScreen { list, map }
@@ -46,12 +44,10 @@ class ShowMapListFilterNotifier extends Notifier<bool> {
   }
 
   show() {
-    print('show map list filters');
     state = true;
   }
 
   hide() {
-    print('hide map list filters');
     state = false;
   }
 }
@@ -59,125 +55,6 @@ class ShowMapListFilterNotifier extends Notifier<bool> {
 final mapControllerProvider = StateProvider<GoogleMapController?>((ref) {
   return null;
 });
-
-class OfferScreen extends ConsumerStatefulWidget {
-  const OfferScreen({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  ConsumerState createState() => _OfferScreenState();
-}
-
-class _OfferScreenState extends ConsumerState<OfferScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final selectedIndex = ref.watch(mapIndexProvider);
-
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light,
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          title: Text(
-            'DEV WOM POCKET',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                // vai alla mappa
-              },
-              child: Text('Vedi mappa'),
-            )
-          ],
-          backgroundColor: Theme.of(context).primaryColor,
-          systemOverlayStyle: SystemUiOverlayStyle.light,
-          iconTheme: IconThemeData(
-            color: Colors.white,
-          ),
-        ),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              IndexedStack(
-                index: selectedIndex.index,
-                children: [
-                  OffersListScreen(),
-                  OfferMapsScreen(),
-                  // OffersList(
-                  //   offers: posData.posList,
-                  //   goToLocation: (l) async {
-                  //     await _goToLocation(l, withAnimation: false);
-                  //     await Future.delayed(Duration(milliseconds: 200));
-                  //     onSearchPressed();
-                  //   },
-                  // ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Consumer(
-                  builder:
-                      (BuildContext context, WidgetRef ref, Widget? child) {
-                    final show = ref.watch(showMapListFilterProvider);
-                    if (show && child != null) {
-                      return child;
-                    } else {
-                      return SizedBox.shrink();
-                    }
-                  },
-                  child: ElasticIn(
-                    duration: const Duration(milliseconds: 500),
-                    child: Container(
-                      // color: Colors.green,
-                      height: 50,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ToggleSwitch(
-                            minWidth: 90.0,
-                            initialLabelIndex: selectedIndex.index,
-                            cornerRadius: 20.0,
-                            activeFgColor: Colors.white,
-                            inactiveBgColor: Colors.grey,
-                            inactiveFgColor: Colors.white,
-                            totalSwitches: 2,
-                            labels: PosScreen.values
-                                .map((e) => e.name.toUpperCase())
-                                .toList(),
-                            icons: [
-                              Icons.list,
-                              Icons.map,
-                            ],
-                            activeBgColors: [
-                              [Colors.pink],
-                              [Colors.blue],
-                            ],
-                            onToggle: (index) {
-                              print('switched to: $index');
-                              if (index == null || index == selectedIndex.index)
-                                return;
-                              ref.read(mapIndexProvider.notifier).toggle();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class OfferMapsScreen extends ConsumerStatefulWidget {
   const OfferMapsScreen({
@@ -218,7 +95,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
 
   Future<void> _goToLocation(LatLng latLng, {bool withAnimation = true}) async {
     final controller = await _controller.future;
-    print('map pos: controller retrieved');
+    logger.i('map pos: controller retrieved');
     if (withAnimation) {
       await controller.animateCamera(
         CameraUpdate.newCameraPosition(
@@ -243,7 +120,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
   }
 
   Future<void> onSearchPressed() async {
-    print('onSearchPressed');
+    logger.i('onSearchPressed');
     ref.read(offersMapNotifierProvider.notifier).loadOffers(_controller.future);
   }
 
@@ -252,7 +129,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
     final state = ref.watch(offersMapNotifierProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mappa delle offerte'),
+        title: Text(AppLocalizations.of(context)!.translate('offerMapTitle')),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: primaryColor,
@@ -319,20 +196,6 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
               },
               markers: state.valueOrNull?.markers ?? {},
             ),
-            // if (Platform.isIOS)
-            //   Positioned(
-            //     top: 16,
-            //     right: 16.0,
-            //     child: Card(
-            //       margin: EdgeInsets.zero,
-            //       child: IconButton(
-            //           icon: Icon(Icons.gps_fixed),
-            //           color: Colors.grey,
-            //           onPressed: () {
-            //             _goToCurrentLocation();
-            //           }),
-            //     ),
-            //   ),
             Positioned(
               bottom: 16.0,
               left: 0.0,
