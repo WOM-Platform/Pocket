@@ -349,10 +349,10 @@ class _ScanScreenState extends State<ScanScreen> {
       children: [
         MobileScanner(
           key: qrKey,
-          onDetect: (barcode, args) {
+          onDetect: (barcode) {
             if (scanned) return;
             scanned = true;
-            Navigator.of(context).pop(barcode.rawValue);
+            Navigator.of(context).pop(barcode.barcodes.first.rawValue);
           },
         ),
         Container(
