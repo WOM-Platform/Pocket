@@ -25,7 +25,7 @@ class MigrationExportScreen extends ConsumerWidget {
     required this.data,
   }) : super(key: key);
 
-  static final format = DateFormat('dd MMMM yyyy', 'it');
+  static final format = DateFormat('dd MMMM yyyy');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

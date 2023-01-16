@@ -124,8 +124,8 @@ class TransactionCard extends ConsumerWidget {
                       children: <Widget>[
                         if (transaction.importDeadline != null)
                           ItemRow(
-                            t1: 'Scadenza backup',
-                            t2: transaction.importDeadline.toString(),
+                            t1: AppLocalizations.of(context)!.translate('backupExpire'),
+                            t2: MigrationExportScreen.format.format(transaction.importDeadline!),
                           ),
                         if ((aim?.titles ?? const {})[languageCode] != null)
                           ItemRow(
@@ -211,8 +211,9 @@ class TransactionCard extends ConsumerWidget {
             // }
             var message = shareMessage(transaction.type);
             if (aim != null) {
+              final aimTitle = aim.title(languageCode: AppLocalizations.of(context)!.locale.languageCode);
               message =
-                  '$message  ${aim.title != null ? 'for ${aim.title}' : ''}';
+                  '$message  ${aimTitle != null ? 'for $aimTitle' : ''}';
             }
             Share.share(message);
           },

@@ -2,6 +2,7 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:wom_pocket/src/application/app_notifier.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
@@ -79,20 +80,23 @@ class App extends ConsumerWidget {
           ],
           localeResolutionCallback: (locale, supportedLocales) {
             if (locale == null) {
+              Intl.defaultLocale = supportedLocales.first.toString();
               return supportedLocales.first;
             }
 
             for (var supportedLocale in supportedLocales) {
               if (supportedLocale.languageCode == locale.languageCode &&
                   supportedLocale.countryCode == locale.countryCode) {
+                Intl.defaultLocale = supportedLocale.toString();
                 return supportedLocale;
               }
             }
+            Intl.defaultLocale = supportedLocales.first.toString();
             return supportedLocales.first;
           },
           supportedLocales: [
-            const Locale('en', 'US'),
             const Locale('it', 'IT'),
+            const Locale('en', 'US'),
           ],
           theme: themeData.copyWith(
             textTheme: GoogleFonts.ralewayTextTheme(themeData.textTheme),

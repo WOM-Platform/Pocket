@@ -29,6 +29,10 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
   Widget build(BuildContext context) {
     final availableWomCount =
         ref.watch(availableWomCountProvider).valueOrNull?.toString() ?? '-';
+
+    final womSpentCount =
+        ref.watch(fetchWomSpentProvider).valueOrNull?.toString() ?? '-';
+
     final spentLastWeek = ref
             .watch(fetchWomCountSpentInTheLastWeekProvider)
             .valueOrNull
@@ -71,11 +75,13 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
             style: labelStyle,
           ),
           Text(
-            availableWomCount,
+            womSpentCount,
             style: valueStyle,
           ),
           const SizedBox(height: 24),
-          SectionTitle(title: AppLocalizations.of(context)!.translate('lastWeek'),),
+          SectionTitle(
+            title: AppLocalizations.of(context)!.translate('lastWeek'),
+          ),
           Text(
             AppLocalizations.of(context)!.translate('womEarned'),
             style: labelStyle,
@@ -160,13 +166,14 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                         color: aimColors[min(i, 9)],
                         text: aimList
                                 .firstWhereOrNull((a) => a.code == aims[i].aim)
-                                ?.title ??
-                            '-',
+                                ?.title(
+                                    languageCode: AppLocalizations.of(context)!
+                                        .locale
+                                        .languageCode) ??
+                            aims[i].aim,
                         isSquare: true,
                       ),
-                      SizedBox(
-                        height: 4,
-                      ),
+                      SizedBox(height: 4),
                     ]
                   ],
                 ),

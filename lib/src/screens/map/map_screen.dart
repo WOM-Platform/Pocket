@@ -20,44 +20,35 @@ final maxHeight = Platform.isIOS ? 375.0 : 350.0;
 final minHeight = Platform.isIOS ? 80.0 : 45.0;
 
 class MapScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: darkUiOverlayStyle,
       child: Scaffold(
-        body: Stack(
-          children: [
-            SlidingUpPanel(
-              parallaxEnabled: true,
-              parallaxOffset: 0.3,
-              maxHeight: maxHeight,
-              minHeight: minHeight,
-              panel: MapPanel(),
-              body: MapBody(),
-            ),
-            Positioned(
-              left: 16,
-              top: 8 + MediaQuery.of(context).padding.top,
-              child: IconButton(
-                  icon: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 2, color: Colors.grey, spreadRadius: 1)
-                      ],
-                    ),
-                    child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Icon(Icons.arrow_back,
-                            color: Theme.of(context).primaryColor)),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }),
-            ),
+        appBar:AppBar(
+          title: Text(AppLocalizations.of(context)!.translate('womMap')),
+          elevation: 0,
+          systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: primaryColor,
+              statusBarIconBrightness: Brightness.light),
+          backgroundColor: Theme.of(context).primaryColor,
+          actions: [
+            // IconButton(
+            //     icon: Icon(Icons.gps_fixed),
+            //     color: Colors.white,
+            //     onPressed: () {
+            //       goToCurrentLocation();
+            //     }),
           ],
+        ),
+        body: SlidingUpPanel(
+          parallaxEnabled: true,
+          parallaxOffset: 0.3,
+          maxHeight: maxHeight,
+          minHeight: minHeight,
+          panel: MapPanel(),
+          body: MapBody(),
         ),
       ),
     );
@@ -97,7 +88,7 @@ class MapBody extends ConsumerWidget {
         initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
         zoomControlsEnabled: false,
         minMaxZoomPreference: MinMaxZoomPreference(0.0, 16.0),
-        myLocationButtonEnabled: enabled ? true : false,
+        myLocationButtonEnabled: false,
         compassEnabled: enabled ? true : false,
         myLocationEnabled: enabled ? true : false,
         rotateGesturesEnabled: enabled ? true : false,

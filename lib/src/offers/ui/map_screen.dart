@@ -144,76 +144,74 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
               }),
         ],
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            GoogleMap(
-              initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
-              myLocationEnabled: true,
-              myLocationButtonEnabled: false,
-              zoomControlsEnabled: false,
-              mapToolbarEnabled: false,
-              onCameraIdle: () {
-                ref
-                    .read(offersMapNotifierProvider.notifier)
-                    .clusterManager
-                    ?.updateMap();
-              },
-              onCameraMove: (cameraPosition) async {
-                print(cameraPosition.zoom);
-                // ref.read(serviceFiltersShowProvider.notifier).state = false;
+      body: Stack(
+        children: [
+          GoogleMap(
+            initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
+            mapToolbarEnabled: false,
+            onCameraIdle: () {
+              ref
+                  .read(offersMapNotifierProvider.notifier)
+                  .clusterManager
+                  ?.updateMap();
+            },
+            onCameraMove: (cameraPosition) async {
+              print(cameraPosition.zoom);
+              // ref.read(serviceFiltersShowProvider.notifier).state = false;
 
-                ref.read(zoomMapProvider.notifier).state = cameraPosition.zoom;
+              ref.read(zoomMapProvider.notifier).state = cameraPosition.zoom;
 
-                // ref
-                //     .read(enableCarouselProvider.notifier)
-                //     .update((state) => cameraPosition.zoom > 16);
+              // ref
+              //     .read(enableCarouselProvider.notifier)
+              //     .update((state) => cameraPosition.zoom > 16);
 
-                /*if ((cameraPosition.zoom * 10).round() / 10 < minZoom) {
-                  ref.read(enableSearchButtonProvider.notifier).outside();
-                } else {
-                  ref.read(enableSearchButtonProvider.notifier).enabled();
-                }*/
-                ref
-                    .read(offersMapNotifierProvider.notifier)
-                    .clusterManager
-                    ?.onCameraMove(cameraPosition);
-                // ref.read(mapControllerProvider)?.getVisibleRegion().then(
-                //     (value) =>
-                //         ref.read(latLongBoundsProvider.notifier).state = value);
-              },
-              onMapCreated: (GoogleMapController controller) {
-                ref.read(mapControllerProvider.notifier).state = controller;
-                _controller.complete(controller);
-                ref
-                    .read(offersMapNotifierProvider.notifier)
-                    .clusterManager
-                    ?.setMapId(controller.mapId);
-                ref
-                    .read(offersMapNotifierProvider.notifier)
-                    .clusterManager
-                    ?.updateMap();
-              },
-              markers: state.valueOrNull?.markers ?? {},
+              /*if ((cameraPosition.zoom * 10).round() / 10 < minZoom) {
+                ref.read(enableSearchButtonProvider.notifier).outside();
+              } else {
+                ref.read(enableSearchButtonProvider.notifier).enabled();
+              }*/
+              ref
+                  .read(offersMapNotifierProvider.notifier)
+                  .clusterManager
+                  ?.onCameraMove(cameraPosition);
+              // ref.read(mapControllerProvider)?.getVisibleRegion().then(
+              //     (value) =>
+              //         ref.read(latLongBoundsProvider.notifier).state = value);
+            },
+            onMapCreated: (GoogleMapController controller) {
+              ref.read(mapControllerProvider.notifier).state = controller;
+              _controller.complete(controller);
+              ref
+                  .read(offersMapNotifierProvider.notifier)
+                  .clusterManager
+                  ?.setMapId(controller.mapId);
+              ref
+                  .read(offersMapNotifierProvider.notifier)
+                  .clusterManager
+                  ?.updateMap();
+            },
+            markers: state.valueOrNull?.markers ?? {},
+          ),
+          Positioned(
+            bottom: 16.0,
+            left: 0.0,
+            right: 0.0,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SearchNewPointButton(
+                  onPressed: onSearchPressed,
+                ),
+                const SizedBox(height: 4),
+                const ListingCarouselWidget(),
+              ],
             ),
-            Positioned(
-              bottom: 16.0,
-              left: 0.0,
-              right: 0.0,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SearchNewPointButton(
-                    onPressed: onSearchPressed,
-                  ),
-                  const SizedBox(height: 4),
-                  const ListingCarouselWidget(),
-                ],
-              ),
-            ),
-            // Positioned(top: 16.0, left: 16.0, child: BackButton()),
-          ],
-        ),
+          ),
+          // Positioned(top: 16.0, left: 16.0, child: BackButton()),
+        ],
       ),
     );
   }

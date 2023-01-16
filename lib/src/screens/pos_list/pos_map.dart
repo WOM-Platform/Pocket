@@ -13,6 +13,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map_data.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 import 'package:wom_pocket/src/screens/pos_list/search_button.dart';
+import '../../utils/location_utils.dart';
 import 'carousel.dart';
 import 'pos_list_screen.dart';
 
@@ -120,21 +121,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
   @override
   void initState() {
     super.initState();
-    _goToCurrentLocation();
-  }
-
-  _goToCurrentLocation() async {
-    if (await _requestPermission()) {
-      final currentPosition = await Geolocator.getCurrentPosition();
-      await _goToLocation(
-          LatLng(currentPosition.latitude, currentPosition.longitude));
-    }
-  }
-
-  Future<bool> _requestPermission() async {
-    final permission = await Geolocator.requestPermission();
-    return permission == LocationPermission.whileInUse ||
-        permission == LocationPermission.always;
+    goToCurrentLocation(_controller.future, minZoom);
   }
 
   Future<void> _goToLocation(LatLng latLng, {bool withAnimation = true}) async {
@@ -237,7 +224,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                                   icon: Icon(Icons.gps_fixed),
                                   color: Colors.grey,
                                   onPressed: () {
-                                    _goToCurrentLocation();
+                                    goToCurrentLocation(_controller.future, minZoom);
                                   }),
                             ),
                           ),

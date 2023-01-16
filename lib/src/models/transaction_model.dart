@@ -52,7 +52,7 @@ extension TransactionModelX on TransactionModel {
   }
 
   String formatDate() {
-    var format = DateFormat.yMMMEd(Intl.getCurrentLocale());
+    var format = DateFormat.yMMMEd();
     return format.format(this.date);
   }
 

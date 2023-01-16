@@ -47,7 +47,7 @@ abstract class _$OffersNotifier extends AsyncNotifier<List<OfferPOS>> {
   FutureOr<List<OfferPOS>> build();
 }
 
-String _$OffersMapNotifierHash() => r'4e7b59f348f2d00b56badf643d8320e99b9a6ef6';
+String _$OffersMapNotifierHash() => r'482ca11b7b3aa26af6037b69aa11a44f269ec117';
 
 /// See also [OffersMapNotifier].
 final offersMapNotifierProvider =

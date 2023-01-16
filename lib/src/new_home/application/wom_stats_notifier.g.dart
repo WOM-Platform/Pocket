@@ -86,3 +86,14 @@ final fetchWomCountSpentInTheLastWeekProvider = AutoDisposeFutureProvider<int>(
       : _$fetchWomCountSpentInTheLastWeekHash,
 );
 typedef FetchWomCountSpentInTheLastWeekRef = AutoDisposeFutureProviderRef<int>;
+String _$fetchWomSpentHash() => r'309466a64948ca955dffca5242c19600b67e1351';
+
+/// See also [fetchWomSpent].
+final fetchWomSpentProvider = AutoDisposeFutureProvider<int>(
+  fetchWomSpent,
+  name: r'fetchWomSpentProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$fetchWomSpentHash,
+);
+typedef FetchWomSpentRef = AutoDisposeFutureProviderRef<int>;

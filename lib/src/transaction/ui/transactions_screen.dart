@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
@@ -16,38 +17,36 @@ class TransactionInfo extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         TransactionTypeInfo(
-          text: 'Acquisizione',
+          text: AppLocalizations.of(context)!.translate('transactionInfoEarnTitle'),
           iconData: Icons.monetization_on,
           color: Colors.green,
-          description: 'L\'operazione con cui aggiungi WOM al tuo borsellino',
+          description: AppLocalizations.of(context)!.translate('transactionInfoEarnDesc'),
         ),
         TransactionTypeInfo(
-          text: 'Pagamento',
+          text: AppLocalizations.of(context)!.translate('transactionInfoSpendTitle'),
           iconData: Icons.credit_card,
           color: Colors.red,
           description:
-              'L\'operazione con cui bruci i tuoi wom a favore di un bene o servizio offerto da un merchant',
+          AppLocalizations.of(context)!.translate('transactionInfoSpendDesc'),
         ),
         TransactionTypeInfo(
-          text: 'Importazione',
+          text:  AppLocalizations.of(context)!.translate('transactionInfoImportTitle'),
           iconData: Icons.cloud_download,
           color: Colors.green,
-          description:
-              'Con questa operazione importi una migrazione precedentemente effettuata',
+          description:AppLocalizations.of(context)!.translate('transactionInfoImportDesc'),
         ),
         TransactionTypeInfo(
-          text: 'Esportazione',
+          text:AppLocalizations.of(context)!.translate('transactionInfoExportTitle'),
           iconData: Icons.cloud_upload,
           color: Colors.red,
-          description:
-              'L\'esportazione ti consente di migrare i wom da un dispositivo a un altro',
+          description:AppLocalizations.of(context)!.translate('transactionInfoExportDesc'),
         ),
         TransactionTypeInfo(
-          text: 'Swipe destro e sinistro',
+          text: AppLocalizations.of(context)!.translate('transactionInfoSwipeTitle'),
           iconData: Icons.swipe_rounded,
           color: Colors.grey,
           description:
-              'Lo swipe a destra o sinistra su una card permette di accedere a funzionalità extra',
+          AppLocalizations.of(context)!.translate('transactionInfoSwipeDesc'),
         )
       ],
     );
