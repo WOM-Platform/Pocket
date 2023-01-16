@@ -96,7 +96,6 @@ flutter:
 
   assets:
     - assets/images/urbino.jpeg
-    - assets/images/empty_wom.jpg
     - assets/images/empty_wom.svg
     - assets/images/wom_pos_pin.png
     - assets/images/migration.png
