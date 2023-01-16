@@ -38,9 +38,9 @@ class OffersNotifier extends _$OffersNotifier {
       if (tmp == null) throw Exception();
 
       final data = await ref.watch(pocketProvider).getOffers(
-            latitude: 43.72, longitude: 12.63,
-            // latitude: tmp.latitude,
-            // longitude: tmp.longitude,
+            // latitude: 43.72, longitude: 12.63,
+            latitude: tmp.latitude,
+            longitude: tmp.longitude,
           );
       return data
           .map(

@@ -12,6 +12,8 @@ import 'package:wom_pocket/src/utils/config.dart';
 import 'constants.dart';
 import 'src/utils/utils.dart';
 
+late String mapStyle;
+
 void main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +23,7 @@ void main() async {
     flavor = Flavor.RELEASE;
     domain = 'wom.social';
     registryKey = await Utils.getPublicKey();
+    mapStyle = await rootBundle.loadString('assets/map_style.txt');
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
     SystemChrome.setSystemUIOverlayStyle(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/models/optional_query_model.dart';
@@ -136,6 +137,7 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
 
   void onMapCreated(GoogleMapController controller) async {
     logger.i("onMapCreated");
+    await controller.setMapStyle(mapStyle);
     // clusteringHelper.mapController = controller;
     this.controller = controller;
     // clusteringHelper.database = ref.read(databaseProvider);

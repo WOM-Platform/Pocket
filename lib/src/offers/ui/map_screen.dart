@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/search_button.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
@@ -182,6 +183,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
               //         ref.read(latLongBoundsProvider.notifier).state = value);
             },
             onMapCreated: (GoogleMapController controller) {
+              controller.setMapStyle(mapStyle);
               ref.read(mapControllerProvider.notifier).state = controller;
               _controller.complete(controller);
               ref

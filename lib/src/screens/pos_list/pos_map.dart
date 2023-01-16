@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map_data.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 import 'package:wom_pocket/src/screens/pos_list/search_button.dart';
@@ -208,6 +209,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                                     .state = value);
                           },
                           onMapCreated: (GoogleMapController controller) {
+                            controller.setMapStyle(mapStyle);
                             ref.read(mapControllerProvider.notifier).state =
                                 controller;
                             _controller.complete(controller);

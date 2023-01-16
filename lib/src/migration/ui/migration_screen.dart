@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/pin_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/migration/application/migration_notifier.dart';
@@ -38,23 +39,12 @@ class MyWidget extends ConsumerWidget {
   }
 }
 
-// final pinControllerProvider =
-//     Provider.autoDispose<TextEditingController>((ref) {
-//   final t = TextEditingController();
-//
-//   ref.onDispose(() {
-//     t.dispose();
-//   });
-//   return t;
-// });
-
 class MigrationScreen extends ConsumerWidget {
   const MigrationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(migrationNotifierProvider, (previous, next) {});
-    // ref.listen(pinControllerProvider, (previous, next) {});
     return Scaffold(
       body: PageView(
         controller: ref.watch(pageControllerProvider),
@@ -91,15 +81,13 @@ class PageOne extends ConsumerWidget {
             const SizedBox(
               height: 16,
             ),
-            Text('Migrazione guidata del tuo Pocket',
+            Text(AppLocalizations.of(context)!.translate('exportWizard'),
                 style: TextStyle(fontSize: 30, color: Colors.white)),
             const SizedBox(
               height: 32,
             ),
             Text(
-              'Eseguendo la procedura guidata potrai trasferire i tuoi WOM in '
-              'un altro borsellino, questo processo eliminerà tutti i WOM '
-              'presenti su questo disopsitivo.',
+              AppLocalizations.of(context)!.translate('exportWizardDesc'),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -142,7 +130,7 @@ class PageThree extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Crea il pin che dovrai utilizzare per importare i tuoi WOM nel nuovo borsellino',
+                  AppLocalizations.of(context)!.translate('createPin'),
                   style: descStyle,
                 ),
                 const SizedBox(height: 16),
@@ -154,7 +142,6 @@ class PageThree extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(10)),
                   height: 80,
                   child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       for (int i = 0; i < 4; i++)
                         Expanded(
@@ -195,7 +182,7 @@ class PageThree extends ConsumerWidget {
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  'Annulla',
+                  AppLocalizations.of(context)!.translate('cancel'),
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -251,7 +238,7 @@ class SummaryPage extends ConsumerWidget {
                     ),
                     const SizedBox(width: 16),
                     Text(
-                      'Esportazione',
+                      AppLocalizations.of(context)!.translate('export'),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 30,
@@ -264,7 +251,10 @@ class SummaryPage extends ConsumerWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('Wom da migrare:', style: titleStyle),
+                    Text(
+                      AppLocalizations.of(context)!.translate('womToExport'),
+                      style: titleStyle,
+                    ),
                     const SizedBox(width: 8),
                     Text(woms.length.toString(), style: descStyle),
                   ],
@@ -274,7 +264,7 @@ class SummaryPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'PIN scelto: ',
+                      AppLocalizations.of(context)!.translate('chosenPin'),
                       style: titleStyle,
                     ),
                     const SizedBox(width: 8),
@@ -290,7 +280,9 @@ class SummaryPage extends ConsumerWidget {
         ),
         initial: () {
           return Center(
-            child: Text('Dati mancanti'),
+            child: Text(
+              AppLocalizations.of(context)!.translate('missingData'),
+            ),
           );
         },
         error: (ex, st) => MyErrorWidget(
@@ -312,7 +304,7 @@ class SummaryPage extends ConsumerWidget {
                     ref.read(pageControllerProvider).jumpToPage(1);
                   },
                   child: Text(
-                    'Indietro',
+                    AppLocalizations.of(context)!.translate('back'),
                     style: TextStyle(color: Colors.white),
                   )),
             ),
@@ -320,7 +312,7 @@ class SummaryPage extends ConsumerWidget {
           if (migrationState is MigrationStateData)
             FloatingActionButton.extended(
               label: Text(
-                'Concludi',
+                AppLocalizations.of(context)!.translate('conclude'),
               ),
               onPressed: () async {
                 final res = await Alert(
@@ -328,18 +320,25 @@ class SummaryPage extends ConsumerWidget {
                   style: AlertStyle(
                       descStyle: TextStyle(fontSize: 14, color: Colors.grey)),
                   type: AlertType.warning,
-                  title: 'Confermi di voler esportare i tuoi WOM?',
-                  desc: 'Continuando i tuoi WOM non saranno più disponibili su questo dispositivo',
+                  title: AppLocalizations.of(context)!
+                      .translate('confirmToExportWom'),
+                  desc: AppLocalizations.of(context)!
+                      .translate('confirmToExportWomDesc'),
                   buttons: [
                     DialogButton(
                       color: Colors.white,
-                      child: Text('Annulla'),
+                      child: Text(
+                        AppLocalizations.of(context)!.translate('cancel'),
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop(false);
                       },
                     ),
                     DialogButton(
-                      child: Text('Procedi', style: TextStyle(color: Colors.white),),
+                      child: Text(
+                        AppLocalizations.of(context)!.translate('continue'),
+                        style: TextStyle(color: Colors.white),
+                      ),
                       onPressed: () async {
                         Navigator.of(context).pop(true);
                       },
@@ -348,13 +347,6 @@ class SummaryPage extends ConsumerWidget {
                 ).show();
 
                 if (res ?? false) {
-                  // Navigator.of(context).pushAndRemoveUntil(
-                  //     MaterialPageRoute(
-                  //       builder: (c) =>
-                  //           MigrationExportScreen(data: migrationState.pin),
-                  //     ),
-                  //     (route) => false);
-
                   ref.read(migrationNotifierProvider.notifier).exportWom();
                 }
               },

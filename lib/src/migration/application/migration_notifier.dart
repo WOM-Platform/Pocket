@@ -15,6 +15,7 @@ import 'package:wom_pocket/src/migration/application/migration_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
@@ -74,23 +75,25 @@ class MigrationNotifier extends _$MigrationNotifier {
 
       await ref.read(databaseProvider).transactionsDao.addTransaction(
             TransactionsCompanion.insert(
-              source: '',
-              aim: '',
-              timestamp: DateTime.now().millisecondsSinceEpoch,
-              type: TransactionType.MIGRATION_EXPORT.index,
-              size: data.womCount,
-              pin: Value(pin),
-              link: Value(link),
-              deadline: Value(migrationData.importDeadline.millisecondsSinceEpoch)
-            ),
+                source: '',
+                aim: '',
+                timestamp: DateTime.now().millisecondsSinceEpoch,
+                type: TransactionType.MIGRATION_EXPORT.index,
+                size: data.womCount,
+                pin: Value(pin),
+                link: Value(link),
+                deadline:
+                    Value(migrationData.importDeadline.millisecondsSinceEpoch)),
           );
       ref.invalidate(fetchTransactionsProvider);
       ref.invalidate(totalWomCountProvider);
       ref.invalidate(mapNotifierProvider);
+      ref.invalidate(availableWomCountProvider);
+      ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
+      ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
       logger.i(migrationData.link);
       state = MigrationStateComplete(data: migrationData);
     } catch (ex, st) {
-      // state = ExportError(Exception(ex.toString()));
       print(st);
       state = MigrationStateError(ex, st);
     }

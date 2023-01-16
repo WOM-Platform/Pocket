@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:wom_pocket/app.dart';
+import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/pin_notifier.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -79,20 +80,24 @@ class PageOne extends ConsumerWidget {
             const SizedBox(
               height: 16,
             ),
-            Text('Migrazione WOM',
-                style: TextStyle(fontSize: 18, color: Colors.white)),
-            Text('Importazione guidata',
-                style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600)),
+            Text(
+              AppLocalizations.of(context)!.translate('womMigration'),
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+            Text(
+              AppLocalizations.of(context)!.translate('importWizard'),
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600),
+            ),
             const SizedBox(
               height: 32,
             ),
             Text(
-                'Questa procedura ti consentirà di importare i WOM che hai esportato da un altro borsellino.\n\n'
-                'Tieni a portata di mano il PIN inserito per effettuare l\'esportazione. Senza di esso non potrai completare l\'operazione.',
-                style: TextStyle(color: Colors.white)),
+              AppLocalizations.of(context)!.translate('importWizardDesc'),
+              style: TextStyle(color: Colors.white),
+            ),
           ],
         ),
       ),
@@ -124,7 +129,6 @@ class PageThree extends ConsumerWidget {
             return Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                // paddin_/**/g: const EdgeInsets.all(16),
                 children: [
                   const SizedBox(height: 16),
                   Icon(
@@ -134,7 +138,8 @@ class PageThree extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Inserisci il pin utilizzato per eseguire l\'esportazione.',
+                    AppLocalizations.of(context)!
+                        .translate('insertPinToExport'),
                     style: descStyle,
                   ),
                   const SizedBox(height: 16),
@@ -146,7 +151,6 @@ class PageThree extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(10)),
                     height: 80,
                     child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         for (int i = 0; i < 4; i++)
                           Expanded(
@@ -198,7 +202,7 @@ class PageThree extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Sono stati importati $womCount wom.',
+                    '${AppLocalizations.of(context)!.translate('importedWOM')} $womCount WOM.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -213,7 +217,8 @@ class PageThree extends ConsumerWidget {
           justImported: () {
             return Center(
               child: Text(
-                'Questo backup è stato già importato!',
+                AppLocalizations.of(context)!
+                    .translate('backupAlreadyImported'),
                 style: TextStyle(color: Colors.white, fontSize: 22),
               ),
             );
@@ -229,7 +234,7 @@ class PageThree extends ConsumerWidget {
                 Navigator.of(context).pop();
               },
               child: Text(
-                'Annulla',
+                AppLocalizations.of(context)!.translate('cancel'),
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -241,10 +246,8 @@ class PageThree extends ConsumerWidget {
                 importState is ImportCompleted ||
                         importState is ImportError ||
                         importState is JustImported
-                    ? 'Torna alla home'
-                    // : importState is ImportError
-                    //     ? 'Riprova'
-                    : 'Concludi',
+                    ? AppLocalizations.of(context)!.translate('backToHome')
+                    : AppLocalizations.of(context)!.translate('conclude'),
               ),
               onPressed: confirm
                   ? () {
@@ -263,19 +266,23 @@ class PageThree extends ConsumerWidget {
                               descStyle:
                                   TextStyle(fontSize: 14, color: Colors.grey)),
                           type: AlertType.warning,
-                          title:
-                              'Confermi di voler importare i WOM di questo backup?',
+                          title: AppLocalizations.of(context)!
+                              .translate('confirmToImportWom'),
                           desc: '',
                           buttons: [
                             DialogButton(
                               color: Colors.white,
-                              child: Text('Annulla'),
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .translate('cancel'),
+                              ),
                               onPressed: () {
                                 Navigator.pop(context);
                               },
                             ),
                             DialogButton(
-                              child: Text('Procedi'),
+                              child: Text(AppLocalizations.of(context)!
+                                  .translate('continue')),
                               onPressed: () {
                                 Navigator.pop(context);
 

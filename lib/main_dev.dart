@@ -5,12 +5,12 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:wom_pocket/src/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'app.dart';
 import 'constants.dart';
+import 'main.dart';
 import 'src/utils/utils.dart';
 
 Future<void> main() async {
@@ -45,6 +45,7 @@ Future<void> main() async {
   flavor = Flavor.DEVELOPMENT;
   domain = 'dev.wom.social';
   registryKey = await Utils.getPublicKey();
+  mapStyle = await rootBundle.loadString('assets/map_style.txt');
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
     statusBarColor: Colors.red,
   ));
