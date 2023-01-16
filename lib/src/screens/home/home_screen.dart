@@ -1,3 +1,4 @@
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -9,6 +10,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/app_notifier.dart';
+import 'package:wom_pocket/src/migration/application/import_notifier.dart';
+import 'package:wom_pocket/src/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/new_home/ui/new_home.dart';
 import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
@@ -199,7 +202,9 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.discount),
-                  Text(AppLocalizations.of(context)!.translate('offers'),),
+                  Text(
+                    AppLocalizations.of(context)!.translate('offers'),
+                  ),
                 ],
               ),
               child: Icon(Icons.discount),
@@ -225,7 +230,9 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.settings),
-                  Text(AppLocalizations.of(context)!.translate('settings_title'),),
+                  Text(
+                    AppLocalizations.of(context)!.translate('settings_title'),
+                  ),
                 ],
               ),
               child: Icon(Icons.settings),
@@ -268,15 +275,30 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 
         final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
         logEvent('wom_scan_done');
-        await Navigator.push(
-          context,
-          MaterialPageRoute<bool>(
-            builder: (context) => ProviderScope(
-              overrides: [deeplinkProvider.overrideWithValue(deepLinkModel)],
-              child: PinScreen(),
+        if (deepLinkModel.type == TransactionType.MIGRATION_IMPORT) {
+          Navigator.push(
+            context,
+            MaterialPageRoute<bool>(
+              builder: (context) => ProviderScope(
+                overrides: [
+                  deeplinkProvider.overrideWithValue(deepLinkModel),
+                  importNotifierProvider
+                ],
+                child: ImportScreen(),
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          await Navigator.push(
+            context,
+            MaterialPageRoute<bool>(
+              builder: (context) => ProviderScope(
+                overrides: [deeplinkProvider.overrideWithValue(deepLinkModel)],
+                child: PinScreen(),
+              ),
+            ),
+          );
+        }
       } on PlatformException catch (ex) {
         rethrow;
       } on FormatException {

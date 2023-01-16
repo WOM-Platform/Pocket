@@ -29,7 +29,6 @@ class PinScreen extends ConsumerWidget {
         statusBarIconBrightness: Brightness.dark,
       ),
     );
-    // bloc = BlocProvider.of<PinBloc>(context);
     final pinState = ref.watch(pinNotifierProvider);
     final deeplinkModel = ref.watch(deeplinkProvider);
     ref.listen<PinState>(pinNotifierProvider, (previous, next) {
