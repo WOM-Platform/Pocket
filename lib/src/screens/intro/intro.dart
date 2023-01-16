@@ -19,10 +19,9 @@ class IntroScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final appBloc = BlocProvider.of<AppBloc>(context);
     final pages = [
       PageViewModel(
-        pageColor: Colors.white,
+        pageColor: lightBackground,
         //TODO mettere in bold W O M di Worth One Minute
         body: Text(
           AppLocalizations.of(context)!.translate('introDesc1'),
