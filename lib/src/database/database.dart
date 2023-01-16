@@ -56,7 +56,7 @@ class MyDatabase extends _$MyDatabase {
           await m.addColumn(wom, wom.donationId);
           await m.addColumn(wom, wom.spentOn);
           await m.renameColumn(wom, 'live', wom.spent);
-          await m.renameColumn(wom, 'Timestamp', wom.spent);
+          await m.renameColumn(wom, 'Timestamp', wom.addedOn);
           await m.addColumn(transactions, transactions.pin);
           await m.addColumn(transactions, transactions.link);
           await m.addColumn(transactions, transactions.deadline);
