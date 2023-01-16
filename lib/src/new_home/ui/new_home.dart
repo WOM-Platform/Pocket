@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
@@ -51,7 +52,8 @@ class NewHome extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SectionTitle(
-                          title: AppLocalizations.of(context)!.translate('womMap'),
+                          title:
+                              AppLocalizations.of(context)!.translate('womMap'),
                           leftPadding: 16,
                         ),
                         AspectRatio(
@@ -91,7 +93,8 @@ class NewHome extends ConsumerWidget {
                   ),
                   SliverToBoxAdapter(
                     child: SectionTitle(
-                      title: AppLocalizations.of(context)!.translate('lastTransactions'),
+                      title: AppLocalizations.of(context)!
+                          .translate('lastTransactions'),
                       text: AppLocalizations.of(context)!.translate('seeAll'),
                       leftPadding: 16,
                       onTap: () {
@@ -121,15 +124,16 @@ class NewHome extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Placeholder(
-                      fallbackHeight: 150,
-                      fallbackWidth: 150,
-                    ),
-                  ],
+                Center(
+                  child: SvgPicture.asset(
+                    'assets/images/empty_wom.svg',
+                    width: MediaQuery.of(context).size.width - 48,
+                    height: MediaQuery.of(context).size.width - 48,
+                    // cacheWidth: 200,
+                    // cacheHeight: 200,
+                  ),
                 ),
+                // const SizedBox(height: 8),
                 Text(
                   AppLocalizations.of(context)!.translate('noWoms'),
                   textAlign: TextAlign.center,
@@ -138,6 +142,7 @@ class NewHome extends ConsumerWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+                const SizedBox(height: 8),
                 Text(
                   AppLocalizations.of(context)!.translate('noWomsDesc'),
                   textAlign: TextAlign.center,

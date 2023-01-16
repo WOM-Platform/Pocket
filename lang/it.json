@@ -25,7 +25,10 @@
   "availableWom": "Wom disponibili:",
   "zoomInToSearch": "Avvicinati per cercare",
   "posDetail": "Dettaglio POS",
-  "noLocationPermission": "non hai i permessi per la posizione",
+  "locationPermissionDeniedForever": "I permessi per la recuperare la tua posizione sono stati negati per sempre! Per concederli dovrai recarti nelle impostazioni del tuo smartphone e abilitarli manualmente nella pagina di gestione dell'app WOM Pocket",
+  "grantPermission": "Concedi permessi",
+  "noLocationService": "I servizi di localizzazione sono disattivati! Attivali e premi riprova per recuperare la tua posizione",
+  "noLocationPermission": "Senza i permessi per recuperare la tua posizione GPS non siamo in grado di mostrarti le offerte attorno a te",
   "noOffersOnLocation": "Non ci sono offerte basate sulla tua posizione!",
   "other": "altro",
   "hide": "nascondi",
@@ -44,7 +47,7 @@
   "homeTutorialTitle4": "Funzionalità avanzate",
   "homeTutorialDesc4": "da qui puoi accedere a maggiori informazioni, ripercorre i tutorial e esportare i tuoi WOM",
   "scanError": "Hai premuto il pulsante back prima di acquisire il dato",
-  "introDesc1": "WOM è l'acronimo di\\nWorth One Minute,\\nche significa:\\nvale un minuto",
+  "introDesc1": "WOM è l'acronimo di\nWorth One Minute,\nche significa:\nvale un minuto",
   "introDesc2": "I WOM sono voucher digitali che premiamo il tuo impegno sociale",
   "introDesc3": "Molte delle tue azioni quotidiane hanno un valore sociale intrinseco",
   "introDesc4": "Usa WOM Pocket come se fosse un vero e proprio borsellino",
@@ -138,5 +141,4 @@
   "gps_service_off_description": "Il servizio GPS risulta spento, attivalo per accedere alla posizione.",
   "gps_permission_denied_description": "Il Pocket ha bisogno dei permessi per l'utilizzo del GPS",
   "gps_permission_denied_forever_description": "Hai disattivato la richiesa di permessi, per l'utilizzo del GPS il Pocket necessita dell'autorizzazione utente."
-
 }

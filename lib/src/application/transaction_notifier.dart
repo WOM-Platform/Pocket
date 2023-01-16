@@ -12,19 +12,10 @@ import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/screens/transaction/info_payment.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
+import 'package:wom_pocket/src/utils/location_exception.dart';
 import 'package:wom_pocket/src/utils/my_extensions.dart';
 
 class PocketException implements Exception {}
-
-class LocationServiceException extends PocketException {}
-
-class ServiceGPSDisabled extends LocationServiceException {}
-
-class GetLocationTimeout extends LocationServiceException {}
-
-class LocationPermissionDenied extends LocationServiceException {}
-
-class LocationPermissionDeniedForever extends LocationServiceException {}
 
 class TransactionNotifierParams {
   final DeepLinkModel deepLinkModel;

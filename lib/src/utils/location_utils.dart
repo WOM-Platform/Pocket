@@ -1,11 +1,13 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/utils/location_exception.dart';
+
 
 goToCurrentLocation(
     Future<GoogleMapController> controller, double zoom,
     {bool withAnimation = true}) async {
-  if (await _requestPermission()) {
+  if (await requestPermission()) {
     final currentPosition = await Geolocator.getCurrentPosition();
     final c = await controller;
     await _goToLocation(
@@ -43,8 +45,25 @@ Future<void> _goToLocation(GoogleMapController controller, LatLng latLng,
   }
 }
 
-Future<bool> _requestPermission() async {
-  final permission = await Geolocator.requestPermission();
+Future<bool> requestPermission() async {
+  var permission = await Geolocator.checkPermission();
+  logger.i("requestPermission $permission");
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      // Permissions are denied, next time you could try
+      // requesting permissions again (this is also where
+      // Android's shouldShowRequestPermissionRationale
+      // returned true. According to Android guidelines
+      // your App should show an explanatory UI now.
+      return false;
+    }
+  }
+
+  if (permission == LocationPermission.deniedForever) {
+    throw LocationPermissionDeniedForever();
+  }
+
   return permission == LocationPermission.whileInUse ||
       permission == LocationPermission.always;
 }

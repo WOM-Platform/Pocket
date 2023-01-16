@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String _$OffersNotifierHash() => r'a6cb60cb715c817b2b1f14b5ccf0064523a2f245';
+String _$OffersNotifierHash() => r'ed0bdd0ee1c0e0f2de98f5e4a37ee44ff8d7b969';
 
 /// See also [OffersNotifier].
 final offersNotifierProvider =
@@ -67,7 +67,7 @@ abstract class _$OffersMapNotifier
   FutureOr<OffersMapData> build();
 }
 
-String _$LocationNotifierHash() => r'd5fe30ba97de4f22832f5b4a9c040232ebd54a75';
+String _$LocationNotifierHash() => r'4219d9e58833e81041499a11936629f489de60b0';
 
 /// See also [LocationNotifier].
 final locationNotifierProvider =

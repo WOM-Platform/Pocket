@@ -53,14 +53,13 @@ class MyDatabase extends _$MyDatabase {
         // }
         logger.wtf('from $from to $to');
         if (from < 4) {
-          // m.renameColumn(yourTable, 'Wom', yourTable.newColumn);
           await m.addColumn(wom, wom.donationId);
           await m.addColumn(wom, wom.spentOn);
+          await m.renameColumn(wom, 'live', wom.spent);
+          await m.renameColumn(wom, 'Timestamp', wom.spent);
           await m.addColumn(transactions, transactions.pin);
           await m.addColumn(transactions, transactions.link);
           await m.addColumn(transactions, transactions.deadline);
-          await m.renameColumn(wom, 'live', wom.spent);
-          await m.renameColumn(wom, 'Timestamp', wom.spent);
         }
       },
       beforeOpen: (details) async {

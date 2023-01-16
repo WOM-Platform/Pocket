@@ -12,6 +12,7 @@ import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/offers/data/offer.dart';
 import 'package:wom_pocket/src/offers/ui/carousel.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
+import 'package:wom_pocket/src/utils/location_utils.dart';
 
 part 'offers_notifier.g.dart';
 
@@ -29,46 +30,18 @@ class OffersNotifier extends _$OffersNotifier {
 
   Future<List<OfferPOS>> loadOffers({
     LatLng? currentPosition,
-    // required LatLngBounds bounds,
-    // required double llx,
-    // required double lly,
-    // required double urx,
-    // required double ury,
   }) async {
-    // final currentState = state;
     try {
       final tmp =
           currentPosition ?? await ref.refresh(locationNotifierProvider.future);
-      // state = state.copyWith(isLoading: true);
 
       if (tmp == null) throw Exception();
 
       final data = await ref.watch(pocketProvider).getOffers(
-            // latitude: 43.72, longitude: 12.63,
-            latitude: tmp.latitude,
-            longitude: tmp.longitude,
+            latitude: 43.72, longitude: 12.63,
+            // latitude: tmp.latitude,
+            // longitude: tmp.longitude,
           );
-      // final posList = await ref
-      //     .read(registryClientProvider)
-      //     .getPosListAroundMe(llx: llx, lly: lly, urx: urx, ury: ury);
-      //
-      // final markers = await buildMarkers(posList);
-      // state = PosMapData(posList: posList, markers: markers);
-
-      // final casa = LatLng(42.812645629485296, 13.72460981150593);
-      // final list = List.generate(
-      //   200,
-      //   (index) => OfferPOS(
-      //     posId: 'id_$index',
-      //     name: 'Cartolibreria Raffaello	',
-      //     description: 'Sconto del 50% sulle fotocopie in bianco e nero',
-      //     distanceInKms: 0.120,
-      //     position: OfferPosition(
-      //       latitude: 42.812645629485296 + Random().nextDouble() / 10,
-      //       longitude: 13.72460981150593 + Random().nextDouble() / 10,
-      //     ),
-      //   ),
-      // );
       return data
           .map(
             (e) => e.copyWith(
@@ -78,7 +51,6 @@ class OffersNotifier extends _$OffersNotifier {
           .toList();
     } catch (ex) {
       logger.e(ex);
-      // state = currentState;
       rethrow;
     }
   }
@@ -90,22 +62,6 @@ class OffersNotifier extends _$OffersNotifier {
     return '${d.toStringAsFixed(0)} m';
   }
 }
-
-// @Riverpod(keepAlive: true)
-// class FlatOffersNotifier extends _$FlatOffersNotifier {
-//   FutureOr<List<FlatOffer>> build() async {
-//     final posList = await ref.watch(offersNotifierProvider.future);
-//
-//     final tmp = <FlatOffer>[];
-//     for (int i = 0; i < posList.length; i++) {
-//       final pos = posList[i];
-//       final offers =
-//           pos.offers.map((o) => FlatOffer.fromOfferPOS(pos, o)).toList();
-//       tmp.addAll(offers);
-//     }
-//     return tmp;
-//   }
-// }
 
 @riverpod
 class OffersMapNotifier extends _$OffersMapNotifier {
@@ -293,39 +249,6 @@ class OffersMapNotifier extends _$OffersMapNotifier {
       return colors[6];
     }
   }
-
-// Future<Set<Marker>> buildMarkers(List<OfferPOS> points) async {
-//   final s = <Marker>{};
-//   for (int i = 0; i < points.length; i++) {
-//     final p = points[i];
-//     final marker = await buildMarker(p, i);
-//     s.add(marker);
-//   }
-//   return s;
-// }
-
-// Future<BitmapDescriptor> _getPosPin() async {
-//   return await BitmapDescriptor.fromAssetImage(
-//       ImageConfiguration(), 'assets/images/wom_pos_pin.png');
-// }
-
-// BitmapDescriptor? _standardPin;
-
-// Future<Marker> buildMarker(OfferPOS point, int index) async {
-//   _standardPin ??= await _getPosPin();
-//   final markerId = MarkerId(point.posId);
-//
-//   return Marker(
-//     markerId: markerId,
-//     position: LatLng(point.position.latitude, point.position.longitude),
-//     onTap: () {
-//       // ref.read(carouselControllerProvider).jumpToPage(index);
-//     },
-//     zIndex: index == 0 ? 1 : 0,
-//     infoWindow: InfoWindow(title: point.name),
-//     icon: _standardPin!,
-//   );
-// }
 }
 
 class MyLocationException with Exception {}
@@ -347,7 +270,7 @@ class LocationNotifier extends _$LocationNotifier {
   Future<LatLng> _getCurrentLocation() async {
     logger.w('_getCurrentLocation');
     try {
-      if (await _requestPermission()) {
+      if (await requestPermission()) {
         final currentPosition = await Geolocator.getCurrentPosition(
           timeLimit: Duration(seconds: 15),
         );
@@ -362,22 +285,10 @@ class LocationNotifier extends _$LocationNotifier {
     } on TimeoutException catch (ex) {
       logger.e(ex);
       throw MyLocationException();
-    } catch (ex) {
+    } catch (ex, st) {
       logger.e(ex);
+      logger.e(st);
       throw MyLocationException();
-    }
-  }
-
-  Future<bool> _requestPermission() async {
-    logger.wtf('_requestPermission');
-    try {
-      final permission = await Geolocator.requestPermission();
-      logger.w('permission: $permission');
-      return permission == LocationPermission.whileInUse ||
-          permission == LocationPermission.always;
-    } catch (ex) {
-      logger.e(ex);
-      return false;
     }
   }
 }
