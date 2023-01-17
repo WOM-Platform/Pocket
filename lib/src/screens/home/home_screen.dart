@@ -8,6 +8,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/app_notifier.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
@@ -36,7 +37,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   @override
   void initState() {
     super.initState();
-    FeatureDiscovery.hasPreviouslyCompleted(context, 'scan').then((value) {
+    FeatureDiscovery.hasPreviouslyCompleted(context, t_scan).then((value) {
       if (!value) {
         SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
           _showTutorial(context);
@@ -111,7 +112,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: DescribedFeatureOverlay(
-        featureId: 'scan',
+        featureId: t_scan,
         contentLocation: ContentLocation.above,
         overflowMode: OverflowMode.extendBackground,
         // enablePulsingAnimation: false,
@@ -165,7 +166,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: DescribedFeatureOverlay(
-              featureId: 'home',
+              featureId: t_home,
               title: Text(
                 AppLocalizations.of(context)!.translate('homeTutorialTitle2'),
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -189,7 +190,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           ),
           BottomNavigationBarItem(
             icon: DescribedFeatureOverlay(
-              featureId: 'offers',
+              featureId: t_offers,
               title: Text(
                 AppLocalizations.of(context)!.translate('homeTutorialTitle3'),
                 style: titleStyle,
@@ -217,7 +218,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           // ),
           BottomNavigationBarItem(
             icon: DescribedFeatureOverlay(
-              featureId: 'settings',
+              featureId: t_settings,
               title: Text(
                 AppLocalizations.of(context)!.translate('homeTutorialTitle4'),
                 style: titleStyle,
@@ -244,12 +245,6 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         onTap: (i) {
           if (i == 0) {
             logEvent('open_home');
-            FeatureDiscovery.hasPreviouslyCompleted(context, 'scan')
-                .then((value) {
-              if (!value) {
-                _showTutorial(context);
-              }
-            });
           } else if (i == 1) {
             logEvent('open_offers');
           } else if (i == 2) {
@@ -331,10 +326,10 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     FeatureDiscovery.discoverFeatures(
       context,
       const <String>{
-        'scan',
-        'home',
-        'offers',
-        'settings',
+        t_scan,
+        t_home,
+        t_offers,
+        t_settings,
       },
     );
   }

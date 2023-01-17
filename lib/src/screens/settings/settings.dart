@@ -178,10 +178,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     await FeatureDiscovery.clearPreferences(
       context,
       const <String>{
-        'scan',
-        'home',
-        'offers',
-        'settings',
+        t_scan,
+        t_home,
+        t_offers,
+        t_settings,
       },
     );
   }
