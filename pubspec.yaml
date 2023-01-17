@@ -79,6 +79,7 @@ dependencies:
   readmore: ^2.2.0
   google_fonts: ^3.0.1
   flutter_svg: ^1.1.6
+  dots_indicator: ^2.1.0
 
 dependency_overrides:
   state_notifier: ^0.7.2+1

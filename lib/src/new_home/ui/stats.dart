@@ -49,6 +49,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
     final labelStyle = TextStyle(color: Colors.grey, fontSize: 14);
     final valueStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 20);
     return Scaffold(
+      backgroundColor: lightBackground,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.translate('stats')),
         elevation: 0,
@@ -136,6 +137,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                             value: aims[i].count.toDouble(),
                             // showTitle: widget.enabled,
                             title: '${aims[i].percentage.toStringAsFixed(0)}%',
+                            titlePositionPercentageOffset: 0.9,
                             // title: aims[i].aim,
                             color: aimColors[min(i, 9)],
                             radius: aims[i].aim == touchedIndex

@@ -46,17 +46,6 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   }
 
   Future<int> getWomCountWithoutLocation() async {
-    // var result = await db.rawQuery(
-    //   'SELECT COUNT(*) as wom '
-    //       'FROM ${WomModel.tblWom} '
-    //       'WHERE ${WomModel.tblWom}.${WomModel.dbLat} = 0 '
-    //       'AND ${WomModel.tblWom}.${WomModel.dbLong} = 0',
-    // );
-    // print(result);
-    // if (result.isNotEmpty) {
-    //   return result.first['wom'] as int;
-    // }
-
     var countExp =
         wom.id.count(filter: wom.latitude.equals(0) & wom.longitude.equals(0));
     final query = selectOnly(wom)..addColumns([countExp]);
@@ -64,7 +53,6 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     return result ?? 0;
   }
 
-  // returns the generated id
   Future<void> addVouchers(List<WomCompanion> entries) async {
     await batch((batch) {
       batch.insertAll(wom, entries, mode: InsertMode.insertOrAbort);
@@ -142,9 +130,6 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     ).get())
         .map((row) {
       return WomGroupBy.fromSourceMap(row.data);
-
-      // return WomGroupBy(row['aim'] as String?, row['woms'] as int?,
-      //     titles: json.decode(row['titles'] as String));
     }).toList();
     return list;
   }
@@ -177,12 +162,6 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
     return result ?? 0;
-    // final count = wom.id.count();
-    //
-    // final query = selectOnly(wom)
-    //   ..addColumns([count])
-    //   ..where(wom.status.isIn(const [0, 1]))
-    //   ..groupBy([wom.status]);
   }
 
   Future<int> getWomCountSpentLastWeek() async {
