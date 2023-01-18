@@ -198,49 +198,47 @@ class IntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Material(
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          color: backGroundColor ?? Colors.white,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Center(
-                  child: AutoSizeText(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 50,
-                      color: textColor ?? secondaryColor,
-                      // fontWeight: FontWeight.bold,
-                    ),
+    return Material(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        color: backGroundColor ?? Colors.white,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: AutoSizeText(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 50,
+                    color: textColor ?? secondaryColor,
+                    // fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Expanded(
-                flex: 2,
-                child: child,
-              ),
-              Expanded(
-                flex: 1,
-                child: Center(
-                  child: AutoSizeText(
-                    message,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: textColor ?? primaryColor,
-                      fontSize: 30,
-                    ),
+            ),
+            Expanded(
+              flex: 2,
+              child: child,
+            ),
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: AutoSizeText(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: textColor ?? primaryColor,
+                    fontSize: 30,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 80,
-              )
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 80,
+            )
+          ],
         ),
       ),
     );

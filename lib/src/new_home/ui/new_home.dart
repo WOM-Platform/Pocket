@@ -124,15 +124,25 @@ class NewHome extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Center(
+                //   child: SvgPicture.asset(
+                //     'assets/images/empty_wom.svg',
+                //     width: MediaQuery.of(context).size.width - 48,
+                //     height: MediaQuery.of(context).size.width - 48,
+                //     // cacheWidth: 200,
+                //     // cacheHeight: 200,
+                //   ),
+                // ),
                 Center(
-                  child: SvgPicture.asset(
-                    'assets/images/empty_wom.svg',
+                  child: Image.asset(
+                    'assets/images/empty_wom.png',
                     width: MediaQuery.of(context).size.width - 48,
                     height: MediaQuery.of(context).size.width - 48,
                     // cacheWidth: 200,
                     // cacheHeight: 200,
                   ),
                 ),
+
                 // const SizedBox(height: 8),
                 Text(
                   AppLocalizations.of(context)!.translate('noWoms'),
