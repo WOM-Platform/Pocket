@@ -88,7 +88,7 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
       },
       levels: [1, 4.25, 6.75, 8.25, 11.5, 14.5, 16.0, 16.5, 20.0],
       extraPercent: 0.2,
-      stopClusteringZoom: 17.0,
+      stopClusteringZoom: 16.0,
     );
 
     // clusteringHelper = ClusteringHelper.forDB(

@@ -20,13 +20,12 @@ final maxHeight = Platform.isIOS ? 375.0 : 350.0;
 final minHeight = Platform.isIOS ? 80.0 : 45.0;
 
 class MapScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: darkUiOverlayStyle,
       child: Scaffold(
-        appBar:AppBar(
+        appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.translate('womMap')),
           elevation: 0,
           systemOverlayStyle: SystemUiOverlayStyle(
@@ -68,13 +67,20 @@ class MapBody extends ConsumerWidget {
       if (p != null && p is AsyncData && n is AsyncData) {
         if (p.value!.markers.isEmpty && n.value!.markers.isNotEmpty) {
           logger.i("move camera");
-          ref
-              .read(mapNotifierProvider.notifier)
-              .controller
-              ?.animateCamera(CameraUpdate.newCameraPosition(
-                CameraPosition(
-                    target: n.value!.markers.first.position, zoom: lastZoom),
-              ));
+          final controller = ref.read(mapNotifierProvider.notifier).controller;
+          final middlePointLat = n.value!.markers
+              .fold<double>(43.72, (sum, item) => sum + item.position.latitude);
+          final middlePointLong = n.value!.markers.fold<double>(
+              12.63, (sum, item) => sum + item.position.longitude);
+          controller?.animateCamera(CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(
+                middlePointLat / n.value!.markers.length + 1,
+                middlePointLong / n.value!.markers.length + 1,
+              ),
+              zoom: lastZoom,
+            ),
+          ));
         }
       }
     });
@@ -83,7 +89,7 @@ class MapBody extends ConsumerWidget {
           ? EdgeInsets.only(
               bottom: minHeight, top: MediaQuery.of(context).padding.top)
           : null,
-      key: PageStorageKey('map'),
+      // key: PageStorageKey('map'),
       child: GoogleMap(
         initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
         zoomControlsEnabled: false,
