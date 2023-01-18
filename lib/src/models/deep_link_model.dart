@@ -20,58 +20,64 @@ class DeepLinkModel extends Equatable {
 
   DeepLinkModel.fromUri(this.uri) {
     logger.i("DeepLinkModel constructor");
-    if (uri != null) {
-      logger.i(uri.toString());
-      logger.i("scheme: " + uri!.scheme);
-      logger.i("host: " + uri!.host);
+    try {
+      if (uri != null) {
+        logger.i(uri.toString());
+        logger.i("scheme: " + uri!.scheme);
+        logger.i("host: " + uri!.host);
 
-      final scheme = uri!.scheme;
-      final host = uri!.host;
+        final scheme = uri!.scheme;
+        final host = uri!.host;
 
-      if (scheme == 'https' && (host == oldDeepLink || host == deepLink)) {
-        final List<String> pathSegments = uri!.pathSegments;
-        final transactionType = pathSegments[0].toLowerCase();
+        if (scheme == 'https' && (host == oldDeepLink || host == deepLink)) {
+          final List<String> pathSegments = uri!.pathSegments;
+          final transactionType = pathSegments[0].toLowerCase();
 
-        switch (transactionType) {
-          case PAYMENT:
-            type = TransactionType.PAYMENT;
-            break;
-          case VOUCHERS:
-            type = TransactionType.VOUCHERS;
-            break;
-          case MIGRATION:
-            type = TransactionType.MIGRATION_IMPORT;
-            migrationPartialKey =
-                uri!.pathSegments.length > 2 ? uri!.pathSegments[2]:null;
-            break;
-          default:
-            throw Exception("Type of transaction is NOT valid");
+          switch (transactionType) {
+            case PAYMENT:
+              type = TransactionType.PAYMENT;
+              break;
+            case VOUCHERS:
+              type = TransactionType.VOUCHERS;
+              break;
+            case MIGRATION:
+              type = TransactionType.MIGRATION_IMPORT;
+              migrationPartialKey =
+                  uri!.pathSegments.length > 2 ? uri!.pathSegments[2] : null;
+              break;
+            default:
+              throw Exception("Type of transaction is NOT valid");
+          }
+
+          otc = pathSegments[1];
+        } else if (scheme == protocol &&
+            (host == 'pay' || host == 'transfer' || host == 'migration')) {
+          type = host == 'transfer'
+              ? TransactionType.VOUCHERS
+              : host == 'pay'
+                  ? TransactionType.PAYMENT
+                  : TransactionType.MIGRATION_IMPORT;
+          otc = uri!.pathSegments.isEmpty ? null : uri!.pathSegments[0];
+          migrationPartialKey =
+              uri!.pathSegments.length < 2 ? null : uri!.pathSegments[1];
+        } else {
+          throw Exception("Scheme: $scheme OR host: $host not valid");
         }
 
-        otc = pathSegments[1];
-      } else if (scheme == protocol &&
-          (host == 'pay' || host == 'transfer' || host == 'migration')) {
-        type = host == 'transfer'
-            ? TransactionType.VOUCHERS
-            : host == 'pay'
-                ? TransactionType.PAYMENT
-                : TransactionType.MIGRATION_IMPORT;
-        otc = uri!.pathSegments.isEmpty ? null : uri!.pathSegments[0];
-        migrationPartialKey =
-            uri!.pathSegments.isEmpty ? null : uri!.pathSegments[1];
+        if (otc == null || otc!.isEmpty) {
+          throw Exception("OTC is null or empty");
+        }
+        if (type == TransactionType.MIGRATION_IMPORT &&
+            (migrationPartialKey == null || migrationPartialKey!.isEmpty)) {
+          throw Exception("migrationPartialKey is null or empty");
+        }
       } else {
-        throw Exception("Scheme: $scheme OR host: $host not valid");
+        throw Exception("URI is null");
       }
-
-      if (otc == null || otc!.isEmpty) {
-        throw Exception("OTC is null or empty");
-      }
-      if (type == TransactionType.MIGRATION_IMPORT &&
-          (migrationPartialKey == null || migrationPartialKey!.isEmpty)) {
-        throw Exception("migrationPartialKey is null or empty");
-      }
-    } else {
-      throw Exception("URI is null");
+    } catch (ex, st) {
+      logger.e(ex);
+      logger.e(st);
+      rethrow;
     }
   }
 
