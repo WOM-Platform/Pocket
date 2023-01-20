@@ -82,7 +82,7 @@ class OfferTile extends ConsumerWidget {
         ),
         for (int i = 0; i < offer.offers.length; i++)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
