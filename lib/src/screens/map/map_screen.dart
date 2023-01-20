@@ -72,11 +72,14 @@ class MapBody extends ConsumerWidget {
               .fold<double>(43.72, (sum, item) => sum + item.position.latitude);
           final middlePointLong = n.value!.markers.fold<double>(
               12.63, (sum, item) => sum + item.position.longitude);
+          final lat =  middlePointLat / (n.value!.markers.length + 1);
+          final long =  middlePointLong / (n.value!.markers.length + 1);
+          logger.i('middle lat long = $lat, $long for ${n.value!.markers.length} markers');
           controller?.animateCamera(CameraUpdate.newCameraPosition(
             CameraPosition(
               target: LatLng(
-                middlePointLat / n.value!.markers.length + 1,
-                middlePointLong / n.value!.markers.length + 1,
+               lat,
+                long,
               ),
               zoom: lastZoom,
             ),

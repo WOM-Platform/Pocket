@@ -146,7 +146,14 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                             titleStyle: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: const Color(0xffffffff),
+                              color: Colors.white,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(1.0, 1.0),
+                                  blurRadius: 3.0,
+                                  color: Colors.black,
+                                ),
+                              ],
                             ),
                           ),
                       ]

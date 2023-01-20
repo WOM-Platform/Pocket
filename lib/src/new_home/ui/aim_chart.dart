@@ -24,7 +24,6 @@ class AimChartState extends ConsumerState<AimChart> {
 
   @override
   Widget build(BuildContext context) {
-    //
     final count =
         ref.watch(availableWomCountProvider).valueOrNull?.toString() ?? '-';
     final spentLastWeek = ref
