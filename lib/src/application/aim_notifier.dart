@@ -20,10 +20,10 @@ final aimNotifierProvider =
 class AimNotifier extends AsyncNotifier<List<Aim>> {
   @override
   FutureOr<List<Aim>> build() async {
-    var aims = await ref.read(aimRepositoryProvider).getFlatAimList();
-    if (aims.isEmpty) {
-      aims = await ref.read(aimRepositoryProvider).updateAim();
-    }
+    // var aims = await ref.read(aimRepositoryProvider).getFlatAimList();
+    // if (aims.isEmpty) {
+      var aims = await ref.read(aimRepositoryProvider).updateAim();
+    // }
     return aims;
   }
 }
