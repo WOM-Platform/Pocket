@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,5 @@ Future<void> main() async {
     statusBarColor: Colors.red,
   ));
 
-  runApp(
-    App(),
-  );
+  runApp(FeatureDiscovery(child: App()));
 }

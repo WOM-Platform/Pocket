@@ -11,10 +11,10 @@ final isDev = flavor == Flavor.DEVELOPMENT;
 final appName = '${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET';
 
 //Tutorial keys
-const t_scan = 'scan2';
-const t_home = 'home2';
-const t_offers = 'offers2';
-const t_settings = 'settings2';
+const t_scan = 'scan3';
+const t_home = 'home3';
+const t_offers = 'offers3';
+const t_settings = 'settings3';
 
 //Shared Preferences
 const IS_FIRST_OPEN = 'isFirstOpenV2';

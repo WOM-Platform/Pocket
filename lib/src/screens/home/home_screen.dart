@@ -243,8 +243,17 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         ],
         currentIndex: index.value,
         onTap: (i) {
+          if(index.value == i) return;
           if (i == 0) {
             logEvent('open_home');
+            Future.delayed(Duration(milliseconds: 100)).then((value){
+              FeatureDiscovery.hasPreviouslyCompleted(context, t_scan)
+                  .then((value) {
+                if (value) {
+                  _showTutorial(context);
+                }
+              });
+            });
           } else if (i == 1) {
             logEvent('open_offers');
           } else if (i == 2) {
