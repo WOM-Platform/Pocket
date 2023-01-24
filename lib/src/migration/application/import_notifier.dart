@@ -79,17 +79,16 @@ class ImportNotifier extends _$ImportNotifier {
 
       String tmp = "";
       aims.forEach((aim) {
-        tmp = tmp + "$aim,";
+        tmp = tmp + "$aim, ";
       });
 
-      final aimsString = tmp.substring(0, tmp.length - 1);
+      final aimsString = tmp.trim().substring(0, tmp.length - 1);
       logger.i(aimsString);
       logger.i(tmp);
 
       final tx = TransactionModel(
         id: 0,
         date: DateTime.now(),
-        // country: "italy",
         size: woms.length,
         type: TransactionType.MIGRATION_IMPORT,
         source: device,

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dart_geohash/dart_geohash.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
@@ -72,7 +73,6 @@ class TransactionRepository {
     TransactionModel tx = TransactionModel(
       id: 0,
       date: DateTime.now(),
-      // country: "italy",
       size: vouchers.length,
       type: TransactionType.VOUCHERS,
       source: redeem.sourceName,
@@ -87,23 +87,23 @@ class TransactionRepository {
     await database.womsDao.addVouchers(vouchers
         .map(
           (e) => WomCompanion.insert(
-              id: e.id,
-              sourceName: redeem.sourceName,
-              secret: e.secret,
-              geohash: geoHasher.encode(
-                e.longitude,
-                e.latitude,
-              ),
-              aim: e.aim,
-              sourceId: redeem.sourceId,
-              transactionId: id,
-              addedOn: e.timestamp.millisecondsSinceEpoch,
-              spent: WomStatus.ON.index,
-              latitude: e.latitude,
-              longitude: e.longitude),
+            id: e.id,
+            sourceName: redeem.sourceName,
+            secret: e.secret,
+            geohash: geoHasher.encode(
+              e.longitude,
+              e.latitude,
+            ),
+            aim: e.aim,
+            sourceId: redeem.sourceId,
+            transactionId: id,
+            addedOn: e.timestamp.millisecondsSinceEpoch,
+            spent: WomStatus.ON.index,
+            latitude: e.latitude,
+            longitude: e.longitude,
+          ),
         )
         .toList());
-    // logger.i("wom_$i saved");
 
     return tx.copyWith(id: id);
   }
@@ -120,7 +120,9 @@ class TransactionRepository {
 
     try {
       final satisfyingVouchers = (await database.womsDao
-              .getVouchersForPay(simpleFilter: infoPay.simpleFilter)).map((e) => e.toVoucher()).toList();
+              .getVouchersForPay(simpleFilter: infoPay.simpleFilter))
+          .map((e) => e.toVoucher())
+          .toList();
 
       if (infoPay.amount > satisfyingVouchers.length) {
         throw InsufficientVouchers();
@@ -158,7 +160,7 @@ class TransactionRepository {
       logger.i(ack.toString());
 
       return tx.copyWith(id: id);
-    } catch (e,st) {
+    } catch (e, st) {
       logger.e(e);
       logger.e(st);
       rethrow;

@@ -59,10 +59,13 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     });
   }
 
+  // Se wom like spent
   Future<int> updateWomStatusToOff(String womId, int transactionId) {
+    final now = DateTime.now();
     return (update(wom)..where((t) => t.id.equals(womId))).write(
       WomCompanion(
         spent: Value(WomStatus.OFF.index),
+        spentOn: Value(now.millisecondsSinceEpoch),
         transactionId: Value(transactionId),
       ),
     );
