@@ -243,10 +243,10 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         ],
         currentIndex: index.value,
         onTap: (i) {
-          if(index.value == i) return;
+          if (index.value == i) return;
           if (i == 0) {
             logEvent('open_home');
-            Future.delayed(Duration(milliseconds: 100)).then((value){
+            Future.delayed(Duration(milliseconds: 100)).then((value) {
               FeatureDiscovery.hasPreviouslyCompleted(context, t_scan)
                   .then((value) {
                 if (value) {
@@ -278,6 +278,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             .push(MaterialPageRoute(builder: (_) => ScanScreen()));
 
         final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
+        logger.i('wom_scan_done $link');
         logEvent('wom_scan_done');
         if (deepLinkModel.type == TransactionType.MIGRATION_IMPORT) {
           Navigator.push(
@@ -293,6 +294,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             ),
           );
         } else {
+          logger.i('go to pin screen $deepLinkModel');
           await Navigator.push(
             context,
             MaterialPageRoute<bool>(
@@ -352,9 +354,8 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
-  MobileScannerController? controller;
+  MobileScannerController cameraController = MobileScannerController();
 
 /*  // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -374,7 +375,7 @@ class _ScanScreenState extends State<ScanScreen> {
         body: Stack(
       children: [
         MobileScanner(
-          key: qrKey,
+          controller: cameraController,
           onDetect: (barcode) {
             if (scanned) return;
             scanned = true;
@@ -423,7 +424,8 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   void dispose() {
-    controller?.dispose();
+    logger.i('ScanScreen disposed');
+    cameraController.dispose();
     super.dispose();
   }
 }

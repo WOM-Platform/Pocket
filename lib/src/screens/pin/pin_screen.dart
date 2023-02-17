@@ -9,6 +9,7 @@ import 'package:wom_pocket/src/application/pin_notifier.dart';
 import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/blocs/pin/bloc.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/code_panel.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/keyboard.dart';
 import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
@@ -87,7 +88,8 @@ class PinScreen extends ConsumerWidget {
     //   child: TransactionScreen(),
     // );
 
-    Navigator.push(
+    logger.i('goToAcceptCredits');
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute<bool>(
         builder: (context) => TransactionScreen(

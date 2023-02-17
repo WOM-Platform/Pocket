@@ -131,10 +131,6 @@ class TransactionRepository {
       final vouchers = satisfyingVouchers.sublist(0, infoPay.amount);
       final ack = await pocket.pay(infoPay, otc, password, vouchers);
 
-      if (ack == null) {
-        throw Exception('Errore nel pagamento');
-      }
-
       TransactionModel tx = TransactionModel(
         id: 0,
         date: DateTime.now(),

@@ -25,7 +25,7 @@ class ListingCarouselWidget extends ConsumerWidget {
   void onPageChanged(OfferPOS item, int index, CarouselPageChangedReason reason,
       WidgetRef ref) {
     if (reason == CarouselPageChangedReason.manual) {
-      final markerId = MarkerId(item.posId);
+      final markerId = MarkerId(item.id);
       final controller = ref.read(mapControllerProvider);
       controller
           ?.animateCamera(
@@ -106,9 +106,11 @@ class CarouselItem extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundColor: lightBlue,
-                      backgroundImage: CachedNetworkImageProvider(
-                        offer.cover.squareThumbnailUrl,
-                      ),
+                      backgroundImage: offer.cover?.squareThumbnailUrl != null
+                          ? CachedNetworkImageProvider(
+                              offer.cover!.squareThumbnailUrl,
+                            )
+                          : null,
                     ),
                     const SizedBox(width: 16),
                     Expanded(

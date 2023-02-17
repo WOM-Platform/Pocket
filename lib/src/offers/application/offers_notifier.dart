@@ -49,8 +49,9 @@ class OffersNotifier extends _$OffersNotifier {
             ),
           )
           .toList();
-    } catch (ex) {
+    } catch (ex,st) {
       logger.e(ex);
+      logger.e(st);
       rethrow;
     }
   }
@@ -115,12 +116,12 @@ class OffersMapNotifier extends _$OffersMapNotifier {
         }
 
         final MarkerId markerId = MarkerId(
-            place.isMultiple ? place.getId() : place.items.first.offer.posId);
+            place.isMultiple ? place.getId() : place.items.first.offer.id);
 
         final marker = Marker(
           onTap: () {
             ref.read(carouselControllerProvider).jumpToPage(posList.indexWhere(
-                (element) => element.posId == place.items.first.offer.posId));
+                (element) => element.id == place.items.first.offer.id));
           },
           markerId: markerId,
           position: place.location,
@@ -160,7 +161,7 @@ class OffersMapNotifier extends _$OffersMapNotifier {
       if (offers.isNotEmpty) {
         Future.delayed(const Duration(milliseconds: 500)).then((value) {
           try {
-            controller.showMarkerInfoWindow(MarkerId(offers.first.posId));
+            controller.showMarkerInfoWindow(MarkerId(offers.first.id));
             ref.read(carouselControllerProvider).jumpToPage(0);
           } catch (ex) {
             logger.e(ex);

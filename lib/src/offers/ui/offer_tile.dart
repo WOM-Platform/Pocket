@@ -28,8 +28,9 @@ class OfferTile extends ConsumerWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
+              if(offer.cover?.midDensityFullWidthUrl != null)
               CachedNetworkImage(
-                imageUrl: offer.cover.midDensityFullWidthUrl,
+                imageUrl: offer.cover!.midDensityFullWidthUrl,
                 fit: BoxFit.cover,
               ),
               Container(

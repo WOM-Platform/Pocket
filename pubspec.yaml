@@ -8,7 +8,7 @@ publish_to: none
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.6+42
+version: 1.0.7+43
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -38,7 +38,7 @@ dependencies:
   equatable:
   uni_links: ^0.5.1
   encrypt: ^5.0.1
-  mobile_scanner: ^3.0.0-beta.4
+  mobile_scanner: ^3.0.0
   qr_flutter: ^4.0.0
   intl: ^0.17.0
   dart_geohash: ^2.0.2
