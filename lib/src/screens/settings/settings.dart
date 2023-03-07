@@ -46,14 +46,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: context.translate('settings_redeem_demo_desc')!,
             icon: Icons.monetization_on,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUrl('https://demo.wom.social/redeem'),
+            onTap: () => Utils.launchUri('https://demo.wom.social/redeem'),
           ),
           SettingsItem(
             title: context.translate('settings_pay_demo_title')!,
             subtitle: context.translate('settings_pay_demo_desc')!,
             icon: Icons.credit_card,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUrl('https://demo.wom.social/pay'),
+            onTap: () => Utils.launchUri('https://demo.wom.social/pay'),
           ),
           if (showDBViewer)
             SettingsItem(
@@ -159,7 +159,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: context.translate('settings_info_desc')!,
             icon: Icons.info,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUrl('https://wom.social'),
+            onTap: () => Utils.launchUri('https://wom.social'),
           ),
           VersionInfo(
             onTap: () {

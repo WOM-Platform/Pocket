@@ -66,30 +66,39 @@ class ListingCarouselWidget extends ConsumerWidget {
       ),
       itemCount: data.offers.length,
       itemBuilder: (BuildContext context, int index, int realIndex) {
-        return CarouselItem(offer: data.offers[index]);
+        return CarouselItem(pos: data.offers[index]);
       },
     );
   }
 }
 
 class CarouselItem extends StatelessWidget {
-  final OfferPOS offer;
+  final OfferPOS pos;
 
   const CarouselItem({
     Key? key,
-    required this.offer,
+    required this.pos,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const iconRadius = 14.0;
-    const iconSize = 18.0;
+    // const iconRadius = 14.0;
+    // const iconSize = 18.0;
 
     return InkWell(
       // key: Key(store.storeId),
       onTap: () {
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => POSDetailsScreen(pos: offer)));
+          MaterialPageRoute(
+            builder: (_) => POSDetailsScreen(
+              posName: pos.name,
+              distance: pos.distance,
+              url: pos.url,
+              offers: pos.offers,
+              imageUrl: pos.cover?.midDensityFullWidthUrl,
+            ),
+          ),
+        );
       },
       child: Card(
         elevation: 8.0,
@@ -106,9 +115,9 @@ class CarouselItem extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundColor: lightBlue,
-                      backgroundImage: offer.cover?.squareThumbnailUrl != null
+                      backgroundImage: pos.cover?.squareThumbnailUrl != null
                           ? CachedNetworkImageProvider(
-                              offer.cover!.squareThumbnailUrl,
+                              pos.cover!.squareThumbnailUrl,
                             )
                           : null,
                     ),
@@ -116,7 +125,7 @@ class CarouselItem extends StatelessWidget {
                     Expanded(
                       child: Text(
                         // Characters(offer.name).toList().join('\u{200B}'),
-                        offer.name,
+                        pos.name,
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -129,22 +138,21 @@ class CarouselItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '${offer.offers.length} ${offer.offers.length == 1 ? AppLocalizations.of(context)!.translate('offer') : AppLocalizations.of(context)!.translate('offers').toLowerCase()} ${offer.offers.length == 1 ? AppLocalizations.of(context)!.translate('active') : AppLocalizations.of(context)!.translate('activePlural')}',
+                  '${pos.offers.length} ${pos.offers.length == 1 ? AppLocalizations.of(context)!.translate('offer') : AppLocalizations.of(context)!.translate('offers').toLowerCase()} ${pos.offers.length == 1 ? AppLocalizations.of(context)!.translate('active') : AppLocalizations.of(context)!.translate('activePlural')}',
                   style: TextStyle(
                     fontSize: 16,
                   ),
                 ),
-                if (offer.url != null)
+                if (pos.url != null)
                   Row(
                     children: [
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) =>
-                                  SuggestionScreen(url: offer.url!)));
+                              builder: (_) => SuggestionScreen(url: pos.url!)));
                         },
                         child: Text(
-                          offer.url!,
+                          pos.url!,
                           textAlign: TextAlign.start,
                           style:
                               TextStyle(decoration: TextDecoration.underline),

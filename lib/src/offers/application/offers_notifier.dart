@@ -16,6 +16,37 @@ import 'package:wom_pocket/src/utils/location_utils.dart';
 
 part 'offers_notifier.g.dart';
 
+final paginatedVirtualOffersProvider = FutureProvider.autoDispose
+    .family<OfferPagination, int>((ref, pageIndex) async {
+
+  final offers = await ref.watch(pocketProvider).getVirtualPos(pageIndex + 1, pageSize: 4);
+
+  return offers;
+});
+
+/// A provider exposing the total count of questions
+final questionsCountProvider = Provider.autoDispose((ref) {
+  return ref
+      .watch(paginatedVirtualOffersProvider(0))
+      .whenData((page) => page.totalCount);
+});
+
+/// A scoped provider, exposing the current question used by [QuestionItem].
+///
+/// This is used as a performance optimization to pass a [Question] to
+/// [QuestionItem], while still instantiating [QuestionItem] using the `const`
+/// keyword.
+///
+/// This allows [QuestionItem] to rebuild less often.
+/// By doing so, even when using [QuestionItem] in a [ListView], even if new
+/// questions are obtained, previously rendered [QuestionItem]s won't rebuild.
+///
+/// This is an optional step. Since scoping is a fairly advanced mechanism,
+/// it's entirely fine to simply pass the [Question] to [QuestionItem] directly.
+final currentQuestion = Provider<AsyncValue<VirtualPOS>>((ref) {
+  throw UnimplementedError();
+});
+
 @Riverpod(keepAlive: true)
 class OffersNotifier extends _$OffersNotifier {
   FutureOr<List<OfferPOS>> build() async {
@@ -38,9 +69,9 @@ class OffersNotifier extends _$OffersNotifier {
       if (tmp == null) throw Exception();
 
       final data = await ref.watch(pocketProvider).getOffers(
-            // latitude: 43.72, longitude: 12.63,
-            latitude: tmp.latitude,
-            longitude: tmp.longitude,
+            latitude: 43.72, longitude: 12.63,
+            // latitude: tmp.latitude,
+            // longitude: tmp.longitude,
           );
       return data
           .map(
@@ -49,7 +80,7 @@ class OffersNotifier extends _$OffersNotifier {
             ),
           )
           .toList();
-    } catch (ex,st) {
+    } catch (ex, st) {
       logger.e(ex);
       logger.e(st);
       rethrow;

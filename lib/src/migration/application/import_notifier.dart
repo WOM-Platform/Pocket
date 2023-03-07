@@ -110,6 +110,7 @@ class ImportNotifier extends _$ImportNotifier {
           .addVouchers(finalWoms.map((w) => w.toCompanion(true)).toList());
       await ref.read(pocketProvider).completeMigration(otc, password);
 
+      ref.invalidate(availableWomCountProvider);
       ref.invalidate(fetchTransactionsProvider);
       ref.invalidate(mapNotifierProvider);
       ref.invalidate(totalWomCountProvider);

@@ -296,7 +296,7 @@ class SummaryPage extends ConsumerWidget {
       ),
       floatingActionButton: Row(
         children: [
-          if (migrationState is MigrationStateComplete)
+          if (migrationState is! MigrationStateComplete)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: TextButton(

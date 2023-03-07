@@ -9,13 +9,20 @@ const loremIpsum =
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ";
 
 class OfferTile extends ConsumerWidget {
-  final OfferPOS offer;
+  // final OfferPOS offer;
   final bool withCard;
+  final List<Offer> offers;
+  final String posName;
+  final String? imageUrl;
+  final String? distance;
 
   const OfferTile({
     Key? key,
     this.withCard = true,
-    required this.offer,
+    this.imageUrl,
+    this.distance,
+    this.offers = const [],
+    required this.posName,
   }) : super(key: key);
 
   @override
@@ -28,9 +35,9 @@ class OfferTile extends ConsumerWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              if(offer.cover?.midDensityFullWidthUrl != null)
+              if(imageUrl != null)
               CachedNetworkImage(
-                imageUrl: offer.cover!.midDensityFullWidthUrl,
+                imageUrl: imageUrl!,
                 fit: BoxFit.cover,
               ),
               Container(
@@ -55,7 +62,7 @@ class OfferTile extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        offer.name,
+                        posName,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -66,9 +73,9 @@ class OfferTile extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    if (offer.distance != null)
+                    if (distance != null)
                       Text(
-                        offer.distance!,
+                        distance!,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -81,7 +88,7 @@ class OfferTile extends ConsumerWidget {
             ],
           ),
         ),
-        for (int i = 0; i < offer.offers.length; i++)
+        for (int i = 0; i < offers.length; i++)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
@@ -89,14 +96,14 @@ class OfferTile extends ConsumerWidget {
               children: [
                 const SizedBox(height: 16),
                 Text(
-                  offer.offers[i].title,
+                  offers[i].title,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                 ),
-                if (offer.offers[i].description != null)
+                if (offers[i].description != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ReadMoreText(
-                      offer.offers[i].description!,
+                      offers[i].description!,
                       trimLines: 2,
                       colorClickableText: Colors.pink,
                       trimMode: TrimMode.Line,
@@ -115,7 +122,7 @@ class OfferTile extends ConsumerWidget {
                   children: [
                     Spacer(),
                     Text(
-                      '${offer.offers[i].cost}',
+                      '${offers[i].cost}',
                       style: TextStyle(
                           color: Color(0xFF2A69FF),
                           fontWeight: FontWeight.bold,
@@ -127,7 +134,7 @@ class OfferTile extends ConsumerWidget {
                     )
                   ],
                 ),
-                if (i < offer.offers.length - 1) Divider(),
+                if (i < offers.length - 1) Divider(),
               ],
             ),
           ),

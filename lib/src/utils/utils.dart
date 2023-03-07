@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/db/wom_db.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -86,10 +87,12 @@ class Utils {
   //   return await Hive.box('settings').put(IS_SUGGESTIONS_DISABLED, status);
   // }
 
-  static launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+  static launchUri(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
+      logger.e('Could not launch $url');
       throw 'Could not launch $url';
     }
   }
@@ -185,7 +188,7 @@ class Utils {
 
     // print(decrypted);
     // print(encrypted.base64);
-    return Uint8List.fromList(decrypted) ;
+    return Uint8List.fromList(decrypted);
   }
 
   static String getRandomString(int length) {

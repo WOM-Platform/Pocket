@@ -7,9 +7,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/offers/ui/offer_tile.dart';
+import 'package:wom_pocket/src/offers/ui/pos_details_screen.dart';
 import 'package:wom_pocket/src/utils/location_exception.dart';
 import 'package:wom_pocket/src/utils/location_utils.dart';
 import 'package:wom_pocket/src/widgets/my_appbar.dart';
@@ -26,7 +28,10 @@ class OffersListScreen extends ConsumerWidget {
   const OffersListScreen({Key? key}) : super(key: key);
 
   void _onRefresh(WidgetRef ref) async {
-    await ref.refresh(locationNotifierProvider.future);
+    ref.invalidate(paginatedVirtualOffersProvider(0));
+    ref.invalidate(locationNotifierProvider);
+    await ref.read(paginatedVirtualOffersProvider(0).future);
+    await ref.read(locationNotifierProvider.future);
     ref.read(refreshControllerProvider).refreshCompleted();
   }
 
@@ -75,47 +80,35 @@ class OffersListScreen extends ConsumerWidget {
                     },
                   );
                 }
-                return ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                    itemCount: offers.length,
-                    itemBuilder: (c, index) {
-                      final offer = offers[index];
-                      return OfferTile(
-                        offer: offer,
-                      );
-                    });
-                // return Column(
-                //   children: [
-                //     SectionTitle(
-                //       title: 'Offerte online',
-                //       leftPadding: 16,
-                //       text: 'Vedi tutte',
-                //     ),
-                //     SizedBox(
-                //       height: 100,
-                //       child: ListView.builder(
-                //           padding: const EdgeInsets.only(left: 16),
-                //           scrollDirection: Axis.horizontal,
-                //           itemCount: 5,
-                //           itemBuilder: (c, i) {
-                //             return AspectRatio(
-                //               aspectRatio: 1,
-                //               child: Card(),
-                //             );
-                //           }),
-                //     ),
-                //     const SizedBox(height: 24),
-                //     SectionTitle(
-                //       title: 'Offerte sul territorio',
-                //       leftPadding: 16,
-                //     ),
-                //     Expanded(
-                //       child: OffersList(
-                //         offers: list,
-                //       ),
-                //     ),
-                //   ],
-                // );
+                // return ListView.builder(
+                //     padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                //     itemCount: offers.length,
+                //     itemBuilder: (c, index) {
+                //       final offer = offers[index];
+                //       return OfferTile(
+                //         offer: offer,
+                //       );
+                //     });
+                return ListView(
+                  // padding: EdgeInsets.all(16),
+                  children: [
+                    VirtualOfferList(),
+                    SectionTitle(
+                      title: 'Offerte sul territorio',
+                      leftPadding: 16,
+                    ),
+                    for (int i = 0; i < offers.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: OfferTile(
+                          posName: offers[i].name,
+                          offers: offers[i].offers,
+                          distance: offers[i].distance,
+                          imageUrl: offers[i].cover?.midDensityFullWidthUrl,
+                        ),
+                      )
+                  ],
+                );
               },
               error: (ex, st) {
                 if (ex is MyLocationException) {
@@ -332,13 +325,107 @@ class OffersList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
         itemCount: offers.length,
+        shrinkWrap: true,
         itemBuilder: (c, index) {
           final offer = offers[index];
           return OfferTile(
-            offer: offer,
+            posName: offer.name,
+            offers: offer.offers,
+            distance: offer.distance,
+            imageUrl: offer.cover?.midDensityFullWidthUrl,
           );
         });
+  }
+}
+
+class VirtualOfferList extends ConsumerWidget {
+  const VirtualOfferList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    //final offers = ref.watch(paginatedVirtualOffersProvider);
+    final count = ref.watch(questionsCountProvider);
+
+    if (count is! AsyncData) {
+      return SizedBox.shrink();
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(height: 24),
+        SectionTitle(
+          title: 'Offerte online',
+          leftPadding: 16,
+        ),
+        SizedBox(
+          height: 100,
+          child: ListView.builder(
+              padding: const EdgeInsets.only(left: 16),
+              scrollDirection: Axis.horizontal,
+              itemCount: count.valueOrNull ?? 0,
+              itemBuilder: (c, index) {
+                return ProviderScope(
+                  overrides: [
+                    currentQuestion.overrideWithValue(
+                      ref
+                          .watch(paginatedVirtualOffersProvider(index ~/ 10))
+                          .whenData((page) => page.data[index % 10]),
+                    ),
+                  ],
+                  child: VirtualPOSCard(),
+                );
+              }),
+        ),
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+}
+
+class VirtualPOSCard extends ConsumerWidget {
+  const VirtualPOSCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentPOS = ref.watch(currentQuestion);
+    return currentPOS.when(data: (virtual) {
+      return AspectRatio(
+        aspectRatio: 3 / 2,
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => POSDetailsScreen(
+                  posName: virtual.name,
+                  isVirtual: true,
+                  url: virtual.url,
+                  imageUrl: virtual.cover?.midDensityFullWidthUrl,
+                ),
+              ),
+            );
+          },
+          child: Card(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(
+                  virtual.name,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }, error: (es, st) {
+      return Container();
+    }, loading: () {
+      return Container();
+    });
   }
 }

@@ -213,7 +213,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                         if (state.transaction.type ==
                                                 TransactionType.PAYMENT &&
                                             url != null) {
-                                          Utils.launchUrl(url);
+                                          Utils.launchUri(url);
                                         }
                                         backToHome();
                                       },

@@ -277,6 +277,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         final link = await Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => ScanScreen()));
 
+        if (link == null) return;
         final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
         logger.i('wom_scan_done $link');
         logEvent('wom_scan_done');

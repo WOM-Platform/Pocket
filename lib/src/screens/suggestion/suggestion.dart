@@ -2,8 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:path/path.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:wom_pocket/src/utils/utils.dart';
+
+enum PopupActions { open, copy }
 
 class SuggestionScreen extends StatefulWidget {
   SuggestionScreen({Key? key, required this.url}) : super(key: key);
@@ -39,6 +45,38 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(widget.url),
+        actions: [
+          PopupMenuButton<PopupActions>(
+            initialValue: null,
+            // Callback that sets the selected popup menu item.
+            onSelected: (PopupActions item) {
+              switch (item) {
+                case PopupActions.open:
+                  Utils.launchUri(widget.url);
+                  break;
+                case PopupActions.copy:
+                  Clipboard.setData(ClipboardData(text: widget.url)).then((_) {
+                    showToast(
+                      'Indirizzo web copiato negli appunti',
+                      position: ToastPosition.bottom,
+                    );
+                  });
+                  break;
+              }
+            },
+            itemBuilder: (BuildContext context) =>
+                <PopupMenuEntry<PopupActions>>[
+              const PopupMenuItem<PopupActions>(
+                value: PopupActions.open,
+                child: Text('Apri con browser di sistema'),
+              ),
+              const PopupMenuItem<PopupActions>(
+                value: PopupActions.copy,
+                child: Text('Copia indirizzo web'),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Stack(
         children: [

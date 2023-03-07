@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String _$ImportNotifierHash() => r'8ec8aa3544272351849b6bb4ef89087b62be46bd';
+String _$ImportNotifierHash() => r'6f466809b55f54dd89ba1e485b4ac232c4debb64';
 
 /// See also [ImportNotifier].
 final importNotifierProvider =

@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String _$OffersNotifierHash() => r'ed0bdd0ee1c0e0f2de98f5e4a37ee44ff8d7b969';
+String _$OffersNotifierHash() => r'c2593e653c7f09d561c16859aeff74c2a30712b4';
 
 /// See also [OffersNotifier].
 final offersNotifierProvider =
@@ -47,7 +47,7 @@ abstract class _$OffersNotifier extends AsyncNotifier<List<OfferPOS>> {
   FutureOr<List<OfferPOS>> build();
 }
 
-String _$OffersMapNotifierHash() => r'482ca11b7b3aa26af6037b69aa11a44f269ec117';
+String _$OffersMapNotifierHash() => r'58d21cd4b8bbe17e90e4c529dba470c7eb629c24';
 
 /// See also [OffersMapNotifier].
 final offersMapNotifierProvider =

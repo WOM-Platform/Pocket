@@ -8,11 +8,23 @@ import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 class POSDetailsScreen extends ConsumerWidget {
-  final OfferPOS pos;
+  final List<Offer> offers;
+  final String posName;
+  final String? imageUrl;
+  final String? distance;
+  final String? url;
+  final bool isVirtual;
+  final String? description;
 
   const POSDetailsScreen({
     Key? key,
-    required this.pos,
+    this.imageUrl,
+    this.distance,
+    this.description,
+    this.isVirtual = false,
+    this.offers = const [],
+    required this.posName,
+    this.url,
   }) : super(key: key);
 
   @override
@@ -26,21 +38,40 @@ class POSDetailsScreen extends ConsumerWidget {
             statusBarIconBrightness: Brightness.light),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
-          if (pos.url != null)
+          if (!isVirtual && url != null)
             IconButton(
-                icon: Icon(Icons.open_in_new),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => SuggestionScreen(url: pos.url!)));
-                }),
+              icon: Icon(Icons.open_in_new),
+              color: Colors.white,
+              onPressed: () => goToExternalSite(context, url!),
+            ),
         ],
       ),
       body: SingleChildScrollView(
-          child: OfferTile(
-        offer: pos,
-        withCard: false,
+          child: Column(
+        children: [
+          OfferTile(
+            offers: offers,
+            posName: posName,
+            distance: distance,
+            imageUrl: imageUrl,
+            withCard: false,
+          ),
+          if (isVirtual) ...[
+            if (description != null && description!.isNotEmpty)
+              Text(description!),
+            if (url != null)
+              ElevatedButton(
+                onPressed: () => goToExternalSite(context, url!),
+                child: Text('Vai alle offerte online'),
+              ),
+          ]
+        ],
       )),
     );
+  }
+
+  goToExternalSite(BuildContext context, String url) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => SuggestionScreen(url: url)));
   }
 }
