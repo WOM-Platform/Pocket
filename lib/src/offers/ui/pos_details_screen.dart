@@ -47,26 +47,27 @@ class POSDetailsScreen extends ConsumerWidget {
         ],
       ),
       body: SingleChildScrollView(
-          child: Column(
-        children: [
-          OfferTile(
-            offers: offers,
-            posName: posName,
-            distance: distance,
-            imageUrl: imageUrl,
-            withCard: false,
-          ),
-          if (isVirtual) ...[
-            if (description != null && description!.isNotEmpty)
-              Text(description!),
-            if (url != null)
-              ElevatedButton(
-                onPressed: () => goToExternalSite(context, url!),
-                child: Text('Vai alle offerte online'),
-              ),
-          ]
-        ],
-      )),
+        child: Column(
+          children: [
+            OfferTile(
+              offers: offers,
+              posName: posName,
+              distance: distance,
+              imageUrl: imageUrl,
+              withCard: false,
+            ),
+            if (isVirtual) ...[
+              if (description != null && description!.isNotEmpty)
+                Text(description!),
+              if (url != null)
+                ElevatedButton(
+                  onPressed: () => goToExternalSite(context, url!),
+                  child: Text('Vai alle offerte online'),
+                ),
+            ]
+          ],
+        ),
+      ),
     );
   }
 

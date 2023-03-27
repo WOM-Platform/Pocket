@@ -29,42 +29,177 @@ class _SystemHash {
   }
 }
 
-String _$OffersNotifierHash() => r'c2593e653c7f09d561c16859aeff74c2a30712b4';
+String _$OffersNotifierHash() => r'f1f37c1e4437e9e9b084bc438678c7d875170cfb';
 
 /// See also [OffersNotifier].
-final offersNotifierProvider =
-    AsyncNotifierProvider<OffersNotifier, List<OfferPOS>>(
-  OffersNotifier.new,
-  name: r'offersNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$OffersNotifierHash,
-);
-typedef OffersNotifierRef = AsyncNotifierProviderRef<List<OfferPOS>>;
+class OffersNotifierProvider
+    extends AsyncNotifierProviderImpl<OffersNotifier, List<OfferPOS>> {
+  OffersNotifierProvider(
+    this.position,
+  ) : super(
+          () => OffersNotifier()..position = position,
+          from: offersNotifierProvider,
+          name: r'offersNotifierProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$OffersNotifierHash,
+        );
 
-abstract class _$OffersNotifier extends AsyncNotifier<List<OfferPOS>> {
+  final LatLng? position;
+
   @override
-  FutureOr<List<OfferPOS>> build();
+  bool operator ==(Object other) {
+    return other is OffersNotifierProvider && other.position == position;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, position.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+
+  @override
+  FutureOr<List<OfferPOS>> runNotifierBuild(
+    covariant _$OffersNotifier notifier,
+  ) {
+    return notifier.build(
+      position,
+    );
+  }
 }
 
-String _$OffersMapNotifierHash() => r'58d21cd4b8bbe17e90e4c529dba470c7eb629c24';
+typedef OffersNotifierRef = AsyncNotifierProviderRef<List<OfferPOS>>;
+
+/// See also [OffersNotifier].
+final offersNotifierProvider = OffersNotifierFamily();
+
+class OffersNotifierFamily extends Family<AsyncValue<List<OfferPOS>>> {
+  OffersNotifierFamily();
+
+  OffersNotifierProvider call(
+    LatLng? position,
+  ) {
+    return OffersNotifierProvider(
+      position,
+    );
+  }
+
+  @override
+  AsyncNotifierProviderImpl<OffersNotifier, List<OfferPOS>> getProviderOverride(
+    covariant OffersNotifierProvider provider,
+  ) {
+    return call(
+      provider.position,
+    );
+  }
+
+  @override
+  List<ProviderOrFamily>? get allTransitiveDependencies => null;
+
+  @override
+  List<ProviderOrFamily>? get dependencies => null;
+
+  @override
+  String? get name => r'offersNotifierProvider';
+}
+
+abstract class _$OffersNotifier extends BuildlessAsyncNotifier<List<OfferPOS>> {
+  late final LatLng? position;
+
+  FutureOr<List<OfferPOS>> build(
+    LatLng? position,
+  );
+}
+
+String _$OffersMapNotifierHash() => r'40796ef3db86d4702e7747d3702fe88c181ca5c4';
 
 /// See also [OffersMapNotifier].
-final offersMapNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<OffersMapNotifier, OffersMapData>(
-  OffersMapNotifier.new,
-  name: r'offersMapNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$OffersMapNotifierHash,
-);
+class OffersMapNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    OffersMapNotifier, OffersMapData> {
+  OffersMapNotifierProvider(
+    this.position,
+  ) : super(
+          () => OffersMapNotifier()..position = position,
+          from: offersMapNotifierProvider,
+          name: r'offersMapNotifierProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$OffersMapNotifierHash,
+        );
+
+  final LatLng? position;
+
+  @override
+  bool operator ==(Object other) {
+    return other is OffersMapNotifierProvider && other.position == position;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, position.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+
+  @override
+  FutureOr<OffersMapData> runNotifierBuild(
+    covariant _$OffersMapNotifier notifier,
+  ) {
+    return notifier.build(
+      position,
+    );
+  }
+}
+
 typedef OffersMapNotifierRef
     = AutoDisposeAsyncNotifierProviderRef<OffersMapData>;
 
-abstract class _$OffersMapNotifier
-    extends AutoDisposeAsyncNotifier<OffersMapData> {
+/// See also [OffersMapNotifier].
+final offersMapNotifierProvider = OffersMapNotifierFamily();
+
+class OffersMapNotifierFamily extends Family<AsyncValue<OffersMapData>> {
+  OffersMapNotifierFamily();
+
+  OffersMapNotifierProvider call(
+    LatLng? position,
+  ) {
+    return OffersMapNotifierProvider(
+      position,
+    );
+  }
+
   @override
-  FutureOr<OffersMapData> build();
+  AutoDisposeAsyncNotifierProviderImpl<OffersMapNotifier, OffersMapData>
+      getProviderOverride(
+    covariant OffersMapNotifierProvider provider,
+  ) {
+    return call(
+      provider.position,
+    );
+  }
+
+  @override
+  List<ProviderOrFamily>? get allTransitiveDependencies => null;
+
+  @override
+  List<ProviderOrFamily>? get dependencies => null;
+
+  @override
+  String? get name => r'offersMapNotifierProvider';
+}
+
+abstract class _$OffersMapNotifier
+    extends BuildlessAutoDisposeAsyncNotifier<OffersMapData> {
+  late final LatLng? position;
+
+  FutureOr<OffersMapData> build(
+    LatLng? position,
+  );
 }
 
 String _$LocationNotifierHash() => r'4219d9e58833e81041499a11936629f489de60b0';

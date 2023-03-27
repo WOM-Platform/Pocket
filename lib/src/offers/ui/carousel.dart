@@ -19,8 +19,13 @@ final carouselControllerProvider =
 });
 
 class ListingCarouselWidget extends ConsumerWidget {
+  final LatLng? position;
+
   //
-  const ListingCarouselWidget({Key? key}) : super(key: key);
+  const ListingCarouselWidget({
+    Key? key,
+    this.position,
+  }) : super(key: key);
 
   void onPageChanged(OfferPOS item, int index, CarouselPageChangedReason reason,
       WidgetRef ref) {
@@ -47,7 +52,7 @@ class ListingCarouselWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(offersMapNotifierProvider).valueOrNull;
+    final data = ref.watch(offersMapNotifierProvider(position)).valueOrNull;
     final enabled = ref.watch(enableCarouselProvider);
 
     if (!enabled || data == null || data.isLoading || data.offers.isEmpty)

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
@@ -63,7 +64,8 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
 
         if (!place.isMultiple) {
           bitmapDescriptor = await BitmapDescriptor.fromAssetImage(
-              ImageConfiguration(), 'assets/images/wom_pin.png');
+              ImageConfiguration(devicePixelRatio: Platform.isIOS ? 1 : null),
+              'assets/images/wom_pos_pin.png');
         } else {
           // >1
           final markerIcon = await getBytesFromCanvas(

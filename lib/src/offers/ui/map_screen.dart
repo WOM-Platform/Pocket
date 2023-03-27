@@ -58,8 +58,11 @@ final mapControllerProvider = StateProvider<GoogleMapController?>((ref) {
 });
 
 class OfferMapsScreen extends ConsumerStatefulWidget {
+  final LatLng? position;
+
   const OfferMapsScreen({
     Key? key,
+    this.position,
   }) : super(key: key);
 
   @override
@@ -75,7 +78,14 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
   @override
   void initState() {
     super.initState();
-    _goToCurrentLocation();
+    if (widget.position == null) {
+      _goToCurrentLocation();
+    } else {
+      _goToLocation(
+        widget.position!,
+        withAnimation: false,
+      );
+    }
   }
 
   _goToCurrentLocation() async {
@@ -122,12 +132,12 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
 
   Future<void> onSearchPressed() async {
     logger.i('onSearchPressed');
-    ref.read(offersMapNotifierProvider.notifier).loadOffers(_controller.future);
+    ref.read(offersMapNotifierProvider(widget.position).notifier).loadOffers(_controller.future);
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(offersMapNotifierProvider);
+    final state = ref.watch(offersMapNotifierProvider(widget.position));
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.translate('offerMapTitle')),
@@ -155,7 +165,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
             mapToolbarEnabled: false,
             onCameraIdle: () {
               ref
-                  .read(offersMapNotifierProvider.notifier)
+                  .read(offersMapNotifierProvider(widget.position).notifier)
                   .clusterManager
                   ?.updateMap();
             },
@@ -175,7 +185,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
                 ref.read(enableSearchButtonProvider.notifier).enabled();
               }*/
               ref
-                  .read(offersMapNotifierProvider.notifier)
+                  .read(offersMapNotifierProvider(widget.position).notifier)
                   .clusterManager
                   ?.onCameraMove(cameraPosition);
               // ref.read(mapControllerProvider)?.getVisibleRegion().then(
@@ -187,11 +197,11 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
               ref.read(mapControllerProvider.notifier).state = controller;
               _controller.complete(controller);
               ref
-                  .read(offersMapNotifierProvider.notifier)
+                  .read(offersMapNotifierProvider(widget.position).notifier)
                   .clusterManager
                   ?.setMapId(controller.mapId);
               ref
-                  .read(offersMapNotifierProvider.notifier)
+                  .read(offersMapNotifierProvider(widget.position).notifier)
                   .clusterManager
                   ?.updateMap();
             },
@@ -205,6 +215,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SearchNewPointButton(
+                  position:widget.position,
                   onPressed: onSearchPressed,
                 ),
                 const SizedBox(height: 4),

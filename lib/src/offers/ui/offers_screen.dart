@@ -1,8 +1,7 @@
-import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
@@ -37,225 +36,31 @@ class OffersListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(offersNotifierProvider);
     final c = ref.watch(refreshControllerProvider);
     return Scaffold(
-      appBar: PocketAppBar(
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (c) => OfferMapsScreen()));
-            },
-            child: Text(AppLocalizations.of(context)!.translate('showMap')),
-          )
-        ],
-      ),
-      body: state.when(
-        data: (offers) {
-          if (offers.isEmpty) {
-            return PocketErrorWidget(
-              errorText:
-                  AppLocalizations.of(context)!.translate('noOffersOnLocation'),
-              tryAgainText: AppLocalizations.of(context)!.translate('update'),
-              tryAgain: () {
-                ref.invalidate(locationNotifierProvider);
+        appBar: PocketAppBar(
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (c) => OfferMapsScreen()));
               },
-            );
-          }
-          return SmartRefresher(
-            controller: c,
-            enablePullDown: true,
-            onRefresh: () => _onRefresh(ref),
-            child: state.when(
-              data: (offers) {
-                if (offers.isEmpty) {
-                  return PocketErrorWidget(
-                    errorText: AppLocalizations.of(context)!
-                        .translate('noOffersOnLocation'),
-                    tryAgainText:
-                        AppLocalizations.of(context)!.translate('update'),
-                    tryAgain: () {
-                      ref.invalidate(locationNotifierProvider);
-                    },
-                  );
-                }
-                // return ListView.builder(
-                //     padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                //     itemCount: offers.length,
-                //     itemBuilder: (c, index) {
-                //       final offer = offers[index];
-                //       return OfferTile(
-                //         offer: offer,
-                //       );
-                //     });
-                return ListView(
-                  // padding: EdgeInsets.all(16),
-                  children: [
-                    VirtualOfferList(),
-                    SectionTitle(
-                      title: 'Offerte sul territorio',
-                      leftPadding: 16,
-                    ),
-                    for (int i = 0; i < offers.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: OfferTile(
-                          posName: offers[i].name,
-                          offers: offers[i].offers,
-                          distance: offers[i].distance,
-                          imageUrl: offers[i].cover?.midDensityFullWidthUrl,
-                        ),
-                      )
-                  ],
-                );
-              },
-              error: (ex, st) {
-                if (ex is MyLocationException) {
-                  return PocketErrorWidget(
-                    errorText: AppLocalizations.of(context)!
-                        .translate('noLocationPermission'),
-                    tryAgain: () async {
-                      try {
-                        final res = await requestPermission();
-                        if (res) {
-                          ref.invalidate(locationNotifierProvider);
-                        }
-                      } on LocationPermissionDeniedForever {
-                        Alert(
-                            context: context,
-                            type: AlertType.error,
-                            title: AppLocalizations.of(context)!
-                                .translate('locationPermissionDeniedForever'),
-                            buttons: []).show();
-                      } catch (ex, st) {
-                        logger.e(ex);
-                        logger.e(st);
-                      }
-                    },
-                    tryAgainText: AppLocalizations.of(context)!
-                        .translate('grantPermission'),
-                    ex: ex,
-                  );
-                } else if (ex is LocationDisabledException) {
-                  return PocketErrorWidget(
-                    errorText: AppLocalizations.of(context)!
-                        .translate('noLocationService'),
-                    tryAgain: () {
-                      ref.invalidate(locationNotifierProvider);
-                    },
-                    tryAgainText:
-                        AppLocalizations.of(context)!.translate('try_again'),
-                    ex: ex,
-                  );
-                }
-                return PocketErrorWidget(
-                  errorText: AppLocalizations.of(context)!
-                      .translate('somethings_wrong'),
-                  tryAgain: () {
-                    ref.invalidate(offersNotifierProvider);
-                  },
-                  tryAgainText:
-                      AppLocalizations.of(context)!.translate('try_again'),
-                  ex: ex,
-                );
-              },
-              loading: () {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            ),
-          );
-          // return Column(
-          //   children: [
-          //     SectionTitle(
-          //       title: 'Offerte online',
-          //       leftPadding: 16,
-          //       text: 'Vedi tutte',
-          //     ),
-          //     SizedBox(
-          //       height: 100,
-          //       child: ListView.builder(
-          //           padding: const EdgeInsets.only(left: 16),
-          //           scrollDirection: Axis.horizontal,
-          //           itemCount: 5,
-          //           itemBuilder: (c, i) {
-          //             return AspectRatio(
-          //               aspectRatio: 1,
-          //               child: Card(),
-          //             );
-          //           }),
-          //     ),
-          //     const SizedBox(height: 24),
-          //     SectionTitle(
-          //       title: 'Offerte sul territorio',
-          //       leftPadding: 16,
-          //     ),
-          //     Expanded(
-          //       child: OffersList(
-          //         offers: list,
-          //       ),
-          //     ),
-          //   ],
-          // );
-        },
-        error: (ex, st) {
-          if (ex is MyLocationException) {
-            return PocketErrorWidget(
-              errorText: AppLocalizations.of(context)!
-                  .translate('noLocationPermission'),
-              tryAgain: () async {
-                try {
-                  final res = await requestPermission();
-                  if (res) {
-                    ref.invalidate(locationNotifierProvider);
-                  }
-                } on LocationPermissionDeniedForever {
-                  Alert(
-                      context: context,
-                      type: AlertType.error,
-                      title: AppLocalizations.of(context)!
-                          .translate('locationPermissionDeniedForever'),
-                      buttons: []).show();
-                } catch (ex, st) {
-                  logger.e(ex);
-                  logger.e(st);
-                }
-              },
-              tryAgainText:
-                  AppLocalizations.of(context)!.translate('grantPermission'),
-              ex: ex,
-            );
-          } else if (ex is LocationDisabledException) {
-            return PocketErrorWidget(
-              errorText:
-                  AppLocalizations.of(context)!.translate('noLocationService'),
-              tryAgain: () {
-                ref.invalidate(locationNotifierProvider);
-              },
-              tryAgainText:
-                  AppLocalizations.of(context)!.translate('try_again'),
-              ex: ex,
-            );
-          }
-          return PocketErrorWidget(
-            errorText:
-                AppLocalizations.of(context)!.translate('somethings_wrong'),
-            tryAgain: () {
-              ref.invalidate(offersNotifierProvider);
-            },
-            tryAgainText: AppLocalizations.of(context)!.translate('try_again'),
-            ex: ex,
-          );
-        },
-        loading: () {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
-    );
+              child: Text(AppLocalizations.of(context)!.translate('showMap')),
+            )
+          ],
+        ),
+        body: SmartRefresher(
+          controller: c,
+          enablePullDown: true,
+          onRefresh: () => _onRefresh(ref),
+          child: ListView(
+            // padding: EdgeInsets.all(16),
+            children: [
+              VirtualOfferList(),
+              OffersList(),
+            ],
+          ),
+        ));
   }
 }
 
@@ -315,29 +120,157 @@ class PocketErrorWidget extends StatelessWidget {
 }
 
 class OffersList extends ConsumerWidget {
-  final List<OfferPOS> offers;
-
   const OffersList({
     Key? key,
-    required this.offers,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-        itemCount: offers.length,
-        shrinkWrap: true,
-        itemBuilder: (c, index) {
-          final offer = offers[index];
-          return OfferTile(
-            posName: offer.name,
-            offers: offer.offers,
-            distance: offer.distance,
-            imageUrl: offer.cover?.midDensityFullWidthUrl,
-          );
-        });
+    final state = ref.watch(offersNotifierProvider(null));
+    return Column(
+      children: [
+        SectionTitle(
+          title: 'Offerte sul territorio',
+          leftPadding: 16,
+        ),
+        state.when(
+          data: (offers) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              // padding: EdgeInsets.all(16),
+              children: [
+                if (offers.isEmpty) ...[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(AppLocalizations.of(context)!
+                        .translate('noOffersOnLocation')),
+                  ),
+                  const SizedBox(height: 16),
+                  SectionTitle(
+                    title: 'Dove siamo',
+                    leftPadding: 16,
+                  ),
+                  SizedBox(
+                    height: 120,
+                    child: ListView(
+                      padding: const EdgeInsets.only(left: 16),
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (c) => OfferMapsScreen(
+                                    position: LatLng(43.725201, 12.635312),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              clipBehavior: Clip.antiAlias,
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/images/urbino.jpeg'),
+                                            fit: BoxFit.cover)),
+                                  ),
+                                  Container(
+                                      color: Colors.black.withOpacity(0.3)),
+                                  Center(
+                                    child: Text(
+                                      'Urbino',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ] else
+                  for (int i = 0; i < offers.length; i++)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: OfferTile(
+                        posName: offers[i].name,
+                        offers: offers[i].offers,
+                        distance: offers[i].distance,
+                        imageUrl: offers[i].cover?.midDensityFullWidthUrl,
+                      ),
+                    ),
+                SizedBox(height: 60,)
+              ],
+            );
+          },
+          error: (ex, st) {
+            if (ex is MyLocationException) {
+              return PocketErrorWidget(
+                errorText: AppLocalizations.of(context)!
+                    .translate('noLocationPermission'),
+                tryAgain: () async {
+                  try {
+                    final res = await requestPermission();
+                    if (res) {
+                      ref.invalidate(locationNotifierProvider);
+                    }
+                  } on LocationPermissionDeniedForever {
+                    Alert(
+                        context: context,
+                        type: AlertType.error,
+                        title: AppLocalizations.of(context)!
+                            .translate('locationPermissionDeniedForever'),
+                        buttons: []).show();
+                  } catch (ex, st) {
+                    logger.e(ex);
+                    logger.e(st);
+                  }
+                },
+                tryAgainText:
+                    AppLocalizations.of(context)!.translate('grantPermission'),
+                ex: ex,
+              );
+            } else if (ex is LocationDisabledException) {
+              return PocketErrorWidget(
+                errorText: AppLocalizations.of(context)!
+                    .translate('noLocationService'),
+                tryAgain: () {
+                  ref.invalidate(locationNotifierProvider);
+                },
+                tryAgainText:
+                    AppLocalizations.of(context)!.translate('try_again'),
+                ex: ex,
+              );
+            }
+            return PocketErrorWidget(
+              errorText:
+                  AppLocalizations.of(context)!.translate('somethings_wrong'),
+              tryAgain: () {
+                ref.invalidate(offersNotifierProvider);
+              },
+              tryAgainText:
+                  AppLocalizations.of(context)!.translate('try_again'),
+              ex: ex,
+            );
+          },
+          loading: () {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        )
+      ],
+    );
   }
 }
 

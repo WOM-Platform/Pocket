@@ -161,6 +161,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUri('https://wom.social'),
           ),
+          SettingsItem(
+            title: 'Privacy Policy',
+            subtitle: '',
+            icon: Icons.privacy_tip_outlined,
+            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+            onTap: () => Utils.launchUri('https://wom.social/privacy/pocket'),
+          ),
           VersionInfo(
             onTap: () {
               setState(() {

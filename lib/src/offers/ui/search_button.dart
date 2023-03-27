@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
@@ -16,14 +17,14 @@ final enableCarouselProvider = Provider.autoDispose<bool>((ref) {
 });
 
 final enableSearchButtonProvider =
-    AutoDisposeNotifierProvider<EnableSearchButtonNotifier, ZoomStatus>(
+    AutoDisposeFamilyNotifierProvider<EnableSearchButtonNotifier, ZoomStatus, LatLng?>(
         EnableSearchButtonNotifier.new);
 
-class EnableSearchButtonNotifier extends AutoDisposeNotifier<ZoomStatus> {
+class EnableSearchButtonNotifier extends AutoDisposeFamilyNotifier<ZoomStatus, LatLng?> {
   @override
-  ZoomStatus build() {
+  ZoomStatus build(LatLng? position) {
     logger.wtf('EnableSearchButtonNotifier build');
-    final posMapData = ref.watch(offersMapNotifierProvider);
+    final posMapData = ref.watch(offersMapNotifierProvider(position));
     final zoom = ref.watch(zoomMapProvider);
     if (posMapData.isLoading) {
       logger.wtf('EnableSearchButtonNotifier build => loading');
@@ -39,10 +40,12 @@ class EnableSearchButtonNotifier extends AutoDisposeNotifier<ZoomStatus> {
 
 class SearchNewPointButton extends ConsumerWidget {
   final Function()? onPressed;
+  final LatLng? position;
 
   const SearchNewPointButton({
     Key? key,
     this.onPressed,
+    this.position,
   }) : super(key: key);
 
   @override

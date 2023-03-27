@@ -18,8 +18,8 @@ part 'offers_notifier.g.dart';
 
 final paginatedVirtualOffersProvider = FutureProvider.autoDispose
     .family<OfferPagination, int>((ref, pageIndex) async {
-
-  final offers = await ref.watch(pocketProvider).getVirtualPos(pageIndex + 1, pageSize: 4);
+  final offers =
+      await ref.watch(pocketProvider).getVirtualPos(pageIndex + 1, pageSize: 4);
 
   return offers;
 });
@@ -49,8 +49,11 @@ final currentQuestion = Provider<AsyncValue<VirtualPOS>>((ref) {
 
 @Riverpod(keepAlive: true)
 class OffersNotifier extends _$OffersNotifier {
-  FutureOr<List<OfferPOS>> build() async {
-    final currentPosition = await ref.watch(locationNotifierProvider.future);
+  FutureOr<List<OfferPOS>> build(LatLng? position) async {
+    var currentPosition = position;
+    if (currentPosition == null) {
+      currentPosition = await ref.watch(locationNotifierProvider.future);
+    }
 
     final offers = await loadOffers(
       currentPosition: currentPosition,
@@ -109,7 +112,7 @@ class OffersMapNotifier extends _$OffersMapNotifier {
   BitmapDescriptor? activePOS;
   BitmapDescriptor? inactivePOS;
 
-  FutureOr<OffersMapData> build() async {
+  FutureOr<OffersMapData> build(LatLng? position) async {
     logger.wtf('OffersMapNotifier build');
     clusterManager ??= ClusterManager<OfferCluster>(
       [],
@@ -167,7 +170,7 @@ class OffersMapNotifier extends _$OffersMapNotifier {
       levels: [1, 4.25, 6.75, 8.25, 11.5, 14.5, 16.0, 16.5, 20.0],
       extraPercent: 0.2,
     );
-    final offers = ref.watch(offersNotifierProvider).valueOrNull ?? [];
+    final offers = ref.watch(offersNotifierProvider(position)).valueOrNull ?? [];
     logger.i('oOffersMapNotifier build => offers ${offers.length}');
     final clusterItems = offers.map((o) => OfferCluster(offer: o)).toList();
     posList = offers;

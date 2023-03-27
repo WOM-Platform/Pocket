@@ -97,12 +97,12 @@ class OptionalQuery {
   buildSourceClause(Set<String?> sources) {
     var sourceWhereClause = "";
     if (sources.isEmpty) {
-      return "${WomModel.tblWom}.${WomModel.dbSourceName} = \"NULL_SOURCE\"";
+      return "${WomModel.tblWom}.${WomModel.dbSourceName} = \'NULL_SOURCE\'";
     }
     sources.forEach((source) {
       sourceWhereClause = sourceWhereClause.isEmpty
-          ? "${WomModel.tblWom}.${WomModel.dbSourceName} = \"$source\""
-          : "$sourceWhereClause OR ${WomModel.tblWom}.${WomModel.dbSourceName} = \"$source\"";
+          ? "${WomModel.tblWom}.${WomModel.dbSourceName} = \'$source\'"
+          : "$sourceWhereClause OR ${WomModel.tblWom}.${WomModel.dbSourceName} = \'$source\'";
     });
 
     return "($sourceWhereClause)";
@@ -111,12 +111,12 @@ class OptionalQuery {
   buildAimClause(Set<String?> aims) {
     var aimWhereClause = "";
     if (aims.isEmpty) {
-      return "${WomModel.tblWom}.${WomModel.dbAim} = \"NULL_SOURCE\"";
+      return "${WomModel.tblWom}.${WomModel.dbAim} = \'NULL_SOURCE\'";
     }
     aims.forEach((aim) {
       aimWhereClause = aimWhereClause.isEmpty
-          ? "${WomModel.tblWom}.${WomModel.dbAim} = \"$aim\""
-          : "$aimWhereClause OR ${WomModel.tblWom}.${WomModel.dbAim} = \"$aim\"";
+          ? "${WomModel.tblWom}.${WomModel.dbAim} = \'$aim\'"
+          : "$aimWhereClause OR ${WomModel.tblWom}.${WomModel.dbAim} = \'$aim\'";
     });
 
     return "($aimWhereClause)";
@@ -131,7 +131,7 @@ class OptionalQuery {
 
     if (aim != null) {
       //aimCode presente prendo i wom di tutti gli aim rispettando l aimCode
-      aimClause = "${WomModel.tblWom}.${WomModel.dbAim} LIKE \"$aim%\"";
+      aimClause = "${WomModel.tblWom}.${WomModel.dbAim} LIKE \'$aim%\'";
     } else {
       // se non c'è aimCode prendo i wom di tutti gli aim eccetto quelli che iniziano con 0
       aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \'0%\'";
