@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/offers/application/offer_map_notifier.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
@@ -13,7 +14,7 @@ enum ZoomStatus { outside, enabled, disabled, loading }
 
 final enableCarouselProvider = Provider.autoDispose<bool>((ref) {
   final zoom = ref.watch(zoomMapProvider);
-  return zoom >= 16;
+  return zoom >= minZoom;
 });
 
 final enableSearchButtonProvider =
@@ -31,7 +32,7 @@ class EnableSearchButtonNotifier extends AutoDisposeFamilyNotifier<ZoomStatus, L
       return ZoomStatus.loading;
     }
     logger.wtf('EnableSearchButtonNotifier build => disabled');
-    if (zoom >= 16) {
+    if (zoom >= minZoom) {
       return ZoomStatus.enabled;
     }
     return ZoomStatus.outside;

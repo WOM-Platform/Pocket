@@ -8,7 +8,7 @@ publish_to: none
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.8+44
+version: 1.2.0+50
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -81,6 +81,7 @@ dependencies:
   flutter_svg: ^1.1.6
   dots_indicator: ^2.1.0
   oktoast: ^3.3.1
+  flutter_cache_manager:
 
 dependency_overrides:
   state_notifier: ^0.7.2+1
@@ -98,7 +99,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/urbino.jpeg
+    - assets/images/cities/urbino.jpeg
+    - assets/images/cities/fano.webp
     - assets/images/empty_wom.png
     - assets/images/wom_pos_pin.png
     - assets/images/1.0x/wom_pos_pin.png
@@ -119,7 +121,7 @@ flutter:
     - assets/images/m4.png
     - assets/images/wom.png
     - assets/images/wom_pin.png
-    - assets/wom-pocket-icon.svg
+    - assets/images/wom-pocket-icon.svg
 #    - assets/images/migration.png
     - assets/flare/check.flr
     - assets/registry.pub

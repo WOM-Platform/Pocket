@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String _$OffersNotifierHash() => r'f1f37c1e4437e9e9b084bc438678c7d875170cfb';
+String _$OffersNotifierHash() => r'd1f59fb5a8166ae3587d45922d68bdb3ad9193fa';
 
 /// See also [OffersNotifier].
 class OffersNotifierProvider
@@ -110,94 +110,6 @@ abstract class _$OffersNotifier extends BuildlessAsyncNotifier<List<OfferPOS>> {
   late final LatLng? position;
 
   FutureOr<List<OfferPOS>> build(
-    LatLng? position,
-  );
-}
-
-String _$OffersMapNotifierHash() => r'40796ef3db86d4702e7747d3702fe88c181ca5c4';
-
-/// See also [OffersMapNotifier].
-class OffersMapNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    OffersMapNotifier, OffersMapData> {
-  OffersMapNotifierProvider(
-    this.position,
-  ) : super(
-          () => OffersMapNotifier()..position = position,
-          from: offersMapNotifierProvider,
-          name: r'offersMapNotifierProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$OffersMapNotifierHash,
-        );
-
-  final LatLng? position;
-
-  @override
-  bool operator ==(Object other) {
-    return other is OffersMapNotifierProvider && other.position == position;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, position.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-
-  @override
-  FutureOr<OffersMapData> runNotifierBuild(
-    covariant _$OffersMapNotifier notifier,
-  ) {
-    return notifier.build(
-      position,
-    );
-  }
-}
-
-typedef OffersMapNotifierRef
-    = AutoDisposeAsyncNotifierProviderRef<OffersMapData>;
-
-/// See also [OffersMapNotifier].
-final offersMapNotifierProvider = OffersMapNotifierFamily();
-
-class OffersMapNotifierFamily extends Family<AsyncValue<OffersMapData>> {
-  OffersMapNotifierFamily();
-
-  OffersMapNotifierProvider call(
-    LatLng? position,
-  ) {
-    return OffersMapNotifierProvider(
-      position,
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderImpl<OffersMapNotifier, OffersMapData>
-      getProviderOverride(
-    covariant OffersMapNotifierProvider provider,
-  ) {
-    return call(
-      provider.position,
-    );
-  }
-
-  @override
-  List<ProviderOrFamily>? get allTransitiveDependencies => null;
-
-  @override
-  List<ProviderOrFamily>? get dependencies => null;
-
-  @override
-  String? get name => r'offersMapNotifierProvider';
-}
-
-abstract class _$OffersMapNotifier
-    extends BuildlessAutoDisposeAsyncNotifier<OffersMapData> {
-  late final LatLng? position;
-
-  FutureOr<OffersMapData> build(
     LatLng? position,
   );
 }

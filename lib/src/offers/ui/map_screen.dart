@@ -8,7 +8,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/main.dart';
+import 'package:wom_pocket/src/offers/application/offer_map_notifier.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
+import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/offers/ui/search_button.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 import '../../my_logger.dart';
@@ -18,6 +20,11 @@ enum PosScreen { list, map }
 
 final zoomMapProvider = StateProvider.autoDispose<double>((ref) {
   return 0;
+});
+
+final showStaticCitiesProvider = Provider.autoDispose<bool>((ref) {
+  final zoom = ref.watch(zoomMapProvider);
+  return zoom < 10;
 });
 
 final mapIndexProvider =
@@ -69,11 +76,11 @@ class OfferMapsScreen extends ConsumerStatefulWidget {
   ConsumerState createState() => _OfferMapsScreenState();
 }
 
+const minZoom = 14.0;
+
 class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
-
-  final minZoom = 16.0;
 
   @override
   void initState() {
@@ -128,16 +135,20 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
         ),
       );
     }
+    ref.read(zoomMapProvider.notifier).state = minZoom;
   }
 
   Future<void> onSearchPressed() async {
     logger.i('onSearchPressed');
-    ref.read(offersMapNotifierProvider(widget.position).notifier).loadOffers(_controller.future);
+    ref
+        .read(offersMapNotifierProvider(widget.position).notifier)
+        .loadOffers(_controller.future);
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(offersMapNotifierProvider(widget.position));
+    final showStaticCities = ref.watch(showStaticCitiesProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.translate('offerMapTitle')),
@@ -205,7 +216,9 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
                   .clusterManager
                   ?.updateMap();
             },
-            markers: state.valueOrNull?.markers ?? {},
+            markers: showStaticCities
+                ? {...citiesMarker}
+                : state.valueOrNull?.markers ?? {},
           ),
           Positioned(
             bottom: 16.0,
@@ -215,15 +228,35 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SearchNewPointButton(
-                  position:widget.position,
+                  position: widget.position,
                   onPressed: onSearchPressed,
                 ),
                 const SizedBox(height: 4),
-                const ListingCarouselWidget(),
+                ListingCarouselWidget(
+                  position: widget.position,
+                  onTapCity: (position) async {
+                    await _goToLocation(position, withAnimation: false);
+                    // await Future.delayed(const Duration(seconds: 1));
+                    await onSearchPressed();
+                  },
+                ),
               ],
             ),
           ),
-          // Positioned(top: 16.0, left: 16.0, child: BackButton()),
+        /*  Align(
+            alignment: Alignment.topLeft,
+            child: SizedBox(
+              height: 70,
+              child: ElevatedButton(
+                onPressed: () {
+                  ref
+                      .read(offersMapNotifierProvider(widget.position).notifier)
+                      .updateCitiesMarkers();
+                },
+                child: Text('update'),
+              ),
+            ),
+          )*/
         ],
       ),
     );

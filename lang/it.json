@@ -164,5 +164,7 @@
   "gps_service_on_description": "Il servizio GPS è stato attivato. Riprova premendo il pulsante qui sotto.",
   "gps_service_off_description": "Il servizio GPS risulta spento, attivalo per accedere alla posizione.",
   "gps_permission_denied_description": "Il Pocket ha bisogno dei permessi per l'utilizzo del GPS",
-  "gps_permission_denied_forever_description": "Hai disattivato la richiesa di permessi, per l'utilizzo del GPS il Pocket necessita dell'autorizzazione utente."
+  "gps_permission_denied_forever_description": "Hai disattivato la richiesa di permessi, per l'utilizzo del GPS il Pocket necessita dell'autorizzazione utente.",
+  "offersOnEarth": "Offerte sul territorio",
+  "whereWeAre": "Dove siamo"
 }

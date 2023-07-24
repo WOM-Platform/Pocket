@@ -8,6 +8,7 @@ import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
+import 'package:wom_pocket/src/offers/domain/entities/static_cities.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/offers/ui/offer_tile.dart';
 import 'package:wom_pocket/src/offers/ui/pos_details_screen.dart';
@@ -38,29 +39,30 @@ class OffersListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final c = ref.watch(refreshControllerProvider);
     return Scaffold(
-        appBar: PocketAppBar(
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (c) => OfferMapsScreen()));
-              },
-              child: Text(AppLocalizations.of(context)!.translate('showMap')),
-            )
+      appBar: PocketAppBar(
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (c) => OfferMapsScreen()));
+            },
+            child: Text(AppLocalizations.of(context)!.translate('showMap')),
+          )
+        ],
+      ),
+      body: SmartRefresher(
+        controller: c,
+        enablePullDown: true,
+        onRefresh: () => _onRefresh(ref),
+        child: ListView(
+          // padding: EdgeInsets.all(16),
+          children: [
+            VirtualOfferList(),
+            OffersList(),
           ],
         ),
-        body: SmartRefresher(
-          controller: c,
-          enablePullDown: true,
-          onRefresh: () => _onRefresh(ref),
-          child: ListView(
-            // padding: EdgeInsets.all(16),
-            children: [
-              VirtualOfferList(),
-              OffersList(),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }
 
@@ -127,149 +129,133 @@ class OffersList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(offersNotifierProvider(null));
-    return Column(
-      children: [
-        SectionTitle(
-          title: 'Offerte sul territorio',
-          leftPadding: 16,
-        ),
-        state.when(
-          data: (offers) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              // padding: EdgeInsets.all(16),
-              children: [
-                if (offers.isEmpty) ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(AppLocalizations.of(context)!
-                        .translate('noOffersOnLocation')),
-                  ),
-                  const SizedBox(height: 16),
-                  SectionTitle(
-                    title: 'Dove siamo',
-                    leftPadding: 16,
-                  ),
-                  SizedBox(
-                    height: 120,
-                    child: ListView(
-                      padding: const EdgeInsets.only(left: 16),
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (c) => OfferMapsScreen(
-                                    position: LatLng(43.725201, 12.635312),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Card(
-                              clipBehavior: Clip.antiAlias,
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/urbino.jpeg'),
-                                            fit: BoxFit.cover)),
-                                  ),
-                                  Container(
-                                      color: Colors.black.withOpacity(0.3)),
-                                  Center(
-                                    child: Text(
-                                      'Urbino',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ] else
-                  for (int i = 0; i < offers.length; i++)
+    return Padding(
+      padding: const EdgeInsets.only(top: 24.0),
+      child: Column(
+        children: [
+          SectionTitle(
+            title: AppLocalizations.of(context)!.translate('offersOnEarth'),
+            leftPadding: 16,
+          ),
+          state.when(
+            data: (offers) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                // padding: EdgeInsets.all(16),
+                children: [
+                  if (offers.isEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: OfferTile(
-                        posName: offers[i].name,
-                        offers: offers[i].offers,
-                        distance: offers[i].distance,
-                        imageUrl: offers[i].cover?.midDensityFullWidthUrl,
-                      ),
+                      child: Text(AppLocalizations.of(context)!
+                          .translate('noOffersOnLocation')),
                     ),
-                SizedBox(height: 60,)
-              ],
-            );
-          },
-          error: (ex, st) {
-            if (ex is MyLocationException) {
-              return PocketErrorWidget(
-                errorText: AppLocalizations.of(context)!
-                    .translate('noLocationPermission'),
-                tryAgain: () async {
-                  try {
-                    final res = await requestPermission();
-                    if (res) {
-                      ref.invalidate(locationNotifierProvider);
-                    }
-                  } on LocationPermissionDeniedForever {
-                    Alert(
-                        context: context,
-                        type: AlertType.error,
-                        title: AppLocalizations.of(context)!
-                            .translate('locationPermissionDeniedForever'),
-                        buttons: []).show();
-                  } catch (ex, st) {
-                    logger.e(ex);
-                    logger.e(st);
-                  }
-                },
-                tryAgainText:
-                    AppLocalizations.of(context)!.translate('grantPermission'),
-                ex: ex,
+                    const SizedBox(height: 16),
+                    SectionTitle(
+                      title:
+                          AppLocalizations.of(context)!.translate('whereWeAre'),
+                      leftPadding: 16,
+                    ),
+                    SizedBox(
+                      height: 120,
+                      child: ListView.builder(
+                        padding: const EdgeInsets.only(left: 16),
+                        itemCount: cities.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: CityCard(
+                              city: cities[index],
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (c) => OfferMapsScreen(
+                                      position: LatLng(cities[index].lat,
+                                          cities[index].long),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ] else
+                    for (int i = 0; i < offers.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: OfferTile(
+                          posName: offers[i].name,
+                          offers: offers[i].offers,
+                          distance: offers[i].distance,
+                          imageUrl: offers[i].cover?.midDensityFullWidthUrl,
+                        ),
+                      ),
+                  SizedBox(
+                    height: 60,
+                  )
+                ],
               );
-            } else if (ex is LocationDisabledException) {
+            },
+            error: (ex, st) {
+              if (ex is MyLocationException) {
+                return PocketErrorWidget(
+                  errorText: AppLocalizations.of(context)!
+                      .translate('noLocationPermission'),
+                  tryAgain: () async {
+                    try {
+                      final res = await requestPermission();
+                      if (res) {
+                        ref.invalidate(locationNotifierProvider);
+                      }
+                    } on LocationPermissionDeniedForever {
+                      Alert(
+                          context: context,
+                          type: AlertType.error,
+                          title: AppLocalizations.of(context)!
+                              .translate('locationPermissionDeniedForever'),
+                          buttons: []).show();
+                    } catch (ex, st) {
+                      logger.e(ex);
+                      logger.e(st);
+                    }
+                  },
+                  tryAgainText: AppLocalizations.of(context)!
+                      .translate('grantPermission'),
+                  ex: ex,
+                );
+              } else if (ex is LocationDisabledException) {
+                return PocketErrorWidget(
+                  errorText: AppLocalizations.of(context)!
+                      .translate('noLocationService'),
+                  tryAgain: () {
+                    ref.invalidate(locationNotifierProvider);
+                  },
+                  tryAgainText:
+                      AppLocalizations.of(context)!.translate('try_again'),
+                  ex: ex,
+                );
+              }
               return PocketErrorWidget(
-                errorText: AppLocalizations.of(context)!
-                    .translate('noLocationService'),
+                errorText:
+                    AppLocalizations.of(context)!.translate('somethings_wrong'),
                 tryAgain: () {
-                  ref.invalidate(locationNotifierProvider);
+                  ref.invalidate(offersNotifierProvider);
                 },
                 tryAgainText:
                     AppLocalizations.of(context)!.translate('try_again'),
                 ex: ex,
               );
-            }
-            return PocketErrorWidget(
-              errorText:
-                  AppLocalizations.of(context)!.translate('somethings_wrong'),
-              tryAgain: () {
-                ref.invalidate(offersNotifierProvider);
-              },
-              tryAgainText:
-                  AppLocalizations.of(context)!.translate('try_again'),
-              ex: ex,
-            );
-          },
-          loading: () {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        )
-      ],
+            },
+            loading: () {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }
@@ -282,39 +268,84 @@ class VirtualOfferList extends ConsumerWidget {
     //final offers = ref.watch(paginatedVirtualOffersProvider);
     final count = ref.watch(questionsCountProvider);
 
-    if (count is! AsyncData) {
+    if (count is! AsyncData || count.valueOrNull == 0) {
       return SizedBox.shrink();
     }
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const SizedBox(height: 24),
-        SectionTitle(
-          title: 'Offerte online',
-          leftPadding: 16,
+    return Padding(
+      padding: const EdgeInsets.only(top: 24.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SectionTitle(
+            title: 'Offerte online',
+            leftPadding: 16,
+          ),
+          SizedBox(
+            height: 100,
+            child: ListView.builder(
+                padding: const EdgeInsets.only(left: 16),
+                scrollDirection: Axis.horizontal,
+                itemCount: count.valueOrNull ?? 0,
+                itemBuilder: (c, index) {
+                  return ProviderScope(
+                    overrides: [
+                      currentQuestion.overrideWithValue(
+                        ref
+                            .watch(paginatedVirtualOffersProvider(index ~/ 10))
+                            .whenData((page) => page.data[index % 10]),
+                      ),
+                    ],
+                    child: VirtualPOSCard(),
+                  );
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CityCard extends StatelessWidget {
+  final City city;
+  final Function() onTap;
+  final double? fontSize;
+
+  const CityCard({
+    Key? key,
+    required this.city,
+    required this.onTap,
+    this.fontSize,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(city.imageAsset), fit: BoxFit.cover),
+              ),
+            ),
+            Container(color: Colors.black.withOpacity(0.3)),
+            Center(
+              child: Text(
+                city.name,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: fontSize ?? 22,
+                ),
+              ),
+            ),
+          ],
         ),
-        SizedBox(
-          height: 100,
-          child: ListView.builder(
-              padding: const EdgeInsets.only(left: 16),
-              scrollDirection: Axis.horizontal,
-              itemCount: count.valueOrNull ?? 0,
-              itemBuilder: (c, index) {
-                return ProviderScope(
-                  overrides: [
-                    currentQuestion.overrideWithValue(
-                      ref
-                          .watch(paginatedVirtualOffersProvider(index ~/ 10))
-                          .whenData((page) => page.data[index % 10]),
-                    ),
-                  ],
-                  child: VirtualPOSCard(),
-                );
-              }),
-        ),
-        const SizedBox(height: 24),
-      ],
+      ),
     );
   }
 }

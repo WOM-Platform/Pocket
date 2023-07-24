@@ -164,5 +164,7 @@
    "gps_service_on_description":"The GPS service has been activated. Please try again by pressing the button below.",
    "gps_service_off_description":"The GPS service is turned off, activate it to access the position.",
    "gps_permission_denied_description":"The Pocket needs permission to use the GPS",
-   "gps_permission_denied_forever_description":"You have deactivated the request for permissions, to use the GPS the Pocket requires user authorization."
+   "gps_permission_denied_forever_description":"You have deactivated the request for permissions, to use the GPS the Pocket requires user authorization.",
+   "offersOnEarth": "Local offers",
+   "whereWeAre": "Active locations"
 }

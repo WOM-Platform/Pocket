@@ -5,8 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
+import 'package:wom_pocket/src/offers/application/offer_map_notifier.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
+import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/offers/ui/pos_details_screen.dart';
 import 'package:wom_pocket/src/offers/ui/search_button.dart';
 import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
@@ -18,13 +20,20 @@ final carouselControllerProvider =
   return CarouselController();
 });
 
+final citiesCarouselControllerProvider =
+Provider<CarouselController>((ref) {
+  return CarouselController();
+});
+
 class ListingCarouselWidget extends ConsumerWidget {
   final LatLng? position;
+  final Function(LatLng) onTapCity;
 
   //
   const ListingCarouselWidget({
     Key? key,
     this.position,
+    required this.onTapCity,
   }) : super(key: key);
 
   void onPageChanged(OfferPOS item, int index, CarouselPageChangedReason reason,
@@ -55,13 +64,67 @@ class ListingCarouselWidget extends ConsumerWidget {
     final data = ref.watch(offersMapNotifierProvider(position)).valueOrNull;
     final enabled = ref.watch(enableCarouselProvider);
 
-    if (!enabled || data == null || data.isLoading || data.offers.isEmpty)
-      return const SizedBox.shrink();
+    if (!enabled || data == null || data.isLoading || data.offers.isEmpty) return const SizedBox.shrink();
+
+    final widgetHeight = 116.0;
+    // if (enabled || data.offers.isEmpty) {
+    //   return CarouselSlider.builder(
+    //     key: ValueKey('cities'),
+    //     carouselController: ref.watch(citiesCarouselControllerProvider),
+    //     options: CarouselOptions(
+    //       height: widgetHeight,
+    //       viewportFraction: 0.8,
+    //       initialPage: 0,
+    //       enableInfiniteScroll: false,
+    //       enlargeCenterPage: true,
+    //       onPageChanged: (index, reason) {
+    //         print('change carousel for $reason to $index');
+    //         onTapCity(
+    //           LatLng(
+    //             cities[index].lat,
+    //             cities[index].long,
+    //           ),
+    //         );
+    //       },
+    //     ),
+    //     itemCount: cities.length,
+    //     itemBuilder: (BuildContext context, int index, int realIndex) {
+    //       return CityCard(
+    //         fontSize: 28,
+    //         city: cities[index],
+    //         onTap: (){},
+    //       );
+    //     },
+    //   );
+    //   return SizedBox(
+    //     height: widgetHeight,
+    //     child: ListView.builder(
+    //       padding: const EdgeInsets.symmetric(horizontal: 16),
+    //       scrollDirection: Axis.horizontal,
+    //       itemCount: cities.length,
+    //       itemBuilder: (
+    //         c,
+    //         index,
+    //       ) {
+    //         return CityCard(
+    //           city: cities[index],
+    //           onTap: () => onTapCity(
+    //             LatLng(
+    //               cities[index].lat,
+    //               cities[index].long,
+    //             ),
+    //           ),
+    //         );
+    //       },
+    //     ),
+    //   );
+    // }
     print('ListingCarouselWidget there are ${data.offers}');
     return CarouselSlider.builder(
+      key: ValueKey('offers'),
       carouselController: ref.watch(carouselControllerProvider),
       options: CarouselOptions(
-        height: 116,
+        height: widgetHeight,
         viewportFraction: 0.8,
         initialPage: 0,
         enableInfiniteScroll: false,
