@@ -100,9 +100,9 @@ class OffersNotifier extends _$OffersNotifier {
 }
 
 
-class MyLocationException with Exception {}
+class MyLocationException implements Exception {}
 
-class LocationDisabledException with Exception {}
+class LocationDisabledException implements Exception {}
 
 @Riverpod(keepAlive: true)
 class LocationNotifier extends _$LocationNotifier {
