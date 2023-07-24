@@ -14,7 +14,7 @@
    "conclude": "Complete",
    "cancel": "Cancel",
    "backupAlreadyImported": "This backup has already been imported!",
-   "importedWOM": "You have imported ",
+   "importedWOM": "You have imported",
    "insertPinToExport": "Enter the PIN used to export the vouchers.",
    "importWizard":"Import wizard",
    "importWizardDesc": "By completing this process, you will import a set of vouchers that have previously been exported from another WOM Pocket.\n\nMake sure you have the PIN used during the export process. Without it, you won’t be able to complete the operation.",
@@ -121,7 +121,7 @@
    "try_again":"Try again",
    "error":"Error",
    "tutorial_welcome_title":"Welcome to the WOM Pocket application",
-   "tutorial_welcome_desc":"Earn or use WOMs by scanning the QR-Code",
+   "tutorial_welcome_desc":"Earn or use WOMs by scanning the QR Code",
    "tutorial_settings_title":"Try the app with trial WOMs",
    "tutorial_settings_desc":"By visiting the site you can learn how to collect and spend your WOMs",
    "tutorial_map_title":"Your WOMs on the map",
@@ -166,5 +166,6 @@
    "gps_permission_denied_description":"The Pocket needs permission to use the GPS",
    "gps_permission_denied_forever_description":"You have deactivated the request for permissions, to use the GPS the Pocket requires user authorization.",
    "offersOnEarth": "Local offers",
-   "whereWeAre": "Active locations"
+   "whereWeAre": "Active locations",
+   "device": "device"
 }

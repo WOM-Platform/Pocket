@@ -140,7 +140,7 @@ class TransactionCard extends ConsumerWidget {
                                   ? 'instrument'
                                   : transaction.type == TransactionType.PAYMENT
                                       ? 'pos'
-                                      : 'device',
+                                      : AppLocalizations.of(context)!.translate('device'),
                               t2: transaction.source),
                       ],
                     ),
