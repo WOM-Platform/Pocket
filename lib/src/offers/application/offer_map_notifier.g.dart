@@ -6,7 +6,7 @@ part of 'offer_map_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-// ignore_for_file: avoid_private_typedef_functions, non_constant_identifier_names, subtype_of_sealed_class, invalid_use_of_internal_member, unused_element, constant_identifier_names, unnecessary_raw_strings, library_private_types_in_public_api
+String _$offersMapNotifierHash() => r'a6d33873e2e51c267a7a69bb256d818761695b79';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,21 +29,74 @@ class _SystemHash {
   }
 }
 
-String _$OffersMapNotifierHash() => r'df6c53a4a27d26a92346aefdd1e49cf48b673401';
+abstract class _$OffersMapNotifier
+    extends BuildlessAutoDisposeAsyncNotifier<OffersMapData> {
+  late final LatLng? position;
+
+  FutureOr<OffersMapData> build(
+    LatLng? position,
+  );
+}
+
+/// See also [OffersMapNotifier].
+@ProviderFor(OffersMapNotifier)
+const offersMapNotifierProvider = OffersMapNotifierFamily();
+
+/// See also [OffersMapNotifier].
+class OffersMapNotifierFamily extends Family<AsyncValue<OffersMapData>> {
+  /// See also [OffersMapNotifier].
+  const OffersMapNotifierFamily();
+
+  /// See also [OffersMapNotifier].
+  OffersMapNotifierProvider call(
+    LatLng? position,
+  ) {
+    return OffersMapNotifierProvider(
+      position,
+    );
+  }
+
+  @override
+  OffersMapNotifierProvider getProviderOverride(
+    covariant OffersMapNotifierProvider provider,
+  ) {
+    return call(
+      provider.position,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'offersMapNotifierProvider';
+}
 
 /// See also [OffersMapNotifier].
 class OffersMapNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
     OffersMapNotifier, OffersMapData> {
+  /// See also [OffersMapNotifier].
   OffersMapNotifierProvider(
     this.position,
-  ) : super(
+  ) : super.internal(
           () => OffersMapNotifier()..position = position,
           from: offersMapNotifierProvider,
           name: r'offersMapNotifierProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$OffersMapNotifierHash,
+                  : _$offersMapNotifierHash,
+          dependencies: OffersMapNotifierFamily._dependencies,
+          allTransitiveDependencies:
+              OffersMapNotifierFamily._allTransitiveDependencies,
         );
 
   final LatLng? position;
@@ -63,56 +116,12 @@ class OffersMapNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
   @override
   FutureOr<OffersMapData> runNotifierBuild(
-    covariant _$OffersMapNotifier notifier,
+    covariant OffersMapNotifier notifier,
   ) {
     return notifier.build(
       position,
     );
   }
 }
-
-typedef OffersMapNotifierRef
-    = AutoDisposeAsyncNotifierProviderRef<OffersMapData>;
-
-/// See also [OffersMapNotifier].
-final offersMapNotifierProvider = OffersMapNotifierFamily();
-
-class OffersMapNotifierFamily extends Family<AsyncValue<OffersMapData>> {
-  OffersMapNotifierFamily();
-
-  OffersMapNotifierProvider call(
-    LatLng? position,
-  ) {
-    return OffersMapNotifierProvider(
-      position,
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderImpl<OffersMapNotifier, OffersMapData>
-      getProviderOverride(
-    covariant OffersMapNotifierProvider provider,
-  ) {
-    return call(
-      provider.position,
-    );
-  }
-
-  @override
-  List<ProviderOrFamily>? get allTransitiveDependencies => null;
-
-  @override
-  List<ProviderOrFamily>? get dependencies => null;
-
-  @override
-  String? get name => r'offersMapNotifierProvider';
-}
-
-abstract class _$OffersMapNotifier
-    extends BuildlessAutoDisposeAsyncNotifier<OffersMapData> {
-  late final LatLng? position;
-
-  FutureOr<OffersMapData> build(
-    LatLng? position,
-  );
-}
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

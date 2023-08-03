@@ -24,16 +24,54 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
+  late WebViewController controller;
+
   @override
   void initState() {
     super.initState();
     // Enable virtual display.
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
     final split = widget.url.split('/');
     print(split);
     restrictedDomain = '${split[0]}//${split[2]}/';
     print(restrictedDomain);
+
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      //
+      // onWebResourceError: (err) {
+      // print('Page error: $err');
+      // },
+      //
+      //
+      // gestureNavigationEnabled: true,
+      //
+      //   ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            print('WebView is loading (progress : $progress%)');
+            setState(() {
+              loadingStatus = progress.toDouble();
+            });
+          },
+          onPageStarted: (String url) {
+            print('Page started loading: $url');
+          },
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            if (!request.url.startsWith(restrictedDomain)) {
+              print('blocking navigation to $request}');
+              return NavigationDecision.prevent;
+            }
+            print('allowing navigation to $request');
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.url));
   }
 
   late String restrictedDomain;
@@ -80,39 +118,8 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
       ),
       body: Stack(
         children: [
-          WebView(
-            initialUrl: widget.url,
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) {
-              _controller.complete(webViewController);
-            },
-            onProgress: (int progress) {
-              print('WebView is loading (progress : $progress%)');
-              setState(() {
-                loadingStatus = progress.toDouble();
-              });
-            },
-            javascriptChannels: <JavascriptChannel>{
-              // _toasterJavascriptChannel(context),
-            },
-            navigationDelegate: (NavigationRequest request) {
-              if (!request.url.startsWith(restrictedDomain)) {
-                print('blocking navigation to $request}');
-                return NavigationDecision.prevent;
-              }
-              print('allowing navigation to $request');
-              return NavigationDecision.navigate;
-            },
-            onWebResourceError: (err) {
-              print('Page error: $err');
-            },
-            onPageStarted: (String url) {
-              print('Page started loading: $url');
-            },
-            onPageFinished: (String url) {
-              print('Page finished loading: $url');
-            },
-            gestureNavigationEnabled: true,
+          WebViewWidget(
+            controller: controller,
           ),
           if (loadingStatus < 100)
             Container(

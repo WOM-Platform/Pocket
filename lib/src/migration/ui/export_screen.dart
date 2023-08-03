@@ -77,7 +77,7 @@ class MigrationExportScreen extends ConsumerWidget {
               },
               child: Container(
                 color: Colors.white,
-                child: QrImage(
+                child: QrImageView(
                   data: data.link,
                   version: QrVersions.auto,
                   size: 200.0,

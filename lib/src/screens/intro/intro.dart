@@ -120,7 +120,7 @@ class IntroScreen extends HookConsumerWidget {
               builder: (context, ref, child) {
                 return DotsIndicator(
                   decorator: DotsDecorator(color: lightBlue),
-                  position: selectedPage.value.toDouble(),
+                  position: selectedPage.value.toInt(),
                   dotsCount: pages.length,
                 );
               },

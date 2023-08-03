@@ -33,8 +33,84 @@ class TransactionCard extends ConsumerWidget {
     final aimCode = transaction.firstAimCode;
     final aim = aims.firstWhereOrNull((element) => element.code == aimCode);
     return Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.25,
+      // actionPane: SlidableDrawerActionPane(),
+      // actionExtentRatio: 0.25,
+      startActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        dismissible: DismissiblePane(onDismissed: () {}),
+        children: [
+          if (transaction.type == TransactionType.MIGRATION_EXPORT &&
+              !(transaction.pin == null ||
+                  transaction.importDeadline == null ||
+                  transaction.link == null))
+            SlidableAction(
+              onPressed: (context) async {
+                if (transaction.pin == null ||
+                    transaction.importDeadline == null ||
+                    transaction.link == null) {
+                  return;
+                }
+
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => MigrationExportScreen(
+                      backTo: false,
+                      data: MigrationData(
+                        code: transaction.pin!,
+                        importDeadline: transaction.importDeadline!,
+                        link: transaction.link!,
+                      ),
+                    ),
+                  ),
+                );
+              },
+              backgroundColor: Color(0xFFFE4A49),
+              foregroundColor: Colors.green,
+              icon: Icons.qr_code_2,
+              label: 'Delete',
+            )
+          else if (transaction.type == TransactionType.PAYMENT &&
+              transaction.ackUrl != null)
+            SlidableAction(
+              onPressed: (context) async {
+                final uri = Uri.parse(transaction.ackUrl!);
+                if (await canLaunchUrl(uri)) {
+                  launchUrl(uri);
+                }
+              },
+              backgroundColor: Color(0xFF21B7CA),
+              foregroundColor: Colors.orange,
+              icon: Icons.receipt,
+              label: 'Share',
+            ),
+        ],
+      ),
+
+      // The end action pane is the one at the right or the bottom side.
+      endActionPane: ActionPane(
+        motion: ScrollMotion(),
+        children: [
+          SlidableAction(
+            // An action can be bigger than the others.
+            flex: 2,
+            onPressed: (context) async {
+              var message = shareMessage(transaction.type);
+              if (aim != null) {
+                final aimTitle = aim.title(
+                    languageCode:
+                        AppLocalizations.of(context)!.locale.languageCode);
+                message =
+                    '$message  ${aimTitle != null ? 'for $aimTitle' : ''}';
+              }
+              Share.share(message);
+            },
+            backgroundColor: Color(0xFF7BC043),
+            foregroundColor: Colors.blue,
+            icon: Icons.share,
+            label: 'Archive',
+          ),
+        ],
+      ),
       child: Card(
         elevation: 8.0,
         shape: RoundedRectangleBorder(
@@ -124,8 +200,10 @@ class TransactionCard extends ConsumerWidget {
                       children: <Widget>[
                         if (transaction.importDeadline != null)
                           ItemRow(
-                            t1: AppLocalizations.of(context)!.translate('backupExpire'),
-                            t2: MigrationExportScreen.format.format(transaction.importDeadline!),
+                            t1: AppLocalizations.of(context)!
+                                .translate('backupExpire'),
+                            t2: MigrationExportScreen.format
+                                .format(transaction.importDeadline!),
                           ),
                         if ((aim?.titles ?? const {})[languageCode] != null)
                           ItemRow(
@@ -140,7 +218,8 @@ class TransactionCard extends ConsumerWidget {
                                   ? 'instrument'
                                   : transaction.type == TransactionType.PAYMENT
                                       ? 'pos'
-                                      : AppLocalizations.of(context)!.translate('device'),
+                                      : AppLocalizations.of(context)!
+                                          .translate('device'),
                               t2: transaction.source),
                       ],
                     ),
@@ -155,70 +234,6 @@ class TransactionCard extends ConsumerWidget {
           ),
         ),
       ),
-      actions: <Widget>[
-        if (transaction.type == TransactionType.MIGRATION_EXPORT &&
-            !(transaction.pin == null ||
-                transaction.importDeadline == null ||
-                transaction.link == null))
-          MySlideAction(
-            icon: Icons.qr_code_2,
-            color: Colors.green,
-            onTap: () async {
-              if (transaction.pin == null ||
-                  transaction.importDeadline == null ||
-                  transaction.link == null) {
-                return;
-              }
-
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => MigrationExportScreen(
-                    backTo: false,
-                    data: MigrationData(
-                      code: transaction.pin!,
-                      importDeadline: transaction.importDeadline!,
-                      link: transaction.link!,
-                    ),
-                  ),
-                ),
-              );
-            },
-          )
-        else if (transaction.type == TransactionType.PAYMENT &&
-            transaction.ackUrl != null)
-          MySlideAction(
-            icon: Icons.receipt,
-            color: Colors.orange,
-            onTap: () async {
-              if (await canLaunch(transaction.ackUrl!)) {
-                launch(transaction.ackUrl!);
-              }
-            },
-          )
-      ],
-      secondaryActions: <Widget>[
-        MySlideAction(
-          icon: Icons.share,
-          color: Colors.blue,
-          onTap: () async {
-            // final aimCode = transaction.aimCodes.isNotEmpty
-            //     ? transaction.aimCodes.first
-            //     : null;
-            // Aim? aim;
-            // if (aimCode != null) {
-            //   final aims = await ref.read(aimNotifierProvider.future);
-            //   aim = aims.firstWhere((element) => element.code == aimCode);
-            // }
-            var message = shareMessage(transaction.type);
-            if (aim != null) {
-              final aimTitle = aim.title(languageCode: AppLocalizations.of(context)!.locale.languageCode);
-              message =
-                  '$message  ${aimTitle != null ? 'for $aimTitle' : ''}';
-            }
-            Share.share(message);
-          },
-        ),
-      ],
     );
   }
 
@@ -310,61 +325,5 @@ class ItemRow extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class MySlideAction extends StatelessWidget {
-  final Function? onTap;
-  final IconData? icon;
-  final Color? color;
-  final String? caption;
-
-  const MySlideAction(
-      {Key? key, this.onTap, this.icon, this.color, this.caption})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      color: Colors.transparent,
-      child: Card(
-        color: color,
-        elevation: 8.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: IconSlideAction(
-          caption: caption,
-          color: Colors.transparent,
-          foregroundColor: Colors.white,
-          icon: icon,
-          onTap: onTap as void Function()?,
-        ),
-      ),
-    );
-    /*return SlideAction(
-      color: Colors.transparent,
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        color: Colors.transparent,
-        child: Card(
-          color: color,
-          elevation: 8.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Icon(
-            icon,
-            color: Colors.white,
-          ),
-        ),
-      ),
-      onTap: onTap,
-    );*/
   }
 }

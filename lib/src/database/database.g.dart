@@ -441,6 +441,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
   final Value<double> latitude;
   final Value<double> longitude;
   final Value<String?> donationId;
+  final Value<int> rowid;
   const WomCompanion({
     this.id = const Value.absent(),
     this.sourceName = const Value.absent(),
@@ -455,6 +456,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
     this.donationId = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   WomCompanion.insert({
     required String id,
@@ -470,6 +472,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     required double latitude,
     required double longitude,
     this.donationId = const Value.absent(),
+    this.rowid = const Value.absent(),
   })  : id = Value(id),
         sourceName = Value(sourceName),
         secret = Value(secret),
@@ -495,6 +498,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     Expression<double>? latitude,
     Expression<double>? longitude,
     Expression<String>? donationId,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'Id': id,
@@ -510,6 +514,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
       if (latitude != null) 'Latitude': latitude,
       if (longitude != null) 'Longitude': longitude,
       if (donationId != null) 'donation_id': donationId,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
@@ -526,7 +531,8 @@ class WomCompanion extends UpdateCompanion<WomRow> {
       Value<int>? spent,
       Value<double>? latitude,
       Value<double>? longitude,
-      Value<String?>? donationId}) {
+      Value<String?>? donationId,
+      Value<int>? rowid}) {
     return WomCompanion(
       id: id ?? this.id,
       sourceName: sourceName ?? this.sourceName,
@@ -541,6 +547,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       donationId: donationId ?? this.donationId,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -586,6 +593,9 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     if (donationId.present) {
       map['donation_id'] = Variable<String>(donationId.value);
     }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
     return map;
   }
 
@@ -604,7 +614,8 @@ class WomCompanion extends UpdateCompanion<WomRow> {
           ..write('spent: $spent, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
-          ..write('donationId: $donationId')
+          ..write('donationId: $donationId, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -1379,23 +1390,29 @@ class Badge extends DataClass implements Insertable<Badge> {
 
 class BadgesCompanion extends UpdateCompanion<Badge> {
   final Value<String> id;
+  final Value<int> rowid;
   const BadgesCompanion({
     this.id = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   BadgesCompanion.insert({
     required String id,
+    this.rowid = const Value.absent(),
   }) : id = Value(id);
   static Insertable<Badge> custom({
     Expression<String>? id,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
-  BadgesCompanion copyWith({Value<String>? id}) {
+  BadgesCompanion copyWith({Value<String>? id, Value<int>? rowid}) {
     return BadgesCompanion(
       id: id ?? this.id,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -1405,13 +1422,17 @@ class BadgesCompanion extends UpdateCompanion<Badge> {
     if (id.present) {
       map['id'] = Variable<String>(id.value);
     }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
     return map;
   }
 
   @override
   String toString() {
     return (StringBuffer('BadgesCompanion(')
-          ..write('id: $id')
+          ..write('id: $id, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }

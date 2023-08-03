@@ -99,9 +99,9 @@ class TransactionNotifier
     }
   }
 
-  exception() {
-    throw Exception('fake exception');
-  }
+  // exception() {
+  //   throw Exception('fake exception');
+  // }
 
   Future<Position> getLocation2() async {
     LocationPermission permission;

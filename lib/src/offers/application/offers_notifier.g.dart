@@ -6,7 +6,7 @@ part of 'offers_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-// ignore_for_file: avoid_private_typedef_functions, non_constant_identifier_names, subtype_of_sealed_class, invalid_use_of_internal_member, unused_element, constant_identifier_names, unnecessary_raw_strings, library_private_types_in_public_api
+String _$offersNotifierHash() => r'd1f59fb5a8166ae3587d45922d68bdb3ad9193fa';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,21 +29,73 @@ class _SystemHash {
   }
 }
 
-String _$OffersNotifierHash() => r'd1f59fb5a8166ae3587d45922d68bdb3ad9193fa';
+abstract class _$OffersNotifier extends BuildlessAsyncNotifier<List<OfferPOS>> {
+  late final LatLng? position;
+
+  FutureOr<List<OfferPOS>> build(
+    LatLng? position,
+  );
+}
+
+/// See also [OffersNotifier].
+@ProviderFor(OffersNotifier)
+const offersNotifierProvider = OffersNotifierFamily();
+
+/// See also [OffersNotifier].
+class OffersNotifierFamily extends Family<AsyncValue<List<OfferPOS>>> {
+  /// See also [OffersNotifier].
+  const OffersNotifierFamily();
+
+  /// See also [OffersNotifier].
+  OffersNotifierProvider call(
+    LatLng? position,
+  ) {
+    return OffersNotifierProvider(
+      position,
+    );
+  }
+
+  @override
+  OffersNotifierProvider getProviderOverride(
+    covariant OffersNotifierProvider provider,
+  ) {
+    return call(
+      provider.position,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'offersNotifierProvider';
+}
 
 /// See also [OffersNotifier].
 class OffersNotifierProvider
     extends AsyncNotifierProviderImpl<OffersNotifier, List<OfferPOS>> {
+  /// See also [OffersNotifier].
   OffersNotifierProvider(
     this.position,
-  ) : super(
+  ) : super.internal(
           () => OffersNotifier()..position = position,
           from: offersNotifierProvider,
           name: r'offersNotifierProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$OffersNotifierHash,
+                  : _$offersNotifierHash,
+          dependencies: OffersNotifierFamily._dependencies,
+          allTransitiveDependencies:
+              OffersNotifierFamily._allTransitiveDependencies,
         );
 
   final LatLng? position;
@@ -63,7 +115,7 @@ class OffersNotifierProvider
 
   @override
   FutureOr<List<OfferPOS>> runNotifierBuild(
-    covariant _$OffersNotifier notifier,
+    covariant OffersNotifier notifier,
   ) {
     return notifier.build(
       position,
@@ -71,63 +123,21 @@ class OffersNotifierProvider
   }
 }
 
-typedef OffersNotifierRef = AsyncNotifierProviderRef<List<OfferPOS>>;
-
-/// See also [OffersNotifier].
-final offersNotifierProvider = OffersNotifierFamily();
-
-class OffersNotifierFamily extends Family<AsyncValue<List<OfferPOS>>> {
-  OffersNotifierFamily();
-
-  OffersNotifierProvider call(
-    LatLng? position,
-  ) {
-    return OffersNotifierProvider(
-      position,
-    );
-  }
-
-  @override
-  AsyncNotifierProviderImpl<OffersNotifier, List<OfferPOS>> getProviderOverride(
-    covariant OffersNotifierProvider provider,
-  ) {
-    return call(
-      provider.position,
-    );
-  }
-
-  @override
-  List<ProviderOrFamily>? get allTransitiveDependencies => null;
-
-  @override
-  List<ProviderOrFamily>? get dependencies => null;
-
-  @override
-  String? get name => r'offersNotifierProvider';
-}
-
-abstract class _$OffersNotifier extends BuildlessAsyncNotifier<List<OfferPOS>> {
-  late final LatLng? position;
-
-  FutureOr<List<OfferPOS>> build(
-    LatLng? position,
-  );
-}
-
-String _$LocationNotifierHash() => r'4219d9e58833e81041499a11936629f489de60b0';
+String _$locationNotifierHash() => r'4219d9e58833e81041499a11936629f489de60b0';
 
 /// See also [LocationNotifier].
+@ProviderFor(LocationNotifier)
 final locationNotifierProvider =
-    AsyncNotifierProvider<LocationNotifier, LatLng>(
+    AsyncNotifierProvider<LocationNotifier, LatLng>.internal(
   LocationNotifier.new,
   name: r'locationNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$LocationNotifierHash,
+      : _$locationNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
-typedef LocationNotifierRef = AsyncNotifierProviderRef<LatLng>;
 
-abstract class _$LocationNotifier extends AsyncNotifier<LatLng> {
-  @override
-  FutureOr<LatLng> build();
-}
+typedef _$LocationNotifier = AsyncNotifier<LatLng>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
