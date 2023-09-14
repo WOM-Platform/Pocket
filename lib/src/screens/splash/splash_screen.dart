@@ -1,7 +1,4 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wom_pocket/src/blocs/app/bloc.dart';
-
 import 'package:flutter/material.dart';
 
 import '../../my_logger.dart';

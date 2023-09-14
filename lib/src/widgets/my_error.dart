@@ -26,6 +26,5 @@ class MyErrorWidget extends StatelessWidget {
         if (kDebugMode || isDev) Text(ex.toString()),
       ],
     );
-    ;
   }
 }

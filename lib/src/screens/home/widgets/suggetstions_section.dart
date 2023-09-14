@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:wom_pocket/localization/app_localizations.dart';
-import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/blocs/suggestions/bloc.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
@@ -103,9 +102,5 @@ class SuggestionsSection extends ConsumerWidget {
         ),
       );
     });
-    if (state is SuggestionsLoaded) {
-
-    }
-
   }
 }

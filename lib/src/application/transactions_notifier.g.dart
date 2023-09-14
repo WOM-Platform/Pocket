@@ -6,7 +6,7 @@ part of 'transactions_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchTransactionsHash() => r'471aa0d490b78e6a48fb972d9a167e465ff88ce2';
+String _$fetchTransactionsHash() => r'5ff269b3a1b2a6ef0bb66170a4aa23e407d9f40b';
 
 /// See also [fetchTransactions].
 @ProviderFor(fetchTransactions)
@@ -22,4 +22,4 @@ final fetchTransactionsProvider = FutureProvider<TransactionsState>.internal(
 
 typedef FetchTransactionsRef = FutureProviderRef<TransactionsState>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

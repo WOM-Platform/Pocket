@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/blocs/transactions_list/bloc.dart';
-import 'package:wom_pocket/src/database/extensions.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_card.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
@@ -44,16 +43,16 @@ class TransactionsList extends ConsumerWidget {
                 )
             ],
           );
-          return ListView.builder(
-            padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 90),
-            shrinkWrap: true,
-            itemCount: data.transactions.length,
-            itemBuilder: (c, int index) {
-              return TransactionCard(
-                transaction: data.transactions[index],
-              );
-            },
-          );
+          // return ListView.builder(
+          //   padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 90),
+          //   shrinkWrap: true,
+          //   itemCount: data.transactions.length,
+          //   itemBuilder: (c, int index) {
+          //     return TransactionCard(
+          //       transaction: data.transactions[index],
+          //     );
+          //   },
+          // );
         }
       } else if (data is TransactionsErrorState) {
         return Center(

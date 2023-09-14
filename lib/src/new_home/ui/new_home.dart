@@ -3,12 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/new_home/ui/aim_chart.dart';
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
+import 'package:wom_pocket/src/screens/home/widgets/exchange_card.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:wom_pocket/src/screens/map/map_screen.dart';
 import 'package:wom_pocket/src/transaction/ui/transactions_screen.dart';
@@ -91,6 +91,12 @@ class NewHome extends ConsumerWidget {
                       height: 16,
                     ),
                   ),
+                  // SliverToBoxAdapter(child: ExchangeCard()),
+                  // SliverToBoxAdapter(
+                  //   child: SizedBox(
+                  //     height: 16,
+                  //   ),
+                  // ),
                   SliverToBoxAdapter(
                     child: SectionTitle(
                       title: AppLocalizations.of(context)!
@@ -120,44 +126,47 @@ class NewHome extends ConsumerWidget {
                 ],
               );
             }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Center(
-                //   child: SvgPicture.asset(
-                //     'assets/images/empty_wom.svg',
-                //     width: MediaQuery.of(context).size.width - 48,
-                //     height: MediaQuery.of(context).size.width - 48,
-                //     // cacheWidth: 200,
-                //     // cacheHeight: 200,
-                //   ),
-                // ),
-                Center(
-                  child: Image.asset(
-                    'assets/images/empty_wom.png',
-                    width: MediaQuery.of(context).size.width - 48,
-                    height: MediaQuery.of(context).size.width - 48,
-                    // cacheWidth: 200,
-                    // cacheHeight: 200,
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Center(
+                  //   child: SvgPicture.asset(
+                  //     'assets/images/empty_wom.svg',
+                  //     width: MediaQuery.of(context).size.width - 48,
+                  //     height: MediaQuery.of(context).size.width - 48,
+                  //     // cacheWidth: 200,
+                  //     // cacheHeight: 200,
+                  //   ),
+                  // ),
+                  Center(
+                    child: Image.asset(
+                      'assets/images/empty_wom.png',
+                      width: MediaQuery.of(context).size.width - 48,
+                      height: MediaQuery.of(context).size.width - 48,
+                      // cacheWidth: 200,
+                      // cacheHeight: 200,
+                    ),
                   ),
-                ),
 
-                // const SizedBox(height: 8),
-                Text(
-                  AppLocalizations.of(context)!.translate('noWoms'),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
+                  // const SizedBox(height: 8),
+                  Text(
+                    AppLocalizations.of(context)!.translate('noWoms'),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  AppLocalizations.of(context)!.translate('noWomsDesc'),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    AppLocalizations.of(context)!.translate('noWomsDesc'),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             );
           },
           error: (ex, st) {

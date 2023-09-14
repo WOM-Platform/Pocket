@@ -7,7 +7,7 @@ part of 'wom_stats_notifier.dart';
 // **************************************************************************
 
 String _$fetchAimInPercentageHash() =>
-    r'66aa16e1f3a02134dfc72d85085b8c08333d7188';
+    r'1a105f3e94b9ee71cdfaefd8b73aff679383fc2f';
 
 /// See also [fetchAimInPercentage].
 @ProviderFor(fetchAimInPercentage)
@@ -25,7 +25,7 @@ final fetchAimInPercentageProvider =
 typedef FetchAimInPercentageRef
     = AutoDisposeFutureProviderRef<List<AimInPercentage>>;
 String _$fetchWomCountEarnedInTheLastWeekHash() =>
-    r'806e29b029c26c4e039594457bb67c5e36912dcf';
+    r'22ae2fd97f34a4d2d9d566c785e474f6f927cdb9';
 
 /// See also [fetchWomCountEarnedInTheLastWeek].
 @ProviderFor(fetchWomCountEarnedInTheLastWeek)
@@ -42,7 +42,7 @@ final fetchWomCountEarnedInTheLastWeekProvider =
 
 typedef FetchWomCountEarnedInTheLastWeekRef = AutoDisposeFutureProviderRef<int>;
 String _$fetchWomCountSpentInTheLastWeekHash() =>
-    r'e0b113b39a1b2aec11d0098576ccf1b595bf36e0';
+    r'c46ad3e1e71e78233efd4375837d4551cbc3a3b6';
 
 /// See also [fetchWomCountSpentInTheLastWeek].
 @ProviderFor(fetchWomCountSpentInTheLastWeek)
@@ -58,7 +58,7 @@ final fetchWomCountSpentInTheLastWeekProvider =
 );
 
 typedef FetchWomCountSpentInTheLastWeekRef = AutoDisposeFutureProviderRef<int>;
-String _$fetchWomSpentHash() => r'309466a64948ca955dffca5242c19600b67e1351';
+String _$fetchWomSpentHash() => r'f60931b756efb151eecd5e8000525c3c65e0831a';
 
 /// See also [fetchWomSpent].
 @ProviderFor(fetchWomSpent)
@@ -91,4 +91,4 @@ final transactionCountNotifierProvider =
 
 typedef _$TransactionCountNotifier = AsyncNotifier<int>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

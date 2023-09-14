@@ -9,7 +9,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/database/database.dart';
-import 'package:wom_pocket/src/models/optional_query_model.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 
 import '../../my_logger.dart';
@@ -39,7 +38,7 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
   @override
   FutureOr<MapState> build() async {
     state = AsyncData(InitialMapState());
-    final woms = await ref.read(databaseProvider).womsDao.getAllWoms;
+    final woms = await ref.read(getDatabaseProvider).womsDao.getAllWoms;
     places = woms.map((e) => Place(voucher: e)).toList();
     initDatabaseClustering();
     return loadSources();
@@ -142,7 +141,7 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
     await controller.setMapStyle(mapStyle);
     // clusteringHelper.mapController = controller;
     this.controller = controller;
-    // clusteringHelper.database = ref.read(databaseProvider);
+    // clusteringHelper.database = ref.read(getDatabaseProvider);
     // clusteringHelper.updateMap();
     clusterManager?.setMapId(controller.mapId);
     clusterManager?.updateMap();

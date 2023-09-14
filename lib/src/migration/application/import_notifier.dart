@@ -4,16 +4,12 @@ import 'dart:io';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/database/database.dart';
-import 'package:wom_pocket/src/migration/data/migration_data.dart';
-import 'package:wom_pocket/src/migration/ui/export_screen.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/pin/pin_screen.dart';
@@ -95,17 +91,17 @@ class ImportNotifier extends _$ImportNotifier {
         aimCode: tmp,
       );
 
-      // await ref.read(databaseProvider).deleteEverything();
+      // await ref.read(getDatabaseProvider).deleteEverything();
 
       final tId = await ref
-          .read(databaseProvider)
+          .read(getDatabaseProvider)
           .transactionsDao
           .addTransaction(tx.toTransactionCompanion());
 
       final finalWoms =
           woms.map((e) => e.copyWith(transactionId: tId)).toList();
       await ref
-          .read(databaseProvider)
+          .read(getDatabaseProvider)
           .womsDao
           .addVouchers(finalWoms.map((w) => w.toCompanion(true)).toList());
       await ref.read(pocketProvider).completeMigration(otc, password);

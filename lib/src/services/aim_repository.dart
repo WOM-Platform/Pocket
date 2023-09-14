@@ -8,7 +8,7 @@ import '../../constants.dart';
 import '../my_logger.dart';
 
 final aimRepositoryProvider = Provider<AimRepository>((ref) {
-  return AimRepository(ref.watch(databaseProvider));
+  return AimRepository(ref.watch(getDatabaseProvider));
 });
 
 class AimRepository {

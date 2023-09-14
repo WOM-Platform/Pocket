@@ -9,25 +9,25 @@ part 'wom_stats_notifier.g.dart';
 @riverpod
 Future<List<AimInPercentage>> fetchAimInPercentage(
     FetchAimInPercentageRef ref) async {
-  return ref.watch(databaseProvider).womsDao.getAimInPercentage();
+  return ref.watch(getDatabaseProvider).womsDao.getAimInPercentage();
 }
 
 @riverpod
 Future<int> fetchWomCountEarnedInTheLastWeek(
     FetchWomCountEarnedInTheLastWeekRef ref) async {
-  return ref.watch(databaseProvider).womsDao.getWomCountEarnedLastWeek();
+  return ref.watch(getDatabaseProvider).womsDao.getWomCountEarnedLastWeek();
 }
 
 @riverpod
 Future<int> fetchWomCountSpentInTheLastWeek(
     FetchWomCountSpentInTheLastWeekRef ref) async {
-  return ref.watch(databaseProvider).womsDao.getWomCountSpentLastWeek();
+  return ref.watch(getDatabaseProvider).womsDao.getWomCountSpentLastWeek();
 }
 
 @riverpod
 Future<int> fetchWomSpent(
     FetchWomCountSpentInTheLastWeekRef ref) async {
-  return ref.watch(databaseProvider).womsDao.getWomCountSpent();
+  return ref.watch(getDatabaseProvider).womsDao.getWomCountSpent();
 }
 
 @Riverpod(keepAlive: true)

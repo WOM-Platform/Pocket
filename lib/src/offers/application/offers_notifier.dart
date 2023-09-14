@@ -1,17 +1,11 @@
 import 'dart:async';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/offers/data/offer.dart';
-import 'package:wom_pocket/src/offers/ui/carousel.dart';
-import 'package:wom_pocket/src/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
 import 'package:wom_pocket/src/utils/location_utils.dart';
 

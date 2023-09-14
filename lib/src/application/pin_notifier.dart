@@ -1,12 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 
 import '../blocs/pin/pin_state.dart';
 
-final pinNotifierProvider =
-    NotifierProvider.autoDispose<PinNotifier, PinState>(PinNotifier.new);
+part 'pin_notifier.g.dart';
 
-class PinNotifier extends AutoDisposeNotifier<PinState> {
+// final pinNotifierProvider =
+//     NotifierProvider.autoDispose<PinNotifier, PinState>(PinNotifier.new);
+
+@riverpod
+class PinNotifier extends _$PinNotifier {
   var _inputCodes = <int>[];
 
   int isCorrect(int code) {

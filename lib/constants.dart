@@ -7,8 +7,10 @@ import 'src/utils/colors.dart';
 late String domain;
 late String registryKey;
 Flavor? flavor;
-final isDev = flavor == Flavor.DEVELOPMENT;
-final appName = '${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET';
+bool get isDev => flavor == Flavor.DEVELOPMENT;
+String get appName => '${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET';
+
+const exchangeSourceId = '64e5f0c93a5339481060a756';
 
 //Tutorial keys
 const t_scan = 'scan3';

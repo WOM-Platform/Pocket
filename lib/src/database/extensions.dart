@@ -26,6 +26,7 @@ extension MyTransactionX on MyTransaction {
       size: size,
       pin: pin,
       link: link,
+      ackUrl: ackUrl,
       importDeadline: deadline != null
           ? DateTime.fromMillisecondsSinceEpoch(deadline!)
           : null,

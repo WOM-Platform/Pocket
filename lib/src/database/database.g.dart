@@ -1291,168 +1291,18 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   }
 }
 
-class $BadgesTable extends Badges with TableInfo<$BadgesTable, Badge> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $BadgesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
-  @override
-  List<GeneratedColumn> get $columns => [id];
-  @override
-  String get aliasedName => _alias ?? 'badges';
-  @override
-  String get actualTableName => 'badges';
-  @override
-  VerificationContext validateIntegrity(Insertable<Badge> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Badge map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Badge(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-    );
-  }
-
-  @override
-  $BadgesTable createAlias(String alias) {
-    return $BadgesTable(attachedDatabase, alias);
-  }
-}
-
-class Badge extends DataClass implements Insertable<Badge> {
-  final String id;
-  const Badge({required this.id});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
-    return map;
-  }
-
-  BadgesCompanion toCompanion(bool nullToAbsent) {
-    return BadgesCompanion(
-      id: Value(id),
-    );
-  }
-
-  factory Badge.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Badge(
-      id: serializer.fromJson<String>(json['id']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-    };
-  }
-
-  Badge copyWith({String? id}) => Badge(
-        id: id ?? this.id,
-      );
-  @override
-  String toString() {
-    return (StringBuffer('Badge(')
-          ..write('id: $id')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => id.hashCode;
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) || (other is Badge && other.id == this.id);
-}
-
-class BadgesCompanion extends UpdateCompanion<Badge> {
-  final Value<String> id;
-  final Value<int> rowid;
-  const BadgesCompanion({
-    this.id = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  BadgesCompanion.insert({
-    required String id,
-    this.rowid = const Value.absent(),
-  }) : id = Value(id);
-  static Insertable<Badge> custom({
-    Expression<String>? id,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  BadgesCompanion copyWith({Value<String>? id, Value<int>? rowid}) {
-    return BadgesCompanion(
-      id: id ?? this.id,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<String>(id.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('BadgesCompanion(')
-          ..write('id: $id, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(e);
   late final $WomTable wom = $WomTable(this);
   late final $AimsTable aims = $AimsTable(this);
   late final $TransactionsTable transactions = $TransactionsTable(this);
-  late final $BadgesTable badges = $BadgesTable(this);
   late final WomsDao womsDao = WomsDao(this as MyDatabase);
   late final AimsDao aimsDao = AimsDao(this as MyDatabase);
   late final TransactionsDao transactionsDao =
       TransactionsDao(this as MyDatabase);
-  late final BadgeDao badgeDao = BadgeDao(this as MyDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [wom, aims, transactions, badges];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [wom, aims, transactions];
 }

@@ -6,7 +6,7 @@ part of 'migration_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$migrationNotifierHash() => r'dddc5d7916c63142f515f73081972ac11826423d';
+String _$migrationNotifierHash() => r'449d782d2b1f2895fd1fd5e89be379f0d5882822';
 
 /// See also [MigrationNotifier].
 @ProviderFor(MigrationNotifier)
@@ -23,4 +23,4 @@ final migrationNotifierProvider =
 
 typedef _$MigrationNotifier = AutoDisposeNotifier<MigrationState>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

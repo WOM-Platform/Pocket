@@ -6,7 +6,7 @@ part of 'pos_map_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$posMapNotifierHash() => r'03a72a82d4732640ecc751e73bb3840f17c86530';
+String _$posMapNotifierHash() => r'739a21ca766b07e38973885c234b27914484b187';
 
 /// See also [PosMapNotifier].
 @ProviderFor(PosMapNotifier)
@@ -23,4 +23,4 @@ final posMapNotifierProvider =
 
 typedef _$PosMapNotifier = AutoDisposeNotifier<PosMapData>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

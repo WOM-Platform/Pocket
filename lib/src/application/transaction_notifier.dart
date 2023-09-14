@@ -6,14 +6,16 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/blocs/transaction/transaction_state.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/screens/transaction/info_payment.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
 import 'package:wom_pocket/src/utils/location_exception.dart';
 import 'package:wom_pocket/src/utils/my_extensions.dart';
+
+part 'transaction_notifier.g.dart';
 
 class PocketException implements Exception {}
 
@@ -24,13 +26,14 @@ class TransactionNotifierParams {
   TransactionNotifierParams(this.deepLinkModel, this.password);
 }
 
-final transactionNotifierProvider = AsyncNotifierProviderFamily<
-    TransactionNotifier,
-    TransactionState,
-    TransactionNotifierParams>(() => TransactionNotifier());
+// final transactionNotifierProvider = AsyncNotifierProviderFamily<
+//     TransactionNotifier,
+//     TransactionState,
+//     TransactionNotifierParams>(() => TransactionNotifier());
 
+@riverpod
 class TransactionNotifier
-    extends FamilyAsyncNotifier<TransactionState, TransactionNotifierParams> {
+    extends _$TransactionNotifier {
   // TransactionNotifier(this.otc, this.type);
 
   // @override

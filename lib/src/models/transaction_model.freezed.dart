@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'transaction_model.dart';
 
@@ -296,21 +296,17 @@ class _$_TransactionModel implements _TransactionModel {
 
 abstract class _TransactionModel implements TransactionModel {
   const factory _TransactionModel(
-      {@TransactionTypeConverter()
-          required final TransactionType type,
+      {@TransactionTypeConverter() required final TransactionType type,
       required final String source,
-      @JsonKey(name: 'Aim')
-          required final String aimCode,
+      @JsonKey(name: 'Aim') required final String aimCode,
       @DateTimeConverter()
       @JsonKey(name: 'Timestamp')
-          required final DateTime date,
-      @JsonKey(name: 'Id')
-          required final int id,
+      required final DateTime date,
+      @JsonKey(name: 'Id') required final int id,
       final String? ackUrl,
       final String? pin,
       final String? link,
-      @DateTimeConverter()
-          final DateTime? importDeadline,
+      @DateTimeConverter() final DateTime? importDeadline,
       required final int size}) = _$_TransactionModel;
 
   @override

@@ -31,7 +31,7 @@ class MigrationNotifier extends _$MigrationNotifier {
   addPin(String pin) async {
     try {
       state = MigrationStateLoading();
-      final woms = (await ref.read(databaseProvider).womsDao.getAllWoms);
+      final woms = (await ref.read(getDatabaseProvider).womsDao.getAllWoms);
       state = MigrationStateData(pin: pin, woms: woms);
     } catch (ex, st) {
       logger.e(ex);
@@ -71,9 +71,9 @@ class MigrationNotifier extends _$MigrationNotifier {
         importDeadline: response.deadline,
       );
 
-      await ref.read(databaseProvider).womsDao.deleteTable();
+      await ref.read(getDatabaseProvider).womsDao.deleteTable();
 
-      await ref.read(databaseProvider).transactionsDao.addTransaction(
+      await ref.read(getDatabaseProvider).transactionsDao.addTransaction(
             TransactionsCompanion.insert(
                 source: '',
                 aim: '',
@@ -100,7 +100,7 @@ class MigrationNotifier extends _$MigrationNotifier {
   }
 
   Future<WomExportData> exportWomToJson(String pin) async {
-    final woms = (await ref.read(databaseProvider).womsDao.getAllWoms);
+    final woms = (await ref.read(getDatabaseProvider).womsDao.getAllWoms);
     if (woms.isEmpty) {
       print('woms empty');
       throw Exception('Woms table is Empty');

@@ -1,4 +1,3 @@
-import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';

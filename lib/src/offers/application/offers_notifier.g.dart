@@ -84,8 +84,8 @@ class OffersNotifierProvider
     extends AsyncNotifierProviderImpl<OffersNotifier, List<OfferPOS>> {
   /// See also [OffersNotifier].
   OffersNotifierProvider(
-    this.position,
-  ) : super.internal(
+    LatLng? position,
+  ) : this._internal(
           () => OffersNotifier()..position = position,
           from: offersNotifierProvider,
           name: r'offersNotifierProvider',
@@ -96,9 +96,50 @@ class OffersNotifierProvider
           dependencies: OffersNotifierFamily._dependencies,
           allTransitiveDependencies:
               OffersNotifierFamily._allTransitiveDependencies,
+          position: position,
         );
 
+  OffersNotifierProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.position,
+  }) : super.internal();
+
   final LatLng? position;
+
+  @override
+  FutureOr<List<OfferPOS>> runNotifierBuild(
+    covariant OffersNotifier notifier,
+  ) {
+    return notifier.build(
+      position,
+    );
+  }
+
+  @override
+  Override overrideWith(OffersNotifier Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: OffersNotifierProvider._internal(
+        () => create()..position = position,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        position: position,
+      ),
+    );
+  }
+
+  @override
+  AsyncNotifierProviderElement<OffersNotifier, List<OfferPOS>> createElement() {
+    return _OffersNotifierProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -112,15 +153,20 @@ class OffersNotifierProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin OffersNotifierRef on AsyncNotifierProviderRef<List<OfferPOS>> {
+  /// The parameter `position` of this provider.
+  LatLng? get position;
+}
+
+class _OffersNotifierProviderElement
+    extends AsyncNotifierProviderElement<OffersNotifier, List<OfferPOS>>
+    with OffersNotifierRef {
+  _OffersNotifierProviderElement(super.provider);
 
   @override
-  FutureOr<List<OfferPOS>> runNotifierBuild(
-    covariant OffersNotifier notifier,
-  ) {
-    return notifier.build(
-      position,
-    );
-  }
+  LatLng? get position => (origin as OffersNotifierProvider).position;
 }
 
 String _$locationNotifierHash() => r'4219d9e58833e81041499a11936629f489de60b0';
@@ -140,4 +186,4 @@ final locationNotifierProvider =
 
 typedef _$LocationNotifier = AsyncNotifier<LatLng>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

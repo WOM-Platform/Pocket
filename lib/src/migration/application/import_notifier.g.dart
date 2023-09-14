@@ -6,7 +6,7 @@ part of 'import_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$importNotifierHash() => r'6f466809b55f54dd89ba1e485b4ac232c4debb64';
+String _$importNotifierHash() => r'5cf21e0c2714836df5668dc7f7e87f9e15bd1b48';
 
 /// See also [ImportNotifier].
 @ProviderFor(ImportNotifier)
@@ -23,4 +23,4 @@ final importNotifierProvider =
 
 typedef _$ImportNotifier = AutoDisposeNotifier<ImportState>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

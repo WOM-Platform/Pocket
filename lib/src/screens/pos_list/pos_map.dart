@@ -9,33 +9,36 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:wom_pocket/main.dart';
-import 'package:wom_pocket/src/screens/pos_list/pos_map_data.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 import 'package:wom_pocket/src/screens/pos_list/search_button.dart';
 import '../../utils/location_utils.dart';
 import 'carousel.dart';
 import 'pos_list_screen.dart';
 
+part 'pos_map.g.dart';
+
 enum PosScreen { map, list }
 
-final showMapListFilterProvider =
-    NotifierProvider<ShowMapListFilterNotifier, bool>(
-        ShowMapListFilterNotifier.new);
+// final showMapListFilterProvider =
+//     NotifierProvider<ShowMapListFilterNotifier, bool>(
+//         ShowMapListFilterNotifier.new);
 
-class ShowMapListFilterNotifier extends Notifier<bool> {
+@Riverpod(keepAlive: true)
+class ShowMapListFilterNotifier extends _$ShowMapListFilterNotifier {
   @override
   bool build() {
     return true;
   }
 
-  show(){
+  show() {
     print('show map list filters');
     state = true;
   }
 
-  hide(){
+  hide() {
     print('hide map list filters');
     state = false;
   }
@@ -43,10 +46,11 @@ class ShowMapListFilterNotifier extends Notifier<bool> {
 
 class LocalizationException implements Exception {}
 
-final mapIndexProvider =
-    NotifierProvider<MapIndexNotifier, PosScreen>(MapIndexNotifier.new);
+// final mapIndexProvider =
+//     NotifierProvider<MapIndexNotifier, PosScreen>(MapIndexNotifier.new);
 
-class MapIndexNotifier extends Notifier<PosScreen> {
+@Riverpod(keepAlive: true)
+class MapIndexNotifier extends _$MapIndexNotifier {
   @override
   PosScreen build() {
     return PosScreen.map;
@@ -57,7 +61,8 @@ class MapIndexNotifier extends Notifier<PosScreen> {
   }
 }
 
-final currentLocationProvider = FutureProvider<Location>((ref) async {
+@Riverpod(keepAlive: true)
+Future<Location> currentLocationProvider(CurrentLocationProviderRef ref) async {
   print('currentLocationProvider CREATE');
   ref.onDispose(() {
     print('currentLocationProvider DISPOSED');
@@ -93,16 +98,21 @@ final currentLocationProvider = FutureProvider<Location>((ref) async {
     default:
       throw LocalizationException();
   }
-});
+}
 
-final latLongBoundsProvider = StateProvider<LatLngBounds?>((ref) {
-  return null;
-});
+@Riverpod(keepAlive: true)
+class LatLongBoundsNotifier extends _$LatLongBoundsNotifier {
+  LatLngBounds? build() {
+    return null;
+  }
+}
 
-final mapControllerProvider = StateProvider<GoogleMapController?>((ref) {
-  return null;
-});
-
+@Riverpod(keepAlive: true)
+class MapControllerNotifier extends _$MapControllerNotifier {
+  GoogleMapController? build() {
+    return null;
+  }
+}
 
 class PosMapScreen extends ConsumerStatefulWidget {
   const PosMapScreen({
@@ -165,10 +175,9 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final posData =
-        ref.watch(posMapNotifierProvider);
+    final posData = ref.watch(posMapNotifierProvider);
 
-    final selectedIndex = ref.watch(mapIndexProvider);
+    final selectedIndex = ref.watch(mapIndexNotifierProvider);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
@@ -196,22 +205,26 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                             if ((cameraPosition.zoom * 10).round() / 10 <
                                 minZoom) {
                               ref
-                                  .read(enableSearchButtonProvider.notifier).outside();
+                                  .read(enableSearchButtonProvider.notifier)
+                                  .outside();
                             } else {
                               ref
-                                  .read(enableSearchButtonProvider.notifier).enabled();
+                                  .read(enableSearchButtonProvider.notifier)
+                                  .enabled();
                             }
                             ref
-                                .read(mapControllerProvider)
+                                .read(mapControllerNotifierProvider)
                                 ?.getVisibleRegion()
                                 .then((value) => ref
-                                    .read(latLongBoundsProvider.notifier)
+                                    .read(
+                                        latLongBoundsNotifierProvider.notifier)
                                     .state = value);
                           },
                           onMapCreated: (GoogleMapController controller) {
                             controller.setMapStyle(mapStyle);
-                            ref.read(mapControllerProvider.notifier).state =
-                                controller;
+                            ref
+                                .read(mapControllerNotifierProvider.notifier)
+                                .state = controller;
                             _controller.complete(controller);
                           },
                           markers: posData.markers,
@@ -226,7 +239,8 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                                   icon: Icon(Icons.gps_fixed),
                                   color: Colors.grey,
                                   onPressed: () {
-                                    goToCurrentLocation(_controller.future, minZoom);
+                                    goToCurrentLocation(
+                                        _controller.future, minZoom);
                                   }),
                             ),
                           ),
@@ -263,7 +277,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
               alignment: Alignment.topCenter,
               child: Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                  final show = ref.watch(showMapListFilterProvider);
+                  final show = ref.watch(showMapListFilterNotifierProvider);
                   if (show && child != null) {
                     return child;
                   } else {
@@ -297,7 +311,9 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                           onToggle: (index) {
                             print('switched to: $index');
                             if (index == null || index == selectedIndex) return;
-                            ref.read(mapIndexProvider.notifier).toggle();
+                            ref
+                                .read(mapIndexNotifierProvider.notifier)
+                                .toggle();
                           },
                         ),
                       ],

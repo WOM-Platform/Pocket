@@ -85,8 +85,8 @@ class OffersMapNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
     OffersMapNotifier, OffersMapData> {
   /// See also [OffersMapNotifier].
   OffersMapNotifierProvider(
-    this.position,
-  ) : super.internal(
+    LatLng? position,
+  ) : this._internal(
           () => OffersMapNotifier()..position = position,
           from: offersMapNotifierProvider,
           name: r'offersMapNotifierProvider',
@@ -97,9 +97,51 @@ class OffersMapNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
           dependencies: OffersMapNotifierFamily._dependencies,
           allTransitiveDependencies:
               OffersMapNotifierFamily._allTransitiveDependencies,
+          position: position,
         );
 
+  OffersMapNotifierProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.position,
+  }) : super.internal();
+
   final LatLng? position;
+
+  @override
+  FutureOr<OffersMapData> runNotifierBuild(
+    covariant OffersMapNotifier notifier,
+  ) {
+    return notifier.build(
+      position,
+    );
+  }
+
+  @override
+  Override overrideWith(OffersMapNotifier Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: OffersMapNotifierProvider._internal(
+        () => create()..position = position,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        position: position,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<OffersMapNotifier, OffersMapData>
+      createElement() {
+    return _OffersMapNotifierProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -113,15 +155,21 @@ class OffersMapNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin OffersMapNotifierRef
+    on AutoDisposeAsyncNotifierProviderRef<OffersMapData> {
+  /// The parameter `position` of this provider.
+  LatLng? get position;
+}
+
+class _OffersMapNotifierProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<OffersMapNotifier,
+        OffersMapData> with OffersMapNotifierRef {
+  _OffersMapNotifierProviderElement(super.provider);
 
   @override
-  FutureOr<OffersMapData> runNotifierBuild(
-    covariant OffersMapNotifier notifier,
-  ) {
-    return notifier.build(
-      position,
-    );
-  }
+  LatLng? get position => (origin as OffersMapNotifierProvider).position;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

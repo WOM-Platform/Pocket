@@ -9,8 +9,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/offers/application/offer_map_notifier.dart';
-import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
-import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/offers/ui/search_button.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 import '../../my_logger.dart';

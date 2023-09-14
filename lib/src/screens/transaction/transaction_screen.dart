@@ -10,6 +10,7 @@ import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
+import 'package:wom_pocket/src/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/transaction/info_payment.dart';
@@ -67,7 +68,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 
-  refreshHome(){
+  refreshHome() {
     ref.invalidate(fetchTransactionsProvider);
     ref.invalidate(availableWomCountProvider);
     ref.invalidate(mapNotifierProvider);
@@ -75,6 +76,8 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     ref.invalidate(fetchAimInPercentageProvider);
     ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
     ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
+    ref.invalidate(exchangeNotifierProvider);
+
   }
 
   final whiteTextStyle = TextStyle(color: Colors.white);
@@ -177,15 +180,12 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10.0),
                                   child: Center(
-                                      child: Text(
-                                    state.transaction.type ==
-                                            TransactionType.VOUCHERS
-                                        ? '${AppLocalizations.of(context)!.translate('you_got')}:'
-                                        : AppLocalizations.of(context)!
-                                            .translate('payment_completed'),
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20.0),
-                                  )),
+                                    child: Text(
+                                      getMessage(state.transaction.type),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20.0),
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -251,6 +251,19 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
         ),
       ),
     );
+  }
+
+  String getMessage(TransactionType type) {
+    return switch (type) {
+      TransactionType.VOUCHERS =>
+        '${AppLocalizations.of(context)!.translate('you_got')}:',
+      TransactionType.PAYMENT =>
+        AppLocalizations.of(context)!.translate('payment_completed'),
+      TransactionType.MIGRATION_IMPORT => '',
+      TransactionType.MIGRATION_EXPORT => '',
+      TransactionType.EXCHANGE_EXPORT => '',
+      TransactionType.EXCHANGE_IMPORT => AppLocalizations.of(context)!.translate('import_exchange_completed'),
+    };
   }
 }
 

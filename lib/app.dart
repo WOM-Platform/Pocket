@@ -61,110 +61,108 @@ class App extends ConsumerWidget {
       scaffoldBackgroundColor: backgroundColor
     );
 
-    return ProviderScope(
-      child: OKToast(
-        child: MaterialApp(
-            debugShowCheckedModeBanner: false,
+    return OKToast(
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
 //          locale: DevicePreview.of(context).locale, // <--- Add the locale
 //          builder: DevicePreview.appBuilder, // <--- Add the build
-            localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            localeResolutionCallback: (locale, supportedLocales) {
-              if (locale == null) {
-                Intl.defaultLocale = supportedLocales.first.toString();
-                return supportedLocales.first;
-              }
-
-              for (var supportedLocale in supportedLocales) {
-                if (supportedLocale.languageCode == locale.languageCode &&
-                    supportedLocale.countryCode == locale.countryCode) {
-                  Intl.defaultLocale = supportedLocale.toString();
-                  return supportedLocale;
-                }
-              }
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          localeResolutionCallback: (locale, supportedLocales) {
+            if (locale == null) {
               Intl.defaultLocale = supportedLocales.first.toString();
               return supportedLocales.first;
-            },
-            supportedLocales: [
-              const Locale('it', 'IT'),
-              const Locale('en', 'US'),
-            ],
-            theme: themeData.copyWith(
-              textTheme: GoogleFonts.ralewayTextTheme(themeData.textTheme),
-              bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: primaryColor,
-                selectedItemColor: accentColor,
-                unselectedItemColor: Colors.white,
-              ),
-              colorScheme: themeData.colorScheme.copyWith(secondary: accentColor),
-            ),
-            builder: (context, child) {
-              // Obtain the current media query information.
-              final mediaQueryData = MediaQuery.of(context);
+            }
 
-              return MediaQuery(
-                data: mediaQueryData.copyWith(textScaleFactor: 1.0),
-                child: child!,
-              );
-            },
-            // home: GateWidget(),
-            // : BlocListener<AppBloc, AppState>(
-            //     listener: (ctx, state) {
-            //       logger.i("APP BLOC LISTENER ----> state is: $state");
-            //       if (state is DeepLinkMode) {
-            //         logger.i("Go to pin screen");
-            //         _pinBloc = PinBloc(state.deepLinkModel);
-            //         _pinBloc = PinBloc(state.deepLinkModel);
-            //         var blocProviderPin = BlocProvider(
-            //           create: (context) => _pinBloc,
-            //           child: PinScreen(),
-            //         );
-            //         Navigator.push(
-            //           ctx,
-            //           MaterialPageRoute<bool>(
-            //               builder: (context) => blocProviderPin),
-            //         ).then((value) {
-            //           _appBloc.add(HomeEvent());
-            //         });
-            //       }
-            //     },
-            //     child: BlocBuilder<AppBloc, AppState>(
-            //         buildWhen: (previous, current) {
-            //       final r =
-            //           (previous != current) && (current is! DeepLinkMode);
-            //       return r;
-            //     }, builder: (ctx, AppState state) {
-            //       logger.i("APP BLOC BUILDER ----> state is: $state");
-            //
-            //       if (state is IntroMode) {
-            //         return IntroScreen();
-            //       }
-            //
-            //       if (state is NormalMode) {
-            //         final homeProvider = MultiBlocProvider(
-            //           child: FeatureDiscovery(
-            //             child: HomeScreen2(),
-            //           ),
-            //           providers: <BlocProvider>[
-            //             BlocProvider<TransactionsListBloc>(
-            //                 create: (context) => _transactionsBloc!),
-            //             BlocProvider<SuggestionsBloc>(
-            //                 create: (context) => _suggestionsBloc),
-            //           ],
-            //         );
-            //         return homeProvider;
-            //       }
-            //       return SplashScreen();
-            //     }),
-            //   ),
-            routes: {
-              '/': (_) => GateWidget(),
-              '/settings': (context) => SettingsScreen(),
-            }),
-      ),
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode &&
+                  supportedLocale.countryCode == locale.countryCode) {
+                Intl.defaultLocale = supportedLocale.toString();
+                return supportedLocale;
+              }
+            }
+            Intl.defaultLocale = supportedLocales.first.toString();
+            return supportedLocales.first;
+          },
+          supportedLocales: [
+            const Locale('it', 'IT'),
+            const Locale('en', 'US'),
+          ],
+          theme: themeData.copyWith(
+            textTheme: GoogleFonts.ralewayTextTheme(themeData.textTheme),
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              backgroundColor: primaryColor,
+              selectedItemColor: accentColor,
+              unselectedItemColor: Colors.white,
+            ),
+            colorScheme: themeData.colorScheme.copyWith(secondary: accentColor),
+          ),
+          builder: (context, child) {
+            // Obtain the current media query information.
+            final mediaQueryData = MediaQuery.of(context);
+
+            return MediaQuery(
+              data: mediaQueryData.copyWith(textScaleFactor: 1.0),
+              child: child!,
+            );
+          },
+          // home: GateWidget(),
+          // : BlocListener<AppBloc, AppState>(
+          //     listener: (ctx, state) {
+          //       logger.i("APP BLOC LISTENER ----> state is: $state");
+          //       if (state is DeepLinkMode) {
+          //         logger.i("Go to pin screen");
+          //         _pinBloc = PinBloc(state.deepLinkModel);
+          //         _pinBloc = PinBloc(state.deepLinkModel);
+          //         var blocProviderPin = BlocProvider(
+          //           create: (context) => _pinBloc,
+          //           child: PinScreen(),
+          //         );
+          //         Navigator.push(
+          //           ctx,
+          //           MaterialPageRoute<bool>(
+          //               builder: (context) => blocProviderPin),
+          //         ).then((value) {
+          //           _appBloc.add(HomeEvent());
+          //         });
+          //       }
+          //     },
+          //     child: BlocBuilder<AppBloc, AppState>(
+          //         buildWhen: (previous, current) {
+          //       final r =
+          //           (previous != current) && (current is! DeepLinkMode);
+          //       return r;
+          //     }, builder: (ctx, AppState state) {
+          //       logger.i("APP BLOC BUILDER ----> state is: $state");
+          //
+          //       if (state is IntroMode) {
+          //         return IntroScreen();
+          //       }
+          //
+          //       if (state is NormalMode) {
+          //         final homeProvider = MultiBlocProvider(
+          //           child: FeatureDiscovery(
+          //             child: HomeScreen2(),
+          //           ),
+          //           providers: <BlocProvider>[
+          //             BlocProvider<TransactionsListBloc>(
+          //                 create: (context) => _transactionsBloc!),
+          //             BlocProvider<SuggestionsBloc>(
+          //                 create: (context) => _suggestionsBloc),
+          //           ],
+          //         );
+          //         return homeProvider;
+          //       }
+          //       return SplashScreen();
+          //     }),
+          //   ),
+          routes: {
+            '/': (_) => GateWidget(),
+            '/settings': (context) => SettingsScreen(),
+          }),
     );
   }
 }

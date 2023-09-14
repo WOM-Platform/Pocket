@@ -7,10 +7,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/app_notifier.dart';
+import 'package:wom_pocket/src/exchange/ui/screens/exchange.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:wom_pocket/src/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/new_home/ui/new_home.dart';
@@ -105,7 +107,9 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         index: index.value,
         children: [
           NewHome(),
+          // ExchangeListScreen(),
           OffersListScreen(),
+          ExchangeScreen(),
           // BadgeScreen(),
           SettingsScreen(),
         ],
@@ -212,10 +216,30 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             ),
             label: AppLocalizations.of(context)!.translate('offers'),
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.badge),
-          //   label: 'Badge',
-          // ),
+          BottomNavigationBarItem(
+            icon: DescribedFeatureOverlay(
+              featureId: t_offers,
+              title: Text(
+                AppLocalizations.of(context)!.translate('homeTutorialTitle5'),
+                style: titleStyle,
+              ),
+              description: Text(
+                AppLocalizations.of(context)!.translate('homeTutorialDesc5'),
+                style: descStyle,
+              ),
+              tapTarget: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(MdiIcons.handCoin),
+                  Text(
+                    AppLocalizations.of(context)!.translate('exchange'),
+                  ),
+                ],
+              ),
+              child: Icon(MdiIcons.handCoin),
+            ),
+            label: AppLocalizations.of(context)!.translate('exchange'),
+          ),
           BottomNavigationBarItem(
             icon: DescribedFeatureOverlay(
               featureId: t_settings,
@@ -274,8 +298,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     if (await InternetConnectionChecker().hasConnection) {
       logEvent('open_wom_scan');
       try {
-        final link = await Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => ScanScreen()));
+        final link = await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ScanScreen(),
+          ),
+        );
 
         if (link == null) return;
         final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
@@ -376,8 +403,12 @@ class _ScanScreenState extends State<ScanScreen> {
         body: Stack(
       children: [
         MobileScanner(
+          onScannerStarted: (args) {
+            logger.i('Scanner onScannerStarted');
+          },
           controller: cameraController,
           onDetect: (barcode) {
+            logger.i('Scanner onDetect');
             if (scanned) return;
             scanned = true;
             Navigator.of(context).pop(barcode.barcodes.first.rawValue);

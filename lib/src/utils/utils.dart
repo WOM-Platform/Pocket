@@ -1,14 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:path_provider/path_provider.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wom_pocket/constants.dart';
-import 'package:wom_pocket/src/db/wom_db.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -98,7 +94,7 @@ class Utils {
   }
 
   static Future<String> getPublicKey() async {
-    if (flavor == Flavor.DEVELOPMENT) {
+    if (isDev) {
       return await _loadKey('assets/registry_dev.pub');
     }
     return await _loadKey('assets/registry.pub');

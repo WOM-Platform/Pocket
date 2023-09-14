@@ -2,9 +2,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/database/extensions.dart';
-import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/services/aim_repository.dart';
 
 import '../blocs/transactions_list/transactions_list_state.dart';
@@ -29,10 +27,11 @@ Future<TransactionsState> fetchTransactions(FetchTransactionsRef ref) async {
 
     logger.i('aim letti : ${aims.length}');
     final transactions =
-        await ref.read(databaseProvider).transactionsDao.getTransactions;
+        await ref.read(getDatabaseProvider).transactionsDao.getTransactions;
     return TransactionsLoaded(transactions.map((e) => e.toModel()).toList());
-  } catch (ex) {
+  } catch (ex, st) {
     logger.e(ex.toString());
+    logger.e(st.toString());
     return TransactionsErrorState('somethings_wrong');
   }
 }

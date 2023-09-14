@@ -6,6 +6,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
@@ -42,14 +44,22 @@ Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox('settings');
 
-  logger.i('DEV VERSION');
   flavor = Flavor.DEVELOPMENT;
   domain = 'dev.wom.social';
+  logger = Logger(
+    printer: PrettyPrinter(
+      noBoxingByDefault: true,
+      printEmojis: false,
+    ),
+    filter: ReleaseFilter(),
+    output: DevOutput(),
+  );
+  logger.i('DEV VERSION');
   registryKey = await Utils.getPublicKey();
   mapStyle = await rootBundle.loadString('assets/map_style.txt');
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
     statusBarColor: Colors.red,
   ));
 
-  runApp(FeatureDiscovery(child: App()));
+  runApp(FeatureDiscovery(child: ProviderScope(child: App())));
 }

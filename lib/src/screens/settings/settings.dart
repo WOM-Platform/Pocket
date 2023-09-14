@@ -4,10 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info/package_info.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
-import 'package:wom_pocket/src/database/extensions.dart';
-import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/log_output.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/intro/intro.dart';
 import 'package:wom_pocket/src/screens/table_page/db_page.dart';
@@ -17,7 +15,6 @@ import 'package:wom_pocket/src/widgets/my_appbar.dart';
 
 import '../../../constants.dart';
 import '../../migration/ui/migration_screen.dart';
-import '../../my_logger.dart';
 import '../../utils/my_extensions.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -36,6 +33,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget build(BuildContext context) {
     final titleStyle = TextStyle(fontWeight: FontWeight.bold);
 //    final SettingsBloc bloc = BlocProvider.of<SettingsBloc>(context);
+    print(flavor);
+    print(isDev);
     return Scaffold(
       // backgroundColor: Colors.grey[100],
       appBar: PocketAppBar(),
@@ -64,7 +63,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
               onTap: () async {
                 final woms =
-                    await ref.read(databaseProvider).womsDao.getAllWoms;
+                    await ref.read(getDatabaseProvider).womsDao.getAllWoms;
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) =>
@@ -95,13 +94,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               }
             },
           ),
-          if (flavor == Flavor.DEVELOPMENT) ...[
+          if (isDev) ...[
             SettingsItem(
               title: 'Clear DB (only for debug)',
               subtitle: "Delete all data of local database",
               icon: Icons.delete,
               onTap: () async {
-                // ref.read(databaseProvider).de+
+                // ref.read(getDatabaseProvider).de+
                 // AppDatabase.get().deleteDb();
               },
             ),
@@ -110,7 +109,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               subtitle: "Close DB and save locally",
               icon: Icons.close,
               onTap: () async {
-                await ref.read(databaseProvider).close();
+                await ref.read(getDatabaseProvider).close();
+              },
+            ),
+            SettingsItem(
+              title: 'Show logs',
+              subtitle: "Delete all data of local database",
+              icon: Icons.delete,
+              onTap: () async {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (c) => LogOutputScreen()));
               },
             ),
           ],

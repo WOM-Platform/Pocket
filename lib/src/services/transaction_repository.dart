@@ -2,15 +2,11 @@ import 'dart:async';
 
 import 'package:dart_geohash/dart_geohash.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/database/extensions.dart';
-import 'package:wom_pocket/src/db/transaction_db.dart';
-import 'package:wom_pocket/src/db/wom_db.dart';
-import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';
 
@@ -20,7 +16,7 @@ final pocketProvider = Provider<Pocket>((ref) => Pocket(domain, registryKey));
 
 final transactionRepositoryProvider = Provider<TransactionRepository>((ref) {
   return TransactionRepository(
-      ref.watch(pocketProvider), ref.watch(databaseProvider));
+      ref.watch(pocketProvider), ref.watch(getDatabaseProvider));
 });
 
 class TransactionRepository {
@@ -70,11 +66,15 @@ class TransactionRepository {
     logger.i(aimsString);
     logger.i(tmp);
 
+    final type = redeem.sourceId == exchangeSourceId
+        ? TransactionType.EXCHANGE_IMPORT
+        : TransactionType.VOUCHERS;
+
     TransactionModel tx = TransactionModel(
       id: 0,
       date: DateTime.now(),
       size: vouchers.length,
-      type: TransactionType.VOUCHERS,
+      type: type,
       source: redeem.sourceName,
       aimCode: tmp,
     );
@@ -120,7 +120,7 @@ class TransactionRepository {
 
     try {
       final satisfyingVouchers = (await database.womsDao
-              .getVouchersForPay(simpleFilter: infoPay.simpleFilter))
+              .getVouchersForPayment(simpleFilter: infoPay.simpleFilter))
           .map((e) => e.toVoucher())
           .toList();
 

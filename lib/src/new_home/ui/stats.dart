@@ -33,6 +33,9 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
     final womSpentCount =
         ref.watch(fetchWomSpentProvider).valueOrNull?.toString() ?? '-';
 
+    // final womExchangedCount =
+    //     ref.watch(fetchWomSpentProvider).valueOrNull?.toString() ?? '-';
+
     final spentLastWeek = ref
             .watch(fetchWomCountSpentInTheLastWeekProvider)
             .valueOrNull
