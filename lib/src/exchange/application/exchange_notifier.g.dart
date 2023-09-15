@@ -41,7 +41,7 @@ final exchangeNotifierProvider =
 
 typedef _$ExchangeNotifier = AutoDisposeNotifier<ExchangeState>;
 String _$newExchangeNotifierHash() =>
-    r'939761c6ba835eca6d01b8fca88041eba673df72';
+    r'74ac837a3a84f695b9b821f09015c8685100d97c';
 
 /// Copied from Dart SDK
 class _SystemHash {

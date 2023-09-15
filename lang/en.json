@@ -182,5 +182,6 @@
   "done": "Done",
   "scanToReceiveWOMFromDonation": "Scan this QR-Code to receive donated WOM",
   "donation": "Donation",
-  "donationInProgress": "We are processing your WOM"
+  "donationInProgress": "We are processing your WOM",
+  "insufficient_vouchers": "Insufficient Vouchers"
 }

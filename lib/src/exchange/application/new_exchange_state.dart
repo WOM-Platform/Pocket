@@ -4,11 +4,6 @@ part 'new_exchange_state.freezed.dart';
 
 @freezed
 class NewExchangeState with _$NewExchangeState {
-  const factory NewExchangeState.initial({
-    required int dailyAvailableWom,
-    required int totalAvailableWom,
-  }) = NewExchangeStateInitial;
-
   const factory NewExchangeState.data({
     required String link,
     required String pin,

@@ -79,6 +79,7 @@ class NewExchangeNotifier extends _$NewExchangeNotifier {
 
   void _dona(int womCount) async {
     try {
+      await Future.delayed(const Duration(milliseconds: 100));
       final keys = await ref.read(pocketProvider).getExchangeKey();
       final satisfyingVouchers =
           (await ref.read(getDatabaseProvider).womsDao.getVouchersForExchange())
@@ -131,6 +132,7 @@ class NewExchangeNotifier extends _$NewExchangeNotifier {
     } catch (ex, st) {
       logger.e(ex);
       logger.e(st);
+      state = NewExchangeStateError(ex, st);
     }
   }
 

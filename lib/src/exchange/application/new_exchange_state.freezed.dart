@@ -18,8 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$NewExchangeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int dailyAvailableWom, int totalAvailableWom)
-        initial,
     required TResult Function(String link, String pin, int womCount) data,
     required TResult Function() loading,
     required TResult Function() insufficientVouchers,
@@ -28,7 +26,6 @@ mixin _$NewExchangeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int dailyAvailableWom, int totalAvailableWom)? initial,
     TResult? Function(String link, String pin, int womCount)? data,
     TResult? Function()? loading,
     TResult? Function()? insufficientVouchers,
@@ -37,7 +34,6 @@ mixin _$NewExchangeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int dailyAvailableWom, int totalAvailableWom)? initial,
     TResult Function(String link, String pin, int womCount)? data,
     TResult Function()? loading,
     TResult Function()? insufficientVouchers,
@@ -47,7 +43,6 @@ mixin _$NewExchangeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateInitial value) initial,
     required TResult Function(NewExchangeStateData value) data,
     required TResult Function(NewExchangeStateLoading value) loading,
     required TResult Function(NewExchangeStateinsufficientVouchers value)
@@ -57,7 +52,6 @@ mixin _$NewExchangeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateInitial value)? initial,
     TResult? Function(NewExchangeStateData value)? data,
     TResult? Function(NewExchangeStateLoading value)? loading,
     TResult? Function(NewExchangeStateinsufficientVouchers value)?
@@ -67,7 +61,6 @@ mixin _$NewExchangeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateInitial value)? initial,
     TResult Function(NewExchangeStateData value)? data,
     TResult Function(NewExchangeStateLoading value)? loading,
     TResult Function(NewExchangeStateinsufficientVouchers value)?
@@ -94,177 +87,6 @@ class _$NewExchangeStateCopyWithImpl<$Res, $Val extends NewExchangeState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-}
-
-/// @nodoc
-abstract class _$$NewExchangeStateInitialCopyWith<$Res> {
-  factory _$$NewExchangeStateInitialCopyWith(_$NewExchangeStateInitial value,
-          $Res Function(_$NewExchangeStateInitial) then) =
-      __$$NewExchangeStateInitialCopyWithImpl<$Res>;
-  @useResult
-  $Res call({int dailyAvailableWom, int totalAvailableWom});
-}
-
-/// @nodoc
-class __$$NewExchangeStateInitialCopyWithImpl<$Res>
-    extends _$NewExchangeStateCopyWithImpl<$Res, _$NewExchangeStateInitial>
-    implements _$$NewExchangeStateInitialCopyWith<$Res> {
-  __$$NewExchangeStateInitialCopyWithImpl(_$NewExchangeStateInitial _value,
-      $Res Function(_$NewExchangeStateInitial) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? dailyAvailableWom = null,
-    Object? totalAvailableWom = null,
-  }) {
-    return _then(_$NewExchangeStateInitial(
-      dailyAvailableWom: null == dailyAvailableWom
-          ? _value.dailyAvailableWom
-          : dailyAvailableWom // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalAvailableWom: null == totalAvailableWom
-          ? _value.totalAvailableWom
-          : totalAvailableWom // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$NewExchangeStateInitial implements NewExchangeStateInitial {
-  const _$NewExchangeStateInitial(
-      {required this.dailyAvailableWom, required this.totalAvailableWom});
-
-  @override
-  final int dailyAvailableWom;
-  @override
-  final int totalAvailableWom;
-
-  @override
-  String toString() {
-    return 'NewExchangeState.initial(dailyAvailableWom: $dailyAvailableWom, totalAvailableWom: $totalAvailableWom)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NewExchangeStateInitial &&
-            (identical(other.dailyAvailableWom, dailyAvailableWom) ||
-                other.dailyAvailableWom == dailyAvailableWom) &&
-            (identical(other.totalAvailableWom, totalAvailableWom) ||
-                other.totalAvailableWom == totalAvailableWom));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, dailyAvailableWom, totalAvailableWom);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NewExchangeStateInitialCopyWith<_$NewExchangeStateInitial> get copyWith =>
-      __$$NewExchangeStateInitialCopyWithImpl<_$NewExchangeStateInitial>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int dailyAvailableWom, int totalAvailableWom)
-        initial,
-    required TResult Function(String link, String pin, int womCount) data,
-    required TResult Function() loading,
-    required TResult Function() insufficientVouchers,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return initial(dailyAvailableWom, totalAvailableWom);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int dailyAvailableWom, int totalAvailableWom)? initial,
-    TResult? Function(String link, String pin, int womCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? insufficientVouchers,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return initial?.call(dailyAvailableWom, totalAvailableWom);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int dailyAvailableWom, int totalAvailableWom)? initial,
-    TResult Function(String link, String pin, int womCount)? data,
-    TResult Function()? loading,
-    TResult Function()? insufficientVouchers,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(dailyAvailableWom, totalAvailableWom);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateInitial value) initial,
-    required TResult Function(NewExchangeStateData value) data,
-    required TResult Function(NewExchangeStateLoading value) loading,
-    required TResult Function(NewExchangeStateinsufficientVouchers value)
-        insufficientVouchers,
-    required TResult Function(NewExchangeStateError value) error,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateInitial value)? initial,
-    TResult? Function(NewExchangeStateData value)? data,
-    TResult? Function(NewExchangeStateLoading value)? loading,
-    TResult? Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult? Function(NewExchangeStateError value)? error,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateInitial value)? initial,
-    TResult Function(NewExchangeStateData value)? data,
-    TResult Function(NewExchangeStateLoading value)? loading,
-    TResult Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult Function(NewExchangeStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class NewExchangeStateInitial implements NewExchangeState {
-  const factory NewExchangeStateInitial(
-      {required final int dailyAvailableWom,
-      required final int totalAvailableWom}) = _$NewExchangeStateInitial;
-
-  int get dailyAvailableWom;
-  int get totalAvailableWom;
-  @JsonKey(ignore: true)
-  _$$NewExchangeStateInitialCopyWith<_$NewExchangeStateInitial> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -350,8 +172,6 @@ class _$NewExchangeStateData implements NewExchangeStateData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int dailyAvailableWom, int totalAvailableWom)
-        initial,
     required TResult Function(String link, String pin, int womCount) data,
     required TResult Function() loading,
     required TResult Function() insufficientVouchers,
@@ -363,7 +183,6 @@ class _$NewExchangeStateData implements NewExchangeStateData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int dailyAvailableWom, int totalAvailableWom)? initial,
     TResult? Function(String link, String pin, int womCount)? data,
     TResult? Function()? loading,
     TResult? Function()? insufficientVouchers,
@@ -375,7 +194,6 @@ class _$NewExchangeStateData implements NewExchangeStateData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int dailyAvailableWom, int totalAvailableWom)? initial,
     TResult Function(String link, String pin, int womCount)? data,
     TResult Function()? loading,
     TResult Function()? insufficientVouchers,
@@ -391,7 +209,6 @@ class _$NewExchangeStateData implements NewExchangeStateData {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateInitial value) initial,
     required TResult Function(NewExchangeStateData value) data,
     required TResult Function(NewExchangeStateLoading value) loading,
     required TResult Function(NewExchangeStateinsufficientVouchers value)
@@ -404,7 +221,6 @@ class _$NewExchangeStateData implements NewExchangeStateData {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateInitial value)? initial,
     TResult? Function(NewExchangeStateData value)? data,
     TResult? Function(NewExchangeStateLoading value)? loading,
     TResult? Function(NewExchangeStateinsufficientVouchers value)?
@@ -417,7 +233,6 @@ class _$NewExchangeStateData implements NewExchangeStateData {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateInitial value)? initial,
     TResult Function(NewExchangeStateData value)? data,
     TResult Function(NewExchangeStateLoading value)? loading,
     TResult Function(NewExchangeStateinsufficientVouchers value)?
@@ -485,8 +300,6 @@ class _$NewExchangeStateLoading implements NewExchangeStateLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int dailyAvailableWom, int totalAvailableWom)
-        initial,
     required TResult Function(String link, String pin, int womCount) data,
     required TResult Function() loading,
     required TResult Function() insufficientVouchers,
@@ -498,7 +311,6 @@ class _$NewExchangeStateLoading implements NewExchangeStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int dailyAvailableWom, int totalAvailableWom)? initial,
     TResult? Function(String link, String pin, int womCount)? data,
     TResult? Function()? loading,
     TResult? Function()? insufficientVouchers,
@@ -510,7 +322,6 @@ class _$NewExchangeStateLoading implements NewExchangeStateLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int dailyAvailableWom, int totalAvailableWom)? initial,
     TResult Function(String link, String pin, int womCount)? data,
     TResult Function()? loading,
     TResult Function()? insufficientVouchers,
@@ -526,7 +337,6 @@ class _$NewExchangeStateLoading implements NewExchangeStateLoading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateInitial value) initial,
     required TResult Function(NewExchangeStateData value) data,
     required TResult Function(NewExchangeStateLoading value) loading,
     required TResult Function(NewExchangeStateinsufficientVouchers value)
@@ -539,7 +349,6 @@ class _$NewExchangeStateLoading implements NewExchangeStateLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateInitial value)? initial,
     TResult? Function(NewExchangeStateData value)? data,
     TResult? Function(NewExchangeStateLoading value)? loading,
     TResult? Function(NewExchangeStateinsufficientVouchers value)?
@@ -552,7 +361,6 @@ class _$NewExchangeStateLoading implements NewExchangeStateLoading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateInitial value)? initial,
     TResult Function(NewExchangeStateData value)? data,
     TResult Function(NewExchangeStateLoading value)? loading,
     TResult Function(NewExchangeStateinsufficientVouchers value)?
@@ -614,8 +422,6 @@ class _$NewExchangeStateinsufficientVouchers
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int dailyAvailableWom, int totalAvailableWom)
-        initial,
     required TResult Function(String link, String pin, int womCount) data,
     required TResult Function() loading,
     required TResult Function() insufficientVouchers,
@@ -627,7 +433,6 @@ class _$NewExchangeStateinsufficientVouchers
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int dailyAvailableWom, int totalAvailableWom)? initial,
     TResult? Function(String link, String pin, int womCount)? data,
     TResult? Function()? loading,
     TResult? Function()? insufficientVouchers,
@@ -639,7 +444,6 @@ class _$NewExchangeStateinsufficientVouchers
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int dailyAvailableWom, int totalAvailableWom)? initial,
     TResult Function(String link, String pin, int womCount)? data,
     TResult Function()? loading,
     TResult Function()? insufficientVouchers,
@@ -655,7 +459,6 @@ class _$NewExchangeStateinsufficientVouchers
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateInitial value) initial,
     required TResult Function(NewExchangeStateData value) data,
     required TResult Function(NewExchangeStateLoading value) loading,
     required TResult Function(NewExchangeStateinsufficientVouchers value)
@@ -668,7 +471,6 @@ class _$NewExchangeStateinsufficientVouchers
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateInitial value)? initial,
     TResult? Function(NewExchangeStateData value)? data,
     TResult? Function(NewExchangeStateLoading value)? loading,
     TResult? Function(NewExchangeStateinsufficientVouchers value)?
@@ -681,7 +483,6 @@ class _$NewExchangeStateinsufficientVouchers
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateInitial value)? initial,
     TResult Function(NewExchangeStateData value)? data,
     TResult Function(NewExchangeStateLoading value)? loading,
     TResult Function(NewExchangeStateinsufficientVouchers value)?
@@ -773,8 +574,6 @@ class _$NewExchangeStateError implements NewExchangeStateError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int dailyAvailableWom, int totalAvailableWom)
-        initial,
     required TResult Function(String link, String pin, int womCount) data,
     required TResult Function() loading,
     required TResult Function() insufficientVouchers,
@@ -786,7 +585,6 @@ class _$NewExchangeStateError implements NewExchangeStateError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int dailyAvailableWom, int totalAvailableWom)? initial,
     TResult? Function(String link, String pin, int womCount)? data,
     TResult? Function()? loading,
     TResult? Function()? insufficientVouchers,
@@ -798,7 +596,6 @@ class _$NewExchangeStateError implements NewExchangeStateError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int dailyAvailableWom, int totalAvailableWom)? initial,
     TResult Function(String link, String pin, int womCount)? data,
     TResult Function()? loading,
     TResult Function()? insufficientVouchers,
@@ -814,7 +611,6 @@ class _$NewExchangeStateError implements NewExchangeStateError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateInitial value) initial,
     required TResult Function(NewExchangeStateData value) data,
     required TResult Function(NewExchangeStateLoading value) loading,
     required TResult Function(NewExchangeStateinsufficientVouchers value)
@@ -827,7 +623,6 @@ class _$NewExchangeStateError implements NewExchangeStateError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateInitial value)? initial,
     TResult? Function(NewExchangeStateData value)? data,
     TResult? Function(NewExchangeStateLoading value)? loading,
     TResult? Function(NewExchangeStateinsufficientVouchers value)?
@@ -840,7 +635,6 @@ class _$NewExchangeStateError implements NewExchangeStateError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateInitial value)? initial,
     TResult Function(NewExchangeStateData value)? data,
     TResult Function(NewExchangeStateLoading value)? loading,
     TResult Function(NewExchangeStateinsufficientVouchers value)?

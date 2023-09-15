@@ -28,7 +28,7 @@ class NewExchangeScreen extends ConsumerWidget {
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      body: state.maybeWhen(
+      body: state.when(
         data: (link, pin, womCount) {
           return ExchangeDataWidget(
             link: link,
@@ -36,7 +36,7 @@ class NewExchangeScreen extends ConsumerWidget {
             womCount: womCount,
           );
         },
-        orElse: () => Column(
+        loading: () => Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -56,9 +56,54 @@ class NewExchangeScreen extends ConsumerWidget {
         ),
         error: (ex, st) {
           logger.e(ex);
-          return Text(
-              AppLocalizations.of(context)?.translate('somethings_wrong') ??
-                  '-');
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.error,
+                    size: 50,
+                    color: Colors.red,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    AppLocalizations.of(context)
+                            ?.translate('somethings_wrong') ??
+                        '-',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+        insufficientVouchers: () {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.warning,
+                    size: 50,
+                    color: Colors.orange,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    AppLocalizations.of(context)
+                            ?.translate('insufficient_vouchers') ??
+                        '-',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                ],
+              ),
+            ),
+          );
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -66,13 +111,11 @@ class NewExchangeScreen extends ConsumerWidget {
           ? null
           : FloatingActionButton.extended(
               onPressed: () async {
-                if (state is NewExchangeStateData) {
-                  Navigator.of(context).pop();
-                } else if (state is NewExchangeStateError) {}
+                Navigator.of(context).pop();
               },
-              label: state is NewExchangeStateError
-                  ? Text(AppLocalizations.of(context)?.translate('try_again') ??
-                      '-')
+              label: state is NewExchangeStateError ||
+                      state is NewExchangeStateinsufficientVouchers
+                  ? Text(AppLocalizations.of(context)?.translate('back') ?? '-')
                   : Text(
                       AppLocalizations.of(context)?.translate('done') ?? '-'),
             ),

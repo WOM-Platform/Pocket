@@ -182,6 +182,7 @@
   "done": "Fatto",
   "scanToReceiveWOMFromDonation": "Scansiona questo QR-Code per ricevere i WOM donati",
   "donation": "Donazione",
-  "donationInProgress": "Stiamo convertendo i tuoi WOM"
+  "donationInProgress": "Stiamo convertendo i tuoi WOM",
+  "insufficient_vouchers": "Voucher insufficienti"
 }
 
