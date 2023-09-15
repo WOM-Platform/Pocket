@@ -296,6 +296,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
 //                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
 //            final String link = await bloc.scanQRCode();
     if (await InternetConnectionChecker().hasConnection) {
+      logger.wtf('_startScan');
       logEvent('open_wom_scan');
       try {
         final link = await Navigator.of(context).push(
@@ -303,7 +304,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             builder: (_) => ScanScreen(),
           ),
         );
-
+        logger.wtf('_startScan: $link');
         if (link == null) return;
         final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
         logger.i('wom_scan_done $link');
@@ -397,6 +398,16 @@ class _ScanScreenState extends State<ScanScreen> {
     }
   }*/
 
+
+  bool scanned = false;
+
+  @override
+  void dispose() {
+    logger.i('ScanScreen disposed');
+    cameraController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -409,9 +420,11 @@ class _ScanScreenState extends State<ScanScreen> {
           controller: cameraController,
           onDetect: (barcode) {
             logger.i('Scanner onDetect');
-            if (scanned) return;
-            scanned = true;
-            Navigator.of(context).pop(barcode.barcodes.first.rawValue);
+            // if (scanned) return;
+            // scanned = true;
+            final qr = barcode.barcodes.first.rawValue;
+            cameraController.stop();
+            Navigator.of(context).pop(qr);
           },
         ),
         Container(
@@ -441,8 +454,6 @@ class _ScanScreenState extends State<ScanScreen> {
     ));
   }
 
-  bool scanned = false;
-
 /*  void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
@@ -454,10 +465,4 @@ class _ScanScreenState extends State<ScanScreen> {
     });
   }*/
 
-  @override
-  void dispose() {
-    logger.i('ScanScreen disposed');
-    cameraController.dispose();
-    super.dispose();
-  }
 }
