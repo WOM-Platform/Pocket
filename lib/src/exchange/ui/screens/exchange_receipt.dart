@@ -128,6 +128,7 @@ class ExchangeDataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(link);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [

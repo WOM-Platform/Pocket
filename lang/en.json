@@ -174,13 +174,13 @@
   "exchange": "Exchange",
   "lastDonation": "Last donation transactions",
   "noDonation": "No donations",
-  "noWomToDonate": "Accumula WOM per fare una donazione",
-  "donationSliderTip": "Usa lo slider per indicare i wom da donare",
-  "noWomToDonateToday": "Hai terminato la capacità di WOM da poter donare oggi",
+  "noWomToDonate": "Accumulate WOM to make a donation",
+  "donationSliderTip": "Use the slider to indicate the WOM to donate",
+  "noWomToDonateToday": "You have run out of WOM capacity to donate today",
   "donate": "Donate",
-  "donationInfo": "Ogni giorno puoi usare fino a 60 dei tuoi WOM per esprimere la tua gratitudine a chi compie azioni che ritieni utili per la collettività",
-  "done": "Fatto",
-  "scanToReceiveWOMFromDonation": "Scansiona questo QR-Code per ricevere i WOM donati",
-  "donation": "Donazione",
-  "donationInProgress": "Stiamo convertendo i tuoi WOM"
+  "donationInfo": "Every day you can use up to 60 of your WOM to express your gratitude to those who carry out actions that you believe are useful for the community",
+  "done": "Done",
+  "scanToReceiveWOMFromDonation": "Scan this QR-Code to receive donated WOM",
+  "donation": "Donation",
+  "donationInProgress": "We are processing your WOM"
 }

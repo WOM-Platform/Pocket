@@ -85,9 +85,8 @@ class NewExchange extends HookConsumerWidget {
             )
           else ...[
             Text(
-              'Oggi hai donato ${60 - dailyAvailableWom} WOM, te ne restano '
-              '${min(totalAvailableWom, dailyAvailableWom)} '
-              '(su $totalAvailableWom totali)',
+              getMessage(context, 60 - dailyAvailableWom,
+                  min(totalAvailableWom, dailyAvailableWom), totalAvailableWom),
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -120,12 +119,13 @@ class NewExchange extends HookConsumerWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => NewExchangeScreen(womCount:wom.value),
+                      builder: (_) => NewExchangeScreen(womCount: wom.value),
                     ),
                   );
                 },
                 child: Text(
-                    '${AppLocalizations.of(context)?.translate('donate') ?? '-'} ${wom.value} WOM'),
+                  '${AppLocalizations.of(context)?.translate('donate') ?? '-'} ${wom.value} WOM',
+                ),
               ),
             ] else
               Text(
@@ -141,5 +141,14 @@ class NewExchange extends HookConsumerWidget {
         ],
       ),
     );
+  }
+
+  getMessage(BuildContext context, int womCount, int womLeft, int womTotal) {
+    print('language code :${AppLocalizations.of(context)?.locale.languageCode}');
+    if (AppLocalizations.of(context)?.locale.languageCode == 'en') {
+      return 'Today you donated $womCount wom, you have $womLeft left (out of $womTotal total)';
+    } else {
+      return 'Oggi hai donato $womCount WOM, te ne restano $womLeft (su $womTotal totali)';
+    }
   }
 }

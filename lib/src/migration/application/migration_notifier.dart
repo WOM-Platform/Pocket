@@ -10,6 +10,7 @@ import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/database/database.dart';
+import 'package:wom_pocket/src/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/migration/application/migration_state.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -85,6 +86,7 @@ class MigrationNotifier extends _$MigrationNotifier {
                 deadline:
                     Value(migrationData.importDeadline.millisecondsSinceEpoch)),
           );
+      ref.invalidate(exchangeNotifierProvider);
       ref.invalidate(fetchTransactionsProvider);
       ref.invalidate(totalWomCountProvider);
       ref.invalidate(mapNotifierProvider);

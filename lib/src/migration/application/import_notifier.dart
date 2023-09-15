@@ -10,6 +10,7 @@ import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/database/database.dart';
+import 'package:wom_pocket/src/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/pin/pin_screen.dart';
@@ -106,6 +107,7 @@ class ImportNotifier extends _$ImportNotifier {
           .addVouchers(finalWoms.map((w) => w.toCompanion(true)).toList());
       await ref.read(pocketProvider).completeMigration(otc, password);
 
+      ref.invalidate(exchangeNotifierProvider);
       ref.invalidate(availableWomCountProvider);
       ref.invalidate(fetchTransactionsProvider);
       ref.invalidate(mapNotifierProvider);
