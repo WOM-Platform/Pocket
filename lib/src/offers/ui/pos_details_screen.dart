@@ -60,7 +60,7 @@ class POSDetailsScreen extends ConsumerWidget {
             statusBarIconBrightness: Brightness.light),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
-          if (url != null)
+          if (!isVirtual && url != null)
             IconButton(
               icon: Icon(Icons.open_in_new),
               color: Colors.white,
@@ -115,24 +115,12 @@ class POSDetailsScreen extends ConsumerWidget {
                       ),
                       if (i < offers.length - 1) Divider(),
                     ],
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
                     Divider(
                       height: 16,
-                      thickness: 4,
+                      thickness: 2,
                     ),
                   ],
-                  /*PosTile(
-                offers: offers,
-                posName: posName,
-                distance: distance,
-                imageUrl: imageUrl,
-                withCard: false,
-                ),*/
-                  // if (url != null)
-                  //   ElevatedButton(
-                  //     onPressed: () => goToExternalSite(context, url!),
-                  //     child: Text('Vai alle offerte online'),
-                  //   ),
                   if (position != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 24),
@@ -223,11 +211,44 @@ class POSDetailsScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
-                  const SizedBox(height: 24),
                   if (!isVirtual)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 16),
+                        Divider(
+                          height: 16,
+                          thickness: 2,
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.info,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              AppLocalizations.of(context)
+                                      ?.translate('howUseOffer') ??
+                                  '',
+                              textAlign: TextAlign.start,
+                              style: sectionStyle,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          AppLocalizations.of(context)
+                                  ?.translate('howUseOfferDesc') ??
+                              '',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    )
+                  else
+                    Column(
                       children: [
                         Row(
                           children: [
@@ -238,7 +259,8 @@ class POSDetailsScreen extends ConsumerWidget {
                             const SizedBox(width: 8),
                             Text(
                               AppLocalizations.of(context)
-                                  ?.translate('howUseOffer') ?? '',
+                                      ?.translate('howUseVirtualOffer') ??
+                                  '',
                               textAlign: TextAlign.start,
                               style: sectionStyle,
                             ),
@@ -247,12 +269,32 @@ class POSDetailsScreen extends ConsumerWidget {
                         const SizedBox(height: 16),
                         Text(
                           AppLocalizations.of(context)
-                              ?.translate('howUseOfferDesc') ?? '',
+                                  ?.translate('howUseVirtualOfferDesc') ??
+                              '',
                           style: TextStyle(fontSize: 18),
                         ),
+                        if (url != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 24.0),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              onPressed: () async {
+                                final uri = Uri.parse(url!);
+                                if (await canLaunchUrl(uri)) {
+                                  launchUrl(uri);
+                                }
+                              },
+                              child: Text('Accedi allo store'),
+                            ),
+                          ),
                       ],
                     ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 48),
                 ],
               ),
             ),
@@ -307,7 +349,7 @@ class POSDetailsScreen extends ConsumerWidget {
     return uri;
   }
 
-  goToExternalSite(BuildContext context, String url) {
+  void goToExternalSite(BuildContext context, String url) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => SuggestionScreen(url: url)));
   }

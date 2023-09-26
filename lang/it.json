@@ -186,6 +186,8 @@
   "insufficient_vouchers": "Voucher insufficienti",
   "whereFindUs": "Dove trovarci?",
   "howUseOffer": "Come utilizzare l'offerta",
-  "howUseOfferDesc": "1. Accedi al punto vendita dell'esercente\n2. Chiedi dell'offertan\n3. Scansiona il QR-Code che ti viene fornito\n"
+  "howUseVirtualOffer": "Come accedere alle offerte",
+  "howUseOfferDesc": "1. Accedi al punto vendita dell'esercente\n2. Chiedi dell'offerta\n3. Scansiona il QR-Code che ti viene fornito\n",
+  "howUseVirtualOfferDesc": "Accedi allo store e segui le istruzioni per usufruire delle offerte"
 }
 
