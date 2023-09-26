@@ -76,8 +76,8 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     ref.invalidate(fetchAimInPercentageProvider);
     ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
     ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
+    ref.invalidate(getExchangeTransactionsProvider);
     ref.invalidate(exchangeNotifierProvider);
-
   }
 
   final whiteTextStyle = TextStyle(color: Colors.white);
