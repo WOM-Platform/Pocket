@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -393,15 +394,51 @@ class VirtualPOSCard extends ConsumerWidget {
             );
           },
           child: Card(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Text(
-                  virtual.name,
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
+            clipBehavior: Clip.antiAlias,
+            child: Stack(
+              children: [
+                if (virtual.cover?.midDensityFullWidthUrl != null)
+                  Positioned.fill(
+                    child: CachedNetworkImage(
+                      imageUrl: virtual.cover!.midDensityFullWidthUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                else
+                  Center(
+                    child: Icon(
+                      Icons.store,
+                      color: Colors.grey,
+                    ),
+                  ),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.black54,
+                        Colors.transparent,
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      virtual.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
