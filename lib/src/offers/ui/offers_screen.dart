@@ -185,11 +185,30 @@ class OffersList extends ConsumerWidget {
                     for (int i = 0; i < offers.length; i++)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: OfferTile(
-                          posName: offers[i].name,
-                          offers: offers[i].offers,
-                          distance: offers[i].distance,
-                          imageUrl: offers[i].cover?.midDensityFullWidthUrl,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => POSDetailsScreen(
+                                  posName: offers[i].name,
+                                  isVirtual: false,
+                                  imageUrl:
+                                      offers[i].cover?.midDensityFullWidthUrl,
+                                  distance: offers[i].distance,
+                                  url: offers[i].url,
+                                  offers: offers[i].offers,
+                                  posID: offers[i].id,
+                                  position: offers[i].position,
+                                ),
+                              ),
+                            );
+                          },
+                          child: PosTile(
+                            posName: offers[i].name,
+                            offers: offers[i].offers,
+                            distance: offers[i].distance,
+                            imageUrl: offers[i].cover?.midDensityFullWidthUrl,
+                          ),
                         ),
                       ),
                   SizedBox(
@@ -368,6 +387,7 @@ class VirtualPOSCard extends ConsumerWidget {
                   isVirtual: true,
                   url: virtual.url,
                   imageUrl: virtual.cover?.midDensityFullWidthUrl,
+                  position: null,
                 ),
               ),
             );

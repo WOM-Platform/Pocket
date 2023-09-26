@@ -12,7 +12,7 @@ import 'package:wom_pocket/src/utils/location_utils.dart';
 part 'offers_notifier.g.dart';
 
 final paginatedVirtualOffersProvider = FutureProvider.autoDispose
-    .family<OfferPagination, int>((ref, pageIndex) async {
+    .family<VirtualPosPagination, int>((ref, pageIndex) async {
   final offers =
       await ref.watch(pocketProvider).getVirtualPos(pageIndex + 1, pageSize: 4);
 

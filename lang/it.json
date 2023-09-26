@@ -183,6 +183,9 @@
   "scanToReceiveWOMFromDonation": "Scansiona questo QR-Code per ricevere i WOM donati",
   "donation": "Donazione",
   "donationInProgress": "Stiamo convertendo i tuoi WOM",
-  "insufficient_vouchers": "Voucher insufficienti"
+  "insufficient_vouchers": "Voucher insufficienti",
+  "whereFindUs": "Dove trovarci?",
+  "howUseOffer": "Come utilizzare l'offerta",
+  "howUseOfferDesc": "1. Accedi al punto vendita dell'esercente\n2. Chiedi dell'offertan\n3. Scansiona il QR-Code che ti viene fornito\n"
 }
 

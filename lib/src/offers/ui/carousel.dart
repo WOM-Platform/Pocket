@@ -158,10 +158,12 @@ class CarouselItem extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) => POSDetailsScreen(
               posName: pos.name,
+              description: pos.description,
               distance: pos.distance,
               url: pos.url,
               offers: pos.offers,
               imageUrl: pos.cover?.midDensityFullWidthUrl,
+              position: pos.position,
             ),
           ),
         );
