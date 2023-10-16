@@ -376,77 +376,81 @@ class VirtualPOSCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentPOS = ref.watch(currentQuestion);
-    return currentPOS.when(data: (virtual) {
-      return AspectRatio(
-        aspectRatio: 3 / 2,
-        child: InkWell(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => POSDetailsScreen(
-                  posName: virtual.name,
-                  isVirtual: true,
-                  url: virtual.url,
-                  imageUrl: virtual.cover?.midDensityFullWidthUrl,
-                  position: null,
-                ),
-              ),
-            );
-          },
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            child: Stack(
-              children: [
-                if (virtual.cover?.midDensityFullWidthUrl != null)
-                  Positioned.fill(
-                    child: CachedNetworkImage(
-                      imageUrl: virtual.cover!.midDensityFullWidthUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                else
-                  Center(
-                    child: Icon(
-                      Icons.store,
-                      color: Colors.grey,
-                    ),
-                  ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        Colors.black54,
-                        Colors.transparent,
-                        Colors.transparent,
-                      ],
-                    ),
+    return currentPOS.when(
+      data: (virtual) {
+        return AspectRatio(
+          aspectRatio: 3 / 2,
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => POSDetailsScreen(
+                    posName: virtual.name,
+                    isVirtual: true,
+                    url: virtual.url,
+                    imageUrl: virtual.cover?.midDensityFullWidthUrl,
+                    position: null,
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      virtual.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+              );
+            },
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              child: Stack(
+                children: [
+                  if (virtual.cover?.midDensityFullWidthUrl != null)
+                    Positioned.fill(
+                      child: CachedNetworkImage(
+                        imageUrl: virtual.cover!.midDensityFullWidthUrl,
+                        fit: BoxFit.cover,
                       ),
-                      textAlign: TextAlign.center,
+                    )
+                  else
+                    Center(
+                      child: Icon(
+                        Icons.store,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Colors.black54,
+                          Colors.transparent,
+                          Colors.transparent,
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        virtual.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    }, error: (es, st) {
-      return Container();
-    }, loading: () {
-      return Container();
-    });
+        );
+      },
+      error: (es, st) {
+        return Container();
+      },
+      loading: () {
+        return Container();
+      },
+    );
   }
 }
