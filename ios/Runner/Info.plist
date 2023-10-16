@@ -46,6 +46,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera permission is required for barcode scanning.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Il Pocket necessita di questo permesso per assegnare una posizione ai Voucher che ne sono sprovvisti e per localizzare le offerte attorno a te</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Il Pocket necessita di questo permesso per assegnare una posizione ai Voucher che ne sono sprovvisti</string>
 	<key>UILaunchStoryboardName</key>
