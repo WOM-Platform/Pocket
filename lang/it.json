@@ -175,19 +175,18 @@
   "lastDonation": "Le tue ultime donazioni",
   "noDonation": "Non hai effettuato alcuna donazione",
   "noWomToDonate": "Accumula WOM per fare una donazione",
-  "donationSliderTip": "Usa lo slider per indicare i wom da donare",
+  "donationSliderTip": "Usa lo slider per indicare i WOM da donare",
   "noWomToDonateToday": "Hai terminato la capacità di WOM da poter donare oggi",
   "donate": "Dona",
   "donationInfo": "Ogni giorno puoi usare fino a 60 dei tuoi WOM per esprimere la tua gratitudine a chi compie azioni che ritieni utili per la collettività",
   "done": "Fatto",
-  "scanToReceiveWOMFromDonation": "Scansiona questo QR-Code per ricevere i WOM donati",
+  "scanToReceiveWOMFromDonation": "Scansiona questo QR Code per ricevere i WOM donati",
   "donation": "Donazione",
   "donationInProgress": "Stiamo convertendo i tuoi WOM",
   "insufficient_vouchers": "Voucher insufficienti",
   "whereFindUs": "Dove trovarci?",
-  "howUseOffer": "Come utilizzare l'offerta",
-  "howUseVirtualOffer": "Come accedere alle offerte",
-  "howUseOfferDesc": "1. Accedi al punto vendita dell'esercente\n2. Chiedi dell'offerta\n3. Scansiona il QR-Code che ti viene fornito\n",
-  "howUseVirtualOfferDesc": "Accedi allo store e segui le istruzioni per usufruire delle offerte"
+  "howUseOffer": "Come posso utilizzare l’offerta?",
+  "howUseVirtualOffer": "Come posso accedere alle offerte?",
+  "howUseOfferDesc": "1. Accedi al punto vendita dell’esercente,\n2. Chiedi dell’offerta,\n3. Scansiona il QR Code che ti verrà mostrato.\n",
+  "howUseVirtualOfferDesc": "Accedi al negozio online e segui le istruzioni per usufruire delle offerte."
 }
-

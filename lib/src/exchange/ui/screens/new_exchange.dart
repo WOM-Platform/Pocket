@@ -145,10 +145,20 @@ class NewExchange extends HookConsumerWidget {
 
   getMessage(BuildContext context, int womCount, int womLeft, int womTotal) {
     print('language code :${AppLocalizations.of(context)?.locale.languageCode}');
-    if (AppLocalizations.of(context)?.locale.languageCode == 'en') {
-      return 'Today you donated $womCount wom, you have $womLeft left (out of $womTotal total)';
-    } else {
-      return 'Oggi hai donato $womCount WOM, te ne restano $womLeft (su $womTotal totali)';
+    if(womCount == 0) {
+      // The user hasn't donated anything yet today
+      if (AppLocalizations.of(context)?.locale.languageCode == 'en') {
+        return 'You have $womLeft WOMs available to donate today.';
+      } else {
+        return 'Ti rimangono $womLeft WOM da donare oggi.';
+      }
+    }
+    else {
+      if (AppLocalizations.of(context)?.locale.languageCode == 'en') {
+        return 'You have donated $womCount WOMs today, leaving you with $womLeft (out of $womTotal total).';
+      } else {
+        return 'Oggi hai già donato $womCount WOM, te ne restano $womLeft (su $womTotal totali).';
+      }
     }
   }
 }

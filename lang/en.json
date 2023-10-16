@@ -180,13 +180,13 @@
   "donate": "Donate",
   "donationInfo": "Every day you can use up to 60 of your WOM to express your gratitude to those who carry out actions that you believe are useful for the community",
   "done": "Done",
-  "scanToReceiveWOMFromDonation": "Scan this QR-Code to receive donated WOM",
+  "scanToReceiveWOMFromDonation": "Scan this QR Code to receive donated WOM",
   "donation": "Donation",
   "donationInProgress": "We are processing your WOM",
-  "insufficient_vouchers": "Insufficient Vouchers",
+  "insufficient_vouchers": "Insufficient vouchers",
   "whereFindUs": "Where to find us?",
-  "howUseOffer": "How to use the offer?",
-  "howUseVirtualOffer": "Come accedere alle offerte",
-  "howUseOfferDesc": "1. Access the merchant's point of sale\n2. Ask about the offern\n3. Scan the QR-Code provided to you",
-  "howUseVirtualOfferDesc": "Accedi allo store e segui le istruzioni per usufruire delle offerte"
+  "howUseOffer": "How can I use the offer?",
+  "howUseVirtualOffer": "How can I access these offers?",
+  "howUseOfferDesc": "1. Enter the merchant’s office or shop,\n2. Ask about the offer,\n3. Scan the QR Code that will be provided to you.",
+  "howUseVirtualOfferDesc": "Connect to the online store and follow the instructions to gain access to the offers."
 }
