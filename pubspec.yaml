@@ -2,7 +2,7 @@ name: wom_pocket
 description: A new Flutter application.
 publish_to: none
 
-version: 1.3.5+53
+version: 1.3.5+54
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -103,6 +103,7 @@ flutter:
   assets:
     - assets/images/donation.jpeg
     - assets/images/cities/urbino.jpeg
+    - assets/images/cities/pesaro.jpeg
     - assets/images/cities/fano.webp
     - assets/images/empty_wom.png
     - assets/images/wom_pos_pin.png

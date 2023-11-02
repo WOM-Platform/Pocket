@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/data/offer.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
-import 'package:flutter/rendering.dart';
 import 'package:wom_pocket/src/offers/domain/entities/static_cities.dart';
 import 'package:wom_pocket/src/offers/ui/carousel.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';

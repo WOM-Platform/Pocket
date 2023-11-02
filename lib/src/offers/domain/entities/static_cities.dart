@@ -20,4 +20,10 @@ final cities = [
     13.017360851071802,
     'assets/images/cities/fano.webp',
   ),
+  City(
+    'Pesaro',
+    43.8998071,
+    12.8532953,
+    'assets/images/cities/pesaro.jpeg',
+  ),
 ];

@@ -212,21 +212,20 @@ class CarouselItem extends StatelessWidget {
                   ),
                 ),
                 if (pos.url != null)
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => SuggestionScreen(url: pos.url!)));
-                        },
-                        child: Text(
-                          pos.url!,
-                          textAlign: TextAlign.start,
-                          style:
-                              TextStyle(decoration: TextDecoration.underline),
-                        ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => SuggestionScreen(url: pos.url!)));
+                    },
+                    child: Flexible(
+                      child: Text(
+                        pos.url!,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
+                        style:
+                            TextStyle(decoration: TextDecoration.underline),
                       ),
-                    ],
+                    ),
                   )
               ],
             ),
