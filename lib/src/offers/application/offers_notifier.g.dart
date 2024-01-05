@@ -6,7 +6,7 @@ part of 'offers_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$offersNotifierHash() => r'd1f59fb5a8166ae3587d45922d68bdb3ad9193fa';
+String _$offersNotifierHash() => r'00017ebed41fab360595f9238cf7bf44211d5bf7';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -168,22 +168,5 @@ class _OffersNotifierProviderElement
   @override
   LatLng? get position => (origin as OffersNotifierProvider).position;
 }
-
-String _$locationNotifierHash() => r'4219d9e58833e81041499a11936629f489de60b0';
-
-/// See also [LocationNotifier].
-@ProviderFor(LocationNotifier)
-final locationNotifierProvider =
-    AsyncNotifierProvider<LocationNotifier, LatLng>.internal(
-  LocationNotifier.new,
-  name: r'locationNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$locationNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$LocationNotifier = AsyncNotifier<LatLng>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

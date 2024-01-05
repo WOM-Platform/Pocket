@@ -6,13 +6,14 @@ part of 'wom_export.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_WomExport _$$_WomExportFromJson(Map<String, dynamic> json) => _$_WomExport(
+_$WomExportImpl _$$WomExportImplFromJson(Map<String, dynamic> json) =>
+    _$WomExportImpl(
       wom: Voucher.fromJson(json['wom'] as Map<String, dynamic>),
       sourceId: json['sourceId'] as String,
       sourceName: json['sourceName'] as String,
     );
 
-Map<String, dynamic> _$$_WomExportToJson(_$_WomExport instance) =>
+Map<String, dynamic> _$$WomExportImplToJson(_$WomExportImpl instance) =>
     <String, dynamic>{
       'wom': instance.wom,
       'sourceId': instance.sourceId,

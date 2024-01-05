@@ -73,19 +73,9 @@ class PinScreen extends ConsumerWidget {
 
   goToAcceptCredits(
     BuildContext context,
-    // String otc,
-    // TransactionType type,
     String password,
-    // WidgetRef ref,
     DeepLinkModel deepLinkModel,
   ) {
-    // final blocProviderTransaction = BlocProvider<TransactionBloc>(
-    //   create: (context) => TransactionBloc(
-    //       repository, bloc.deepLinkModel.otc!, bloc.deepLinkModel.type)
-    //     ..add(TransactionStarted(password)),
-    //   child: TransactionScreen(),
-    // );
-
     logger.i('goToAcceptCredits');
     Navigator.pushReplacement(
       context,

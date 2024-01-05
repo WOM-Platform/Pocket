@@ -96,6 +96,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
   _goToCurrentLocation() async {
     if (await _requestPermission()) {
       final currentPosition = await Geolocator.getCurrentPosition();
+      logger.i("position is mocked ${currentPosition.isMocked}");
       await _goToLocation(
         LatLng(currentPosition.latitude, currentPosition.longitude),
         withAnimation: false,

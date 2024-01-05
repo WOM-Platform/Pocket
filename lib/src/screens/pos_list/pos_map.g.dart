@@ -7,7 +7,7 @@ part of 'pos_map.dart';
 // **************************************************************************
 
 String _$currentLocationProviderHash() =>
-    r'dff79ceb330dc931a3a0afcb00a0000cc2755997';
+    r'49325a0ac36ca8c2542225fbaa61026bf4c35e05';
 
 /// See also [currentLocationProvider].
 @ProviderFor(currentLocationProvider)

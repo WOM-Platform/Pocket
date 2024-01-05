@@ -93,20 +93,20 @@ class _$MigrationStateCopyWithImpl<$Res, $Val extends MigrationState>
 }
 
 /// @nodoc
-abstract class _$$MigrationStateDataCopyWith<$Res> {
-  factory _$$MigrationStateDataCopyWith(_$MigrationStateData value,
-          $Res Function(_$MigrationStateData) then) =
-      __$$MigrationStateDataCopyWithImpl<$Res>;
+abstract class _$$MigrationStateDataImplCopyWith<$Res> {
+  factory _$$MigrationStateDataImplCopyWith(_$MigrationStateDataImpl value,
+          $Res Function(_$MigrationStateDataImpl) then) =
+      __$$MigrationStateDataImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String pin, List<WomRow> woms});
 }
 
 /// @nodoc
-class __$$MigrationStateDataCopyWithImpl<$Res>
-    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateData>
-    implements _$$MigrationStateDataCopyWith<$Res> {
-  __$$MigrationStateDataCopyWithImpl(
-      _$MigrationStateData _value, $Res Function(_$MigrationStateData) _then)
+class __$$MigrationStateDataImplCopyWithImpl<$Res>
+    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateDataImpl>
+    implements _$$MigrationStateDataImplCopyWith<$Res> {
+  __$$MigrationStateDataImplCopyWithImpl(_$MigrationStateDataImpl _value,
+      $Res Function(_$MigrationStateDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -115,7 +115,7 @@ class __$$MigrationStateDataCopyWithImpl<$Res>
     Object? pin = null,
     Object? woms = null,
   }) {
-    return _then(_$MigrationStateData(
+    return _then(_$MigrationStateDataImpl(
       pin: null == pin
           ? _value.pin
           : pin // ignore: cast_nullable_to_non_nullable
@@ -130,8 +130,8 @@ class __$$MigrationStateDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MigrationStateData implements MigrationStateData {
-  const _$MigrationStateData(
+class _$MigrationStateDataImpl implements MigrationStateData {
+  const _$MigrationStateDataImpl(
       {required this.pin, required final List<WomRow> woms})
       : _woms = woms;
 
@@ -151,10 +151,10 @@ class _$MigrationStateData implements MigrationStateData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MigrationStateData &&
+            other is _$MigrationStateDataImpl &&
             (identical(other.pin, pin) || other.pin == pin) &&
             const DeepCollectionEquality().equals(other._woms, _woms));
   }
@@ -166,8 +166,8 @@ class _$MigrationStateData implements MigrationStateData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MigrationStateDataCopyWith<_$MigrationStateData> get copyWith =>
-      __$$MigrationStateDataCopyWithImpl<_$MigrationStateData>(
+  _$$MigrationStateDataImplCopyWith<_$MigrationStateDataImpl> get copyWith =>
+      __$$MigrationStateDataImplCopyWithImpl<_$MigrationStateDataImpl>(
           this, _$identity);
 
   @override
@@ -254,35 +254,36 @@ class _$MigrationStateData implements MigrationStateData {
 abstract class MigrationStateData implements MigrationState {
   const factory MigrationStateData(
       {required final String pin,
-      required final List<WomRow> woms}) = _$MigrationStateData;
+      required final List<WomRow> woms}) = _$MigrationStateDataImpl;
 
   String get pin;
   List<WomRow> get woms;
   @JsonKey(ignore: true)
-  _$$MigrationStateDataCopyWith<_$MigrationStateData> get copyWith =>
+  _$$MigrationStateDataImplCopyWith<_$MigrationStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$MigrationStateLoadingCopyWith<$Res> {
-  factory _$$MigrationStateLoadingCopyWith(_$MigrationStateLoading value,
-          $Res Function(_$MigrationStateLoading) then) =
-      __$$MigrationStateLoadingCopyWithImpl<$Res>;
+abstract class _$$MigrationStateLoadingImplCopyWith<$Res> {
+  factory _$$MigrationStateLoadingImplCopyWith(
+          _$MigrationStateLoadingImpl value,
+          $Res Function(_$MigrationStateLoadingImpl) then) =
+      __$$MigrationStateLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$MigrationStateLoadingCopyWithImpl<$Res>
-    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateLoading>
-    implements _$$MigrationStateLoadingCopyWith<$Res> {
-  __$$MigrationStateLoadingCopyWithImpl(_$MigrationStateLoading _value,
-      $Res Function(_$MigrationStateLoading) _then)
+class __$$MigrationStateLoadingImplCopyWithImpl<$Res>
+    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateLoadingImpl>
+    implements _$$MigrationStateLoadingImplCopyWith<$Res> {
+  __$$MigrationStateLoadingImplCopyWithImpl(_$MigrationStateLoadingImpl _value,
+      $Res Function(_$MigrationStateLoadingImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$MigrationStateLoading implements MigrationStateLoading {
-  const _$MigrationStateLoading();
+class _$MigrationStateLoadingImpl implements MigrationStateLoading {
+  const _$MigrationStateLoadingImpl();
 
   @override
   String toString() {
@@ -290,9 +291,10 @@ class _$MigrationStateLoading implements MigrationStateLoading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$MigrationStateLoading);
+        (other.runtimeType == runtimeType &&
+            other is _$MigrationStateLoadingImpl);
   }
 
   @override
@@ -380,29 +382,30 @@ class _$MigrationStateLoading implements MigrationStateLoading {
 }
 
 abstract class MigrationStateLoading implements MigrationState {
-  const factory MigrationStateLoading() = _$MigrationStateLoading;
+  const factory MigrationStateLoading() = _$MigrationStateLoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$MigrationStateInitialCopyWith<$Res> {
-  factory _$$MigrationStateInitialCopyWith(_$MigrationStateInitial value,
-          $Res Function(_$MigrationStateInitial) then) =
-      __$$MigrationStateInitialCopyWithImpl<$Res>;
+abstract class _$$MigrationStateInitialImplCopyWith<$Res> {
+  factory _$$MigrationStateInitialImplCopyWith(
+          _$MigrationStateInitialImpl value,
+          $Res Function(_$MigrationStateInitialImpl) then) =
+      __$$MigrationStateInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$MigrationStateInitialCopyWithImpl<$Res>
-    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateInitial>
-    implements _$$MigrationStateInitialCopyWith<$Res> {
-  __$$MigrationStateInitialCopyWithImpl(_$MigrationStateInitial _value,
-      $Res Function(_$MigrationStateInitial) _then)
+class __$$MigrationStateInitialImplCopyWithImpl<$Res>
+    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateInitialImpl>
+    implements _$$MigrationStateInitialImplCopyWith<$Res> {
+  __$$MigrationStateInitialImplCopyWithImpl(_$MigrationStateInitialImpl _value,
+      $Res Function(_$MigrationStateInitialImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$MigrationStateInitial implements MigrationStateInitial {
-  const _$MigrationStateInitial();
+class _$MigrationStateInitialImpl implements MigrationStateInitial {
+  const _$MigrationStateInitialImpl();
 
   @override
   String toString() {
@@ -410,9 +413,10 @@ class _$MigrationStateInitial implements MigrationStateInitial {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$MigrationStateInitial);
+        (other.runtimeType == runtimeType &&
+            other is _$MigrationStateInitialImpl);
   }
 
   @override
@@ -500,14 +504,15 @@ class _$MigrationStateInitial implements MigrationStateInitial {
 }
 
 abstract class MigrationStateInitial implements MigrationState {
-  const factory MigrationStateInitial() = _$MigrationStateInitial;
+  const factory MigrationStateInitial() = _$MigrationStateInitialImpl;
 }
 
 /// @nodoc
-abstract class _$$MigrationStateCompleteCopyWith<$Res> {
-  factory _$$MigrationStateCompleteCopyWith(_$MigrationStateComplete value,
-          $Res Function(_$MigrationStateComplete) then) =
-      __$$MigrationStateCompleteCopyWithImpl<$Res>;
+abstract class _$$MigrationStateCompleteImplCopyWith<$Res> {
+  factory _$$MigrationStateCompleteImplCopyWith(
+          _$MigrationStateCompleteImpl value,
+          $Res Function(_$MigrationStateCompleteImpl) then) =
+      __$$MigrationStateCompleteImplCopyWithImpl<$Res>;
   @useResult
   $Res call({MigrationData data});
 
@@ -515,11 +520,12 @@ abstract class _$$MigrationStateCompleteCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$MigrationStateCompleteCopyWithImpl<$Res>
-    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateComplete>
-    implements _$$MigrationStateCompleteCopyWith<$Res> {
-  __$$MigrationStateCompleteCopyWithImpl(_$MigrationStateComplete _value,
-      $Res Function(_$MigrationStateComplete) _then)
+class __$$MigrationStateCompleteImplCopyWithImpl<$Res>
+    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateCompleteImpl>
+    implements _$$MigrationStateCompleteImplCopyWith<$Res> {
+  __$$MigrationStateCompleteImplCopyWithImpl(
+      _$MigrationStateCompleteImpl _value,
+      $Res Function(_$MigrationStateCompleteImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -527,7 +533,7 @@ class __$$MigrationStateCompleteCopyWithImpl<$Res>
   $Res call({
     Object? data = null,
   }) {
-    return _then(_$MigrationStateComplete(
+    return _then(_$MigrationStateCompleteImpl(
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -546,8 +552,8 @@ class __$$MigrationStateCompleteCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MigrationStateComplete implements MigrationStateComplete {
-  const _$MigrationStateComplete({required this.data});
+class _$MigrationStateCompleteImpl implements MigrationStateComplete {
+  const _$MigrationStateCompleteImpl({required this.data});
 
   @override
   final MigrationData data;
@@ -558,10 +564,10 @@ class _$MigrationStateComplete implements MigrationStateComplete {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MigrationStateComplete &&
+            other is _$MigrationStateCompleteImpl &&
             (identical(other.data, data) || other.data == data));
   }
 
@@ -571,9 +577,9 @@ class _$MigrationStateComplete implements MigrationStateComplete {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MigrationStateCompleteCopyWith<_$MigrationStateComplete> get copyWith =>
-      __$$MigrationStateCompleteCopyWithImpl<_$MigrationStateComplete>(
-          this, _$identity);
+  _$$MigrationStateCompleteImplCopyWith<_$MigrationStateCompleteImpl>
+      get copyWith => __$$MigrationStateCompleteImplCopyWithImpl<
+          _$MigrationStateCompleteImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -658,29 +664,29 @@ class _$MigrationStateComplete implements MigrationStateComplete {
 
 abstract class MigrationStateComplete implements MigrationState {
   const factory MigrationStateComplete({required final MigrationData data}) =
-      _$MigrationStateComplete;
+      _$MigrationStateCompleteImpl;
 
   MigrationData get data;
   @JsonKey(ignore: true)
-  _$$MigrationStateCompleteCopyWith<_$MigrationStateComplete> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$MigrationStateCompleteImplCopyWith<_$MigrationStateCompleteImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$MigrationStateErrorCopyWith<$Res> {
-  factory _$$MigrationStateErrorCopyWith(_$MigrationStateError value,
-          $Res Function(_$MigrationStateError) then) =
-      __$$MigrationStateErrorCopyWithImpl<$Res>;
+abstract class _$$MigrationStateErrorImplCopyWith<$Res> {
+  factory _$$MigrationStateErrorImplCopyWith(_$MigrationStateErrorImpl value,
+          $Res Function(_$MigrationStateErrorImpl) then) =
+      __$$MigrationStateErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object error, StackTrace st});
 }
 
 /// @nodoc
-class __$$MigrationStateErrorCopyWithImpl<$Res>
-    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateError>
-    implements _$$MigrationStateErrorCopyWith<$Res> {
-  __$$MigrationStateErrorCopyWithImpl(
-      _$MigrationStateError _value, $Res Function(_$MigrationStateError) _then)
+class __$$MigrationStateErrorImplCopyWithImpl<$Res>
+    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateErrorImpl>
+    implements _$$MigrationStateErrorImplCopyWith<$Res> {
+  __$$MigrationStateErrorImplCopyWithImpl(_$MigrationStateErrorImpl _value,
+      $Res Function(_$MigrationStateErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -689,7 +695,7 @@ class __$$MigrationStateErrorCopyWithImpl<$Res>
     Object? error = null,
     Object? st = null,
   }) {
-    return _then(_$MigrationStateError(
+    return _then(_$MigrationStateErrorImpl(
       null == error ? _value.error : error,
       null == st
           ? _value.st
@@ -701,8 +707,8 @@ class __$$MigrationStateErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MigrationStateError implements MigrationStateError {
-  const _$MigrationStateError(this.error, this.st);
+class _$MigrationStateErrorImpl implements MigrationStateError {
+  const _$MigrationStateErrorImpl(this.error, this.st);
 
   @override
   final Object error;
@@ -715,10 +721,10 @@ class _$MigrationStateError implements MigrationStateError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MigrationStateError &&
+            other is _$MigrationStateErrorImpl &&
             const DeepCollectionEquality().equals(other.error, error) &&
             (identical(other.st, st) || other.st == st));
   }
@@ -730,8 +736,8 @@ class _$MigrationStateError implements MigrationStateError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MigrationStateErrorCopyWith<_$MigrationStateError> get copyWith =>
-      __$$MigrationStateErrorCopyWithImpl<_$MigrationStateError>(
+  _$$MigrationStateErrorImplCopyWith<_$MigrationStateErrorImpl> get copyWith =>
+      __$$MigrationStateErrorImplCopyWithImpl<_$MigrationStateErrorImpl>(
           this, _$identity);
 
   @override
@@ -817,11 +823,11 @@ class _$MigrationStateError implements MigrationStateError {
 
 abstract class MigrationStateError implements MigrationState {
   const factory MigrationStateError(final Object error, final StackTrace st) =
-      _$MigrationStateError;
+      _$MigrationStateErrorImpl;
 
   Object get error;
   StackTrace get st;
   @JsonKey(ignore: true)
-  _$$MigrationStateErrorCopyWith<_$MigrationStateError> get copyWith =>
+  _$$MigrationStateErrorImplCopyWith<_$MigrationStateErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

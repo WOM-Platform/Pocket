@@ -12,6 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:wom_pocket/main.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 import 'package:wom_pocket/src/screens/pos_list/search_button.dart';
 import '../../utils/location_utils.dart';
@@ -79,6 +80,7 @@ Future<Location> currentLocationProvider(CurrentLocationProviderRef ref) async {
       final p = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
       print(p);
+      logger.i("position is mocked ${p.isMocked}");
       return Location(latitude: p.latitude, longitude: p.longitude);
     case LocationPermission.denied:
       final ask = await Geolocator.requestPermission();
@@ -87,6 +89,7 @@ Future<Location> currentLocationProvider(CurrentLocationProviderRef ref) async {
           ask == LocationPermission.whileInUse) {
         final p = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
+        logger.i("p ${p.isMocked}");
         return Location(latitude: p.latitude, longitude: p.longitude);
       }
       print('currentLocationProvider: LocationPermission.denied');

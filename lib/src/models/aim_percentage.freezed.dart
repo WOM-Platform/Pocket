@@ -74,22 +74,22 @@ class _$AimInPercentageCopyWithImpl<$Res, $Val extends AimInPercentage>
 }
 
 /// @nodoc
-abstract class _$$_AimInPercentageCopyWith<$Res>
+abstract class _$$AimInPercentageImplCopyWith<$Res>
     implements $AimInPercentageCopyWith<$Res> {
-  factory _$$_AimInPercentageCopyWith(
-          _$_AimInPercentage value, $Res Function(_$_AimInPercentage) then) =
-      __$$_AimInPercentageCopyWithImpl<$Res>;
+  factory _$$AimInPercentageImplCopyWith(_$AimInPercentageImpl value,
+          $Res Function(_$AimInPercentageImpl) then) =
+      __$$AimInPercentageImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String aim, int count, double percentage});
 }
 
 /// @nodoc
-class __$$_AimInPercentageCopyWithImpl<$Res>
-    extends _$AimInPercentageCopyWithImpl<$Res, _$_AimInPercentage>
-    implements _$$_AimInPercentageCopyWith<$Res> {
-  __$$_AimInPercentageCopyWithImpl(
-      _$_AimInPercentage _value, $Res Function(_$_AimInPercentage) _then)
+class __$$AimInPercentageImplCopyWithImpl<$Res>
+    extends _$AimInPercentageCopyWithImpl<$Res, _$AimInPercentageImpl>
+    implements _$$AimInPercentageImplCopyWith<$Res> {
+  __$$AimInPercentageImplCopyWithImpl(
+      _$AimInPercentageImpl _value, $Res Function(_$AimInPercentageImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +99,7 @@ class __$$_AimInPercentageCopyWithImpl<$Res>
     Object? count = null,
     Object? percentage = null,
   }) {
-    return _then(_$_AimInPercentage(
+    return _then(_$AimInPercentageImpl(
       aim: null == aim
           ? _value.aim
           : aim // ignore: cast_nullable_to_non_nullable
@@ -118,12 +118,12 @@ class __$$_AimInPercentageCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AimInPercentage implements _AimInPercentage {
-  const _$_AimInPercentage(
+class _$AimInPercentageImpl implements _AimInPercentage {
+  const _$AimInPercentageImpl(
       {required this.aim, required this.count, required this.percentage});
 
-  factory _$_AimInPercentage.fromJson(Map<String, dynamic> json) =>
-      _$$_AimInPercentageFromJson(json);
+  factory _$AimInPercentageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AimInPercentageImplFromJson(json);
 
   @override
   final String aim;
@@ -138,10 +138,10 @@ class _$_AimInPercentage implements _AimInPercentage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AimInPercentage &&
+            other is _$AimInPercentageImpl &&
             (identical(other.aim, aim) || other.aim == aim) &&
             (identical(other.count, count) || other.count == count) &&
             (identical(other.percentage, percentage) ||
@@ -155,12 +155,13 @@ class _$_AimInPercentage implements _AimInPercentage {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AimInPercentageCopyWith<_$_AimInPercentage> get copyWith =>
-      __$$_AimInPercentageCopyWithImpl<_$_AimInPercentage>(this, _$identity);
+  _$$AimInPercentageImplCopyWith<_$AimInPercentageImpl> get copyWith =>
+      __$$AimInPercentageImplCopyWithImpl<_$AimInPercentageImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AimInPercentageToJson(
+    return _$$AimInPercentageImplToJson(
       this,
     );
   }
@@ -170,10 +171,10 @@ abstract class _AimInPercentage implements AimInPercentage {
   const factory _AimInPercentage(
       {required final String aim,
       required final int count,
-      required final double percentage}) = _$_AimInPercentage;
+      required final double percentage}) = _$AimInPercentageImpl;
 
   factory _AimInPercentage.fromJson(Map<String, dynamic> json) =
-      _$_AimInPercentage.fromJson;
+      _$AimInPercentageImpl.fromJson;
 
   @override
   String get aim;
@@ -183,6 +184,6 @@ abstract class _AimInPercentage implements AimInPercentage {
   double get percentage;
   @override
   @JsonKey(ignore: true)
-  _$$_AimInPercentageCopyWith<_$_AimInPercentage> get copyWith =>
+  _$$AimInPercentageImplCopyWith<_$AimInPercentageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

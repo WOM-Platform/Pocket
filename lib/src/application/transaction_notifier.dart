@@ -32,8 +32,7 @@ class TransactionNotifierParams {
 //     TransactionNotifierParams>(() => TransactionNotifier());
 
 @riverpod
-class TransactionNotifier
-    extends _$TransactionNotifier {
+class TransactionNotifier extends _$TransactionNotifier {
   // TransactionNotifier(this.otc, this.type);
 
   // @override
@@ -57,6 +56,7 @@ class TransactionNotifier
           logger.i("bloc: " + otc);
 
           final location = await getLocation2();
+          logger.i("position is mocked ${location.isMocked}");
           transaction = await ref.read(transactionRepositoryProvider).getWoms(
                 otc,
                 password,

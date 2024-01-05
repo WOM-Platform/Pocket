@@ -12,14 +12,19 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/app_notifier.dart';
+import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/exchange/ui/screens/exchange.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:wom_pocket/src/migration/ui/import_screen.dart';
+import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/new_home/ui/new_home.dart';
 import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
+import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
+import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:store_redirect/store_redirect.dart';
+import 'package:wom_pocket/src/services/transaction_repository.dart';
 import 'package:wom_pocket/src/widgets/scanner_overlay_shape.dart';
 import '../../models/deep_link_model.dart';
 import '../../my_logger.dart';
@@ -306,33 +311,44 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         );
         logger.wtf('_startScan: $link');
         if (link == null) return;
-        final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
-        logger.i('wom_scan_done $link');
-        logEvent('wom_scan_done');
-        if (deepLinkModel.type == TransactionType.MIGRATION_IMPORT) {
-          Navigator.push(
-            context,
-            MaterialPageRoute<bool>(
-              builder: (context) => ProviderScope(
-                overrides: [
-                  deeplinkProvider.overrideWithValue(deepLinkModel),
-                  importNotifierProvider
-                ],
-                child: ImportScreen(),
-              ),
-            ),
+        final totemData = validateTotemQrCodeWithRegex(link);
+        if (totemData != null) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => Dialog(child: TotemDialog(totemData: totemData,)),
           );
         } else {
-          logger.i('go to pin screen $deepLinkModel');
-          await Navigator.push(
-            context,
-            MaterialPageRoute<bool>(
-              builder: (context) => ProviderScope(
-                overrides: [deeplinkProvider.overrideWithValue(deepLinkModel)],
-                child: PinScreen(),
+          final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
+          logger.i('wom_scan_done $link');
+          logEvent('wom_scan_done');
+          if (deepLinkModel.type == TransactionType.MIGRATION_IMPORT) {
+            Navigator.push(
+              context,
+              MaterialPageRoute<bool>(
+                builder: (context) => ProviderScope(
+                  overrides: [
+                    deeplinkProvider.overrideWithValue(deepLinkModel),
+                    importNotifierProvider
+                  ],
+                  child: ImportScreen(),
+                ),
               ),
-            ),
-          );
+            );
+          } else {
+            logger.i('go to pin screen $deepLinkModel');
+            await Navigator.push(
+              context,
+              MaterialPageRoute<bool>(
+                builder: (context) => ProviderScope(
+                  overrides: [
+                    deeplinkProvider.overrideWithValue(deepLinkModel)
+                  ],
+                  child: PinScreen(),
+                ),
+              ),
+            );
+          }
         }
       } on PlatformException catch (ex) {
         rethrow;
@@ -397,7 +413,6 @@ class _ScanScreenState extends State<ScanScreen> {
       controller!.resumeCamera();
     }
   }*/
-
 
   bool scanned = false;
 
@@ -464,5 +479,4 @@ class _ScanScreenState extends State<ScanScreen> {
       Navigator.of(context).pop(scanData.code);
     });
   }*/
-
 }

@@ -76,11 +76,11 @@ class _$MigrationDataCopyWithImpl<$Res, $Val extends MigrationData>
 }
 
 /// @nodoc
-abstract class _$$_MigrationDataCopyWith<$Res>
+abstract class _$$MigrationDataImplCopyWith<$Res>
     implements $MigrationDataCopyWith<$Res> {
-  factory _$$_MigrationDataCopyWith(
-          _$_MigrationData value, $Res Function(_$_MigrationData) then) =
-      __$$_MigrationDataCopyWithImpl<$Res>;
+  factory _$$MigrationDataImplCopyWith(
+          _$MigrationDataImpl value, $Res Function(_$MigrationDataImpl) then) =
+      __$$MigrationDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -88,11 +88,11 @@ abstract class _$$_MigrationDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MigrationDataCopyWithImpl<$Res>
-    extends _$MigrationDataCopyWithImpl<$Res, _$_MigrationData>
-    implements _$$_MigrationDataCopyWith<$Res> {
-  __$$_MigrationDataCopyWithImpl(
-      _$_MigrationData _value, $Res Function(_$_MigrationData) _then)
+class __$$MigrationDataImplCopyWithImpl<$Res>
+    extends _$MigrationDataCopyWithImpl<$Res, _$MigrationDataImpl>
+    implements _$$MigrationDataImplCopyWith<$Res> {
+  __$$MigrationDataImplCopyWithImpl(
+      _$MigrationDataImpl _value, $Res Function(_$MigrationDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -102,7 +102,7 @@ class __$$_MigrationDataCopyWithImpl<$Res>
     Object? link = null,
     Object? importDeadline = null,
   }) {
-    return _then(_$_MigrationData(
+    return _then(_$MigrationDataImpl(
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -121,14 +121,14 @@ class __$$_MigrationDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MigrationData implements _MigrationData {
-  const _$_MigrationData(
+class _$MigrationDataImpl implements _MigrationData {
+  const _$MigrationDataImpl(
       {required this.code,
       required this.link,
       @DateTimeConverter() required this.importDeadline});
 
-  factory _$_MigrationData.fromJson(Map<String, dynamic> json) =>
-      _$$_MigrationDataFromJson(json);
+  factory _$MigrationDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MigrationDataImplFromJson(json);
 
   @override
   final String code;
@@ -144,10 +144,10 @@ class _$_MigrationData implements _MigrationData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MigrationData &&
+            other is _$MigrationDataImpl &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.link, link) || other.link == link) &&
             (identical(other.importDeadline, importDeadline) ||
@@ -161,12 +161,12 @@ class _$_MigrationData implements _MigrationData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MigrationDataCopyWith<_$_MigrationData> get copyWith =>
-      __$$_MigrationDataCopyWithImpl<_$_MigrationData>(this, _$identity);
+  _$$MigrationDataImplCopyWith<_$MigrationDataImpl> get copyWith =>
+      __$$MigrationDataImplCopyWithImpl<_$MigrationDataImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MigrationDataToJson(
+    return _$$MigrationDataImplToJson(
       this,
     );
   }
@@ -177,10 +177,10 @@ abstract class _MigrationData implements MigrationData {
           {required final String code,
           required final String link,
           @DateTimeConverter() required final DateTime importDeadline}) =
-      _$_MigrationData;
+      _$MigrationDataImpl;
 
   factory _MigrationData.fromJson(Map<String, dynamic> json) =
-      _$_MigrationData.fromJson;
+      _$MigrationDataImpl.fromJson;
 
   @override
   String get code;
@@ -191,6 +191,6 @@ abstract class _MigrationData implements MigrationData {
   DateTime get importDeadline;
   @override
   @JsonKey(ignore: true)
-  _$$_MigrationDataCopyWith<_$_MigrationData> get copyWith =>
+  _$$MigrationDataImplCopyWith<_$MigrationDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

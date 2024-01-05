@@ -74,7 +74,7 @@ final appNotifierProvider =
     AsyncNotifierProvider<AppNotifier, AppState>(AppNotifier.new);
 
 class AppNotifier extends AsyncNotifier<AppState> {
-  late StreamSubscription _sub;
+  //late StreamSubscription _sub;
 
   @override
   FutureOr<AppState> build() async {

@@ -101,9 +101,10 @@ class $WomTable extends Wom with TableInfo<$WomTable, WomRow> {
         donationId
       ];
   @override
-  String get aliasedName => _alias ?? 'wom';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'wom';
+  String get actualTableName => $name;
+  static const String $name = 'wom';
   @override
   VerificationContext validateIntegrity(Insertable<WomRow> instance,
       {bool isInserting = false}) {
@@ -649,9 +650,10 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
   @override
   List<GeneratedColumn> get $columns => [id, code, titles];
   @override
-  String get aliasedName => _alias ?? 'aims';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'aims';
+  String get actualTableName => $name;
+  static const String $name = 'aims';
   @override
   VerificationContext validateIntegrity(Insertable<AimRow> instance,
       {bool isInserting = false}) {
@@ -705,8 +707,8 @@ class AimRow extends DataClass implements Insertable<AimRow> {
     map['id'] = Variable<int>(id);
     map['code'] = Variable<String>(code);
     {
-      final converter = $AimsTable.$convertertitles;
-      map['titles'] = Variable<String>(converter.toSql(titles));
+      map['titles'] =
+          Variable<String>($AimsTable.$convertertitles.toSql(titles));
     }
     return map;
   }
@@ -813,8 +815,8 @@ class AimsCompanion extends UpdateCompanion<AimRow> {
       map['code'] = Variable<String>(code.value);
     }
     if (titles.present) {
-      final converter = $AimsTable.$convertertitles;
-      map['titles'] = Variable<String>(converter.toSql(titles.value));
+      map['titles'] =
+          Variable<String>($AimsTable.$convertertitles.toSql(titles.value));
     }
     return map;
   }
@@ -896,9 +898,10 @@ class $TransactionsTable extends Transactions
   List<GeneratedColumn> get $columns =>
       [id, source, aim, timestamp, type, size, ackUrl, pin, deadline, link];
   @override
-  String get aliasedName => _alias ?? 'transactions';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'transactions';
+  String get actualTableName => $name;
+  static const String $name = 'transactions';
   @override
   VerificationContext validateIntegrity(Insertable<MyTransaction> instance,
       {bool isInserting = false}) {

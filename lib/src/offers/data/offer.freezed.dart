@@ -69,22 +69,22 @@ class _$OffersMapDataCopyWithImpl<$Res, $Val extends OffersMapData>
 }
 
 /// @nodoc
-abstract class _$$_OffersMapDataCopyWith<$Res>
+abstract class _$$OffersMapDataImplCopyWith<$Res>
     implements $OffersMapDataCopyWith<$Res> {
-  factory _$$_OffersMapDataCopyWith(
-          _$_OffersMapData value, $Res Function(_$_OffersMapData) then) =
-      __$$_OffersMapDataCopyWithImpl<$Res>;
+  factory _$$OffersMapDataImplCopyWith(
+          _$OffersMapDataImpl value, $Res Function(_$OffersMapDataImpl) then) =
+      __$$OffersMapDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<OfferPOS> offers, Set<Marker> markers, bool isLoading});
 }
 
 /// @nodoc
-class __$$_OffersMapDataCopyWithImpl<$Res>
-    extends _$OffersMapDataCopyWithImpl<$Res, _$_OffersMapData>
-    implements _$$_OffersMapDataCopyWith<$Res> {
-  __$$_OffersMapDataCopyWithImpl(
-      _$_OffersMapData _value, $Res Function(_$_OffersMapData) _then)
+class __$$OffersMapDataImplCopyWithImpl<$Res>
+    extends _$OffersMapDataCopyWithImpl<$Res, _$OffersMapDataImpl>
+    implements _$$OffersMapDataImplCopyWith<$Res> {
+  __$$OffersMapDataImplCopyWithImpl(
+      _$OffersMapDataImpl _value, $Res Function(_$OffersMapDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_OffersMapDataCopyWithImpl<$Res>
     Object? markers = null,
     Object? isLoading = null,
   }) {
-    return _then(_$_OffersMapData(
+    return _then(_$OffersMapDataImpl(
       offers: null == offers
           ? _value._offers
           : offers // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_OffersMapDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_OffersMapData implements _OffersMapData {
-  const _$_OffersMapData(
+class _$OffersMapDataImpl implements _OffersMapData {
+  const _$OffersMapDataImpl(
       {required final List<OfferPOS> offers,
       required final Set<Marker> markers,
       this.isLoading = false})
@@ -147,10 +147,10 @@ class _$_OffersMapData implements _OffersMapData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OffersMapData &&
+            other is _$OffersMapDataImpl &&
             const DeepCollectionEquality().equals(other._offers, _offers) &&
             const DeepCollectionEquality().equals(other._markers, _markers) &&
             (identical(other.isLoading, isLoading) ||
@@ -167,15 +167,15 @@ class _$_OffersMapData implements _OffersMapData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OffersMapDataCopyWith<_$_OffersMapData> get copyWith =>
-      __$$_OffersMapDataCopyWithImpl<_$_OffersMapData>(this, _$identity);
+  _$$OffersMapDataImplCopyWith<_$OffersMapDataImpl> get copyWith =>
+      __$$OffersMapDataImplCopyWithImpl<_$OffersMapDataImpl>(this, _$identity);
 }
 
 abstract class _OffersMapData implements OffersMapData {
   const factory _OffersMapData(
       {required final List<OfferPOS> offers,
       required final Set<Marker> markers,
-      final bool isLoading}) = _$_OffersMapData;
+      final bool isLoading}) = _$OffersMapDataImpl;
 
   @override
   List<OfferPOS> get offers;
@@ -185,6 +185,6 @@ abstract class _OffersMapData implements OffersMapData {
   bool get isLoading;
   @override
   @JsonKey(ignore: true)
-  _$$_OffersMapDataCopyWith<_$_OffersMapData> get copyWith =>
+  _$$OffersMapDataImplCopyWith<_$OffersMapDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

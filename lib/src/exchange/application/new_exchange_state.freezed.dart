@@ -90,20 +90,20 @@ class _$NewExchangeStateCopyWithImpl<$Res, $Val extends NewExchangeState>
 }
 
 /// @nodoc
-abstract class _$$NewExchangeStateDataCopyWith<$Res> {
-  factory _$$NewExchangeStateDataCopyWith(_$NewExchangeStateData value,
-          $Res Function(_$NewExchangeStateData) then) =
-      __$$NewExchangeStateDataCopyWithImpl<$Res>;
+abstract class _$$NewExchangeStateDataImplCopyWith<$Res> {
+  factory _$$NewExchangeStateDataImplCopyWith(_$NewExchangeStateDataImpl value,
+          $Res Function(_$NewExchangeStateDataImpl) then) =
+      __$$NewExchangeStateDataImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String link, String pin, int womCount});
 }
 
 /// @nodoc
-class __$$NewExchangeStateDataCopyWithImpl<$Res>
-    extends _$NewExchangeStateCopyWithImpl<$Res, _$NewExchangeStateData>
-    implements _$$NewExchangeStateDataCopyWith<$Res> {
-  __$$NewExchangeStateDataCopyWithImpl(_$NewExchangeStateData _value,
-      $Res Function(_$NewExchangeStateData) _then)
+class __$$NewExchangeStateDataImplCopyWithImpl<$Res>
+    extends _$NewExchangeStateCopyWithImpl<$Res, _$NewExchangeStateDataImpl>
+    implements _$$NewExchangeStateDataImplCopyWith<$Res> {
+  __$$NewExchangeStateDataImplCopyWithImpl(_$NewExchangeStateDataImpl _value,
+      $Res Function(_$NewExchangeStateDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -113,7 +113,7 @@ class __$$NewExchangeStateDataCopyWithImpl<$Res>
     Object? pin = null,
     Object? womCount = null,
   }) {
-    return _then(_$NewExchangeStateData(
+    return _then(_$NewExchangeStateDataImpl(
       link: null == link
           ? _value.link
           : link // ignore: cast_nullable_to_non_nullable
@@ -132,8 +132,8 @@ class __$$NewExchangeStateDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NewExchangeStateData implements NewExchangeStateData {
-  const _$NewExchangeStateData(
+class _$NewExchangeStateDataImpl implements NewExchangeStateData {
+  const _$NewExchangeStateDataImpl(
       {required this.link, required this.pin, required this.womCount});
 
   @override
@@ -149,10 +149,10 @@ class _$NewExchangeStateData implements NewExchangeStateData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NewExchangeStateData &&
+            other is _$NewExchangeStateDataImpl &&
             (identical(other.link, link) || other.link == link) &&
             (identical(other.pin, pin) || other.pin == pin) &&
             (identical(other.womCount, womCount) ||
@@ -165,9 +165,10 @@ class _$NewExchangeStateData implements NewExchangeStateData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$NewExchangeStateDataCopyWith<_$NewExchangeStateData> get copyWith =>
-      __$$NewExchangeStateDataCopyWithImpl<_$NewExchangeStateData>(
-          this, _$identity);
+  _$$NewExchangeStateDataImplCopyWith<_$NewExchangeStateDataImpl>
+      get copyWith =>
+          __$$NewExchangeStateDataImplCopyWithImpl<_$NewExchangeStateDataImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -251,36 +252,38 @@ abstract class NewExchangeStateData implements NewExchangeState {
   const factory NewExchangeStateData(
       {required final String link,
       required final String pin,
-      required final int womCount}) = _$NewExchangeStateData;
+      required final int womCount}) = _$NewExchangeStateDataImpl;
 
   String get link;
   String get pin;
   int get womCount;
   @JsonKey(ignore: true)
-  _$$NewExchangeStateDataCopyWith<_$NewExchangeStateData> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$NewExchangeStateDataImplCopyWith<_$NewExchangeStateDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$NewExchangeStateLoadingCopyWith<$Res> {
-  factory _$$NewExchangeStateLoadingCopyWith(_$NewExchangeStateLoading value,
-          $Res Function(_$NewExchangeStateLoading) then) =
-      __$$NewExchangeStateLoadingCopyWithImpl<$Res>;
+abstract class _$$NewExchangeStateLoadingImplCopyWith<$Res> {
+  factory _$$NewExchangeStateLoadingImplCopyWith(
+          _$NewExchangeStateLoadingImpl value,
+          $Res Function(_$NewExchangeStateLoadingImpl) then) =
+      __$$NewExchangeStateLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$NewExchangeStateLoadingCopyWithImpl<$Res>
-    extends _$NewExchangeStateCopyWithImpl<$Res, _$NewExchangeStateLoading>
-    implements _$$NewExchangeStateLoadingCopyWith<$Res> {
-  __$$NewExchangeStateLoadingCopyWithImpl(_$NewExchangeStateLoading _value,
-      $Res Function(_$NewExchangeStateLoading) _then)
+class __$$NewExchangeStateLoadingImplCopyWithImpl<$Res>
+    extends _$NewExchangeStateCopyWithImpl<$Res, _$NewExchangeStateLoadingImpl>
+    implements _$$NewExchangeStateLoadingImplCopyWith<$Res> {
+  __$$NewExchangeStateLoadingImplCopyWithImpl(
+      _$NewExchangeStateLoadingImpl _value,
+      $Res Function(_$NewExchangeStateLoadingImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$NewExchangeStateLoading implements NewExchangeStateLoading {
-  const _$NewExchangeStateLoading();
+class _$NewExchangeStateLoadingImpl implements NewExchangeStateLoading {
+  const _$NewExchangeStateLoadingImpl();
 
   @override
   String toString() {
@@ -288,10 +291,10 @@ class _$NewExchangeStateLoading implements NewExchangeStateLoading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NewExchangeStateLoading);
+            other is _$NewExchangeStateLoadingImpl);
   }
 
   @override
@@ -376,33 +379,33 @@ class _$NewExchangeStateLoading implements NewExchangeStateLoading {
 }
 
 abstract class NewExchangeStateLoading implements NewExchangeState {
-  const factory NewExchangeStateLoading() = _$NewExchangeStateLoading;
+  const factory NewExchangeStateLoading() = _$NewExchangeStateLoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$NewExchangeStateinsufficientVouchersCopyWith<$Res> {
-  factory _$$NewExchangeStateinsufficientVouchersCopyWith(
-          _$NewExchangeStateinsufficientVouchers value,
-          $Res Function(_$NewExchangeStateinsufficientVouchers) then) =
-      __$$NewExchangeStateinsufficientVouchersCopyWithImpl<$Res>;
+abstract class _$$NewExchangeStateinsufficientVouchersImplCopyWith<$Res> {
+  factory _$$NewExchangeStateinsufficientVouchersImplCopyWith(
+          _$NewExchangeStateinsufficientVouchersImpl value,
+          $Res Function(_$NewExchangeStateinsufficientVouchersImpl) then) =
+      __$$NewExchangeStateinsufficientVouchersImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$NewExchangeStateinsufficientVouchersCopyWithImpl<$Res>
+class __$$NewExchangeStateinsufficientVouchersImplCopyWithImpl<$Res>
     extends _$NewExchangeStateCopyWithImpl<$Res,
-        _$NewExchangeStateinsufficientVouchers>
-    implements _$$NewExchangeStateinsufficientVouchersCopyWith<$Res> {
-  __$$NewExchangeStateinsufficientVouchersCopyWithImpl(
-      _$NewExchangeStateinsufficientVouchers _value,
-      $Res Function(_$NewExchangeStateinsufficientVouchers) _then)
+        _$NewExchangeStateinsufficientVouchersImpl>
+    implements _$$NewExchangeStateinsufficientVouchersImplCopyWith<$Res> {
+  __$$NewExchangeStateinsufficientVouchersImplCopyWithImpl(
+      _$NewExchangeStateinsufficientVouchersImpl _value,
+      $Res Function(_$NewExchangeStateinsufficientVouchersImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$NewExchangeStateinsufficientVouchers
+class _$NewExchangeStateinsufficientVouchersImpl
     implements NewExchangeStateinsufficientVouchers {
-  const _$NewExchangeStateinsufficientVouchers();
+  const _$NewExchangeStateinsufficientVouchersImpl();
 
   @override
   String toString() {
@@ -410,10 +413,10 @@ class _$NewExchangeStateinsufficientVouchers
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NewExchangeStateinsufficientVouchers);
+            other is _$NewExchangeStateinsufficientVouchersImpl);
   }
 
   @override
@@ -500,24 +503,25 @@ class _$NewExchangeStateinsufficientVouchers
 abstract class NewExchangeStateinsufficientVouchers
     implements NewExchangeState {
   const factory NewExchangeStateinsufficientVouchers() =
-      _$NewExchangeStateinsufficientVouchers;
+      _$NewExchangeStateinsufficientVouchersImpl;
 }
 
 /// @nodoc
-abstract class _$$NewExchangeStateErrorCopyWith<$Res> {
-  factory _$$NewExchangeStateErrorCopyWith(_$NewExchangeStateError value,
-          $Res Function(_$NewExchangeStateError) then) =
-      __$$NewExchangeStateErrorCopyWithImpl<$Res>;
+abstract class _$$NewExchangeStateErrorImplCopyWith<$Res> {
+  factory _$$NewExchangeStateErrorImplCopyWith(
+          _$NewExchangeStateErrorImpl value,
+          $Res Function(_$NewExchangeStateErrorImpl) then) =
+      __$$NewExchangeStateErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object error, StackTrace st});
 }
 
 /// @nodoc
-class __$$NewExchangeStateErrorCopyWithImpl<$Res>
-    extends _$NewExchangeStateCopyWithImpl<$Res, _$NewExchangeStateError>
-    implements _$$NewExchangeStateErrorCopyWith<$Res> {
-  __$$NewExchangeStateErrorCopyWithImpl(_$NewExchangeStateError _value,
-      $Res Function(_$NewExchangeStateError) _then)
+class __$$NewExchangeStateErrorImplCopyWithImpl<$Res>
+    extends _$NewExchangeStateCopyWithImpl<$Res, _$NewExchangeStateErrorImpl>
+    implements _$$NewExchangeStateErrorImplCopyWith<$Res> {
+  __$$NewExchangeStateErrorImplCopyWithImpl(_$NewExchangeStateErrorImpl _value,
+      $Res Function(_$NewExchangeStateErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -526,7 +530,7 @@ class __$$NewExchangeStateErrorCopyWithImpl<$Res>
     Object? error = null,
     Object? st = null,
   }) {
-    return _then(_$NewExchangeStateError(
+    return _then(_$NewExchangeStateErrorImpl(
       null == error ? _value.error : error,
       null == st
           ? _value.st
@@ -538,8 +542,8 @@ class __$$NewExchangeStateErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NewExchangeStateError implements NewExchangeStateError {
-  const _$NewExchangeStateError(this.error, this.st);
+class _$NewExchangeStateErrorImpl implements NewExchangeStateError {
+  const _$NewExchangeStateErrorImpl(this.error, this.st);
 
   @override
   final Object error;
@@ -552,10 +556,10 @@ class _$NewExchangeStateError implements NewExchangeStateError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NewExchangeStateError &&
+            other is _$NewExchangeStateErrorImpl &&
             const DeepCollectionEquality().equals(other.error, error) &&
             (identical(other.st, st) || other.st == st));
   }
@@ -567,9 +571,9 @@ class _$NewExchangeStateError implements NewExchangeStateError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$NewExchangeStateErrorCopyWith<_$NewExchangeStateError> get copyWith =>
-      __$$NewExchangeStateErrorCopyWithImpl<_$NewExchangeStateError>(
-          this, _$identity);
+  _$$NewExchangeStateErrorImplCopyWith<_$NewExchangeStateErrorImpl>
+      get copyWith => __$$NewExchangeStateErrorImplCopyWithImpl<
+          _$NewExchangeStateErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -651,13 +655,13 @@ class _$NewExchangeStateError implements NewExchangeStateError {
 
 abstract class NewExchangeStateError implements NewExchangeState {
   const factory NewExchangeStateError(final Object error, final StackTrace st) =
-      _$NewExchangeStateError;
+      _$NewExchangeStateErrorImpl;
 
   Object get error;
   StackTrace get st;
   @JsonKey(ignore: true)
-  _$$NewExchangeStateErrorCopyWith<_$NewExchangeStateError> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$NewExchangeStateErrorImplCopyWith<_$NewExchangeStateErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -728,20 +732,20 @@ class _$ExchangeStateCopyWithImpl<$Res, $Val extends ExchangeState>
 }
 
 /// @nodoc
-abstract class _$$ExchangeStateInitialCopyWith<$Res> {
-  factory _$$ExchangeStateInitialCopyWith(_$ExchangeStateInitial value,
-          $Res Function(_$ExchangeStateInitial) then) =
-      __$$ExchangeStateInitialCopyWithImpl<$Res>;
+abstract class _$$ExchangeStateInitialImplCopyWith<$Res> {
+  factory _$$ExchangeStateInitialImplCopyWith(_$ExchangeStateInitialImpl value,
+          $Res Function(_$ExchangeStateInitialImpl) then) =
+      __$$ExchangeStateInitialImplCopyWithImpl<$Res>;
   @useResult
   $Res call({int dailyAvailableWom, int totalAvailableWom});
 }
 
 /// @nodoc
-class __$$ExchangeStateInitialCopyWithImpl<$Res>
-    extends _$ExchangeStateCopyWithImpl<$Res, _$ExchangeStateInitial>
-    implements _$$ExchangeStateInitialCopyWith<$Res> {
-  __$$ExchangeStateInitialCopyWithImpl(_$ExchangeStateInitial _value,
-      $Res Function(_$ExchangeStateInitial) _then)
+class __$$ExchangeStateInitialImplCopyWithImpl<$Res>
+    extends _$ExchangeStateCopyWithImpl<$Res, _$ExchangeStateInitialImpl>
+    implements _$$ExchangeStateInitialImplCopyWith<$Res> {
+  __$$ExchangeStateInitialImplCopyWithImpl(_$ExchangeStateInitialImpl _value,
+      $Res Function(_$ExchangeStateInitialImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -750,7 +754,7 @@ class __$$ExchangeStateInitialCopyWithImpl<$Res>
     Object? dailyAvailableWom = null,
     Object? totalAvailableWom = null,
   }) {
-    return _then(_$ExchangeStateInitial(
+    return _then(_$ExchangeStateInitialImpl(
       dailyAvailableWom: null == dailyAvailableWom
           ? _value.dailyAvailableWom
           : dailyAvailableWom // ignore: cast_nullable_to_non_nullable
@@ -765,8 +769,8 @@ class __$$ExchangeStateInitialCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ExchangeStateInitial implements ExchangeStateInitial {
-  const _$ExchangeStateInitial(
+class _$ExchangeStateInitialImpl implements ExchangeStateInitial {
+  const _$ExchangeStateInitialImpl(
       {required this.dailyAvailableWom, required this.totalAvailableWom});
 
   @override
@@ -780,10 +784,10 @@ class _$ExchangeStateInitial implements ExchangeStateInitial {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ExchangeStateInitial &&
+            other is _$ExchangeStateInitialImpl &&
             (identical(other.dailyAvailableWom, dailyAvailableWom) ||
                 other.dailyAvailableWom == dailyAvailableWom) &&
             (identical(other.totalAvailableWom, totalAvailableWom) ||
@@ -797,9 +801,10 @@ class _$ExchangeStateInitial implements ExchangeStateInitial {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ExchangeStateInitialCopyWith<_$ExchangeStateInitial> get copyWith =>
-      __$$ExchangeStateInitialCopyWithImpl<_$ExchangeStateInitial>(
-          this, _$identity);
+  _$$ExchangeStateInitialImplCopyWith<_$ExchangeStateInitialImpl>
+      get copyWith =>
+          __$$ExchangeStateInitialImplCopyWithImpl<_$ExchangeStateInitialImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -874,35 +879,35 @@ class _$ExchangeStateInitial implements ExchangeStateInitial {
 abstract class ExchangeStateInitial implements ExchangeState {
   const factory ExchangeStateInitial(
       {required final int dailyAvailableWom,
-      required final int totalAvailableWom}) = _$ExchangeStateInitial;
+      required final int totalAvailableWom}) = _$ExchangeStateInitialImpl;
 
   int get dailyAvailableWom;
   int get totalAvailableWom;
   @JsonKey(ignore: true)
-  _$$ExchangeStateInitialCopyWith<_$ExchangeStateInitial> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ExchangeStateInitialImplCopyWith<_$ExchangeStateInitialImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ExchangeStateLoadingCopyWith<$Res> {
-  factory _$$ExchangeStateLoadingCopyWith(_$ExchangeStateLoading value,
-          $Res Function(_$ExchangeStateLoading) then) =
-      __$$ExchangeStateLoadingCopyWithImpl<$Res>;
+abstract class _$$ExchangeStateLoadingImplCopyWith<$Res> {
+  factory _$$ExchangeStateLoadingImplCopyWith(_$ExchangeStateLoadingImpl value,
+          $Res Function(_$ExchangeStateLoadingImpl) then) =
+      __$$ExchangeStateLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ExchangeStateLoadingCopyWithImpl<$Res>
-    extends _$ExchangeStateCopyWithImpl<$Res, _$ExchangeStateLoading>
-    implements _$$ExchangeStateLoadingCopyWith<$Res> {
-  __$$ExchangeStateLoadingCopyWithImpl(_$ExchangeStateLoading _value,
-      $Res Function(_$ExchangeStateLoading) _then)
+class __$$ExchangeStateLoadingImplCopyWithImpl<$Res>
+    extends _$ExchangeStateCopyWithImpl<$Res, _$ExchangeStateLoadingImpl>
+    implements _$$ExchangeStateLoadingImplCopyWith<$Res> {
+  __$$ExchangeStateLoadingImplCopyWithImpl(_$ExchangeStateLoadingImpl _value,
+      $Res Function(_$ExchangeStateLoadingImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$ExchangeStateLoading implements ExchangeStateLoading {
-  const _$ExchangeStateLoading();
+class _$ExchangeStateLoadingImpl implements ExchangeStateLoading {
+  const _$ExchangeStateLoadingImpl();
 
   @override
   String toString() {
@@ -910,9 +915,10 @@ class _$ExchangeStateLoading implements ExchangeStateLoading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ExchangeStateLoading);
+        (other.runtimeType == runtimeType &&
+            other is _$ExchangeStateLoadingImpl);
   }
 
   @override
@@ -989,24 +995,24 @@ class _$ExchangeStateLoading implements ExchangeStateLoading {
 }
 
 abstract class ExchangeStateLoading implements ExchangeState {
-  const factory ExchangeStateLoading() = _$ExchangeStateLoading;
+  const factory ExchangeStateLoading() = _$ExchangeStateLoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$ExchangeStateErrorCopyWith<$Res> {
-  factory _$$ExchangeStateErrorCopyWith(_$ExchangeStateError value,
-          $Res Function(_$ExchangeStateError) then) =
-      __$$ExchangeStateErrorCopyWithImpl<$Res>;
+abstract class _$$ExchangeStateErrorImplCopyWith<$Res> {
+  factory _$$ExchangeStateErrorImplCopyWith(_$ExchangeStateErrorImpl value,
+          $Res Function(_$ExchangeStateErrorImpl) then) =
+      __$$ExchangeStateErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object error, StackTrace st});
 }
 
 /// @nodoc
-class __$$ExchangeStateErrorCopyWithImpl<$Res>
-    extends _$ExchangeStateCopyWithImpl<$Res, _$ExchangeStateError>
-    implements _$$ExchangeStateErrorCopyWith<$Res> {
-  __$$ExchangeStateErrorCopyWithImpl(
-      _$ExchangeStateError _value, $Res Function(_$ExchangeStateError) _then)
+class __$$ExchangeStateErrorImplCopyWithImpl<$Res>
+    extends _$ExchangeStateCopyWithImpl<$Res, _$ExchangeStateErrorImpl>
+    implements _$$ExchangeStateErrorImplCopyWith<$Res> {
+  __$$ExchangeStateErrorImplCopyWithImpl(_$ExchangeStateErrorImpl _value,
+      $Res Function(_$ExchangeStateErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1015,7 +1021,7 @@ class __$$ExchangeStateErrorCopyWithImpl<$Res>
     Object? error = null,
     Object? st = null,
   }) {
-    return _then(_$ExchangeStateError(
+    return _then(_$ExchangeStateErrorImpl(
       null == error ? _value.error : error,
       null == st
           ? _value.st
@@ -1027,8 +1033,8 @@ class __$$ExchangeStateErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ExchangeStateError implements ExchangeStateError {
-  const _$ExchangeStateError(this.error, this.st);
+class _$ExchangeStateErrorImpl implements ExchangeStateError {
+  const _$ExchangeStateErrorImpl(this.error, this.st);
 
   @override
   final Object error;
@@ -1041,10 +1047,10 @@ class _$ExchangeStateError implements ExchangeStateError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ExchangeStateError &&
+            other is _$ExchangeStateErrorImpl &&
             const DeepCollectionEquality().equals(other.error, error) &&
             (identical(other.st, st) || other.st == st));
   }
@@ -1056,8 +1062,8 @@ class _$ExchangeStateError implements ExchangeStateError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ExchangeStateErrorCopyWith<_$ExchangeStateError> get copyWith =>
-      __$$ExchangeStateErrorCopyWithImpl<_$ExchangeStateError>(
+  _$$ExchangeStateErrorImplCopyWith<_$ExchangeStateErrorImpl> get copyWith =>
+      __$$ExchangeStateErrorImplCopyWithImpl<_$ExchangeStateErrorImpl>(
           this, _$identity);
 
   @override
@@ -1132,11 +1138,11 @@ class _$ExchangeStateError implements ExchangeStateError {
 
 abstract class ExchangeStateError implements ExchangeState {
   const factory ExchangeStateError(final Object error, final StackTrace st) =
-      _$ExchangeStateError;
+      _$ExchangeStateErrorImpl;
 
   Object get error;
   StackTrace get st;
   @JsonKey(ignore: true)
-  _$$ExchangeStateErrorCopyWith<_$ExchangeStateError> get copyWith =>
+  _$$ExchangeStateErrorImplCopyWith<_$ExchangeStateErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

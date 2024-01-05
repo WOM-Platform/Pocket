@@ -25,7 +25,7 @@ String _$scrollControllerHash() => r'675940108fa104ecfcacd22a33ec7fe491b19222';
 
 /// See also [scrollController].
 @ProviderFor(scrollController)
-final scrollControllerProvider = Provider<ScrollController>.internal(
+final scrollControllerProvider = Provider<Raw<ScrollController>>.internal(
   scrollController,
   name: r'scrollControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -35,6 +35,6 @@ final scrollControllerProvider = Provider<ScrollController>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef ScrollControllerRef = ProviderRef<ScrollController>;
+typedef ScrollControllerRef = ProviderRef<Raw<ScrollController>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

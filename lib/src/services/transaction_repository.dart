@@ -1,22 +1,28 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dart_geohash/dart_geohash.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/database/extensions.dart';
+import 'package:wom_pocket/src/models/deep_link_model.dart';
+import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
 import '../my_logger.dart';
 
 final pocketProvider = Provider<Pocket>((ref) => Pocket(domain, registryKey));
 
 final transactionRepositoryProvider = Provider<TransactionRepository>((ref) {
   return TransactionRepository(
-      ref.watch(pocketProvider), ref.watch(getDatabaseProvider));
+      ref.watch(pocketProvider), ref.watch(getDatabaseProvider), Dio());
 });
 
 class TransactionRepository {
@@ -26,8 +32,9 @@ class TransactionRepository {
 
   final Pocket pocket;
   final MyDatabase database;
+  final Dio dio;
 
-  TransactionRepository(this.pocket, this.database) {
+  TransactionRepository(this.pocket, this.database, this.dio) {
     logger.i('Repository constructor');
     // transactionsDB = TransactionDB.get();
     // womDB = WomDB.get();
@@ -159,6 +166,52 @@ class TransactionRepository {
     } catch (e, st) {
       logger.e(e);
       logger.e(st);
+      rethrow;
+    }
+  }
+
+  Future<TotemResponse> getVoucherRequestFromEmbeddedQrCode(
+      TotemData data, LatLng location,
+      {bool isMocked = false}) async {
+    try {
+      final json = data.toJson();
+      json.removeWhere((key, value) => value == null);
+      final response = await dio.post(
+          'https://europe-west3-count-me-in-ef93b.cloudfunctions.net/embedded-scan',
+          data: {
+            ...json,
+            'latitude': location.latitude.toString(),
+            'longitude': location.longitude.toString(),
+            'isMocked': isMocked,
+          });
+      // final response = await http.post(
+      //     Uri.parse(
+      //         'https://europe-west3-count-me-in-ef93b.cloudfunctions.net/embedded-scan'),
+      //     body: {
+      //       ...json,
+      //       'latitude': location.latitude.toString(),
+      //       'longitude': location.longitude.toString(),
+      //       'isMocked': isMocked,
+      //     });
+      if (response.statusCode == 200) {
+        // final d = Map<String, dynamic>.from(jsonDecode(response));
+        return TotemResponse.fromJson(response.data);
+      }
+      throw Exception('Error from embedded api: ${response.statusCode}');
+    } on DioException catch (e) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx and is also not 304.
+      if (e.response != null) {
+        print(e.response!.data);
+        print(e.response!.headers);
+        print(e.response!.requestOptions);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        print(e.requestOptions);
+        print(e.message);
+      }
+      rethrow;
+    } catch (ex) {
       rethrow;
     }
   }
