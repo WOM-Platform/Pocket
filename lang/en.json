@@ -189,6 +189,8 @@
   "howUseVirtualOffer": "How can I access these offers?",
   "howUseOfferDesc": "1. Enter the merchant’s office or shop,\n2. Ask about the offer,\n3. Scan the QR Code that will be provided to you.",
   "howUseVirtualOfferDesc": "Connect to the online store and follow the instructions to gain access to the offers.",
+  "genderSelectionTitle": "Genere percepito",
+  "genderSelectionDescription": "Contribuisci in modo anonimo alle statistiche di genere scegliendo una delle seguenti opzioni:",
   "genderInfoRemoved": "Abbiamo rimosso le informazioni di genere.",
   "removeGenderInfoTitle": "Rimuovi informazioni di genere",
   "removeGenderInfoDescription": "Potrai reimpostarle in modo anonimo quando richiesto per contribuire a rilevazioni statistiche",

@@ -302,11 +302,11 @@ class GenderSelectorWidget extends HookConsumerWidget {
         children: [
           const SizedBox(height: 8),
           Text(
-            'Genere percepito',
+            context.translate('genderSelectionTitle')!,
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
           Text(
-            'Contribuisci in modo anonimo alle statistiche di genere scegliendo una delle seguenti opzioni:',
+            context.translate('genderSelectionDescription')!,
             // style: TextStyle(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 4),
