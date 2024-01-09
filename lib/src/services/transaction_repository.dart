@@ -177,8 +177,8 @@ class TransactionRepository {
           data: {
             ...json,
             'lastSessionIdScanned': lastSessionIdScanned,
-            'latitude': location.latitude.toString(),
-            'longitude': location.longitude.toString(),
+            'latitude': location.latitude,
+            'longitude': location.longitude,
             'gender': gender,
             'isMocked': isMocked,
           });
