@@ -5,7 +5,7 @@ import 'package:wom_pocket/src/models/totem_data.dart';
 main() {
   test('Deep link', () {
     final link =
-        "https://dev.wom.social/embedded/UNIURB/1d2076b3-8d29-44ca-b7e2-3e68f6e8e0af/5CprXtcNv47OjDDou25D/requestId";
+        "https://link.wom.social/embedded/UNIURB/1d2076b3-8d29-44ca-b7e2-3e68f6e8e0af/5CprXtcNv47OjDDou25D/requestId";
     expect(
         TotemData(
           providerId: 'UNIURB',
@@ -22,7 +22,7 @@ main() {
           requestId: null,
         ),
         validateTotemQrCodeWithRegex(
-            "https://dev.wom.social/embedded/providerId/eventId/totemId/"));
+            "https://link.wom.social/embedded/providerId/eventId/totemId/"));
     expect(
         TotemData(
           providerId: 'providerId',
@@ -31,10 +31,10 @@ main() {
           requestId: null,
         ),
         validateTotemQrCodeWithRegex(
-            "https://dev.wom.social/embedded/providerId/eventId/totemId"));
+            "https://link.wom.social/embedded/providerId/eventId/totemId"));
     expect(
         null,
         validateTotemQrCodeWithRegex(
-            "https://dev.wom.social/embedded/providerId/eventId/"));
+            "https://link.wom.social/embedded/providerId/eventId/"));
   });
 }

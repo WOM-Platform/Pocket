@@ -316,7 +316,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (_) => Dialog(child: TotemDialog(totemData: totemData,)),
+            builder: (_) => Dialog(
+              child: TotemDialog(
+                totemData: totemData,
+              ),
+            ),
           );
         } else {
           final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));

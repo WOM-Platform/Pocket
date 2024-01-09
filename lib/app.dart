@@ -56,10 +56,9 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeData = ThemeData(
-      primaryColor: primaryColor,
-      backgroundColor: backgroundColor,
-      scaffoldBackgroundColor: backgroundColor
-    );
+        primaryColor: primaryColor,
+        backgroundColor: backgroundColor,
+        scaffoldBackgroundColor: backgroundColor);
 
     return OKToast(
       child: MaterialApp(
@@ -92,6 +91,7 @@ class App extends ConsumerWidget {
             const Locale('en', 'US'),
           ],
           theme: themeData.copyWith(
+            useMaterial3: false,
             textTheme: GoogleFonts.ralewayTextTheme(themeData.textTheme),
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
               backgroundColor: primaryColor,

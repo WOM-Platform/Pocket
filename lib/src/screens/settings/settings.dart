@@ -2,6 +2,8 @@ import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
@@ -57,7 +59,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           if (showDBViewer)
             SettingsItem(
               title: 'Visita WOM DB',
-
               subtitle: '',
               icon: Icons.data_usage,
               // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
@@ -94,6 +95,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               }
             },
           ),
+          ValueListenableBuilder(
+              valueListenable: Hive.box('settings').listenable(),
+              builder: (context, box, _) {
+                final gender = box.get('gender');
+                String title = context.translate('removeGenderInfoTitle')!;
+                String desc = context.translate('removeGenderInfoDescription')!;
+                if (gender == null) {
+                  title = context.translate('genderNotSetTitle')!;
+                  desc = context.translate('genderNotSetDescription')!;
+                }
+                return SettingsItem(
+                  title: title,
+                  subtitle: desc,
+                  icon: MdiIcons.genderMaleFemale,
+                  onTap: gender == null
+                      ? null
+                      : () async {
+                          Hive.box('settings').delete('gender');
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  context.translate('genderInfoRemoved')!)));
+                        },
+                );
+              }),
           if (isDev) ...[
             SettingsItem(
               title: 'Clear DB (only for debug)',

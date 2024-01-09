@@ -19,7 +19,7 @@ class TotemData with _$TotemData {
 
 TotemData? validateTotemQrCodeWithRegex(String text) {
   final regExp = new RegExp(
-    'https:\/\/dev\.wom\.social\/embedded\/([^\/]+)\/([^\/]+)\/([^\/]+)\/?([^\/]+)?',
+    'https:\/\/link\.wom\.social\/cmi\/([^\/]+)\/([^\/]+)\/([^\/]+)\/?([^\/]+)?',
     caseSensitive: false,
   );
 

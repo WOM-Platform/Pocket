@@ -26,10 +26,6 @@ final transactionRepositoryProvider = Provider<TransactionRepository>((ref) {
 });
 
 class TransactionRepository {
-  // final DeepLinkModel deepLinkModel;
-  // late TransactionDB transactionsDB;
-  // late WomDB womDB;
-
   final Pocket pocket;
   final MyDatabase database;
   final Dio dio;
@@ -170,8 +166,8 @@ class TransactionRepository {
     }
   }
 
-  Future<TotemResponse> getVoucherRequestFromEmbeddedQrCode(
-      TotemData data, LatLng location,
+  Future<TotemResponse> getVoucherRequestFromEmbeddedQrCode(TotemData data,
+      LatLng location, String? lastSessionIdScanned, String? gender,
       {bool isMocked = false}) async {
     try {
       final json = data.toJson();
@@ -180,8 +176,10 @@ class TransactionRepository {
           'https://europe-west3-count-me-in-ef93b.cloudfunctions.net/embedded-scan',
           data: {
             ...json,
+            'lastSessionIdScanned': lastSessionIdScanned,
             'latitude': location.latitude.toString(),
             'longitude': location.longitude.toString(),
+            'gender': gender,
             'isMocked': isMocked,
           });
       // final response = await http.post(

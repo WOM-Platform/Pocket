@@ -9,6 +9,7 @@ part of 'totem_dialog.dart';
 _$TotemResponseImpl _$$TotemResponseImplFromJson(Map<String, dynamic> json) =>
     _$TotemResponseImpl(
       status: json['status'] as String,
+      sessionId: json['sessionId'] as String?,
       link: json['link'] as String?,
       pin: json['pin'] as String?,
     );
@@ -16,6 +17,7 @@ _$TotemResponseImpl _$$TotemResponseImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$TotemResponseImplToJson(_$TotemResponseImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
+      'sessionId': instance.sessionId,
       'link': instance.link,
       'pin': instance.pin,
     };
@@ -24,7 +26,7 @@ Map<String, dynamic> _$$TotemResponseImplToJson(_$TotemResponseImpl instance) =>
 // RiverpodGenerator
 // **************************************************************************
 
-String _$totemNotifierHash() => r'efea264b5777857d159b2f703c5c843402cf37b0';
+String _$totemNotifierHash() => r'645b597fe9fe20485b42b577bc01e6cf7d51ec7f';
 
 /// Copied from Dart SDK
 class _SystemHash {

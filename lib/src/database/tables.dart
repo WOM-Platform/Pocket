@@ -97,6 +97,21 @@ class Transactions extends Table {
 //   TextColumn get description => text()();
 // }
 
+@DataClassName('TotemRow')
+class Totems extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  TextColumn get sessionId => text().named('sessionId')();
+
+  TextColumn get totemId => text().named('totemId')();
+
+  TextColumn get eventId => text().named('eventId')();
+
+  TextColumn get providerId => text().named('providerId')();
+
+  DateTimeColumn get timestamp => dateTime().named('timestamp')();
+}
+
 // stores preferences as strings
 class AimTitlesConverter extends TypeConverter<Map<String, dynamic>, String> {
   const AimTitlesConverter();

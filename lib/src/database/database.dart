@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:wom_pocket/src/database/aims_dao.dart';
 import 'package:wom_pocket/src/database/tables.dart';
+import 'package:wom_pocket/src/database/totems_dao.dart';
 import 'package:wom_pocket/src/database/transactions_dao.dart';
 import 'package:wom_pocket/src/database/woms_dao.dart';
 import 'package:wom_pocket/src/my_logger.dart';
@@ -16,14 +17,15 @@ import 'package:wom_pocket/src/my_logger.dart';
 part 'database.g.dart';
 
 @DriftDatabase(
-    tables: [Wom, Aims, Transactions],
-    daos: [WomsDao, AimsDao, TransactionsDao])
+    tables: [Wom, Aims, Transactions, Totems],
+    daos: [WomsDao, AimsDao, TransactionsDao, TotemsDao])
 class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
-  MyDatabase([DatabaseConnection? connection]) : super(connection ?? _openConnection());
+  MyDatabase([DatabaseConnection? connection])
+      : super(connection ?? _openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   Future<void> deleteEverything() async {
     await transaction(() async {
@@ -40,7 +42,6 @@ class MyDatabase extends _$MyDatabase {
         await m.createAll();
       },
       onUpgrade: (Migrator m, int from, int to) async {
-
         logger.wtf('from $from to $to');
         if (from < 4) {
           await m.addColumn(wom, wom.donationId);
@@ -50,6 +51,8 @@ class MyDatabase extends _$MyDatabase {
           await m.addColumn(transactions, transactions.pin);
           await m.addColumn(transactions, transactions.link);
           await m.addColumn(transactions, transactions.deadline);
+        } else if (from < 5) {
+          await m.createTable(totems);
         }
       },
       beforeOpen: (details) async {

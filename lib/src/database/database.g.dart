@@ -1294,18 +1294,348 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   }
 }
 
+class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TotemsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _sessionIdMeta =
+      const VerificationMeta('sessionId');
+  @override
+  late final GeneratedColumn<String> sessionId = GeneratedColumn<String>(
+      'sessionId', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _totemIdMeta =
+      const VerificationMeta('totemId');
+  @override
+  late final GeneratedColumn<String> totemId = GeneratedColumn<String>(
+      'totemId', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _eventIdMeta =
+      const VerificationMeta('eventId');
+  @override
+  late final GeneratedColumn<String> eventId = GeneratedColumn<String>(
+      'eventId', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _providerIdMeta =
+      const VerificationMeta('providerId');
+  @override
+  late final GeneratedColumn<String> providerId = GeneratedColumn<String>(
+      'providerId', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _timestampMeta =
+      const VerificationMeta('timestamp');
+  @override
+  late final GeneratedColumn<DateTime> timestamp = GeneratedColumn<DateTime>(
+      'timestamp', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, sessionId, totemId, eventId, providerId, timestamp];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'totems';
+  @override
+  VerificationContext validateIntegrity(Insertable<TotemRow> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('sessionId')) {
+      context.handle(_sessionIdMeta,
+          sessionId.isAcceptableOrUnknown(data['sessionId']!, _sessionIdMeta));
+    } else if (isInserting) {
+      context.missing(_sessionIdMeta);
+    }
+    if (data.containsKey('totemId')) {
+      context.handle(_totemIdMeta,
+          totemId.isAcceptableOrUnknown(data['totemId']!, _totemIdMeta));
+    } else if (isInserting) {
+      context.missing(_totemIdMeta);
+    }
+    if (data.containsKey('eventId')) {
+      context.handle(_eventIdMeta,
+          eventId.isAcceptableOrUnknown(data['eventId']!, _eventIdMeta));
+    } else if (isInserting) {
+      context.missing(_eventIdMeta);
+    }
+    if (data.containsKey('providerId')) {
+      context.handle(
+          _providerIdMeta,
+          providerId.isAcceptableOrUnknown(
+              data['providerId']!, _providerIdMeta));
+    } else if (isInserting) {
+      context.missing(_providerIdMeta);
+    }
+    if (data.containsKey('timestamp')) {
+      context.handle(_timestampMeta,
+          timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta));
+    } else if (isInserting) {
+      context.missing(_timestampMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TotemRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TotemRow(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      sessionId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}sessionId'])!,
+      totemId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}totemId'])!,
+      eventId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}eventId'])!,
+      providerId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}providerId'])!,
+      timestamp: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}timestamp'])!,
+    );
+  }
+
+  @override
+  $TotemsTable createAlias(String alias) {
+    return $TotemsTable(attachedDatabase, alias);
+  }
+}
+
+class TotemRow extends DataClass implements Insertable<TotemRow> {
+  final int id;
+  final String sessionId;
+  final String totemId;
+  final String eventId;
+  final String providerId;
+  final DateTime timestamp;
+  const TotemRow(
+      {required this.id,
+      required this.sessionId,
+      required this.totemId,
+      required this.eventId,
+      required this.providerId,
+      required this.timestamp});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['sessionId'] = Variable<String>(sessionId);
+    map['totemId'] = Variable<String>(totemId);
+    map['eventId'] = Variable<String>(eventId);
+    map['providerId'] = Variable<String>(providerId);
+    map['timestamp'] = Variable<DateTime>(timestamp);
+    return map;
+  }
+
+  TotemsCompanion toCompanion(bool nullToAbsent) {
+    return TotemsCompanion(
+      id: Value(id),
+      sessionId: Value(sessionId),
+      totemId: Value(totemId),
+      eventId: Value(eventId),
+      providerId: Value(providerId),
+      timestamp: Value(timestamp),
+    );
+  }
+
+  factory TotemRow.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TotemRow(
+      id: serializer.fromJson<int>(json['id']),
+      sessionId: serializer.fromJson<String>(json['sessionId']),
+      totemId: serializer.fromJson<String>(json['totemId']),
+      eventId: serializer.fromJson<String>(json['eventId']),
+      providerId: serializer.fromJson<String>(json['providerId']),
+      timestamp: serializer.fromJson<DateTime>(json['timestamp']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'sessionId': serializer.toJson<String>(sessionId),
+      'totemId': serializer.toJson<String>(totemId),
+      'eventId': serializer.toJson<String>(eventId),
+      'providerId': serializer.toJson<String>(providerId),
+      'timestamp': serializer.toJson<DateTime>(timestamp),
+    };
+  }
+
+  TotemRow copyWith(
+          {int? id,
+          String? sessionId,
+          String? totemId,
+          String? eventId,
+          String? providerId,
+          DateTime? timestamp}) =>
+      TotemRow(
+        id: id ?? this.id,
+        sessionId: sessionId ?? this.sessionId,
+        totemId: totemId ?? this.totemId,
+        eventId: eventId ?? this.eventId,
+        providerId: providerId ?? this.providerId,
+        timestamp: timestamp ?? this.timestamp,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('TotemRow(')
+          ..write('id: $id, ')
+          ..write('sessionId: $sessionId, ')
+          ..write('totemId: $totemId, ')
+          ..write('eventId: $eventId, ')
+          ..write('providerId: $providerId, ')
+          ..write('timestamp: $timestamp')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, sessionId, totemId, eventId, providerId, timestamp);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TotemRow &&
+          other.id == this.id &&
+          other.sessionId == this.sessionId &&
+          other.totemId == this.totemId &&
+          other.eventId == this.eventId &&
+          other.providerId == this.providerId &&
+          other.timestamp == this.timestamp);
+}
+
+class TotemsCompanion extends UpdateCompanion<TotemRow> {
+  final Value<int> id;
+  final Value<String> sessionId;
+  final Value<String> totemId;
+  final Value<String> eventId;
+  final Value<String> providerId;
+  final Value<DateTime> timestamp;
+  const TotemsCompanion({
+    this.id = const Value.absent(),
+    this.sessionId = const Value.absent(),
+    this.totemId = const Value.absent(),
+    this.eventId = const Value.absent(),
+    this.providerId = const Value.absent(),
+    this.timestamp = const Value.absent(),
+  });
+  TotemsCompanion.insert({
+    this.id = const Value.absent(),
+    required String sessionId,
+    required String totemId,
+    required String eventId,
+    required String providerId,
+    required DateTime timestamp,
+  })  : sessionId = Value(sessionId),
+        totemId = Value(totemId),
+        eventId = Value(eventId),
+        providerId = Value(providerId),
+        timestamp = Value(timestamp);
+  static Insertable<TotemRow> custom({
+    Expression<int>? id,
+    Expression<String>? sessionId,
+    Expression<String>? totemId,
+    Expression<String>? eventId,
+    Expression<String>? providerId,
+    Expression<DateTime>? timestamp,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (sessionId != null) 'sessionId': sessionId,
+      if (totemId != null) 'totemId': totemId,
+      if (eventId != null) 'eventId': eventId,
+      if (providerId != null) 'providerId': providerId,
+      if (timestamp != null) 'timestamp': timestamp,
+    });
+  }
+
+  TotemsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? sessionId,
+      Value<String>? totemId,
+      Value<String>? eventId,
+      Value<String>? providerId,
+      Value<DateTime>? timestamp}) {
+    return TotemsCompanion(
+      id: id ?? this.id,
+      sessionId: sessionId ?? this.sessionId,
+      totemId: totemId ?? this.totemId,
+      eventId: eventId ?? this.eventId,
+      providerId: providerId ?? this.providerId,
+      timestamp: timestamp ?? this.timestamp,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (sessionId.present) {
+      map['sessionId'] = Variable<String>(sessionId.value);
+    }
+    if (totemId.present) {
+      map['totemId'] = Variable<String>(totemId.value);
+    }
+    if (eventId.present) {
+      map['eventId'] = Variable<String>(eventId.value);
+    }
+    if (providerId.present) {
+      map['providerId'] = Variable<String>(providerId.value);
+    }
+    if (timestamp.present) {
+      map['timestamp'] = Variable<DateTime>(timestamp.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TotemsCompanion(')
+          ..write('id: $id, ')
+          ..write('sessionId: $sessionId, ')
+          ..write('totemId: $totemId, ')
+          ..write('eventId: $eventId, ')
+          ..write('providerId: $providerId, ')
+          ..write('timestamp: $timestamp')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(e);
   late final $WomTable wom = $WomTable(this);
   late final $AimsTable aims = $AimsTable(this);
   late final $TransactionsTable transactions = $TransactionsTable(this);
+  late final $TotemsTable totems = $TotemsTable(this);
   late final WomsDao womsDao = WomsDao(this as MyDatabase);
   late final AimsDao aimsDao = AimsDao(this as MyDatabase);
   late final TransactionsDao transactionsDao =
       TransactionsDao(this as MyDatabase);
+  late final TotemsDao totemsDao = TotemsDao(this as MyDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [wom, aims, transactions];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [wom, aims, transactions, totems];
 }
