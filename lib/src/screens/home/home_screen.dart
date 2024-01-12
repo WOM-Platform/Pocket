@@ -316,9 +316,12 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (_) => Dialog(
-              child: TotemDialog(
-                totemData: totemData,
+            builder: (_) => PopScope(
+              canPop: false,
+              child: Dialog(
+                child: TotemDialog(
+                  totemData: totemData,
+                ),
               ),
             ),
           );

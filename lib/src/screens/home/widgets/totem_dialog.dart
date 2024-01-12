@@ -17,6 +17,7 @@ import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 import 'package:wom_pocket/src/utils/my_extensions.dart';
 
 part 'totem_dialog.g.dart';
@@ -36,12 +37,11 @@ enum TotemError {
   mockedLocation,
   unknown;
 
-
   bool get hasCancel =>
-      this == TotemError.gpsServiceDisabled || this ==
-          TotemError.gpsPermission || this ==
-          TotemError.gpsTimeout || this ==
-          TotemError.unknown;
+      this == TotemError.gpsServiceDisabled ||
+      this == TotemError.gpsPermission ||
+      this == TotemError.gpsTimeout ||
+      this == TotemError.unknown;
 
   String errorActionText(BuildContext context) {
     return switch (this) {
@@ -54,7 +54,7 @@ enum TotemError {
       sessionAlreadyScanned ||
       mockedLocation ||
       outOfPolygon =>
-      'Ok',
+        'Ok',
       _ => context.translate('try_again')!,
     };
   }
@@ -69,7 +69,7 @@ enum TotemError {
       gpsServiceDisabled => context.translate('totemErrorGpsServiceDisabled')!,
       eventIsClosed => context.translate('totemErrorEventIsClosed')!,
       sessionAlreadyScanned =>
-      context.translate('totemErrorSessionAlreadyScanned')!,
+        context.translate('totemErrorSessionAlreadyScanned')!,
       outOfPolygon => context.translate('totemErrorOutOfPolygon')!,
       _ => context.translate('somethings_wrong')!,
     };
@@ -91,13 +91,14 @@ class TotemResponse with _$TotemResponse {
 
 @freezed
 class TotemDialogState with _$TotemDialogState {
-  const factory TotemDialogState.complete({required DeepLinkModel deepLinkModel,
-    required String password}) = TotemDialogComplete;
+  const factory TotemDialogState.complete(
+      {required DeepLinkModel deepLinkModel,
+      required String password}) = TotemDialogComplete;
 
   const factory TotemDialogState.retrievingGPS() = TotemDialogRetrievingGPS;
 
   const factory TotemDialogState.serverCommunication() =
-  TotemDialogCommunicationWithServer;
+      TotemDialogCommunicationWithServer;
 
   const factory TotemDialogState.genderRequest() = TotemDialogGenderRequest;
 
@@ -127,42 +128,36 @@ class TotemNotifier extends _$TotemNotifier {
       gender = gender == Gender.notAvailable ? null : gender;
       state = TotemDialogState.retrievingGPS();
       final currentPosition =
-      await ref.refresh(locationNotifierProvider.future);
+          await ref.refresh(locationNotifierProvider.future);
       if (currentPosition.isMocked) {
         state = TotemDialogStateError(TotemError.mockedLocation, "");
         return;
       }
       final location =
-      LatLng(currentPosition.latitude, currentPosition.longitude);
+          LatLng(currentPosition.latitude, currentPosition.longitude);
       state = TotemDialogCommunicationWithServer();
-      final sessionId =
-      await ref
-          .read(getDatabaseProvider)
-          .totemsDao
-          .getLastScan(
-        totemData.providerId,
-        totemData.eventId,
-        totemData.totemId,
-      );
+      final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan(
+            totemData.providerId,
+            totemData.eventId,
+            totemData.totemId,
+          );
       final response = await ref
           .read(transactionRepositoryProvider)
           .getVoucherRequestFromEmbeddedQrCode(
-        totemData,
-        location,
-        sessionId,
-        gender,
-        isMocked: currentPosition.isMocked,
-      );
+            totemData,
+            location,
+            res?.$1,
+            res?.$2,
+            gender,
+            isMocked: currentPosition.isMocked,
+          );
       if (response.status == 'success') {
-        await ref
-            .read(getDatabaseProvider)
-            .totemsDao
-            .addTotem(
-          totemData.providerId,
-          totemData.eventId,
-          totemData.totemId,
-          response.sessionId!,
-        );
+        await ref.read(getDatabaseProvider).totemsDao.addTotem(
+              totemData.providerId,
+              totemData.eventId,
+              totemData.totemId,
+              response.sessionId!,
+            );
         final deepLink = DeepLinkModel.fromUri(Uri.parse(response.link!));
         state = TotemDialogComplete(
             deepLinkModel: deepLink, password: response.pin!);
@@ -179,6 +174,7 @@ class TotemNotifier extends _$TotemNotifier {
       };
       if (error == TotemError.gpsServiceDisabled) {
         _subscription = Geolocator.getServiceStatusStream().listen((event) {
+          print('gps event: $event');
           if (event == ServiceStatus.enabled) {
             action();
           }
@@ -205,11 +201,10 @@ class TotemDialog extends ConsumerWidget {
         Navigator.pushReplacement(
           ref.context,
           MaterialPageRoute<bool>(
-            builder: (context) =>
-                TransactionScreen(
-                  params:
+            builder: (context) => TransactionScreen(
+              params:
                   TransactionNotifierParams(next.deepLinkModel, next.password),
-                ),
+            ),
           ),
         );
       }
@@ -230,66 +225,69 @@ class TotemDialog extends ConsumerWidget {
                 ref.read(totemNotifierProvider(totemData).notifier).action();
               },
             ),
-          ] else
-            if (state is TotemDialogStateError) ...[
-              Icon(
-                Icons.error,
-                color: Colors.red,
-                size: 50,
-              ),
-              const SizedBox(height: 8),
-              Text(state.totemError.description(context)),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  if(state.totemError.hasCancel)
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(context.translate('cancel')!),
-                    ),
-                  ElevatedButton(
+          ] else if (state is TotemDialogStateError) ...[
+            Icon(
+              Icons.error,
+              color: Colors.red,
+              size: 50,
+            ),
+            const SizedBox(height: 8),
+            Text(state.totemError.description(context)),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                if (state.totemError.hasCancel)
+                  TextButton(
                     onPressed: () {
-                      switch (state.totemError) {
-                        case TotemError.sessionNotStarted:
-                        case TotemError.wrongRequestId:
-                        case TotemError.outOfPolygon:
-                        case TotemError.sessionAlreadyScanned:
-                        case TotemError.sessionExpired:
-                        case TotemError.eventIsClosed:
-                        case TotemError.mockedLocation:
-                          Navigator.of(context).pop();
-                          break;
-                        case TotemError.gpsServiceDisabled:
-                          Geolocator.openLocationSettings();
-                          break;
-                        case TotemError.gpsPermission:
-                        case TotemError.gpsTimeout:
-                        case TotemError.unknown:
-                        default:
-                          ref
-                              .read(totemNotifierProvider(totemData).notifier)
-                              .action();
-                      }
+                      Navigator.of(context).pop();
                     },
-                    child: Text(state.totemError.errorActionText(context)),
-                  )
-                ],
-              ),
-            ] else
-              ...[
-                CircularProgressIndicator(),
-                switch (state) {
-                  TotemDialogRetrievingGPS() =>
-                      Text(context.translate('acquiringYourPosition')!),
-                  TotemDialogCommunicationWithServer() =>
-                      Text(context.translate('communicatingWithServer')!),
-                  TotemDialogComplete() => Text('Completato'),
-                  _ => SizedBox.shrink(),
-                },
+                    child: Text(context.translate('cancel')!),
+                  ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  onPressed: () {
+                    switch (state.totemError) {
+                      case TotemError.sessionNotStarted:
+                      case TotemError.wrongRequestId:
+                      case TotemError.outOfPolygon:
+                      case TotemError.sessionAlreadyScanned:
+                      case TotemError.sessionExpired:
+                      case TotemError.eventIsClosed:
+                      case TotemError.mockedLocation:
+                        Navigator.of(context).pop();
+                        break;
+                      case TotemError.gpsServiceDisabled:
+                        Geolocator.openLocationSettings();
+                        break;
+                      case TotemError.gpsPermission:
+                      case TotemError.gpsTimeout:
+                      case TotemError.unknown:
+                        ref
+                            .read(totemNotifierProvider(totemData).notifier)
+                            .action();
+                    }
+                  },
+                  child: Text(state.totemError.errorActionText(context)),
+                )
               ],
+            ),
+          ] else ...[
+            CircularProgressIndicator(),
+            switch (state) {
+              TotemDialogRetrievingGPS() =>
+                Text(context.translate('acquiringYourPosition')!),
+              TotemDialogCommunicationWithServer() =>
+                Text(context.translate('communicatingWithServer')!),
+              TotemDialogComplete() => Text(context.translate('completed')!),
+              _ => SizedBox.shrink(),
+            },
+          ],
         ],
       ),
     );
@@ -355,13 +353,19 @@ class GenderSelectorWidget extends HookConsumerWidget {
                   },
                   child: Text(context.translate('cancel')!)),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
                 onPressed: gender.value != null
                     ? () async {
-                  if (gender.value == null) return;
-                  await Hive.box('settings')
-                      .put('gender', gender.value!.name);
-                  onAction();
-                }
+                        if (gender.value == null) return;
+                        await Hive.box('settings')
+                            .put('gender', gender.value!.name);
+                        onAction();
+                      }
                     : null,
                 child: Text(context.translate('continue')!),
               ),

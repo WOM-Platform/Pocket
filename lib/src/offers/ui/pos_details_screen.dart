@@ -12,6 +12,7 @@ import 'package:wom_pocket/src/offers/application/pos_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/offer_tile.dart';
 import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
+import 'package:wom_pocket/src/utils/my_extensions.dart';
 
 class POSDetailsScreen extends ConsumerWidget {
   final List<Offer> offers;
@@ -289,7 +290,7 @@ class POSDetailsScreen extends ConsumerWidget {
                                   launchUrl(uri);
                                 }
                               },
-                              child: Text('Accedi allo store'),
+                              child: Text(context.translate('accessToStore')!),
                             ),
                           ),
                       ],

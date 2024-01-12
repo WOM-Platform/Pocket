@@ -208,5 +208,10 @@
   "enableGPS": "Enable GPS",
   "allowGPSPermission": "Provide GPS access",
   "acquiringYourPosition": "Acquiring your location",
-  "communicatingWithServer": "Talking to the server"
+  "communicatingWithServer": "Talking to the server",
+  "accessToStore": "Access to store",
+  "completed": "Completed",
+  "openWithSystemBrowser": "Open with system browser",
+  "copyWebAddress": "Copy Web Address",
+  "transactions": "Transactions"
 }

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:wom_pocket/src/utils/my_extensions.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 
 enum PopupActions { open, copy }
@@ -102,13 +103,13 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
             },
             itemBuilder: (BuildContext context) =>
                 <PopupMenuEntry<PopupActions>>[
-              const PopupMenuItem<PopupActions>(
+              PopupMenuItem<PopupActions>(
                 value: PopupActions.open,
-                child: Text('Apri con browser di sistema'),
+                child: Text(context.translate('openWithSystemBrowser')!),
               ),
-              const PopupMenuItem<PopupActions>(
+              PopupMenuItem<PopupActions>(
                 value: PopupActions.copy,
-                child: Text('Copia indirizzo web'),
+                child: Text(context.translate('copyWebAddress')!),
               ),
             ],
           ),

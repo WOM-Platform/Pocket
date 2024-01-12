@@ -208,5 +208,10 @@
   "enableGPS": "Abilita GPS",
   "allowGPSPermission": "Concedi permessi per il GPS",
   "acquiringYourPosition": "Sto acquisendo la tua posizione",
-  "communicatingWithServer": "Sto parlando con il server"
+  "communicatingWithServer": "Sto parlando con il server",
+  "accessToStore": "Accedi allo store",
+  "completed": "Completato",
+  "openWithSystemBrowser": "Apri con browser di sistema",
+  "copyWebAddress": "Copia indirizzo web",
+  "transactions": "Transazioni"
 }

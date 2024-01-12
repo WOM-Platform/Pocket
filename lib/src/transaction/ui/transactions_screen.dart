@@ -5,6 +5,7 @@ import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
+import 'package:wom_pocket/src/utils/my_extensions.dart';
 
 import 'transaction_card_info_dialog.dart';
 
@@ -60,7 +61,7 @@ class TransactionsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transazioni'),
+        title: Text(context.translate('transactions')!),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: primaryColor,

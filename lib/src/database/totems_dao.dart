@@ -31,7 +31,7 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
     );
   }
 
-  Future<String?> getLastScan(
+  Future<(String, int)?> getLastScan(
       String providerId, String eventId, String totemId) async {
     final List<TotemRow> roe = await (select(totems)
           ..where(
@@ -50,7 +50,7 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
     roe.forEach((element) {
       print('${element.sessionId} ${element.timestamp}');
     });
-    return roe.last.sessionId;
+    return (roe.last.sessionId, roe.length);
   }
 
   Future<void> deleteTable() async {

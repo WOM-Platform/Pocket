@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
 import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
+import 'package:wom_pocket/src/utils/my_extensions.dart';
 
 import '../../../constants.dart';
 
@@ -191,7 +192,7 @@ class EmptyListWidget extends ConsumerWidget {
         const SizedBox(height: 24),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text('Dove siamo:', style: style),
+          child: Text('${context.translate('whereWeAre')!}:', style: style),
         ),
         const SizedBox(height: 16),
         SizedBox(

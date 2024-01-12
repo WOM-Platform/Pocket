@@ -167,7 +167,7 @@ class TransactionRepository {
   }
 
   Future<TotemResponse> getVoucherRequestFromEmbeddedQrCode(TotemData data,
-      LatLng location, String? lastSessionIdScanned, String? gender,
+      LatLng location, String? lastSessionIdScanned, int? participationCount, String? gender,
       {bool isMocked = false}) async {
     try {
       final json = data.toJson();
@@ -180,6 +180,7 @@ class TransactionRepository {
             'latitude': location.latitude,
             'longitude': location.longitude,
             'gender': gender,
+            'participationCount': participationCount,
             'isMocked': isMocked,
           });
       // final response = await http.post(
