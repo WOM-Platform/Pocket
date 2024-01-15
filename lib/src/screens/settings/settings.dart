@@ -72,9 +72,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               },
             ),
           SettingsItem(
-            title: 'Esporta i tuoi wom',
-            subtitle:
-                "Crea un backup dei tuoi wom e importalo in un altro dispositivo",
+            title: 'exportYourWomTitle'.tr(),
+            subtitle: 'exportYourWomDesc'.tr(),
             icon: Icons.backup,
             onTap: () async {
               final count = await ref.read(

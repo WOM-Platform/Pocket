@@ -224,5 +224,7 @@
   "enableHomeTutorialTitle": "Show homepage tutorial",
   "enableHomeTutorialDesc": "Go through the introduction tutorial on the app homepage.",
   "languageSettingsTitle": "Application language",
-  "languageSettingsDesc": "Choose the language that will be used by the app’s interface."
+  "languageSettingsDesc": "Choose the language that will be used by the app’s interface.",
+  "exportYourWomTitle": "Export your WOM",
+  "exportYourWomDesc": "Create a backup of your wom and import it to another device"
 }
