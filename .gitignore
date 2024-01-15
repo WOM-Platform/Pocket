@@ -29,7 +29,7 @@
 build/
 .flutter-plugins-dependencies
 .flutter-plugins
-.fvm/flutter_sdk
+/.fvm/flutter_sdk/
 
 # Android related
 **/android/**/gradle-wrapper.jar
