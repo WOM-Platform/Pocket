@@ -213,5 +213,9 @@
   "completed": "Completato",
   "openWithSystemBrowser": "Apri con browser di sistema",
   "copyWebAddress": "Copia indirizzo web",
-  "transactions": "Transazioni"
+  "transactions": "Transazioni",
+  "male": "Maschio",
+  "female": "Femmina",
+  "notBinary": "Non binario",
+  "preferNotAnswer": "Preferisco non rispondere"
 }

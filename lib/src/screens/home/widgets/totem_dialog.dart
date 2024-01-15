@@ -300,12 +300,12 @@ enum Gender {
   notBinary,
   notAvailable;
 
-  String get translate {
+  String translate(BuildContext context) {
     return switch (this) {
-      Gender.male => 'Maschio',
-      Gender.female => 'Femmina',
-      Gender.notBinary => 'Non binario',
-      Gender.notAvailable => 'Preferisco non rispondere',
+      Gender.male => context.translate('male')!,
+      Gender.female => context.translate('female')!,
+      Gender.notBinary => context.translate('notBinary')!,
+      Gender.notAvailable => context.translate('preferNotAnswer')!,
     };
   }
 }
@@ -342,7 +342,7 @@ class GenderSelectorWidget extends HookConsumerWidget {
               onChanged: (g) {
                 gender.value = g;
               },
-              child: Text(Gender.values[i].translate),
+              child: Text(Gender.values[i].translate(context)),
             ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
