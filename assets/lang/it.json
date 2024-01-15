@@ -221,8 +221,8 @@
   "it": "Italiano",
   "en": "English",
   "selectLanguage": "Seleziona la lingua",
-  "enableHomeTutorialTitle": "Abilita il tutorial nella home",
-  "enableHomeTutorialDesc": "Ripercorri il tutorial iniziale nella pagina principale",
-  "languageSettingsTitle": "Lingua dell'app",
-  "languageSettingsDesc": "Seleziona la lingua dell'applicazione"
+  "enableHomeTutorialTitle": "Mostra tutorial della pagina principale",
+  "enableHomeTutorialDesc": "Ripercorri da capo il tutorial iniziale della pagina principale.",
+  "languageSettingsTitle": "Lingua dell’app",
+  "languageSettingsDesc": "Seleziona la lingua dell’applicazione."
 }
