@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:dart_geohash/dart_geohash.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
@@ -10,11 +9,9 @@ import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/database/extensions.dart';
-import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';
-import 'package:http/http.dart' as http;
 import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
 import '../my_logger.dart';
 

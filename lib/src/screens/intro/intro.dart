@@ -1,13 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wom_pocket/constants.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/app_notifier.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
@@ -25,8 +25,8 @@ class IntroScreen extends HookConsumerWidget {
       IntroPage(
         backGroundColor: lightBackground,
         //TODO mettere in bold W O M di Worth One Minute
-        message: AppLocalizations.of(context)!.translate('introDesc1'),
-        title: AppLocalizations.of(context)!.translate('introTitle1'),
+        message: 'introDesc1'.tr(),
+        title: 'introTitle1'.tr(),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SvgPicture.asset(
@@ -39,9 +39,9 @@ class IntroScreen extends HookConsumerWidget {
       ),
       IntroPage(
         backGroundColor: darkBackground,
-        message: AppLocalizations.of(context)!.translate('introDesc2'),
+        message: 'introDesc2'.tr(),
         textColor: Colors.white,
-        title: AppLocalizations.of(context)!.translate('introTitle2'),
+        title: 'introTitle2'.tr(),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 32.0),
           child: Image.asset(
@@ -55,8 +55,8 @@ class IntroScreen extends HookConsumerWidget {
       IntroPage(
           textColor: Colors.white,
           backGroundColor: Colors.orange,
-          message: AppLocalizations.of(context)!.translate('introDesc3'),
-          title: AppLocalizations.of(context)!.translate('introTitle3'),
+          message: 'introDesc3'.tr(),
+          title: 'introTitle3'.tr(),
           child: Image.asset(
             IMAGE_PATH_INTRO_1,
             height: 285.0,
@@ -66,8 +66,8 @@ class IntroScreen extends HookConsumerWidget {
       IntroPage(
         textColor: Colors.white,
         backGroundColor: const Color(0xFF8BC34A),
-        message: AppLocalizations.of(context)!.translate('introDesc4'),
-        title: AppLocalizations.of(context)!.translate('introTitle4'),
+        message: 'introDesc4'.tr(),
+        title: 'introTitle4'.tr(),
         child: Image.asset(
           IMAGE_PATH_INTRO_2,
           height: 285.0,
@@ -78,8 +78,8 @@ class IntroScreen extends HookConsumerWidget {
       IntroPage(
         textColor: Colors.white,
         backGroundColor: primaryColor,
-        message: AppLocalizations.of(context)!.translate('introDesc5'),
-        title: AppLocalizations.of(context)!.translate('introTitle5'),
+        message: 'introDesc5'.tr(),
+        title: 'introTitle5'.tr(),
         child: Image.asset(
           IMAGE_PATH_INTRO_3,
           height: 285.0,
@@ -90,8 +90,8 @@ class IntroScreen extends HookConsumerWidget {
       IntroPage(
         textColor: Colors.white,
         backGroundColor: Colors.red,
-        message: AppLocalizations.of(context)!.translate('introDesc6'),
-        title: AppLocalizations.of(context)!.translate('introTitle6'),
+        message: 'introDesc6'.tr(),
+        title: 'introTitle6'.tr(),
         child: Icon(
           Icons.warning,
           color: Colors.white,
@@ -172,9 +172,9 @@ class IntroScreen extends HookConsumerWidget {
           fontSize: 16.0,
         ),
         doneText:
-            Text(AppLocalizations.of(context)!.translate('introDoneText')),
+            Text('introDoneText')),
         skipText:
-            Text(AppLocalizations.of(context)!.translate('introSkipText')),
+            Text('introSkipText')),
       ), //IntroViewsFlutter
     ); */ //Material App
   }

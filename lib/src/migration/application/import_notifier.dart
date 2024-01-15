@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter_archive/flutter_archive.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';

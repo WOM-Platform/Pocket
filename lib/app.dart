@@ -1,4 +1,5 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,14 +12,12 @@ import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/screens/home/home_screen.dart';
 import 'package:wom_pocket/src/screens/pin/pin_screen.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
 
 import 'package:wom_pocket/src/screens/intro/intro.dart';
 import 'package:wom_pocket/src/screens/settings/settings.dart';
 import 'package:wom_pocket/src/screens/splash/splash_screen.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 import 'src/blocs/app/bloc.dart';
@@ -31,31 +30,10 @@ class App extends ConsumerWidget {
 
   App({Key? key}) : super(key: key);
 
-//   @override
-//   State<App> createState() => _AppState();
-// }
-//
-// class _AppState extends State<App> {
-//   // late AppBloc _appBloc;
-//
-//   late PinBloc _pinBloc;
-//
-//   TransactionsListBloc? _transactionsBloc;
-//   late SuggestionsBloc _suggestionsBloc;
-//
-//   // AppRepository get _appRepository => widget.appRepository;
-//
-//   @override
-//   void initState() {
-//     _transactionsBloc = TransactionsListBloc(TransactionDB.get());
-//     _suggestionsBloc = SuggestionsBloc();
-//     // _appBloc = AppBloc(_appRepository, _transactionsBloc);
-//     super.initState();
-//   }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeData = ThemeData(
+        useMaterial3: false,
         primaryColor: primaryColor,
         backgroundColor: backgroundColor,
         scaffoldBackgroundColor: backgroundColor);
@@ -63,13 +41,9 @@ class App extends ConsumerWidget {
     return OKToast(
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
-//          locale: DevicePreview.of(context).locale, // <--- Add the locale
-//          builder: DevicePreview.appBuilder, // <--- Add the build
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
           localeResolutionCallback: (locale, supportedLocales) {
             if (locale == null) {
               Intl.defaultLocale = supportedLocales.first.toString();
@@ -86,12 +60,7 @@ class App extends ConsumerWidget {
             Intl.defaultLocale = supportedLocales.first.toString();
             return supportedLocales.first;
           },
-          supportedLocales: [
-            const Locale('it', 'IT'),
-            const Locale('en', 'US'),
-          ],
           theme: themeData.copyWith(
-            useMaterial3: false,
             textTheme: GoogleFonts.ralewayTextTheme(themeData.textTheme),
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
               backgroundColor: primaryColor,
@@ -105,60 +74,10 @@ class App extends ConsumerWidget {
             final mediaQueryData = MediaQuery.of(context);
 
             return MediaQuery(
-              data: mediaQueryData.copyWith(textScaleFactor: 1.0),
+              data: mediaQueryData.copyWith(textScaler: TextScaler.linear(1.0)),
               child: child!,
             );
           },
-          // home: GateWidget(),
-          // : BlocListener<AppBloc, AppState>(
-          //     listener: (ctx, state) {
-          //       logger.i("APP BLOC LISTENER ----> state is: $state");
-          //       if (state is DeepLinkMode) {
-          //         logger.i("Go to pin screen");
-          //         _pinBloc = PinBloc(state.deepLinkModel);
-          //         _pinBloc = PinBloc(state.deepLinkModel);
-          //         var blocProviderPin = BlocProvider(
-          //           create: (context) => _pinBloc,
-          //           child: PinScreen(),
-          //         );
-          //         Navigator.push(
-          //           ctx,
-          //           MaterialPageRoute<bool>(
-          //               builder: (context) => blocProviderPin),
-          //         ).then((value) {
-          //           _appBloc.add(HomeEvent());
-          //         });
-          //       }
-          //     },
-          //     child: BlocBuilder<AppBloc, AppState>(
-          //         buildWhen: (previous, current) {
-          //       final r =
-          //           (previous != current) && (current is! DeepLinkMode);
-          //       return r;
-          //     }, builder: (ctx, AppState state) {
-          //       logger.i("APP BLOC BUILDER ----> state is: $state");
-          //
-          //       if (state is IntroMode) {
-          //         return IntroScreen();
-          //       }
-          //
-          //       if (state is NormalMode) {
-          //         final homeProvider = MultiBlocProvider(
-          //           child: FeatureDiscovery(
-          //             child: HomeScreen2(),
-          //           ),
-          //           providers: <BlocProvider>[
-          //             BlocProvider<TransactionsListBloc>(
-          //                 create: (context) => _transactionsBloc!),
-          //             BlocProvider<SuggestionsBloc>(
-          //                 create: (context) => _suggestionsBloc),
-          //           ],
-          //         );
-          //         return homeProvider;
-          //       }
-          //       return SplashScreen();
-          //     }),
-          //   ),
           routes: {
             '/': (_) => GateWidget(),
             '/settings': (context) => SettingsScreen(),

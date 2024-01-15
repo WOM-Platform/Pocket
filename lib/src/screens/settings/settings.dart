@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -11,13 +11,11 @@ import 'package:wom_pocket/src/log_output.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/intro/intro.dart';
 import 'package:wom_pocket/src/screens/table_page/db_page.dart';
-import 'package:wom_pocket/src/utils/config.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 import 'package:wom_pocket/src/widgets/my_appbar.dart';
 
 import '../../../constants.dart';
 import '../../migration/ui/migration_screen.dart';
-import '../../utils/my_extensions.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   @override
@@ -43,15 +41,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       body: ListView(
         children: <Widget>[
           SettingsItem(
-            title: context.translate('settings_redeem_demo_title')!,
-            subtitle: context.translate('settings_redeem_demo_desc')!,
+            title: 'settings_redeem_demo_title'.tr(),
+            subtitle: 'settings_redeem_demo_desc'.tr(),
             icon: Icons.monetization_on,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUri('https://demo.wom.social/redeem'),
           ),
           SettingsItem(
-            title: context.translate('settings_pay_demo_title')!,
-            subtitle: context.translate('settings_pay_demo_desc')!,
+            title: 'settings_pay_demo_title'.tr(),
+            subtitle: 'settings_pay_demo_desc'.tr(),
             icon: Icons.credit_card,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUri('https://demo.wom.social/pay'),
@@ -99,11 +97,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               valueListenable: Hive.box('settings').listenable(),
               builder: (context, box, _) {
                 final gender = box.get('gender');
-                String title = context.translate('removeGenderInfoTitle')!;
-                String desc = context.translate('removeGenderInfoDescription')!;
+                String title = 'removeGenderInfoTitle'.tr();
+                String desc = 'removeGenderInfoDescription'.tr();
                 if (gender == null) {
-                  title = context.translate('genderNotSetTitle')!;
-                  desc = context.translate('genderNotSetDescription')!;
+                  title = 'genderNotSetTitle'.tr();
+                  desc = 'genderNotSetDescription'.tr();
                 }
                 return SettingsItem(
                   title: title,
@@ -114,8 +112,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       : () async {
                           Hive.box('settings').delete('gender');
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  context.translate('genderInfoRemoved')!)));
+                              content: Text('genderInfoRemoved'.tr())));
                         },
                 );
               }),
@@ -148,7 +145,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
           ],
           SettingsItem(
-            title: context.translate('settings_show_intro_title')!,
+            title: 'settings_show_intro_title'.tr(),
             subtitle: 'Ripercorri le schermate introduttive',
             icon: Icons.question_mark,
             // trailing: StatefulBuilder(
@@ -180,16 +177,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             },
           ),
           SettingsItem(
-            title: 'Abilita il tutorial nella home',
-            subtitle: 'Ripercorri il tutorial inziale nella pagina principale',
+            title: 'languageSettingsTitle'.tr(),
+            subtitle: 'languageSettingsDesc'.tr(),
+            icon: Icons.language,
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (_) => LanguageSelectorDialog(),
+              );
+            },
+          ),
+          SettingsItem(
+            title: 'enableHomeTutorialTitle'.tr(),
+            subtitle: 'enableHomeTutorialDesc'.tr(),
             icon: Icons.cast_for_education,
             onTap: () {
               _clearTutorial(context);
             },
           ),
           SettingsItem(
-            title: context.translate('settings_info_title')!,
-            subtitle: context.translate('settings_info_desc')!,
+            title: 'settings_info_title'.tr(),
+            subtitle: 'settings_info_desc'.tr(),
             icon: Icons.info,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUri('https://wom.social'),
@@ -292,6 +300,43 @@ class VersionInfo extends StatelessWidget {
         }
         return Container();
       },
+    );
+  }
+}
+
+class LanguageSelectorDialog extends StatelessWidget {
+  const LanguageSelectorDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'selectLanguage'.tr(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            for (final l in context.supportedLocales)
+              Row(
+                children: [
+                  RadioMenuButton(
+                    value: l,
+                    groupValue: context.locale,
+                    onChanged: (val) {
+                      if (val == null) return;
+                      context.setLocale(val);
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(l.languageCode.tr()),
+                  ),
+                ],
+              )
+          ],
+        ),
+      ),
     );
   }
 }

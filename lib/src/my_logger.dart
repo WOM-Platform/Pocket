@@ -1,6 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:logger/logger.dart';
-import 'package:wom_pocket/constants.dart';
 
 late Logger logger;
 

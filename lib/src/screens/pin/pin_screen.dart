@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/pin_notifier.dart';
 import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/blocs/pin/bloc.dart';
@@ -45,7 +46,7 @@ class PinScreen extends ConsumerWidget {
           statusBarIconBrightness: Brightness.light,
         ),
         title: Text(
-          AppLocalizations.of(context)!.translate('pin_title'),
+          'pin_title'.tr(),
           style: TextStyle(color: Colors.white, fontSize: 20.0),
         ),
         centerTitle: true,

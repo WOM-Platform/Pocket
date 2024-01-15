@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -21,6 +22,7 @@ late String mapStyle;
 void main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await EasyLocalization.ensureInitialized();
     await Firebase.initializeApp();
     await Hive.initFlutter();
     await Hive.openBox('settings');
@@ -44,7 +46,23 @@ void main() async {
     );
 
     runApp(
-      FeatureDiscovery(child: ProviderScope(child: App())),
+      FeatureDiscovery(
+          child: ProviderScope(
+        child: EasyLocalization(
+          supportedLocales: [
+            Locale(
+              'en',
+            ),
+            Locale(
+              'it',
+            )
+          ],
+          path: 'assets/lang',
+          // <-- change the path of the translation files
+          fallbackLocale: Locale('it'),
+          child: App(),
+        ),
+      )),
     );
   },
       (error, stack) =>

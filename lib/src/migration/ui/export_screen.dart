@@ -1,10 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wom_pocket/app.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/migration/ui/import_screen.dart';
@@ -39,7 +39,7 @@ class MigrationExportScreen extends ConsumerWidget {
           if (backTo) const SizedBox(height: 32),
           Center(
             child: Text(
-              AppLocalizations.of(context)!.translate('exportPocket'),
+              'exportPocket'.tr(),
               style: TextStyle(
                   fontSize: 30,
                   color: Colors.white,
@@ -50,7 +50,7 @@ class MigrationExportScreen extends ConsumerWidget {
           const SizedBox(height: 32),
           Center(
             child: Text(
-              AppLocalizations.of(context)!.translate('exportScan'),
+              'exportScan'.tr(),
               style: TextStyle(fontSize: 20, color: Colors.white),
               textAlign: TextAlign.center,
             ),
@@ -101,7 +101,7 @@ class MigrationExportScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            AppLocalizations.of(context)!.translate('recoverBefore'),
+            'recoverBefore'.tr(),
             style: TextStyle(
               fontSize: 20,
               color: Colors.white,
@@ -129,7 +129,7 @@ class MigrationExportScreen extends ConsumerWidget {
                     ),
                     (route) => false);
               },
-              label: Text(AppLocalizations.of(context)!.translate('backToHome'),),
+              label: Text('backToHome'.tr()),
             )
           : null,
     );

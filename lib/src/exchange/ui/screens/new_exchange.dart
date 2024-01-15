@@ -1,10 +1,10 @@
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/exchange/ui/screens/exchange_receipt.dart';
 import 'package:wom_pocket/src/my_logger.dart';
@@ -68,7 +68,7 @@ class NewExchange extends HookConsumerWidget {
       child: Column(
         children: [
           Text(
-            AppLocalizations.of(context)?.translate('donationInfo') ?? '-',
+            'donationInfo'.tr(),
             style: TextStyle(
               color: Colors.grey,
             ),
@@ -76,7 +76,7 @@ class NewExchange extends HookConsumerWidget {
           const SizedBox(height: 24),
           if (totalAvailableWom == 0)
             Text(
-              AppLocalizations.of(context)?.translate('noWomToDonate') ?? '-',
+              'noWomToDonate'.tr(),
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -95,9 +95,7 @@ class NewExchange extends HookConsumerWidget {
             ),
             const SizedBox(height: 16),
             if (dailyAvailableWom > 0) ...[
-              Text(AppLocalizations.of(context)
-                      ?.translate('donationSliderTip') ??
-                  '-'),
+              Text('donationSliderTip'.tr()),
               Slider(
                 max: maxS,
                 min: minS,
@@ -124,13 +122,12 @@ class NewExchange extends HookConsumerWidget {
                   );
                 },
                 child: Text(
-                  '${AppLocalizations.of(context)?.translate('donate') ?? '-'} ${wom.value} WOM',
+                  '${'donate'.tr()} ${wom.value} WOM',
                 ),
               ),
             ] else
               Text(
-                AppLocalizations.of(context)?.translate('noWomToDonateToday') ??
-                    '-',
+                'noWomToDonateToday'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.orange,
@@ -144,17 +141,17 @@ class NewExchange extends HookConsumerWidget {
   }
 
   getMessage(BuildContext context, int womCount, int womLeft, int womTotal) {
-    print('language code :${AppLocalizations.of(context)?.locale.languageCode}');
+    print('language code :${context.locale.languageCode}');
     if(womCount == 0) {
       // The user hasn't donated anything yet today
-      if (AppLocalizations.of(context)?.locale.languageCode == 'en') {
+      if (context.locale.languageCode == 'en') {
         return 'You have $womLeft WOMs available to donate today.';
       } else {
         return 'Ti rimangono $womLeft WOM da donare oggi.';
       }
     }
     else {
-      if (AppLocalizations.of(context)?.locale.languageCode == 'en') {
+      if (context.locale.languageCode == 'en') {
         return 'You have donated $womCount WOMs today, leaving you with $womLeft (out of $womTotal total).';
       } else {
         return 'Oggi hai già donato $womCount WOM, te ne restano $womLeft (su $womTotal totali).';

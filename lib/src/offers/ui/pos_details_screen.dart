@@ -1,18 +1,18 @@
 import 'dart:io';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/offers/application/pos_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/offer_tile.dart';
 import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
-import 'package:wom_pocket/src/utils/my_extensions.dart';
 
 class POSDetailsScreen extends ConsumerWidget {
   final List<Offer> offers;
@@ -52,9 +52,7 @@ class POSDetailsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context)!.translate('posDetail'),
-        ),
+        title: Text('posDetail'.tr()),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: primaryColor,
@@ -99,7 +97,7 @@ class POSDetailsScreen extends ConsumerWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          AppLocalizations.of(context)!.translate('offers'),
+                          'offers'.tr(),
                           style: sectionStyle,
                         ),
                       ],
@@ -137,8 +135,7 @@ class POSDetailsScreen extends ConsumerWidget {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                AppLocalizations.of(context)!
-                                    .translate('whereFindUs'),
+                                'whereFindUs'.tr(),
                                 textAlign: TextAlign.start,
                                 style: sectionStyle,
                               ),
@@ -231,9 +228,7 @@ class POSDetailsScreen extends ConsumerWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              AppLocalizations.of(context)
-                                      ?.translate('howUseOffer') ??
-                                  '',
+                              'howUseOffer'.tr(),
                               textAlign: TextAlign.start,
                               style: sectionStyle,
                             ),
@@ -241,9 +236,7 @@ class POSDetailsScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          AppLocalizations.of(context)
-                                  ?.translate('howUseOfferDesc') ??
-                              '',
+                          'howUseOfferDesc'.tr(),
                           style: TextStyle(fontSize: 18),
                         ),
                       ],
@@ -259,9 +252,7 @@ class POSDetailsScreen extends ConsumerWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              AppLocalizations.of(context)
-                                      ?.translate('howUseVirtualOffer') ??
-                                  '',
+                              'howUseVirtualOffer'.tr(),
                               textAlign: TextAlign.start,
                               style: sectionStyle,
                             ),
@@ -269,9 +260,7 @@ class POSDetailsScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          AppLocalizations.of(context)
-                                  ?.translate('howUseVirtualOfferDesc') ??
-                              '',
+                          'howUseVirtualOfferDesc'.tr(),
                           style: TextStyle(fontSize: 18),
                         ),
                         if (url != null)
@@ -290,7 +279,7 @@ class POSDetailsScreen extends ConsumerWidget {
                                   launchUrl(uri);
                                 }
                               },
-                              child: Text(context.translate('accessToStore')!),
+                              child: Text('accessToStore'.tr()),
                             ),
                           ),
                       ],

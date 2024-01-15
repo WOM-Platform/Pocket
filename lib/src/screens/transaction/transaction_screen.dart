@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
@@ -102,10 +103,8 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
               return state.when(data: (state) {
                 if (state is TransactionNoDataConnectionState) {
                   return TransactionWarningWidget(
-                    title: AppLocalizations.of(context)!
-                        .translate('no_connection_title'),
-                    desc: AppLocalizations.of(context)!
-                        .translate('no_connection_transaction_desc'),
+                    title: 'no_connection_title'.tr(),
+                    desc: 'no_connection_transaction_desc'.tr(),
                     tryAgain: () {
                       if (state.infoPay == null) {
                         ref.invalidate(
@@ -128,17 +127,14 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                 } else if (state is TransactionErrorState) {
                   return TransactionErrorWidget(
                     error: state.translationKey != null
-                        ? AppLocalizations.of(context)!
-                            .translate(state.translationKey!)
+                        ? state.translationKey!.tr()
                         : state.error,
                     backToHome: () => backToHome(),
                   );
                 } else if (state is TransactionMissingLocationState) {
                   return TransactionWarningWidget(
-                    title: AppLocalizations.of(context)!
-                        .translate('missing_location_error'),
-                    desc: AppLocalizations.of(context)!
-                        .translate('missing_location_error_desc'),
+                    title: 'missing_location_error'.tr(),
+                    desc: 'missing_location_error_desc'.tr(),
                     tryAgain: () {
                       ref.invalidate(
                           transactionNotifierProvider(widget.params));
@@ -230,14 +226,14 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                 }
                 return Center(
                   child: Text(
-                    AppLocalizations.of(context)!.translate('somethings_wrong'),
+                    'somethings_wrong'.tr(),
                     style: whiteTextStyle,
                   ),
                 );
               }, error: (err, st) {
                 return Center(
                   child: Text(
-                    AppLocalizations.of(context)!.translate('somethings_wrong'),
+                    'somethings_wrong'.tr(),
                     style: whiteTextStyle,
                   ),
                 );
@@ -256,13 +252,13 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
   String getMessage(TransactionType type) {
     return switch (type) {
       TransactionType.VOUCHERS =>
-        '${AppLocalizations.of(context)!.translate('you_got')}:',
+        '${'you_got'.tr()}:',
       TransactionType.PAYMENT =>
-        AppLocalizations.of(context)!.translate('payment_completed'),
+        'payment_completed'.tr(),
       TransactionType.MIGRATION_IMPORT => '',
       TransactionType.MIGRATION_EXPORT => '',
       TransactionType.EXCHANGE_EXPORT => '',
-      TransactionType.EXCHANGE_IMPORT => AppLocalizations.of(context)!.translate('import_exchange_completed'),
+      TransactionType.EXCHANGE_IMPORT => 'import_exchange_completed'.tr(),
     };
   }
 }
@@ -379,7 +375,7 @@ class TransactionWarningWidget extends StatelessWidget {
                   tryAgain?.call();
                 },
                 label: Text(
-                  AppLocalizations.of(context)!.translate('try_again'),
+                  'try_again'.tr(),
                 )),
           ],
         ),

@@ -34,13 +34,11 @@ class OptionalQuery {
         ? "WHERE ${WomModel.tblWom}.${WomModel.dbAddedOn} BETWEEN $startDate AND $endDate"
         : "";
 
-    if (womStatus != null) {
-      var statusWhereClause = "${WomModel.tblWom}.spent = ${womStatus.index}";
-      whereClause = whereClause.isEmpty
-          ? "WHERE $statusWhereClause"
-          : "$whereClause AND $statusWhereClause";
-    }
-
+    var statusWhereClause = "${WomModel.tblWom}.spent = ${womStatus.index}";
+    whereClause = whereClause.isEmpty
+        ? "WHERE $statusWhereClause"
+        : "$whereClause AND $statusWhereClause";
+  
     if (sources != null) {
       final sourceWhereClause = buildSourceClause(sources!);
 

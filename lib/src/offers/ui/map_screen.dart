@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/offers/application/offer_map_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/search_button.dart';
@@ -150,7 +151,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
     final showStaticCities = ref.watch(showStaticCitiesProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.translate('offerMapTitle')),
+        title: Text('offerMapTitle'.tr()),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: primaryColor,

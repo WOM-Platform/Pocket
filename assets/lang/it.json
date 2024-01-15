@@ -217,5 +217,12 @@
   "male": "Maschio",
   "female": "Femmina",
   "notBinary": "Non binario",
-  "preferNotAnswer": "Preferisco non rispondere"
+  "preferNotAnswer": "Preferisco non rispondere",
+  "it": "Italiano",
+  "en": "English",
+  "selectLanguage": "Seleziona la lingua",
+  "enableHomeTutorialTitle": "Abilita il tutorial nella home",
+  "enableHomeTutorialDesc": "Ripercorri il tutorial iniziale nella pagina principale",
+  "languageSettingsTitle": "Lingua dell'app",
+  "languageSettingsDesc": "Seleziona la lingua dell'applicazione"
 }

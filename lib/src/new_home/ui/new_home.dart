@@ -1,14 +1,12 @@
-import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/new_home/ui/aim_chart.dart';
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
-import 'package:wom_pocket/src/screens/home/widgets/exchange_card.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:wom_pocket/src/screens/map/map_screen.dart';
 import 'package:wom_pocket/src/transaction/ui/transactions_screen.dart';
@@ -53,7 +51,7 @@ class NewHome extends ConsumerWidget {
                       children: [
                         SectionTitle(
                           title:
-                              AppLocalizations.of(context)!.translate('womMap'),
+                              'womMap'.tr(),
                           leftPadding: 16,
                         ),
                         AspectRatio(
@@ -99,9 +97,8 @@ class NewHome extends ConsumerWidget {
                   // ),
                   SliverToBoxAdapter(
                     child: SectionTitle(
-                      title: AppLocalizations.of(context)!
-                          .translate('lastTransactions'),
-                      text: AppLocalizations.of(context)!.translate('seeAll'),
+                      title: 'lastTransactions'.tr(),
+                      text: 'seeAll'.tr(),
                       leftPadding: 16,
                       onTap: () {
                         Navigator.of(context).push(
@@ -153,7 +150,7 @@ class NewHome extends ConsumerWidget {
 
                   // const SizedBox(height: 8),
                   Text(
-                    AppLocalizations.of(context)!.translate('noWoms'),
+                    'noWoms'.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,
@@ -162,7 +159,7 @@ class NewHome extends ConsumerWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    AppLocalizations.of(context)!.translate('noWomsDesc'),
+                    'noWomsDesc'.tr(),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -172,7 +169,7 @@ class NewHome extends ConsumerWidget {
           error: (ex, st) {
             return Center(
               child: Text(
-                AppLocalizations.of(context)!.translate('somethings_wrong'),
+                'somethings_wrong'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),

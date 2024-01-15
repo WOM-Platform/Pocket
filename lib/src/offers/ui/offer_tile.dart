@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 
 const loremIpsum =
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ";
@@ -183,9 +184,9 @@ class OfferTile extends StatelessWidget {
                 colorClickableText: Colors.pink,
                 trimMode: TrimMode.Line,
                 trimCollapsedText:
-                    AppLocalizations.of(context)!.translate('other'),
+                    'other'.tr(),
                 trimExpandedText:
-                    AppLocalizations.of(context)!.translate('hide'),
+                    'hide'.tr(),
                 lessStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),

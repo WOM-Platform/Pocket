@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,7 +18,6 @@ import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
-import 'package:wom_pocket/src/utils/my_extensions.dart';
 
 part 'totem_dialog.g.dart';
 
@@ -45,8 +44,8 @@ enum TotemError {
 
   String errorActionText(BuildContext context) {
     return switch (this) {
-      gpsPermission => context.translate('allowGPSPermission')!,
-      gpsServiceDisabled => context.translate('enableGPS')!,
+      gpsPermission => 'allowGPSPermission'.tr(),
+      gpsServiceDisabled => 'enableGPS'.tr(),
       sessionExpired ||
       wrongRequestId ||
       sessionNotStarted ||
@@ -55,23 +54,23 @@ enum TotemError {
       mockedLocation ||
       outOfPolygon =>
         'Ok',
-      _ => context.translate('try_again')!,
+      _ => 'try_again'.tr(),
     };
   }
 
   String description(BuildContext context) {
     return switch (this) {
-      sessionExpired => context.translate('totemErrorSessionExpired')!,
-      sessionNotStarted => context.translate('totemErrorSessionNotStarted')!,
-      wrongRequestId => context.translate('totemErrorWrongRequestId')!,
-      gpsTimeout => context.translate('totemErrorGpsTimeout')!,
-      gpsPermission => context.translate('totemErrorGpsPermission')!,
-      gpsServiceDisabled => context.translate('totemErrorGpsServiceDisabled')!,
-      eventIsClosed => context.translate('totemErrorEventIsClosed')!,
+      sessionExpired => 'totemErrorSessionExpired'.tr(),
+      sessionNotStarted => 'totemErrorSessionNotStarted'.tr(),
+      wrongRequestId => 'totemErrorWrongRequestId'.tr(),
+      gpsTimeout => 'totemErrorGpsTimeout'.tr(),
+      gpsPermission => 'totemErrorGpsPermission'.tr(),
+      gpsServiceDisabled => 'totemErrorGpsServiceDisabled'.tr(),
+      eventIsClosed => 'totemErrorEventIsClosed'.tr(),
       sessionAlreadyScanned =>
-        context.translate('totemErrorSessionAlreadyScanned')!,
-      outOfPolygon => context.translate('totemErrorOutOfPolygon')!,
-      _ => context.translate('somethings_wrong')!,
+        'totemErrorSessionAlreadyScanned'.tr(),
+      outOfPolygon => 'totemErrorOutOfPolygon'.tr(),
+      _ => 'somethings_wrong'.tr(),
     };
   }
 }
@@ -242,7 +241,7 @@ class TotemDialog extends ConsumerWidget {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text(context.translate('cancel')!),
+                    child: Text('cancel'.tr()),
                   ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -281,10 +280,10 @@ class TotemDialog extends ConsumerWidget {
             CircularProgressIndicator(),
             switch (state) {
               TotemDialogRetrievingGPS() =>
-                Text(context.translate('acquiringYourPosition')!),
+                Text('acquiringYourPosition'.tr()),
               TotemDialogCommunicationWithServer() =>
-                Text(context.translate('communicatingWithServer')!),
-              TotemDialogComplete() => Text(context.translate('completed')!),
+                Text('communicatingWithServer'.tr()),
+              TotemDialogComplete() => Text('completed'.tr()),
               _ => SizedBox.shrink(),
             },
           ],
@@ -302,10 +301,10 @@ enum Gender {
 
   String translate(BuildContext context) {
     return switch (this) {
-      Gender.male => context.translate('male')!,
-      Gender.female => context.translate('female')!,
-      Gender.notBinary => context.translate('notBinary')!,
-      Gender.notAvailable => context.translate('preferNotAnswer')!,
+      Gender.male => 'male'.tr(),
+      Gender.female => 'female'.tr(),
+      Gender.notBinary => 'notBinary'.tr(),
+      Gender.notAvailable => 'preferNotAnswer'.tr(),
     };
   }
 }
@@ -327,11 +326,11 @@ class GenderSelectorWidget extends HookConsumerWidget {
         children: [
           const SizedBox(height: 8),
           Text(
-            context.translate('genderSelectionTitle')!,
+            'genderSelectionTitle'.tr(),
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
           Text(
-            context.translate('genderSelectionDescription')!,
+            'genderSelectionDescription'.tr(),
             // style: TextStyle(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 4),
@@ -351,7 +350,7 @@ class GenderSelectorWidget extends HookConsumerWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text(context.translate('cancel')!)),
+                  child: Text('cancel'.tr())),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
@@ -367,7 +366,7 @@ class GenderSelectorWidget extends HookConsumerWidget {
                         onAction();
                       }
                     : null,
-                child: Text(context.translate('continue')!),
+                child: Text('continue'.tr()),
               ),
             ],
           ),

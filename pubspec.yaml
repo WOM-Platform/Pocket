@@ -77,6 +77,7 @@ dependencies:
   flutter_cache_manager:
   freezed_annotation:
   dio:
+  easy_localization: ^3.0.3
 
   # UI
   material_design_icons_flutter: ^7.0.7296
@@ -132,5 +133,5 @@ flutter:
     - assets/registry.pub
     - assets/registry_dev.pub
     - assets/map_style.txt
-    - lang/en.json
-    - lang/it.json
+    - assets/lang/en.json
+    - assets/lang/it.json

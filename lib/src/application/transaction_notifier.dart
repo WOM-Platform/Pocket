@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dart_wom_connector/dart_wom_connector.dart'
     hide Location, Position;
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -74,7 +73,7 @@ class TransactionNotifier extends _$TransactionNotifier {
           logEvent('wom_info_payment_retrieved');
           return TransactionInfoPaymentState(infoPayment, password);
         }
-      } on InsufficientVouchers catch (ex) {
+      } on InsufficientVouchers {
         return TransactionErrorState(
             error: 'Non hai voucher a sufficienza per questa richiesta',
             translationKey: 'wrong_number_of_vouchers');
@@ -158,7 +157,7 @@ class TransactionNotifier extends _$TransactionNotifier {
             .pay(otc, password, infoPayment);
         logEvent('wom_payment_done');
         state = AsyncData(TransactionCompleteState(transaction));
-      } on InsufficientVouchers catch (ex) {
+      } on InsufficientVouchers {
         state = AsyncData(TransactionErrorState(
             error: 'Non hai voucher a sufficienza per questa richiesta',
             translationKey: 'wrong_number_of_vouchers'));

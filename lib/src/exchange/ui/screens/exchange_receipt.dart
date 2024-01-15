@@ -1,13 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/exchange/application/new_exchange_state.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NewExchangeScreen extends ConsumerWidget {
@@ -41,8 +41,7 @@ class NewExchangeScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              AppLocalizations.of(context)?.translate('donationInProgress') ??
-                  '-',
+              'donationInProgress'.tr(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
@@ -69,9 +68,7 @@ class NewExchangeScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    AppLocalizations.of(context)
-                            ?.translate('somethings_wrong') ??
-                        '-',
+                    'somethings_wrong'.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
@@ -94,9 +91,7 @@ class NewExchangeScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    AppLocalizations.of(context)
-                            ?.translate('insufficient_vouchers') ??
-                        '-',
+                    'insufficient_vouchers'.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
@@ -115,9 +110,8 @@ class NewExchangeScreen extends ConsumerWidget {
               },
               label: state is NewExchangeStateError ||
                       state is NewExchangeStateinsufficientVouchers
-                  ? Text(AppLocalizations.of(context)?.translate('back') ?? '-')
-                  : Text(
-                      AppLocalizations.of(context)?.translate('done') ?? '-'),
+                  ? Text('back'.tr())
+                  : Text('done'.tr()),
             ),
     );
   }
@@ -149,7 +143,7 @@ class ExchangeReceiptScreen extends ConsumerWidget {
         onPressed: () async {
           Navigator.of(context).pop();
         },
-        label: Text(AppLocalizations.of(context)?.translate('done') ?? '-'),
+        label: Text('done'.tr()),
       ),
     );
   }
@@ -178,7 +172,7 @@ class ExchangeDataWidget extends StatelessWidget {
         const SizedBox(height: 32),
         Center(
           child: Text(
-            '${AppLocalizations.of(context)?.translate('donation') ?? '-'}\n$womCount WOM',
+            '${'donation'.tr()}\n$womCount WOM',
             style: TextStyle(
                 fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
@@ -187,9 +181,7 @@ class ExchangeDataWidget extends StatelessWidget {
         const SizedBox(height: 32),
         Center(
           child: Text(
-            AppLocalizations.of(context)
-                    ?.translate('scanToReceiveWOMFromDonation') ??
-                '-',
+            'scanToReceiveWOMFromDonation'.tr(),
             style: TextStyle(fontSize: 20, color: Colors.white),
             textAlign: TextAlign.center,
           ),

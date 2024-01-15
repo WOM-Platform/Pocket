@@ -1,7 +1,8 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 
 import '../../my_logger.dart';
@@ -79,7 +80,7 @@ class SearchNewPointButton extends ConsumerWidget {
           duration: const Duration(milliseconds: 500),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).colorScheme.secondary,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
               ),
@@ -89,7 +90,7 @@ class SearchNewPointButton extends ConsumerWidget {
               onPressed?.call();
             },
             child: Text(
-              AppLocalizations.of(context)!.translate('search_here'),
+              'search_here'.tr(),
               style: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
@@ -103,7 +104,7 @@ class SearchNewPointButton extends ConsumerWidget {
       case ZoomStatus.loading:
         return ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: Theme.of(context).colorScheme.secondary,
+            backgroundColor: Theme.of(context).colorScheme.secondary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),

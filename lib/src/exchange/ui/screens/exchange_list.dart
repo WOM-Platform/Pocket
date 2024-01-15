@@ -1,6 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_card.dart';
@@ -17,8 +18,7 @@ class ExchangeListScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SectionTitle(
-            title:
-                AppLocalizations.of(context)?.translate('lastDonation') ?? '-',
+            title: 'lastDonation'.tr(),
           ),
           const SizedBox(height: 16),
           exchangeState.when(
@@ -29,10 +29,7 @@ class ExchangeListScreen extends ConsumerWidget {
                     TransactionCard(
                       transaction: list[i],
                     ),
-                  if (list.isEmpty)
-                    Text(
-                        AppLocalizations.of(context)?.translate('noDonation') ??
-                            '-'),
+                  if (list.isEmpty) Text('noDonation'.tr()),
                 ],
               );
             },

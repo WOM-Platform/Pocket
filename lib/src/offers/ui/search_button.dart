@@ -1,8 +1,9 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/offers/application/offer_map_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
@@ -69,7 +70,7 @@ class SearchNewPointButton extends ConsumerWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                AppLocalizations.of(context)!.translate('zoomInToSearch'),
+                'zoomInToSearch'.tr(),
                 style: TextStyle(
                   color: primaryColor,
                   fontSize: fontSize,
@@ -94,7 +95,7 @@ class SearchNewPointButton extends ConsumerWidget {
               onPressed?.call();
             },
             child: Text(
-              AppLocalizations.of(context)!.translate('search_here'),
+              'search_here'.tr(),
               style: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,

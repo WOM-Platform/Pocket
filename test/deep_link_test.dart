@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 
 main() {

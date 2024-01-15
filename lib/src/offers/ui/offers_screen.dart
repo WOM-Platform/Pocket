@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/location_notifier.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
@@ -48,7 +49,7 @@ class OffersListScreen extends ConsumerWidget {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (c) => OfferMapsScreen()));
             },
-            child: Text(AppLocalizations.of(context)!.translate('showMap')),
+            child: Text('showMap'.tr()),
           )
         ],
       ),
@@ -136,7 +137,7 @@ class OffersList extends ConsumerWidget {
       child: Column(
         children: [
           SectionTitle(
-            title: AppLocalizations.of(context)!.translate('offersOnEarth'),
+            title: 'offersOnEarth'.tr(),
             leftPadding: 16,
           ),
           state.when(
@@ -148,13 +149,12 @@ class OffersList extends ConsumerWidget {
                   if (offers.isEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(AppLocalizations.of(context)!
-                          .translate('noOffersOnLocation')),
+                      child: Text('noOffersOnLocation'.tr()),
                     ),
                     const SizedBox(height: 16),
                     SectionTitle(
                       title:
-                          AppLocalizations.of(context)!.translate('whereWeAre'),
+                          'whereWeAre'.tr(),
                       leftPadding: 16,
                     ),
                     SizedBox(
@@ -222,8 +222,7 @@ class OffersList extends ConsumerWidget {
             error: (ex, st) {
               if (ex is MyLocationException) {
                 return PocketErrorWidget(
-                  errorText: AppLocalizations.of(context)!
-                      .translate('noLocationPermission'),
+                  errorText: 'noLocationPermission'.tr(),
                   tryAgain: () async {
                     try {
                       final res = await requestPermission();
@@ -234,38 +233,35 @@ class OffersList extends ConsumerWidget {
                       Alert(
                           context: context,
                           type: AlertType.error,
-                          title: AppLocalizations.of(context)!
-                              .translate('locationPermissionDeniedForever'),
+                          title: 'locationPermissionDeniedForever'.tr(),
                           buttons: []).show();
                     } catch (ex, st) {
                       logger.e(ex);
                       logger.e(st);
                     }
                   },
-                  tryAgainText: AppLocalizations.of(context)!
-                      .translate('grantPermission'),
+                  tryAgainText: 'grantPermission'.tr(),
                   ex: ex,
                 );
               } else if (ex is LocationDisabledException) {
                 return PocketErrorWidget(
-                  errorText: AppLocalizations.of(context)!
-                      .translate('noLocationService'),
+                  errorText: 'noLocationService'.tr(),
                   tryAgain: () {
                     ref.invalidate(locationNotifierProvider);
                   },
                   tryAgainText:
-                      AppLocalizations.of(context)!.translate('try_again'),
+                      'try_again'.tr(),
                   ex: ex,
                 );
               }
               return PocketErrorWidget(
                 errorText:
-                    AppLocalizations.of(context)!.translate('somethings_wrong'),
+                    'somethings_wrong'.tr(),
                 tryAgain: () {
                   ref.invalidate(offersNotifierProvider);
                 },
                 tryAgainText:
-                    AppLocalizations.of(context)!.translate('try_again'),
+                    'try_again'.tr(),
                 ex: ex,
               );
             },

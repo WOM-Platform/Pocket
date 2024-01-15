@@ -1,13 +1,13 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
 import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
-import 'package:wom_pocket/src/utils/my_extensions.dart';
 
 import '../../../constants.dart';
 
@@ -38,7 +38,6 @@ RegistryClient getRegistryClient(GetRegistryClientRef ref) {
 //   });
 //   return c;
 // });
-
 
 @Riverpod(keepAlive: true)
 Raw<ScrollController> scrollController(ScrollControllerRef ref) {
@@ -171,8 +170,7 @@ class EmptyListWidget extends ConsumerWidget {
                   text: '- premi il pulsante "',
                 ),
                 TextSpan(
-                    text:
-                        '${AppLocalizations.of(context)!.translate('search_here')}"',
+                    text: '${'search_here'.tr()}"',
                     style: style.copyWith(fontWeight: FontWeight.bold)),
                 TextSpan(
                   text: '.',
@@ -192,7 +190,7 @@ class EmptyListWidget extends ConsumerWidget {
         const SizedBox(height: 24),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text('${context.translate('whereWeAre')!}:', style: style),
+          child: Text('${'whereWeAre'.tr()}:', style: style),
         ),
         const SizedBox(height: 16),
         SizedBox(
@@ -258,7 +256,7 @@ class EmptyListWidget extends ConsumerWidget {
         )
 
         // Text(
-        //   '🔍​ Premi il pulsante "${AppLocalizations.of(context)!.translate('search_here')}"',
+        //   '🔍​ Premi il pulsante "${'search_here')}"',
         //   style: style,
         // ),
       ],

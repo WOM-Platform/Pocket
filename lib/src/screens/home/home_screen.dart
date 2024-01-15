@@ -1,4 +1,5 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -10,9 +11,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:wom_pocket/constants.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/app_notifier.dart';
-import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/exchange/ui/screens/exchange.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:wom_pocket/src/migration/ui/import_screen.dart';
@@ -20,18 +20,15 @@ import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/new_home/ui/new_home.dart';
 import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
-import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:store_redirect/store_redirect.dart';
-import 'package:wom_pocket/src/services/transaction_repository.dart';
 import 'package:wom_pocket/src/widgets/scanner_overlay_shape.dart';
 import '../../models/deep_link_model.dart';
 import '../../my_logger.dart';
 import '../../screens/pin/pin_screen.dart';
 import '../../screens/settings/settings.dart';
 import '../../utils/colors.dart';
-import '../../utils/my_extensions.dart';
 
 class HomeScreen2 extends StatefulHookConsumerWidget {
   static const String path = '/home';
@@ -61,8 +58,8 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     if (!status.isOk) {
       // SchedulerBinding.instance?.addPostFrameCallback((Duration duration) {
       final actionText = status.isOutOfService
-          ? context.translate('closeApp')?.toUpperCase()
-          : context.translate('update')?.toUpperCase();
+          ? 'closeApp'.tr().toUpperCase()
+          : 'update'.tr().toUpperCase();
 
       Alert(
           context: context,
@@ -90,12 +87,12 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   String getTitle(AppStatusEnum status) {
     switch (status) {
       case AppStatusEnum.mustUpdate:
-        return context.translate('appMustUpdateDesc') ?? '';
+        return 'appMustUpdateDesc'.tr();
       case AppStatusEnum.shouldUpdate:
-        return context.translate('appShouldUpdateDesc') ?? '';
+        return 'appShouldUpdateDesc'.tr();
       case AppStatusEnum.outOfService:
       default:
-        return context.translate('appOutOfService') ?? '';
+        return 'appOutOfService'.tr();
     }
   }
 
@@ -112,7 +109,6 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         index: index.value,
         children: [
           NewHome(),
-          // ExchangeListScreen(),
           OffersListScreen(),
           ExchangeScreen(),
           // BadgeScreen(),
@@ -147,15 +143,14 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         ),
         // The widget that will be displayed as the tap target.
         title: Text(
-          AppLocalizations.of(context)!.translate('homeTutorialTitle1'),
+          'homeTutorialTitle1'.tr(),
           style: titleStyle,
         ),
-        description:
-            Text(AppLocalizations.of(context)!.translate('homeTutorialDesc1')),
+        description: Text('homeTutorialDesc1'.tr()),
         child: FloatingActionButton.extended(
           backgroundColor: primaryColor,
           label: Text(
-            AppLocalizations.of(context)!.translate('scan'),
+            'scan'.tr(),
             style: TextStyle(
               color: Colors.white,
             ),
@@ -177,11 +172,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             icon: DescribedFeatureOverlay(
               featureId: t_home,
               title: Text(
-                AppLocalizations.of(context)!.translate('homeTutorialTitle2'),
+                'homeTutorialTitle2'.tr(),
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               description: Text(
-                AppLocalizations.of(context)!.translate('homeTutorialDesc2'),
+                'homeTutorialDesc2'.tr(),
                 style: TextStyle(fontSize: 20),
               ),
               backgroundColor: primaryColor,
@@ -201,11 +196,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             icon: DescribedFeatureOverlay(
               featureId: t_offers,
               title: Text(
-                AppLocalizations.of(context)!.translate('homeTutorialTitle3'),
+                'homeTutorialTitle3'.tr(),
                 style: titleStyle,
               ),
               description: Text(
-                AppLocalizations.of(context)!.translate('homeTutorialDesc3'),
+                'homeTutorialDesc3'.tr(),
                 style: descStyle,
               ),
               tapTarget: Column(
@@ -213,23 +208,23 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                 children: [
                   Icon(Icons.discount),
                   Text(
-                    AppLocalizations.of(context)!.translate('offers'),
+                    'offers'.tr(),
                   ),
                 ],
               ),
               child: Icon(Icons.discount),
             ),
-            label: AppLocalizations.of(context)!.translate('offers'),
+            label: 'offers'.tr(),
           ),
           BottomNavigationBarItem(
             icon: DescribedFeatureOverlay(
               featureId: t_offers,
               title: Text(
-                AppLocalizations.of(context)!.translate('homeTutorialTitle5'),
+                'homeTutorialTitle5'.tr(),
                 style: titleStyle,
               ),
               description: Text(
-                AppLocalizations.of(context)!.translate('homeTutorialDesc5'),
+                'homeTutorialDesc5'.tr(),
                 style: descStyle,
               ),
               tapTarget: Column(
@@ -237,23 +232,23 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                 children: [
                   Icon(MdiIcons.handCoin),
                   Text(
-                    AppLocalizations.of(context)!.translate('exchange'),
+                    'exchange'.tr(),
                   ),
                 ],
               ),
               child: Icon(MdiIcons.handCoin),
             ),
-            label: AppLocalizations.of(context)!.translate('exchange'),
+            label: 'exchange'.tr(),
           ),
           BottomNavigationBarItem(
             icon: DescribedFeatureOverlay(
               featureId: t_settings,
               title: Text(
-                AppLocalizations.of(context)!.translate('homeTutorialTitle4'),
+                'homeTutorialTitle4'.tr(),
                 style: titleStyle,
               ),
               description: Text(
-                AppLocalizations.of(context)!.translate('homeTutorialDesc4'),
+                'homeTutorialDesc4'.tr(),
                 style: descStyle,
               ),
               tapTarget: Column(
@@ -261,13 +256,13 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                 children: [
                   Icon(Icons.settings),
                   Text(
-                    AppLocalizations.of(context)!.translate('settings_title'),
+                    'settings_title'.tr(),
                   ),
                 ],
               ),
               child: Icon(Icons.settings),
             ),
-            label: AppLocalizations.of(context)!.translate('settings_title'),
+            label: 'settings_title'.tr(),
           ),
         ],
         currentIndex: index.value,
@@ -357,11 +352,10 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             );
           }
         }
-      } on PlatformException catch (ex) {
+      } on PlatformException {
         rethrow;
       } on FormatException {
-        throw FormatException(
-            AppLocalizations.of(context)!.translate('scanError'));
+        throw FormatException('scanError'.tr());
       } catch (ex, st) {
         logger.e(st);
         throw ex;
@@ -371,8 +365,8 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         context: context,
         style: AlertStyle(),
         type: AlertType.warning,
-        title: AppLocalizations.of(context)!.translate('no_connection_title'),
-        desc: AppLocalizations.of(context)!.translate('no_connection_desc'),
+        title: 'no_connection_title'.tr(),
+        desc: 'no_connection_desc'.tr(),
         buttons: [
           DialogButton(
             child: Text('Ok'),

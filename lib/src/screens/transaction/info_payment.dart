@@ -1,8 +1,9 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
@@ -42,7 +43,7 @@ class InfoPayment extends ConsumerWidget {
               Row(
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context)!.translate('info_payment'),
+                    'info_payment'.tr(),
                     style:
                         TextStyle(fontWeight: FontWeight.w600, fontSize: 20.0),
                     textAlign: TextAlign.start,
@@ -65,7 +66,7 @@ class InfoPayment extends ConsumerWidget {
                     Column(
                       children: <Widget>[
                         Text(
-                          AppLocalizations.of(context)!.translate('merchant'),
+                          'merchant'.tr(),
                           style: greyStyle,
                         ),
                         Text(
@@ -77,7 +78,7 @@ class InfoPayment extends ConsumerWidget {
                     Column(
                       children: <Widget>[
                         Text(
-                          AppLocalizations.of(context)!.translate('amount'),
+                          'amount'.tr(),
                           style: greyStyle,
                         ),
                         Text(
@@ -146,9 +147,7 @@ class InfoPayment extends ConsumerWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        AppLocalizations.of(context)!
-                            .translate('confirm_payment'),
+                      child: Text('confirm_payment'.tr(),
                         style: TextStyle(color: Colors.white, fontSize: 20.0),
                       ),
                     ),

@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:wom_pocket/src/utils/my_extensions.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 
 enum PopupActions { open, copy }
@@ -105,11 +105,11 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
                 <PopupMenuEntry<PopupActions>>[
               PopupMenuItem<PopupActions>(
                 value: PopupActions.open,
-                child: Text(context.translate('openWithSystemBrowser')!),
+                child: Text('openWithSystemBrowser'.tr()),
               ),
               PopupMenuItem<PopupActions>(
                 value: PopupActions.copy,
-                child: Text(context.translate('copyWebAddress')!),
+                child: Text('copyWebAddress'.tr()),
               ),
             ],
           ),

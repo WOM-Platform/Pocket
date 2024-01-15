@@ -1,10 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/exchange/ui/screens/exchange_receipt.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
@@ -30,7 +31,7 @@ class TransactionCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final languageCode = AppLocalizations.of(context)!.locale.languageCode;
+    final languageCode = context.locale.languageCode;
     final aims = ref.watch(aimNotifierProvider).valueOrNull ?? [];
     final aimCode = transaction.firstAimCode;
     final aim = aims.firstWhereOrNull((element) => element.code == aimCode);
@@ -134,7 +135,7 @@ class TransactionCard extends ConsumerWidget {
               if (aim != null) {
                 final aimTitle = aim.title(
                     languageCode:
-                        AppLocalizations.of(context)!.locale.languageCode);
+                        context.locale.languageCode);
                 message =
                     '$message  ${aimTitle != null ? 'for $aimTitle' : ''}';
               }
@@ -235,8 +236,7 @@ class TransactionCard extends ConsumerWidget {
                       children: <Widget>[
                         if (transaction.importDeadline != null)
                           ItemRow(
-                            t1: AppLocalizations.of(context)!
-                                .translate('backupExpire'),
+                            t1: 'backupExpire'.tr(),
                             t2: MigrationExportScreen.format
                                 .format(transaction.importDeadline!),
                           ),
@@ -253,8 +253,7 @@ class TransactionCard extends ConsumerWidget {
                                   ? 'instrument'
                                   : transaction.type == TransactionType.PAYMENT
                                       ? 'pos'
-                                      : AppLocalizations.of(context)!
-                                          .translate('device'),
+                                      : 'device'.tr(),
                               t2: transaction.source),
                       ],
                     ),

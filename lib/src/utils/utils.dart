@@ -1,12 +1,10 @@
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/utils/config.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
