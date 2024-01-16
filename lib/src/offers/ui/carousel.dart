@@ -15,12 +15,11 @@ import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
 import '../../utils/colors.dart';
 
 final carouselControllerProvider =
-Provider.autoDispose<CarouselController>((ref) {
+    Provider.autoDispose<CarouselController>((ref) {
   return CarouselController();
 });
 
-final citiesCarouselControllerProvider =
-Provider<CarouselController>((ref) {
+final citiesCarouselControllerProvider = Provider<CarouselController>((ref) {
   return CarouselController();
 });
 
@@ -48,7 +47,7 @@ class ListingCarouselWidget extends ConsumerWidget {
       )
           .then((value) {
         controller.isMarkerInfoWindowShown(markerId).then(
-              (value) {
+          (value) {
             if (!value) {
               controller.showMarkerInfoWindow(markerId);
             }
@@ -60,9 +59,7 @@ class ListingCarouselWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref
-        .watch(offersMapNotifierProvider(position))
-        .valueOrNull;
+    final data = ref.watch(offersMapNotifierProvider(position)).valueOrNull;
     final enabled = ref.watch(enableCarouselProvider);
 
     if (!enabled || data == null || data.isLoading || data.offers.isEmpty)
@@ -157,92 +154,82 @@ class CarouselItem extends StatelessWidget {
 
     return InkWell(
       // key: Key(store.storeId),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) =>
-                  POSDetailsScreen(
-                    posName: pos.name,
-                    description: pos.description,
-                    distance: pos.distance,
-                    url: pos.url,
-                    offers: pos.offers,
-                    imageUrl: pos.cover?.midDensityFullWidthUrl,
-                    position: pos.position,
-                  ),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => POSDetailsScreen(
+              posName: pos.name,
+              description: pos.description,
+              distance: pos.distance,
+              url: pos.url,
+              offers: pos.offers,
+              imageUrl: pos.cover?.midDensityFullWidthUrl,
+              position: pos.position,
             ),
-          );
-        },
-        child: Card(
-            elevation: 8.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0, vertical: 12),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
+          ),
+        );
+      },
+      child: Card(
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
                 Row(
-                children: [
-                CircleAvatar(
-                backgroundColor: lightBlue,
-                  backgroundImage: pos.cover?.squareThumbnailUrl != null
-                      ? CachedNetworkImageProvider(
-                    pos.cover!.squareThumbnailUrl,
-                  )
-                      : null,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: lightBlue,
+                      backgroundImage: pos.cover?.squareThumbnailUrl != null
+                          ? CachedNetworkImageProvider(
+                              pos.cover!.squareThumbnailUrl,
+                            )
+                          : null,
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        // Characters(offer.name).toList().join('\u{200B}'),
+                        pos.name,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            height: 1),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Text(
-                    // Characters(offer.name).toList().join('\u{200B}'),
-                    pos.name,
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        height: 1),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                const SizedBox(height: 8),
+                Text(
+                  '${pos.offers.length} ${pos.offers.length == 1 ? 'offer'.tr() : 'offers'.tr().toLowerCase()} ${pos.offers.length == 1 ? 'active'.tr() : 'activePlural'.tr()}',
+                  style: TextStyle(
+                    fontSize: 16,
                   ),
                 ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                  '${pos.offers.length} ${pos.offers.length == 1
-                      ? 'offer'.tr()
-                      : 'offers'.tr().toLowerCase()} ${pos.offers.length == 1
-                      ? 'active'.tr()
-                      : 'activePlural'.tr()}',
-              style: TextStyle(
-                fontSize: 16,
-              ),
+                if (pos.url != null)
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => SuggestionScreen(url: pos.url!)));
+                    },
+                    child: Text(
+                      pos.url!,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(decoration: TextDecoration.underline),
+                    ),
+                  )
+              ],
             ),
-            if (pos.url != null)
-        InkWell(
-        onTap: ()
-    {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => SuggestionScreen(url: pos.url!)));
-    },
-    child: Flexible(
-    child: Text(
-    pos.url!,
-    overflow: TextOverflow.ellipsis,
-    textAlign: TextAlign.start,
-    style:
-    TextStyle(decoration: TextDecoration.underline),
-    ),
-    ),
-    )
-    ],
-    ),
-    ),
-    ),
-    ),
+          ),
+        ),
+      ),
     );
   }
 }
