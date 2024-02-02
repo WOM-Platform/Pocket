@@ -9,7 +9,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:wom_pocket/constants.dart';
 
 import 'package:wom_pocket/src/application/app_notifier.dart';
@@ -19,11 +18,11 @@ import 'package:wom_pocket/src/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/new_home/ui/new_home.dart';
 import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
+import 'package:wom_pocket/src/screens/home/scan_screen.dart';
 import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:store_redirect/store_redirect.dart';
-import 'package:wom_pocket/src/widgets/scanner_overlay_shape.dart';
 import '../../models/deep_link_model.dart';
 import '../../my_logger.dart';
 import '../../screens/pin/pin_screen.dart';
@@ -52,13 +51,13 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     checkVersion();
   }
 
-  checkVersion() async {
+  Future checkVersion() async {
     final status = await ref.read(appNotifierProvider.notifier).getAppStatus();
     logger.i(status);
     if (!status.isOk) {
       // SchedulerBinding.instance?.addPostFrameCallback((Duration duration) {
       final actionText = status.isOutOfService
-          ? 'closeApp'.tr().toUpperCase()
+          ? 'try_again'.tr().toUpperCase()
           : 'update'.tr().toUpperCase();
 
       Alert(
@@ -72,7 +71,8 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                 child: Text(actionText ?? '-'),
                 onPressed: () {
                   if (status.isOutOfService) {
-                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                    Navigator.of(context).pop();
+                    checkVersion();
                   } else {
                     StoreRedirect.redirect(
                         androidAppId: 'social.wom.pocket',
@@ -390,94 +390,4 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
       },
     );
   }
-}
-
-class ScanScreen extends StatefulWidget {
-  const ScanScreen({Key? key}) : super(key: key);
-
-  @override
-  _ScanScreenState createState() => _ScanScreenState();
-}
-
-class _ScanScreenState extends State<ScanScreen> {
-  Barcode? result;
-  MobileScannerController cameraController = MobileScannerController();
-
-/*  // In order to get hot reload to work we need to pause the camera if the platform
-  // is android, or resume the camera if the platform is iOS.
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    } else if (Platform.isIOS) {
-      controller!.resumeCamera();
-    }
-  }*/
-
-  bool scanned = false;
-
-  @override
-  void dispose() {
-    logger.i('ScanScreen disposed');
-    cameraController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(
-      children: [
-        MobileScanner(
-          onScannerStarted: (args) {
-            logger.i('Scanner onScannerStarted');
-          },
-          controller: cameraController,
-          onDetect: (barcode) {
-            logger.i('Scanner onDetect');
-            // if (scanned) return;
-            // scanned = true;
-            final qr = barcode.barcodes.first.rawValue;
-            cameraController.stop();
-            Navigator.of(context).pop(qr);
-          },
-        ),
-        Container(
-          decoration: ShapeDecoration(
-            shape: QrScannerOverlayShape(
-              borderColor: lightBlue,
-              borderRadius: 3,
-              borderWidth: 10,
-              cutOutSize: MediaQuery.of(context).size.width * (3 / 4),
-            ),
-          ),
-        ),
-        Positioned(
-          top: MediaQuery.of(context).padding.top + 8,
-          right: 16,
-          child: IconButton(
-              icon: CircleAvatar(
-                child: Icon(Icons.clear),
-                backgroundColor: Colors.white,
-              ),
-              color: Colors.black,
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-        )
-      ],
-    ));
-  }
-
-/*  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      if (scanned) return;
-
-      scanned = true;
-      print(scanData.code);
-      Navigator.of(context).pop(scanData.code);
-    });
-  }*/
 }

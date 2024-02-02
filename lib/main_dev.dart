@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -18,7 +19,7 @@ import 'src/utils/utils.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await EasyLocalization.ensureInitialized();
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) return stack.vmTrace;
     if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
@@ -61,5 +62,14 @@ Future<void> main() async {
     statusBarColor: Colors.red,
   ));
 
-  runApp(FeatureDiscovery(child: ProviderScope(child: App())));
+  runApp(FeatureDiscovery(
+      child: ProviderScope(
+    child: EasyLocalization(
+      supportedLocales: [Locale('en'), Locale('it')],
+      path: 'assets/lang',
+      // <-- change the path of the translation files
+      fallbackLocale: Locale('it'),
+      child: App(),
+    ),
+  )));
 }
