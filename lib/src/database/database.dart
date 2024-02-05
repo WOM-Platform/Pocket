@@ -24,6 +24,9 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase([DatabaseConnection? connection])
       : super(connection ?? _openConnection());
 
+  @visibleForTesting
+  MyDatabase.query(QueryExecutor executor) : super(executor);
+
   @override
   int get schemaVersion => 5;
 
@@ -39,6 +42,7 @@ class MyDatabase extends _$MyDatabase {
   MigrationStrategy get migration {
     return MigrationStrategy(
       onCreate: (Migrator m) async {
+        logger.i('onCreate');
         await m.createAll();
       },
       onUpgrade: (Migrator m, int from, int to) async {

@@ -7,7 +7,7 @@ class WomModel {
   static final tblWom = "Wom";
   static final dbId = "Id";
   static final dbSecret = "Secret";
-  static const dbAddedOn = "adddeOn";
+  static const dbAddedOn = "addedOn";
   static const dbLat = "Latitude";
   static const dbLong = "Longitude";
   //static const dbLive = "live";
@@ -78,7 +78,7 @@ class WomModel {
   //   this.live = WomStatus.values[map['spent'] ?? 0];
   // }
 
-  Map<String, dynamic> toDBJson() {
+/*  Map<String, dynamic> toDBJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data[dbId] = this.id;
     data[dbSecret] = this.secret;
@@ -90,7 +90,7 @@ class WomModel {
     data[dbTransactionId] = this.transactionId;
     data[dbAim] = this.aim;
     return data;
-  }
+  }*/
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
