@@ -21,8 +21,8 @@ TotemData _$TotemDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TotemData {
   String get providerId => throw _privateConstructorUsedError;
-  String get eventId => throw _privateConstructorUsedError;
   String get totemId => throw _privateConstructorUsedError;
+  String? get eventId => throw _privateConstructorUsedError;
   String? get requestId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $TotemDataCopyWith<$Res> {
       _$TotemDataCopyWithImpl<$Res, TotemData>;
   @useResult
   $Res call(
-      {String providerId, String eventId, String totemId, String? requestId});
+      {String providerId, String totemId, String? eventId, String? requestId});
 }
 
 /// @nodoc
@@ -54,8 +54,8 @@ class _$TotemDataCopyWithImpl<$Res, $Val extends TotemData>
   @override
   $Res call({
     Object? providerId = null,
-    Object? eventId = null,
     Object? totemId = null,
+    Object? eventId = freezed,
     Object? requestId = freezed,
   }) {
     return _then(_value.copyWith(
@@ -63,14 +63,14 @@ class _$TotemDataCopyWithImpl<$Res, $Val extends TotemData>
           ? _value.providerId
           : providerId // ignore: cast_nullable_to_non_nullable
               as String,
-      eventId: null == eventId
-          ? _value.eventId
-          : eventId // ignore: cast_nullable_to_non_nullable
-              as String,
       totemId: null == totemId
           ? _value.totemId
           : totemId // ignore: cast_nullable_to_non_nullable
               as String,
+      eventId: freezed == eventId
+          ? _value.eventId
+          : eventId // ignore: cast_nullable_to_non_nullable
+              as String?,
       requestId: freezed == requestId
           ? _value.requestId
           : requestId // ignore: cast_nullable_to_non_nullable
@@ -88,7 +88,7 @@ abstract class _$$TotemDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String providerId, String eventId, String totemId, String? requestId});
+      {String providerId, String totemId, String? eventId, String? requestId});
 }
 
 /// @nodoc
@@ -103,8 +103,8 @@ class __$$TotemDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? providerId = null,
-    Object? eventId = null,
     Object? totemId = null,
+    Object? eventId = freezed,
     Object? requestId = freezed,
   }) {
     return _then(_$TotemDataImpl(
@@ -112,14 +112,14 @@ class __$$TotemDataImplCopyWithImpl<$Res>
           ? _value.providerId
           : providerId // ignore: cast_nullable_to_non_nullable
               as String,
-      eventId: null == eventId
-          ? _value.eventId
-          : eventId // ignore: cast_nullable_to_non_nullable
-              as String,
       totemId: null == totemId
           ? _value.totemId
           : totemId // ignore: cast_nullable_to_non_nullable
               as String,
+      eventId: freezed == eventId
+          ? _value.eventId
+          : eventId // ignore: cast_nullable_to_non_nullable
+              as String?,
       requestId: freezed == requestId
           ? _value.requestId
           : requestId // ignore: cast_nullable_to_non_nullable
@@ -133,8 +133,8 @@ class __$$TotemDataImplCopyWithImpl<$Res>
 class _$TotemDataImpl implements _TotemData {
   const _$TotemDataImpl(
       {required this.providerId,
-      required this.eventId,
       required this.totemId,
+      this.eventId,
       this.requestId});
 
   factory _$TotemDataImpl.fromJson(Map<String, dynamic> json) =>
@@ -143,15 +143,15 @@ class _$TotemDataImpl implements _TotemData {
   @override
   final String providerId;
   @override
-  final String eventId;
-  @override
   final String totemId;
+  @override
+  final String? eventId;
   @override
   final String? requestId;
 
   @override
   String toString() {
-    return 'TotemData(providerId: $providerId, eventId: $eventId, totemId: $totemId, requestId: $requestId)';
+    return 'TotemData(providerId: $providerId, totemId: $totemId, eventId: $eventId, requestId: $requestId)';
   }
 
   @override
@@ -161,8 +161,8 @@ class _$TotemDataImpl implements _TotemData {
             other is _$TotemDataImpl &&
             (identical(other.providerId, providerId) ||
                 other.providerId == providerId) &&
-            (identical(other.eventId, eventId) || other.eventId == eventId) &&
             (identical(other.totemId, totemId) || other.totemId == totemId) &&
+            (identical(other.eventId, eventId) || other.eventId == eventId) &&
             (identical(other.requestId, requestId) ||
                 other.requestId == requestId));
   }
@@ -170,7 +170,7 @@ class _$TotemDataImpl implements _TotemData {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, providerId, eventId, totemId, requestId);
+      Object.hash(runtimeType, providerId, totemId, eventId, requestId);
 
   @JsonKey(ignore: true)
   @override
@@ -189,8 +189,8 @@ class _$TotemDataImpl implements _TotemData {
 abstract class _TotemData implements TotemData {
   const factory _TotemData(
       {required final String providerId,
-      required final String eventId,
       required final String totemId,
+      final String? eventId,
       final String? requestId}) = _$TotemDataImpl;
 
   factory _TotemData.fromJson(Map<String, dynamic> json) =
@@ -199,9 +199,9 @@ abstract class _TotemData implements TotemData {
   @override
   String get providerId;
   @override
-  String get eventId;
-  @override
   String get totemId;
+  @override
+  String? get eventId;
   @override
   String? get requestId;
   @override

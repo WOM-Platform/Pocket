@@ -7,7 +7,7 @@ part of 'transaction_notifier.dart';
 // **************************************************************************
 
 String _$transactionNotifierHash() =>
-    r'21027bd2fc16c0595ec1e1df16952c2eac08273d';
+    r'ceda813f444a0147bd7e8b90c30cfeeb2c509f45';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -163,8 +163,12 @@ class TransactionRepository {
     }
   }
 
-  Future<TotemResponse> getVoucherRequestFromEmbeddedQrCode(TotemData data,
-      LatLng location, String? lastSessionIdScanned, int? participationCount, String? gender,
+  Future<TotemResponse> getVoucherRequestFromEmbeddedQrCode(
+      TotemData data,
+      LatLng location,
+      String? lastSessionIdScanned,
+      int? participationCount,
+      String? gender,
       {bool isMocked = false}) async {
     try {
       final json = data.toJson();
@@ -180,17 +184,49 @@ class TransactionRepository {
             'participationCount': participationCount,
             'isMocked': isMocked,
           });
-      // final response = await http.post(
-      //     Uri.parse(
-      //         'https://europe-west3-count-me-in-ef93b.cloudfunctions.net/embedded-scan'),
-      //     body: {
-      //       ...json,
-      //       'latitude': location.latitude.toString(),
-      //       'longitude': location.longitude.toString(),
-      //       'isMocked': isMocked,
-      //     });
       if (response.statusCode == 200) {
-        // final d = Map<String, dynamic>.from(jsonDecode(response));
+        return TotemResponse.fromJson(response.data);
+      }
+      throw Exception('Error from embedded api: ${response.statusCode}');
+    } on DioException catch (e) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx and is also not 304.
+      if (e.response != null) {
+        print(e.response!.data);
+        print(e.response!.headers);
+        print(e.response!.requestOptions);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        print(e.requestOptions);
+        print(e.message);
+      }
+      rethrow;
+    } catch (ex) {
+      rethrow;
+    }
+  }
+
+  Future<TotemResponse> getVoucherRequestFromEmbeddedQrCode2(
+    TotemData data,
+    LatLng location,
+    Map<String, int> sessions,
+    String? gender, {
+    bool isMocked = false,
+  }) async {
+    try {
+      final json = data.toJson();
+      json.removeWhere((key, value) => value == null);
+      final response = await dio.post(
+          'https://europe-west3-count-me-in-ef93b.cloudfunctions.net/embedded-scan2',
+          data: {
+            ...json,
+            'sessions': sessions,
+            'latitude': location.latitude,
+            'longitude': location.longitude,
+            'gender': gender,
+            'isMocked': isMocked,
+          });
+      if (response.statusCode == 200) {
         return TotemResponse.fromJson(response.data);
       }
       throw Exception('Error from embedded api: ${response.statusCode}');

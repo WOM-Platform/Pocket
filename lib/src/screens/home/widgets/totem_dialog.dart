@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -67,8 +68,7 @@ enum TotemError {
       gpsPermission => 'totemErrorGpsPermission'.tr(),
       gpsServiceDisabled => 'totemErrorGpsServiceDisabled'.tr(),
       eventIsClosed => 'totemErrorEventIsClosed'.tr(),
-      sessionAlreadyScanned =>
-        'totemErrorSessionAlreadyScanned'.tr(),
+      sessionAlreadyScanned => 'totemErrorSessionAlreadyScanned'.tr(),
       outOfPolygon => 'totemErrorOutOfPolygon'.tr(),
       _ => 'somethings_wrong'.tr(),
     };
@@ -80,6 +80,7 @@ class TotemResponse with _$TotemResponse {
   const factory TotemResponse({
     required String status,
     String? sessionId,
+    String? eventId,
     String? link,
     String? pin,
   }) = _TotemResponse;
@@ -135,25 +136,42 @@ class TotemNotifier extends _$TotemNotifier {
       final location =
           LatLng(currentPosition.latitude, currentPosition.longitude);
       state = TotemDialogCommunicationWithServer();
-      final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan(
-            totemData.providerId,
-            totemData.eventId,
-            totemData.totemId,
-          );
-      final response = await ref
-          .read(transactionRepositoryProvider)
-          .getVoucherRequestFromEmbeddedQrCode(
-            totemData,
-            location,
-            res?.$1,
-            res?.$2,
-            gender,
-            isMocked: currentPosition.isMocked,
-          );
+      late final TotemResponse response;
+      if (totemData.isDedicated) {
+        final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan(
+              totemData.providerId,
+              totemData.eventId!,
+            );
+        response = await ref
+            .read(transactionRepositoryProvider)
+            .getVoucherRequestFromEmbeddedQrCode(
+              totemData,
+              location,
+              res?.$1,
+              res?.$2,
+              gender,
+              isMocked: currentPosition.isMocked,
+            );
+      } else {
+        final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan2(
+              totemData.providerId,
+              totemData.totemId,
+            );
+
+        response = await ref
+            .read(transactionRepositoryProvider)
+            .getVoucherRequestFromEmbeddedQrCode2(
+              totemData,
+              location,
+              res ?? <String, int>{},
+              gender,
+              isMocked: currentPosition.isMocked,
+            );
+      }
       if (response.status == 'success') {
         await ref.read(getDatabaseProvider).totemsDao.addTotem(
               totemData.providerId,
-              totemData.eventId,
+              response.eventId!,
               totemData.totemId,
               response.sessionId!,
             );
@@ -279,8 +297,7 @@ class TotemDialog extends ConsumerWidget {
           ] else ...[
             CircularProgressIndicator(),
             switch (state) {
-              TotemDialogRetrievingGPS() =>
-                Text('acquiringYourPosition'.tr()),
+              TotemDialogRetrievingGPS() => Text('acquiringYourPosition'.tr()),
               TotemDialogCommunicationWithServer() =>
                 Text('communicatingWithServer'.tr()),
               TotemDialogComplete() => Text('completed'.tr()),

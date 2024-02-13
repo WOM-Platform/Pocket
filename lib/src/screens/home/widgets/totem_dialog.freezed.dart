@@ -22,6 +22,7 @@ TotemResponse _$TotemResponseFromJson(Map<String, dynamic> json) {
 mixin _$TotemResponse {
   String get status => throw _privateConstructorUsedError;
   String? get sessionId => throw _privateConstructorUsedError;
+  String? get eventId => throw _privateConstructorUsedError;
   String? get link => throw _privateConstructorUsedError;
   String? get pin => throw _privateConstructorUsedError;
 
@@ -37,7 +38,12 @@ abstract class $TotemResponseCopyWith<$Res> {
           TotemResponse value, $Res Function(TotemResponse) then) =
       _$TotemResponseCopyWithImpl<$Res, TotemResponse>;
   @useResult
-  $Res call({String status, String? sessionId, String? link, String? pin});
+  $Res call(
+      {String status,
+      String? sessionId,
+      String? eventId,
+      String? link,
+      String? pin});
 }
 
 /// @nodoc
@@ -55,6 +61,7 @@ class _$TotemResponseCopyWithImpl<$Res, $Val extends TotemResponse>
   $Res call({
     Object? status = null,
     Object? sessionId = freezed,
+    Object? eventId = freezed,
     Object? link = freezed,
     Object? pin = freezed,
   }) {
@@ -66,6 +73,10 @@ class _$TotemResponseCopyWithImpl<$Res, $Val extends TotemResponse>
       sessionId: freezed == sessionId
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      eventId: freezed == eventId
+          ? _value.eventId
+          : eventId // ignore: cast_nullable_to_non_nullable
               as String?,
       link: freezed == link
           ? _value.link
@@ -87,7 +98,12 @@ abstract class _$$TotemResponseImplCopyWith<$Res>
       __$$TotemResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String status, String? sessionId, String? link, String? pin});
+  $Res call(
+      {String status,
+      String? sessionId,
+      String? eventId,
+      String? link,
+      String? pin});
 }
 
 /// @nodoc
@@ -103,6 +119,7 @@ class __$$TotemResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? sessionId = freezed,
+    Object? eventId = freezed,
     Object? link = freezed,
     Object? pin = freezed,
   }) {
@@ -114,6 +131,10 @@ class __$$TotemResponseImplCopyWithImpl<$Res>
       sessionId: freezed == sessionId
           ? _value.sessionId
           : sessionId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      eventId: freezed == eventId
+          ? _value.eventId
+          : eventId // ignore: cast_nullable_to_non_nullable
               as String?,
       link: freezed == link
           ? _value.link
@@ -131,7 +152,11 @@ class __$$TotemResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TotemResponseImpl implements _TotemResponse {
   const _$TotemResponseImpl(
-      {required this.status, this.sessionId, this.link, this.pin});
+      {required this.status,
+      this.sessionId,
+      this.eventId,
+      this.link,
+      this.pin});
 
   factory _$TotemResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$TotemResponseImplFromJson(json);
@@ -141,13 +166,15 @@ class _$TotemResponseImpl implements _TotemResponse {
   @override
   final String? sessionId;
   @override
+  final String? eventId;
+  @override
   final String? link;
   @override
   final String? pin;
 
   @override
   String toString() {
-    return 'TotemResponse(status: $status, sessionId: $sessionId, link: $link, pin: $pin)';
+    return 'TotemResponse(status: $status, sessionId: $sessionId, eventId: $eventId, link: $link, pin: $pin)';
   }
 
   @override
@@ -158,13 +185,15 @@ class _$TotemResponseImpl implements _TotemResponse {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.sessionId, sessionId) ||
                 other.sessionId == sessionId) &&
+            (identical(other.eventId, eventId) || other.eventId == eventId) &&
             (identical(other.link, link) || other.link == link) &&
             (identical(other.pin, pin) || other.pin == pin));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, status, sessionId, link, pin);
+  int get hashCode =>
+      Object.hash(runtimeType, status, sessionId, eventId, link, pin);
 
   @JsonKey(ignore: true)
   @override
@@ -184,6 +213,7 @@ abstract class _TotemResponse implements TotemResponse {
   const factory _TotemResponse(
       {required final String status,
       final String? sessionId,
+      final String? eventId,
       final String? link,
       final String? pin}) = _$TotemResponseImpl;
 
@@ -194,6 +224,8 @@ abstract class _TotemResponse implements TotemResponse {
   String get status;
   @override
   String? get sessionId;
+  @override
+  String? get eventId;
   @override
   String? get link;
   @override
