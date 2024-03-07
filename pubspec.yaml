@@ -2,7 +2,7 @@ name: wom_pocket
 description: A new Flutter application.
 publish_to: none
 
-version: 1.4.9+64
+version: 1.4.14+73
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -31,7 +31,7 @@ dependencies:
   riverpod_annotation: ^2.3.3
   equatable:
   uni_links: ^0.5.1
-  encrypt: ^5.0.3
+  encrypt: 5.0.3
   mobile_scanner: ^4.0.0
   qr_flutter: ^4.1.0
   intl: ^0.18.1

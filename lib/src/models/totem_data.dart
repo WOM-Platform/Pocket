@@ -28,8 +28,8 @@ TotemData? validateTotemQrCodeWithRegex(String text) {
     caseSensitive: false,
   );
 
-  final regExp2 = new RegExp(
-    'https:\/\/link\.wom\.social\/cmi\/([^\/]+)\/([^\/]+)',
+  final regExp2 = RegExp(
+    r'https:\/\/link\.wom\.social\/cmi\/([^\/]+)\/([^\/^\?]+)\??(?:token=([a-zA-Z0-9]+))?',
     caseSensitive: false,
   );
 
@@ -59,11 +59,13 @@ TotemData? validateTotemQrCodeWithRegex(String text) {
 
     final providerId = match?[1];
     final totemId = match?[2];
+    final requestId = match?[3];
 
     if (providerId != null && totemId != null) {
       return TotemData(
         providerId: providerId,
         totemId: totemId,
+        requestId: requestId,
       );
     }
     return null;

@@ -138,7 +138,7 @@ class Utils {
 
   static List<int> encryptWithAes(String text, String k) {
     final key = Key.fromUtf8(k);
-    final iv = IV.fromLength(16);
+    final iv = IV.allZerosOfLength(16);
 
     final encrypter = Encrypter(AES(key));
 
@@ -151,7 +151,7 @@ class Utils {
 
   static List<int> encryptBytesWithAes(Uint8List bytes, String k) {
     final key = Key.fromUtf8(k);
-    final iv = IV.fromLength(16);
+    final iv = IV.allZerosOfLength(16);
 
     final encrypter = Encrypter(AES(key));
 
@@ -159,23 +159,9 @@ class Utils {
     return encrypted.bytes;
   }
 
-  static String decryptWithAes(Uint8List bytes, String k) {
-    final key = Key.fromUtf8(k);
-    final iv = IV.fromLength(16);
-
-    final encrypter = Encrypter(AES(key));
-
-    // final encrypted = encrypter.encrypt(text, iv: iv);
-    final decrypted = encrypter.decrypt(Encrypted(bytes), iv: iv);
-
-    // print(decrypted);
-    // print(encrypted.base64);
-    return decrypted;
-  }
-
   static Uint8List decryptBytesWithAes(Uint8List bytes, String k) {
     final key = Key.fromUtf8(k);
-    final iv = IV.fromLength(16);
+    final iv = IV.allZerosOfLength(16);
 
     final encrypter = Encrypter(AES(key));
     final decrypted = encrypter.decryptBytes(Encrypted(bytes), iv: iv);

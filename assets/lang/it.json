@@ -205,6 +205,8 @@
   "totemErrorEventIsClosed": "L’evento sembra essere terminato",
   "totemErrorSessionAlreadyScanned": "Hai già scansionato il QR Code per questa sessione",
   "totemErrorOutOfPolygon": "La tua posizione corrente è troppo lontana dall’evento",
+  "totemDisabled": "Questo totem non risulta al momento attivo.",
+  "noWomForThisEvent": "Questo evento sembrerebbe non avere WOM da assegnare.",
   "enableGPS": "Abilita GPS",
   "allowGPSPermission": "Concedi permessi per il GPS",
   "acquiringYourPosition": "Sto acquisendo la tua posizione",

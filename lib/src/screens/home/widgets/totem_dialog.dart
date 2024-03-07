@@ -15,6 +15,7 @@ import 'package:wom_pocket/src/application/location_notifier.dart';
 import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
@@ -35,6 +36,8 @@ enum TotemError {
   eventIsClosed,
   sessionAlreadyScanned,
   mockedLocation,
+  totemDisabled,
+  noWomForThisEvent,
   unknown;
 
   bool get hasCancel =>
@@ -53,6 +56,8 @@ enum TotemError {
       eventIsClosed ||
       sessionAlreadyScanned ||
       mockedLocation ||
+      totemDisabled ||
+      noWomForThisEvent ||
       outOfPolygon =>
         'Ok',
       _ => 'try_again'.tr(),
@@ -70,6 +75,9 @@ enum TotemError {
       eventIsClosed => 'totemErrorEventIsClosed'.tr(),
       sessionAlreadyScanned => 'totemErrorSessionAlreadyScanned'.tr(),
       outOfPolygon => 'totemErrorOutOfPolygon'.tr(),
+      totemDisabled => 'totemDisabled'.tr(),
+      noWomForThisEvent =>
+        'noWomForThisEvent'.tr(),
       _ => 'somethings_wrong'.tr(),
     };
   }
@@ -137,37 +145,20 @@ class TotemNotifier extends _$TotemNotifier {
           LatLng(currentPosition.latitude, currentPosition.longitude);
       state = TotemDialogCommunicationWithServer();
       late final TotemResponse response;
-      if (totemData.isDedicated) {
-        final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan(
-              totemData.providerId,
-              totemData.eventId!,
-            );
-        response = await ref
-            .read(transactionRepositoryProvider)
-            .getVoucherRequestFromEmbeddedQrCode(
-              totemData,
-              location,
-              res?.$1,
-              res?.$2,
-              gender,
-              isMocked: currentPosition.isMocked,
-            );
-      } else {
-        final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan2(
-              totemData.providerId,
-              totemData.totemId,
-            );
+      final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan2(
+            totemData.providerId,
+            totemData.totemId,
+          );
 
-        response = await ref
-            .read(transactionRepositoryProvider)
-            .getVoucherRequestFromEmbeddedQrCode2(
-              totemData,
-              location,
-              res ?? <String, int>{},
-              gender,
-              isMocked: currentPosition.isMocked,
-            );
-      }
+      response = await ref
+          .read(transactionRepositoryProvider)
+          .getVoucherRequestFromEmbeddedQrCode2(
+            totemData,
+            location,
+            res ?? <String, int>{},
+            gender,
+            isMocked: currentPosition.isMocked,
+          );
       if (response.status == 'success') {
         await ref.read(getDatabaseProvider).totemsDao.addTotem(
               totemData.providerId,
@@ -179,7 +170,13 @@ class TotemNotifier extends _$TotemNotifier {
         state = TotemDialogComplete(
             deepLinkModel: deepLink, password: response.pin!);
       } else {
-        final totemError = TotemError.values.byName(response.status);
+        var totemError = TotemError.unknown;
+        try {
+          totemError = TotemError.values.byName(response.status);
+        } catch (ex, st) {
+          logger.e(ex);
+          logger.e(st);
+        }
         state = TotemDialogStateError(totemError, "");
       }
     } on MyLocationException catch (ex) {
@@ -276,6 +273,8 @@ class TotemDialog extends ConsumerWidget {
                       case TotemError.sessionAlreadyScanned:
                       case TotemError.sessionExpired:
                       case TotemError.eventIsClosed:
+                      case TotemError.totemDisabled:
+                      case TotemError.noWomForThisEvent:
                       case TotemError.mockedLocation:
                         Navigator.of(context).pop();
                         break;

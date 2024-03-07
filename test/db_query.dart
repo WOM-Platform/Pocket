@@ -69,6 +69,7 @@ void main() async {
       final schemeVersion = await db.schemaVersion;
       expect(schemeVersion, 5);
     });
+
     test('wom count', () async {
       final woms = await db.womsDao.getTotalWomCount();
       expect(woms, 47);

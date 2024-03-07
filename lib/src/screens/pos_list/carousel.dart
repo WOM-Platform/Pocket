@@ -10,7 +10,7 @@ import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
 part 'carousel.g.dart';
 
 @riverpod
-CarouselController getCarouselController(GetCarouselControllerRef ref){
+CarouselController getCarouselController(GetCarouselControllerRef ref) {
   return CarouselController();
 }
 
@@ -30,10 +30,15 @@ class ListingCarouselWidget extends ConsumerWidget {
             ),
           );
       // ref.read(markerNotifierProvider.notifier).selectMarker(markerId);
-      ref.read(mapControllerNotifierProvider)?.isMarkerInfoWindowShown(markerId).then(
+      ref
+          .read(mapControllerNotifierProvider)
+          ?.isMarkerInfoWindowShown(markerId)
+          .then(
         (value) {
           if (!value) {
-            ref.read(mapControllerNotifierProvider)?.showMarkerInfoWindow(markerId);
+            ref
+                .read(mapControllerNotifierProvider)
+                ?.showMarkerInfoWindow(markerId);
           }
         },
       );
@@ -76,28 +81,14 @@ class CarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const iconRadius = 14.0;
-    const iconSize = 18.0;
-
     return InkWell(
-      // key: Key(store.storeId),
       onTap: () {},
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
             children: [
-              // AspectRatio(
-              //   aspectRatio: 1,
-              //   child: store.imageUrl != null
-              //       ? CachedNetworkImage(
-              //           imageUrl: store.imageUrl!,
-              //           fit: BoxFit.cover,
-              //         )
-              //       : const Placeholder(),
-              // ),
               Expanded(
-                //fit: FlexFit.tight,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
@@ -105,7 +96,6 @@ class CarouselItem extends StatelessWidget {
                     shrinkWrap: true,
                     padding: const EdgeInsets.only(left: 8.0),
                     physics: const NeverScrollableScrollPhysics(),
-                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         Characters(store.name).toList().join('\u{200B}'),
