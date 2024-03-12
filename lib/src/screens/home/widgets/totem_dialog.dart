@@ -76,8 +76,7 @@ enum TotemError {
       sessionAlreadyScanned => 'totemErrorSessionAlreadyScanned'.tr(),
       outOfPolygon => 'totemErrorOutOfPolygon'.tr(),
       totemDisabled => 'totemDisabled'.tr(),
-      noWomForThisEvent =>
-        'noWomForThisEvent'.tr(),
+      noWomForThisEvent => 'noWomForThisEvent'.tr(),
       _ => 'somethings_wrong'.tr(),
     };
   }
@@ -144,40 +143,44 @@ class TotemNotifier extends _$TotemNotifier {
       final location =
           LatLng(currentPosition.latitude, currentPosition.longitude);
       state = TotemDialogCommunicationWithServer();
-      late final TotemResponse response;
-      final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan2(
-            totemData.providerId,
-            totemData.totemId,
-          );
+      final verifyResponse =
+          await ref.read(transactionRepositoryProvider).verifyTotem(totemData);
 
-      response = await ref
-          .read(transactionRepositoryProvider)
-          .getVoucherRequestFromEmbeddedQrCode2(
-            totemData,
-            location,
-            res ?? <String, int>{},
-            gender,
-            isMocked: currentPosition.isMocked,
-          );
-      if (response.status == 'success') {
-        await ref.read(getDatabaseProvider).totemsDao.addTotem(
+      if (verifyResponse.status == 'success') {
+        final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan(
               totemData.providerId,
-              response.eventId!,
-              totemData.totemId,
-              response.sessionId!,
+              verifyResponse.eventId!,
             );
-        final deepLink = DeepLinkModel.fromUri(Uri.parse(response.link!));
-        state = TotemDialogComplete(
-            deepLinkModel: deepLink, password: response.pin!);
-      } else {
-        var totemError = TotemError.unknown;
-        try {
-          totemError = TotemError.values.byName(response.status);
-        } catch (ex, st) {
-          logger.e(ex);
-          logger.e(st);
+
+        final data =
+            res == null ? <String, int>{} : <String, int>{res.$1: res.$2};
+
+        final response = await ref
+            .read(transactionRepositoryProvider)
+            .getVoucherRequestFromEmbeddedQrCode2(
+              totemData,
+              location,
+              res?.$1,
+              res?.$2,
+              gender,
+              isMocked: currentPosition.isMocked,
+            );
+
+        if (response.status == 'success') {
+          await ref.read(getDatabaseProvider).totemsDao.addTotem(
+                totemData.providerId,
+                response.eventId!,
+                totemData.totemId,
+                response.sessionId!,
+              );
+          final deepLink = DeepLinkModel.fromUri(Uri.parse(response.link!));
+          state = TotemDialogComplete(
+              deepLinkModel: deepLink, password: response.pin!);
+        } else {
+          handleError(response);
         }
-        state = TotemDialogStateError(totemError, "");
+      } else {
+        handleError(verifyResponse);
       }
     } on MyLocationException catch (ex) {
       final error = switch (ex) {
@@ -200,6 +203,17 @@ class TotemNotifier extends _$TotemNotifier {
       print(st);
       state = TotemDialogStateError(TotemError.unknown, ex, st: st);
     }
+  }
+
+  void handleError(TotemResponse response) {
+    var totemError = TotemError.unknown;
+    try {
+      totemError = TotemError.values.byName(response.status);
+    } catch (ex, st) {
+      logger.e(ex);
+      logger.e(st);
+    }
+    state = TotemDialogStateError(totemError, "");
   }
 }
 
