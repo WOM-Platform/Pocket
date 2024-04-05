@@ -7,7 +7,7 @@ part of 'exchange_notifier.dart';
 // **************************************************************************
 
 String _$getExchangeTransactionsHash() =>
-    r'59e09595e5ac1935f855ae927d9f4d7d9d5e97d5';
+    r'e70e7a2b46e89bb6e797cd9c041cec98c2b11ce7';
 
 /// See also [getExchangeTransactions].
 @ProviderFor(getExchangeTransactions)
@@ -41,7 +41,7 @@ final exchangeNotifierProvider =
 
 typedef _$ExchangeNotifier = AutoDisposeNotifier<ExchangeState>;
 String _$newExchangeNotifierHash() =>
-    r'74ac837a3a84f695b9b821f09015c8685100d97c';
+    r'04d0d816fc14fce757c87eee7fc4916855205d6a';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -35,7 +35,7 @@ class MigrationNotifier extends _$MigrationNotifier {
       final woms = (await ref.read(getDatabaseProvider).womsDao.getAllWoms);
       state = MigrationStateData(pin: pin, woms: woms);
     } catch (ex, st) {
-      logger.e(ex);
+      logger.e('addPin', error: ex, stackTrace: st);
       state = MigrationStateError(ex, st);
     }
   }
@@ -96,7 +96,7 @@ class MigrationNotifier extends _$MigrationNotifier {
       logger.i(migrationData.link);
       state = MigrationStateComplete(data: migrationData);
     } catch (ex, st) {
-      print(st);
+      logger.e('exportWom', error: ex, stackTrace: st);
       state = MigrationStateError(ex, st);
     }
   }
@@ -155,7 +155,8 @@ class MigrationNotifier extends _$MigrationNotifier {
         device = deviceInfo.utsname.machine ?? '';
       }
       return device;
-    } catch (ex) {
+    } catch (ex, st) {
+      logger.e('getDevice', error: ex, stackTrace: st);
       return '';
     }
   }

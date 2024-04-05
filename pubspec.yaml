@@ -2,7 +2,7 @@ name: wom_pocket
 description: A new Flutter application.
 publish_to: none
 
-version: 1.4.15+75
+version: 1.5.0+77
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -15,7 +15,6 @@ dependencies:
 
   # Firebase
   firebase_core: ^2.24.2
-  firebase_crashlytics: ^3.4.9
   firebase_analytics: ^10.8.0
 
   # Locale data
@@ -26,13 +25,13 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
 
-  flutter_hooks: ^0.20.4
-  hooks_riverpod: ^2.4.9
-  riverpod_annotation: ^2.3.3
+  flutter_hooks: ^0.20.5
+  hooks_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
   equatable:
   uni_links: ^0.5.1
   encrypt: 5.0.3
-  mobile_scanner: ^4.0.0
+  mobile_scanner: ^4.0.1
   qr_flutter: ^4.1.0
   intl: ^0.18.1
   dart_geohash: ^2.0.2
@@ -54,7 +53,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   #  device_preview: ^0.7.4
   sliding_up_panel: ^2.0.0+1
-  logger: ^2.0.2+1
+  logger: ^2.1.0
   pin_code_fields: ^8.0.1
   geolocator: ^10.1.0
   animate_do:
@@ -80,9 +79,7 @@ dependencies:
 
   # UI
   material_design_icons_flutter: ^7.0.7296
-
-dependency_overrides:
-  state_notifier: ^1.0.0
+  sentry_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -92,10 +89,10 @@ dev_dependencies:
   hive_generator: ^2.0.1
   build_runner: ^2.4.8
   json_serializable: ^6.7.1
-  freezed:
-  riverpod_generator: ^2.3.9
+  freezed: ^2.4.7
+  riverpod_generator: ^2.4.0
   custom_lint:
-  riverpod_lint:
+  riverpod_lint: ^2.3.10
 
 flutter:
 

@@ -83,8 +83,7 @@ class OffersNotifier extends _$OffersNotifier {
           )
           .toList();
     } catch (ex, st) {
-      logger.e(ex);
-      logger.e(st);
+      logger.e('Load offers', error: ex, stackTrace: st);
       rethrow;
     }
   }

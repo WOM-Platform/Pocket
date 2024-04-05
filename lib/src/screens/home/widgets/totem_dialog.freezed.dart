@@ -12,7 +12,7 @@ part of 'totem_dialog.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 TotemResponse _$TotemResponseFromJson(Map<String, dynamic> json) {
   return _TotemResponse.fromJson(json);
@@ -245,6 +245,7 @@ mixin _$TotemDialogState {
     required TResult Function() retrievingGPS,
     required TResult Function() serverCommunication,
     required TResult Function() genderRequest,
+    required TResult Function() initialLoading,
     required TResult Function(
             TotemError totemError, Object error, StackTrace? st)
         error,
@@ -256,6 +257,7 @@ mixin _$TotemDialogState {
     TResult? Function()? retrievingGPS,
     TResult? Function()? serverCommunication,
     TResult? Function()? genderRequest,
+    TResult? Function()? initialLoading,
     TResult? Function(TotemError totemError, Object error, StackTrace? st)?
         error,
   }) =>
@@ -266,6 +268,7 @@ mixin _$TotemDialogState {
     TResult Function()? retrievingGPS,
     TResult Function()? serverCommunication,
     TResult Function()? genderRequest,
+    TResult Function()? initialLoading,
     TResult Function(TotemError totemError, Object error, StackTrace? st)?
         error,
     required TResult orElse(),
@@ -278,6 +281,7 @@ mixin _$TotemDialogState {
     required TResult Function(TotemDialogCommunicationWithServer value)
         serverCommunication,
     required TResult Function(TotemDialogGenderRequest value) genderRequest,
+    required TResult Function(TotemDialogInitialLoading value) initialLoading,
     required TResult Function(TotemDialogStateError value) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -288,6 +292,7 @@ mixin _$TotemDialogState {
     TResult? Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult? Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult? Function(TotemDialogInitialLoading value)? initialLoading,
     TResult? Function(TotemDialogStateError value)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -298,6 +303,7 @@ mixin _$TotemDialogState {
     TResult Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult Function(TotemDialogInitialLoading value)? initialLoading,
     TResult Function(TotemDialogStateError value)? error,
     required TResult orElse(),
   }) =>
@@ -403,6 +409,7 @@ class _$TotemDialogCompleteImpl implements TotemDialogComplete {
     required TResult Function() retrievingGPS,
     required TResult Function() serverCommunication,
     required TResult Function() genderRequest,
+    required TResult Function() initialLoading,
     required TResult Function(
             TotemError totemError, Object error, StackTrace? st)
         error,
@@ -417,6 +424,7 @@ class _$TotemDialogCompleteImpl implements TotemDialogComplete {
     TResult? Function()? retrievingGPS,
     TResult? Function()? serverCommunication,
     TResult? Function()? genderRequest,
+    TResult? Function()? initialLoading,
     TResult? Function(TotemError totemError, Object error, StackTrace? st)?
         error,
   }) {
@@ -430,6 +438,7 @@ class _$TotemDialogCompleteImpl implements TotemDialogComplete {
     TResult Function()? retrievingGPS,
     TResult Function()? serverCommunication,
     TResult Function()? genderRequest,
+    TResult Function()? initialLoading,
     TResult Function(TotemError totemError, Object error, StackTrace? st)?
         error,
     required TResult orElse(),
@@ -448,6 +457,7 @@ class _$TotemDialogCompleteImpl implements TotemDialogComplete {
     required TResult Function(TotemDialogCommunicationWithServer value)
         serverCommunication,
     required TResult Function(TotemDialogGenderRequest value) genderRequest,
+    required TResult Function(TotemDialogInitialLoading value) initialLoading,
     required TResult Function(TotemDialogStateError value) error,
   }) {
     return complete(this);
@@ -461,6 +471,7 @@ class _$TotemDialogCompleteImpl implements TotemDialogComplete {
     TResult? Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult? Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult? Function(TotemDialogInitialLoading value)? initialLoading,
     TResult? Function(TotemDialogStateError value)? error,
   }) {
     return complete?.call(this);
@@ -474,6 +485,7 @@ class _$TotemDialogCompleteImpl implements TotemDialogComplete {
     TResult Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult Function(TotemDialogInitialLoading value)? initialLoading,
     TResult Function(TotemDialogStateError value)? error,
     required TResult orElse(),
   }) {
@@ -542,6 +554,7 @@ class _$TotemDialogRetrievingGPSImpl implements TotemDialogRetrievingGPS {
     required TResult Function() retrievingGPS,
     required TResult Function() serverCommunication,
     required TResult Function() genderRequest,
+    required TResult Function() initialLoading,
     required TResult Function(
             TotemError totemError, Object error, StackTrace? st)
         error,
@@ -556,6 +569,7 @@ class _$TotemDialogRetrievingGPSImpl implements TotemDialogRetrievingGPS {
     TResult? Function()? retrievingGPS,
     TResult? Function()? serverCommunication,
     TResult? Function()? genderRequest,
+    TResult? Function()? initialLoading,
     TResult? Function(TotemError totemError, Object error, StackTrace? st)?
         error,
   }) {
@@ -569,6 +583,7 @@ class _$TotemDialogRetrievingGPSImpl implements TotemDialogRetrievingGPS {
     TResult Function()? retrievingGPS,
     TResult Function()? serverCommunication,
     TResult Function()? genderRequest,
+    TResult Function()? initialLoading,
     TResult Function(TotemError totemError, Object error, StackTrace? st)?
         error,
     required TResult orElse(),
@@ -587,6 +602,7 @@ class _$TotemDialogRetrievingGPSImpl implements TotemDialogRetrievingGPS {
     required TResult Function(TotemDialogCommunicationWithServer value)
         serverCommunication,
     required TResult Function(TotemDialogGenderRequest value) genderRequest,
+    required TResult Function(TotemDialogInitialLoading value) initialLoading,
     required TResult Function(TotemDialogStateError value) error,
   }) {
     return retrievingGPS(this);
@@ -600,6 +616,7 @@ class _$TotemDialogRetrievingGPSImpl implements TotemDialogRetrievingGPS {
     TResult? Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult? Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult? Function(TotemDialogInitialLoading value)? initialLoading,
     TResult? Function(TotemDialogStateError value)? error,
   }) {
     return retrievingGPS?.call(this);
@@ -613,6 +630,7 @@ class _$TotemDialogRetrievingGPSImpl implements TotemDialogRetrievingGPS {
     TResult Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult Function(TotemDialogInitialLoading value)? initialLoading,
     TResult Function(TotemDialogStateError value)? error,
     required TResult orElse(),
   }) {
@@ -675,6 +693,7 @@ class _$TotemDialogCommunicationWithServerImpl
     required TResult Function() retrievingGPS,
     required TResult Function() serverCommunication,
     required TResult Function() genderRequest,
+    required TResult Function() initialLoading,
     required TResult Function(
             TotemError totemError, Object error, StackTrace? st)
         error,
@@ -689,6 +708,7 @@ class _$TotemDialogCommunicationWithServerImpl
     TResult? Function()? retrievingGPS,
     TResult? Function()? serverCommunication,
     TResult? Function()? genderRequest,
+    TResult? Function()? initialLoading,
     TResult? Function(TotemError totemError, Object error, StackTrace? st)?
         error,
   }) {
@@ -702,6 +722,7 @@ class _$TotemDialogCommunicationWithServerImpl
     TResult Function()? retrievingGPS,
     TResult Function()? serverCommunication,
     TResult Function()? genderRequest,
+    TResult Function()? initialLoading,
     TResult Function(TotemError totemError, Object error, StackTrace? st)?
         error,
     required TResult orElse(),
@@ -720,6 +741,7 @@ class _$TotemDialogCommunicationWithServerImpl
     required TResult Function(TotemDialogCommunicationWithServer value)
         serverCommunication,
     required TResult Function(TotemDialogGenderRequest value) genderRequest,
+    required TResult Function(TotemDialogInitialLoading value) initialLoading,
     required TResult Function(TotemDialogStateError value) error,
   }) {
     return serverCommunication(this);
@@ -733,6 +755,7 @@ class _$TotemDialogCommunicationWithServerImpl
     TResult? Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult? Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult? Function(TotemDialogInitialLoading value)? initialLoading,
     TResult? Function(TotemDialogStateError value)? error,
   }) {
     return serverCommunication?.call(this);
@@ -746,6 +769,7 @@ class _$TotemDialogCommunicationWithServerImpl
     TResult Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult Function(TotemDialogInitialLoading value)? initialLoading,
     TResult Function(TotemDialogStateError value)? error,
     required TResult orElse(),
   }) {
@@ -807,6 +831,7 @@ class _$TotemDialogGenderRequestImpl implements TotemDialogGenderRequest {
     required TResult Function() retrievingGPS,
     required TResult Function() serverCommunication,
     required TResult Function() genderRequest,
+    required TResult Function() initialLoading,
     required TResult Function(
             TotemError totemError, Object error, StackTrace? st)
         error,
@@ -821,6 +846,7 @@ class _$TotemDialogGenderRequestImpl implements TotemDialogGenderRequest {
     TResult? Function()? retrievingGPS,
     TResult? Function()? serverCommunication,
     TResult? Function()? genderRequest,
+    TResult? Function()? initialLoading,
     TResult? Function(TotemError totemError, Object error, StackTrace? st)?
         error,
   }) {
@@ -834,6 +860,7 @@ class _$TotemDialogGenderRequestImpl implements TotemDialogGenderRequest {
     TResult Function()? retrievingGPS,
     TResult Function()? serverCommunication,
     TResult Function()? genderRequest,
+    TResult Function()? initialLoading,
     TResult Function(TotemError totemError, Object error, StackTrace? st)?
         error,
     required TResult orElse(),
@@ -852,6 +879,7 @@ class _$TotemDialogGenderRequestImpl implements TotemDialogGenderRequest {
     required TResult Function(TotemDialogCommunicationWithServer value)
         serverCommunication,
     required TResult Function(TotemDialogGenderRequest value) genderRequest,
+    required TResult Function(TotemDialogInitialLoading value) initialLoading,
     required TResult Function(TotemDialogStateError value) error,
   }) {
     return genderRequest(this);
@@ -865,6 +893,7 @@ class _$TotemDialogGenderRequestImpl implements TotemDialogGenderRequest {
     TResult? Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult? Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult? Function(TotemDialogInitialLoading value)? initialLoading,
     TResult? Function(TotemDialogStateError value)? error,
   }) {
     return genderRequest?.call(this);
@@ -878,6 +907,7 @@ class _$TotemDialogGenderRequestImpl implements TotemDialogGenderRequest {
     TResult Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult Function(TotemDialogInitialLoading value)? initialLoading,
     TResult Function(TotemDialogStateError value)? error,
     required TResult orElse(),
   }) {
@@ -890,6 +920,144 @@ class _$TotemDialogGenderRequestImpl implements TotemDialogGenderRequest {
 
 abstract class TotemDialogGenderRequest implements TotemDialogState {
   const factory TotemDialogGenderRequest() = _$TotemDialogGenderRequestImpl;
+}
+
+/// @nodoc
+abstract class _$$TotemDialogInitialLoadingImplCopyWith<$Res> {
+  factory _$$TotemDialogInitialLoadingImplCopyWith(
+          _$TotemDialogInitialLoadingImpl value,
+          $Res Function(_$TotemDialogInitialLoadingImpl) then) =
+      __$$TotemDialogInitialLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TotemDialogInitialLoadingImplCopyWithImpl<$Res>
+    extends _$TotemDialogStateCopyWithImpl<$Res,
+        _$TotemDialogInitialLoadingImpl>
+    implements _$$TotemDialogInitialLoadingImplCopyWith<$Res> {
+  __$$TotemDialogInitialLoadingImplCopyWithImpl(
+      _$TotemDialogInitialLoadingImpl _value,
+      $Res Function(_$TotemDialogInitialLoadingImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$TotemDialogInitialLoadingImpl implements TotemDialogInitialLoading {
+  const _$TotemDialogInitialLoadingImpl();
+
+  @override
+  String toString() {
+    return 'TotemDialogState.initialLoading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TotemDialogInitialLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(DeepLinkModel deepLinkModel, String password)
+        complete,
+    required TResult Function() retrievingGPS,
+    required TResult Function() serverCommunication,
+    required TResult Function() genderRequest,
+    required TResult Function() initialLoading,
+    required TResult Function(
+            TotemError totemError, Object error, StackTrace? st)
+        error,
+  }) {
+    return initialLoading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(DeepLinkModel deepLinkModel, String password)? complete,
+    TResult? Function()? retrievingGPS,
+    TResult? Function()? serverCommunication,
+    TResult? Function()? genderRequest,
+    TResult? Function()? initialLoading,
+    TResult? Function(TotemError totemError, Object error, StackTrace? st)?
+        error,
+  }) {
+    return initialLoading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(DeepLinkModel deepLinkModel, String password)? complete,
+    TResult Function()? retrievingGPS,
+    TResult Function()? serverCommunication,
+    TResult Function()? genderRequest,
+    TResult Function()? initialLoading,
+    TResult Function(TotemError totemError, Object error, StackTrace? st)?
+        error,
+    required TResult orElse(),
+  }) {
+    if (initialLoading != null) {
+      return initialLoading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TotemDialogComplete value) complete,
+    required TResult Function(TotemDialogRetrievingGPS value) retrievingGPS,
+    required TResult Function(TotemDialogCommunicationWithServer value)
+        serverCommunication,
+    required TResult Function(TotemDialogGenderRequest value) genderRequest,
+    required TResult Function(TotemDialogInitialLoading value) initialLoading,
+    required TResult Function(TotemDialogStateError value) error,
+  }) {
+    return initialLoading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(TotemDialogComplete value)? complete,
+    TResult? Function(TotemDialogRetrievingGPS value)? retrievingGPS,
+    TResult? Function(TotemDialogCommunicationWithServer value)?
+        serverCommunication,
+    TResult? Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult? Function(TotemDialogInitialLoading value)? initialLoading,
+    TResult? Function(TotemDialogStateError value)? error,
+  }) {
+    return initialLoading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TotemDialogComplete value)? complete,
+    TResult Function(TotemDialogRetrievingGPS value)? retrievingGPS,
+    TResult Function(TotemDialogCommunicationWithServer value)?
+        serverCommunication,
+    TResult Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult Function(TotemDialogInitialLoading value)? initialLoading,
+    TResult Function(TotemDialogStateError value)? error,
+    required TResult orElse(),
+  }) {
+    if (initialLoading != null) {
+      return initialLoading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class TotemDialogInitialLoading implements TotemDialogState {
+  const factory TotemDialogInitialLoading() = _$TotemDialogInitialLoadingImpl;
 }
 
 /// @nodoc
@@ -978,6 +1146,7 @@ class _$TotemDialogStateErrorImpl implements TotemDialogStateError {
     required TResult Function() retrievingGPS,
     required TResult Function() serverCommunication,
     required TResult Function() genderRequest,
+    required TResult Function() initialLoading,
     required TResult Function(
             TotemError totemError, Object error, StackTrace? st)
         error,
@@ -992,6 +1161,7 @@ class _$TotemDialogStateErrorImpl implements TotemDialogStateError {
     TResult? Function()? retrievingGPS,
     TResult? Function()? serverCommunication,
     TResult? Function()? genderRequest,
+    TResult? Function()? initialLoading,
     TResult? Function(TotemError totemError, Object error, StackTrace? st)?
         error,
   }) {
@@ -1005,6 +1175,7 @@ class _$TotemDialogStateErrorImpl implements TotemDialogStateError {
     TResult Function()? retrievingGPS,
     TResult Function()? serverCommunication,
     TResult Function()? genderRequest,
+    TResult Function()? initialLoading,
     TResult Function(TotemError totemError, Object error, StackTrace? st)?
         error,
     required TResult orElse(),
@@ -1023,6 +1194,7 @@ class _$TotemDialogStateErrorImpl implements TotemDialogStateError {
     required TResult Function(TotemDialogCommunicationWithServer value)
         serverCommunication,
     required TResult Function(TotemDialogGenderRequest value) genderRequest,
+    required TResult Function(TotemDialogInitialLoading value) initialLoading,
     required TResult Function(TotemDialogStateError value) error,
   }) {
     return error(this);
@@ -1036,6 +1208,7 @@ class _$TotemDialogStateErrorImpl implements TotemDialogStateError {
     TResult? Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult? Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult? Function(TotemDialogInitialLoading value)? initialLoading,
     TResult? Function(TotemDialogStateError value)? error,
   }) {
     return error?.call(this);
@@ -1049,6 +1222,7 @@ class _$TotemDialogStateErrorImpl implements TotemDialogStateError {
     TResult Function(TotemDialogCommunicationWithServer value)?
         serverCommunication,
     TResult Function(TotemDialogGenderRequest value)? genderRequest,
+    TResult Function(TotemDialogInitialLoading value)? initialLoading,
     TResult Function(TotemDialogStateError value)? error,
     required TResult orElse(),
   }) {

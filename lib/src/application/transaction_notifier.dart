@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart'
     hide Location, Position;
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -25,40 +24,28 @@ class TransactionNotifierParams {
   TransactionNotifierParams(this.deepLinkModel, this.password);
 }
 
-// final transactionNotifierProvider = AsyncNotifierProviderFamily<
-//     TransactionNotifier,
-//     TransactionState,
-//     TransactionNotifierParams>(() => TransactionNotifier());
-
 @riverpod
 class TransactionNotifier extends _$TransactionNotifier {
-  // TransactionNotifier(this.otc, this.type);
-
-  // @override
-  // TransactionState build() {
-  //   return TransactionLoadingState();
-  // }
-
-  late String otc;
-  late String password;
-  late TransactionType type;
+  late final String _otc;
+  late final String _password;
+  late final TransactionType _type;
 
   @override
   FutureOr<TransactionState> build(TransactionNotifierParams arg) async {
-    otc = arg.deepLinkModel.otc!;
-    type = arg.deepLinkModel.type;
-    password = arg.password;
+    _otc = arg.deepLinkModel.otc!;
+    _type = arg.deepLinkModel.type;
+    _password = arg.password;
     if (await InternetConnectionChecker().hasConnection) {
       try {
         TransactionModel transaction;
-        if (type == TransactionType.VOUCHERS) {
-          logger.i("bloc: " + otc);
+        if (_type == TransactionType.VOUCHERS) {
+          logger.i("bloc: " + _otc);
 
           final location = await getLocation2();
           logger.i("position is mocked ${location.isMocked}");
           transaction = await ref.read(transactionRepositoryProvider).getWoms(
-                otc,
-                password,
+                _otc,
+                _password,
                 lat: location.latitude,
                 long: location.longitude,
               );
@@ -68,36 +55,39 @@ class TransactionNotifier extends _$TransactionNotifier {
         } else {
           final infoPayment = await ref
               .read(transactionRepositoryProvider)
-              .requestPayment(otc, password);
+              .requestPayment(_otc, _password);
           logger.i(infoPayment);
           logEvent('wom_info_payment_retrieved');
-          return TransactionInfoPaymentState(infoPayment, password);
+          return TransactionInfoPaymentState(infoPayment, _password);
         }
-      } on InsufficientVouchers {
+      } on InsufficientVouchers catch (ex, st) {
+        logger.e("InsufficientVouchers", error: ex, stackTrace: st);
         return TransactionErrorState(
             error: 'Non hai voucher a sufficienza per questa richiesta',
             translationKey: 'wrong_number_of_vouchers');
-      } on ServerException catch (ex) {
-        FirebaseCrashlytics.instance.recordError(ex, null, reason: ex.error);
+      } on ServerException catch (ex, st) {
+        logger.e("ServerException: ${ex.statusCode}",
+            error: ex, stackTrace: st);
         return TransactionErrorState(
             error: ex.error, translationKey: ex.translationKey);
-      } on TimeoutException catch (ex, stack) {
-        FirebaseCrashlytics.instance.recordError(ex, stack);
+      } on TimeoutException catch (ex, st) {
+        logger.e("TimeoutException", error: ex, stackTrace: st);
         return TransactionErrorState(
             error: 'La richiesta ha impiegato troppo tempo',
             translationKey: 'request_timeout_exception');
-      } on LocationServiceException {
+      } on LocationServiceException catch (ex, st) {
+        logger.e("TransactionMissingLocationState", error: ex, stackTrace: st);
         return TransactionMissingLocationState();
-      } on LocationServiceDisabledException {
+      } on LocationServiceDisabledException catch (ex, st) {
+        logger.e("GPS service disabled", error: ex, stackTrace: st);
         return TransactionMissingLocationState();
-      } catch (ex, stack) {
-        logger.i(ex.toString());
-        FirebaseCrashlytics.instance.recordError(ex, stack);
+      } catch (ex, st) {
+        logger.e("Unknown error", error: ex, stackTrace: st);
         return TransactionErrorState(
             error: ex.toString(), translationKey: 'unknown_error');
       }
     } else {
-      return TransactionNoDataConnectionState(password: password);
+      return TransactionNoDataConnectionState(password: _password);
     }
   }
 
@@ -154,32 +144,32 @@ class TransactionNotifier extends _$TransactionNotifier {
       try {
         final transaction = await ref
             .read(transactionRepositoryProvider)
-            .pay(otc, password, infoPayment);
+            .pay(_otc, _password, infoPayment);
         logEvent('wom_payment_done');
         state = AsyncData(TransactionCompleteState(transaction));
       } on InsufficientVouchers {
         state = AsyncData(TransactionErrorState(
             error: 'Non hai voucher a sufficienza per questa richiesta',
             translationKey: 'wrong_number_of_vouchers'));
-      } on ServerException catch (ex) {
-        FirebaseCrashlytics.instance.recordError(ex, null, reason: ex.error);
+      } on ServerException catch (ex, st) {
+        logger.e("ServerException: ${ex.statusCode}",
+            error: ex, stackTrace: st);
         state = AsyncData(TransactionErrorState(
             error: ex.error, translationKey: ex.translationKey));
-      } on TimeoutException catch (ex, stack) {
-        FirebaseCrashlytics.instance.recordError(ex, stack);
+      } on TimeoutException catch (ex, st) {
+        logger.e("TimeoutException", error: ex, stackTrace: st);
         state = AsyncData(TransactionErrorState(
             error: 'La richiesta ha impiegato troppo tempo',
             translationKey: 'request_timeout_exception'));
-      } catch (ex, stack) {
-        logger.i(ex.toString());
-        FirebaseCrashlytics.instance.recordError(ex, stack);
+      } catch (ex, st) {
+        logger.e('Unknown error',error:ex, stackTrace: st);
         state = AsyncData(TransactionErrorState(
             error: ex.toString(), translationKey: 'unknown_error'));
       }
     } else {
       state = AsyncData(TransactionNoDataConnectionState(
         infoPay: infoPayment,
-        password: password,
+        password: _password,
       ));
     }
   }

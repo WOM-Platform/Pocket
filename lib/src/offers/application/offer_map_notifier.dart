@@ -150,15 +150,14 @@ class OffersMapNotifier extends _$OffersMapNotifier {
           try {
             controller.showMarkerInfoWindow(MarkerId(offers.first.id));
             ref.read(carouselControllerProvider).jumpToPage(0);
-          } catch (ex) {
-            logger.e(ex);
+          } catch (ex, st) {
+            logger.e('showMarkerInfoWindow', error: ex, stackTrace: st);
           }
         });
       }
       clusterManager!.setItems(clusterItems);
     } catch (ex, st) {
-      logger.e(ex);
-      logger.e(st);
+      logger.e('Load offers', error: ex, stackTrace: st);
       state = currentState;
     }
   }
@@ -331,8 +330,7 @@ class OffersMapNotifier extends _$OffersMapNotifier {
     ui.Picture p = recorder.endRecording();
     final pngBytes = await (await p.toImage(
       (size.width + textRectWidth + leftPadding).toInt(),
-      (size.height + tp.height + bottomTextPadding + pinYOffset)
-          .toInt(),
+      (size.height + tp.height + bottomTextPadding + pinYOffset).toInt(),
     ))
         .toByteData(format: ui.ImageByteFormat.png);
 

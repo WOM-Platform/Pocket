@@ -10,7 +10,7 @@ logEvent(String event) {
 class ReleaseFilter extends LogFilter {
   @override
   bool shouldLog(LogEvent event) {
-    return true;
+    return false;
   }
 }
 

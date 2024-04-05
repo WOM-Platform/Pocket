@@ -113,8 +113,7 @@ class ImportNotifier extends _$ImportNotifier {
       ref.invalidate(totalWomCountProvider);
       state = ImportCompleted(woms.length);
     } catch (ex, st) {
-      logger.e(ex);
-      logger.e(st);
+      logger.e('importWom', error: ex, stackTrace: st);
       state = ImportError(ex, st);
     }
   }

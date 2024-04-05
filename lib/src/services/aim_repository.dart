@@ -3,33 +3,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:wom_pocket/src/services/transaction_repository.dart';
 
 import '../../constants.dart';
 import '../my_logger.dart';
 
 final aimRepositoryProvider = Provider<AimRepository>((ref) {
-  return AimRepository(ref.watch(getDatabaseProvider));
+  return AimRepository(ref.watch(getDatabaseProvider), ref.watch(pocketProvider));
 });
 
 class AimRepository {
   final MyDatabase db;
-  late AimRemoteDataSources _apiProvider;
-
-  AimRepository(this.db) {
-    _apiProvider = AimRemoteDataSources(domain);
+  final Pocket pocketClient;
+  AimRepository(this.db, this.pocketClient) {
   }
 
   Future<List<Aim>> updateAim() async {
     logger.i("AimRepository: updateAim()");
     try {
-      final newList = await _apiProvider.checkUpdate();
+      final newList = await pocketClient.getAimList();
       await db.aimsDao.deleteTable();
       logger.i("${newList.length} NUOVI AIM");
       await saveAimToDb(newList);
       return newList;
     } catch (e, st) {
-      logger.e(e);
-      logger.e(st);
+      logger.e("Unknown error", error: e, stackTrace: st);
       return <Aim>[];
     }
   }

@@ -6,7 +6,7 @@ part of 'import_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$importNotifierHash() => r'b89ffe78d37cb0ac0543ce9d18b9a7b96cb17fd4';
+String _$importNotifierHash() => r'dc3bdaa91226d970a1091fedc0adff8161679813';
 
 /// See also [ImportNotifier].
 @ProviderFor(ImportNotifier)

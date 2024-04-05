@@ -38,8 +38,8 @@ Future<List<TransactionModel>> getExchangeTransactions(
         .transactionsDao
         .getExchangeTransactions;
     return transactions.map((e) => e.toModel()).toList();
-  } catch (ex) {
-    logger.e(ex.toString());
+  } catch (ex,st) {
+    logger.e('getExchangeTransactions', error: ex, stackTrace: st);
     rethrow;
   }
 }
@@ -129,8 +129,7 @@ class NewExchangeNotifier extends _$NewExchangeNotifier {
       );
       refreshHome();
     } catch (ex, st) {
-      logger.e(ex);
-      logger.e(st);
+      logger.e('donate', error: ex, stackTrace: st);
       state = NewExchangeStateError(ex, st);
     }
   }

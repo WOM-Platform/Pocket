@@ -43,9 +43,8 @@ class AppRepository {
       logger.i("AppReposirotry");
       logger.i('Failed to parse the initial link as Uri.');
       return Future.error('Failed to parse the initial link as Uri.');
-    } catch (e) {
-      logger.e("AppRepository");
-      logger.e(e.toString());
+    } catch (e,st) {
+      logger.e("Unknown error",error: e,stackTrace: st);
       return Future.error(e);
     }
   }

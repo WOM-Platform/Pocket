@@ -30,8 +30,7 @@ Future<TransactionsState> fetchTransactions(FetchTransactionsRef ref) async {
         await ref.read(getDatabaseProvider).transactionsDao.getTransactions;
     return TransactionsLoaded(transactions.map((e) => e.toModel()).toList());
   } catch (ex, st) {
-    logger.e(ex.toString());
-    logger.e(st.toString());
+    logger.e('Unknown error', error: ex, stackTrace: st);
     return TransactionsErrorState('somethings_wrong');
   }
 }

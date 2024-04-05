@@ -145,7 +145,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ],
           SettingsItem(
             title: 'settings_show_intro_title'.tr(),
-            subtitle: 'Ripercorri le schermate introduttive',
+            subtitle: 'settings_show_intro_desc'.tr(),
             icon: Icons.question_mark,
             // trailing: StatefulBuilder(
             //   builder: (ctx, setState) {
@@ -186,14 +186,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               );
             },
           ),
-          SettingsItem(
-            title: 'enableHomeTutorialTitle'.tr(),
-            subtitle: 'enableHomeTutorialDesc'.tr(),
-            icon: Icons.cast_for_education,
-            onTap: () {
-              _clearTutorial(context);
-            },
-          ),
+          // SettingsItem(
+          //   title: 'enableHomeTutorialTitle'.tr(),
+          //   subtitle: 'enableHomeTutorialDesc'.tr(),
+          //   icon: Icons.cast_for_education,
+          //   onTap: () {
+          //     _clearTutorial(context);
+          //   },
+          // ),
           SettingsItem(
             title: 'settings_info_title'.tr(),
             subtitle: 'settings_info_desc'.tr(),

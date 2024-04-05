@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:wom_pocket/src/application/app_notifier.dart';
+import 'package:wom_pocket/src/application/app_state.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:wom_pocket/src/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
@@ -20,23 +21,20 @@ import 'package:wom_pocket/src/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
-import 'src/blocs/app/bloc.dart';
-
 bool fakeModeVar = false;
 String? fakeData;
 
 class App extends ConsumerWidget {
-  // final AppRepository appRepository;
 
   App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeData = ThemeData(
-        useMaterial3: false,
-        primaryColor: primaryColor,
-        backgroundColor: backgroundColor,
-        scaffoldBackgroundColor: backgroundColor);
+      useMaterial3: false,
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: backgroundColor,
+    );
 
     return OKToast(
       child: MaterialApp(
@@ -67,7 +65,10 @@ class App extends ConsumerWidget {
               selectedItemColor: accentColor,
               unselectedItemColor: Colors.white,
             ),
-            colorScheme: themeData.colorScheme.copyWith(secondary: accentColor),
+            colorScheme: themeData.colorScheme.copyWith(
+              secondary: accentColor,
+              background: backgroundColor,
+            ),
           ),
           builder: (context, child) {
             // Obtain the current media query information.
@@ -143,16 +144,6 @@ class GateWidget extends ConsumerWidget {
       }
 
       if (data is NormalMode) {
-        /*final homeProvider = MultiBlocProvider(
-        child: FeatureDiscovery(
-          child: HomeScreen2(),
-        ),
-        providers: <BlocProvider>[
-          // BlocProvider<TransactionsListBloc>(
-          //     create: (context) => _transactionsBloc!),
-          // BlocProvider<SuggestionsBloc>(create: (context) => _suggestionsBloc),
-        ],
-      );*/
         return FeatureDiscovery(
           child: HomeScreen2(),
         );

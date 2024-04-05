@@ -30,8 +30,8 @@ class PosMapNotifier extends _$PosMapNotifier {
 
       final markers = await buildMarkers(posList);
       state = PosMapData(posList: posList, markers: markers);
-    } catch (ex) {
-      logger.e(ex);
+    } catch (ex,st) {
+      logger.e('LoadingPos error',error:ex,stackTrace: st);
       state = currentState;
     }
   }

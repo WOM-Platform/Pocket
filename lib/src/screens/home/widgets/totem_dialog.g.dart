@@ -28,7 +28,7 @@ Map<String, dynamic> _$$TotemResponseImplToJson(_$TotemResponseImpl instance) =>
 // RiverpodGenerator
 // **************************************************************************
 
-String _$totemNotifierHash() => r'65f66a9e491d839edbe2e8fde2f0581181897e02';
+String _$totemNotifierHash() => r'bac845fc99dbf8b4da0d5ee121fdabb8bd38c0b7';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -54,10 +54,12 @@ class _SystemHash {
 abstract class _$TotemNotifier
     extends BuildlessAutoDisposeNotifier<TotemDialogState> {
   late final TotemData totemData;
+  late final bool askGender;
 
   TotemDialogState build(
-    TotemData totemData,
-  );
+    TotemData totemData, {
+    bool askGender = true,
+  });
 }
 
 /// See also [TotemNotifier].
@@ -71,10 +73,12 @@ class TotemNotifierFamily extends Family<TotemDialogState> {
 
   /// See also [TotemNotifier].
   TotemNotifierProvider call(
-    TotemData totemData,
-  ) {
+    TotemData totemData, {
+    bool askGender = true,
+  }) {
     return TotemNotifierProvider(
       totemData,
+      askGender: askGender,
     );
   }
 
@@ -84,6 +88,7 @@ class TotemNotifierFamily extends Family<TotemDialogState> {
   ) {
     return call(
       provider.totemData,
+      askGender: provider.askGender,
     );
   }
 
@@ -107,9 +112,12 @@ class TotemNotifierProvider
     extends AutoDisposeNotifierProviderImpl<TotemNotifier, TotemDialogState> {
   /// See also [TotemNotifier].
   TotemNotifierProvider(
-    TotemData totemData,
-  ) : this._internal(
-          () => TotemNotifier()..totemData = totemData,
+    TotemData totemData, {
+    bool askGender = true,
+  }) : this._internal(
+          () => TotemNotifier()
+            ..totemData = totemData
+            ..askGender = askGender,
           from: totemNotifierProvider,
           name: r'totemNotifierProvider',
           debugGetCreateSourceHash:
@@ -120,6 +128,7 @@ class TotemNotifierProvider
           allTransitiveDependencies:
               TotemNotifierFamily._allTransitiveDependencies,
           totemData: totemData,
+          askGender: askGender,
         );
 
   TotemNotifierProvider._internal(
@@ -130,9 +139,11 @@ class TotemNotifierProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.totemData,
+    required this.askGender,
   }) : super.internal();
 
   final TotemData totemData;
+  final bool askGender;
 
   @override
   TotemDialogState runNotifierBuild(
@@ -140,6 +151,7 @@ class TotemNotifierProvider
   ) {
     return notifier.build(
       totemData,
+      askGender: askGender,
     );
   }
 
@@ -148,13 +160,16 @@ class TotemNotifierProvider
     return ProviderOverride(
       origin: this,
       override: TotemNotifierProvider._internal(
-        () => create()..totemData = totemData,
+        () => create()
+          ..totemData = totemData
+          ..askGender = askGender,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         totemData: totemData,
+        askGender: askGender,
       ),
     );
   }
@@ -167,13 +182,16 @@ class TotemNotifierProvider
 
   @override
   bool operator ==(Object other) {
-    return other is TotemNotifierProvider && other.totemData == totemData;
+    return other is TotemNotifierProvider &&
+        other.totemData == totemData &&
+        other.askGender == askGender;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, totemData.hashCode);
+    hash = _SystemHash.combine(hash, askGender.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -182,6 +200,9 @@ class TotemNotifierProvider
 mixin TotemNotifierRef on AutoDisposeNotifierProviderRef<TotemDialogState> {
   /// The parameter `totemData` of this provider.
   TotemData get totemData;
+
+  /// The parameter `askGender` of this provider.
+  bool get askGender;
 }
 
 class _TotemNotifierProviderElement
@@ -191,6 +212,8 @@ class _TotemNotifierProviderElement
 
   @override
   TotemData get totemData => (origin as TotemNotifierProvider).totemData;
+  @override
+  bool get askGender => (origin as TotemNotifierProvider).askGender;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

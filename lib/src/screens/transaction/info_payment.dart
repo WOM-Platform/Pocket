@@ -147,14 +147,27 @@ class InfoPayment extends ConsumerWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: Text('confirm_payment'.tr(),
+                      child: Text(
+                        'confirm_payment'.tr(),
                         style: TextStyle(color: Colors.white, fontSize: 20.0),
                       ),
                     ),
                     onPressed: () {
-                      ref.read(transactionNotifierProvider(params).notifier).confirmPayment(responseInfoPay);
+                      ref
+                          .read(transactionNotifierProvider(params).notifier)
+                          .confirmPayment(responseInfoPay);
                     }),
-              )
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'cancel'.tr(),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

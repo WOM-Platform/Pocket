@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -30,6 +29,7 @@ enum TotemError {
   gpsTimeout,
   gpsServiceDisabled,
   sessionNotStarted,
+  totemSessionInactive,
   wrongRequestId,
   sessionExpired,
   outOfPolygon,
@@ -58,6 +58,7 @@ enum TotemError {
       mockedLocation ||
       totemDisabled ||
       noWomForThisEvent ||
+      totemSessionInactive ||
       outOfPolygon =>
         'Ok',
       _ => 'try_again'.tr(),
@@ -74,6 +75,7 @@ enum TotemError {
       gpsServiceDisabled => 'totemErrorGpsServiceDisabled'.tr(),
       eventIsClosed => 'totemErrorEventIsClosed'.tr(),
       sessionAlreadyScanned => 'totemErrorSessionAlreadyScanned'.tr(),
+      totemSessionInactive => 'totemSessionInactive'.tr(),
       outOfPolygon => 'totemErrorOutOfPolygon'.tr(),
       totemDisabled => 'totemDisabled'.tr(),
       noWomForThisEvent => 'noWomForThisEvent'.tr(),
@@ -109,6 +111,8 @@ class TotemDialogState with _$TotemDialogState {
 
   const factory TotemDialogState.genderRequest() = TotemDialogGenderRequest;
 
+  const factory TotemDialogState.initialLoading() = TotemDialogInitialLoading;
+
   const factory TotemDialogState.error(TotemError totemError, Object error,
       {StackTrace? st}) = TotemDialogStateError;
 }
@@ -116,9 +120,12 @@ class TotemDialogState with _$TotemDialogState {
 @riverpod
 class TotemNotifier extends _$TotemNotifier {
   @override
-  TotemDialogState build(TotemData totemData) {
+  TotemDialogState build(
+    TotemData totemData, {
+    bool askGender = true,
+  }) {
     action();
-    return TotemDialogState.retrievingGPS();
+    return TotemDialogState.initialLoading();
   }
 
   StreamSubscription? _subscription;
@@ -127,7 +134,8 @@ class TotemNotifier extends _$TotemNotifier {
     _subscription?.cancel();
     try {
       var gender = await Hive.box('settings').get('gender');
-      if (gender == null) {
+
+      if (gender == null && askGender) {
         state = TotemDialogState.genderRequest();
         return;
       }
@@ -152,9 +160,6 @@ class TotemNotifier extends _$TotemNotifier {
               verifyResponse.eventId!,
             );
 
-        final data =
-            res == null ? <String, int>{} : <String, int>{res.$1: res.$2};
-
         final response = await ref
             .read(transactionRepositoryProvider)
             .getVoucherRequestFromEmbeddedQrCode2(
@@ -163,7 +168,7 @@ class TotemNotifier extends _$TotemNotifier {
               res?.$1,
               res?.$2,
               gender,
-              isMocked: currentPosition.isMocked,
+              isMocked: false,
             );
 
         if (response.status == 'success') {
@@ -182,7 +187,7 @@ class TotemNotifier extends _$TotemNotifier {
       } else {
         handleError(verifyResponse);
       }
-    } on MyLocationException catch (ex) {
+    } on MyLocationException catch (ex, st) {
       final error = switch (ex) {
         LocationDisabledException() => TotemError.gpsServiceDisabled,
         LocationPermissionException() => TotemError.gpsPermission,
@@ -198,9 +203,9 @@ class TotemNotifier extends _$TotemNotifier {
         });
       }
       state = TotemDialogStateError(error, ex);
+      logger.e('MyLocationException', error: ex, stackTrace: st);
     } catch (ex, st) {
-      print(ex);
-      print(st);
+      logger.e('Unknown error', error: ex, stackTrace: st);
       state = TotemDialogStateError(TotemError.unknown, ex, st: st);
     }
   }
@@ -210,8 +215,7 @@ class TotemNotifier extends _$TotemNotifier {
     try {
       totemError = TotemError.values.byName(response.status);
     } catch (ex, st) {
-      logger.e(ex);
-      logger.e(st);
+      logger.e('handleError', error: ex, stackTrace: st);
     }
     state = TotemDialogStateError(totemError, "");
   }
@@ -219,12 +223,23 @@ class TotemNotifier extends _$TotemNotifier {
 
 class TotemDialog extends ConsumerWidget {
   final TotemData totemData;
+  final bool askGender;
+  final bool askPosition;
 
-  const TotemDialog({Key? key, required this.totemData}) : super(key: key);
+  const TotemDialog({
+    Key? key,
+    required this.totemData,
+    this.askGender = true,
+    this.askPosition = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(totemNotifierProvider(totemData), (previous, next) {
+    ref.listen(
+        totemNotifierProvider(
+          totemData,
+          askGender: askGender,
+        ), (previous, next) {
       if (next is TotemDialogComplete) {
         Navigator.pushReplacement(
           ref.context,
@@ -237,7 +252,10 @@ class TotemDialog extends ConsumerWidget {
         );
       }
     });
-    final state = ref.watch(totemNotifierProvider(totemData));
+    final state = ref.watch(totemNotifierProvider(
+      totemData,
+      askGender: askGender,
+    ));
     final size = MediaQuery.sizeOf(context);
     return Container(
       padding: EdgeInsets.all(8),
@@ -250,7 +268,14 @@ class TotemDialog extends ConsumerWidget {
           if (state is TotemDialogGenderRequest) ...[
             GenderSelectorWidget(
               onAction: () {
-                ref.read(totemNotifierProvider(totemData).notifier).action();
+                ref
+                    .read(
+                      totemNotifierProvider(
+                        totemData,
+                        askGender: askGender,
+                      ).notifier,
+                    )
+                    .action();
               },
             ),
           ] else if (state is TotemDialogStateError) ...[
@@ -289,6 +314,7 @@ class TotemDialog extends ConsumerWidget {
                       case TotemError.eventIsClosed:
                       case TotemError.totemDisabled:
                       case TotemError.noWomForThisEvent:
+                      case TotemError.totemSessionInactive:
                       case TotemError.mockedLocation:
                         Navigator.of(context).pop();
                         break;
@@ -299,7 +325,10 @@ class TotemDialog extends ConsumerWidget {
                       case TotemError.gpsTimeout:
                       case TotemError.unknown:
                         ref
-                            .read(totemNotifierProvider(totemData).notifier)
+                            .read(totemNotifierProvider(
+                              totemData,
+                              askGender: askGender,
+                            ).notifier)
                             .action();
                     }
                   },
@@ -309,6 +338,7 @@ class TotemDialog extends ConsumerWidget {
             ),
           ] else ...[
             CircularProgressIndicator(),
+            const SizedBox(height: 8),
             switch (state) {
               TotemDialogRetrievingGPS() => Text('acquiringYourPosition'.tr()),
               TotemDialogCommunicationWithServer() =>

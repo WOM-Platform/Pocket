@@ -5,6 +5,7 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/database/database.dart';
@@ -29,8 +30,6 @@ class TransactionRepository {
 
   TransactionRepository(this.pocket, this.database, this.dio) {
     logger.i('Repository constructor');
-    // transactionsDB = TransactionDB.get();
-    // womDB = WomDB.get();
   }
 
   Future<TransactionModel> getWoms(String otc, String password,
@@ -40,11 +39,12 @@ class TransactionRepository {
       final response =
           await pocket.redeemVouchers(otc, password, lat: lat, long: long);
       return saveWoms(response);
-    } on ServerException catch (ex) {
-      logger.i(ex);
+    } on ServerException catch (ex, st) {
+      logger.e("ServerException: ${ex.statusCode}, ${ex.message}",
+          error: ex, stackTrace: st);
       rethrow;
-    } catch (ex) {
-      logger.e(ex);
+    } catch (ex, st) {
+      logger.e('Unknown error', error: ex, stackTrace: st);
       rethrow;
     }
   }
@@ -157,8 +157,6 @@ class TransactionRepository {
 
       return tx.copyWith(id: id);
     } catch (e, st) {
-      logger.e(e);
-      logger.e(st);
       rethrow;
     }
   }
@@ -189,17 +187,17 @@ class TransactionRepository {
         return TotemResponse.fromJson(response.data);
       }
       throw Exception('Error from embedded api: ${response.statusCode}');
-    } on DioException catch (e) {
+    } on DioException catch (e, st) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
-        print(e.response!.data);
-        print(e.response!.headers);
-        print(e.response!.requestOptions);
+        logger.w(e.response!.data);
+        logger.w(e.response!.headers);
+        logger.w(e.response!.requestOptions);
       } else {
         // Something happened in setting up or sending the request that triggered an Error
-        print(e.requestOptions);
-        print(e.message);
+        logger.w(e.requestOptions);
+        logger.w(e.message);
       }
       rethrow;
     } catch (ex) {
@@ -220,20 +218,20 @@ class TransactionRepository {
         return TotemResponse.fromJson(response.data);
       }
       throw Exception('Error from embedded api: ${response.statusCode}');
-    } on DioException catch (e) {
+    } on DioException catch (e, st) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
-        print(e.response!.data);
-        print(e.response!.headers);
-        print(e.response!.requestOptions);
+        logger.w(e.response!.data);
+        logger.w(e.response!.headers);
+        logger.w(e.response!.requestOptions);
       } else {
         // Something happened in setting up or sending the request that triggered an Error
-        print(e.requestOptions);
-        print(e.message);
+        logger.w(e.requestOptions);
+        logger.w(e.message);
       }
       rethrow;
-    } catch (ex) {
+    } catch (ex, st) {
       rethrow;
     }
   }

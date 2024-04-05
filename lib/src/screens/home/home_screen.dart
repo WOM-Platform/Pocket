@@ -290,13 +290,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
   }
 
   _startScan(BuildContext context) async {
-//            final String link = await showEditField(context);
-//          final link = "https://wom.social/vouchers/f6f8fd2a8c424a60aa23f8f444742f13";
-//            final link =
-//                "https://wom.social/payment/de8eac804f9a477bbf3ba0e111139f2a";
-//            final String link = await bloc.scanQRCode();
     if (await InternetConnectionChecker().hasConnection) {
-      logger.wtf('_startScan');
       logEvent('open_wom_scan');
       try {
         final link = await Navigator.of(context).push(

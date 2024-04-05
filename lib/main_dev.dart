@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -19,6 +18,8 @@ import 'src/utils/utils.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Intl
   await EasyLocalization.ensureInitialized();
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) return stack.vmTrace;
@@ -39,7 +40,6 @@ Future<void> main() async {
 
   // Firebase
   await Firebase.initializeApp();
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
 
   // Hive
   await Hive.initFlutter();

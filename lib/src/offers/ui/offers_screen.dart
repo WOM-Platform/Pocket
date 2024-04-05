@@ -153,8 +153,7 @@ class OffersList extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     SectionTitle(
-                      title:
-                          'whereWeAre'.tr(),
+                      title: 'whereWeAre'.tr(),
                       leftPadding: 16,
                     ),
                     SizedBox(
@@ -235,9 +234,11 @@ class OffersList extends ConsumerWidget {
                           type: AlertType.error,
                           title: 'locationPermissionDeniedForever'.tr(),
                           buttons: []).show();
+                      logger.e("OffersScreen: LocationPermissionDeniedForever",
+                          error: ex, stackTrace: st);
                     } catch (ex, st) {
-                      logger.e(ex);
-                      logger.e(st);
+                      logger.e("OffersScreen, unkown error",
+                          error: ex, stackTrace: st);
                     }
                   },
                   tryAgainText: 'grantPermission'.tr(),
@@ -249,19 +250,16 @@ class OffersList extends ConsumerWidget {
                   tryAgain: () {
                     ref.invalidate(locationNotifierProvider);
                   },
-                  tryAgainText:
-                      'try_again'.tr(),
+                  tryAgainText: 'try_again'.tr(),
                   ex: ex,
                 );
               }
               return PocketErrorWidget(
-                errorText:
-                    'somethings_wrong'.tr(),
+                errorText: 'somethings_wrong'.tr(),
                 tryAgain: () {
                   ref.invalidate(offersNotifierProvider);
                 },
-                tryAgainText:
-                    'try_again'.tr(),
+                tryAgainText: 'try_again'.tr(),
                 ex: ex,
               );
             },
