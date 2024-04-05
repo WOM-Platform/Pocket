@@ -307,10 +307,8 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             barrierDismissible: false,
             builder: (_) => PopScope(
               canPop: false,
-              child: Dialog(
-                child: TotemDialog(
-                  totemData: totemData,
-                ),
+              child: TotemDialog(
+                totemData: totemData,
               ),
             ),
           );

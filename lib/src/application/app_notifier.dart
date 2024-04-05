@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/my_logger.dart';

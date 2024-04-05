@@ -117,11 +117,9 @@ class IntroScreen extends HookConsumerWidget {
                       barrierDismissible: false,
                       builder: (_) => PopScope(
                         canPop: true,
-                        child: Dialog(
-                          child: TotemDialog(
-                            totemData: totemData,
-                            askGender: false,
-                          ),
+                        child: TotemDialog(
+                          totemData: totemData,
+                          askGender: false,
                         ),
                       ),
                     );

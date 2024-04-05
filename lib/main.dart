@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+// import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
@@ -76,16 +76,16 @@ void main() async {
   // });
 
   // Initialize Sentry for error reporting in production mode
-  return SentryFlutter.init(
-    (options) {
-      options.dsn =
-          'https://218b34241744a0da156461b858740c8d@o1180190.ingest.us.sentry.io/4506859071012864';
-      options.debug = !kReleaseMode;
-      options.tracesSampleRate = 1.0;
-      options.tracesSampler = (_) => 1.0;
-    },
-    appRunner: () => startApp(),
-  );
+  // return SentryFlutter.init(
+  //   (options) {
+  //     options.dsn =
+  //         'https://218b34241744a0da156461b858740c8d@o1180190.ingest.us.sentry.io/4506859071012864';
+  //     options.debug = !kReleaseMode;
+  //     options.tracesSampleRate = 1.0;
+  //     options.tracesSampler = (_) => 1.0;
+  //   },
+  //   appRunner: () => startApp(),
+  // );
 }
 
 startApp() {

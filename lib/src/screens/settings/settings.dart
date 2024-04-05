@@ -8,6 +8,7 @@ import 'package:package_info/package_info.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/log_output.dart';
+import 'package:wom_pocket/src/nfc/ui/nfc_session_dialog.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/intro/intro.dart';
 import 'package:wom_pocket/src/screens/table_page/db_page.dart';
@@ -186,14 +187,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               );
             },
           ),
-          // SettingsItem(
-          //   title: 'enableHomeTutorialTitle'.tr(),
-          //   subtitle: 'enableHomeTutorialDesc'.tr(),
-          //   icon: Icons.cast_for_education,
-          //   onTap: () {
-          //     _clearTutorial(context);
-          //   },
-          // ),
+          SettingsItem(
+            title: 'Leggi NFC',
+            subtitle: '',
+            icon: Icons.cast_for_education,
+            onTap: () {
+              showDialog(context: context, builder: (_) => NFCSessionDialog());
+            },
+          ),
           SettingsItem(
             title: 'settings_info_title'.tr(),
             subtitle: 'settings_info_desc'.tr(),

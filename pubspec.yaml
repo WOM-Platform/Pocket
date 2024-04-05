@@ -79,7 +79,8 @@ dependencies:
 
   # UI
   material_design_icons_flutter: ^7.0.7296
-  sentry_flutter:
+#  sentry_flutter:
+  nfc_manager: ^3.4.0
 
 dev_dependencies:
   flutter_test:
