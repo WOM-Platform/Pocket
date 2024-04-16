@@ -32,19 +32,23 @@ class NFCNotifier extends _$NFCNotifier {
   @override
   NFCState build() {
     ref.onDispose(() {
-      dispose();
+      stop();
     });
-    init();
+    _init();
     return NFCState.loading();
   }
 
-  dispose() async {
+  void resume() {
+    _init();
+  }
+
+  Future<void> stop() async {
     await NfcManager.instance.stopSession().catchError((_) {
       /* no op */
     });
   }
 
-  init() async {
+  Future<void> _init() async {
     if (!(await NfcManager.instance.isAvailable())) {
       state = NFCState.unavailable();
       return;
@@ -52,25 +56,25 @@ class NFCNotifier extends _$NFCNotifier {
     state = NFCState.listening();
     NfcManager.instance.startSession(
       onDiscovered: (tag) async {
-        try {
-          final t = processNFC(tag);
-          if (t == null) {
-            state = NFCStateInvalidData();
-          } else {
-            state = NFCStateData(totemData: t);
+          try {
+            final t = _processNFC(tag);
+            if (t == null) {
+              state = NFCStateInvalidData();
+            } else {
+              await NfcManager.instance.stopSession();
+              state = NFCStateData(totemData: t);
+            }
+          } catch (e) {
+            state = NFCStateError(e, StackTrace.empty);
+            // await NfcManager.instance.stopSession().catchError((_) {
+            //   /* no op */
+            // });
           }
-          await NfcManager.instance.stopSession();
-        } catch (e) {
-          state = NFCStateError(e, StackTrace.empty);
-          await NfcManager.instance.stopSession().catchError((_) {
-            /* no op */
-          });
-        }
       },
     ).catchError((e) => state = NFCStateError(e, StackTrace.empty));
   }
 
-  TotemData? processNFC(NfcTag tag) {
+  TotemData? _processNFC(NfcTag tag) {
     final tech = Ndef.from(tag);
     TotemData? _t;
     if (tech is Ndef) {

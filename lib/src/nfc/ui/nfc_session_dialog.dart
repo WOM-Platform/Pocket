@@ -43,7 +43,7 @@ class NFCSessionDialog extends ConsumerWidget {
               Text('Si è verificato un errore'),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(nFCNotifierProvider.notifier).init();
+                  ref.read(nFCNotifierProvider.notifier).resume();
                 },
                 child: Text('Riprova'),
               ),
