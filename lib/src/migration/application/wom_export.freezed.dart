@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'wom_export.dart';
 
@@ -12,7 +12,7 @@ part of 'wom_export.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 WomExport _$WomExportFromJson(Map<String, dynamic> json) {
   return _WomExport.fromJson(json);
@@ -83,10 +83,11 @@ class _$WomExportCopyWithImpl<$Res, $Val extends WomExport>
 }
 
 /// @nodoc
-abstract class _$$_WomExportCopyWith<$Res> implements $WomExportCopyWith<$Res> {
-  factory _$$_WomExportCopyWith(
-          _$_WomExport value, $Res Function(_$_WomExport) then) =
-      __$$_WomExportCopyWithImpl<$Res>;
+abstract class _$$WomExportImplCopyWith<$Res>
+    implements $WomExportCopyWith<$Res> {
+  factory _$$WomExportImplCopyWith(
+          _$WomExportImpl value, $Res Function(_$WomExportImpl) then) =
+      __$$WomExportImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Voucher wom, String sourceId, String sourceName});
@@ -96,11 +97,11 @@ abstract class _$$_WomExportCopyWith<$Res> implements $WomExportCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_WomExportCopyWithImpl<$Res>
-    extends _$WomExportCopyWithImpl<$Res, _$_WomExport>
-    implements _$$_WomExportCopyWith<$Res> {
-  __$$_WomExportCopyWithImpl(
-      _$_WomExport _value, $Res Function(_$_WomExport) _then)
+class __$$WomExportImplCopyWithImpl<$Res>
+    extends _$WomExportCopyWithImpl<$Res, _$WomExportImpl>
+    implements _$$WomExportImplCopyWith<$Res> {
+  __$$WomExportImplCopyWithImpl(
+      _$WomExportImpl _value, $Res Function(_$WomExportImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -110,7 +111,7 @@ class __$$_WomExportCopyWithImpl<$Res>
     Object? sourceId = null,
     Object? sourceName = null,
   }) {
-    return _then(_$_WomExport(
+    return _then(_$WomExportImpl(
       wom: null == wom
           ? _value.wom
           : wom // ignore: cast_nullable_to_non_nullable
@@ -129,12 +130,12 @@ class __$$_WomExportCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_WomExport with DiagnosticableTreeMixin implements _WomExport {
-  const _$_WomExport(
+class _$WomExportImpl with DiagnosticableTreeMixin implements _WomExport {
+  const _$WomExportImpl(
       {required this.wom, required this.sourceId, required this.sourceName});
 
-  factory _$_WomExport.fromJson(Map<String, dynamic> json) =>
-      _$$_WomExportFromJson(json);
+  factory _$WomExportImpl.fromJson(Map<String, dynamic> json) =>
+      _$$WomExportImplFromJson(json);
 
   @override
   final Voucher wom;
@@ -159,10 +160,10 @@ class _$_WomExport with DiagnosticableTreeMixin implements _WomExport {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_WomExport &&
+            other is _$WomExportImpl &&
             (identical(other.wom, wom) || other.wom == wom) &&
             (identical(other.sourceId, sourceId) ||
                 other.sourceId == sourceId) &&
@@ -177,12 +178,12 @@ class _$_WomExport with DiagnosticableTreeMixin implements _WomExport {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_WomExportCopyWith<_$_WomExport> get copyWith =>
-      __$$_WomExportCopyWithImpl<_$_WomExport>(this, _$identity);
+  _$$WomExportImplCopyWith<_$WomExportImpl> get copyWith =>
+      __$$WomExportImplCopyWithImpl<_$WomExportImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_WomExportToJson(
+    return _$$WomExportImplToJson(
       this,
     );
   }
@@ -192,10 +193,10 @@ abstract class _WomExport implements WomExport {
   const factory _WomExport(
       {required final Voucher wom,
       required final String sourceId,
-      required final String sourceName}) = _$_WomExport;
+      required final String sourceName}) = _$WomExportImpl;
 
   factory _WomExport.fromJson(Map<String, dynamic> json) =
-      _$_WomExport.fromJson;
+      _$WomExportImpl.fromJson;
 
   @override
   Voucher get wom;
@@ -205,6 +206,6 @@ abstract class _WomExport implements WomExport {
   String get sourceName;
   @override
   @JsonKey(ignore: true)
-  _$$_WomExportCopyWith<_$_WomExport> get copyWith =>
+  _$$WomExportImplCopyWith<_$WomExportImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

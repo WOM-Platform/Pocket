@@ -1,14 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/offers/application/offer_map_notifier.dart';
-import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
-import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/offers/ui/pos_details_screen.dart';
 import 'package:wom_pocket/src/offers/ui/search_button.dart';
 import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
@@ -20,8 +19,7 @@ final carouselControllerProvider =
   return CarouselController();
 });
 
-final citiesCarouselControllerProvider =
-Provider<CarouselController>((ref) {
+final citiesCarouselControllerProvider = Provider<CarouselController>((ref) {
   return CarouselController();
 });
 
@@ -64,7 +62,8 @@ class ListingCarouselWidget extends ConsumerWidget {
     final data = ref.watch(offersMapNotifierProvider(position)).valueOrNull;
     final enabled = ref.watch(enableCarouselProvider);
 
-    if (!enabled || data == null || data.isLoading || data.offers.isEmpty) return const SizedBox.shrink();
+    if (!enabled || data == null || data.isLoading || data.offers.isEmpty)
+      return const SizedBox.shrink();
 
     final widgetHeight = 116.0;
     // if (enabled || data.offers.isEmpty) {
@@ -160,10 +159,12 @@ class CarouselItem extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) => POSDetailsScreen(
               posName: pos.name,
+              description: pos.description,
               distance: pos.distance,
               url: pos.url,
               offers: pos.offers,
               imageUrl: pos.cover?.midDensityFullWidthUrl,
+              position: pos.position,
             ),
           ),
         );
@@ -206,27 +207,23 @@ class CarouselItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '${pos.offers.length} ${pos.offers.length == 1 ? AppLocalizations.of(context)!.translate('offer') : AppLocalizations.of(context)!.translate('offers').toLowerCase()} ${pos.offers.length == 1 ? AppLocalizations.of(context)!.translate('active') : AppLocalizations.of(context)!.translate('activePlural')}',
+                  '${pos.offers.length} ${pos.offers.length == 1 ? 'offer'.tr() : 'offers'.tr().toLowerCase()} ${pos.offers.length == 1 ? 'active'.tr() : 'activePlural'.tr()}',
                   style: TextStyle(
                     fontSize: 16,
                   ),
                 ),
                 if (pos.url != null)
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => SuggestionScreen(url: pos.url!)));
-                        },
-                        child: Text(
-                          pos.url!,
-                          textAlign: TextAlign.start,
-                          style:
-                              TextStyle(decoration: TextDecoration.underline),
-                        ),
-                      ),
-                    ],
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => SuggestionScreen(url: pos.url!)));
+                    },
+                    child: Text(
+                      pos.url!,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(decoration: TextDecoration.underline),
+                    ),
                   )
               ],
             ),

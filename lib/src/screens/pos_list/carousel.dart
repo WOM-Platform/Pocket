@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wom_pocket/src/screens/pos_list/pos_list_screen.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
 import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
-import 'package:wom_pocket/src/utils/utils.dart';
 
-import 'search_button.dart';
+part 'carousel.g.dart';
 
-final carouselControllerProvider =
-    Provider.autoDispose<CarouselController>((ref) {
+@riverpod
+CarouselController getCarouselController(GetCarouselControllerRef ref) {
   return CarouselController();
-});
+}
 
 class ListingCarouselWidget extends ConsumerWidget {
   final List<POSMap> items;
@@ -24,17 +23,22 @@ class ListingCarouselWidget extends ConsumerWidget {
       POSMap item, int index, CarouselPageChangedReason reason, WidgetRef ref) {
     if (reason == CarouselPageChangedReason.manual) {
       final markerId = MarkerId(item.id);
-      print(ref.read(mapControllerProvider));
-      ref.read(mapControllerProvider)?.animateCamera(
+      print(ref.read(mapControllerNotifierProvider));
+      ref.read(mapControllerNotifierProvider)?.animateCamera(
             CameraUpdate.newLatLng(
               LatLng(item.position.latitude, item.position.longitude),
             ),
           );
       // ref.read(markerNotifierProvider.notifier).selectMarker(markerId);
-      ref.read(mapControllerProvider)?.isMarkerInfoWindowShown(markerId).then(
+      ref
+          .read(mapControllerNotifierProvider)
+          ?.isMarkerInfoWindowShown(markerId)
+          .then(
         (value) {
           if (!value) {
-            ref.read(mapControllerProvider)?.showMarkerInfoWindow(markerId);
+            ref
+                .read(mapControllerNotifierProvider)
+                ?.showMarkerInfoWindow(markerId);
           }
         },
       );
@@ -49,7 +53,7 @@ class ListingCarouselWidget extends ConsumerWidget {
     if (items.isEmpty) return const SizedBox.shrink();
     print('ListingCarouselWidget there are ${items.length}');
     return CarouselSlider.builder(
-      carouselController: ref.watch(carouselControllerProvider),
+      carouselController: ref.watch(getCarouselControllerProvider),
       options: CarouselOptions(
         height: 116,
         viewportFraction: 0.8,
@@ -77,28 +81,14 @@ class CarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const iconRadius = 14.0;
-    const iconSize = 18.0;
-
     return InkWell(
-      // key: Key(store.storeId),
       onTap: () {},
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
             children: [
-              // AspectRatio(
-              //   aspectRatio: 1,
-              //   child: store.imageUrl != null
-              //       ? CachedNetworkImage(
-              //           imageUrl: store.imageUrl!,
-              //           fit: BoxFit.cover,
-              //         )
-              //       : const Placeholder(),
-              // ),
               Expanded(
-                //fit: FlexFit.tight,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
@@ -106,7 +96,6 @@ class CarouselItem extends StatelessWidget {
                     shrinkWrap: true,
                     padding: const EdgeInsets.only(left: 8.0),
                     physics: const NeverScrollableScrollPhysics(),
-                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         Characters(store.name).toList().join('\u{200B}'),

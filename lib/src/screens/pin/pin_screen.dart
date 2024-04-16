@@ -1,10 +1,9 @@
 import 'dart:io';
-
-import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/pin_notifier.dart';
 import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/blocs/pin/bloc.dart';
@@ -47,7 +46,7 @@ class PinScreen extends ConsumerWidget {
           statusBarIconBrightness: Brightness.light,
         ),
         title: Text(
-          AppLocalizations.of(context)!.translate('pin_title'),
+          'pin_title'.tr(),
           style: TextStyle(color: Colors.white, fontSize: 20.0),
         ),
         centerTitle: true,
@@ -75,19 +74,9 @@ class PinScreen extends ConsumerWidget {
 
   goToAcceptCredits(
     BuildContext context,
-    // String otc,
-    // TransactionType type,
     String password,
-    // WidgetRef ref,
     DeepLinkModel deepLinkModel,
   ) {
-    // final blocProviderTransaction = BlocProvider<TransactionBloc>(
-    //   create: (context) => TransactionBloc(
-    //       repository, bloc.deepLinkModel.otc!, bloc.deepLinkModel.type)
-    //     ..add(TransactionStarted(password)),
-    //   child: TransactionScreen(),
-    // );
-
     logger.i('goToAcceptCredits');
     Navigator.pushReplacement(
       context,

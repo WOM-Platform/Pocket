@@ -1,9 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import '../../../../src/models/source_group_wom.dart';
-import '../../../../src/utils/my_extensions.dart';
 import '../../../my_logger.dart';
 
 class SourcesList extends ConsumerWidget {
@@ -20,7 +20,7 @@ class SourcesList extends ConsumerWidget {
     }
     if (state.valueOrNull!.sources.isEmpty) {
       return Text(
-        context.translate('no_sources')!,
+        'no_sources'.tr(),
         style: TextStyle(color: Colors.white),
       );
     }

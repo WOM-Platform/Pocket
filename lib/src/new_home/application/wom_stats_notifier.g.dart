@@ -6,94 +6,89 @@ part of 'wom_stats_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-// ignore_for_file: avoid_private_typedef_functions, non_constant_identifier_names, subtype_of_sealed_class, invalid_use_of_internal_member, unused_element, constant_identifier_names, unnecessary_raw_strings, library_private_types_in_public_api
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-String _$TransactionCountNotifierHash() =>
-    r'3f1f76ca7209992ab4c0a022d5abdc6853aa7324';
-
-/// See also [TransactionCountNotifier].
-final transactionCountNotifierProvider =
-    AsyncNotifierProvider<TransactionCountNotifier, int>(
-  TransactionCountNotifier.new,
-  name: r'transactionCountNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$TransactionCountNotifierHash,
-);
-typedef TransactionCountNotifierRef = AsyncNotifierProviderRef<int>;
-
-abstract class _$TransactionCountNotifier extends AsyncNotifier<int> {
-  @override
-  FutureOr<int> build();
-}
-
 String _$fetchAimInPercentageHash() =>
-    r'66aa16e1f3a02134dfc72d85085b8c08333d7188';
+    r'1a105f3e94b9ee71cdfaefd8b73aff679383fc2f';
 
 /// See also [fetchAimInPercentage].
+@ProviderFor(fetchAimInPercentage)
 final fetchAimInPercentageProvider =
-    AutoDisposeFutureProvider<List<AimInPercentage>>(
+    AutoDisposeFutureProvider<List<AimInPercentage>>.internal(
   fetchAimInPercentage,
   name: r'fetchAimInPercentageProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$fetchAimInPercentageHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
+
 typedef FetchAimInPercentageRef
     = AutoDisposeFutureProviderRef<List<AimInPercentage>>;
 String _$fetchWomCountEarnedInTheLastWeekHash() =>
-    r'806e29b029c26c4e039594457bb67c5e36912dcf';
+    r'22ae2fd97f34a4d2d9d566c785e474f6f927cdb9';
 
 /// See also [fetchWomCountEarnedInTheLastWeek].
-final fetchWomCountEarnedInTheLastWeekProvider = AutoDisposeFutureProvider<int>(
+@ProviderFor(fetchWomCountEarnedInTheLastWeek)
+final fetchWomCountEarnedInTheLastWeekProvider =
+    AutoDisposeFutureProvider<int>.internal(
   fetchWomCountEarnedInTheLastWeek,
   name: r'fetchWomCountEarnedInTheLastWeekProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$fetchWomCountEarnedInTheLastWeekHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
+
 typedef FetchWomCountEarnedInTheLastWeekRef = AutoDisposeFutureProviderRef<int>;
 String _$fetchWomCountSpentInTheLastWeekHash() =>
-    r'e0b113b39a1b2aec11d0098576ccf1b595bf36e0';
+    r'c46ad3e1e71e78233efd4375837d4551cbc3a3b6';
 
 /// See also [fetchWomCountSpentInTheLastWeek].
-final fetchWomCountSpentInTheLastWeekProvider = AutoDisposeFutureProvider<int>(
+@ProviderFor(fetchWomCountSpentInTheLastWeek)
+final fetchWomCountSpentInTheLastWeekProvider =
+    AutoDisposeFutureProvider<int>.internal(
   fetchWomCountSpentInTheLastWeek,
   name: r'fetchWomCountSpentInTheLastWeekProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$fetchWomCountSpentInTheLastWeekHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
+
 typedef FetchWomCountSpentInTheLastWeekRef = AutoDisposeFutureProviderRef<int>;
-String _$fetchWomSpentHash() => r'309466a64948ca955dffca5242c19600b67e1351';
+String _$fetchWomSpentHash() => r'f60931b756efb151eecd5e8000525c3c65e0831a';
 
 /// See also [fetchWomSpent].
-final fetchWomSpentProvider = AutoDisposeFutureProvider<int>(
+@ProviderFor(fetchWomSpent)
+final fetchWomSpentProvider = AutoDisposeFutureProvider<int>.internal(
   fetchWomSpent,
   name: r'fetchWomSpentProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$fetchWomSpentHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
+
 typedef FetchWomSpentRef = AutoDisposeFutureProviderRef<int>;
+String _$transactionCountNotifierHash() =>
+    r'3f1f76ca7209992ab4c0a022d5abdc6853aa7324';
+
+/// See also [TransactionCountNotifier].
+@ProviderFor(TransactionCountNotifier)
+final transactionCountNotifierProvider =
+    AsyncNotifierProvider<TransactionCountNotifier, int>.internal(
+  TransactionCountNotifier.new,
+  name: r'transactionCountNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$transactionCountNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$TransactionCountNotifier = AsyncNotifier<int>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -6,15 +6,15 @@ part of 'migration_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MigrationData _$$_MigrationDataFromJson(Map<String, dynamic> json) =>
-    _$_MigrationData(
+_$MigrationDataImpl _$$MigrationDataImplFromJson(Map<String, dynamic> json) =>
+    _$MigrationDataImpl(
       code: json['code'] as String,
       link: json['link'] as String,
       importDeadline:
           const DateTimeConverter().fromJson(json['importDeadline']),
     );
 
-Map<String, dynamic> _$$_MigrationDataToJson(_$_MigrationData instance) =>
+Map<String, dynamic> _$$MigrationDataImplToJson(_$MigrationDataImpl instance) =>
     <String, dynamic>{
       'code': instance.code,
       'link': instance.link,

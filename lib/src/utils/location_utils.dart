@@ -9,6 +9,7 @@ goToCurrentLocation(
     {bool withAnimation = true}) async {
   if (await requestPermission()) {
     final currentPosition = await Geolocator.getCurrentPosition();
+    logger.i("position is mocked ${currentPosition.isMocked}");
     final c = await controller;
     await _goToLocation(
       c,

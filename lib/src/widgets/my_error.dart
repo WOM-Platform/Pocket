@@ -9,23 +9,25 @@ class MyErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      // mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          Icons.error,
-          color: Colors.red,
-          size: 60,
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'Si è verificato un errrore!',
-          style: TextStyle(color: Colors.white, fontSize: 30),
-        ),
-        if (kDebugMode || isDev) Text(ex.toString()),
-      ],
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error,
+            color: Colors.red,
+            size: 60,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Si è verificato un errore!',
+            style: TextStyle(color: Colors.white, fontSize: 30),
+          ),
+          if (kDebugMode || isDev) Text(ex.toString()),
+        ],
+      ),
     );
-    ;
   }
 }

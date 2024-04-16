@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:wom_pocket/app.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/pin_notifier.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -81,11 +81,11 @@ class PageOne extends ConsumerWidget {
               height: 16,
             ),
             Text(
-              AppLocalizations.of(context)!.translate('womMigration'),
+              'womMigration'.tr(),
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
             Text(
-              AppLocalizations.of(context)!.translate('importWizard'),
+              'importWizard'.tr(),
               style: TextStyle(
                   fontSize: 30,
                   color: Colors.white,
@@ -95,7 +95,7 @@ class PageOne extends ConsumerWidget {
               height: 32,
             ),
             Text(
-              AppLocalizations.of(context)!.translate('importWizardDesc'),
+              'importWizardDesc'.tr(),
               style: TextStyle(color: Colors.white),
             ),
           ],
@@ -138,8 +138,7 @@ class PageThree extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    AppLocalizations.of(context)!
-                        .translate('insertPinToExport'),
+                    'insertPinToExport'.tr(),
                     style: descStyle,
                   ),
                   const SizedBox(height: 16),
@@ -202,7 +201,7 @@ class PageThree extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    '${AppLocalizations.of(context)!.translate('importedWOM')} $womCount WOM.',
+                    '${'importedWOM'.tr()} $womCount WOM.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -216,9 +215,7 @@ class PageThree extends ConsumerWidget {
           },
           justImported: () {
             return Center(
-              child: Text(
-                AppLocalizations.of(context)!
-                    .translate('backupAlreadyImported'),
+              child: Text('backupAlreadyImported'.tr(),
                 style: TextStyle(color: Colors.white, fontSize: 22),
               ),
             );
@@ -234,7 +231,7 @@ class PageThree extends ConsumerWidget {
                 Navigator.of(context).pop();
               },
               child: Text(
-                AppLocalizations.of(context)!.translate('cancel'),
+                'cancel'.tr(),
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -246,8 +243,8 @@ class PageThree extends ConsumerWidget {
                 importState is ImportCompleted ||
                         importState is ImportError ||
                         importState is JustImported
-                    ? AppLocalizations.of(context)!.translate('backToHome')
-                    : AppLocalizations.of(context)!.translate('conclude'),
+                    ? 'backToHome'.tr()
+                    : 'conclude'.tr(),
               ),
               onPressed: confirm
                   ? () {
@@ -266,23 +263,19 @@ class PageThree extends ConsumerWidget {
                               descStyle:
                                   TextStyle(fontSize: 14, color: Colors.grey)),
                           type: AlertType.warning,
-                          title: AppLocalizations.of(context)!
-                              .translate('confirmToImportWom'),
+                          title: 'confirmToImportWom'.tr(),
                           desc: '',
                           buttons: [
                             DialogButton(
                               color: Colors.white,
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .translate('cancel'),
+                              child: Text('cancel'.tr(),
                               ),
                               onPressed: () {
                                 Navigator.pop(context);
                               },
                             ),
                             DialogButton(
-                              child: Text(AppLocalizations.of(context)!
-                                  .translate('continue')),
+                              child: Text('continue'.tr()),
                               onPressed: () {
                                 Navigator.pop(context);
 

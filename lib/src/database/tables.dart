@@ -71,12 +71,22 @@ class Transactions extends Table {
   TextColumn get link => text().named('link').nullable()();
 }
 
-class Badges extends Table {
-  TextColumn get id => text().unique()();
+// class WomExchanges extends Table {
+//   IntColumn get id => integer().autoIncrement()();
+//
+//   DateTimeColumn get addedOn => dateTime()();
+//
+//   TextColumn get qrcode => text()();
+//
+//   IntColumn get count => integer()();
+// }
 
-  @override
-  Set<Column> get primaryKey => {id};
-}
+// class Badges extends Table {
+//   TextColumn get id => text().unique()();
+//
+//   @override
+//   Set<Column> get primaryKey => {id};
+// }
 
 // This will make drift generate a class called "Category" to represent a row in
 // this table. By default, "Categorie" would have been used because it only
@@ -86,6 +96,21 @@ class Badges extends Table {
 //   IntColumn get id => integer().autoIncrement()();
 //   TextColumn get description => text()();
 // }
+
+@DataClassName('TotemRow')
+class Totems extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  TextColumn get sessionId => text().named('sessionId')();
+
+  TextColumn get totemId => text().named('totemId')();
+
+  TextColumn get eventId => text().named('eventId')();
+
+  TextColumn get providerId => text().named('providerId')();
+
+  DateTimeColumn get timestamp => dateTime().named('timestamp')();
+}
 
 // stores preferences as strings
 class AimTitlesConverter extends TypeConverter<Map<String, dynamic>, String> {

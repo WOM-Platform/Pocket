@@ -6,43 +6,21 @@ part of 'badge_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-// ignore_for_file: avoid_private_typedef_functions, non_constant_identifier_names, subtype_of_sealed_class, invalid_use_of_internal_member, unused_element, constant_identifier_names, unnecessary_raw_strings, library_private_types_in_public_api
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-String _$BadgeNotifierHash() => r'3415056c33b4559ef28720c8b85abc2781b47ae7';
+String _$badgeNotifierHash() => r'3415056c33b4559ef28720c8b85abc2781b47ae7';
 
 /// See also [BadgeNotifier].
+@ProviderFor(BadgeNotifier)
 final badgeNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<BadgeNotifier, List<Badge>>(
+    AutoDisposeAsyncNotifierProvider<BadgeNotifier, List<Badge>>.internal(
   BadgeNotifier.new,
   name: r'badgeNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$BadgeNotifierHash,
+      : _$badgeNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
-typedef BadgeNotifierRef = AutoDisposeAsyncNotifierProviderRef<List<Badge>>;
 
-abstract class _$BadgeNotifier extends AutoDisposeAsyncNotifier<List<Badge>> {
-  @override
-  FutureOr<List<Badge>> build();
-}
+typedef _$BadgeNotifier = AutoDisposeAsyncNotifier<List<Badge>>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

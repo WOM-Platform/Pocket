@@ -1,9 +1,7 @@
-import 'dart:math';
-
-import 'package:fl_chart/fl_chart.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
@@ -44,8 +42,8 @@ class AimChartState extends ConsumerState<AimChart> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionTitle(
-          title: AppLocalizations.of(context)!.translate('stats'),
-          text: AppLocalizations.of(context)!.translate('seeAll'),
+          title: 'stats'.tr(),
+          text: 'seeAll'.tr(),
           onTap: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => StatsScreen()));
@@ -59,7 +57,7 @@ class AimChartState extends ConsumerState<AimChart> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.translate('availableWom'),
+                    'availableWom'.tr(),
                     style: labelStyle,
                   ),
                   Text(
@@ -68,7 +66,7 @@ class AimChartState extends ConsumerState<AimChart> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    AppLocalizations.of(context)!.translate('earnLastWeek'),
+                    'earnLastWeek'.tr(),
                     style: labelStyle,
                   ),
                   Text(
@@ -77,7 +75,7 @@ class AimChartState extends ConsumerState<AimChart> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    AppLocalizations.of(context)!.translate('spentLastWeek'),
+                    'spentLastWeek'.tr(),
                     style: labelStyle,
                   ),
                   Text(

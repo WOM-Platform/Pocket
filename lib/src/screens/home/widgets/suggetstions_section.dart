@@ -1,8 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/localization/app_localizations.dart';
-import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/blocs/suggestions/bloc.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
@@ -10,7 +9,7 @@ class SuggestionsSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(suggestionNotifierProvider);
-    return state.when(data: (data){
+    return state.when(data: (data) {
       return Container(
         height: 165,
         padding: const EdgeInsets.only(top: 5.0, left: 5.0),
@@ -44,7 +43,7 @@ class SuggestionsSection extends ConsumerWidget {
                             ),
                             Padding(
                               padding:
-                              const EdgeInsets.symmetric(vertical: 4.0),
+                                  const EdgeInsets.symmetric(vertical: 4.0),
                               child: Text(
                                 s.text!,
                                 maxLines: 2,
@@ -89,13 +88,13 @@ class SuggestionsSection extends ConsumerWidget {
           }).toList(),
         ),
       );
-    }, error: (e,s){
+    }, error: (e, s) {
       return Center(
         child: Text(
-          AppLocalizations.of(context)!.translate('somethings_wrong'),
+          'somethings_wrong'.tr(),
         ),
       );
-    }, loading: (){
+    }, loading: () {
       return Container(
         height: 165,
         child: Center(
@@ -103,9 +102,5 @@ class SuggestionsSection extends ConsumerWidget {
         ),
       );
     });
-    if (state is SuggestionsLoaded) {
-
-    }
-
   }
 }

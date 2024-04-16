@@ -3,15 +3,13 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni_links/uni_links.dart';
-import 'package:wom_pocket/src/application/transaction_notifier.dart';
-import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 
-import '../blocs/app/app_state.dart';
+import 'app_state.dart';
 
 bool isFirstOpen = false;
 
@@ -37,7 +35,7 @@ class DeepLinkNotifier extends AsyncNotifier<DeepLinkModel?> {
       if (next is AsyncData) {
         final deepLink = next.valueOrNull;
         if (deepLink != null) {
-          state =  AsyncData(deepLink);
+          state = AsyncData(deepLink);
         }
       }
     });
@@ -55,18 +53,12 @@ class DeepLinkNotifier extends AsyncNotifier<DeepLinkModel?> {
       Uri? initialUri = await getInitialUri();
       logger.i("AppNotifier uri : $initialUri");
       deepLinkModel = DeepLinkModel.fromUri(initialUri);
-    } on PlatformException {
-      logger.i("AppReposirotry");
-      logger.i('Failed to get initial link.');
-//      return Future.error('Failed to get initial link.');
-    } on FormatException {
-      logger.i("AppBloc");
-      logger.i('Failed to parse the initial link as Uri.');
-//      return Future.error('Failed to parse the initial link as Uri.');
-    } catch (e) {
-      logger.i("AppBloc");
-      logger.i(e.toString());
-//      return Future.error(e);
+    } on PlatformException catch (ex, st) {
+      logger.e('AppRepository: error getting deep link', error: ex, stackTrace: st);
+    } on FormatException catch (ex, st) {
+      logger.e('Error getting deep link', error: ex, stackTrace: st);
+    } catch (ex, st) {
+      logger.e('Error getting deep link', error: ex, stackTrace: st);
     }
     return deepLinkModel;
   }
@@ -76,8 +68,6 @@ final appNotifierProvider =
     AsyncNotifierProvider<AppNotifier, AppState>(AppNotifier.new);
 
 class AppNotifier extends AsyncNotifier<AppState> {
-  late StreamSubscription _sub;
-
   @override
   FutureOr<AppState> build() async {
     await ref.read(appRepositoryProvider).updateAim();

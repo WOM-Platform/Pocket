@@ -1,11 +1,12 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/screens/map/widgets/aims_list.dart';
 import 'package:wom_pocket/src/screens/map/widgets/custom_slider.dart';
@@ -26,7 +27,7 @@ class MapScreen extends StatelessWidget {
       value: darkUiOverlayStyle,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.translate('womMap')),
+          title: Text('womMap'.tr()),
           elevation: 0,
           systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: primaryColor,
@@ -154,21 +155,21 @@ class MapPanel extends ConsumerWidget {
             height: Platform.isIOS ? 60.0 : 25.0,
           ),
           Text(
-            AppLocalizations.of(context)!.translate('filter_by_time'),
+            'filter_by_time'.tr(),
             textAlign: TextAlign.start,
             style: style,
           ),
           CustomSlider(),
           Divider(),
           Text(
-            AppLocalizations.of(context)!.translate('filter_by_source'),
+            'filter_by_source'.tr(),
             textAlign: TextAlign.start,
             style: style,
           ),
           SourcesList(),
           Divider(),
           Text(
-            AppLocalizations.of(context)!.translate('filter_by_aim'),
+            'filter_by_aim'.tr(),
             textAlign: TextAlign.start,
             style: style,
           ),
@@ -183,7 +184,7 @@ class MapPanel extends ConsumerWidget {
                 return SizedBox.shrink();
               }
               return Text(
-                '${AppLocalizations.of(context)?.translate('wom_without_location') ?? ''} ${state.valueOrNull?.womCountWithoutLocation}',
+                '${'wom_without_location'.tr() } ${state.valueOrNull?.womCountWithoutLocation}',
                 textAlign: TextAlign.start,
                 style: style,
               );

@@ -5,7 +5,6 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info/package_info.dart';
-import 'package:wom_pocket/src/db/app_db.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/services/aim_repository.dart';
 import 'package:uni_links/uni_links.dart';
@@ -44,9 +43,8 @@ class AppRepository {
       logger.i("AppReposirotry");
       logger.i('Failed to parse the initial link as Uri.');
       return Future.error('Failed to parse the initial link as Uri.');
-    } catch (e) {
-      logger.e("AppRepository");
-      logger.e(e.toString());
+    } catch (e,st) {
+      logger.e("Unknown error",error: e,stackTrace: st);
       return Future.error(e);
     }
   }

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'pos_map_data.dart';
 
@@ -12,7 +12,7 @@ part of 'pos_map_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PosMapData {
@@ -69,22 +69,22 @@ class _$PosMapDataCopyWithImpl<$Res, $Val extends PosMapData>
 }
 
 /// @nodoc
-abstract class _$$_PosMapDataCopyWith<$Res>
+abstract class _$$PosMapDataImplCopyWith<$Res>
     implements $PosMapDataCopyWith<$Res> {
-  factory _$$_PosMapDataCopyWith(
-          _$_PosMapData value, $Res Function(_$_PosMapData) then) =
-      __$$_PosMapDataCopyWithImpl<$Res>;
+  factory _$$PosMapDataImplCopyWith(
+          _$PosMapDataImpl value, $Res Function(_$PosMapDataImpl) then) =
+      __$$PosMapDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<POSMap> posList, Set<Marker> markers, bool isLoading});
 }
 
 /// @nodoc
-class __$$_PosMapDataCopyWithImpl<$Res>
-    extends _$PosMapDataCopyWithImpl<$Res, _$_PosMapData>
-    implements _$$_PosMapDataCopyWith<$Res> {
-  __$$_PosMapDataCopyWithImpl(
-      _$_PosMapData _value, $Res Function(_$_PosMapData) _then)
+class __$$PosMapDataImplCopyWithImpl<$Res>
+    extends _$PosMapDataCopyWithImpl<$Res, _$PosMapDataImpl>
+    implements _$$PosMapDataImplCopyWith<$Res> {
+  __$$PosMapDataImplCopyWithImpl(
+      _$PosMapDataImpl _value, $Res Function(_$PosMapDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_PosMapDataCopyWithImpl<$Res>
     Object? markers = null,
     Object? isLoading = null,
   }) {
-    return _then(_$_PosMapData(
+    return _then(_$PosMapDataImpl(
       posList: null == posList
           ? _value._posList
           : posList // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_PosMapDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PosMapData implements _PosMapData {
-  const _$_PosMapData(
+class _$PosMapDataImpl implements _PosMapData {
+  const _$PosMapDataImpl(
       {required final List<POSMap> posList,
       required final Set<Marker> markers,
       this.isLoading = false})
@@ -124,6 +124,7 @@ class _$_PosMapData implements _PosMapData {
   final List<POSMap> _posList;
   @override
   List<POSMap> get posList {
+    if (_posList is EqualUnmodifiableListView) return _posList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_posList);
   }
@@ -131,6 +132,7 @@ class _$_PosMapData implements _PosMapData {
   final Set<Marker> _markers;
   @override
   Set<Marker> get markers {
+    if (_markers is EqualUnmodifiableSetView) return _markers;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_markers);
   }
@@ -145,10 +147,10 @@ class _$_PosMapData implements _PosMapData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PosMapData &&
+            other is _$PosMapDataImpl &&
             const DeepCollectionEquality().equals(other._posList, _posList) &&
             const DeepCollectionEquality().equals(other._markers, _markers) &&
             (identical(other.isLoading, isLoading) ||
@@ -165,15 +167,15 @@ class _$_PosMapData implements _PosMapData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PosMapDataCopyWith<_$_PosMapData> get copyWith =>
-      __$$_PosMapDataCopyWithImpl<_$_PosMapData>(this, _$identity);
+  _$$PosMapDataImplCopyWith<_$PosMapDataImpl> get copyWith =>
+      __$$PosMapDataImplCopyWithImpl<_$PosMapDataImpl>(this, _$identity);
 }
 
 abstract class _PosMapData implements PosMapData {
   const factory _PosMapData(
       {required final List<POSMap> posList,
       required final Set<Marker> markers,
-      final bool isLoading}) = _$_PosMapData;
+      final bool isLoading}) = _$PosMapDataImpl;
 
   @override
   List<POSMap> get posList;
@@ -183,6 +185,6 @@ abstract class _PosMapData implements PosMapData {
   bool get isLoading;
   @override
   @JsonKey(ignore: true)
-  _$$_PosMapDataCopyWith<_$_PosMapData> get copyWith =>
+  _$$PosMapDataImplCopyWith<_$PosMapDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

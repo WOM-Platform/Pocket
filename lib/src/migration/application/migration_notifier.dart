@@ -10,6 +10,7 @@ import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/database/database.dart';
+import 'package:wom_pocket/src/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/migration/application/migration_state.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,10 +32,10 @@ class MigrationNotifier extends _$MigrationNotifier {
   addPin(String pin) async {
     try {
       state = MigrationStateLoading();
-      final woms = (await ref.read(databaseProvider).womsDao.getAllWoms);
+      final woms = (await ref.read(getDatabaseProvider).womsDao.getAllWoms);
       state = MigrationStateData(pin: pin, woms: woms);
     } catch (ex, st) {
-      logger.e(ex);
+      logger.e('addPin', error: ex, stackTrace: st);
       state = MigrationStateError(ex, st);
     }
   }
@@ -71,9 +72,9 @@ class MigrationNotifier extends _$MigrationNotifier {
         importDeadline: response.deadline,
       );
 
-      await ref.read(databaseProvider).womsDao.deleteTable();
+      await ref.read(getDatabaseProvider).womsDao.deleteTable();
 
-      await ref.read(databaseProvider).transactionsDao.addTransaction(
+      await ref.read(getDatabaseProvider).transactionsDao.addTransaction(
             TransactionsCompanion.insert(
                 source: '',
                 aim: '',
@@ -85,6 +86,7 @@ class MigrationNotifier extends _$MigrationNotifier {
                 deadline:
                     Value(migrationData.importDeadline.millisecondsSinceEpoch)),
           );
+      ref.invalidate(exchangeNotifierProvider);
       ref.invalidate(fetchTransactionsProvider);
       ref.invalidate(totalWomCountProvider);
       ref.invalidate(mapNotifierProvider);
@@ -94,13 +96,13 @@ class MigrationNotifier extends _$MigrationNotifier {
       logger.i(migrationData.link);
       state = MigrationStateComplete(data: migrationData);
     } catch (ex, st) {
-      print(st);
+      logger.e('exportWom', error: ex, stackTrace: st);
       state = MigrationStateError(ex, st);
     }
   }
 
   Future<WomExportData> exportWomToJson(String pin) async {
-    final woms = (await ref.read(databaseProvider).womsDao.getAllWoms);
+    final woms = (await ref.read(getDatabaseProvider).womsDao.getAllWoms);
     if (woms.isEmpty) {
       print('woms empty');
       throw Exception('Woms table is Empty');
@@ -153,7 +155,8 @@ class MigrationNotifier extends _$MigrationNotifier {
         device = deviceInfo.utsname.machine ?? '';
       }
       return device;
-    } catch (ex) {
+    } catch (ex, st) {
+      logger.e('getDevice', error: ex, stackTrace: st);
       return '';
     }
   }

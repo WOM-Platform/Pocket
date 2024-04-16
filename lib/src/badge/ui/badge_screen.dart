@@ -26,20 +26,21 @@ class BadgeScreen extends ConsumerWidget {
         ),
       ),
       body: state.when(
-          data: (list) {
-            return GridView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              itemBuilder: (BuildContext context, int index) {
-                return BadgeTile();
-              },
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-            );
-          },
-          error: (ex, st) {
-            return Center();
-          },
-          loading: () {}),
+        data: (list) {
+          return GridView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            itemBuilder: (BuildContext context, int index) {
+              return BadgeTile();
+            },
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+          );
+        },
+        error: (ex, st) {
+          return Center();
+        },
+        loading: () => SizedBox(),
+      ),
     );
   }
 }

@@ -75,8 +75,7 @@ class DeepLinkModel extends Equatable {
         throw Exception("URI is null");
       }
     } catch (ex, st) {
-      logger.e(ex);
-      logger.e(st);
+      logger.e('DeepLink.fromUri', error: ex, stackTrace: st);
       rethrow;
     }
   }

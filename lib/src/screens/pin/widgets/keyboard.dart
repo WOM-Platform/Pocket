@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/application/pin_notifier.dart';
-import 'package:wom_pocket/src/blocs/pin/bloc.dart';
 
 import 'code_button.dart';
 
@@ -43,7 +42,7 @@ class PinKeyboard extends ConsumerWidget {
       padding: EdgeInsets.only(left: 0, top: 0),
       child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
-          overscroll.disallowGlow();
+          overscroll.disallowIndicator();
           return false;
         },
         child: GridView.count(

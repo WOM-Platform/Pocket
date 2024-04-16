@@ -1,7 +1,5 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/my_logger.dart';
@@ -27,13 +25,13 @@ class PosMapNotifier extends _$PosMapNotifier {
     try {
       state = state.copyWith(isLoading: true);
       final posList = await ref
-          .read(registryClientProvider)
+          .read(getRegistryClientProvider)
           .getPosListAroundMe(llx: llx, lly: lly, urx: urx, ury: ury);
 
       final markers = await buildMarkers(posList);
       state = PosMapData(posList: posList, markers: markers);
-    } catch (ex) {
-      logger.e(ex);
+    } catch (ex,st) {
+      logger.e('LoadingPos error',error:ex,stackTrace: st);
       state = currentState;
     }
   }
@@ -72,7 +70,7 @@ class PosMapNotifier extends _$PosMapNotifier {
       markerId: markerId,
       position: LatLng(point.position.latitude, point.position.longitude),
       onTap: () {
-        ref.read(carouselControllerProvider).jumpToPage(index);
+        ref.read(getCarouselControllerProvider).jumpToPage(index);
         // selectMarker(markerId);
       },
       zIndex: index == 0 ? 1 : 0,

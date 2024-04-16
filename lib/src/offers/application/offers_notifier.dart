@@ -1,24 +1,20 @@
 import 'dart:async';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wom_pocket/src/application/location_notifier.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/offers/data/offer.dart';
-import 'package:wom_pocket/src/offers/ui/carousel.dart';
-import 'package:wom_pocket/src/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
-import 'package:wom_pocket/src/utils/location_utils.dart';
 
 part 'offers_notifier.g.dart';
 
+part 'offers_notifier.freezed.dart';
+
 final paginatedVirtualOffersProvider = FutureProvider.autoDispose
-    .family<OfferPagination, int>((ref, pageIndex) async {
+    .family<VirtualPosPagination, int>((ref, pageIndex) async {
   final offers =
       await ref.watch(pocketProvider).getVirtualPos(pageIndex + 1, pageSize: 4);
 
@@ -53,11 +49,13 @@ class OffersNotifier extends _$OffersNotifier {
   FutureOr<List<OfferPOS>> build(LatLng? position) async {
     var currentPosition = position;
     if (currentPosition == null) {
-      currentPosition = await ref.watch(locationNotifierProvider.future);
+      final position = await ref.watch(locationNotifierProvider.future);
+      currentPosition = LatLng(position.latitude, position.longitude);
     }
-
+    final location =
+        LatLng(currentPosition.latitude, currentPosition.longitude);
     final offers = await loadOffers(
-      currentPosition: currentPosition,
+      currentPosition: location,
     );
     logger.w('offers: ${offers.length}');
     return offers;
@@ -67,8 +65,8 @@ class OffersNotifier extends _$OffersNotifier {
     LatLng? currentPosition,
   }) async {
     try {
-      final tmp =
-          currentPosition ?? await ref.refresh(locationNotifierProvider.future);
+      final tmp = currentPosition ??
+          (await ref.refresh(locationNotifierProvider.future)).toLocation();
 
       if (tmp == null) throw Exception();
 
@@ -85,8 +83,7 @@ class OffersNotifier extends _$OffersNotifier {
           )
           .toList();
     } catch (ex, st) {
-      logger.e(ex);
-      logger.e(st);
+      logger.e('Load offers', error: ex, stackTrace: st);
       rethrow;
     }
   }
@@ -99,45 +96,18 @@ class OffersNotifier extends _$OffersNotifier {
   }
 }
 
+@freezed
+class MyLocationException with _$MyLocationException {
+  const factory MyLocationException.timeout() = LocationTimeoutException;
 
-class MyLocationException with Exception {}
+  const factory MyLocationException.missingPermission() =
+      LocationPermissionException;
 
-class LocationDisabledException with Exception {}
+  const factory MyLocationException.serviceDisabled() =
+      LocationDisabledException;
 
-@Riverpod(keepAlive: true)
-class LocationNotifier extends _$LocationNotifier {
-  FutureOr<LatLng> build() async {
-    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      throw LocationDisabledException();
-    }
-
-    final loc = await _getCurrentLocation();
-    return loc;
-  }
-
-  Future<LatLng> _getCurrentLocation() async {
-    logger.w('_getCurrentLocation');
-    try {
-      if (await requestPermission()) {
-        final currentPosition = await Geolocator.getCurrentPosition(
-          timeLimit: Duration(seconds: 15),
-        );
-        logger.wtf(currentPosition);
-        return LatLng(currentPosition.latitude, currentPosition.longitude);
-      }
-      logger.w('permissions are not granted');
-      throw MyLocationException();
-    } on LocationServiceDisabledException catch (ex) {
-      logger.e(ex);
-      throw MyLocationException();
-    } on TimeoutException catch (ex) {
-      logger.e(ex);
-      throw MyLocationException();
-    } catch (ex, st) {
-      logger.e(ex);
-      logger.e(st);
-      throw MyLocationException();
-    }
-  }
+  const factory MyLocationException.unknown({
+    required Object ex,
+    StackTrace? stackTrace,
+  }) = LocationUnknownException;
 }

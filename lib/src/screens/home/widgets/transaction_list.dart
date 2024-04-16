@@ -1,12 +1,12 @@
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/transactions_notifier.dart';
 import 'package:wom_pocket/src/blocs/transactions_list/bloc.dart';
-import 'package:wom_pocket/src/database/extensions.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_card.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
@@ -29,7 +29,7 @@ class TransactionsList extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  AppLocalizations.of(context)!.translate('no_transactions'),
+                  'no_transactions'.tr(),
                   style: TextStyle(color: darkBlueColor),
                 ),
               ],
@@ -44,21 +44,21 @@ class TransactionsList extends ConsumerWidget {
                 )
             ],
           );
-          return ListView.builder(
-            padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 90),
-            shrinkWrap: true,
-            itemCount: data.transactions.length,
-            itemBuilder: (c, int index) {
-              return TransactionCard(
-                transaction: data.transactions[index],
-              );
-            },
-          );
+          // return ListView.builder(
+          //   padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 90),
+          //   shrinkWrap: true,
+          //   itemCount: data.transactions.length,
+          //   itemBuilder: (c, int index) {
+          //     return TransactionCard(
+          //       transaction: data.transactions[index],
+          //     );
+          //   },
+          // );
         }
       } else if (data is TransactionsErrorState) {
         return Center(
           child: Text(
-            AppLocalizations.of(context)!.translate(data.error),
+            data.error.tr(),
             textAlign: TextAlign.center,
           ),
         );
@@ -69,16 +69,14 @@ class TransactionsList extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                AppLocalizations.of(context)!.translate('no_connection_title'),
+                'no_connection_title'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 10,
               ),
-              Text(
-                AppLocalizations.of(context)!
-                    .translate('no_connection_aim_desc'),
+              Text('no_connection_aim_desc'.tr(),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
@@ -86,7 +84,7 @@ class TransactionsList extends ConsumerWidget {
               ),
               ElevatedButton(
                 child:
-                    Text(AppLocalizations.of(context)!.translate('try_again')),
+                    Text('try_again'.tr()),
                 onPressed: () {
                   ref.invalidate(fetchTransactionsProvider);
                   // BlocProvider.of<TransactionsListBloc>(context)
@@ -100,7 +98,7 @@ class TransactionsList extends ConsumerWidget {
     }
 
     return Center(
-      child: Text(AppLocalizations.of(context)!.translate('somethings_wrong')),
+      child: Text('somethings_wrong'.tr()),
     );
   }
 

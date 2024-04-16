@@ -1,7 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/models/source_group_wom.dart';
 
@@ -20,7 +21,7 @@ class AimsList extends ConsumerWidget {
     }
     if (state.valueOrNull!.aims.isEmpty) {
       return Text(
-        AppLocalizations.of(context)!.translate('no_aims'),
+        'no_aims'.tr(),
         style: TextStyle(color: Colors.white),
       );
     }
@@ -60,7 +61,7 @@ class _ChipFilterState extends State<ChipFilter> {
 
   @override
   Widget build(BuildContext context) {
-    final languageCode = AppLocalizations.of(context)!.locale.languageCode;
+    final languageCode = context.locale.languageCode;
     return Container(
       height: 50.0,
       padding: const EdgeInsets.only(top: 8),

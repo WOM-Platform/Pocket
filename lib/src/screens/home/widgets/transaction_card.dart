@@ -1,16 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/aim_notifier.dart';
+import 'package:wom_pocket/src/exchange/ui/screens/exchange_receipt.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/migration/ui/export_screen.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:share/share.dart';
 import 'package:collection/collection.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class TransactionCard extends ConsumerWidget {
   final TransactionModel transaction;
@@ -28,13 +31,122 @@ class TransactionCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final languageCode = AppLocalizations.of(context)!.locale.languageCode;
+    final languageCode = context.locale.languageCode;
     final aims = ref.watch(aimNotifierProvider).valueOrNull ?? [];
     final aimCode = transaction.firstAimCode;
     final aim = aims.firstWhereOrNull((element) => element.code == aimCode);
+
+    final isValidExchange =
+        transaction.type == TransactionType.EXCHANGE_EXPORT &&
+            !(transaction.pin == null || transaction.link == null);
+    final isValidPayment = transaction.type == TransactionType.PAYMENT &&
+        transaction.ackUrl != null;
+    final isValidMigration =
+        transaction.type == TransactionType.MIGRATION_EXPORT &&
+            !(transaction.pin == null ||
+                transaction.importDeadline == null ||
+                transaction.link == null);
+
     return Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.25,
+      key: ValueKey(transaction.id),
+      // actionPane: SlidableDrawerActionPane(),
+      // actionExtentRatio: 0.25,
+      startActionPane: isValidMigration || isValidPayment || isValidExchange
+          ? ActionPane(
+              motion: const ScrollMotion(),
+              extentRatio: 0.3,
+              // dismissible: DismissiblePane(
+              //   onDismissed: () {},
+              // ),
+              children: [
+                if (isValidMigration)
+                  SlidableAction(
+                    onPressed: (context) async {
+                      if (transaction.pin == null ||
+                          transaction.importDeadline == null ||
+                          transaction.link == null) {
+                        return;
+                      }
+
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => MigrationExportScreen(
+                            backTo: false,
+                            data: MigrationData(
+                              code: transaction.pin!,
+                              importDeadline: transaction.importDeadline!,
+                              link: transaction.link!,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    icon: Icons.qr_code_2,
+                  )
+                else if (isValidPayment)
+                  SlidableAction(
+                    onPressed: (context) async {
+                      final uri = Uri.parse(transaction.ackUrl!);
+                      if (await canLaunchUrl(uri)) {
+                        launchUrl(uri);
+                      }
+                    },
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    icon: Icons.receipt,
+                  )
+                else if (isValidExchange)
+                  SlidableAction(
+                    onPressed: (context) async {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => ExchangeReceiptScreen(
+                            data: (
+                              transaction.link!,
+                              transaction.pin!,
+                              transaction.size
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    icon: Icons.receipt,
+                  ),
+              ],
+            )
+          : null,
+      // The end action pane is the one at the right or the bottom side.
+      endActionPane: ActionPane(
+        motion: ScrollMotion(),
+        extentRatio: 0.3,
+        children: [
+          SlidableAction(
+            flex: 2,
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            onPressed: (context) async {
+              var message = shareMessage(transaction.type);
+              if (aim != null) {
+                final aimTitle = aim.title(
+                    languageCode:
+                        context.locale.languageCode);
+                message =
+                    '$message  ${aimTitle != null ? 'for $aimTitle' : ''}';
+              }
+              Share.share(message);
+            },
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            icon: Icons.share,
+          ),
+        ],
+      ),
       child: Card(
         elevation: 8.0,
         shape: RoundedRectangleBorder(
@@ -124,8 +236,9 @@ class TransactionCard extends ConsumerWidget {
                       children: <Widget>[
                         if (transaction.importDeadline != null)
                           ItemRow(
-                            t1: AppLocalizations.of(context)!.translate('backupExpire'),
-                            t2: MigrationExportScreen.format.format(transaction.importDeadline!),
+                            t1: 'backupExpire'.tr(),
+                            t2: MigrationExportScreen.format
+                                .format(transaction.importDeadline!),
                           ),
                         if ((aim?.titles ?? const {})[languageCode] != null)
                           ItemRow(
@@ -140,7 +253,7 @@ class TransactionCard extends ConsumerWidget {
                                   ? 'instrument'
                                   : transaction.type == TransactionType.PAYMENT
                                       ? 'pos'
-                                      : 'device',
+                                      : 'device'.tr(),
                               t2: transaction.source),
                       ],
                     ),
@@ -155,128 +268,62 @@ class TransactionCard extends ConsumerWidget {
           ),
         ),
       ),
-      actions: <Widget>[
-        if (transaction.type == TransactionType.MIGRATION_EXPORT &&
-            !(transaction.pin == null ||
-                transaction.importDeadline == null ||
-                transaction.link == null))
-          MySlideAction(
-            icon: Icons.qr_code_2,
-            color: Colors.green,
-            onTap: () async {
-              if (transaction.pin == null ||
-                  transaction.importDeadline == null ||
-                  transaction.link == null) {
-                return;
-              }
-
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => MigrationExportScreen(
-                    backTo: false,
-                    data: MigrationData(
-                      code: transaction.pin!,
-                      importDeadline: transaction.importDeadline!,
-                      link: transaction.link!,
-                    ),
-                  ),
-                ),
-              );
-            },
-          )
-        else if (transaction.type == TransactionType.PAYMENT &&
-            transaction.ackUrl != null)
-          MySlideAction(
-            icon: Icons.receipt,
-            color: Colors.orange,
-            onTap: () async {
-              if (await canLaunch(transaction.ackUrl!)) {
-                launch(transaction.ackUrl!);
-              }
-            },
-          )
-      ],
-      secondaryActions: <Widget>[
-        MySlideAction(
-          icon: Icons.share,
-          color: Colors.blue,
-          onTap: () async {
-            // final aimCode = transaction.aimCodes.isNotEmpty
-            //     ? transaction.aimCodes.first
-            //     : null;
-            // Aim? aim;
-            // if (aimCode != null) {
-            //   final aims = await ref.read(aimNotifierProvider.future);
-            //   aim = aims.firstWhere((element) => element.code == aimCode);
-            // }
-            var message = shareMessage(transaction.type);
-            if (aim != null) {
-              final aimTitle = aim.title(languageCode: AppLocalizations.of(context)!.locale.languageCode);
-              message =
-                  '$message  ${aimTitle != null ? 'for $aimTitle' : ''}';
-            }
-            Share.share(message);
-          },
-        ),
-      ],
     );
   }
 
   String shareMessage(TransactionType type) {
-    switch (type) {
-      case TransactionType.VOUCHERS:
-        return 'I earned '
-            '${transaction.size} WOM  from '
-            '${transaction.source}';
-      case TransactionType.PAYMENT:
-        return 'I used '
-            '${transaction.size} WOM  at '
-            '${transaction.source}';
-      case TransactionType.MIGRATION_IMPORT:
-        return 'I imported '
-            '${transaction.size} WOM  from '
-            '${transaction.source}';
-      case TransactionType.MIGRATION_EXPORT:
-        return 'I exported '
-            '${transaction.size} WOM';
-    }
+    return switch (type) {
+      TransactionType.VOUCHERS => 'I earned '
+          '${transaction.size} WOM  from '
+          '${transaction.source}',
+      TransactionType.PAYMENT => 'I used '
+          '${transaction.size} WOM  at '
+          '${transaction.source}',
+      TransactionType.MIGRATION_IMPORT => 'I imported '
+          '${transaction.size} WOM  from '
+          '${transaction.source}',
+      TransactionType.MIGRATION_EXPORT => 'I exported '
+          '${transaction.size} WOM',
+      TransactionType.EXCHANGE_EXPORT => 'Ho donato ${transaction.size} WOM',
+      TransactionType.EXCHANGE_IMPORT => 'Ho ricevuto ${transaction.size} WOM',
+    };
   }
 
   IconData icon(TransactionType type) {
-    switch (type) {
-      case TransactionType.VOUCHERS:
-        return Icons.monetization_on;
-      case TransactionType.PAYMENT:
-        return Icons.credit_card;
-      case TransactionType.MIGRATION_IMPORT:
-        return Icons.cloud_download;
-      case TransactionType.MIGRATION_EXPORT:
-        return Icons.cloud_upload;
-    }
+    return switch (type) {
+      TransactionType.VOUCHERS => Icons.monetization_on,
+      TransactionType.PAYMENT => Icons.credit_card,
+      TransactionType.MIGRATION_IMPORT => Icons.cloud_download,
+      TransactionType.MIGRATION_EXPORT => Icons.cloud_upload,
+      TransactionType.EXCHANGE_EXPORT => MdiIcons.handCoin,
+      TransactionType.EXCHANGE_IMPORT => MdiIcons.handCoin,
+    };
   }
 
   String getSign(TransactionType type) {
-    switch (type) {
-      case TransactionType.MIGRATION_IMPORT:
-      case TransactionType.VOUCHERS:
-        return '+';
-      case TransactionType.PAYMENT:
-      case TransactionType.MIGRATION_EXPORT:
-        return '-';
-    }
+    return switch (type) {
+      TransactionType.MIGRATION_IMPORT ||
+      TransactionType.VOUCHERS ||
+      TransactionType.EXCHANGE_IMPORT =>
+        '+',
+      TransactionType.PAYMENT ||
+      TransactionType.MIGRATION_EXPORT ||
+      TransactionType.EXCHANGE_EXPORT =>
+        '-',
+    };
   }
 
   Color iconColor(TransactionType type) {
-    switch (type) {
-      case TransactionType.VOUCHERS:
-        return Colors.green;
-      case TransactionType.PAYMENT:
-        return Colors.red;
-      case TransactionType.MIGRATION_IMPORT:
-        return Colors.green;
-      case TransactionType.MIGRATION_EXPORT:
-        return Colors.red;
-    }
+    return switch (type) {
+      TransactionType.VOUCHERS ||
+      TransactionType.MIGRATION_IMPORT ||
+      TransactionType.EXCHANGE_IMPORT =>
+        Colors.green,
+      TransactionType.PAYMENT ||
+      TransactionType.MIGRATION_EXPORT ||
+      TransactionType.EXCHANGE_EXPORT =>
+        Colors.red,
+    };
   }
 }
 
@@ -310,61 +357,5 @@ class ItemRow extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class MySlideAction extends StatelessWidget {
-  final Function? onTap;
-  final IconData? icon;
-  final Color? color;
-  final String? caption;
-
-  const MySlideAction(
-      {Key? key, this.onTap, this.icon, this.color, this.caption})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      color: Colors.transparent,
-      child: Card(
-        color: color,
-        elevation: 8.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: IconSlideAction(
-          caption: caption,
-          color: Colors.transparent,
-          foregroundColor: Colors.white,
-          icon: icon,
-          onTap: onTap as void Function()?,
-        ),
-      ),
-    );
-    /*return SlideAction(
-      color: Colors.transparent,
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        color: Colors.transparent,
-        child: Card(
-          color: color,
-          elevation: 8.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Icon(
-            icon,
-            color: Colors.white,
-          ),
-        ),
-      ),
-      onTap: onTap,
-    );*/
   }
 }

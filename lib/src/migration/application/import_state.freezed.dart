@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'import_state.dart';
 
@@ -12,7 +12,7 @@ part of 'import_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ImportState {
@@ -93,25 +93,27 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
 }
 
 /// @nodoc
-abstract class _$$ImportInitialCopyWith<$Res> {
-  factory _$$ImportInitialCopyWith(
-          _$ImportInitial value, $Res Function(_$ImportInitial) then) =
-      __$$ImportInitialCopyWithImpl<$Res>;
+abstract class _$$ImportInitialImplCopyWith<$Res> {
+  factory _$$ImportInitialImplCopyWith(
+          _$ImportInitialImpl value, $Res Function(_$ImportInitialImpl) then) =
+      __$$ImportInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ImportInitialCopyWithImpl<$Res>
-    extends _$ImportStateCopyWithImpl<$Res, _$ImportInitial>
-    implements _$$ImportInitialCopyWith<$Res> {
-  __$$ImportInitialCopyWithImpl(
-      _$ImportInitial _value, $Res Function(_$ImportInitial) _then)
+class __$$ImportInitialImplCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$ImportInitialImpl>
+    implements _$$ImportInitialImplCopyWith<$Res> {
+  __$$ImportInitialImplCopyWithImpl(
+      _$ImportInitialImpl _value, $Res Function(_$ImportInitialImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$ImportInitial with DiagnosticableTreeMixin implements ImportInitial {
-  const _$ImportInitial();
+class _$ImportInitialImpl
+    with DiagnosticableTreeMixin
+    implements ImportInitial {
+  const _$ImportInitialImpl();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -125,9 +127,9 @@ class _$ImportInitial with DiagnosticableTreeMixin implements ImportInitial {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ImportInitial);
+        (other.runtimeType == runtimeType && other is _$ImportInitialImpl);
   }
 
   @override
@@ -215,29 +217,31 @@ class _$ImportInitial with DiagnosticableTreeMixin implements ImportInitial {
 }
 
 abstract class ImportInitial implements ImportState {
-  const factory ImportInitial() = _$ImportInitial;
+  const factory ImportInitial() = _$ImportInitialImpl;
 }
 
 /// @nodoc
-abstract class _$$ImportLoadingCopyWith<$Res> {
-  factory _$$ImportLoadingCopyWith(
-          _$ImportLoading value, $Res Function(_$ImportLoading) then) =
-      __$$ImportLoadingCopyWithImpl<$Res>;
+abstract class _$$ImportLoadingImplCopyWith<$Res> {
+  factory _$$ImportLoadingImplCopyWith(
+          _$ImportLoadingImpl value, $Res Function(_$ImportLoadingImpl) then) =
+      __$$ImportLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ImportLoadingCopyWithImpl<$Res>
-    extends _$ImportStateCopyWithImpl<$Res, _$ImportLoading>
-    implements _$$ImportLoadingCopyWith<$Res> {
-  __$$ImportLoadingCopyWithImpl(
-      _$ImportLoading _value, $Res Function(_$ImportLoading) _then)
+class __$$ImportLoadingImplCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$ImportLoadingImpl>
+    implements _$$ImportLoadingImplCopyWith<$Res> {
+  __$$ImportLoadingImplCopyWithImpl(
+      _$ImportLoadingImpl _value, $Res Function(_$ImportLoadingImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
-  const _$ImportLoading();
+class _$ImportLoadingImpl
+    with DiagnosticableTreeMixin
+    implements ImportLoading {
+  const _$ImportLoadingImpl();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -251,9 +255,9 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ImportLoading);
+        (other.runtimeType == runtimeType && other is _$ImportLoadingImpl);
   }
 
   @override
@@ -341,24 +345,24 @@ class _$ImportLoading with DiagnosticableTreeMixin implements ImportLoading {
 }
 
 abstract class ImportLoading implements ImportState {
-  const factory ImportLoading() = _$ImportLoading;
+  const factory ImportLoading() = _$ImportLoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$ImportErrorCopyWith<$Res> {
-  factory _$$ImportErrorCopyWith(
-          _$ImportError value, $Res Function(_$ImportError) then) =
-      __$$ImportErrorCopyWithImpl<$Res>;
+abstract class _$$ImportErrorImplCopyWith<$Res> {
+  factory _$$ImportErrorImplCopyWith(
+          _$ImportErrorImpl value, $Res Function(_$ImportErrorImpl) then) =
+      __$$ImportErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object ex, StackTrace st});
 }
 
 /// @nodoc
-class __$$ImportErrorCopyWithImpl<$Res>
-    extends _$ImportStateCopyWithImpl<$Res, _$ImportError>
-    implements _$$ImportErrorCopyWith<$Res> {
-  __$$ImportErrorCopyWithImpl(
-      _$ImportError _value, $Res Function(_$ImportError) _then)
+class __$$ImportErrorImplCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$ImportErrorImpl>
+    implements _$$ImportErrorImplCopyWith<$Res> {
+  __$$ImportErrorImplCopyWithImpl(
+      _$ImportErrorImpl _value, $Res Function(_$ImportErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -367,7 +371,7 @@ class __$$ImportErrorCopyWithImpl<$Res>
     Object? ex = null,
     Object? st = null,
   }) {
-    return _then(_$ImportError(
+    return _then(_$ImportErrorImpl(
       null == ex ? _value.ex : ex,
       null == st
           ? _value.st
@@ -379,8 +383,8 @@ class __$$ImportErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ImportError with DiagnosticableTreeMixin implements ImportError {
-  const _$ImportError(this.ex, this.st);
+class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
+  const _$ImportErrorImpl(this.ex, this.st);
 
   @override
   final Object ex;
@@ -402,10 +406,10 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ImportError &&
+            other is _$ImportErrorImpl &&
             const DeepCollectionEquality().equals(other.ex, ex) &&
             (identical(other.st, st) || other.st == st));
   }
@@ -417,8 +421,8 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ImportErrorCopyWith<_$ImportError> get copyWith =>
-      __$$ImportErrorCopyWithImpl<_$ImportError>(this, _$identity);
+  _$$ImportErrorImplCopyWith<_$ImportErrorImpl> get copyWith =>
+      __$$ImportErrorImplCopyWithImpl<_$ImportErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -503,35 +507,35 @@ class _$ImportError with DiagnosticableTreeMixin implements ImportError {
 
 abstract class ImportError implements ImportState {
   const factory ImportError(final Object ex, final StackTrace st) =
-      _$ImportError;
+      _$ImportErrorImpl;
 
   Object get ex;
   StackTrace get st;
   @JsonKey(ignore: true)
-  _$$ImportErrorCopyWith<_$ImportError> get copyWith =>
+  _$$ImportErrorImplCopyWith<_$ImportErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$JustImportedCopyWith<$Res> {
-  factory _$$JustImportedCopyWith(
-          _$JustImported value, $Res Function(_$JustImported) then) =
-      __$$JustImportedCopyWithImpl<$Res>;
+abstract class _$$JustImportedImplCopyWith<$Res> {
+  factory _$$JustImportedImplCopyWith(
+          _$JustImportedImpl value, $Res Function(_$JustImportedImpl) then) =
+      __$$JustImportedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$JustImportedCopyWithImpl<$Res>
-    extends _$ImportStateCopyWithImpl<$Res, _$JustImported>
-    implements _$$JustImportedCopyWith<$Res> {
-  __$$JustImportedCopyWithImpl(
-      _$JustImported _value, $Res Function(_$JustImported) _then)
+class __$$JustImportedImplCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$JustImportedImpl>
+    implements _$$JustImportedImplCopyWith<$Res> {
+  __$$JustImportedImplCopyWithImpl(
+      _$JustImportedImpl _value, $Res Function(_$JustImportedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$JustImported with DiagnosticableTreeMixin implements JustImported {
-  const _$JustImported();
+class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
+  const _$JustImportedImpl();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -545,9 +549,9 @@ class _$JustImported with DiagnosticableTreeMixin implements JustImported {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$JustImported);
+        (other.runtimeType == runtimeType && other is _$JustImportedImpl);
   }
 
   @override
@@ -635,24 +639,24 @@ class _$JustImported with DiagnosticableTreeMixin implements JustImported {
 }
 
 abstract class JustImported implements ImportState {
-  const factory JustImported() = _$JustImported;
+  const factory JustImported() = _$JustImportedImpl;
 }
 
 /// @nodoc
-abstract class _$$ImportCompletedCopyWith<$Res> {
-  factory _$$ImportCompletedCopyWith(
-          _$ImportCompleted value, $Res Function(_$ImportCompleted) then) =
-      __$$ImportCompletedCopyWithImpl<$Res>;
+abstract class _$$ImportCompletedImplCopyWith<$Res> {
+  factory _$$ImportCompletedImplCopyWith(_$ImportCompletedImpl value,
+          $Res Function(_$ImportCompletedImpl) then) =
+      __$$ImportCompletedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({int count});
 }
 
 /// @nodoc
-class __$$ImportCompletedCopyWithImpl<$Res>
-    extends _$ImportStateCopyWithImpl<$Res, _$ImportCompleted>
-    implements _$$ImportCompletedCopyWith<$Res> {
-  __$$ImportCompletedCopyWithImpl(
-      _$ImportCompleted _value, $Res Function(_$ImportCompleted) _then)
+class __$$ImportCompletedImplCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$ImportCompletedImpl>
+    implements _$$ImportCompletedImplCopyWith<$Res> {
+  __$$ImportCompletedImplCopyWithImpl(
+      _$ImportCompletedImpl _value, $Res Function(_$ImportCompletedImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -660,7 +664,7 @@ class __$$ImportCompletedCopyWithImpl<$Res>
   $Res call({
     Object? count = null,
   }) {
-    return _then(_$ImportCompleted(
+    return _then(_$ImportCompletedImpl(
       null == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -671,10 +675,10 @@ class __$$ImportCompletedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ImportCompleted
+class _$ImportCompletedImpl
     with DiagnosticableTreeMixin
     implements ImportCompleted {
-  const _$ImportCompleted(this.count);
+  const _$ImportCompletedImpl(this.count);
 
   @override
   final int count;
@@ -693,10 +697,10 @@ class _$ImportCompleted
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ImportCompleted &&
+            other is _$ImportCompletedImpl &&
             (identical(other.count, count) || other.count == count));
   }
 
@@ -706,8 +710,9 @@ class _$ImportCompleted
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ImportCompletedCopyWith<_$ImportCompleted> get copyWith =>
-      __$$ImportCompletedCopyWithImpl<_$ImportCompleted>(this, _$identity);
+  _$$ImportCompletedImplCopyWith<_$ImportCompletedImpl> get copyWith =>
+      __$$ImportCompletedImplCopyWithImpl<_$ImportCompletedImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -791,10 +796,10 @@ class _$ImportCompleted
 }
 
 abstract class ImportCompleted implements ImportState {
-  const factory ImportCompleted(final int count) = _$ImportCompleted;
+  const factory ImportCompleted(final int count) = _$ImportCompletedImpl;
 
   int get count;
   @JsonKey(ignore: true)
-  _$$ImportCompletedCopyWith<_$ImportCompleted> get copyWith =>
+  _$$ImportCompletedImplCopyWith<_$ImportCompletedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

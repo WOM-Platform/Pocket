@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,7 +11,6 @@ import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/offers/data/offer.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
-import 'package:flutter/rendering.dart';
 import 'package:wom_pocket/src/offers/domain/entities/static_cities.dart';
 import 'package:wom_pocket/src/offers/ui/carousel.dart';
 import 'package:wom_pocket/src/offers/ui/map_screen.dart';
@@ -153,15 +150,14 @@ class OffersMapNotifier extends _$OffersMapNotifier {
           try {
             controller.showMarkerInfoWindow(MarkerId(offers.first.id));
             ref.read(carouselControllerProvider).jumpToPage(0);
-          } catch (ex) {
-            logger.e(ex);
+          } catch (ex, st) {
+            logger.e('showMarkerInfoWindow', error: ex, stackTrace: st);
           }
         });
       }
       clusterManager!.setItems(clusterItems);
     } catch (ex, st) {
-      logger.e(ex);
-      logger.e(st);
+      logger.e('Load offers', error: ex, stackTrace: st);
       state = currentState;
     }
   }
@@ -334,8 +330,7 @@ class OffersMapNotifier extends _$OffersMapNotifier {
     ui.Picture p = recorder.endRecording();
     final pngBytes = await (await p.toImage(
       (size.width + textRectWidth + leftPadding).toInt(),
-      (size.height + tp.height + bottomTextPadding + pinYOffset)
-          .toInt(),
+      (size.height + tp.height + bottomTextPadding + pinYOffset).toInt(),
     ))
         .toByteData(format: ui.ImageByteFormat.png);
 

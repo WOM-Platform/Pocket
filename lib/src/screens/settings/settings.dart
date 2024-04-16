@@ -1,24 +1,21 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
-import 'package:wom_pocket/src/database/extensions.dart';
-import 'package:wom_pocket/src/db/app_db.dart';
+import 'package:wom_pocket/src/log_output.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/intro/intro.dart';
 import 'package:wom_pocket/src/screens/table_page/db_page.dart';
-import 'package:wom_pocket/src/utils/config.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 import 'package:wom_pocket/src/widgets/my_appbar.dart';
 
 import '../../../constants.dart';
 import '../../migration/ui/migration_screen.dart';
-import '../../my_logger.dart';
-import '../../utils/my_extensions.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   @override
@@ -36,21 +33,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget build(BuildContext context) {
     final titleStyle = TextStyle(fontWeight: FontWeight.bold);
 //    final SettingsBloc bloc = BlocProvider.of<SettingsBloc>(context);
+    print(flavor);
+    print(isDev);
     return Scaffold(
       // backgroundColor: Colors.grey[100],
       appBar: PocketAppBar(),
       body: ListView(
         children: <Widget>[
           SettingsItem(
-            title: context.translate('settings_redeem_demo_title')!,
-            subtitle: context.translate('settings_redeem_demo_desc')!,
+            title: 'settings_redeem_demo_title'.tr(),
+            subtitle: 'settings_redeem_demo_desc'.tr(),
             icon: Icons.monetization_on,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUri('https://demo.wom.social/redeem'),
           ),
           SettingsItem(
-            title: context.translate('settings_pay_demo_title')!,
-            subtitle: context.translate('settings_pay_demo_desc')!,
+            title: 'settings_pay_demo_title'.tr(),
+            subtitle: 'settings_pay_demo_desc'.tr(),
             icon: Icons.credit_card,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUri('https://demo.wom.social/pay'),
@@ -58,13 +57,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           if (showDBViewer)
             SettingsItem(
               title: 'Visita WOM DB',
-
               subtitle: '',
               icon: Icons.data_usage,
               // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
               onTap: () async {
                 final woms =
-                    await ref.read(databaseProvider).womsDao.getAllWoms;
+                    await ref.read(getDatabaseProvider).womsDao.getAllWoms;
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) =>
@@ -74,9 +72,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               },
             ),
           SettingsItem(
-            title: 'Esporta i tuoi wom',
-            subtitle:
-                "Crea un backup dei tuoi wom e importalo in un altro dispositivo",
+            title: 'exportYourWomTitle'.tr(),
+            subtitle: 'exportYourWomDesc'.tr(),
             icon: Icons.backup,
             onTap: () async {
               final count = await ref.read(
@@ -95,13 +92,36 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               }
             },
           ),
-          if (flavor == Flavor.DEVELOPMENT) ...[
+          ValueListenableBuilder(
+              valueListenable: Hive.box('settings').listenable(),
+              builder: (context, box, _) {
+                final gender = box.get('gender');
+                String title = 'removeGenderInfoTitle'.tr();
+                String desc = 'removeGenderInfoDescription'.tr();
+                if (gender == null) {
+                  title = 'genderNotSetTitle'.tr();
+                  desc = 'genderNotSetDescription'.tr();
+                }
+                return SettingsItem(
+                  title: title,
+                  subtitle: desc,
+                  icon: MdiIcons.genderMaleFemale,
+                  onTap: gender == null
+                      ? null
+                      : () async {
+                          Hive.box('settings').delete('gender');
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('genderInfoRemoved'.tr())));
+                        },
+                );
+              }),
+          if (isDev) ...[
             SettingsItem(
               title: 'Clear DB (only for debug)',
               subtitle: "Delete all data of local database",
               icon: Icons.delete,
               onTap: () async {
-                // ref.read(databaseProvider).de+
+                // ref.read(getDatabaseProvider).de+
                 // AppDatabase.get().deleteDb();
               },
             ),
@@ -110,13 +130,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               subtitle: "Close DB and save locally",
               icon: Icons.close,
               onTap: () async {
-                await ref.read(databaseProvider).close();
+                await ref.read(getDatabaseProvider).close();
+              },
+            ),
+            SettingsItem(
+              title: 'Show logs',
+              subtitle: "Delete all data of local database",
+              icon: Icons.delete,
+              onTap: () async {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (c) => LogOutputScreen()));
               },
             ),
           ],
           SettingsItem(
-            title: context.translate('settings_show_intro_title')!,
-            subtitle: 'Ripercorri le schermate introduttive',
+            title: 'settings_show_intro_title'.tr(),
+            subtitle: 'settings_show_intro_desc'.tr(),
             icon: Icons.question_mark,
             // trailing: StatefulBuilder(
             //   builder: (ctx, setState) {
@@ -147,16 +176,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             },
           ),
           SettingsItem(
-            title: 'Abilita il tutorial nella home',
-            subtitle: 'Ripercorri il tutorial inziale nella pagina principale',
-            icon: Icons.cast_for_education,
+            title: 'languageSettingsTitle'.tr(),
+            subtitle: 'languageSettingsDesc'.tr(),
+            icon: Icons.language,
             onTap: () {
-              _clearTutorial(context);
+              showDialog(
+                context: context,
+                builder: (_) => LanguageSelectorDialog(),
+              );
             },
           ),
+          // SettingsItem(
+          //   title: 'enableHomeTutorialTitle'.tr(),
+          //   subtitle: 'enableHomeTutorialDesc'.tr(),
+          //   icon: Icons.cast_for_education,
+          //   onTap: () {
+          //     _clearTutorial(context);
+          //   },
+          // ),
           SettingsItem(
-            title: context.translate('settings_info_title')!,
-            subtitle: context.translate('settings_info_desc')!,
+            title: 'settings_info_title'.tr(),
+            subtitle: 'settings_info_desc'.tr(),
             icon: Icons.info,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchUri('https://wom.social'),
@@ -259,6 +299,43 @@ class VersionInfo extends StatelessWidget {
         }
         return Container();
       },
+    );
+  }
+}
+
+class LanguageSelectorDialog extends StatelessWidget {
+  const LanguageSelectorDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'selectLanguage'.tr(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            for (final l in context.supportedLocales)
+              Row(
+                children: [
+                  RadioMenuButton(
+                    value: l,
+                    groupValue: context.locale,
+                    onChanged: (val) {
+                      if (val == null) return;
+                      context.setLocale(val);
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(l.languageCode.tr()),
+                  ),
+                ],
+              )
+          ],
+        ),
+      ),
     );
   }
 }

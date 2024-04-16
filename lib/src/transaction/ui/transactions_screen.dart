@@ -1,7 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
@@ -17,36 +18,34 @@ class TransactionInfo extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         TransactionTypeInfo(
-          text: AppLocalizations.of(context)!.translate('transactionInfoEarnTitle'),
+          text: 'transactionInfoEarnTitle'.tr(),
           iconData: Icons.monetization_on,
           color: Colors.green,
-          description: AppLocalizations.of(context)!.translate('transactionInfoEarnDesc'),
+          description: 'transactionInfoEarnDesc'.tr(),
         ),
         TransactionTypeInfo(
-          text: AppLocalizations.of(context)!.translate('transactionInfoSpendTitle'),
+          text: 'transactionInfoSpendTitle'.tr(),
           iconData: Icons.credit_card,
           color: Colors.red,
-          description:
-          AppLocalizations.of(context)!.translate('transactionInfoSpendDesc'),
+          description: 'transactionInfoSpendDesc'.tr(),
         ),
         TransactionTypeInfo(
-          text:  AppLocalizations.of(context)!.translate('transactionInfoImportTitle'),
+          text: 'transactionInfoImportTitle'.tr(),
           iconData: Icons.cloud_download,
           color: Colors.green,
-          description:AppLocalizations.of(context)!.translate('transactionInfoImportDesc'),
+          description: 'transactionInfoImportDesc'.tr(),
         ),
         TransactionTypeInfo(
-          text:AppLocalizations.of(context)!.translate('transactionInfoExportTitle'),
+          text: 'transactionInfoExportTitle'.tr(),
           iconData: Icons.cloud_upload,
           color: Colors.red,
-          description:AppLocalizations.of(context)!.translate('transactionInfoExportDesc'),
+          description: 'transactionInfoExportDesc'.tr(),
         ),
         TransactionTypeInfo(
-          text: AppLocalizations.of(context)!.translate('transactionInfoSwipeTitle'),
+          text: 'transactionInfoSwipeTitle'.tr(),
           iconData: Icons.swipe_rounded,
           color: Colors.grey,
-          description:
-          AppLocalizations.of(context)!.translate('transactionInfoSwipeDesc'),
+          description: 'transactionInfoSwipeDesc'.tr(),
         )
       ],
     );
@@ -60,12 +59,11 @@ class TransactionsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transazioni'),
+        title: Text('transactions'.tr()),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: primaryColor,
-          statusBarIconBrightness: Brightness.light
-        ),
+            statusBarColor: primaryColor,
+            statusBarIconBrightness: Brightness.light),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(

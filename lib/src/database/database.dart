@@ -8,8 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:wom_pocket/src/database/aims_dao.dart';
-import 'package:wom_pocket/src/database/badge_dao.dart';
 import 'package:wom_pocket/src/database/tables.dart';
+import 'package:wom_pocket/src/database/totems_dao.dart';
 import 'package:wom_pocket/src/database/transactions_dao.dart';
 import 'package:wom_pocket/src/database/woms_dao.dart';
 import 'package:wom_pocket/src/my_logger.dart';
@@ -17,14 +17,18 @@ import 'package:wom_pocket/src/my_logger.dart';
 part 'database.g.dart';
 
 @DriftDatabase(
-    tables: [Wom, Aims, Transactions, Badges],
-    daos: [WomsDao, AimsDao, TransactionsDao, BadgeDao])
+    tables: [Wom, Aims, Transactions, Totems],
+    daos: [WomsDao, AimsDao, TransactionsDao, TotemsDao])
 class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
-  MyDatabase() : super(_openConnection());
+  MyDatabase([DatabaseConnection? connection])
+      : super(connection ?? _openConnection());
+
+  @visibleForTesting
+  MyDatabase.query(QueryExecutor executor) : super(executor);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   Future<void> deleteEverything() async {
     await transaction(() async {
@@ -38,19 +42,10 @@ class MyDatabase extends _$MyDatabase {
   MigrationStrategy get migration {
     return MigrationStrategy(
       onCreate: (Migrator m) async {
+        logger.i('onCreate');
         await m.createAll();
       },
       onUpgrade: (Migrator m, int from, int to) async {
-        // if (from < 2) {
-        //   // we added the dueDate property in the change from version 1 to
-        //   // version 2
-        //   await m.addColumn(todos, todos.dueDate);
-        // }
-        // if (from < 3) {
-        //   // we added the priority property in the change from version 1 or 2
-        //   // to version 3
-        //   await m.addColumn(todos, todos.priority);
-        // }
         logger.wtf('from $from to $to');
         if (from < 4) {
           await m.addColumn(wom, wom.donationId);
@@ -60,6 +55,8 @@ class MyDatabase extends _$MyDatabase {
           await m.addColumn(transactions, transactions.pin);
           await m.addColumn(transactions, transactions.link);
           await m.addColumn(transactions, transactions.deadline);
+        } else if (from < 5) {
+          await m.createTable(totems);
         }
       },
       beforeOpen: (details) async {

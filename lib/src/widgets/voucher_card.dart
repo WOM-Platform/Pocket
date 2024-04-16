@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
@@ -88,7 +88,7 @@ class TicketCard extends StatelessWidget {
           AutoSizeText.rich(
             TextSpan(children: <TextSpan>[
               TextSpan(
-                text: AppLocalizations.of(context)!.translate('from'),
+                text: 'from'.tr(),
                 style: TextStyle(color: primaryColor, fontSize: 20.0),
               ),
               TextSpan(
@@ -111,7 +111,7 @@ class TicketCard extends StatelessWidget {
     TextStyle voucherIdStyle =
         new TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
     bool isEarnTransaction = transaction.type == TransactionType.VOUCHERS;
-    final languageCode = AppLocalizations.of(context)!.locale.languageCode;
+    final languageCode = context.locale.languageCode;
 
     return Container(
       height: 160.0,
@@ -184,7 +184,7 @@ class TicketCard extends StatelessWidget {
                 children: <TextSpan>[
                   TextSpan(
                     text:
-                        "${AppLocalizations.of(context)!.translate('you')} ${isEarnTransaction ? AppLocalizations.of(context)!.translate("earned") : AppLocalizations.of(context)!.translate("used")}",
+                        "${'you'.tr()} ${isEarnTransaction ? "earned".tr() : "used".tr()}",
                     style: TextStyle(
                         fontSize: 22.0,
                         color: isEarnTransaction ? Colors.green : Colors.red,

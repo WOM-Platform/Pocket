@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/constants.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/pin_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/migration/application/migration_notifier.dart';
@@ -81,13 +81,13 @@ class PageOne extends ConsumerWidget {
             const SizedBox(
               height: 16,
             ),
-            Text(AppLocalizations.of(context)!.translate('exportWizard'),
+            Text('exportWizard'.tr(),
                 style: TextStyle(fontSize: 30, color: Colors.white)),
             const SizedBox(
               height: 32,
             ),
             Text(
-              AppLocalizations.of(context)!.translate('exportWizardDesc'),
+              'exportWizardDesc'.tr(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -130,7 +130,7 @@ class PageThree extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  AppLocalizations.of(context)!.translate('createPin'),
+                  'createPin'.tr(),
                   style: descStyle,
                 ),
                 const SizedBox(height: 16),
@@ -182,7 +182,7 @@ class PageThree extends ConsumerWidget {
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.translate('cancel'),
+                  'cancel'.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -238,7 +238,7 @@ class SummaryPage extends ConsumerWidget {
                     ),
                     const SizedBox(width: 16),
                     Text(
-                      AppLocalizations.of(context)!.translate('export'),
+                      'export'.tr(),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 30,
@@ -252,7 +252,7 @@ class SummaryPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.translate('womToExport'),
+                      'womToExport'.tr(),
                       style: titleStyle,
                     ),
                     const SizedBox(width: 8),
@@ -264,7 +264,7 @@ class SummaryPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.translate('chosenPin'),
+                      'chosenPin'.tr(),
                       style: titleStyle,
                     ),
                     const SizedBox(width: 8),
@@ -281,7 +281,7 @@ class SummaryPage extends ConsumerWidget {
         initial: () {
           return Center(
             child: Text(
-              AppLocalizations.of(context)!.translate('missingData'),
+              'missingData'.tr(),
             ),
           );
         },
@@ -304,7 +304,7 @@ class SummaryPage extends ConsumerWidget {
                     ref.read(pageControllerProvider).jumpToPage(1);
                   },
                   child: Text(
-                    AppLocalizations.of(context)!.translate('back'),
+                    'back'.tr(),
                     style: TextStyle(color: Colors.white),
                   )),
             ),
@@ -312,7 +312,7 @@ class SummaryPage extends ConsumerWidget {
           if (migrationState is MigrationStateData)
             FloatingActionButton.extended(
               label: Text(
-                AppLocalizations.of(context)!.translate('conclude'),
+                'conclude'.tr(),
               ),
               onPressed: () async {
                 final res = await Alert(
@@ -320,15 +320,13 @@ class SummaryPage extends ConsumerWidget {
                   style: AlertStyle(
                       descStyle: TextStyle(fontSize: 14, color: Colors.grey)),
                   type: AlertType.warning,
-                  title: AppLocalizations.of(context)!
-                      .translate('confirmToExportWom'),
-                  desc: AppLocalizations.of(context)!
-                      .translate('confirmToExportWomDesc'),
+                  title: 'confirmToExportWom'.tr(),
+                  desc: 'confirmToExportWomDesc'.tr(),
                   buttons: [
                     DialogButton(
                       color: Colors.white,
                       child: Text(
-                        AppLocalizations.of(context)!.translate('cancel'),
+                        'cancel'.tr(),
                       ),
                       onPressed: () {
                         Navigator.of(context).pop(false);
@@ -336,7 +334,7 @@ class SummaryPage extends ConsumerWidget {
                     ),
                     DialogButton(
                       child: Text(
-                        AppLocalizations.of(context)!.translate('continue'),
+                        'continue'.tr(),
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {

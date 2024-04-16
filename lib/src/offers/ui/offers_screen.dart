@@ -1,10 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
+import 'package:wom_pocket/src/application/location_notifier.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
@@ -46,7 +49,7 @@ class OffersListScreen extends ConsumerWidget {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (c) => OfferMapsScreen()));
             },
-            child: Text(AppLocalizations.of(context)!.translate('showMap')),
+            child: Text('showMap'.tr()),
           )
         ],
       ),
@@ -134,7 +137,7 @@ class OffersList extends ConsumerWidget {
       child: Column(
         children: [
           SectionTitle(
-            title: AppLocalizations.of(context)!.translate('offersOnEarth'),
+            title: 'offersOnEarth'.tr(),
             leftPadding: 16,
           ),
           state.when(
@@ -146,13 +149,11 @@ class OffersList extends ConsumerWidget {
                   if (offers.isEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(AppLocalizations.of(context)!
-                          .translate('noOffersOnLocation')),
+                      child: Text('noOffersOnLocation'.tr()),
                     ),
                     const SizedBox(height: 16),
                     SectionTitle(
-                      title:
-                          AppLocalizations.of(context)!.translate('whereWeAre'),
+                      title: 'whereWeAre'.tr(),
                       leftPadding: 16,
                     ),
                     SizedBox(
@@ -185,11 +186,30 @@ class OffersList extends ConsumerWidget {
                     for (int i = 0; i < offers.length; i++)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: OfferTile(
-                          posName: offers[i].name,
-                          offers: offers[i].offers,
-                          distance: offers[i].distance,
-                          imageUrl: offers[i].cover?.midDensityFullWidthUrl,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => POSDetailsScreen(
+                                  posName: offers[i].name,
+                                  isVirtual: false,
+                                  imageUrl:
+                                      offers[i].cover?.midDensityFullWidthUrl,
+                                  distance: offers[i].distance,
+                                  url: offers[i].url,
+                                  offers: offers[i].offers,
+                                  posID: offers[i].id,
+                                  position: offers[i].position,
+                                ),
+                              ),
+                            );
+                          },
+                          child: PosTile(
+                            posName: offers[i].name,
+                            offers: offers[i].offers,
+                            distance: offers[i].distance,
+                            imageUrl: offers[i].cover?.midDensityFullWidthUrl,
+                          ),
                         ),
                       ),
                   SizedBox(
@@ -201,8 +221,7 @@ class OffersList extends ConsumerWidget {
             error: (ex, st) {
               if (ex is MyLocationException) {
                 return PocketErrorWidget(
-                  errorText: AppLocalizations.of(context)!
-                      .translate('noLocationPermission'),
+                  errorText: 'noLocationPermission'.tr(),
                   tryAgain: () async {
                     try {
                       final res = await requestPermission();
@@ -213,38 +232,34 @@ class OffersList extends ConsumerWidget {
                       Alert(
                           context: context,
                           type: AlertType.error,
-                          title: AppLocalizations.of(context)!
-                              .translate('locationPermissionDeniedForever'),
+                          title: 'locationPermissionDeniedForever'.tr(),
                           buttons: []).show();
+                      logger.e("OffersScreen: LocationPermissionDeniedForever",
+                          error: ex, stackTrace: st);
                     } catch (ex, st) {
-                      logger.e(ex);
-                      logger.e(st);
+                      logger.e("OffersScreen, unkown error",
+                          error: ex, stackTrace: st);
                     }
                   },
-                  tryAgainText: AppLocalizations.of(context)!
-                      .translate('grantPermission'),
+                  tryAgainText: 'grantPermission'.tr(),
                   ex: ex,
                 );
               } else if (ex is LocationDisabledException) {
                 return PocketErrorWidget(
-                  errorText: AppLocalizations.of(context)!
-                      .translate('noLocationService'),
+                  errorText: 'noLocationService'.tr(),
                   tryAgain: () {
                     ref.invalidate(locationNotifierProvider);
                   },
-                  tryAgainText:
-                      AppLocalizations.of(context)!.translate('try_again'),
+                  tryAgainText: 'try_again'.tr(),
                   ex: ex,
                 );
               }
               return PocketErrorWidget(
-                errorText:
-                    AppLocalizations.of(context)!.translate('somethings_wrong'),
+                errorText: 'somethings_wrong'.tr(),
                 tryAgain: () {
                   ref.invalidate(offersNotifierProvider);
                 },
-                tryAgainText:
-                    AppLocalizations.of(context)!.translate('try_again'),
+                tryAgainText: 'try_again'.tr(),
                 ex: ex,
               );
             },
@@ -356,40 +371,81 @@ class VirtualPOSCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentPOS = ref.watch(currentQuestion);
-    return currentPOS.when(data: (virtual) {
-      return AspectRatio(
-        aspectRatio: 3 / 2,
-        child: InkWell(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => POSDetailsScreen(
-                  posName: virtual.name,
-                  isVirtual: true,
-                  url: virtual.url,
-                  imageUrl: virtual.cover?.midDensityFullWidthUrl,
+    return currentPOS.when(
+      data: (virtual) {
+        return AspectRatio(
+          aspectRatio: 3 / 2,
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => POSDetailsScreen(
+                    posName: virtual.name,
+                    isVirtual: true,
+                    url: virtual.url,
+                    imageUrl: virtual.cover?.midDensityFullWidthUrl,
+                    position: null,
+                  ),
                 ),
-              ),
-            );
-          },
-          child: Card(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Text(
-                  virtual.name,
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
-                ),
+              );
+            },
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              child: Stack(
+                children: [
+                  if (virtual.cover?.midDensityFullWidthUrl != null)
+                    Positioned.fill(
+                      child: CachedNetworkImage(
+                        imageUrl: virtual.cover!.midDensityFullWidthUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  else
+                    Center(
+                      child: Icon(
+                        Icons.store,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Colors.black54,
+                          Colors.transparent,
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        virtual.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ),
-      );
-    }, error: (es, st) {
-      return Container();
-    }, loading: () {
-      return Container();
-    });
+        );
+      },
+      error: (es, st) {
+        return Container();
+      },
+      loading: () {
+        return Container();
+      },
+    );
   }
 }

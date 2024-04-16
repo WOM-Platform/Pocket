@@ -6,43 +6,21 @@ part of 'migration_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-// ignore_for_file: avoid_private_typedef_functions, non_constant_identifier_names, subtype_of_sealed_class, invalid_use_of_internal_member, unused_element, constant_identifier_names, unnecessary_raw_strings, library_private_types_in_public_api
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-String _$MigrationNotifierHash() => r'dddc5d7916c63142f515f73081972ac11826423d';
+String _$migrationNotifierHash() => r'2119d8d9e255c5fcde9821482d77b6bdf0b92256';
 
 /// See also [MigrationNotifier].
+@ProviderFor(MigrationNotifier)
 final migrationNotifierProvider =
-    AutoDisposeNotifierProvider<MigrationNotifier, MigrationState>(
+    AutoDisposeNotifierProvider<MigrationNotifier, MigrationState>.internal(
   MigrationNotifier.new,
   name: r'migrationNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$MigrationNotifierHash,
+      : _$migrationNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
-typedef MigrationNotifierRef = AutoDisposeNotifierProviderRef<MigrationState>;
 
-abstract class _$MigrationNotifier extends AutoDisposeNotifier<MigrationState> {
-  @override
-  MigrationState build();
-}
+typedef _$MigrationNotifier = AutoDisposeNotifier<MigrationState>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,10 +1,11 @@
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/localization/app_localizations.dart';
+
 import 'package:wom_pocket/src/application/aim_notifier.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:collection/collection.dart';
@@ -33,6 +34,9 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
     final womSpentCount =
         ref.watch(fetchWomSpentProvider).valueOrNull?.toString() ?? '-';
 
+    // final womExchangedCount =
+    //     ref.watch(fetchWomSpentProvider).valueOrNull?.toString() ?? '-';
+
     final spentLastWeek = ref
             .watch(fetchWomCountSpentInTheLastWeekProvider)
             .valueOrNull
@@ -51,7 +55,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
     return Scaffold(
       backgroundColor: lightBackground,
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.translate('stats')),
+        title: Text('stats'.tr()),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: primaryColor,
@@ -63,7 +67,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           Text(
-            AppLocalizations.of(context)!.translate('availableWom'),
+            'availableWom'.tr(),
             style: labelStyle,
           ),
           Text(
@@ -81,10 +85,10 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
           ),
           const SizedBox(height: 24),
           SectionTitle(
-            title: AppLocalizations.of(context)!.translate('lastWeek'),
+            title: 'lastWeek'.tr(),
           ),
           Text(
-            AppLocalizations.of(context)!.translate('womEarned'),
+            'womEarned'.tr(),
             style: labelStyle,
           ),
           Text(
@@ -93,7 +97,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            AppLocalizations.of(context)!.translate('womSpent'),
+            'womSpent'.tr(),
             style: labelStyle,
           ),
           Text(
@@ -102,7 +106,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
           ),
           const SizedBox(height: 24),
           SectionTitle(
-            title: AppLocalizations.of(context)!.translate('aim'),
+            title: 'aim'.tr(),
           ),
           Row(
             children: [
@@ -176,9 +180,8 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                         text: aimList
                                 .firstWhereOrNull((a) => a.code == aims[i].aim)
                                 ?.title(
-                                    languageCode: AppLocalizations.of(context)!
-                                        .locale
-                                        .languageCode) ??
+                                    languageCode:
+                                        context.locale.languageCode) ??
                             aims[i].aim,
                         isSquare: true,
                       ),

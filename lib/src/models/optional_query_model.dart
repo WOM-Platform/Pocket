@@ -1,4 +1,5 @@
-import 'package:dart_wom_connector/dart_wom_connector.dart' show SimpleFilter, SimpleFilterX;
+import 'package:dart_wom_connector/dart_wom_connector.dart'
+    show SimpleFilter, SimpleFilterX;
 import 'package:wom_pocket/src/models/wom_model.dart';
 
 import '../my_logger.dart';
@@ -12,6 +13,7 @@ class OptionalQuery {
   final SimpleFilter? filters;
   final int? amount;
   final bool enabledRandom;
+  final bool orderByDate;
   final bool excludeWomWithoutLocation;
 
   OptionalQuery({
@@ -23,6 +25,7 @@ class OptionalQuery {
     this.filters,
     this.aims,
     this.enabledRandom = false,
+    this.orderByDate = false,
     this.excludeWomWithoutLocation = false,
   });
 
@@ -31,14 +34,11 @@ class OptionalQuery {
         ? "WHERE ${WomModel.tblWom}.${WomModel.dbAddedOn} BETWEEN $startDate AND $endDate"
         : "";
 
-    if (womStatus != null) {
-      var statusWhereClause =
-          "${WomModel.tblWom}.spent = ${womStatus.index}";
-      whereClause = whereClause.isEmpty
-          ? "WHERE $statusWhereClause"
-          : "$whereClause AND $statusWhereClause";
-    }
-
+    var statusWhereClause = "${WomModel.tblWom}.spent = ${womStatus.index}";
+    whereClause = whereClause.isEmpty
+        ? "WHERE $statusWhereClause"
+        : "$whereClause AND $statusWhereClause";
+  
     if (sources != null) {
       final sourceWhereClause = buildSourceClause(sources!);
 
@@ -76,12 +76,15 @@ class OptionalQuery {
     }
 
     if (excludeWomWithoutLocation) {
-      whereClause = "$whereClause AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 "
+      whereClause =
+          "$whereClause AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 "
           "AND ${WomModel.tblWom}.${WomModel.dbLong} != 0";
     }
 
     if (enabledRandom) {
       whereClause = "$whereClause ORDER BY RANDOM()";
+    } else if (orderByDate) {
+      whereClause = "$whereClause ORDER BY addedOn";
     }
 
     if (amount != null) {

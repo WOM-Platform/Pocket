@@ -1,7 +1,10 @@
+import 'dart:math';
+
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:drift/drift.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/database/tables.dart';
-import 'package:wom_pocket/src/models/wom_model.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 part 'transactions_dao.g.dart';
 
@@ -27,6 +30,45 @@ class TransactionsDao extends DatabaseAccessor<MyDatabase>
         .get();
   }
 
+  // Get all woms not spent
+  Future<List<MyTransaction>> get getExchangeTransactions {
+    return (select(transactions)
+          ..where((tbl) => tbl.type
+              .isBiggerOrEqualValue(TransactionType.EXCHANGE_EXPORT.index))
+          ..orderBy(
+            [
+              (tbl) => OrderingTerm(
+                    expression: tbl.timestamp,
+                    mode: OrderingMode.desc,
+                  ),
+            ],
+          ))
+        .get();
+  }
+
+  // Get all woms not spent
+  Future<int> getExchangeDailyCount() async {
+    logger.i('[WomDb] getExchangeDailyCount');
+    final now = DateTime.now();
+    final midnight = now.midnight;
+
+    final customQuery = 'SELECT size FROM Transactions '
+        'WHERE type == ${TransactionType.EXCHANGE_EXPORT.index} '
+        'AND timestamp >= ${midnight.millisecondsSinceEpoch} '
+        'GROUP BY size;';
+    final count = await customSelect(
+      customQuery,
+      readsFrom: {transactions},
+    ).get();
+    if (count.isEmpty) return 0;
+    return min(
+        count.fold<int>(
+            0,
+            (previousValue, element) =>
+                previousValue + element.data['size'] as int),
+        60);
+  }
+
   // returns the generated id
   Future<void> addTransactions(List<TransactionsCompanion> entries) async {
     await batch((batch) {
@@ -37,4 +79,8 @@ class TransactionsDao extends DatabaseAccessor<MyDatabase>
   Future<int> addTransaction(TransactionsCompanion entry) async {
     return into(transactions).insert(entry);
   }
+}
+
+extension DateTimeX on DateTime {
+  DateTime get midnight => this.copyWith(hour: 0, minute: 0, second: 0);
 }

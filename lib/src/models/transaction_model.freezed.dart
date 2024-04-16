@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'transaction_model.dart';
 
@@ -12,7 +12,7 @@ part of 'transaction_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$TransactionModel {
@@ -129,11 +129,11 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
 }
 
 /// @nodoc
-abstract class _$$_TransactionModelCopyWith<$Res>
+abstract class _$$TransactionModelImplCopyWith<$Res>
     implements $TransactionModelCopyWith<$Res> {
-  factory _$$_TransactionModelCopyWith(
-          _$_TransactionModel value, $Res Function(_$_TransactionModel) then) =
-      __$$_TransactionModelCopyWithImpl<$Res>;
+  factory _$$TransactionModelImplCopyWith(_$TransactionModelImpl value,
+          $Res Function(_$TransactionModelImpl) then) =
+      __$$TransactionModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -150,11 +150,11 @@ abstract class _$$_TransactionModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TransactionModelCopyWithImpl<$Res>
-    extends _$TransactionModelCopyWithImpl<$Res, _$_TransactionModel>
-    implements _$$_TransactionModelCopyWith<$Res> {
-  __$$_TransactionModelCopyWithImpl(
-      _$_TransactionModel _value, $Res Function(_$_TransactionModel) _then)
+class __$$TransactionModelImplCopyWithImpl<$Res>
+    extends _$TransactionModelCopyWithImpl<$Res, _$TransactionModelImpl>
+    implements _$$TransactionModelImplCopyWith<$Res> {
+  __$$TransactionModelImplCopyWithImpl(_$TransactionModelImpl _value,
+      $Res Function(_$TransactionModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -171,7 +171,7 @@ class __$$_TransactionModelCopyWithImpl<$Res>
     Object? importDeadline = freezed,
     Object? size = null,
   }) {
-    return _then(_$_TransactionModel(
+    return _then(_$TransactionModelImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -218,8 +218,8 @@ class __$$_TransactionModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TransactionModel implements _TransactionModel {
-  const _$_TransactionModel(
+class _$TransactionModelImpl implements _TransactionModel {
+  const _$TransactionModelImpl(
       {@TransactionTypeConverter() required this.type,
       required this.source,
       @JsonKey(name: 'Aim') required this.aimCode,
@@ -266,10 +266,10 @@ class _$_TransactionModel implements _TransactionModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionModel &&
+            other is _$TransactionModelImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.source, source) || other.source == source) &&
             (identical(other.aimCode, aimCode) || other.aimCode == aimCode) &&
@@ -290,28 +290,25 @@ class _$_TransactionModel implements _TransactionModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionModelCopyWith<_$_TransactionModel> get copyWith =>
-      __$$_TransactionModelCopyWithImpl<_$_TransactionModel>(this, _$identity);
+  _$$TransactionModelImplCopyWith<_$TransactionModelImpl> get copyWith =>
+      __$$TransactionModelImplCopyWithImpl<_$TransactionModelImpl>(
+          this, _$identity);
 }
 
 abstract class _TransactionModel implements TransactionModel {
   const factory _TransactionModel(
-      {@TransactionTypeConverter()
-          required final TransactionType type,
+      {@TransactionTypeConverter() required final TransactionType type,
       required final String source,
-      @JsonKey(name: 'Aim')
-          required final String aimCode,
+      @JsonKey(name: 'Aim') required final String aimCode,
       @DateTimeConverter()
       @JsonKey(name: 'Timestamp')
-          required final DateTime date,
-      @JsonKey(name: 'Id')
-          required final int id,
+      required final DateTime date,
+      @JsonKey(name: 'Id') required final int id,
       final String? ackUrl,
       final String? pin,
       final String? link,
-      @DateTimeConverter()
-          final DateTime? importDeadline,
-      required final int size}) = _$_TransactionModel;
+      @DateTimeConverter() final DateTime? importDeadline,
+      required final int size}) = _$TransactionModelImpl;
 
   @override
   @TransactionTypeConverter()
@@ -341,6 +338,6 @@ abstract class _TransactionModel implements TransactionModel {
   int get size;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionModelCopyWith<_$_TransactionModel> get copyWith =>
+  _$$TransactionModelImplCopyWith<_$TransactionModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

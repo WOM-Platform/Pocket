@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'badge.dart';
 
@@ -12,7 +12,7 @@ part of 'badge.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Badge _$BadgeFromJson(Map<String, dynamic> json) {
   return _Badge.fromJson(json);
@@ -89,9 +89,10 @@ class _$BadgeCopyWithImpl<$Res, $Val extends Badge>
 }
 
 /// @nodoc
-abstract class _$$_BadgeCopyWith<$Res> implements $BadgeCopyWith<$Res> {
-  factory _$$_BadgeCopyWith(_$_Badge value, $Res Function(_$_Badge) then) =
-      __$$_BadgeCopyWithImpl<$Res>;
+abstract class _$$BadgeImplCopyWith<$Res> implements $BadgeCopyWith<$Res> {
+  factory _$$BadgeImplCopyWith(
+          _$BadgeImpl value, $Res Function(_$BadgeImpl) then) =
+      __$$BadgeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -103,9 +104,11 @@ abstract class _$$_BadgeCopyWith<$Res> implements $BadgeCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
-    implements _$$_BadgeCopyWith<$Res> {
-  __$$_BadgeCopyWithImpl(_$_Badge _value, $Res Function(_$_Badge) _then)
+class __$$BadgeImplCopyWithImpl<$Res>
+    extends _$BadgeCopyWithImpl<$Res, _$BadgeImpl>
+    implements _$$BadgeImplCopyWith<$Res> {
+  __$$BadgeImplCopyWithImpl(
+      _$BadgeImpl _value, $Res Function(_$BadgeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -117,7 +120,7 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
     Object? received = null,
     Object? description = freezed,
   }) {
-    return _then(_$_Badge(
+    return _then(_$BadgeImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -144,16 +147,16 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Badge implements _Badge {
-  const _$_Badge(
+class _$BadgeImpl implements _Badge {
+  const _$BadgeImpl(
       {required this.id,
       required this.name,
       required this.imageUrl,
       required this.received,
       this.description});
 
-  factory _$_Badge.fromJson(Map<String, dynamic> json) =>
-      _$$_BadgeFromJson(json);
+  factory _$BadgeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BadgeImplFromJson(json);
 
   @override
   final String id;
@@ -172,10 +175,10 @@ class _$_Badge implements _Badge {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Badge &&
+            other is _$BadgeImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -194,12 +197,12 @@ class _$_Badge implements _Badge {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BadgeCopyWith<_$_Badge> get copyWith =>
-      __$$_BadgeCopyWithImpl<_$_Badge>(this, _$identity);
+  _$$BadgeImplCopyWith<_$BadgeImpl> get copyWith =>
+      __$$BadgeImplCopyWithImpl<_$BadgeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BadgeToJson(
+    return _$$BadgeImplToJson(
       this,
     );
   }
@@ -211,9 +214,9 @@ abstract class _Badge implements Badge {
       required final String name,
       required final String imageUrl,
       required final bool received,
-      final String? description}) = _$_Badge;
+      final String? description}) = _$BadgeImpl;
 
-  factory _Badge.fromJson(Map<String, dynamic> json) = _$_Badge.fromJson;
+  factory _Badge.fromJson(Map<String, dynamic> json) = _$BadgeImpl.fromJson;
 
   @override
   String get id;
@@ -227,6 +230,6 @@ abstract class _Badge implements Badge {
   String? get description;
   @override
   @JsonKey(ignore: true)
-  _$$_BadgeCopyWith<_$_Badge> get copyWith =>
+  _$$BadgeImplCopyWith<_$BadgeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

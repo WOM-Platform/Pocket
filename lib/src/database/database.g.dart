@@ -101,9 +101,10 @@ class $WomTable extends Wom with TableInfo<$WomTable, WomRow> {
         donationId
       ];
   @override
-  String get aliasedName => _alias ?? 'wom';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'wom';
+  String get actualTableName => $name;
+  static const String $name = 'wom';
   @override
   VerificationContext validateIntegrity(Insertable<WomRow> instance,
       {bool isInserting = false}) {
@@ -441,6 +442,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
   final Value<double> latitude;
   final Value<double> longitude;
   final Value<String?> donationId;
+  final Value<int> rowid;
   const WomCompanion({
     this.id = const Value.absent(),
     this.sourceName = const Value.absent(),
@@ -455,6 +457,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
     this.donationId = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   WomCompanion.insert({
     required String id,
@@ -470,6 +473,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     required double latitude,
     required double longitude,
     this.donationId = const Value.absent(),
+    this.rowid = const Value.absent(),
   })  : id = Value(id),
         sourceName = Value(sourceName),
         secret = Value(secret),
@@ -495,6 +499,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     Expression<double>? latitude,
     Expression<double>? longitude,
     Expression<String>? donationId,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'Id': id,
@@ -510,6 +515,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
       if (latitude != null) 'Latitude': latitude,
       if (longitude != null) 'Longitude': longitude,
       if (donationId != null) 'donation_id': donationId,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
@@ -526,7 +532,8 @@ class WomCompanion extends UpdateCompanion<WomRow> {
       Value<int>? spent,
       Value<double>? latitude,
       Value<double>? longitude,
-      Value<String?>? donationId}) {
+      Value<String?>? donationId,
+      Value<int>? rowid}) {
     return WomCompanion(
       id: id ?? this.id,
       sourceName: sourceName ?? this.sourceName,
@@ -541,6 +548,7 @@ class WomCompanion extends UpdateCompanion<WomRow> {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       donationId: donationId ?? this.donationId,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -586,6 +594,9 @@ class WomCompanion extends UpdateCompanion<WomRow> {
     if (donationId.present) {
       map['donation_id'] = Variable<String>(donationId.value);
     }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
     return map;
   }
 
@@ -604,7 +615,8 @@ class WomCompanion extends UpdateCompanion<WomRow> {
           ..write('spent: $spent, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
-          ..write('donationId: $donationId')
+          ..write('donationId: $donationId, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -638,9 +650,10 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
   @override
   List<GeneratedColumn> get $columns => [id, code, titles];
   @override
-  String get aliasedName => _alias ?? 'aims';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'aims';
+  String get actualTableName => $name;
+  static const String $name = 'aims';
   @override
   VerificationContext validateIntegrity(Insertable<AimRow> instance,
       {bool isInserting = false}) {
@@ -694,8 +707,8 @@ class AimRow extends DataClass implements Insertable<AimRow> {
     map['id'] = Variable<int>(id);
     map['code'] = Variable<String>(code);
     {
-      final converter = $AimsTable.$convertertitles;
-      map['titles'] = Variable<String>(converter.toSql(titles));
+      map['titles'] =
+          Variable<String>($AimsTable.$convertertitles.toSql(titles));
     }
     return map;
   }
@@ -802,8 +815,8 @@ class AimsCompanion extends UpdateCompanion<AimRow> {
       map['code'] = Variable<String>(code.value);
     }
     if (titles.present) {
-      final converter = $AimsTable.$convertertitles;
-      map['titles'] = Variable<String>(converter.toSql(titles.value));
+      map['titles'] =
+          Variable<String>($AimsTable.$convertertitles.toSql(titles.value));
     }
     return map;
   }
@@ -885,9 +898,10 @@ class $TransactionsTable extends Transactions
   List<GeneratedColumn> get $columns =>
       [id, source, aim, timestamp, type, size, ackUrl, pin, deadline, link];
   @override
-  String get aliasedName => _alias ?? 'transactions';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'transactions';
+  String get actualTableName => $name;
+  static const String $name = 'transactions';
   @override
   VerificationContext validateIntegrity(Insertable<MyTransaction> instance,
       {bool isInserting = false}) {
@@ -1280,33 +1294,97 @@ class TransactionsCompanion extends UpdateCompanion<MyTransaction> {
   }
 }
 
-class $BadgesTable extends Badges with TableInfo<$BadgesTable, Badge> {
+class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $BadgesTable(this.attachedDatabase, [this._alias]);
+  $TotemsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _sessionIdMeta =
+      const VerificationMeta('sessionId');
   @override
-  List<GeneratedColumn> get $columns => [id];
+  late final GeneratedColumn<String> sessionId = GeneratedColumn<String>(
+      'sessionId', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _totemIdMeta =
+      const VerificationMeta('totemId');
   @override
-  String get aliasedName => _alias ?? 'badges';
+  late final GeneratedColumn<String> totemId = GeneratedColumn<String>(
+      'totemId', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _eventIdMeta =
+      const VerificationMeta('eventId');
   @override
-  String get actualTableName => 'badges';
+  late final GeneratedColumn<String> eventId = GeneratedColumn<String>(
+      'eventId', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _providerIdMeta =
+      const VerificationMeta('providerId');
   @override
-  VerificationContext validateIntegrity(Insertable<Badge> instance,
+  late final GeneratedColumn<String> providerId = GeneratedColumn<String>(
+      'providerId', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _timestampMeta =
+      const VerificationMeta('timestamp');
+  @override
+  late final GeneratedColumn<DateTime> timestamp = GeneratedColumn<DateTime>(
+      'timestamp', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, sessionId, totemId, eventId, providerId, timestamp];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'totems';
+  @override
+  VerificationContext validateIntegrity(Insertable<TotemRow> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('sessionId')) {
+      context.handle(_sessionIdMeta,
+          sessionId.isAcceptableOrUnknown(data['sessionId']!, _sessionIdMeta));
     } else if (isInserting) {
-      context.missing(_idMeta);
+      context.missing(_sessionIdMeta);
+    }
+    if (data.containsKey('totemId')) {
+      context.handle(_totemIdMeta,
+          totemId.isAcceptableOrUnknown(data['totemId']!, _totemIdMeta));
+    } else if (isInserting) {
+      context.missing(_totemIdMeta);
+    }
+    if (data.containsKey('eventId')) {
+      context.handle(_eventIdMeta,
+          eventId.isAcceptableOrUnknown(data['eventId']!, _eventIdMeta));
+    } else if (isInserting) {
+      context.missing(_eventIdMeta);
+    }
+    if (data.containsKey('providerId')) {
+      context.handle(
+          _providerIdMeta,
+          providerId.isAcceptableOrUnknown(
+              data['providerId']!, _providerIdMeta));
+    } else if (isInserting) {
+      context.missing(_providerIdMeta);
+    }
+    if (data.containsKey('timestamp')) {
+      context.handle(_timestampMeta,
+          timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta));
+    } else if (isInserting) {
+      context.missing(_timestampMeta);
     }
     return context;
   }
@@ -1314,88 +1392,194 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, Badge> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Badge map(Map<String, dynamic> data, {String? tablePrefix}) {
+  TotemRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Badge(
+    return TotemRow(
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      sessionId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}sessionId'])!,
+      totemId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}totemId'])!,
+      eventId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}eventId'])!,
+      providerId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}providerId'])!,
+      timestamp: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}timestamp'])!,
     );
   }
 
   @override
-  $BadgesTable createAlias(String alias) {
-    return $BadgesTable(attachedDatabase, alias);
+  $TotemsTable createAlias(String alias) {
+    return $TotemsTable(attachedDatabase, alias);
   }
 }
 
-class Badge extends DataClass implements Insertable<Badge> {
-  final String id;
-  const Badge({required this.id});
+class TotemRow extends DataClass implements Insertable<TotemRow> {
+  final int id;
+  final String sessionId;
+  final String totemId;
+  final String eventId;
+  final String providerId;
+  final DateTime timestamp;
+  const TotemRow(
+      {required this.id,
+      required this.sessionId,
+      required this.totemId,
+      required this.eventId,
+      required this.providerId,
+      required this.timestamp});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
+    map['id'] = Variable<int>(id);
+    map['sessionId'] = Variable<String>(sessionId);
+    map['totemId'] = Variable<String>(totemId);
+    map['eventId'] = Variable<String>(eventId);
+    map['providerId'] = Variable<String>(providerId);
+    map['timestamp'] = Variable<DateTime>(timestamp);
     return map;
   }
 
-  BadgesCompanion toCompanion(bool nullToAbsent) {
-    return BadgesCompanion(
+  TotemsCompanion toCompanion(bool nullToAbsent) {
+    return TotemsCompanion(
       id: Value(id),
+      sessionId: Value(sessionId),
+      totemId: Value(totemId),
+      eventId: Value(eventId),
+      providerId: Value(providerId),
+      timestamp: Value(timestamp),
     );
   }
 
-  factory Badge.fromJson(Map<String, dynamic> json,
+  factory TotemRow.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Badge(
-      id: serializer.fromJson<String>(json['id']),
+    return TotemRow(
+      id: serializer.fromJson<int>(json['id']),
+      sessionId: serializer.fromJson<String>(json['sessionId']),
+      totemId: serializer.fromJson<String>(json['totemId']),
+      eventId: serializer.fromJson<String>(json['eventId']),
+      providerId: serializer.fromJson<String>(json['providerId']),
+      timestamp: serializer.fromJson<DateTime>(json['timestamp']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
+      'id': serializer.toJson<int>(id),
+      'sessionId': serializer.toJson<String>(sessionId),
+      'totemId': serializer.toJson<String>(totemId),
+      'eventId': serializer.toJson<String>(eventId),
+      'providerId': serializer.toJson<String>(providerId),
+      'timestamp': serializer.toJson<DateTime>(timestamp),
     };
   }
 
-  Badge copyWith({String? id}) => Badge(
+  TotemRow copyWith(
+          {int? id,
+          String? sessionId,
+          String? totemId,
+          String? eventId,
+          String? providerId,
+          DateTime? timestamp}) =>
+      TotemRow(
         id: id ?? this.id,
+        sessionId: sessionId ?? this.sessionId,
+        totemId: totemId ?? this.totemId,
+        eventId: eventId ?? this.eventId,
+        providerId: providerId ?? this.providerId,
+        timestamp: timestamp ?? this.timestamp,
       );
   @override
   String toString() {
-    return (StringBuffer('Badge(')
-          ..write('id: $id')
+    return (StringBuffer('TotemRow(')
+          ..write('id: $id, ')
+          ..write('sessionId: $sessionId, ')
+          ..write('totemId: $totemId, ')
+          ..write('eventId: $eventId, ')
+          ..write('providerId: $providerId, ')
+          ..write('timestamp: $timestamp')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode =>
+      Object.hash(id, sessionId, totemId, eventId, providerId, timestamp);
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is Badge && other.id == this.id);
+      identical(this, other) ||
+      (other is TotemRow &&
+          other.id == this.id &&
+          other.sessionId == this.sessionId &&
+          other.totemId == this.totemId &&
+          other.eventId == this.eventId &&
+          other.providerId == this.providerId &&
+          other.timestamp == this.timestamp);
 }
 
-class BadgesCompanion extends UpdateCompanion<Badge> {
-  final Value<String> id;
-  const BadgesCompanion({
+class TotemsCompanion extends UpdateCompanion<TotemRow> {
+  final Value<int> id;
+  final Value<String> sessionId;
+  final Value<String> totemId;
+  final Value<String> eventId;
+  final Value<String> providerId;
+  final Value<DateTime> timestamp;
+  const TotemsCompanion({
     this.id = const Value.absent(),
+    this.sessionId = const Value.absent(),
+    this.totemId = const Value.absent(),
+    this.eventId = const Value.absent(),
+    this.providerId = const Value.absent(),
+    this.timestamp = const Value.absent(),
   });
-  BadgesCompanion.insert({
-    required String id,
-  }) : id = Value(id);
-  static Insertable<Badge> custom({
-    Expression<String>? id,
+  TotemsCompanion.insert({
+    this.id = const Value.absent(),
+    required String sessionId,
+    required String totemId,
+    required String eventId,
+    required String providerId,
+    required DateTime timestamp,
+  })  : sessionId = Value(sessionId),
+        totemId = Value(totemId),
+        eventId = Value(eventId),
+        providerId = Value(providerId),
+        timestamp = Value(timestamp);
+  static Insertable<TotemRow> custom({
+    Expression<int>? id,
+    Expression<String>? sessionId,
+    Expression<String>? totemId,
+    Expression<String>? eventId,
+    Expression<String>? providerId,
+    Expression<DateTime>? timestamp,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (sessionId != null) 'sessionId': sessionId,
+      if (totemId != null) 'totemId': totemId,
+      if (eventId != null) 'eventId': eventId,
+      if (providerId != null) 'providerId': providerId,
+      if (timestamp != null) 'timestamp': timestamp,
     });
   }
 
-  BadgesCompanion copyWith({Value<String>? id}) {
-    return BadgesCompanion(
+  TotemsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? sessionId,
+      Value<String>? totemId,
+      Value<String>? eventId,
+      Value<String>? providerId,
+      Value<DateTime>? timestamp}) {
+    return TotemsCompanion(
       id: id ?? this.id,
+      sessionId: sessionId ?? this.sessionId,
+      totemId: totemId ?? this.totemId,
+      eventId: eventId ?? this.eventId,
+      providerId: providerId ?? this.providerId,
+      timestamp: timestamp ?? this.timestamp,
     );
   }
 
@@ -1403,15 +1587,35 @@ class BadgesCompanion extends UpdateCompanion<Badge> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<String>(id.value);
+      map['id'] = Variable<int>(id.value);
+    }
+    if (sessionId.present) {
+      map['sessionId'] = Variable<String>(sessionId.value);
+    }
+    if (totemId.present) {
+      map['totemId'] = Variable<String>(totemId.value);
+    }
+    if (eventId.present) {
+      map['eventId'] = Variable<String>(eventId.value);
+    }
+    if (providerId.present) {
+      map['providerId'] = Variable<String>(providerId.value);
+    }
+    if (timestamp.present) {
+      map['timestamp'] = Variable<DateTime>(timestamp.value);
     }
     return map;
   }
 
   @override
   String toString() {
-    return (StringBuffer('BadgesCompanion(')
-          ..write('id: $id')
+    return (StringBuffer('TotemsCompanion(')
+          ..write('id: $id, ')
+          ..write('sessionId: $sessionId, ')
+          ..write('totemId: $totemId, ')
+          ..write('eventId: $eventId, ')
+          ..write('providerId: $providerId, ')
+          ..write('timestamp: $timestamp')
           ..write(')'))
         .toString();
   }
@@ -1422,16 +1626,16 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   late final $WomTable wom = $WomTable(this);
   late final $AimsTable aims = $AimsTable(this);
   late final $TransactionsTable transactions = $TransactionsTable(this);
-  late final $BadgesTable badges = $BadgesTable(this);
+  late final $TotemsTable totems = $TotemsTable(this);
   late final WomsDao womsDao = WomsDao(this as MyDatabase);
   late final AimsDao aimsDao = AimsDao(this as MyDatabase);
   late final TransactionsDao transactionsDao =
       TransactionsDao(this as MyDatabase);
-  late final BadgeDao badgeDao = BadgeDao(this as MyDatabase);
+  late final TotemsDao totemsDao = TotemsDao(this as MyDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [wom, aims, transactions, badges];
+      [wom, aims, transactions, totems];
 }
