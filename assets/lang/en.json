@@ -80,6 +80,7 @@
   "introDesc5": "You will be able to earn discounts on goods and service in exchange for your vouchers.",
   "introDesc6": "Vouchers are stores on this device. If you need to uninstall the app or change device, remember to export your vouchers or you will lose them.",
   "introDesc7": "For completing the tutorial, you got your first WOM",
+  "introAction7": "Riscatta subito",
   "introDoneText": "OK",
   "introSkipText": "Skip",
   "introTitle1": "Welcome to",
@@ -231,5 +232,14 @@
   "languageSettingsTitle": "Application language",
   "languageSettingsDesc": "Choose the language that will be used by the app’s interface.",
   "exportYourWomTitle": "Export your WOM",
-  "exportYourWomDesc": "Create a backup of your wom and import it to another device"
+  "exportYourWomDesc": "Create a backup of your wom and import it to another device",
+  "scanStateEmpty": "Tra i qr code scansionati nessuno è valido per la piattaforma wom. Lo scanner continuerà a processare... ",
+  "scanStateSingle": "Abbiamo rilevato un QR-Code valido per la piattaforma WOM.",
+  "scanStateMultiple": "Sono presenti più QR-Code validi, avvicinati su di uno... ",
+  "scanContinueToScan": "Continua a scansionare",
+  "scanning":"Scansione in corso...",
+  "scanGetWom": "Riscatta WOM",
+  "scanPay": "Paga con i WOM",
+  "scanImportMigration": "Importa WOM",
+  "scanExchangeImport": "Ricevi WOM"
 }
