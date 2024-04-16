@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-// import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
