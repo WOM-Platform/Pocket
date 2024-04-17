@@ -52,7 +52,7 @@ Future<void> main() async {
       noBoxingByDefault: true,
       printEmojis: false,
     ),
-    filter: ReleaseFilter(),
+    // filter: ReleaseFilter(),
     output: DevOutput(),
   );
   logger.i('DEV VERSION');

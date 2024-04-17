@@ -18,7 +18,7 @@ import 'package:wom_pocket/src/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/new_home/ui/new_home.dart';
 import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
-import 'package:wom_pocket/src/screens/home/scan_screen.dart';
+import 'package:wom_pocket/src/scanner/ui/scan_screen.dart';
 import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
