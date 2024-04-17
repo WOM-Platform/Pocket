@@ -233,13 +233,13 @@
   "languageSettingsDesc": "Seleziona la lingua dell’applicazione.",
   "exportYourWomTitle": "Esporta i tuoi WOM",
   "exportYourWomDesc": "Crea un backup dei tuoi wom e importalo in un altro dispositivo",
-  "scanStateEmpty": "Tra i qr code scansionati nessuno è valido per la piattaforma wom. Lo scanner continuerà a processare... ",
-  "scanStateSingle": "Abbiamo rilevato un QR-Code valido per la piattaforma WOM.",
-  "scanStateMultiple": "Sono presenti più QR-Code validi, avvicinati su di uno... ",
-  "scanContinueToScan": "Continua a scansionare",
-  "scanning":"Scansione in corso...",
-  "scanGetWom": "Riscatta WOM",
-  "scanPay": "Paga con i WOM",
-  "scanImportMigration": "Importa WOM",
-  "scanExchangeImport": "Ricevi WOM"
+  "scanStateEmpty": "Nessuno dei QR Code scansionati è supportato. Scansione in corso…",
+  "scanStateSingle": "Un QR Code WOM individuato.",
+  "scanStateMultiple": "Più QR Code WOM individuati. Fai zoom su uno di essi.",
+  "scanContinueToScan": "Continua scansione",
+  "scanning": "Scansione in corso…",
+  "scanGetWom": "Riscatta",
+  "scanPay": "Paga",
+  "scanImportMigration": "Importa",
+  "scanExchangeImport": "Ricevi"
 }
