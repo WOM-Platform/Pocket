@@ -2,7 +2,7 @@ name: wom_pocket
 description: A new Flutter application.
 publish_to: none
 
-version: 1.5.0+77
+version: 1.8.1+81
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -76,6 +76,9 @@ dependencies:
   freezed_annotation:
   dio:
   easy_localization: ^3.0.3
+  nfc_manager:
+  nfc_background:
+    path: /Users/gianmarcodifrancesco/Work/Digit/nfc_background
 
   # UI
   material_design_icons_flutter: ^7.0.7296

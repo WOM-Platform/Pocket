@@ -149,7 +149,10 @@ class TopMessage extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Text(text),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
@@ -169,88 +172,86 @@ class ScanInfo extends ConsumerWidget {
             final state = ref.watch(scannerNotifierProvider);
             return switch (state) {
               ScannerStateEmpty() => Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    TopMessage(
-                      text: 'scanStateEmpty'.tr(),
-                      // 'Tra i qr code scansionati nessuno è valido per la piattaforma wom. Lo scanner continuerà a processare... (${state.total} trovati)'),
+                    Center(
+                      child: TopMessage(
+                        text: 'scanStateEmpty'.tr(),
+                      ),
                     ),
                     Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 24.0),
-                      child: Chip(
-                        label: Text(
-                          'scanning'.tr(),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 24.0),
+                        child: Chip(
+                          label: Text(
+                            'scanning'.tr(),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
               ScannerStateSingle() => Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    TopMessage(
-                      text: 'scanStateSingle'.tr(),
-                      // 'Abbiamo rilevato un QR-Code valido per la piattaforma WOM. (${state.total} trovati)'),
+                    Center(
+                      child: TopMessage(
+                        text: 'scanStateSingle'.tr(),
+                      ),
                     ),
                     Spacer(),
-                    InkWell(
-                      onTap: () {
-                        ref.read(scannerNotifierProvider.notifier).reset();
-                        Future.delayed(Duration(milliseconds: 250), () {
-                          onUpdate(false);
-                        });
-                      },
-                      child: Chip(
-
+                    Center(
+                      child: FloatingActionButton.extended(
+                        backgroundColor: primaryColor,
                         label: Text(
-                          'scanContinueToScan'.tr(),
-                          style: TextStyle(fontSize: 12),
+                          getText(state.type),
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    ),
-                     const SizedBox(height: 8),
-                    FloatingActionButton.extended(
-                      backgroundColor: primaryColor,
-                      label: Text(
-                        getText(state.type),
-                        style: TextStyle(
+                        icon: const Icon(
+                          Icons.camera_enhance,
                           color: Colors.white,
                         ),
+                        onPressed: () {
+                          Navigator.of(context).pop(state.url);
+                        },
                       ),
-                      icon: const Icon(
-                        Icons.camera_enhance,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop(state.url);
-                      },
                     ),
                   ],
                 ),
               ScannerStateMultiple() => Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    TopMessage(
-                      text: 'scanStateMultiple'.tr(),
-                      // 'Sono presenti più QR-Code validi, avvicinati su di uno... (${state.total} trovati)'),
+                    Center(
+                      child: TopMessage(
+                        text: 'scanStateMultiple'.tr(),
+                      ),
                     ),
                     Spacer(),
-                    FloatingActionButton.extended(
-                      backgroundColor: primaryColor,
-                      label: Text(
-                        'scanContinueToScan'.tr(),
-                        style: TextStyle(
+                    Center(
+                      child: FloatingActionButton.extended(
+                        backgroundColor: primaryColor,
+                        label: Text(
+                          'scanContinueToScan'.tr(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        icon: const Icon(
+                          Icons.camera_enhance,
                           color: Colors.white,
                         ),
+                        onPressed: () {
+                          ref.read(scannerNotifierProvider.notifier).reset();
+                          Future.delayed(Duration(milliseconds: 250), () {
+                            onUpdate(false);
+                          });
+                        },
                       ),
-                      icon: const Icon(
-                        Icons.camera_enhance,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        ref.read(scannerNotifierProvider.notifier).reset();
-                        Future.delayed(Duration(milliseconds: 250), () {
-                          onUpdate(false);
-                        });
-                      },
                     ),
                   ],
                 ),
@@ -261,6 +262,7 @@ class ScanInfo extends ConsumerWidget {
                     child: Chip(
                       label: Text(
                         'scanning'.tr(),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),

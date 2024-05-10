@@ -17,6 +17,7 @@ import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:wom_pocket/src/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/new_home/ui/new_home.dart';
+import 'package:wom_pocket/src/nfc/utils.dart';
 import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/scanner/ui/scan_screen.dart';
 import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
@@ -302,18 +303,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
         if (link == null) return;
         final totemData = validateTotemQrCodeWithRegex(link);
         if (totemData != null) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => PopScope(
-              canPop: false,
-              child: Dialog(
-                child: TotemDialog(
-                  totemData: totemData,
-                ),
-              ),
-            ),
-          );
+          launchTotemDialog(context, totemData);
         } else {
           final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
           logger.i('wom_scan_done $link');
