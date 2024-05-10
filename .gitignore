@@ -83,3 +83,5 @@ build/
 **/android/key.properties
 **/assets/map_point.json
 **/pocket-keystore.jks
+
+.fvm/
