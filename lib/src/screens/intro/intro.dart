@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,7 +13,7 @@ import 'package:wom_pocket/constants.dart';
 import 'package:wom_pocket/src/application/app_notifier.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
-import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
+import 'package:wom_pocket/src/nfc/utils.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 class IntroScreen extends HookConsumerWidget {
@@ -29,7 +31,6 @@ class IntroScreen extends HookConsumerWidget {
     final pages = [
       IntroPage(
         backGroundColor: lightBackground,
-        //TODO mettere in bold W O M di Worth One Minute
         message: 'introDesc1'.tr(),
         title: 'introTitle1'.tr(),
         child: Padding(
@@ -115,19 +116,7 @@ class IntroScreen extends HookConsumerWidget {
               final totemData = validateTotemQrCodeWithRegex(
                   'https://link.wom.social/cmi/e3441c34-b02c-4bd9-8de5-9e312468ca69/d67c6e3a-053a-4cb7-b4ce-d1d0427c6cad');
               if (totemData != null) {
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) => PopScope(
-                    canPop: true,
-                    child: Dialog(
-                      child: TotemDialog(
-                        totemData: totemData,
-                        askGender: false,
-                      ),
-                    ),
-                  ),
-                );
+                launchTotemDialog(context, totemData);
               }
             },
             child: Text(
@@ -164,7 +153,7 @@ class IntroScreen extends HookConsumerWidget {
               builder: (context, ref, child) {
                 return DotsIndicator(
                   decorator: DotsDecorator(color: lightBlue),
-                  position: selectedPage.value.toInt(),
+                  position: min(selectedPage.value.toInt(), pages.length - 1),
                   dotsCount: pages.length,
                 );
               },
@@ -176,7 +165,7 @@ class IntroScreen extends HookConsumerWidget {
           right: 0,
           child: SizedBox(
             height: 80,
-            child: selectedPage.value == pages.length - 1
+            child: min(selectedPage.value, pages.length - 1) == pages.length - 1
                 ? TextButton(
                     onPressed: () {
                       if (fromSettings) {

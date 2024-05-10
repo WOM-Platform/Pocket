@@ -257,97 +257,99 @@ class TotemDialog extends ConsumerWidget {
       askGender: askGender,
     ));
     final size = MediaQuery.sizeOf(context);
-    return Container(
-      padding: EdgeInsets.all(8),
-      constraints: BoxConstraints(
-        maxWidth: size.width * 0.8,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (state is TotemDialogGenderRequest) ...[
-            GenderSelectorWidget(
-              onAction: () {
-                ref
-                    .read(
-                      totemNotifierProvider(
-                        totemData,
-                        askGender: askGender,
-                      ).notifier,
-                    )
-                    .action();
-              },
-            ),
-          ] else if (state is TotemDialogStateError) ...[
-            Icon(
-              Icons.error,
-              color: Colors.red,
-              size: 50,
-            ),
-            const SizedBox(height: 8),
-            Text(state.totemError.description(context)),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                if (state.totemError.hasCancel)
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('cancel'.tr()),
-                  ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  onPressed: () {
-                    switch (state.totemError) {
-                      case TotemError.sessionNotStarted:
-                      case TotemError.wrongRequestId:
-                      case TotemError.outOfPolygon:
-                      case TotemError.sessionAlreadyScanned:
-                      case TotemError.sessionExpired:
-                      case TotemError.eventIsClosed:
-                      case TotemError.totemDisabled:
-                      case TotemError.noWomForThisEvent:
-                      case TotemError.totemSessionInactive:
-                      case TotemError.mockedLocation:
+    return Dialog(
+      child: Container(
+        padding: EdgeInsets.all(8),
+        constraints: BoxConstraints(
+          maxWidth: size.width * 0.8,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (state is TotemDialogGenderRequest) ...[
+              GenderSelectorWidget(
+                onAction: () {
+                  ref
+                      .read(
+                        totemNotifierProvider(
+                          totemData,
+                          askGender: askGender,
+                        ).notifier,
+                      )
+                      .action();
+                },
+              ),
+            ] else if (state is TotemDialogStateError) ...[
+              Icon(
+                Icons.error,
+                color: Colors.red,
+                size: 50,
+              ),
+              const SizedBox(height: 8),
+              Text(state.totemError.description(context)),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if (state.totemError.hasCancel)
+                    TextButton(
+                      onPressed: () {
                         Navigator.of(context).pop();
-                        break;
-                      case TotemError.gpsServiceDisabled:
-                        Geolocator.openLocationSettings();
-                        break;
-                      case TotemError.gpsPermission:
-                      case TotemError.gpsTimeout:
-                      case TotemError.unknown:
-                        ref
-                            .read(totemNotifierProvider(
-                              totemData,
-                              askGender: askGender,
-                            ).notifier)
-                            .action();
-                    }
-                  },
-                  child: Text(state.totemError.errorActionText(context)),
-                )
-              ],
-            ),
-          ] else ...[
-            CircularProgressIndicator(),
-            const SizedBox(height: 8),
-            switch (state) {
-              TotemDialogRetrievingGPS() => Text('acquiringYourPosition'.tr()),
-              TotemDialogCommunicationWithServer() =>
-                Text('communicatingWithServer'.tr()),
-              TotemDialogComplete() => Text('completed'.tr()),
-              _ => SizedBox.shrink(),
-            },
+                      },
+                      child: Text('cancel'.tr()),
+                    ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    onPressed: () {
+                      switch (state.totemError) {
+                        case TotemError.sessionNotStarted:
+                        case TotemError.wrongRequestId:
+                        case TotemError.outOfPolygon:
+                        case TotemError.sessionAlreadyScanned:
+                        case TotemError.sessionExpired:
+                        case TotemError.eventIsClosed:
+                        case TotemError.totemDisabled:
+                        case TotemError.noWomForThisEvent:
+                        case TotemError.totemSessionInactive:
+                        case TotemError.mockedLocation:
+                          Navigator.of(context).pop();
+                          break;
+                        case TotemError.gpsServiceDisabled:
+                          Geolocator.openLocationSettings();
+                          break;
+                        case TotemError.gpsPermission:
+                        case TotemError.gpsTimeout:
+                        case TotemError.unknown:
+                          ref
+                              .read(totemNotifierProvider(
+                                totemData,
+                                askGender: askGender,
+                              ).notifier)
+                              .action();
+                      }
+                    },
+                    child: Text(state.totemError.errorActionText(context)),
+                  )
+                ],
+              ),
+            ] else ...[
+              CircularProgressIndicator(),
+              const SizedBox(height: 8),
+              switch (state) {
+                TotemDialogRetrievingGPS() => Text('acquiringYourPosition'.tr()),
+                TotemDialogCommunicationWithServer() =>
+                  Text('communicatingWithServer'.tr()),
+                TotemDialogComplete() => Text('completed'.tr()),
+                _ => SizedBox.shrink(),
+              },
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

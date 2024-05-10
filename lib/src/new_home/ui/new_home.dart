@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -6,21 +7,69 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/new_home/ui/aim_chart.dart';
+import 'package:wom_pocket/src/new_home/ui/nfc_widget.dart';
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
+import 'package:wom_pocket/src/nfc/application/nfc_notifier.dart';
+import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:wom_pocket/src/screens/map/map_screen.dart';
 import 'package:wom_pocket/src/transaction/ui/transactions_screen.dart';
 import 'package:wom_pocket/src/widgets/my_appbar.dart';
 
-class NewHome extends ConsumerWidget {
+class NewHome extends ConsumerStatefulWidget {
   const NewHome({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NewHome> createState() => _NewHomeState();
+}
+
+class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // ref.read(nFCNotifierProvider.notifier).resume();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Future didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      ref.read(nFCNotifierProvider.notifier).resume();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // ref.listen(nFCNotifierProvider, (previous, next) async {
+    //   if (previous is NFCStateListening && next is NFCStateData) {
+    //     showDialog(
+    //       context: context,
+    //       barrierDismissible: false,
+    //       builder: (_) => PopScope(
+    //         canPop: false,
+    //         child: TotemDialog(
+    //           totemData: next.totemData,
+    //         ),
+    //       ),
+    //     ).then((value){
+    //       ref.read(nFCNotifierProvider.notifier).resume();
+    //     });
+    //   }
+    // });
     final transactionCountAsync = ref.watch(transactionCountNotifierProvider);
-    print(transactionCountAsync);
+
     return Scaffold(
-      appBar: PocketAppBar(),
+      appBar: PocketAppBar(
+        actions: [
+          if (Platform.isAndroid) NfcWidget(),
+        ],
+      ),
       body: SafeArea(
         child: transactionCountAsync.when(
           data: (count) {
@@ -50,8 +99,7 @@ class NewHome extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SectionTitle(
-                          title:
-                              'womMap'.tr(),
+                          title: 'womMap'.tr(),
                           leftPadding: 16,
                         ),
                         AspectRatio(
