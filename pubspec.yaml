@@ -76,6 +76,7 @@ dependencies:
   freezed_annotation:
   dio:
   easy_localization: ^3.0.3
+  nfc_manager:
   nfc_background:
     path: /Users/gianmarcodifrancesco/Work/Digit/nfc_background
 
