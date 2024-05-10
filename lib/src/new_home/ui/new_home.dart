@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +28,7 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    ref.read(nFCNotifierProvider.notifier).resume();
+    // ref.read(nFCNotifierProvider.notifier).resume();
   }
 
   @override
@@ -39,34 +41,34 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
   Future didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       ref.read(nFCNotifierProvider.notifier).resume();
-    } else if (state == AppLifecycleState.hidden) {
-      ref.read(nFCNotifierProvider.notifier).stop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(nFCNotifierProvider, (previous, next) async {
-      if (previous is NFCStateListening && next is NFCStateData) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (_) => PopScope(
-            canPop: false,
-            child: TotemDialog(
-              totemData: next.totemData,
-            ),
-          ),
-        ).then((value){
-          ref.read(nFCNotifierProvider.notifier).resume();
-        });
-      }
-    });
+    // ref.listen(nFCNotifierProvider, (previous, next) async {
+    //   if (previous is NFCStateListening && next is NFCStateData) {
+    //     showDialog(
+    //       context: context,
+    //       barrierDismissible: false,
+    //       builder: (_) => PopScope(
+    //         canPop: false,
+    //         child: TotemDialog(
+    //           totemData: next.totemData,
+    //         ),
+    //       ),
+    //     ).then((value){
+    //       ref.read(nFCNotifierProvider.notifier).resume();
+    //     });
+    //   }
+    // });
     final transactionCountAsync = ref.watch(transactionCountNotifierProvider);
 
     return Scaffold(
       appBar: PocketAppBar(
-        actions: [NfcWidget()],
+        actions: [
+          if (Platform.isAndroid) NfcWidget(),
+        ],
       ),
       body: SafeArea(
         child: transactionCountAsync.when(

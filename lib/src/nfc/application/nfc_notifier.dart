@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 part 'nfc_notifier.freezed.dart';
 
@@ -31,9 +32,9 @@ class NFCState with _$NFCState {
 class NFCNotifier extends _$NFCNotifier {
   @override
   NFCState build() {
-    ref.onDispose(() {
-      stop();
-    });
+    // ref.onDispose(() {
+    //   stop();
+    // });
     _init();
     return NFCState.loading();
   }
@@ -43,35 +44,38 @@ class NFCNotifier extends _$NFCNotifier {
   }
 
   Future<void> stop() async {
-    await NfcManager.instance.stopSession().catchError((_) {
-      /* no op */
-    });
+    await NfcManager.instance.stopSession().catchError((_) {});
   }
 
   Future<void> _init() async {
     if (!(await NfcManager.instance.isAvailable())) {
       state = NFCState.unavailable();
-      return;
+    } else {
+      state = NFCState.loading();
     }
-    state = NFCState.listening();
-    NfcManager.instance.startSession(
-      onDiscovered: (tag) async {
-          try {
-            final t = _processNFC(tag);
-            if (t == null) {
-              state = NFCStateInvalidData();
-            } else {
-              await NfcManager.instance.stopSession();
-              state = NFCStateData(totemData: t);
-            }
-          } catch (e) {
-            state = NFCStateError(e, StackTrace.empty);
-            // await NfcManager.instance.stopSession().catchError((_) {
-            //   /* no op */
-            // });
-          }
-      },
-    ).catchError((e) => state = NFCStateError(e, StackTrace.empty));
+    // state = NFCState.listening();
+    // NfcManager.instance.startSession(
+    //   onDiscovered: (tag) async {
+    //     try {
+    //       final t = _processNFC(tag);
+    //       if (t == null) {
+    //         state = NFCStateInvalidData();
+    //       } else {
+    //         await NfcManager.instance.stopSession();
+    //         state = NFCStateData(totemData: t);
+    //       }
+    //     } catch (ex, st) {
+    //       logger.e("", error: ex, stackTrace: st);
+    //       state = NFCStateError(ex, StackTrace.empty);
+    //       // await NfcManager.instance.stopSession().catchError((_) {
+    //       //   /* no op */
+    //       // });
+    //     }
+    //   },
+    // ).catchError((ex, st) {
+    //   logger.e("", error: ex, stackTrace: st);
+    //   state = NFCStateError(ex, StackTrace.empty);
+    // });
   }
 
   TotemData? _processNFC(NfcTag tag) {
@@ -82,6 +86,7 @@ class NFCNotifier extends _$NFCNotifier {
       if (cachedMessage != null) {
         for (int i = 0; i < cachedMessage.records.length; i++) {
           final record = cachedMessage.records[i];
+
           final _record = Record.fromNdef(record);
           if (_record is WellknownUriRecord) {
             final link = _record.uri.toString();
@@ -102,6 +107,7 @@ abstract class Record {
   NdefRecord toNdef();
 
   static Record fromNdef(NdefRecord record) {
+    print("NdefTypeNameFormat: ${record.typeNameFormat}");
     if (record.typeNameFormat == NdefTypeNameFormat.nfcWellknown &&
         record.type.length == 1 &&
         record.type.first == 0x55) return WellknownUriRecord.fromNdef(record);

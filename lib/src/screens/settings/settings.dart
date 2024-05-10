@@ -188,14 +188,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             },
           ),
           SettingsItem(
-            title: 'Leggi NFC',
-            subtitle: '',
-            icon: Icons.cast_for_education,
-            onTap: () {
-              showDialog(context: context, builder: (_) => NFCSessionDialog());
-            },
-          ),
-          SettingsItem(
             title: 'settings_info_title'.tr(),
             subtitle: 'settings_info_desc'.tr(),
             icon: Icons.info,
