@@ -169,10 +169,10 @@ class ScanInfo extends ConsumerWidget {
             final state = ref.watch(scannerNotifierProvider);
             return switch (state) {
               ScannerStateEmpty() => Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     TopMessage(
                       text: 'scanStateEmpty'.tr(),
-                      // 'Tra i qr code scansionati nessuno è valido per la piattaforma wom. Lo scanner continuerà a processare... (${state.total} trovati)'),
                     ),
                     Spacer(),
                     Padding(
@@ -186,28 +186,12 @@ class ScanInfo extends ConsumerWidget {
                   ],
                 ),
               ScannerStateSingle() => Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     TopMessage(
                       text: 'scanStateSingle'.tr(),
-                      // 'Abbiamo rilevato un QR-Code valido per la piattaforma WOM. (${state.total} trovati)'),
                     ),
                     Spacer(),
-                    InkWell(
-                      onTap: () {
-                        ref.read(scannerNotifierProvider.notifier).reset();
-                        Future.delayed(Duration(milliseconds: 250), () {
-                          onUpdate(false);
-                        });
-                      },
-                      child: Chip(
-
-                        label: Text(
-                          'scanContinueToScan'.tr(),
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ),
-                     const SizedBox(height: 8),
                     FloatingActionButton.extended(
                       backgroundColor: primaryColor,
                       label: Text(
@@ -227,10 +211,10 @@ class ScanInfo extends ConsumerWidget {
                   ],
                 ),
               ScannerStateMultiple() => Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     TopMessage(
                       text: 'scanStateMultiple'.tr(),
-                      // 'Sono presenti più QR-Code validi, avvicinati su di uno... (${state.total} trovati)'),
                     ),
                     Spacer(),
                     FloatingActionButton.extended(
