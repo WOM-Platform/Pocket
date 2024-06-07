@@ -159,8 +159,8 @@
   "password_unacceptable": "PIN inaccettabile",
   "otc_not_valid": "Codice non valido",
   "operation_already_performed": "L’operazione è stata già eseguita e non può essere ripetuta",
-  "wrong_password": "PIN non valido",
-  "wrong_password_tip": "Attenzione: dopo 3 tentativi falliti la richiesta non potrà più essere processata.",
+  "wrong_password": "Il PIN non è valido",
+  "wrong_password_tip": "Attenzione: dopo 3 tentativi falliti, il trasferimento non potrà più essere completato.",
   "wrong_number_of_vouchers": "Numero di WOM insufficiente per il pagamento",
   "insufficient_valid_vouchers": "Alcuni dei tuoi WOM non sono validi per il pagamento",
   "unknown_error": "Errore imprevisto",
@@ -184,7 +184,7 @@
   "donate": "Dona",
   "donationInfo": "Ogni giorno puoi usare fino a 60 dei tuoi WOM per esprimere la tua gratitudine a chi compie azioni che ritieni utili per la collettività",
   "done": "Fatto",
-  "scanToReceiveWOMFromDonation": "Scansiona questo QR Code per ricevere i WOM donati",
+  "scanToReceiveWOMFromDonation": "Fai scansionare questo QR Code alla persona a cui vuoi donare i tuoi WOM.",
   "donation": "Donazione",
   "donationInProgress": "Stiamo convertendo i tuoi WOM",
   "insufficient_vouchers": "Voucher insufficienti",
@@ -244,6 +244,6 @@
   "scanImportMigration": "Importa",
   "scanExchangeImport": "Ricevi",
   "pin_screen": {
-   "tip": "Inserisci il PIN fornito con il QR-Code per continuare."
+   "tip": "Inserisci il PIN fornito con il QR Code per continuare."
   }
 }

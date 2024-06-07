@@ -159,8 +159,8 @@
   "password_unacceptable": "PIN unacceptable",
   "otc_not_valid": "Code not valid",
   "operation_already_performed": "The operation has already been performed and cannot be repeated",
-  "wrong_password": "Wrong PIN code",
-  "wrong_password_tip": "Attention: after 3 failed attempts the request can no longer be processed.",
+  "wrong_password": "PIN code is not correct",
+  "wrong_password_tip": "Careful: after 3 failed attempts, the request will no longer be processed.",
   "wrong_number_of_vouchers": "Insufficient WOM vouchers supplied in payment",
   "insufficient_valid_vouchers": "Some of your WOM vouchers are not valid for this payment",
   "unknown_error": "Unexpected error",
@@ -176,15 +176,15 @@
   "whereWeAre": "Active locations",
   "device": "device",
   "exchange": "Exchange",
-  "lastDonation": "Last donation transactions",
+  "lastDonation": "Last donations",
   "noDonation": "No donations",
-  "noWomToDonate": "Accumulate WOM to make a donation",
-  "donationSliderTip": "Use the slider to indicate the WOM to donate",
+  "noWomToDonate": "Collect WOM vouchers to make a donation",
+  "donationSliderTip": "Use the slider to set the amount of WOM vouchers.",
   "noWomToDonateToday": "You have run out of WOM capacity to donate today",
   "donate": "Donate",
-  "donationInfo": "Every day you can use up to 60 of your WOM to express your gratitude to those who carry out actions that you believe are useful for the community",
+  "donationInfo": "Every day you can use up to 60 of your WOM vouchers to express gratitude to those who carry out actions that you believe to be useful for the community.",
   "done": "Done",
-  "scanToReceiveWOMFromDonation": "Scan this QR Code to receive donated WOM",
+  "scanToReceiveWOMFromDonation": "Let the receiving person scan this QR Code to obtain your donated WOMs.",
   "donation": "Donation",
   "donationInProgress": "We are processing your WOM",
   "insufficient_vouchers": "Insufficient vouchers",
@@ -244,6 +244,6 @@
   "scanImportMigration": "Import",
   "scanExchangeImport": "Receive",
   "pin_screen": {
-    "tip": "Insert the PIN you received together with the QR-Code."
+    "tip": "Insert the PIN you received together with the QR Code."
   }
 }

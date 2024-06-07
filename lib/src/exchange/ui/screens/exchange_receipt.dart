@@ -197,19 +197,20 @@ class ExchangeDataWidget extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 32),
         Text(
           'Pin:',
           style: TextStyle(
             fontSize: 20,
             color: Colors.white,
           ),
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 4),
         Text(
           pin,
-          style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
         if (kDebugMode) ...[

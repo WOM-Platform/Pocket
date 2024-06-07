@@ -141,7 +141,6 @@ class NewExchange extends HookConsumerWidget {
   }
 
   getMessage(BuildContext context, int womCount, int womLeft, int womTotal) {
-    print('language code :${context.locale.languageCode}');
     if(womCount == 0) {
       // The user hasn't donated anything yet today
       if (context.locale.languageCode == 'en') {
