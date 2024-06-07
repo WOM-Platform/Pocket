@@ -327,7 +327,7 @@ class TransactionErrorWidget extends StatelessWidget {
               style: TextStyle(fontSize: 22, color: Colors.white),
               textAlign: TextAlign.center,
             ),
-            if (errorKey == 'wrong-password') ...[
+            if (errorKey == 'wrong_password') ...[
               SizedBox(height: 8.0),
               Text(
                 'wrong_password_tip'.tr(),

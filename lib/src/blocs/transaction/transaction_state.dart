@@ -62,8 +62,10 @@ class TransactionErrorState extends TransactionState {
   final String error;
   final String? translationKey;
 
-  TransactionErrorState({required this.error, this.translationKey})
-      : assert(error.isNotEmpty);
+  TransactionErrorState({
+    required this.error,
+    this.translationKey,
+  }) : assert(error.isNotEmpty);
 
   @override
   String toString() => 'TransactionError';
