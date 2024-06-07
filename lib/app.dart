@@ -15,10 +15,8 @@ import 'package:wom_pocket/src/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/nfc/application/nfc_notifier.dart';
 import 'package:wom_pocket/src/nfc/utils.dart';
 import 'package:wom_pocket/src/screens/home/home_screen.dart';
-import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
 import 'package:wom_pocket/src/screens/pin/pin_screen.dart';
 
 import 'package:wom_pocket/src/screens/intro/intro.dart';

@@ -151,7 +151,7 @@
   "wom_without_location": "WOM senza posizione non mostrati in mappa:",
   "request_timeout_exception": "La richiesta ha impiegato troppo tempo",
   "wrong_parameter": "Alcuni parametri non sono validi",
-  "request_void": "Il codice è stato annullato",
+  "request_void": "Troppi tentativi. I WOM sono stati annullati.",
   "source_not_found": "Instrument non trovato",
   "pos_not_found": "POS non trovato",
   "source_verification_failed": "Impossibile validare la richiesta",
@@ -160,6 +160,7 @@
   "otc_not_valid": "Codice non valido",
   "operation_already_performed": "L’operazione è stata già eseguita e non può essere ripetuta",
   "wrong_password": "PIN non valido",
+  "wrong_password_tip": "Attenzione: dopo 3 tentativi falliti la richiesta non potrà più essere processata.",
   "wrong_number_of_vouchers": "Numero di WOM insufficiente per il pagamento",
   "insufficient_valid_vouchers": "Alcuni dei tuoi WOM non sono validi per il pagamento",
   "unknown_error": "Errore imprevisto",
@@ -241,5 +242,8 @@
   "scanGetWom": "Riscatta",
   "scanPay": "Paga",
   "scanImportMigration": "Importa",
-  "scanExchangeImport": "Ricevi"
+  "scanExchangeImport": "Ricevi",
+  "pin_screen": {
+   "tip": "Inserisci il PIN fornito con il QR-Code per continuare."
+  }
 }

@@ -151,7 +151,7 @@
   "wom_without_location": "WOMs without location not shown on map:",
   "request_timeout_exception": "The request took too long",
   "wrong_parameter": "Some parameters are not valid",
-  "request_void": "Code has been voided or canceled",
+  "request_void": "Too many attempts. WOM have been cancelled.",
   "source_not_found": "Instrument not found",
   "pos_not_found": "POS not found",
   "source_verification_failed": "Unable to validate your request",
@@ -160,6 +160,7 @@
   "otc_not_valid": "Code not valid",
   "operation_already_performed": "The operation has already been performed and cannot be repeated",
   "wrong_password": "Wrong PIN code",
+  "wrong_password_tip": "Attention: after 3 failed attempts the request can no longer be processed.",
   "wrong_number_of_vouchers": "Insufficient WOM vouchers supplied in payment",
   "insufficient_valid_vouchers": "Some of your WOM vouchers are not valid for this payment",
   "unknown_error": "Unexpected error",
@@ -241,5 +242,8 @@
   "scanGetWom": "Redeem",
   "scanPay": "Pay",
   "scanImportMigration": "Import",
-  "scanExchangeImport": "Receive"
+  "scanExchangeImport": "Receive",
+  "pin_screen": {
+    "tip": "Insert the PIN you received together with the QR-Code."
+  }
 }

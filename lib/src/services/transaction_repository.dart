@@ -12,6 +12,7 @@ import 'package:wom_pocket/src/database/extensions.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';
+import 'package:wom_pocket/src/nfc/utils.dart';
 import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
 import '../my_logger.dart';
 
@@ -167,6 +168,7 @@ class TransactionRepository {
     int? eventParticipationCount,
     String? gender, {
     bool isMocked = false,
+    // TotemSource? source,
   }) async {
     try {
       final json = data.toJson();
@@ -181,6 +183,7 @@ class TransactionRepository {
             'longitude': location.longitude,
             'gender': gender,
             'isMocked': isMocked,
+            // 'source': source,
           });
       if (response.statusCode == 200) {
         return TotemResponse.fromJson(response.data);

@@ -22,8 +22,8 @@ final cities = [
   ),
   City(
     'Pesaro',
-    43.8998071,
-    12.8532953,
+    43.9111365,
+    12.9114045,
     'assets/images/cities/pesaro.jpeg',
   ),
 ];

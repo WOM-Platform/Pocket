@@ -54,6 +54,18 @@ class PinScreen extends ConsumerWidget {
       body: Column(
         children: <Widget>[
           Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              'pin_screen.tip'.tr(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          Spacer(),
           CodePanel(
             codeLength: 4,
             currentLength: pinState.pin.length,
@@ -72,7 +84,7 @@ class PinScreen extends ConsumerWidget {
     );
   }
 
-  goToAcceptCredits(
+  void goToAcceptCredits(
     BuildContext context,
     String password,
     DeepLinkModel deepLinkModel,

@@ -126,6 +126,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                   ));
                 } else if (state is TransactionErrorState) {
                   return TransactionErrorWidget(
+                    errorKey: state.translationKey,
                     error: state.translationKey != null
                         ? state.translationKey!.tr()
                         : state.error,
@@ -251,10 +252,8 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
 
   String getMessage(TransactionType type) {
     return switch (type) {
-      TransactionType.VOUCHERS =>
-        '${'you_got'.tr()}:',
-      TransactionType.PAYMENT =>
-        'payment_completed'.tr(),
+      TransactionType.VOUCHERS => '${'you_got'.tr()}:',
+      TransactionType.PAYMENT => 'payment_completed'.tr(),
       TransactionType.MIGRATION_IMPORT => '',
       TransactionType.MIGRATION_EXPORT => '',
       TransactionType.EXCHANGE_EXPORT => '',
@@ -299,10 +298,15 @@ class CircleButton extends StatelessWidget {
 
 class TransactionErrorWidget extends StatelessWidget {
   final String error;
+  final String? errorKey;
   final Function()? backToHome;
 
-  const TransactionErrorWidget({Key? key, required this.error, this.backToHome})
-      : super(key: key);
+  const TransactionErrorWidget({
+    Key? key,
+    required this.error,
+    this.backToHome,
+    this.errorKey,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -323,12 +327,24 @@ class TransactionErrorWidget extends StatelessWidget {
               style: TextStyle(fontSize: 22, color: Colors.white),
               textAlign: TextAlign.center,
             ),
+            if (errorKey == 'wrong-password') ...[
+              SizedBox(height: 8.0),
+              Text(
+                'wrong_password_tip'.tr(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, color: Colors.orange),
+              ),
+            ],
             SizedBox(height: 32.0),
             FloatingActionButton.extended(
-                onPressed: () {
-                  backToHome?.call();
-                },
-                label: Text("Ok")),
+              onPressed: () {
+                backToHome?.call();
+              },
+              label: Text(
+                "Ok",
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+            ),
           ],
         ),
       ),

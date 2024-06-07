@@ -63,13 +63,16 @@ class TransactionNotifier extends _$TransactionNotifier {
       } on InsufficientVouchers catch (ex, st) {
         logger.e("InsufficientVouchers", error: ex, stackTrace: st);
         return TransactionErrorState(
-            error: 'Non hai voucher a sufficienza per questa richiesta',
-            translationKey: 'wrong_number_of_vouchers');
+          error: 'Non hai voucher a sufficienza per questa richiesta',
+          translationKey: 'wrong_number_of_vouchers',
+        );
       } on ServerException catch (ex, st) {
         logger.e("ServerException: ${ex.statusCode}",
             error: ex, stackTrace: st);
         return TransactionErrorState(
-            error: ex.error, translationKey: ex.translationKey);
+          error: ex.error,
+          translationKey: ex.translationKey,
+        );
       } on TimeoutException catch (ex, st) {
         logger.e("TimeoutException", error: ex, stackTrace: st);
         return TransactionErrorState(
@@ -162,7 +165,7 @@ class TransactionNotifier extends _$TransactionNotifier {
             error: 'La richiesta ha impiegato troppo tempo',
             translationKey: 'request_timeout_exception'));
       } catch (ex, st) {
-        logger.e('Unknown error',error:ex, stackTrace: st);
+        logger.e('Unknown error', error: ex, stackTrace: st);
         state = AsyncData(TransactionErrorState(
             error: ex.toString(), translationKey: 'unknown_error'));
       }

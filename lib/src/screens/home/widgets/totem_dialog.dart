@@ -15,6 +15,7 @@ import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/nfc/utils.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
@@ -169,6 +170,7 @@ class TotemNotifier extends _$TotemNotifier {
               res?.$2,
               gender,
               isMocked: false,
+              // source:source,
             );
 
         if (response.status == 'success') {
@@ -225,10 +227,12 @@ class TotemDialog extends ConsumerWidget {
   final TotemData totemData;
   final bool askGender;
   final bool askPosition;
+  // final TotemSource? source;
 
   const TotemDialog({
     Key? key,
     required this.totemData,
+    // this.source,
     this.askGender = true,
     this.askPosition = true,
   }) : super(key: key);
