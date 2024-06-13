@@ -76,8 +76,9 @@ class TransactionNotifier extends _$TransactionNotifier {
       } on TimeoutException catch (ex, st) {
         logger.e("TimeoutException", error: ex, stackTrace: st);
         return TransactionErrorState(
-            error: 'La richiesta ha impiegato troppo tempo',
-            translationKey: 'request_timeout_exception');
+          error: 'La richiesta ha impiegato troppo tempo',
+          translationKey: 'request_timeout_exception',
+        );
       } on LocationServiceException catch (ex, st) {
         logger.e("TransactionMissingLocationState", error: ex, stackTrace: st);
         return TransactionMissingLocationState();

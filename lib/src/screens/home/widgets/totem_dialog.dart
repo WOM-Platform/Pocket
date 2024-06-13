@@ -182,7 +182,9 @@ class TotemNotifier extends _$TotemNotifier {
               );
           final deepLink = DeepLinkModel.fromUri(Uri.parse(response.link!));
           state = TotemDialogComplete(
-              deepLinkModel: deepLink, password: response.pin!);
+            deepLinkModel: deepLink,
+            password: response.pin!,
+          );
         } else {
           handleError(response);
         }
@@ -227,6 +229,7 @@ class TotemDialog extends ConsumerWidget {
   final TotemData totemData;
   final bool askGender;
   final bool askPosition;
+
   // final TotemSource? source;
 
   const TotemDialog({
@@ -345,7 +348,8 @@ class TotemDialog extends ConsumerWidget {
               CircularProgressIndicator(),
               const SizedBox(height: 8),
               switch (state) {
-                TotemDialogRetrievingGPS() => Text('acquiringYourPosition'.tr()),
+                TotemDialogRetrievingGPS() =>
+                  Text('acquiringYourPosition'.tr()),
                 TotemDialogCommunicationWithServer() =>
                   Text('communicatingWithServer'.tr()),
                 TotemDialogComplete() => Text('completed'.tr()),
