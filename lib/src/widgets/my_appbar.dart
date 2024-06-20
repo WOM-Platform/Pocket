@@ -34,3 +34,30 @@ class PocketAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
+
+class SecondLevelAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final List<Widget>? actions;
+  final String title;
+
+  const SecondLevelAppBar({
+    super.key,
+    required this.title,
+    this.actions,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(title),
+      elevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: primaryColor,
+          statusBarIconBrightness: Brightness.light),
+      backgroundColor: Theme.of(context).primaryColor,
+      actions: [],
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}

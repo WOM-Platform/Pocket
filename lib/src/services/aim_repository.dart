@@ -5,7 +5,6 @@ import 'package:wom_pocket/src/database/database.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
 
-import '../../constants.dart';
 import '../my_logger.dart';
 
 final aimRepositoryProvider = Provider<AimRepository>((ref) {

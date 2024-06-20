@@ -13,6 +13,10 @@ _$TotemResponseImpl _$$TotemResponseImplFromJson(Map<String, dynamic> json) =>
       eventId: json['eventId'] as String?,
       link: json['link'] as String?,
       pin: json['pin'] as String?,
+      eventName: json['eventName'] as String?,
+      providerName: json['providerName'] as String?,
+      sessionName: json['sessionName'] as String?,
+      totemName: json['totemName'] as String?,
     );
 
 Map<String, dynamic> _$$TotemResponseImplToJson(_$TotemResponseImpl instance) =>
@@ -22,13 +26,17 @@ Map<String, dynamic> _$$TotemResponseImplToJson(_$TotemResponseImpl instance) =>
       'eventId': instance.eventId,
       'link': instance.link,
       'pin': instance.pin,
+      'eventName': instance.eventName,
+      'providerName': instance.providerName,
+      'sessionName': instance.sessionName,
+      'totemName': instance.totemName,
     };
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$totemNotifierHash() => r'bac845fc99dbf8b4da0d5ee121fdabb8bd38c0b7';
+String _$totemNotifierHash() => r'11e507abd73faf068012839b6bf86370d3a0648b';
 
 /// Copied from Dart SDK
 class _SystemHash {

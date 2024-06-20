@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:wom_pocket/src/models/deep_link_model.dart';
-import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/scanner/application/scanner_state.dart';
 
-import 'package:wom_pocket/src/widgets/scanner_overlay_shape.dart';
 import '../../my_logger.dart';
 import '../../utils/colors.dart';
 

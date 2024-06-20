@@ -21,8 +21,6 @@ main() {
 
     final thirtyDaysAgo =
         DateTime.now().subtract(Duration(days: 30)).millisecondsSinceEpoch;
-    final oneYearAgo =
-        DateTime.now().subtract(Duration(days: 365)).millisecondsSinceEpoch;
     await db.womsDao.addVouchers([
       ...List.generate(
           22000,

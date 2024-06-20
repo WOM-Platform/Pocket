@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:encrypt/encrypt.dart';
-
 class CryptographyHelper {
   // static String decryptAES(String encryptedString, String keyString) {
   //   try {

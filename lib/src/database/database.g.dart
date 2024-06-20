@@ -1332,6 +1332,53 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
   late final GeneratedColumn<String> providerId = GeneratedColumn<String>(
       'providerId', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _providerNameMeta =
+      const VerificationMeta('providerName');
+  @override
+  late final GeneratedColumn<String> providerName = GeneratedColumn<String>(
+      'providerName', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _womLinkMeta =
+      const VerificationMeta('womLink');
+  @override
+  late final GeneratedColumn<String> womLink = GeneratedColumn<String>(
+      'womLink', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _eventNameMeta =
+      const VerificationMeta('eventName');
+  @override
+  late final GeneratedColumn<String> eventName = GeneratedColumn<String>(
+      'eventName', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _sessionNameMeta =
+      const VerificationMeta('sessionName');
+  @override
+  late final GeneratedColumn<String> sessionName = GeneratedColumn<String>(
+      'sessionName', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _womPinMeta = const VerificationMeta('womPin');
+  @override
+  late final GeneratedColumn<String> womPin = GeneratedColumn<String>(
+      'womPin', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _totemNameMeta =
+      const VerificationMeta('totemName');
+  @override
+  late final GeneratedColumn<String> totemName = GeneratedColumn<String>(
+      'totemName', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _latitudeMeta =
+      const VerificationMeta('latitude');
+  @override
+  late final GeneratedColumn<double> latitude = GeneratedColumn<double>(
+      'latitude', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _longitudeMeta =
+      const VerificationMeta('longitude');
+  @override
+  late final GeneratedColumn<double> longitude = GeneratedColumn<double>(
+      'longitude', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _timestampMeta =
       const VerificationMeta('timestamp');
   @override
@@ -1339,8 +1386,22 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
       'timestamp', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, sessionId, totemId, eventId, providerId, timestamp];
+  List<GeneratedColumn> get $columns => [
+        id,
+        sessionId,
+        totemId,
+        eventId,
+        providerId,
+        providerName,
+        womLink,
+        eventName,
+        sessionName,
+        womPin,
+        totemName,
+        latitude,
+        longitude,
+        timestamp
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1380,6 +1441,42 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
     } else if (isInserting) {
       context.missing(_providerIdMeta);
     }
+    if (data.containsKey('providerName')) {
+      context.handle(
+          _providerNameMeta,
+          providerName.isAcceptableOrUnknown(
+              data['providerName']!, _providerNameMeta));
+    }
+    if (data.containsKey('womLink')) {
+      context.handle(_womLinkMeta,
+          womLink.isAcceptableOrUnknown(data['womLink']!, _womLinkMeta));
+    }
+    if (data.containsKey('eventName')) {
+      context.handle(_eventNameMeta,
+          eventName.isAcceptableOrUnknown(data['eventName']!, _eventNameMeta));
+    }
+    if (data.containsKey('sessionName')) {
+      context.handle(
+          _sessionNameMeta,
+          sessionName.isAcceptableOrUnknown(
+              data['sessionName']!, _sessionNameMeta));
+    }
+    if (data.containsKey('womPin')) {
+      context.handle(_womPinMeta,
+          womPin.isAcceptableOrUnknown(data['womPin']!, _womPinMeta));
+    }
+    if (data.containsKey('totemName')) {
+      context.handle(_totemNameMeta,
+          totemName.isAcceptableOrUnknown(data['totemName']!, _totemNameMeta));
+    }
+    if (data.containsKey('latitude')) {
+      context.handle(_latitudeMeta,
+          latitude.isAcceptableOrUnknown(data['latitude']!, _latitudeMeta));
+    }
+    if (data.containsKey('longitude')) {
+      context.handle(_longitudeMeta,
+          longitude.isAcceptableOrUnknown(data['longitude']!, _longitudeMeta));
+    }
     if (data.containsKey('timestamp')) {
       context.handle(_timestampMeta,
           timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta));
@@ -1405,6 +1502,22 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
           .read(DriftSqlType.string, data['${effectivePrefix}eventId'])!,
       providerId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}providerId'])!,
+      providerName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}providerName']),
+      womLink: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}womLink']),
+      eventName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}eventName']),
+      sessionName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}sessionName']),
+      womPin: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}womPin']),
+      totemName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}totemName']),
+      latitude: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}latitude']),
+      longitude: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}longitude']),
       timestamp: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}timestamp'])!,
     );
@@ -1422,6 +1535,14 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
   final String totemId;
   final String eventId;
   final String providerId;
+  final String? providerName;
+  final String? womLink;
+  final String? eventName;
+  final String? sessionName;
+  final String? womPin;
+  final String? totemName;
+  final double? latitude;
+  final double? longitude;
   final DateTime timestamp;
   const TotemRow(
       {required this.id,
@@ -1429,6 +1550,14 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       required this.totemId,
       required this.eventId,
       required this.providerId,
+      this.providerName,
+      this.womLink,
+      this.eventName,
+      this.sessionName,
+      this.womPin,
+      this.totemName,
+      this.latitude,
+      this.longitude,
       required this.timestamp});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1438,6 +1567,30 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
     map['totemId'] = Variable<String>(totemId);
     map['eventId'] = Variable<String>(eventId);
     map['providerId'] = Variable<String>(providerId);
+    if (!nullToAbsent || providerName != null) {
+      map['providerName'] = Variable<String>(providerName);
+    }
+    if (!nullToAbsent || womLink != null) {
+      map['womLink'] = Variable<String>(womLink);
+    }
+    if (!nullToAbsent || eventName != null) {
+      map['eventName'] = Variable<String>(eventName);
+    }
+    if (!nullToAbsent || sessionName != null) {
+      map['sessionName'] = Variable<String>(sessionName);
+    }
+    if (!nullToAbsent || womPin != null) {
+      map['womPin'] = Variable<String>(womPin);
+    }
+    if (!nullToAbsent || totemName != null) {
+      map['totemName'] = Variable<String>(totemName);
+    }
+    if (!nullToAbsent || latitude != null) {
+      map['latitude'] = Variable<double>(latitude);
+    }
+    if (!nullToAbsent || longitude != null) {
+      map['longitude'] = Variable<double>(longitude);
+    }
     map['timestamp'] = Variable<DateTime>(timestamp);
     return map;
   }
@@ -1449,6 +1602,29 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       totemId: Value(totemId),
       eventId: Value(eventId),
       providerId: Value(providerId),
+      providerName: providerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(providerName),
+      womLink: womLink == null && nullToAbsent
+          ? const Value.absent()
+          : Value(womLink),
+      eventName: eventName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(eventName),
+      sessionName: sessionName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sessionName),
+      womPin:
+          womPin == null && nullToAbsent ? const Value.absent() : Value(womPin),
+      totemName: totemName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(totemName),
+      latitude: latitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(latitude),
+      longitude: longitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(longitude),
       timestamp: Value(timestamp),
     );
   }
@@ -1462,6 +1638,14 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       totemId: serializer.fromJson<String>(json['totemId']),
       eventId: serializer.fromJson<String>(json['eventId']),
       providerId: serializer.fromJson<String>(json['providerId']),
+      providerName: serializer.fromJson<String?>(json['providerName']),
+      womLink: serializer.fromJson<String?>(json['womLink']),
+      eventName: serializer.fromJson<String?>(json['eventName']),
+      sessionName: serializer.fromJson<String?>(json['sessionName']),
+      womPin: serializer.fromJson<String?>(json['womPin']),
+      totemName: serializer.fromJson<String?>(json['totemName']),
+      latitude: serializer.fromJson<double?>(json['latitude']),
+      longitude: serializer.fromJson<double?>(json['longitude']),
       timestamp: serializer.fromJson<DateTime>(json['timestamp']),
     );
   }
@@ -1474,6 +1658,14 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       'totemId': serializer.toJson<String>(totemId),
       'eventId': serializer.toJson<String>(eventId),
       'providerId': serializer.toJson<String>(providerId),
+      'providerName': serializer.toJson<String?>(providerName),
+      'womLink': serializer.toJson<String?>(womLink),
+      'eventName': serializer.toJson<String?>(eventName),
+      'sessionName': serializer.toJson<String?>(sessionName),
+      'womPin': serializer.toJson<String?>(womPin),
+      'totemName': serializer.toJson<String?>(totemName),
+      'latitude': serializer.toJson<double?>(latitude),
+      'longitude': serializer.toJson<double?>(longitude),
       'timestamp': serializer.toJson<DateTime>(timestamp),
     };
   }
@@ -1484,6 +1676,14 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
           String? totemId,
           String? eventId,
           String? providerId,
+          Value<String?> providerName = const Value.absent(),
+          Value<String?> womLink = const Value.absent(),
+          Value<String?> eventName = const Value.absent(),
+          Value<String?> sessionName = const Value.absent(),
+          Value<String?> womPin = const Value.absent(),
+          Value<String?> totemName = const Value.absent(),
+          Value<double?> latitude = const Value.absent(),
+          Value<double?> longitude = const Value.absent(),
           DateTime? timestamp}) =>
       TotemRow(
         id: id ?? this.id,
@@ -1491,6 +1691,15 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
         totemId: totemId ?? this.totemId,
         eventId: eventId ?? this.eventId,
         providerId: providerId ?? this.providerId,
+        providerName:
+            providerName.present ? providerName.value : this.providerName,
+        womLink: womLink.present ? womLink.value : this.womLink,
+        eventName: eventName.present ? eventName.value : this.eventName,
+        sessionName: sessionName.present ? sessionName.value : this.sessionName,
+        womPin: womPin.present ? womPin.value : this.womPin,
+        totemName: totemName.present ? totemName.value : this.totemName,
+        latitude: latitude.present ? latitude.value : this.latitude,
+        longitude: longitude.present ? longitude.value : this.longitude,
         timestamp: timestamp ?? this.timestamp,
       );
   @override
@@ -1501,14 +1710,35 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
           ..write('totemId: $totemId, ')
           ..write('eventId: $eventId, ')
           ..write('providerId: $providerId, ')
+          ..write('providerName: $providerName, ')
+          ..write('womLink: $womLink, ')
+          ..write('eventName: $eventName, ')
+          ..write('sessionName: $sessionName, ')
+          ..write('womPin: $womPin, ')
+          ..write('totemName: $totemName, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
           ..write('timestamp: $timestamp')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, sessionId, totemId, eventId, providerId, timestamp);
+  int get hashCode => Object.hash(
+      id,
+      sessionId,
+      totemId,
+      eventId,
+      providerId,
+      providerName,
+      womLink,
+      eventName,
+      sessionName,
+      womPin,
+      totemName,
+      latitude,
+      longitude,
+      timestamp);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1518,6 +1748,14 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
           other.totemId == this.totemId &&
           other.eventId == this.eventId &&
           other.providerId == this.providerId &&
+          other.providerName == this.providerName &&
+          other.womLink == this.womLink &&
+          other.eventName == this.eventName &&
+          other.sessionName == this.sessionName &&
+          other.womPin == this.womPin &&
+          other.totemName == this.totemName &&
+          other.latitude == this.latitude &&
+          other.longitude == this.longitude &&
           other.timestamp == this.timestamp);
 }
 
@@ -1527,6 +1765,14 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
   final Value<String> totemId;
   final Value<String> eventId;
   final Value<String> providerId;
+  final Value<String?> providerName;
+  final Value<String?> womLink;
+  final Value<String?> eventName;
+  final Value<String?> sessionName;
+  final Value<String?> womPin;
+  final Value<String?> totemName;
+  final Value<double?> latitude;
+  final Value<double?> longitude;
   final Value<DateTime> timestamp;
   const TotemsCompanion({
     this.id = const Value.absent(),
@@ -1534,6 +1780,14 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     this.totemId = const Value.absent(),
     this.eventId = const Value.absent(),
     this.providerId = const Value.absent(),
+    this.providerName = const Value.absent(),
+    this.womLink = const Value.absent(),
+    this.eventName = const Value.absent(),
+    this.sessionName = const Value.absent(),
+    this.womPin = const Value.absent(),
+    this.totemName = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
     this.timestamp = const Value.absent(),
   });
   TotemsCompanion.insert({
@@ -1542,6 +1796,14 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     required String totemId,
     required String eventId,
     required String providerId,
+    this.providerName = const Value.absent(),
+    this.womLink = const Value.absent(),
+    this.eventName = const Value.absent(),
+    this.sessionName = const Value.absent(),
+    this.womPin = const Value.absent(),
+    this.totemName = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
     required DateTime timestamp,
   })  : sessionId = Value(sessionId),
         totemId = Value(totemId),
@@ -1554,6 +1816,14 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     Expression<String>? totemId,
     Expression<String>? eventId,
     Expression<String>? providerId,
+    Expression<String>? providerName,
+    Expression<String>? womLink,
+    Expression<String>? eventName,
+    Expression<String>? sessionName,
+    Expression<String>? womPin,
+    Expression<String>? totemName,
+    Expression<double>? latitude,
+    Expression<double>? longitude,
     Expression<DateTime>? timestamp,
   }) {
     return RawValuesInsertable({
@@ -1562,6 +1832,14 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
       if (totemId != null) 'totemId': totemId,
       if (eventId != null) 'eventId': eventId,
       if (providerId != null) 'providerId': providerId,
+      if (providerName != null) 'providerName': providerName,
+      if (womLink != null) 'womLink': womLink,
+      if (eventName != null) 'eventName': eventName,
+      if (sessionName != null) 'sessionName': sessionName,
+      if (womPin != null) 'womPin': womPin,
+      if (totemName != null) 'totemName': totemName,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
       if (timestamp != null) 'timestamp': timestamp,
     });
   }
@@ -1572,6 +1850,14 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
       Value<String>? totemId,
       Value<String>? eventId,
       Value<String>? providerId,
+      Value<String?>? providerName,
+      Value<String?>? womLink,
+      Value<String?>? eventName,
+      Value<String?>? sessionName,
+      Value<String?>? womPin,
+      Value<String?>? totemName,
+      Value<double?>? latitude,
+      Value<double?>? longitude,
       Value<DateTime>? timestamp}) {
     return TotemsCompanion(
       id: id ?? this.id,
@@ -1579,6 +1865,14 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
       totemId: totemId ?? this.totemId,
       eventId: eventId ?? this.eventId,
       providerId: providerId ?? this.providerId,
+      providerName: providerName ?? this.providerName,
+      womLink: womLink ?? this.womLink,
+      eventName: eventName ?? this.eventName,
+      sessionName: sessionName ?? this.sessionName,
+      womPin: womPin ?? this.womPin,
+      totemName: totemName ?? this.totemName,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
       timestamp: timestamp ?? this.timestamp,
     );
   }
@@ -1601,6 +1895,30 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     if (providerId.present) {
       map['providerId'] = Variable<String>(providerId.value);
     }
+    if (providerName.present) {
+      map['providerName'] = Variable<String>(providerName.value);
+    }
+    if (womLink.present) {
+      map['womLink'] = Variable<String>(womLink.value);
+    }
+    if (eventName.present) {
+      map['eventName'] = Variable<String>(eventName.value);
+    }
+    if (sessionName.present) {
+      map['sessionName'] = Variable<String>(sessionName.value);
+    }
+    if (womPin.present) {
+      map['womPin'] = Variable<String>(womPin.value);
+    }
+    if (totemName.present) {
+      map['totemName'] = Variable<String>(totemName.value);
+    }
+    if (latitude.present) {
+      map['latitude'] = Variable<double>(latitude.value);
+    }
+    if (longitude.present) {
+      map['longitude'] = Variable<double>(longitude.value);
+    }
     if (timestamp.present) {
       map['timestamp'] = Variable<DateTime>(timestamp.value);
     }
@@ -1615,6 +1933,14 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
           ..write('totemId: $totemId, ')
           ..write('eventId: $eventId, ')
           ..write('providerId: $providerId, ')
+          ..write('providerName: $providerName, ')
+          ..write('womLink: $womLink, ')
+          ..write('eventName: $eventName, ')
+          ..write('sessionName: $sessionName, ')
+          ..write('womPin: $womPin, ')
+          ..write('totemName: $totemName, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
           ..write('timestamp: $timestamp')
           ..write(')'))
         .toString();

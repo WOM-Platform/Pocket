@@ -28,7 +28,7 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase.query(QueryExecutor executor) : super(executor);
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   Future<void> deleteEverything() async {
     await transaction(() async {
@@ -57,6 +57,15 @@ class MyDatabase extends _$MyDatabase {
           await m.addColumn(transactions, transactions.deadline);
         } else if (from < 5) {
           await m.createTable(totems);
+        } else if (from < 6) {
+          await m.addColumn(totems, totems.eventName);
+          await m.addColumn(totems, totems.sessionName);
+          await m.addColumn(totems, totems.womLink);
+          await m.addColumn(totems, totems.womPin);
+          await m.addColumn(totems, totems.latitude);
+          await m.addColumn(totems, totems.longitude);
+          await m.addColumn(totems, totems.totemName);
+          await m.addColumn(totems, totems.providerName);
         }
       },
       beforeOpen: (details) async {

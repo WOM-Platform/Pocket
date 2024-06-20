@@ -5,7 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
-import 'package:wom_pocket/src/my_logger.dart';
 
 part 'nfc_notifier.freezed.dart';
 

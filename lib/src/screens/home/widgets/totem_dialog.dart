@@ -15,7 +15,6 @@ import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/nfc/utils.dart';
 import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
@@ -93,6 +92,10 @@ class TotemResponse with _$TotemResponse {
     String? eventId,
     String? link,
     String? pin,
+    String? eventName,
+    String? providerName,
+    String? sessionName,
+    String? totemName,
   }) = _TotemResponse;
 
   factory TotemResponse.fromJson(Map<String, dynamic> json) =>
@@ -176,9 +179,17 @@ class TotemNotifier extends _$TotemNotifier {
         if (response.status == 'success') {
           await ref.read(getDatabaseProvider).totemsDao.addTotem(
                 totemData.providerId,
+                response.providerName ?? '',
                 response.eventId!,
                 totemData.totemId,
                 response.sessionId!,
+                response.totemName,
+                response.link,
+                response.pin,
+                response.eventName,
+                response.sessionName,
+                location.latitude,
+                location.longitude,
               );
           final deepLink = DeepLinkModel.fromUri(Uri.parse(response.link!));
           state = TotemDialogComplete(

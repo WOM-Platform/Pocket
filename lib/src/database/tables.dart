@@ -109,6 +109,22 @@ class Totems extends Table {
 
   TextColumn get providerId => text().named('providerId')();
 
+  TextColumn get providerName => text().named('providerName').nullable()();
+
+  TextColumn get womLink => text().named('womLink').nullable()();
+
+  TextColumn get eventName => text().named('eventName').nullable()();
+
+  TextColumn get sessionName => text().named('sessionName').nullable()();
+
+  TextColumn get womPin => text().named('womPin').nullable()();
+
+  TextColumn get totemName => text().named('totemName').nullable()();
+
+  RealColumn get latitude => real().named('latitude').nullable()();
+
+  RealColumn get longitude => real().named('longitude').nullable()();
+
   DateTimeColumn get timestamp => dateTime().named('timestamp')();
 }
 

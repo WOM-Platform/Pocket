@@ -16,9 +16,17 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
 
   Future<int> addTotem(
     String providerId,
+    String providerName,
     String eventId,
     String totemId,
     String sessionId,
+    String? totemName,
+    String? womLink,
+    String? womPin,
+    String? eventName,
+    String? sessionName,
+    double? latitude,
+    double? longitude,
   ) async {
     return into(totems).insert(
       TotemsCompanion.insert(
@@ -26,9 +34,21 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
         totemId: totemId,
         eventId: eventId,
         providerId: providerId,
+        providerName: Value(providerName),
         timestamp: DateTime.now(),
+        womLink: Value(womLink),
+        womPin: Value(womPin),
+        eventName: Value(eventName),
+        sessionName: Value(sessionName),
+        latitude: Value(latitude),
+        longitude: Value(longitude),
+        totemName: Value(totemName),
       ),
     );
+  }
+
+  Future<List<TotemRow>> getScans() {
+    return (select(totems)).get();
   }
 
   Future<(String, int)?> getLastScan(String providerId, String eventId) async {

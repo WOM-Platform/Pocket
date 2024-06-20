@@ -12,18 +12,24 @@ class _LogOutputScreenState extends State<LogOutputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(actions: [ IconButton(
-                    icon: Icon(Icons.clear),
-                    color: Colors.red,
-                    onPressed: () {
-                      devOutput = '';
-                      setState(() {
-
-                      });
-                    }),],),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text('Logs'),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.clear),
+              color: Colors.red,
+              onPressed: () {
+                devOutput = '';
+                setState(() {});
+              }),
+        ],
+      ),
       body: SingleChildScrollView(
-        child: Text(devOutput,style: TextStyle(fontSize: 12),),
+        child: Text(
+          devOutput,
+          style: TextStyle(fontSize: 12),
+        ),
       ),
     );
   }

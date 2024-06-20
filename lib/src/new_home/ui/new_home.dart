@@ -10,7 +10,6 @@ import 'package:wom_pocket/src/new_home/ui/aim_chart.dart';
 import 'package:wom_pocket/src/new_home/ui/nfc_widget.dart';
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/nfc/application/nfc_notifier.dart';
-import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:wom_pocket/src/screens/map/map_screen.dart';
 import 'package:wom_pocket/src/transaction/ui/transactions_screen.dart';

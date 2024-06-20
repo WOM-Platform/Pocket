@@ -12,7 +12,6 @@ import 'package:wom_pocket/src/database/extensions.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/models/wom_model.dart';
-import 'package:wom_pocket/src/nfc/utils.dart';
 import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
 import '../my_logger.dart';
 

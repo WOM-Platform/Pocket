@@ -9,6 +9,13 @@ import 'package:wom_pocket/src/screens/pos_list/pos_map_data.dart';
 
 part 'pos_map_notifier.g.dart';
 
+BitmapDescriptor? standardPin;
+
+Future<BitmapDescriptor> getPosPin() async {
+  return await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(), 'assets/images/wom_pos_pin.png');
+}
+
 @Riverpod()
 class PosMapNotifier extends _$PosMapNotifier {
   PosMapData build() {
@@ -46,15 +53,8 @@ class PosMapNotifier extends _$PosMapNotifier {
     return s;
   }
 
-  Future<BitmapDescriptor> _getPosPin() async {
-    return await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/images/wom_pos_pin.png');
-  }
-
-  BitmapDescriptor? _standardPin;
-
   Future<Marker> buildMarker(POSMap point, int index) async {
-    _standardPin ??= await _getPosPin();
+    standardPin ??= await getPosPin();
     // _selectedPin ??= await getCustomPinWithBorder(
     //   iconHeight,
     //   NewPalette.chivadoColor,
@@ -75,7 +75,7 @@ class PosMapNotifier extends _$PosMapNotifier {
       },
       zIndex: index == 0 ? 1 : 0,
       infoWindow: InfoWindow(title: point.name),
-      icon: _standardPin!,
+      icon: standardPin!,
       // icon: (markerId == selectedMarkerId ? _selectedPin : _standardPin) ??
       //     BitmapDescriptor.defaultMarker,
     );

@@ -35,6 +35,10 @@ class TransactionNotifier extends _$TransactionNotifier {
     _otc = arg.deepLinkModel.otc!;
     _type = arg.deepLinkModel.type;
     _password = arg.password;
+    return await init();
+  }
+
+  Future<TransactionState> init() async {
     if (await InternetConnectionChecker().hasConnection) {
       try {
         TransactionModel transaction;
@@ -67,8 +71,11 @@ class TransactionNotifier extends _$TransactionNotifier {
           translationKey: 'wrong_number_of_vouchers',
         );
       } on ServerException catch (ex, st) {
-        logger.e("ServerException: ${ex.statusCode}",
-            error: ex, stackTrace: st);
+        logger.e(
+          "ServerException: ${ex.statusCode}",
+          error: ex,
+          stackTrace: st,
+        );
         return TransactionErrorState(
           error: ex.error,
           translationKey: ex.translationKey,
@@ -94,10 +101,6 @@ class TransactionNotifier extends _$TransactionNotifier {
       return TransactionNoDataConnectionState(password: _password);
     }
   }
-
-  // exception() {
-  //   throw Exception('fake exception');
-  // }
 
   Future<Position> getLocation2() async {
     LocationPermission permission;

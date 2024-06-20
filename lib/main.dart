@@ -33,8 +33,8 @@ void main() async {
   flavor = Flavor.RELEASE;
   domain = 'wom.social';
   logger = Logger(
-    filter: !isDev ? ReleaseFilter() : null,
-    output: !isDev ? DevOutput() : null,
+    filter: !isDev && !kDebugMode ? ReleaseFilter() : null,
+    output: !isDev && !kDebugMode ? DevOutput() : null,
   );
   registryKey = await Utils.getPublicKey();
   mapStyle = await rootBundle.loadString('assets/map_style.txt');

@@ -37,8 +37,6 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
   late AnimationController _controller;
   late Animation _animation;
 
-  // late TransactionBloc bloc;
-
   @override
   void initState() {
     super.initState();
@@ -64,9 +62,8 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
   }
 
   void backToHome() {
-    // BlocProvider.of<AppBloc>(context).transactionsBloc!.add(LoadTransactions());
     refreshHome();
-    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.of(context).pop();
   }
 
   refreshHome() {
@@ -107,8 +104,10 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                     desc: 'no_connection_transaction_desc'.tr(),
                     tryAgain: () {
                       if (state.infoPay == null) {
-                        ref.invalidate(
-                            transactionNotifierProvider(widget.params));
+                        ref
+                            .read(transactionNotifierProvider(widget.params)
+                                .notifier)
+                            .init();
                       } else {
                         ref
                             .read(transactionNotifierProvider(widget.params)
@@ -127,18 +126,26 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                 } else if (state is TransactionErrorState) {
                   return TransactionErrorWidget(
                     errorKey: state.translationKey,
-                    error: state.translationKey != null
+                    message: state.translationKey != null
                         ? state.translationKey!.tr()
                         : state.error,
-                    backToHome: () => backToHome(),
+                    tryAgain: () {
+                      ref
+                          .read(transactionNotifierProvider(widget.params)
+                              .notifier)
+                          .init();
+                    },
+                    backToHome: backToHome,
                   );
                 } else if (state is TransactionMissingLocationState) {
                   return TransactionWarningWidget(
                     title: 'missing_location_error'.tr(),
                     desc: 'missing_location_error_desc'.tr(),
                     tryAgain: () {
-                      ref.invalidate(
-                          transactionNotifierProvider(widget.params));
+                      ref
+                          .read(transactionNotifierProvider(widget.params)
+                              .notifier)
+                          .init();
                     },
                   );
                 } else if (state is TransactionCompleteState) {
@@ -206,16 +213,18 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                   margin:
                                       EdgeInsets.symmetric(horizontal: 80.0),
                                   child: FloatingActionButton.extended(
-                                      onPressed: () {
-                                        if (state.transaction.type ==
-                                                TransactionType.PAYMENT &&
-                                            url != null) {
-                                          Utils.launchUri(url);
-                                        }
-                                        backToHome();
-                                      },
-                                      label: Text(
-                                          '${state.transaction.type == TransactionType.PAYMENT && url != null ? 'Continue' : 'Ok'}')),
+                                    onPressed: () {
+                                      if (state.transaction.type ==
+                                              TransactionType.PAYMENT &&
+                                          url != null) {
+                                        Utils.launchUri(url);
+                                      }
+                                      backToHome();
+                                    },
+                                    label: Text(
+                                      '${state.transaction.type == TransactionType.PAYMENT && url != null ? 'Continue' : 'Ok'}',
+                                    ),
+                                  ),
                                 ),
                               )
                             ],
@@ -297,14 +306,16 @@ class CircleButton extends StatelessWidget {
 }
 
 class TransactionErrorWidget extends StatelessWidget {
-  final String error;
+  final String message;
   final String? errorKey;
   final Function()? backToHome;
+  final Function()? tryAgain;
 
   const TransactionErrorWidget({
     Key? key,
-    required this.error,
+    required this.message,
     this.backToHome,
+    this.tryAgain,
     this.errorKey,
   }) : super(key: key);
 
@@ -323,7 +334,7 @@ class TransactionErrorWidget extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Text(
-              error,
+              message,
               style: TextStyle(fontSize: 22, color: Colors.white),
               textAlign: TextAlign.center,
             ),
@@ -336,15 +347,34 @@ class TransactionErrorWidget extends StatelessWidget {
               ),
             ],
             SizedBox(height: 32.0),
-            FloatingActionButton.extended(
-              onPressed: () {
-                backToHome?.call();
-              },
-              label: Text(
-                "Ok",
-                style: TextStyle(color: Theme.of(context).primaryColor),
+            if (errorKey == 'request_timeout_exception' &&
+                tryAgain != null) ...[
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: backToHome,
+                    child: Text(
+                      "cancel".tr(),
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  FloatingActionButton.extended(
+                    onPressed: tryAgain,
+                    label: Text(
+                      'transaction_screen.try_again'.tr(),
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ),
+                  ),
+                ],
               ),
-            ),
+            ] else
+              FloatingActionButton.extended(
+                onPressed: backToHome,
+                label: Text(
+                  'cancel'.tr(),
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+              ),
           ],
         ),
       ),
@@ -357,9 +387,12 @@ class TransactionWarningWidget extends StatelessWidget {
   final String title;
   final String desc;
 
-  const TransactionWarningWidget(
-      {Key? key, this.tryAgain, required this.title, required this.desc})
-      : super(key: key);
+  const TransactionWarningWidget({
+    Key? key,
+    this.tryAgain,
+    required this.title,
+    required this.desc,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -387,12 +420,13 @@ class TransactionWarningWidget extends StatelessWidget {
             ),
             SizedBox(height: 24.0),
             FloatingActionButton.extended(
-                onPressed: () {
-                  tryAgain?.call();
-                },
-                label: Text(
-                  'try_again'.tr(),
-                )),
+              onPressed: () {
+                tryAgain?.call();
+              },
+              label: Text(
+                'try_again'.tr(),
+              ),
+            ),
           ],
         ),
       ),

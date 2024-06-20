@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_discovery/feature_discovery.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -7,8 +8,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:package_info/package_info.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/application/aim_notifier.dart';
+import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
 import 'package:wom_pocket/src/log_output.dart';
-import 'package:wom_pocket/src/nfc/ui/nfc_session_dialog.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/intro/intro.dart';
 import 'package:wom_pocket/src/screens/table_page/db_page.dart';
@@ -33,14 +34,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final titleStyle = TextStyle(fontWeight: FontWeight.bold);
-//    final SettingsBloc bloc = BlocProvider.of<SettingsBloc>(context);
-    print(flavor);
-    print(isDev);
     return Scaffold(
-      // backgroundColor: Colors.grey[100],
       appBar: PocketAppBar(),
       body: ListView(
         children: <Widget>[
+          SettingSectionTitle(
+            text: 'WOM'.tr(),
+            desc: 'settings.cmi.desc'.tr(),
+          ),
           SettingsItem(
             title: 'settings_redeem_demo_title'.tr(),
             subtitle: 'settings_redeem_demo_desc'.tr(),
@@ -87,11 +88,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 Alert(
                   context: context,
                   type: AlertType.warning,
-                  title: 'Non hai nessun wom da poter migrare!',
+                  title: 'settings.wom.migration.no_wom'.tr(),
                   buttons: [],
                 ).show();
               }
             },
+          ),
+          SettingSectionTitle(
+            text: 'settings.cmi.title'.tr(),
+            desc: 'settings.cmi.desc'.tr(),
           ),
           ValueListenableBuilder(
               valueListenable: Hive.box('settings').listenable(),
@@ -116,34 +121,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         },
                 );
               }),
-          if (isDev) ...[
-            SettingsItem(
-              title: 'Clear DB (only for debug)',
-              subtitle: "Delete all data of local database",
-              icon: Icons.delete,
-              onTap: () async {
-                // ref.read(getDatabaseProvider).de+
-                // AppDatabase.get().deleteDb();
-              },
-            ),
-            SettingsItem(
-              title: 'Close DB and save locally',
-              subtitle: "Close DB and save locally",
-              icon: Icons.close,
-              onTap: () async {
-                await ref.read(getDatabaseProvider).close();
-              },
-            ),
-            SettingsItem(
-              title: 'Show logs',
-              subtitle: "Delete all data of local database",
-              icon: Icons.delete,
-              onTap: () async {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (c) => LogOutputScreen()));
-              },
-            ),
-          ],
+          SettingsItem(
+            title: 'settings.cmi.totem_title'.tr(),
+            subtitle: 'settings.cmi.totem_desc'.tr(),
+            icon: Icons.list,
+            onTap: () async {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => TotemScansScreen(),
+                ),
+              );
+            },
+          ),
+          SettingSectionTitle(
+            text: 'App',
+            desc: 'settings.app.desc'.tr(),
+          ),
           SettingsItem(
             title: 'settings_show_intro_title'.tr(),
             subtitle: 'settings_show_intro_desc'.tr(),
@@ -177,8 +170,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             },
           ),
           SettingsItem(
-            title: 'languageSettingsTitle'.tr(),
-            subtitle: 'languageSettingsDesc'.tr(),
+            title: 'settings.app.language_title'.tr(),
+            subtitle: 'settings.app.language_desc'.tr(),
             icon: Icons.language,
             onTap: () {
               showDialog(
@@ -208,6 +201,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               });
             },
           ),
+          if (isDev || kDebugMode) ...[
+            SettingSectionTitle(text: 'Developer options'),
+            SettingsItem(
+              title: 'Clear DB (only for debug)',
+              subtitle: "Delete all data of local database",
+              icon: Icons.delete,
+              onTap: () async {
+                ref.read(getDatabaseProvider).deleteEverything();
+              },
+            ),
+            SettingsItem(
+              title: 'Show logs',
+              subtitle: "Go to logs screen",
+              icon: Icons.bug_report,
+              onTap: () async {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (c) => LogOutputScreen()));
+              },
+            ),
+          ],
           const SizedBox(height: 48),
         ],
       ),
@@ -267,6 +280,35 @@ class SettingsItem extends StatelessWidget {
   }
 }
 
+class SettingSectionTitle extends StatelessWidget {
+  final String text;
+  final String? desc;
+
+  const SettingSectionTitle({super.key, required this.text, this.desc});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 16),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          if (desc != null && desc!.isNotEmpty) Text(desc!),
+          Divider(),
+        ],
+      ),
+    );
+  }
+}
+
 class VersionInfo extends StatelessWidget {
   final Function()? onTap;
 
@@ -283,10 +325,9 @@ class VersionInfo extends StatelessWidget {
         if (snapshot.hasData) {
           final pkg = snapshot.data!;
           return SettingsItem(
-            title: 'Versione dell\'app',
+            title: 'settings.app.version'.tr(),
             subtitle: pkg.version,
             icon: Icons.perm_device_info,
-            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: onTap,
           );
         }

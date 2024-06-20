@@ -6,7 +6,7 @@ part of 'nfc_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$nFCNotifierHash() => r'445208d28465a16059144439a36e28e858db76d4';
+String _$nFCNotifierHash() => r'ab39f1218f321ee9795daa23363805df4a363e89';
 
 /// See also [NFCNotifier].
 @ProviderFor(NFCNotifier)

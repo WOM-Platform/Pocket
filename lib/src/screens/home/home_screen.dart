@@ -20,7 +20,6 @@ import 'package:wom_pocket/src/new_home/ui/new_home.dart';
 import 'package:wom_pocket/src/nfc/utils.dart';
 import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/scanner/ui/scan_screen.dart';
-import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
 import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:store_redirect/store_redirect.dart';
@@ -294,11 +293,12 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     if (await InternetConnectionChecker().hasConnection) {
       logEvent('open_wom_scan');
       try {
-        final link = await Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ScanScreen(),
-          ),
-        );
+        // final link = await Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (_) => ScanScreen(),
+        //   ),
+        // );
+        final link   = 'https://link.wom.social/cmi/e3441c34-b02c-4bd9-8de5-9e312468ca69/2974189b-437d-49f3-b3a5-ed486bcc9c57';
         logger.wtf('_startScan: $link');
         if (link == null) return;
         final totemData = validateTotemQrCodeWithRegex(link);

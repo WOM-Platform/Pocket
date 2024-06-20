@@ -136,7 +136,7 @@
   "settings_redeem_demo_desc": "Acquisisci un WOM di prova",
   "settings_pay_demo_title": "Demo Pagamento",
   "settings_pay_demo_desc": "Prova a pagare con i WOM",
-  "settings_info_title": "Info",
+  "settings_info_title": "Sito Web",
   "settings_info_desc": "Visita il nostro sito",
   "settings_show_intro_title": "Mostra il tutorial iniziale",
   "settings_show_intro_desc": "Scopri cosa sono i WOM",
@@ -244,6 +244,31 @@
   "scanImportMigration": "Importa",
   "scanExchangeImport": "Ricevi",
   "pin_screen": {
-   "tip": "Inserisci il PIN fornito con il QR Code per continuare."
+    "tip": "Inserisci il PIN fornito con il QR Code per continuare."
+  },
+  "transaction_screen": {
+    "try_again": "Clicca qui per provare di nuovo!"
+  },
+  "settings": {
+    "wom": {
+      "migration": {
+        "no_wom": "Non hai nessun wom da poter migrare!"
+      }
+    },
+    "app": {
+      "desc": "",
+      "version": "Versione",
+      "language_title": "Lingua",
+      "language_desc": "Seleziona la lingua dell’applicazione."
+    },
+    "cmi": {
+      "title": "Count Me In",
+      "desc": "",
+      "totem_title": "Totem scansionati",
+      "totem_desc": "La lista dei totem scansionati, potrai verificare tutte le info relativa ai totem di CMI."
+    }
+  },
+  "totem_scan_screen": {
+    "no_scan": "Non hai scansionato ancora nessun Totem!"
   }
 }

@@ -25,6 +25,10 @@ mixin _$TotemResponse {
   String? get eventId => throw _privateConstructorUsedError;
   String? get link => throw _privateConstructorUsedError;
   String? get pin => throw _privateConstructorUsedError;
+  String? get eventName => throw _privateConstructorUsedError;
+  String? get providerName => throw _privateConstructorUsedError;
+  String? get sessionName => throw _privateConstructorUsedError;
+  String? get totemName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +47,11 @@ abstract class $TotemResponseCopyWith<$Res> {
       String? sessionId,
       String? eventId,
       String? link,
-      String? pin});
+      String? pin,
+      String? eventName,
+      String? providerName,
+      String? sessionName,
+      String? totemName});
 }
 
 /// @nodoc
@@ -64,6 +72,10 @@ class _$TotemResponseCopyWithImpl<$Res, $Val extends TotemResponse>
     Object? eventId = freezed,
     Object? link = freezed,
     Object? pin = freezed,
+    Object? eventName = freezed,
+    Object? providerName = freezed,
+    Object? sessionName = freezed,
+    Object? totemName = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -86,6 +98,22 @@ class _$TotemResponseCopyWithImpl<$Res, $Val extends TotemResponse>
           ? _value.pin
           : pin // ignore: cast_nullable_to_non_nullable
               as String?,
+      eventName: freezed == eventName
+          ? _value.eventName
+          : eventName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      providerName: freezed == providerName
+          ? _value.providerName
+          : providerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sessionName: freezed == sessionName
+          ? _value.sessionName
+          : sessionName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totemName: freezed == totemName
+          ? _value.totemName
+          : totemName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -103,7 +131,11 @@ abstract class _$$TotemResponseImplCopyWith<$Res>
       String? sessionId,
       String? eventId,
       String? link,
-      String? pin});
+      String? pin,
+      String? eventName,
+      String? providerName,
+      String? sessionName,
+      String? totemName});
 }
 
 /// @nodoc
@@ -122,6 +154,10 @@ class __$$TotemResponseImplCopyWithImpl<$Res>
     Object? eventId = freezed,
     Object? link = freezed,
     Object? pin = freezed,
+    Object? eventName = freezed,
+    Object? providerName = freezed,
+    Object? sessionName = freezed,
+    Object? totemName = freezed,
   }) {
     return _then(_$TotemResponseImpl(
       status: null == status
@@ -144,6 +180,22 @@ class __$$TotemResponseImplCopyWithImpl<$Res>
           ? _value.pin
           : pin // ignore: cast_nullable_to_non_nullable
               as String?,
+      eventName: freezed == eventName
+          ? _value.eventName
+          : eventName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      providerName: freezed == providerName
+          ? _value.providerName
+          : providerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sessionName: freezed == sessionName
+          ? _value.sessionName
+          : sessionName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totemName: freezed == totemName
+          ? _value.totemName
+          : totemName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -156,7 +208,11 @@ class _$TotemResponseImpl implements _TotemResponse {
       this.sessionId,
       this.eventId,
       this.link,
-      this.pin});
+      this.pin,
+      this.eventName,
+      this.providerName,
+      this.sessionName,
+      this.totemName});
 
   factory _$TotemResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$TotemResponseImplFromJson(json);
@@ -171,10 +227,18 @@ class _$TotemResponseImpl implements _TotemResponse {
   final String? link;
   @override
   final String? pin;
+  @override
+  final String? eventName;
+  @override
+  final String? providerName;
+  @override
+  final String? sessionName;
+  @override
+  final String? totemName;
 
   @override
   String toString() {
-    return 'TotemResponse(status: $status, sessionId: $sessionId, eventId: $eventId, link: $link, pin: $pin)';
+    return 'TotemResponse(status: $status, sessionId: $sessionId, eventId: $eventId, link: $link, pin: $pin, eventName: $eventName, providerName: $providerName, sessionName: $sessionName, totemName: $totemName)';
   }
 
   @override
@@ -187,13 +251,21 @@ class _$TotemResponseImpl implements _TotemResponse {
                 other.sessionId == sessionId) &&
             (identical(other.eventId, eventId) || other.eventId == eventId) &&
             (identical(other.link, link) || other.link == link) &&
-            (identical(other.pin, pin) || other.pin == pin));
+            (identical(other.pin, pin) || other.pin == pin) &&
+            (identical(other.eventName, eventName) ||
+                other.eventName == eventName) &&
+            (identical(other.providerName, providerName) ||
+                other.providerName == providerName) &&
+            (identical(other.sessionName, sessionName) ||
+                other.sessionName == sessionName) &&
+            (identical(other.totemName, totemName) ||
+                other.totemName == totemName));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, sessionId, eventId, link, pin);
+  int get hashCode => Object.hash(runtimeType, status, sessionId, eventId, link,
+      pin, eventName, providerName, sessionName, totemName);
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +287,11 @@ abstract class _TotemResponse implements TotemResponse {
       final String? sessionId,
       final String? eventId,
       final String? link,
-      final String? pin}) = _$TotemResponseImpl;
+      final String? pin,
+      final String? eventName,
+      final String? providerName,
+      final String? sessionName,
+      final String? totemName}) = _$TotemResponseImpl;
 
   factory _TotemResponse.fromJson(Map<String, dynamic> json) =
       _$TotemResponseImpl.fromJson;
@@ -230,6 +306,14 @@ abstract class _TotemResponse implements TotemResponse {
   String? get link;
   @override
   String? get pin;
+  @override
+  String? get eventName;
+  @override
+  String? get providerName;
+  @override
+  String? get sessionName;
+  @override
+  String? get totemName;
   @override
   @JsonKey(ignore: true)
   _$$TotemResponseImplCopyWith<_$TotemResponseImpl> get copyWith =>
