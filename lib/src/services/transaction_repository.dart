@@ -173,7 +173,7 @@ class TransactionRepository {
       final json = data.toJson();
       json.removeWhere((key, value) => value == null);
       final response = await dio.post(
-          'https://europe-west3-count-me-in-ef93b.cloudfunctions.net/embedded-scan2',
+          '$functionsBaseUrl/embedded-scan2SecondGen',
           data: {
             ...json,
             'lastSessionIdScanned': lastSessionIdScanned,
@@ -211,7 +211,7 @@ class TransactionRepository {
       final json = data.toJson();
       json.removeWhere((key, value) => value == null);
       final response = await dio.post(
-          'https://europe-west3-count-me-in-ef93b.cloudfunctions.net/embedded-verifyTotem',
+          '$functionsBaseUrl/embedded-verifyTotemSecondGen',
           data: {
             ...json,
           });
