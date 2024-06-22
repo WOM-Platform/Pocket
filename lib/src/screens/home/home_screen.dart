@@ -293,12 +293,11 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
     if (await InternetConnectionChecker().hasConnection) {
       logEvent('open_wom_scan');
       try {
-        // final link = await Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (_) => ScanScreen(),
-        //   ),
-        // );
-        final link   = 'https://link.wom.social/cmi/e3441c34-b02c-4bd9-8de5-9e312468ca69/2974189b-437d-49f3-b3a5-ed486bcc9c57';
+        final link = await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ScanScreen(),
+          ),
+        );
         logger.wtf('_startScan: $link');
         if (link == null) return;
         final totemData = validateTotemQrCodeWithRegex(link);
