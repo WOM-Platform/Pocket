@@ -12,6 +12,8 @@ String get appName => '${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET';
 
 const exchangeSourceId = '64e5f0c93a5339481060a756';
 
+const functionsBaseUrl = 'https://europe-west3-count-me-in-ef93b.cloudfunctions.net';
+
 //Tutorial keys
 const t_scan = 'scan3';
 const t_home = 'home3';
