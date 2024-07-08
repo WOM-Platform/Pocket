@@ -76,15 +76,15 @@ class TransactionsList extends ConsumerWidget {
               SizedBox(
                 height: 10,
               ),
-              Text('no_connection_aim_desc'.tr(),
+              Text(
+                'no_connection_aim_desc'.tr(),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
                 height: 20,
               ),
               ElevatedButton(
-                child:
-                    Text('try_again'.tr()),
+                child: Text('try_again'.tr()),
                 onPressed: () {
                   ref.invalidate(fetchTransactionsProvider);
                   // BlocProvider.of<TransactionsListBloc>(context)

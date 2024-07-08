@@ -1367,6 +1367,22 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
   late final GeneratedColumn<String> totemName = GeneratedColumn<String>(
       'totemName', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
+      'email', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _phoneNumberMeta =
+      const VerificationMeta('phoneNumber');
+  @override
+  late final GeneratedColumn<String> phoneNumber = GeneratedColumn<String>(
+      'phoneNumber', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _urlMeta = const VerificationMeta('url');
+  @override
+  late final GeneratedColumn<String> url = GeneratedColumn<String>(
+      'url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _latitudeMeta =
       const VerificationMeta('latitude');
   @override
@@ -1398,6 +1414,9 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
         sessionName,
         womPin,
         totemName,
+        email,
+        phoneNumber,
+        url,
         latitude,
         longitude,
         timestamp
@@ -1469,6 +1488,20 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
       context.handle(_totemNameMeta,
           totemName.isAcceptableOrUnknown(data['totemName']!, _totemNameMeta));
     }
+    if (data.containsKey('email')) {
+      context.handle(
+          _emailMeta, email.isAcceptableOrUnknown(data['email']!, _emailMeta));
+    }
+    if (data.containsKey('phoneNumber')) {
+      context.handle(
+          _phoneNumberMeta,
+          phoneNumber.isAcceptableOrUnknown(
+              data['phoneNumber']!, _phoneNumberMeta));
+    }
+    if (data.containsKey('url')) {
+      context.handle(
+          _urlMeta, url.isAcceptableOrUnknown(data['url']!, _urlMeta));
+    }
     if (data.containsKey('latitude')) {
       context.handle(_latitudeMeta,
           latitude.isAcceptableOrUnknown(data['latitude']!, _latitudeMeta));
@@ -1514,6 +1547,12 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
           .read(DriftSqlType.string, data['${effectivePrefix}womPin']),
       totemName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}totemName']),
+      email: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}email']),
+      phoneNumber: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}phoneNumber']),
+      url: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}url']),
       latitude: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}latitude']),
       longitude: attachedDatabase.typeMapping
@@ -1541,6 +1580,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
   final String? sessionName;
   final String? womPin;
   final String? totemName;
+  final String? email;
+  final String? phoneNumber;
+  final String? url;
   final double? latitude;
   final double? longitude;
   final DateTime timestamp;
@@ -1556,6 +1598,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       this.sessionName,
       this.womPin,
       this.totemName,
+      this.email,
+      this.phoneNumber,
+      this.url,
       this.latitude,
       this.longitude,
       required this.timestamp});
@@ -1584,6 +1629,15 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
     }
     if (!nullToAbsent || totemName != null) {
       map['totemName'] = Variable<String>(totemName);
+    }
+    if (!nullToAbsent || email != null) {
+      map['email'] = Variable<String>(email);
+    }
+    if (!nullToAbsent || phoneNumber != null) {
+      map['phoneNumber'] = Variable<String>(phoneNumber);
+    }
+    if (!nullToAbsent || url != null) {
+      map['url'] = Variable<String>(url);
     }
     if (!nullToAbsent || latitude != null) {
       map['latitude'] = Variable<double>(latitude);
@@ -1619,6 +1673,12 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       totemName: totemName == null && nullToAbsent
           ? const Value.absent()
           : Value(totemName),
+      email:
+          email == null && nullToAbsent ? const Value.absent() : Value(email),
+      phoneNumber: phoneNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phoneNumber),
+      url: url == null && nullToAbsent ? const Value.absent() : Value(url),
       latitude: latitude == null && nullToAbsent
           ? const Value.absent()
           : Value(latitude),
@@ -1644,6 +1704,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       sessionName: serializer.fromJson<String?>(json['sessionName']),
       womPin: serializer.fromJson<String?>(json['womPin']),
       totemName: serializer.fromJson<String?>(json['totemName']),
+      email: serializer.fromJson<String?>(json['email']),
+      phoneNumber: serializer.fromJson<String?>(json['phoneNumber']),
+      url: serializer.fromJson<String?>(json['url']),
       latitude: serializer.fromJson<double?>(json['latitude']),
       longitude: serializer.fromJson<double?>(json['longitude']),
       timestamp: serializer.fromJson<DateTime>(json['timestamp']),
@@ -1664,6 +1727,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       'sessionName': serializer.toJson<String?>(sessionName),
       'womPin': serializer.toJson<String?>(womPin),
       'totemName': serializer.toJson<String?>(totemName),
+      'email': serializer.toJson<String?>(email),
+      'phoneNumber': serializer.toJson<String?>(phoneNumber),
+      'url': serializer.toJson<String?>(url),
       'latitude': serializer.toJson<double?>(latitude),
       'longitude': serializer.toJson<double?>(longitude),
       'timestamp': serializer.toJson<DateTime>(timestamp),
@@ -1682,6 +1748,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
           Value<String?> sessionName = const Value.absent(),
           Value<String?> womPin = const Value.absent(),
           Value<String?> totemName = const Value.absent(),
+          Value<String?> email = const Value.absent(),
+          Value<String?> phoneNumber = const Value.absent(),
+          Value<String?> url = const Value.absent(),
           Value<double?> latitude = const Value.absent(),
           Value<double?> longitude = const Value.absent(),
           DateTime? timestamp}) =>
@@ -1698,6 +1767,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
         sessionName: sessionName.present ? sessionName.value : this.sessionName,
         womPin: womPin.present ? womPin.value : this.womPin,
         totemName: totemName.present ? totemName.value : this.totemName,
+        email: email.present ? email.value : this.email,
+        phoneNumber: phoneNumber.present ? phoneNumber.value : this.phoneNumber,
+        url: url.present ? url.value : this.url,
         latitude: latitude.present ? latitude.value : this.latitude,
         longitude: longitude.present ? longitude.value : this.longitude,
         timestamp: timestamp ?? this.timestamp,
@@ -1716,6 +1788,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
           ..write('sessionName: $sessionName, ')
           ..write('womPin: $womPin, ')
           ..write('totemName: $totemName, ')
+          ..write('email: $email, ')
+          ..write('phoneNumber: $phoneNumber, ')
+          ..write('url: $url, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
           ..write('timestamp: $timestamp')
@@ -1736,6 +1811,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       sessionName,
       womPin,
       totemName,
+      email,
+      phoneNumber,
+      url,
       latitude,
       longitude,
       timestamp);
@@ -1754,6 +1832,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
           other.sessionName == this.sessionName &&
           other.womPin == this.womPin &&
           other.totemName == this.totemName &&
+          other.email == this.email &&
+          other.phoneNumber == this.phoneNumber &&
+          other.url == this.url &&
           other.latitude == this.latitude &&
           other.longitude == this.longitude &&
           other.timestamp == this.timestamp);
@@ -1771,6 +1852,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
   final Value<String?> sessionName;
   final Value<String?> womPin;
   final Value<String?> totemName;
+  final Value<String?> email;
+  final Value<String?> phoneNumber;
+  final Value<String?> url;
   final Value<double?> latitude;
   final Value<double?> longitude;
   final Value<DateTime> timestamp;
@@ -1786,6 +1870,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     this.sessionName = const Value.absent(),
     this.womPin = const Value.absent(),
     this.totemName = const Value.absent(),
+    this.email = const Value.absent(),
+    this.phoneNumber = const Value.absent(),
+    this.url = const Value.absent(),
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
     this.timestamp = const Value.absent(),
@@ -1802,6 +1889,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     this.sessionName = const Value.absent(),
     this.womPin = const Value.absent(),
     this.totemName = const Value.absent(),
+    this.email = const Value.absent(),
+    this.phoneNumber = const Value.absent(),
+    this.url = const Value.absent(),
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
     required DateTime timestamp,
@@ -1822,6 +1912,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     Expression<String>? sessionName,
     Expression<String>? womPin,
     Expression<String>? totemName,
+    Expression<String>? email,
+    Expression<String>? phoneNumber,
+    Expression<String>? url,
     Expression<double>? latitude,
     Expression<double>? longitude,
     Expression<DateTime>? timestamp,
@@ -1838,6 +1931,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
       if (sessionName != null) 'sessionName': sessionName,
       if (womPin != null) 'womPin': womPin,
       if (totemName != null) 'totemName': totemName,
+      if (email != null) 'email': email,
+      if (phoneNumber != null) 'phoneNumber': phoneNumber,
+      if (url != null) 'url': url,
       if (latitude != null) 'latitude': latitude,
       if (longitude != null) 'longitude': longitude,
       if (timestamp != null) 'timestamp': timestamp,
@@ -1856,6 +1952,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
       Value<String?>? sessionName,
       Value<String?>? womPin,
       Value<String?>? totemName,
+      Value<String?>? email,
+      Value<String?>? phoneNumber,
+      Value<String?>? url,
       Value<double?>? latitude,
       Value<double?>? longitude,
       Value<DateTime>? timestamp}) {
@@ -1871,6 +1970,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
       sessionName: sessionName ?? this.sessionName,
       womPin: womPin ?? this.womPin,
       totemName: totemName ?? this.totemName,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      url: url ?? this.url,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       timestamp: timestamp ?? this.timestamp,
@@ -1913,6 +2015,15 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     if (totemName.present) {
       map['totemName'] = Variable<String>(totemName.value);
     }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (phoneNumber.present) {
+      map['phoneNumber'] = Variable<String>(phoneNumber.value);
+    }
+    if (url.present) {
+      map['url'] = Variable<String>(url.value);
+    }
     if (latitude.present) {
       map['latitude'] = Variable<double>(latitude.value);
     }
@@ -1939,6 +2050,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
           ..write('sessionName: $sessionName, ')
           ..write('womPin: $womPin, ')
           ..write('totemName: $totemName, ')
+          ..write('email: $email, ')
+          ..write('phoneNumber: $phoneNumber, ')
+          ..write('url: $url, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
           ..write('timestamp: $timestamp')

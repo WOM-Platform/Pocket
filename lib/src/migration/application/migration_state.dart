@@ -12,7 +12,8 @@ class MigrationState with _$MigrationState {
   const factory MigrationState.loading() = MigrationStateLoading;
 
   const factory MigrationState.initial() = MigrationStateInitial;
-  const factory MigrationState.complete({required MigrationData data}) = MigrationStateComplete;
+  const factory MigrationState.complete({required MigrationData data}) =
+      MigrationStateComplete;
 
   const factory MigrationState.error(Object error, StackTrace st) =
       MigrationStateError;

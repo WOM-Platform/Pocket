@@ -81,13 +81,22 @@ class Utils {
   //   return await Hive.box('settings').put(IS_SUGGESTIONS_DISABLED, status);
   // }
 
-  static launchUri(String url) async {
+  static launchURL(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
       logger.e('Could not launch $url');
       throw 'Could not launch $url';
+    }
+  }
+
+  static launchUri(Uri uri) async {
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      logger.e('Could not launch $uri');
+      throw 'Could not launch $uri';
     }
   }
 

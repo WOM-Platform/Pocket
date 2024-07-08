@@ -1,6 +1,7 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_discovery/feature_discovery.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';

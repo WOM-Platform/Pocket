@@ -243,7 +243,7 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
               ],
             ),
           ),
-        /*  Align(
+          /*  Align(
             alignment: Alignment.topLeft,
             child: SizedBox(
               height: 70,

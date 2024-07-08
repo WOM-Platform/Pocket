@@ -2,7 +2,7 @@ name: wom_pocket
 description: A new Flutter application.
 publish_to: none
 
-version: 1.6.3+90
+version: 1.6.3+97
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -79,10 +79,9 @@ dependencies:
   nfc_manager:
   nfc_background:
     path: /Users/gianmarcodifrancesco/Work/Digit/nfc_background
-
-  # UI
+  flutter_sticky_header: ^0.6.5
   material_design_icons_flutter: ^7.0.7296
-#  sentry_flutter:
+  sentry_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -109,6 +108,7 @@ flutter:
     - assets/images/empty_wom.png
     - assets/images/wom_pos_pin.png
     - assets/images/1.0x/wom_pos_pin.png
+    - assets/images/1.5x/wom_pos_pin.png
     - assets/images/2.0x/wom_pos_pin.png
     - assets/images/3.0x/wom_pos_pin.png
     - assets/images/migration.png

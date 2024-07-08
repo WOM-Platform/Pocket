@@ -24,27 +24,24 @@ main() {
     await db.womsDao.addVouchers([
       ...List.generate(
           22000,
-              (index) => WomRow(
-            id: index.toString(),
-            sourceName: "sourceName",
-            secret: "secret",
-            geohash: "abcde",
-            aim: "P",
-            sourceId: "sourceId",
-            transactionId: index,
-            addedOn: thirtyDaysAgo,
-            spent: 0,
-            latitude: 0.0,
-            longitude: 0.0,
-          )).map((w) => w.toCompanion(true)),
+          (index) => WomRow(
+                id: index.toString(),
+                sourceName: "sourceName",
+                secret: "secret",
+                geohash: "abcde",
+                aim: "P",
+                sourceId: "sourceId",
+                transactionId: index,
+                addedOn: thirtyDaysAgo,
+                spent: 0,
+                latitude: 0.0,
+                longitude: 0.0,
+              )).map((w) => w.toCompanion(true)),
     ]);
-
   });
 
   tearDown(() async {
     await db.close();
   });
-  group('migration', () {
-
-  });
+  group('migration', () {});
 }

@@ -15,4 +15,3 @@ class MigrationData with _$MigrationData {
   factory MigrationData.fromJson(Map<String, dynamic> json) =>
       _$MigrationDataFromJson(json);
 }
-

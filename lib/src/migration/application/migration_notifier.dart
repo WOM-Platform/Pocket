@@ -73,6 +73,7 @@ class MigrationNotifier extends _$MigrationNotifier {
       );
 
       await ref.read(getDatabaseProvider).womsDao.deleteTable();
+      await ref.read(getDatabaseProvider).totemsDao.deleteTable();
 
       await ref.read(getDatabaseProvider).transactionsDao.addTransaction(
             TransactionsCompanion.insert(
@@ -103,6 +104,7 @@ class MigrationNotifier extends _$MigrationNotifier {
 
   Future<WomExportData> exportWomToJson(String pin) async {
     final woms = (await ref.read(getDatabaseProvider).womsDao.getAllWoms);
+    final totems = (await ref.read(getDatabaseProvider).totemsDao.getScans());
     if (woms.isEmpty) {
       print('woms empty');
       throw Exception('Woms table is Empty');
@@ -121,6 +123,7 @@ class MigrationNotifier extends _$MigrationNotifier {
     final map = <String, dynamic>{
       'device': device,
       'woms': woms.map((e) => e.toJson()).toList(),
+      'totems': totems.map((e) => e.toJson()).toList(),
     };
 
     final jsonString = jsonEncode(map);

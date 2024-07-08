@@ -95,11 +95,19 @@ class TransactionNotifier extends _$TransactionNotifier {
       } catch (ex, st) {
         logger.e("Unknown error", error: ex, stackTrace: st);
         return TransactionErrorState(
-            error: ex.toString(), translationKey: 'unknown_error');
+          error: ex.toString(),
+          translationKey: 'unknown_error',
+        );
       }
     } else {
       return TransactionNoDataConnectionState(password: _password);
     }
+  }
+
+  Future<void> refresh() async {
+    state = AsyncLoading();
+    await Future.delayed(const Duration(milliseconds: 250));
+    state = AsyncData(await init());
   }
 
   Future<Position> getLocation2() async {

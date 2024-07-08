@@ -66,6 +66,9 @@ class MyDatabase extends _$MyDatabase {
           await m.addColumn(totems, totems.longitude);
           await m.addColumn(totems, totems.totemName);
           await m.addColumn(totems, totems.providerName);
+          await m.addColumn(totems, totems.email);
+          await m.addColumn(totems, totems.phoneNumber);
+          await m.addColumn(totems, totems.url);
         }
       },
       beforeOpen: (details) async {

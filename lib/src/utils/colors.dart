@@ -21,7 +21,6 @@ const primaryColor = const Color(0xFF3E5280);
 const accentColor = const Color(0xFFFFBA19);
 const darkColor = const Color(0xFF00184F);
 
-
 /*
 Primary logo color:
 #2969FF

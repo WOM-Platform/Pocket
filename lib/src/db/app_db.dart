@@ -256,7 +256,7 @@ class AppDatabase {
         "${WomModel.dbSourceId} INTEGER,"
         "${WomModel.dbTransactionId} INTEGER,"
         "${WomModel.dbLat} LONG,"
-        "${WomModel.dbLong} LONG);");*//*
+        "${WomModel.dbLong} LONG);");*/ /*
 
   }
 

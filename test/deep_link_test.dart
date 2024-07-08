@@ -3,7 +3,6 @@ import 'package:wom_pocket/src/models/totem_data.dart';
 
 main() {
   test('Deep link', () {
-
     expect(
         TotemData(
           providerId: 'providerId',
@@ -11,7 +10,8 @@ main() {
           totemId: 'totemId',
           requestId: 'requestId',
         ),
-        validateTotemQrCodeWithRegex("https://link.wom.social/cmi/providerId/eventId/totemId/requestId"));
+        validateTotemQrCodeWithRegex(
+            "https://link.wom.social/cmi/providerId/eventId/totemId/requestId"));
     expect(
         TotemData(
           providerId: 'providerId',

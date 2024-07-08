@@ -6,8 +6,7 @@ class CodeButton extends StatelessWidget {
   final VoidCallback? onTap;
   final Color? iconColor;
 
-  const CodeButton(
-      {this.code, Key? key, this.onTap, this.icon, this.iconColor})
+  const CodeButton({this.code, Key? key, this.onTap, this.icon, this.iconColor})
       : super(key: key);
 
   @override
@@ -32,17 +31,17 @@ class CodeButton extends StatelessWidget {
         child: Center(
           child: code != null
               ? Text(
-            code.toString(),
-            style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.normal,
-                color: Colors.white),
-          )
+                  code.toString(),
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white),
+                )
               : Icon(
-            icon,
-            size: 30,
-            color: iconColor,
-          ),
+                  icon,
+                  size: 30,
+                  color: iconColor,
+                ),
         ),
       ),
     );

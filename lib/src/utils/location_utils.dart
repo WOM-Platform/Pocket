@@ -3,9 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/location_exception.dart';
 
-
-goToCurrentLocation(
-    Future<GoogleMapController> controller, double zoom,
+goToCurrentLocation(Future<GoogleMapController> controller, double zoom,
     {bool withAnimation = true}) async {
   if (await requestPermission()) {
     final currentPosition = await Geolocator.getCurrentPosition();

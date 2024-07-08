@@ -167,23 +167,25 @@ class TransactionRepository {
     int? eventParticipationCount,
     String? gender, {
     bool isMocked = false,
+    bool userHasAlreadyScannedThisTotemForLastSessionScanned = false,
     // TotemSource? source,
   }) async {
     try {
       final json = data.toJson();
       json.removeWhere((key, value) => value == null);
-      final response = await dio.post(
-          '$functionsBaseUrl/embedded-scan2SecondGen',
-          data: {
-            ...json,
-            'lastSessionIdScanned': lastSessionIdScanned,
-            'eventParticipationCount': eventParticipationCount,
-            'latitude': location.latitude,
-            'longitude': location.longitude,
-            'gender': gender,
-            'isMocked': isMocked,
-            // 'source': source,
-          });
+      final response =
+          await dio.post('$functionsBaseUrl/embedded-scan3SecondGen', data: {
+        ...json,
+        'lastSessionIdScanned': lastSessionIdScanned,
+        'eventParticipationCount': eventParticipationCount,
+        'latitude': location.latitude,
+        'longitude': location.longitude,
+        'gender': gender,
+        'isMocked': isMocked,
+        'userHasAlreadyScannedThisTotemForLastSessionScanned':
+            userHasAlreadyScannedThisTotemForLastSessionScanned,
+        // 'source': source,
+      });
       if (response.statusCode == 200) {
         return TotemResponse.fromJson(response.data);
       }
@@ -210,11 +212,10 @@ class TransactionRepository {
     try {
       final json = data.toJson();
       json.removeWhere((key, value) => value == null);
-      final response = await dio.post(
-          '$functionsBaseUrl/embedded-verifyTotemSecondGen',
-          data: {
-            ...json,
-          });
+      final response = await dio
+          .post('$functionsBaseUrl/embedded-verifyTotemSecondGen', data: {
+        ...json,
+      });
       if (response.statusCode == 200) {
         return TotemResponse.fromJson(response.data);
       }

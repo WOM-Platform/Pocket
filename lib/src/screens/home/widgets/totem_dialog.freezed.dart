@@ -29,6 +29,7 @@ mixin _$TotemResponse {
   String? get providerName => throw _privateConstructorUsedError;
   String? get sessionName => throw _privateConstructorUsedError;
   String? get totemName => throw _privateConstructorUsedError;
+  TotemMetadata? get metadata => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +52,10 @@ abstract class $TotemResponseCopyWith<$Res> {
       String? eventName,
       String? providerName,
       String? sessionName,
-      String? totemName});
+      String? totemName,
+      TotemMetadata? metadata});
+
+  $TotemMetadataCopyWith<$Res>? get metadata;
 }
 
 /// @nodoc
@@ -76,6 +80,7 @@ class _$TotemResponseCopyWithImpl<$Res, $Val extends TotemResponse>
     Object? providerName = freezed,
     Object? sessionName = freezed,
     Object? totemName = freezed,
+    Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -114,7 +119,23 @@ class _$TotemResponseCopyWithImpl<$Res, $Val extends TotemResponse>
           ? _value.totemName
           : totemName // ignore: cast_nullable_to_non_nullable
               as String?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as TotemMetadata?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TotemMetadataCopyWith<$Res>? get metadata {
+    if (_value.metadata == null) {
+      return null;
+    }
+
+    return $TotemMetadataCopyWith<$Res>(_value.metadata!, (value) {
+      return _then(_value.copyWith(metadata: value) as $Val);
+    });
   }
 }
 
@@ -135,7 +156,11 @@ abstract class _$$TotemResponseImplCopyWith<$Res>
       String? eventName,
       String? providerName,
       String? sessionName,
-      String? totemName});
+      String? totemName,
+      TotemMetadata? metadata});
+
+  @override
+  $TotemMetadataCopyWith<$Res>? get metadata;
 }
 
 /// @nodoc
@@ -158,6 +183,7 @@ class __$$TotemResponseImplCopyWithImpl<$Res>
     Object? providerName = freezed,
     Object? sessionName = freezed,
     Object? totemName = freezed,
+    Object? metadata = freezed,
   }) {
     return _then(_$TotemResponseImpl(
       status: null == status
@@ -196,6 +222,10 @@ class __$$TotemResponseImplCopyWithImpl<$Res>
           ? _value.totemName
           : totemName // ignore: cast_nullable_to_non_nullable
               as String?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as TotemMetadata?,
     ));
   }
 }
@@ -212,7 +242,8 @@ class _$TotemResponseImpl implements _TotemResponse {
       this.eventName,
       this.providerName,
       this.sessionName,
-      this.totemName});
+      this.totemName,
+      this.metadata});
 
   factory _$TotemResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$TotemResponseImplFromJson(json);
@@ -235,10 +266,12 @@ class _$TotemResponseImpl implements _TotemResponse {
   final String? sessionName;
   @override
   final String? totemName;
+  @override
+  final TotemMetadata? metadata;
 
   @override
   String toString() {
-    return 'TotemResponse(status: $status, sessionId: $sessionId, eventId: $eventId, link: $link, pin: $pin, eventName: $eventName, providerName: $providerName, sessionName: $sessionName, totemName: $totemName)';
+    return 'TotemResponse(status: $status, sessionId: $sessionId, eventId: $eventId, link: $link, pin: $pin, eventName: $eventName, providerName: $providerName, sessionName: $sessionName, totemName: $totemName, metadata: $metadata)';
   }
 
   @override
@@ -259,13 +292,15 @@ class _$TotemResponseImpl implements _TotemResponse {
             (identical(other.sessionName, sessionName) ||
                 other.sessionName == sessionName) &&
             (identical(other.totemName, totemName) ||
-                other.totemName == totemName));
+                other.totemName == totemName) &&
+            (identical(other.metadata, metadata) ||
+                other.metadata == metadata));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, status, sessionId, eventId, link,
-      pin, eventName, providerName, sessionName, totemName);
+      pin, eventName, providerName, sessionName, totemName, metadata);
 
   @JsonKey(ignore: true)
   @override
@@ -291,7 +326,8 @@ abstract class _TotemResponse implements TotemResponse {
       final String? eventName,
       final String? providerName,
       final String? sessionName,
-      final String? totemName}) = _$TotemResponseImpl;
+      final String? totemName,
+      final TotemMetadata? metadata}) = _$TotemResponseImpl;
 
   factory _TotemResponse.fromJson(Map<String, dynamic> json) =
       _$TotemResponseImpl.fromJson;
@@ -315,8 +351,182 @@ abstract class _TotemResponse implements TotemResponse {
   @override
   String? get totemName;
   @override
+  TotemMetadata? get metadata;
+  @override
   @JsonKey(ignore: true)
   _$$TotemResponseImplCopyWith<_$TotemResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+TotemMetadata _$TotemMetadataFromJson(Map<String, dynamic> json) {
+  return _TotemMetadata.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TotemMetadata {
+  String? get url => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get phoneNumber => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TotemMetadataCopyWith<TotemMetadata> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TotemMetadataCopyWith<$Res> {
+  factory $TotemMetadataCopyWith(
+          TotemMetadata value, $Res Function(TotemMetadata) then) =
+      _$TotemMetadataCopyWithImpl<$Res, TotemMetadata>;
+  @useResult
+  $Res call({String? url, String? email, String? phoneNumber});
+}
+
+/// @nodoc
+class _$TotemMetadataCopyWithImpl<$Res, $Val extends TotemMetadata>
+    implements $TotemMetadataCopyWith<$Res> {
+  _$TotemMetadataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = freezed,
+    Object? email = freezed,
+    Object? phoneNumber = freezed,
+  }) {
+    return _then(_value.copyWith(
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TotemMetadataImplCopyWith<$Res>
+    implements $TotemMetadataCopyWith<$Res> {
+  factory _$$TotemMetadataImplCopyWith(
+          _$TotemMetadataImpl value, $Res Function(_$TotemMetadataImpl) then) =
+      __$$TotemMetadataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? url, String? email, String? phoneNumber});
+}
+
+/// @nodoc
+class __$$TotemMetadataImplCopyWithImpl<$Res>
+    extends _$TotemMetadataCopyWithImpl<$Res, _$TotemMetadataImpl>
+    implements _$$TotemMetadataImplCopyWith<$Res> {
+  __$$TotemMetadataImplCopyWithImpl(
+      _$TotemMetadataImpl _value, $Res Function(_$TotemMetadataImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = freezed,
+    Object? email = freezed,
+    Object? phoneNumber = freezed,
+  }) {
+    return _then(_$TotemMetadataImpl(
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TotemMetadataImpl implements _TotemMetadata {
+  const _$TotemMetadataImpl({this.url, this.email, this.phoneNumber});
+
+  factory _$TotemMetadataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TotemMetadataImplFromJson(json);
+
+  @override
+  final String? url;
+  @override
+  final String? email;
+  @override
+  final String? phoneNumber;
+
+  @override
+  String toString() {
+    return 'TotemMetadata(url: $url, email: $email, phoneNumber: $phoneNumber)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TotemMetadataImpl &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, url, email, phoneNumber);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TotemMetadataImplCopyWith<_$TotemMetadataImpl> get copyWith =>
+      __$$TotemMetadataImplCopyWithImpl<_$TotemMetadataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TotemMetadataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TotemMetadata implements TotemMetadata {
+  const factory _TotemMetadata(
+      {final String? url,
+      final String? email,
+      final String? phoneNumber}) = _$TotemMetadataImpl;
+
+  factory _TotemMetadata.fromJson(Map<String, dynamic> json) =
+      _$TotemMetadataImpl.fromJson;
+
+  @override
+  String? get url;
+  @override
+  String? get email;
+  @override
+  String? get phoneNumber;
+  @override
+  @JsonKey(ignore: true)
+  _$$TotemMetadataImplCopyWith<_$TotemMetadataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

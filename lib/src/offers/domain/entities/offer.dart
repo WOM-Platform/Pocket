@@ -99,4 +99,3 @@ class OffersMapData with _$OffersMapData {
 
   factory OffersMapData.empty() => OffersMapData(markers: {});
 }*/
-

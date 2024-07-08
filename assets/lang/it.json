@@ -208,6 +208,7 @@
   "totemErrorGpsServiceDisabled": "Ho bisogno della tua posizione per verificare che tu sia fisicamente nel posto corretto",
   "totemErrorEventIsClosed": "L’evento sembra essere terminato",
   "totemErrorSessionAlreadyScanned": "Hai già scansionato il QR Code per questa sessione",
+  "totemErrorSessionAlreadyScannedForThisTotem": "Hai già scansionato il QR Code per questa sessione con questo Totem",
   "totemSessionInactive": "Il totem è abbinato ad una sessione attualmente non attiva",
   "totemErrorOutOfPolygon": "La tua posizione corrente è troppo lontana dall’evento",
   "totemDisabled": "Questo totem non risulta al momento attivo.",
@@ -265,10 +266,11 @@
       "title": "Count Me In",
       "desc": "",
       "totem_title": "Totem scansionati",
-      "totem_desc": "La lista dei totem scansionati, potrai verificare tutte le info relativa ai totem di CMI."
+      "totem_desc": "Mostra la lista delle scansioni passate Potrai verificare tutte le informazioni relative a Count Me In."
     }
   },
   "totem_scan_screen": {
-    "no_scan": "Non hai scansionato ancora nessun Totem!"
+    "no_scan": "Non hai scansionato ancora nessun Totem!",
+    "contact_info": "Info di contatto"
   }
 }

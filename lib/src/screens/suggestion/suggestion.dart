@@ -18,7 +18,6 @@ class SuggestionScreen extends StatefulWidget {
 }
 
 class _SuggestionScreenState extends State<SuggestionScreen> {
-
   late WebViewController controller;
 
   @override
@@ -85,7 +84,7 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
             onSelected: (PopupActions item) {
               switch (item) {
                 case PopupActions.open:
-                  Utils.launchUri(widget.url);
+                  Utils.launchURL(widget.url);
                   break;
                 case PopupActions.copy:
                   Clipboard.setData(ClipboardData(text: widget.url)).then((_) {

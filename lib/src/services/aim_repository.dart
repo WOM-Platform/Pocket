@@ -8,14 +8,14 @@ import 'package:wom_pocket/src/services/transaction_repository.dart';
 import '../my_logger.dart';
 
 final aimRepositoryProvider = Provider<AimRepository>((ref) {
-  return AimRepository(ref.watch(getDatabaseProvider), ref.watch(pocketProvider));
+  return AimRepository(
+      ref.watch(getDatabaseProvider), ref.watch(pocketProvider));
 });
 
 class AimRepository {
   final MyDatabase db;
   final Pocket pocketClient;
-  AimRepository(this.db, this.pocketClient) {
-  }
+  AimRepository(this.db, this.pocketClient) {}
 
   Future<List<Aim>> updateAim() async {
     logger.i("AimRepository: updateAim()");

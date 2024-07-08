@@ -33,7 +33,6 @@ class TransactionModel with _$TransactionModel {
     @DateTimeConverter() DateTime? importDeadline,
     required int size,
   }) = _TransactionModel;
-
 }
 
 extension TransactionModelX on TransactionModel {

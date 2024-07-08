@@ -215,7 +215,8 @@ class PageThree extends ConsumerWidget {
           },
           justImported: () {
             return Center(
-              child: Text('backupAlreadyImported'.tr(),
+              child: Text(
+                'backupAlreadyImported'.tr(),
                 style: TextStyle(color: Colors.white, fontSize: 22),
               ),
             );
@@ -268,7 +269,8 @@ class PageThree extends ConsumerWidget {
                           buttons: [
                             DialogButton(
                               color: Colors.white,
-                              child: Text('cancel'.tr(),
+                              child: Text(
+                                'cancel'.tr(),
                               ),
                               onPressed: () {
                                 Navigator.pop(context);

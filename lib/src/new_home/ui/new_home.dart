@@ -45,22 +45,6 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    // ref.listen(nFCNotifierProvider, (previous, next) async {
-    //   if (previous is NFCStateListening && next is NFCStateData) {
-    //     showDialog(
-    //       context: context,
-    //       barrierDismissible: false,
-    //       builder: (_) => PopScope(
-    //         canPop: false,
-    //         child: TotemDialog(
-    //           totemData: next.totemData,
-    //         ),
-    //       ),
-    //     ).then((value){
-    //       ref.read(nFCNotifierProvider.notifier).resume();
-    //     });
-    //   }
-    // });
     final transactionCountAsync = ref.watch(transactionCountNotifierProvider);
 
     return Scaffold(

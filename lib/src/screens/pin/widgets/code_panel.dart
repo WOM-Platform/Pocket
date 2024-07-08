@@ -11,10 +11,10 @@ class CodePanel extends StatelessWidget {
 
   CodePanel(
       {required this.codeLength,
-        required this.currentLength,
-        this.borderColor,
-        this.foregroundColor,
-        this.status = 0})
+      required this.currentLength,
+      this.borderColor,
+      this.foregroundColor,
+      this.status = 0})
       : assert(codeLength > 0),
         assert(currentLength >= 0),
         assert(currentLength <= codeLength);

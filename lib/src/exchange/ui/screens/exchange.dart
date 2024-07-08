@@ -30,14 +30,12 @@ class ExchangeScreen extends ConsumerWidget {
     // final isLoading =
     //     exchangeState is ExchangeStateInitial || exchangeListState == null;
     return Scaffold(
-      appBar: PocketAppBar(),
-      body: ListView(
-              children: [
-                NewExchangeWidget(),
-                ExchangeListScreen(),
-              ],
-            )
-
-    );
+        appBar: PocketAppBar(),
+        body: ListView(
+          children: [
+            NewExchangeWidget(),
+            ExchangeListScreen(),
+          ],
+        ));
   }
 }

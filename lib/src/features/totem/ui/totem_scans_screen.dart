@@ -4,14 +4,16 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wom_pocket/src/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/features/totem/application/totem_scans_notifier.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
+import 'package:wom_pocket/src/utils/date_utils.dart';
+import 'package:wom_pocket/src/utils/utils.dart';
 import 'package:wom_pocket/src/widgets/my_appbar.dart';
-
-final formatter = DateFormat('dd/MM/yyyy HH:mm');
 
 class TotemScansScreen extends ConsumerWidget {
   const TotemScansScreen({Key? key}) : super(key: key);
@@ -30,51 +32,88 @@ class TotemScansScreen extends ConsumerWidget {
                   'totem_scan_screen.no_scan'.tr(),
                 ),
               )
-            : ListView.separated(
-                itemCount: value.length,
-                separatorBuilder: (_, __) => Divider(),
-                itemBuilder: (context, index) {
-                  final t = value[index];
-                  return ListTile(
-                    onTap: t.latitude != null && t.longitude != null
-                        ? () {
-                            final latLng = LatLng(t.latitude!, t.longitude!);
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => _TotemMapScreen(
-                                  latLng: latLng,
-                                  totemName: t.totemName ?? 'Totem',
-                                  eventName: t.eventName ?? 'Evento',
-                                  sessionName: t.sessionName ?? 'Sessione',
-                                  timestamp: t.timestamp,
-                                  womLink: t.womLink,
-                                  womPin: t.womPin,
-                                  providerName: t.providerName ?? '',
-                                ),
-                              ),
-                            );
-                          }
-                        : null,
-                    isThreeLine: true,
-                    title: Text(
-                        '${t.eventName ?? 'Evento'}${t.sessionName != null ? ' | ${t.sessionName}' : ''}'),
-                    subtitle: Text(
-                      '${t.totemName != null ? '${t.totemName}\n' : ''}${formatter.format(t.timestamp)}',
-                    ),
-                    trailing: t.womPin != null && t.womLink != null
-                        ? SvgPicture.asset(
-                            'assets/images/wom_logo.svg',
-                            width: 40,
-                            color: Theme.of(context).primaryColor,
-                          )
-                        : null,
-                  );
-                },
+            : ListView(
+                children: [
+                  for (int i = 0; i < value.keys.length; i++) ...[
+                    _Header(t: value[value.keys.elementAt(i)]!.first),
+                    for (int k = 0;
+                        k < value[value.keys.elementAt(i)]!.length;
+                        k++)
+                      _Item(
+                        t: value[value.keys.elementAt(i)]![k],
+                      ),
+                    Divider(),
+                  ]
+                ],
               ),
         _ => Center(
             child: CircularProgressIndicator(),
           )
       },
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  final TotemRow t;
+
+  const _Header({super.key, required this.t});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16.0, 8, 16, 4),
+      child: Text(
+        '${t.eventName ?? 'Evento'}${t.sessionName != null ? ' | ${t.sessionName}' : ''}',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
+class _Item extends StatelessWidget {
+  final TotemRow t;
+
+  const _Item({super.key, required this.t});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: t.latitude != null && t.longitude != null
+          ? () {
+              final latLng = LatLng(t.latitude!, t.longitude!);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => _TotemMapScreen(
+                    latLng: latLng,
+                    totemName: t.totemName ?? 'Totem',
+                    eventName: t.eventName ?? 'Evento',
+                    sessionName: t.sessionName ?? 'Sessione',
+                    timestamp: t.timestamp,
+                    womLink: t.womLink,
+                    womPin: t.womPin,
+                    providerName: t.providerName ?? '',
+                    email: t.email,
+                    url: t.url,
+                    phoneNumber: t.phoneNumber,
+                  ),
+                ),
+              );
+            }
+          : null,
+      title: Text(t.totemName ?? 'Totem'),
+      subtitle: Text(
+        t.timestamp.format(context.locale.languageCode),
+      ),
+      trailing: t.womPin != null && t.womLink != null
+          ? SvgPicture.asset(
+              'assets/images/wom_logo.svg',
+              width: 40,
+              color: Theme.of(context).primaryColor,
+            )
+          : null,
     );
   }
 }
@@ -88,6 +127,9 @@ class _TotemMapScreen extends StatefulWidget {
   final LatLng latLng;
   final String? womLink;
   final String? womPin;
+  final String? email;
+  final String? phoneNumber;
+  final String? url;
 
   const _TotemMapScreen({
     required this.latLng,
@@ -98,6 +140,9 @@ class _TotemMapScreen extends StatefulWidget {
     required this.providerName,
     this.womLink,
     this.womPin,
+    this.email,
+    this.phoneNumber,
+    this.url,
   });
 
   @override
@@ -124,6 +169,39 @@ class _TotemMapScreenState extends State<_TotemMapScreen> {
     return Scaffold(
       appBar: SecondLevelAppBar(
         title: widget.totemName,
+        // actions: [
+        //   if (widget.email != null)
+        //     IconButton(
+        //         icon: Icon(Icons.email),
+        //         color: Colors.white,
+        //         onPressed: () async {
+        //           final Uri emailLaunchUri = Uri(
+        //             scheme: 'mailto',
+        //             path: widget.email!,
+        //           );
+        //           Utils.launchUri(emailLaunchUri);
+        //         }),
+        //   if (widget.phoneNumber != null)
+        //     IconButton(
+        //       icon: Icon(Icons.contact_page),
+        //       color: Colors.white,
+        //       onPressed: () async {
+        //         final Uri emailLaunchUri = Uri(
+        //           scheme: 'tel',
+        //           path: widget.phoneNumber!,
+        //         );
+        //
+        //         Utils.launchUri(emailLaunchUri);
+        //       },
+        //     ),
+        //   if (widget.url != null)
+        //     IconButton(
+        //         icon: Icon(Icons.open_in_browser),
+        //         color: Colors.white,
+        //         onPressed: () async {
+        //           Utils.launchURL(widget.url!);
+        //         }),
+        // ],
       ),
       body: Stack(
         children: [
@@ -189,7 +267,7 @@ class _TotemMapScreenState extends State<_TotemMapScreen> {
                     child: Container(
                       padding: EdgeInsets.all(16),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (widget.providerName.isNotEmpty)
@@ -202,7 +280,86 @@ class _TotemMapScreenState extends State<_TotemMapScreen> {
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           Text(widget.sessionName),
-                          Text(formatter.format(widget.timestamp)),
+                          Text(widget.timestamp
+                              .format(context.locale.languageCode)),
+                          if ((widget.email != null &&
+                                  widget.email!.isNotEmpty) ||
+                              (widget.phoneNumber != null &&
+                                  widget.phoneNumber!.isNotEmpty) ||
+                              (widget.url != null &&
+                                  widget.url!.isNotEmpty)) ...[
+                            Divider(),
+                            Text(
+                              'totem_scan_screen.contact_info'.tr(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w600),
+                            ),
+                            if (widget.email != null &&
+                                widget.email!.isNotEmpty) ...[
+                              const SizedBox(height: 8),
+                              InkWell(
+                                onTap: () {
+                                  final Uri emailLaunchUri = Uri(
+                                    scheme: 'mailto',
+                                    path: widget.email!,
+                                  );
+                                  Utils.launchUri(emailLaunchUri);
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.email),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      widget.email!,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                            if (widget.phoneNumber != null &&
+                                widget.phoneNumber!.isNotEmpty) ...[
+                              const SizedBox(height: 8),
+                              InkWell(
+                                onTap: () {
+                                  final Uri emailLaunchUri = Uri(
+                                    scheme: 'tel',
+                                    path: widget.phoneNumber!,
+                                  );
+
+                                  Utils.launchUri(emailLaunchUri);
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.phone),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      widget.phoneNumber!,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                            if (widget.url != null &&
+                                widget.url!.isNotEmpty) ...[
+                              const SizedBox(height: 8),
+                              InkWell(
+                                onTap: () {
+                                  Utils.launchURL(widget.url!);
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.open_in_browser),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      widget.url!,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ],
                         ],
                       ),
                     ),

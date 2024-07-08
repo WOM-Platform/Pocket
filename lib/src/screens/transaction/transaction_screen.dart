@@ -107,7 +107,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                         ref
                             .read(transactionNotifierProvider(widget.params)
                                 .notifier)
-                            .init();
+                            .refresh();
                       } else {
                         ref
                             .read(transactionNotifierProvider(widget.params)
@@ -133,7 +133,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                       ref
                           .read(transactionNotifierProvider(widget.params)
                               .notifier)
-                          .init();
+                          .refresh();
                     },
                     backToHome: backToHome,
                   );
@@ -145,7 +145,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                       ref
                           .read(transactionNotifierProvider(widget.params)
                               .notifier)
-                          .init();
+                          .refresh();
                     },
                   );
                 } else if (state is TransactionCompleteState) {
@@ -217,7 +217,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                       if (state.transaction.type ==
                                               TransactionType.PAYMENT &&
                                           url != null) {
-                                        Utils.launchUri(url);
+                                        Utils.launchURL(url);
                                       }
                                       backToHome();
                                     },
@@ -232,6 +232,10 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                         ),
                       );
                     },
+                  );
+                } else if (state is TransactionLoadingState) {
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
                 return Center(
@@ -349,23 +353,19 @@ class TransactionErrorWidget extends StatelessWidget {
             SizedBox(height: 32.0),
             if (errorKey == 'request_timeout_exception' &&
                 tryAgain != null) ...[
-              Row(
-                children: [
-                  TextButton(
-                    onPressed: backToHome,
-                    child: Text(
-                      "cancel".tr(),
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  FloatingActionButton.extended(
-                    onPressed: tryAgain,
-                    label: Text(
-                      'transaction_screen.try_again'.tr(),
-                      style: TextStyle(color: Theme.of(context).primaryColor),
-                    ),
-                  ),
-                ],
+              TextButton(
+                onPressed: backToHome,
+                child: Text(
+                  "cancel".tr(),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              FloatingActionButton.extended(
+                onPressed: tryAgain,
+                label: Text(
+                  'transaction_screen.try_again'.tr(),
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
               ),
             ] else
               FloatingActionButton.extended(

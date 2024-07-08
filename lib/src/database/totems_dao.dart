@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:wom_pocket/src/database/database.dart';
 import 'package:wom_pocket/src/database/tables.dart';
 import 'package:wom_pocket/src/my_logger.dart';
@@ -25,6 +26,9 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
     String? womPin,
     String? eventName,
     String? sessionName,
+    String? email,
+    String? url,
+    String? phoneNumber,
     double? latitude,
     double? longitude,
   ) async {
@@ -43,15 +47,35 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
         latitude: Value(latitude),
         longitude: Value(longitude),
         totemName: Value(totemName),
+        url: Value(url),
+        email: Value(email),
+        phoneNumber: Value(phoneNumber),
       ),
     );
   }
 
-  Future<List<TotemRow>> getScans() {
-    return (select(totems)).get();
+  Future<void> addTotems(List<TotemsCompanion> entries) async {
+    await batch((batch) {
+      batch.insertAll(totems, entries, mode: InsertMode.insertOrAbort);
+    });
   }
 
-  Future<(String, int)?> getLastScan(String providerId, String eventId) async {
+  Future<List<TotemRow>> getScans() {
+    return (select(totems)
+          ..orderBy([
+            (t) => OrderingTerm(
+                  expression: t.timestamp,
+                  mode: OrderingMode.desc,
+                )
+          ]))
+        .get();
+  }
+
+  Future<(String, int, bool)?> getLastScan(
+    String providerId,
+    String eventId,
+    String totemId,
+  ) async {
     final List<TotemRow> roe = await (select(totems)
           ..where(
             (t) => Expression.and(
@@ -69,7 +93,31 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
     roe.forEach((element) {
       print('${element.sessionId} ${element.timestamp}');
     });
-    return (roe.last.sessionId, roe.length);
+    final lastSessionId = roe.last.sessionId;
+    final participationCount = roe.length;
+
+    final List<TotemRow> newRoe = await (select(totems)
+          ..where(
+            (t) => Expression.and(
+              [
+                t.providerId.equals(providerId),
+                t.eventId.equals(eventId),
+                t.sessionId.equals(lastSessionId),
+                t.totemId.equals(totemId),
+              ],
+            ),
+          ))
+        .get();
+    if (newRoe.length > 1) {
+      FirebaseAnalytics.instance.logEvent(
+        name: 'SessionTotemQuery multiple row returned',
+      );
+    }
+    return (
+      lastSessionId,
+      participationCount,
+      newRoe.isNotEmpty,
+    );
   }
 
   Future<Map<String, int>?> getLastScan2(

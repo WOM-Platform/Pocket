@@ -168,7 +168,9 @@ class _WomsDataSources extends DataTableSource {
         DataCell(Text(wom.sourceName)),
         DataCell(Text(wom.latitude.toString())),
         DataCell(Text(wom.longitude.toString())),
-        DataCell(Text(WomStatus.values[wom.spent].toString().replaceAll('WomStatus.', ''))),
+        DataCell(Text(WomStatus.values[wom.spent]
+            .toString()
+            .replaceAll('WomStatus.', ''))),
         DataCell(Text(wom.secret)),
         DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.addedOn)}')),
         DataCell(Text('${wom.transactionId}')),

@@ -80,7 +80,7 @@
   "introDesc5": "You will be able to earn discounts on goods and service in exchange for your vouchers.",
   "introDesc6": "Vouchers are stores on this device. If you need to uninstall the app or change device, remember to export your vouchers or you will lose them.",
   "introDesc7": "For completing the tutorial, you got your first WOM",
-  "introAction7": "Riscatta subito",
+  "introAction7": "Get now",
   "introDoneText": "OK",
   "introSkipText": "Skip",
   "introTitle1": "Welcome to",
@@ -208,6 +208,7 @@
   "totemErrorGpsServiceDisabled": "I need access to your location in order to check whether you are in the right place",
   "totemErrorEventIsClosed": "The event has ended",
   "totemErrorSessionAlreadyScanned": "You already scanned the QR Code for this session",
+  "totemErrorSessionAlreadyScannedForThisTotem": "You already scanned the QR Code for this session with this totem",
   "totemSessionInactive": "The totem is linked to an inactive session",
   "totemErrorOutOfPolygon": "Your current location is too far away from the event",
   "totemDisabled": "This totem is not active now.",
@@ -247,12 +248,12 @@
     "tip": "Insert the PIN you received together with the QR Code."
   },
   "transaction_screen": {
-    "try_again": "Clicca qui per provare di nuovo!"
+    "try_again": "Tap here to try again"
   },
   "settings": {
     "wom": {
       "migration": {
-        "no_wom": "Non hai nessun wom da poter migrare!"
+        "no_wom": "You have no WOM vouchers to migrate!"
       }
     },
     "app": {
@@ -264,11 +265,12 @@
     "cmi": {
       "title": "Count Me In",
       "desc": "",
-      "totem_title": "Scanned Totem",
-      "totem_desc": "La lista dei totem scansionati, potrai verificare tutte le info relativa ai totem di CMI."
+      "totem_title": "List of scans",
+      "totem_desc": "Show all passed scans. You will be able to get all Count Me In-related information."
     }
   },
   "totem_scan_screen": {
-    "no_scan": "Non hai scansionato ancora nessun Totem!"
+    "no_scan": "You haven't scanned any totems yet.",
+    "contact_info": "Contact info"
   }
 }

@@ -133,9 +133,8 @@ class TransactionCard extends ConsumerWidget {
             onPressed: (context) async {
               var message = shareMessage(transaction.type);
               if (aim != null) {
-                final aimTitle = aim.title(
-                    languageCode:
-                        context.locale.languageCode);
+                final aimTitle =
+                    aim.title(languageCode: context.locale.languageCode);
                 message =
                     '$message  ${aimTitle != null ? 'for $aimTitle' : ''}';
               }

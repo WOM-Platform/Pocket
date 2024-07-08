@@ -47,14 +47,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: 'settings_redeem_demo_desc'.tr(),
             icon: Icons.monetization_on,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUri('https://demo.wom.social/redeem'),
+            onTap: () => Utils.launchURL('https://demo.wom.social/redeem'),
           ),
           SettingsItem(
             title: 'settings_pay_demo_title'.tr(),
             subtitle: 'settings_pay_demo_desc'.tr(),
             icon: Icons.credit_card,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUri('https://demo.wom.social/pay'),
+            onTap: () => Utils.launchURL('https://demo.wom.social/pay'),
           ),
           if (showDBViewer)
             SettingsItem(
@@ -98,6 +98,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             text: 'settings.cmi.title'.tr(),
             desc: 'settings.cmi.desc'.tr(),
           ),
+          SettingsItem(
+            title: 'settings.cmi.totem_title'.tr(),
+            subtitle: 'settings.cmi.totem_desc'.tr(),
+            icon: Icons.list,
+            onTap: () async {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => TotemScansScreen(),
+                ),
+              );
+            },
+          ),
           ValueListenableBuilder(
               valueListenable: Hive.box('settings').listenable(),
               builder: (context, box, _) {
@@ -121,18 +133,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         },
                 );
               }),
-          SettingsItem(
-            title: 'settings.cmi.totem_title'.tr(),
-            subtitle: 'settings.cmi.totem_desc'.tr(),
-            icon: Icons.list,
-            onTap: () async {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => TotemScansScreen(),
-                ),
-              );
-            },
-          ),
           SettingSectionTitle(
             text: 'App',
             desc: 'settings.app.desc'.tr(),
@@ -185,14 +185,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: 'settings_info_desc'.tr(),
             icon: Icons.info,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUri('https://wom.social'),
+            onTap: () => Utils.launchURL('https://wom.social'),
           ),
           SettingsItem(
             title: 'Privacy Policy',
             subtitle: '',
             icon: Icons.privacy_tip_outlined,
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
-            onTap: () => Utils.launchUri('https://wom.social/privacy/pocket'),
+            onTap: () => Utils.launchURL('https://wom.social/privacy/pocket'),
           ),
           VersionInfo(
             onTap: () {

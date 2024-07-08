@@ -62,10 +62,13 @@ class ImportNotifier extends _$ImportNotifier {
       final womEncryptedJsonFile = File('${migrationDir.path}/woms');
       final womEncryptedJson = await womEncryptedJsonFile.readAsString();
       final map = Map.from(jsonDecode(womEncryptedJson));
-      final list = List<Map<String, dynamic>>.from(map['woms']);
-      final woms = list.map((e) => WomRow.fromJson(e)).toList();
+      final womList = List<Map<String, dynamic>>.from(map['woms']);
+      final totemList = List<Map<String, dynamic>>.from(map['totems'] ?? []);
+      final woms = womList.map((e) => WomRow.fromJson(e)).toList();
+      final totems = totemList.map((e) => TotemRow.fromJson(e)).toList();
       final device = map['device'] as String;
-      print('Hai importato: ${woms.length}');
+      print('Hai importato: ${woms.length} wom');
+      print('Hai importato: ${totems.length} totems');
 
       final aims = <String?>{};
 
@@ -97,6 +100,11 @@ class ImportNotifier extends _$ImportNotifier {
           .read(getDatabaseProvider)
           .transactionsDao
           .addTransaction(tx.toTransactionCompanion());
+
+      await ref
+          .read(getDatabaseProvider)
+          .totemsDao
+          .addTotems(totems.map((w) => w.toCompanion(true)).toList());
 
       final finalWoms =
           woms.map((e) => e.copyWith(transactionId: tId)).toList();

@@ -1,4 +1,3 @@
-
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:drift/drift.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -38,7 +37,7 @@ Future<List<TransactionModel>> getExchangeTransactions(
         .transactionsDao
         .getExchangeTransactions;
     return transactions.map((e) => e.toModel()).toList();
-  } catch (ex,st) {
+  } catch (ex, st) {
     logger.e('getExchangeTransactions', error: ex, stackTrace: st);
     rethrow;
   }

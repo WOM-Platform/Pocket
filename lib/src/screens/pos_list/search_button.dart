@@ -33,12 +33,12 @@ class EnableSearchButtonNotifier extends AutoDisposeNotifier<ZoomStatus> {
 
   enabled() {
     print('enabled');
-    state=  ZoomStatus.enabled;
+    state = ZoomStatus.enabled;
   }
 
   outside() {
     print('outside');
-    state= ZoomStatus.outside;
+    state = ZoomStatus.outside;
   }
 }
 
@@ -58,7 +58,7 @@ class SearchNewPointButton extends ConsumerWidget {
     switch (searchButtonStatus) {
       case ZoomStatus.outside:
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.3),
               borderRadius: BorderRadius.circular(10)),

@@ -1,8 +1,7 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart'
     show ServerException;
 
-extension ServerExceptionX on ServerException{
-
+extension ServerExceptionX on ServerException {
   String? get translationKey {
     final e = type.replaceFirst(typeBase, '');
     if (serverExceptionError.contains(e)) {

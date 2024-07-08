@@ -17,11 +17,13 @@ final enableCarouselProvider = Provider.autoDispose<bool>((ref) {
   return zoom >= minZoom;
 });
 
-final enableSearchButtonProvider =
-    AutoDisposeFamilyNotifierProvider<EnableSearchButtonNotifier, ZoomStatus, LatLng?>(
-        EnableSearchButtonNotifier.new);
+final enableSearchButtonProvider = AutoDisposeFamilyNotifierProvider<
+    EnableSearchButtonNotifier,
+    ZoomStatus,
+    LatLng?>(EnableSearchButtonNotifier.new);
 
-class EnableSearchButtonNotifier extends AutoDisposeFamilyNotifier<ZoomStatus, LatLng?> {
+class EnableSearchButtonNotifier
+    extends AutoDisposeFamilyNotifier<ZoomStatus, LatLng?> {
   @override
   ZoomStatus build(LatLng? position) {
     logger.wtf('EnableSearchButtonNotifier build');

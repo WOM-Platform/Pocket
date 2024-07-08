@@ -68,8 +68,7 @@ class NfcBackgroundNotifier extends _$NfcBackgroundNotifier {
   }
 }
 
-final _deepLinkStreamNotifierProvider =
-    StreamProvider<String?>((ref) async* {
+final _deepLinkStreamNotifierProvider = StreamProvider<String?>((ref) async* {
   await for (final s in linkStream) {
     logger.i("Subscription stream uri : $s");
     // final deepLinkModel = DeepLinkModel.fromUri(s);
@@ -86,8 +85,7 @@ class DeepLinkState with DeepLinkState {
 }*/
 
 final deepLinkNotifierProvider =
-    AsyncNotifierProvider<DeepLinkNotifier, String?>(
-        DeepLinkNotifier.new);
+    AsyncNotifierProvider<DeepLinkNotifier, String?>(DeepLinkNotifier.new);
 
 class DeepLinkNotifier extends AsyncNotifier<String?> {
   @override
@@ -101,7 +99,6 @@ class DeepLinkNotifier extends AsyncNotifier<String?> {
         }
       }
     });
-
 
     final initialDeepLink = await getInitialLink();
     if (initialDeepLink != null) {

@@ -25,8 +25,7 @@ Future<int> fetchWomCountSpentInTheLastWeek(
 }
 
 @riverpod
-Future<int> fetchWomSpent(
-    FetchWomCountSpentInTheLastWeekRef ref) async {
+Future<int> fetchWomSpent(FetchWomCountSpentInTheLastWeekRef ref) async {
   return ref.watch(getDatabaseProvider).womsDao.getWomCountSpent();
 }
 

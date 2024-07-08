@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,7 +15,8 @@ BitmapDescriptor? standardPin;
 
 Future<BitmapDescriptor> getPosPin() async {
   return await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(), 'assets/images/wom_pos_pin.png');
+      ImageConfiguration(devicePixelRatio: Platform.isIOS ? 1 : null),
+      'assets/images/wom_pos_pin.png');
 }
 
 @Riverpod()
@@ -37,8 +40,8 @@ class PosMapNotifier extends _$PosMapNotifier {
 
       final markers = await buildMarkers(posList);
       state = PosMapData(posList: posList, markers: markers);
-    } catch (ex,st) {
-      logger.e('LoadingPos error',error:ex,stackTrace: st);
+    } catch (ex, st) {
+      logger.e('LoadingPos error', error: ex, stackTrace: st);
       state = currentState;
     }
   }

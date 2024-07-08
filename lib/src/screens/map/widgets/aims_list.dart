@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 import 'package:wom_pocket/src/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/models/source_group_wom.dart';
 
@@ -43,7 +42,7 @@ class ChipFilter extends StatefulWidget {
   final Function? onRemove;
   final List<WomGroupBy> aims;
 
-  const ChipFilter({Key? key,required this.aims, this.onAdd, this.onRemove})
+  const ChipFilter({Key? key, required this.aims, this.onAdd, this.onRemove})
       : super(key: key);
 
   @override

@@ -63,7 +63,6 @@ class WomRepository {
     return womCount;
   }
 
-
   Future<int> getWomCountWithoutLocation() async {
     logger.i("BY AIM: fetchGroupedWoms: loading woms");
     final groupedWoms = await database.womsDao.getWomCountWithoutLocation();

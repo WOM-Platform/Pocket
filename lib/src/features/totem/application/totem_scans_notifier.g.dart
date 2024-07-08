@@ -6,12 +6,12 @@ part of 'totem_scans_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getScannedTotemsHash() => r'45043aafaea8dc918d0f3eafc7474d4b5c3dc85f';
+String _$getScannedTotemsHash() => r'62688b3758d8b542c7454b515b68286fb6a93e57';
 
 /// See also [getScannedTotems].
 @ProviderFor(getScannedTotems)
 final getScannedTotemsProvider =
-    AutoDisposeFutureProvider<List<TotemRow>>.internal(
+    AutoDisposeFutureProvider<Map<int, List<TotemRow>>>.internal(
   getScannedTotems,
   name: r'getScannedTotemsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +21,7 @@ final getScannedTotemsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef GetScannedTotemsRef = AutoDisposeFutureProviderRef<List<TotemRow>>;
+typedef GetScannedTotemsRef
+    = AutoDisposeFutureProviderRef<Map<int, List<TotemRow>>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

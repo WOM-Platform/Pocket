@@ -4,7 +4,7 @@ import 'package:wom_pocket/src/models/source_group_wom.dart';
 class WomGroupCard extends StatelessWidget {
   final WomGroupBy wom;
 
-  const WomGroupCard({Key? key,required this.wom}) : super(key: key);
+  const WomGroupCard({Key? key, required this.wom}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

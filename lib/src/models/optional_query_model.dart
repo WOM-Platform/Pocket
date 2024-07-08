@@ -38,7 +38,7 @@ class OptionalQuery {
     whereClause = whereClause.isEmpty
         ? "WHERE $statusWhereClause"
         : "$whereClause AND $statusWhereClause";
-  
+
     if (sources != null) {
       final sourceWhereClause = buildSourceClause(sources!);
 

@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
 
-
 const loremIpsum =
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ";
 
 class PosTile extends ConsumerWidget {
-
   final bool withCard;
   final List<Offer> offers;
   final String posName;
@@ -142,12 +140,13 @@ class PosBanner extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Align(
                 alignment: Alignment.topRight,
-                child: Container( decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   padding:
-                  const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   child: Text('Virtual'),
                 ),
               ),
@@ -183,10 +182,8 @@ class OfferTile extends StatelessWidget {
                 trimLines: 2,
                 colorClickableText: Colors.pink,
                 trimMode: TrimMode.Line,
-                trimCollapsedText:
-                    'other'.tr(),
-                trimExpandedText:
-                    'hide'.tr(),
+                trimCollapsedText: 'other'.tr(),
+                trimExpandedText: 'hide'.tr(),
                 lessStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),

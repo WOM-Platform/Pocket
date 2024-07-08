@@ -35,6 +35,7 @@ enum TotemError {
   outOfPolygon,
   eventIsClosed,
   sessionAlreadyScanned,
+  sessionAlreadyScannedForThisTotem,
   mockedLocation,
   totemDisabled,
   noWomForThisEvent,
@@ -55,6 +56,7 @@ enum TotemError {
       sessionNotStarted ||
       eventIsClosed ||
       sessionAlreadyScanned ||
+      sessionAlreadyScannedForThisTotem ||
       mockedLocation ||
       totemDisabled ||
       noWomForThisEvent ||
@@ -75,6 +77,8 @@ enum TotemError {
       gpsServiceDisabled => 'totemErrorGpsServiceDisabled'.tr(),
       eventIsClosed => 'totemErrorEventIsClosed'.tr(),
       sessionAlreadyScanned => 'totemErrorSessionAlreadyScanned'.tr(),
+      sessionAlreadyScannedForThisTotem =>
+        'totemErrorSessionAlreadyScannedForThisTotem'.tr(),
       totemSessionInactive => 'totemSessionInactive'.tr(),
       outOfPolygon => 'totemErrorOutOfPolygon'.tr(),
       totemDisabled => 'totemDisabled'.tr(),
@@ -96,10 +100,23 @@ class TotemResponse with _$TotemResponse {
     String? providerName,
     String? sessionName,
     String? totemName,
+    TotemMetadata? metadata,
   }) = _TotemResponse;
 
   factory TotemResponse.fromJson(Map<String, dynamic> json) =>
       _$TotemResponseFromJson(json);
+}
+
+@freezed
+class TotemMetadata with _$TotemMetadata {
+  const factory TotemMetadata({
+    String? url,
+    String? email,
+    String? phoneNumber,
+  }) = _TotemMetadata;
+
+  factory TotemMetadata.fromJson(Map<String, dynamic> json) =>
+      _$TotemMetadataFromJson(json);
 }
 
 @freezed
@@ -162,17 +179,25 @@ class TotemNotifier extends _$TotemNotifier {
         final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan(
               totemData.providerId,
               verifyResponse.eventId!,
+              totemData.totemId,
             );
+
+        final lastSessionIdScanned = res?.$1;
+        final eventParticipationCount = res?.$2;
+        final userHasAlreadyScannedThisTotemForLastSessionScanned =
+            res?.$3 ?? false;
 
         final response = await ref
             .read(transactionRepositoryProvider)
             .getVoucherRequestFromEmbeddedQrCode2(
               totemData,
               location,
-              res?.$1,
-              res?.$2,
+              lastSessionIdScanned,
+              eventParticipationCount,
               gender,
               isMocked: false,
+              userHasAlreadyScannedThisTotemForLastSessionScanned:
+                  userHasAlreadyScannedThisTotemForLastSessionScanned,
               // source:source,
             );
 
@@ -188,6 +213,9 @@ class TotemNotifier extends _$TotemNotifier {
                 response.pin,
                 response.eventName,
                 response.sessionName,
+                response.metadata?.email,
+                response.metadata?.url,
+                response.metadata?.phoneNumber,
                 location.latitude,
                 location.longitude,
               );
@@ -329,6 +357,7 @@ class TotemDialog extends ConsumerWidget {
                         case TotemError.wrongRequestId:
                         case TotemError.outOfPolygon:
                         case TotemError.sessionAlreadyScanned:
+                        case TotemError.sessionAlreadyScannedForThisTotem:
                         case TotemError.sessionExpired:
                         case TotemError.eventIsClosed:
                         case TotemError.totemDisabled:

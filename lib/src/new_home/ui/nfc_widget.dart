@@ -23,7 +23,6 @@ class NfcWidget extends ConsumerWidget {
         ),
       ),
     );
-    return Container();
   }
 
   getMessage(NFCState state) {

@@ -54,7 +54,7 @@ class SecondLevelAppBar extends StatelessWidget implements PreferredSizeWidget {
           statusBarColor: primaryColor,
           statusBarIconBrightness: Brightness.light),
       backgroundColor: Theme.of(context).primaryColor,
-      actions: [],
+      actions: actions,
     );
   }
 

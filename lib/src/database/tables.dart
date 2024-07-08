@@ -121,6 +121,12 @@ class Totems extends Table {
 
   TextColumn get totemName => text().named('totemName').nullable()();
 
+  TextColumn get email => text().named('email').nullable()();
+
+  TextColumn get phoneNumber => text().named('phoneNumber').nullable()();
+
+  TextColumn get url => text().named('url').nullable()();
+
   RealColumn get latitude => real().named('latitude').nullable()();
 
   RealColumn get longitude => real().named('longitude').nullable()();

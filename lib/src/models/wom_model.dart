@@ -49,7 +49,8 @@ class WomModel {
         timestamp = map['timestamp'] is String
             ? DateTime.parse(map['timestamp']).millisecondsSinceEpoch
             : map['timestamp'],
-        gLocation = LatLng(map['latitude']?.toDouble(), map['longitude']?.toDouble()),
+        gLocation =
+            LatLng(map['latitude']?.toDouble(), map['longitude']?.toDouble()),
         secret = map['secret'],
         sourceName = map['sourceName'],
         sourceId = map['sourceId'].toString(),

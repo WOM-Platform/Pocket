@@ -7,7 +7,6 @@ part 'wom_export.g.dart';
 
 @freezed
 class WomExport with _$WomExport {
-
   const factory WomExport({
     required Voucher wom,
     required String sourceId,

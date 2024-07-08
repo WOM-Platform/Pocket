@@ -56,7 +56,6 @@ void main() async {
                 longitude: 0.0,
               )).map((w) => w.toCompanion(true)),
     ]);
-
   });
 
   tearDown(() async {
@@ -64,7 +63,6 @@ void main() async {
   });
 
   group("query", () {
-
     test('schemeVersion', () async {
       final schemeVersion = await db.schemaVersion;
       expect(schemeVersion, 5);
@@ -76,7 +74,6 @@ void main() async {
     });
 
     test("test maxAge query", () async {
-
       final filter = SimpleFilter(maxAge: 31);
 
       final woms = await db.womsDao.getVouchersForPayment(simpleFilter: filter);
@@ -84,9 +81,7 @@ void main() async {
       expect(woms.length, 27);
     });
 
-
     test("test maxAge query", () async {
-
       final filter = SimpleFilter(maxAge: 20);
 
       final woms = await db.womsDao.getVouchersForPayment(simpleFilter: filter);
