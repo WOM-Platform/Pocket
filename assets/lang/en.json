@@ -272,5 +272,8 @@
   "totem_scan_screen": {
     "no_scan": "You haven't scanned any totems yet.",
     "contact_info": "Contact info"
+  },
+  "offers_screen": {
+    "online_offers": "Offerte online"
   }
 }

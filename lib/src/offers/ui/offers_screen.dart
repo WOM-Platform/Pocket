@@ -293,7 +293,7 @@ class VirtualOfferList extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SectionTitle(
-            title: 'Offerte online',
+            title: 'offers_screen.online_offers'.tr(),
             leftPadding: 16,
           ),
           SizedBox(
