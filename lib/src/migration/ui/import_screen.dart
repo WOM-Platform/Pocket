@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/app.dart';
+import 'package:wom_pocket/src/core/application/pin_notifier.dart';
+import 'package:wom_pocket/src/core/ui/widgets/my_error.dart';
 
-import 'package:wom_pocket/src/application/pin_notifier.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/migration/application/import_state.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/keyboard.dart';
-import 'package:wom_pocket/src/widgets/my_error.dart';
 
-import '../../utils/colors.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 final pageControllerProvider = Provider.autoDispose<PageController>((ref) {
   final p = PageController();
@@ -89,7 +89,7 @@ class PageOne extends ConsumerWidget {
               style: TextStyle(
                   fontSize: 30,
                   color: Colors.white,
-                  fontWeight: FontWeight.w600),
+                  fontWeight: FontWeight.w600,),
             ),
             const SizedBox(
               height: 32,
@@ -147,7 +147,7 @@ class PageThree extends ConsumerWidget {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                         color: lightBackground,
-                        borderRadius: BorderRadius.circular(10)),
+                        borderRadius: BorderRadius.circular(10),),
                     height: 80,
                     child: Row(
                       children: [
@@ -159,17 +159,17 @@ class PageThree extends ConsumerWidget {
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
-                                      width: 1.0, color: Colors.black),
+                                      width: 1.0, color: Colors.black,),
                                 ),
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 pinState.pin.length > i
                                     ? pinState.pin[i]
-                                    : "  ",
+                                    : '  ',
                                 style: TextStyle(
                                     fontSize: 40,
-                                    color: Theme.of(context).primaryColor),
+                                    color: Theme.of(context).primaryColor,),
                               ),
                             ),
                           ),
@@ -256,13 +256,13 @@ class PageThree extends ConsumerWidget {
                             MaterialPageRoute(
                               builder: (c) => GateWidget(),
                             ),
-                            (route) => false);
+                            (route) => false,);
                       } else {
                         Alert(
                           context: context,
                           style: AlertStyle(
                               descStyle:
-                                  TextStyle(fontSize: 14, color: Colors.grey)),
+                                  TextStyle(fontSize: 14, color: Colors.grey),),
                           type: AlertType.warning,
                           title: 'confirmToImportWom'.tr(),
                           desc: '',
@@ -286,7 +286,7 @@ class PageThree extends ConsumerWidget {
                                     .read(importNotifierProvider.notifier)
                                     .importWom(pinState.pin);
                               },
-                            )
+                            ),
                           ],
                         ).show();
                       }

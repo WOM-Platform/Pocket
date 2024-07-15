@@ -4,10 +4,10 @@ import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/location_exception.dart';
 
 goToCurrentLocation(Future<GoogleMapController> controller, double zoom,
-    {bool withAnimation = true}) async {
+    {bool withAnimation = true,}) async {
   if (await requestPermission()) {
     final currentPosition = await Geolocator.getCurrentPosition();
-    logger.i("position is mocked ${currentPosition.isMocked}");
+    logger.i('position is mocked ${currentPosition.isMocked}');
     final c = await controller;
     await _goToLocation(
       c,
@@ -19,7 +19,7 @@ goToCurrentLocation(Future<GoogleMapController> controller, double zoom,
 }
 
 Future<void> _goToLocation(GoogleMapController controller, LatLng latLng,
-    {bool withAnimation = true, double zoom = 16}) async {
+    {bool withAnimation = true, double zoom = 16,}) async {
   logger.i('_goToLocation');
   if (withAnimation) {
     await controller.animateCamera(
@@ -46,7 +46,7 @@ Future<void> _goToLocation(GoogleMapController controller, LatLng latLng,
 
 Future<bool> requestPermission() async {
   var permission = await Geolocator.checkPermission();
-  logger.i("requestPermission $permission");
+  logger.i('requestPermission $permission');
   if (permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {

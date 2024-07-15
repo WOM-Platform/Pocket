@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/src/application/transactions_notifier.dart';
-import 'package:wom_pocket/src/blocs/transactions_list/bloc.dart';
+import 'package:wom_pocket/src/core/application/transactions_notifier.dart';
+import 'package:wom_pocket/src/core/blocs/transactions_list/bloc.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_card.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
@@ -41,7 +41,7 @@ class TransactionsList extends ConsumerWidget {
               for (int i = 0; i < min(limit, data.transactions.length); i++)
                 TransactionCard(
                   transaction: data.transactions[i],
-                )
+                ),
             ],
           );
           // return ListView.builder(

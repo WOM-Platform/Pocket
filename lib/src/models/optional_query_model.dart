@@ -2,7 +2,7 @@ import 'package:dart_wom_connector/dart_wom_connector.dart'
     show SimpleFilter, SimpleFilterX;
 import 'package:wom_pocket/src/models/wom_model.dart';
 
-import '../my_logger.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 class OptionalQuery {
   final int startDate;
@@ -31,39 +31,39 @@ class OptionalQuery {
 
   build() {
     var whereClause = startDate > 0 && endDate > 0
-        ? "WHERE ${WomModel.tblWom}.${WomModel.dbAddedOn} BETWEEN $startDate AND $endDate"
-        : "";
+        ? 'WHERE ${WomModel.tblWom}.${WomModel.dbAddedOn} BETWEEN $startDate AND $endDate'
+        : '';
 
-    var statusWhereClause = "${WomModel.tblWom}.spent = ${womStatus.index}";
+    var statusWhereClause = '${WomModel.tblWom}.spent = ${womStatus.index}';
     whereClause = whereClause.isEmpty
-        ? "WHERE $statusWhereClause"
-        : "$whereClause AND $statusWhereClause";
+        ? 'WHERE $statusWhereClause'
+        : '$whereClause AND $statusWhereClause';
 
     if (sources != null) {
       final sourceWhereClause = buildSourceClause(sources!);
 
       whereClause = whereClause.isEmpty
-          ? "WHERE $sourceWhereClause"
-          : "$whereClause AND $sourceWhereClause";
+          ? 'WHERE $sourceWhereClause'
+          : '$whereClause AND $sourceWhereClause';
     }
 
     if (aims != null) {
       final aimWhereClause = buildAimClause(aims!);
 
       whereClause = whereClause.isEmpty
-          ? "WHERE $aimWhereClause"
-          : "$whereClause AND $aimWhereClause";
+          ? 'WHERE $aimWhereClause'
+          : '$whereClause AND $aimWhereClause';
     }
 
     if (filters != null) {
       final String filterClause = buildSimpleFiltersQuery();
 
       if (whereClause.isEmpty) {
-        whereClause = filterClause.isEmpty ? "" : "WHERE $filterClause";
+        whereClause = filterClause.isEmpty ? '' : 'WHERE $filterClause';
       } else {
         whereClause = filterClause.isEmpty
-            ? "$whereClause"
-            : "$whereClause AND $filterClause";
+            ? '$whereClause'
+            : '$whereClause AND $filterClause';
       }
 //      whereClause = whereClause.isEmpty
 //          ? "WHERE $filterClause"
@@ -72,33 +72,33 @@ class OptionalQuery {
       // se non c'è simple filter allora prendo i wom di tutti gli aim eccetto quelli che iniziano con 0
       final aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \'0%\'";
       whereClause =
-          whereClause.isEmpty ? '$aimClause' : "$whereClause AND $aimClause";
+          whereClause.isEmpty ? '$aimClause' : '$whereClause AND $aimClause';
     }
 
     if (excludeWomWithoutLocation) {
       whereClause =
-          "$whereClause AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 "
-          "AND ${WomModel.tblWom}.${WomModel.dbLong} != 0";
+          '$whereClause AND ${WomModel.tblWom}.${WomModel.dbLat} != 0 '
+          'AND ${WomModel.tblWom}.${WomModel.dbLong} != 0';
     }
 
     if (enabledRandom) {
-      whereClause = "$whereClause ORDER BY RANDOM()";
+      whereClause = '$whereClause ORDER BY RANDOM()';
     } else if (orderByDate) {
-      whereClause = "$whereClause ORDER BY addedOn";
+      whereClause = '$whereClause ORDER BY addedOn';
     }
 
     if (amount != null) {
       whereClause =
-          whereClause.isEmpty ? "$whereClause" : "$whereClause LIMIT $amount";
+          whereClause.isEmpty ? '$whereClause' : '$whereClause LIMIT $amount';
     }
 
-    logger.i("OptionalQueryModel build: $whereClause");
+    logger.i('OptionalQueryModel build: $whereClause');
 
     return whereClause;
   }
 
   buildSourceClause(Set<String?> sources) {
-    var sourceWhereClause = "";
+    var sourceWhereClause = '';
     if (sources.isEmpty) {
       return "${WomModel.tblWom}.${WomModel.dbSourceName} = \'NULL_SOURCE\'";
     }
@@ -108,11 +108,11 @@ class OptionalQuery {
           : "$sourceWhereClause OR ${WomModel.tblWom}.${WomModel.dbSourceName} = \'$source\'";
     });
 
-    return "($sourceWhereClause)";
+    return '($sourceWhereClause)';
   }
 
   buildAimClause(Set<String?> aims) {
-    var aimWhereClause = "";
+    var aimWhereClause = '';
     if (aims.isEmpty) {
       return "${WomModel.tblWom}.${WomModel.dbAim} = \'NULL_SOURCE\'";
     }
@@ -122,11 +122,11 @@ class OptionalQuery {
           : "$aimWhereClause OR ${WomModel.tblWom}.${WomModel.dbAim} = \'$aim\'";
     });
 
-    return "($aimWhereClause)";
+    return '($aimWhereClause)';
   }
 
   buildSimpleFiltersQuery() {
-    String filtersWhereClause = "";
+    String filtersWhereClause = '';
     final String? aim = filters!.aim;
     final bounds = filters!.bounds;
 
@@ -143,8 +143,8 @@ class OptionalQuery {
     logger.i(aimClause);
 
     filtersWhereClause = filtersWhereClause.isEmpty
-        ? "$aimClause"
-        : "$filtersWhereClause AND $aimClause";
+        ? '$aimClause'
+        : '$filtersWhereClause AND $aimClause';
 
     if (filters?.maxAge != null) {
       final int maxAgeInMilliseconds = filters!.maxAgeToMilliseconds!;
@@ -152,33 +152,33 @@ class OptionalQuery {
       final queryTimestamp = todayInMilliseconds - maxAgeInMilliseconds;
 
       final maxAgeClause =
-          "${WomModel.tblWom}.${WomModel.dbAddedOn} >= $queryTimestamp";
+          '${WomModel.tblWom}.${WomModel.dbAddedOn} >= $queryTimestamp';
       logger.i(maxAgeClause);
 
       filtersWhereClause = filtersWhereClause.isEmpty
-          ? "$maxAgeClause"
-          : "$filtersWhereClause AND $maxAgeClause";
+          ? '$maxAgeClause'
+          : '$filtersWhereClause AND $maxAgeClause';
     }
 
     if (bounds != null) {
-      String boundsClause = "";
+      String boundsClause = '';
       final double leftTopLatitude = bounds.leftTop[0];
       final double leftTopLongitude = bounds.leftTop[1];
       final double rightBottomLatitude = bounds.rightBottom[0];
       final double rightBottomLongitude = bounds.rightBottom[1];
 
       final latQuery = (leftTopLatitude > rightBottomLatitude)
-          ? "(${WomModel.dbLat} <= $leftTopLatitude AND ${WomModel.dbLat} >= $rightBottomLatitude)"
-          : "(${WomModel.dbLat} <= $leftTopLatitude OR ${WomModel.dbLat} >= $rightBottomLatitude)";
+          ? '(${WomModel.dbLat} <= $leftTopLatitude AND ${WomModel.dbLat} >= $rightBottomLatitude)'
+          : '(${WomModel.dbLat} <= $leftTopLatitude OR ${WomModel.dbLat} >= $rightBottomLatitude)';
 
       final longQuery = (leftTopLongitude < rightBottomLongitude)
-          ? "(${WomModel.dbLong} >= $leftTopLongitude AND ${WomModel.dbLong} <= $rightBottomLongitude)"
-          : "(${WomModel.dbLong} >= $leftTopLongitude OR ${WomModel.dbLong} <= $rightBottomLongitude)";
+          ? '(${WomModel.dbLong} >= $leftTopLongitude AND ${WomModel.dbLong} <= $rightBottomLongitude)'
+          : '(${WomModel.dbLong} >= $leftTopLongitude OR ${WomModel.dbLong} <= $rightBottomLongitude)';
 
-      boundsClause = "$latQuery AND $longQuery";
+      boundsClause = '$latQuery AND $longQuery';
       filtersWhereClause = filtersWhereClause.isEmpty
-          ? "$boundsClause"
-          : "$filtersWhereClause AND $boundsClause";
+          ? '$boundsClause'
+          : '$filtersWhereClause AND $boundsClause';
     }
 
     logger.i(filtersWhereClause);

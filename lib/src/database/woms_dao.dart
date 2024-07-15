@@ -79,7 +79,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     var whereClause = OptionalQuery(
             filters: simpleFilter,
             womStatus: WomStatus.ON,
-            enabledRandom: enabledRandom)
+            enabledRandom: enabledRandom,)
         .build();
     final customQuery = 'SELECT * '
         'FROM ${WomModel.tblWom} $whereClause;';
@@ -95,7 +95,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   }
 
   Future<List<WomRow>> getVouchersForPayment(
-      {SimpleFilter? simpleFilter}) async {
+      {SimpleFilter? simpleFilter,}) async {
     return _getVouchersToPay(
       simpleFilter: simpleFilter,
       enabledRandom: true,

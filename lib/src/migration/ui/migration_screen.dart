@@ -6,16 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/constants.dart';
 
-import 'package:wom_pocket/src/application/pin_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:wom_pocket/src/core/application/pin_notifier.dart';
+import 'package:wom_pocket/src/core/ui/widgets/my_error.dart';
 import 'package:wom_pocket/src/migration/application/migration_notifier.dart';
 import 'package:wom_pocket/src/migration/application/migration_state.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/keyboard.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
-import 'package:wom_pocket/src/widgets/my_error.dart';
 
-import 'export_screen.dart';
+import 'package:wom_pocket/src/migration/ui/export_screen.dart';
 
 final pageControllerProvider =
     Provider.autoDispose<PageController>((ref) => PageController());
@@ -35,7 +35,7 @@ class MyWidget extends ConsumerWidget {
           ref.read(confirmExportProvider.notifier).update((state) => !state);
           // OR
           // ref.read(confirmExportProvider.notifier).state = !confirm;
-        });
+        },);
   }
 }
 
@@ -82,7 +82,7 @@ class PageOne extends ConsumerWidget {
               height: 16,
             ),
             Text('exportWizard'.tr(),
-                style: TextStyle(fontSize: 30, color: Colors.white)),
+                style: TextStyle(fontSize: 30, color: Colors.white),),
             const SizedBox(
               height: 32,
             ),
@@ -139,7 +139,7 @@ class PageThree extends ConsumerWidget {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                       color: lightBackground,
-                      borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),),
                   height: 80,
                   child: Row(
                     children: [
@@ -155,10 +155,10 @@ class PageThree extends ConsumerWidget {
                             ),
                             alignment: Alignment.center,
                             child: Text(
-                              pinState.pin.length > i ? pinState.pin[i] : "  ",
+                              pinState.pin.length > i ? pinState.pin[i] : '  ',
                               style: TextStyle(
                                   fontSize: 40,
-                                  color: Theme.of(context).primaryColor),
+                                  color: Theme.of(context).primaryColor,),
                             ),
                           ),
                         ),
@@ -268,7 +268,7 @@ class SummaryPage extends ConsumerWidget {
                       style: titleStyle,
                     ),
                     const SizedBox(width: 8),
-                    Text(pin, style: descStyle)
+                    Text(pin, style: descStyle),
                   ],
                 ),
               ],
@@ -306,7 +306,7 @@ class SummaryPage extends ConsumerWidget {
                   child: Text(
                     'back'.tr(),
                     style: TextStyle(color: Colors.white),
-                  )),
+                  ),),
             ),
           Spacer(),
           if (migrationState is MigrationStateData)
@@ -318,7 +318,7 @@ class SummaryPage extends ConsumerWidget {
                 final res = await Alert(
                   context: context,
                   style: AlertStyle(
-                      descStyle: TextStyle(fontSize: 14, color: Colors.grey)),
+                      descStyle: TextStyle(fontSize: 14, color: Colors.grey),),
                   type: AlertType.warning,
                   title: 'confirmToExportWom'.tr(),
                   desc: 'confirmToExportWomDesc'.tr(),
@@ -340,7 +340,7 @@ class SummaryPage extends ConsumerWidget {
                       onPressed: () async {
                         Navigator.of(context).pop(true);
                       },
-                    )
+                    ),
                   ],
                 ).show();
 

@@ -4,18 +4,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 enum WomStatus { ON, OFF }
 
 class WomModel {
-  static final tblWom = "Wom";
-  static final dbId = "Id";
-  static final dbSecret = "Secret";
-  static const dbAddedOn = "addedOn";
-  static const dbLat = "Latitude";
-  static const dbLong = "Longitude";
+  static final tblWom = 'Wom';
+  static final dbId = 'Id';
+  static final dbSecret = 'Secret';
+  static const dbAddedOn = 'addedOn';
+  static const dbLat = 'Latitude';
+  static const dbLong = 'Longitude';
   //static const dbLive = "live";
-  static const dbGeohash = "geohash";
-  static const dbSourceName = "SourceName";
-  static const dbSourceId = "SourceId";
-  static const dbTransactionId = "TransactionId";
-  static const dbAim = "Aim";
+  static const dbGeohash = 'geohash';
+  static const dbSourceName = 'SourceName';
+  static const dbSourceId = 'SourceId';
+  static const dbTransactionId = 'TransactionId';
+  static const dbAim = 'Aim';
 
   LatLng? gLocation;
   String? secret;
@@ -36,7 +36,7 @@ class WomModel {
       this.timestamp,
       this.sourceId,
       this.sourceName,
-      this.aim}) {
+      this.aim,}) {
     final geohaser = GeoHasher();
     this.geohash = geohaser.encode(
       this.gLocation!.longitude,

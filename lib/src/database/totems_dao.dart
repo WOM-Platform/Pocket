@@ -66,7 +66,7 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
             (t) => OrderingTerm(
                   expression: t.timestamp,
                   mode: OrderingMode.desc,
-                )
+                ),
           ]))
         .get();
   }
@@ -121,7 +121,7 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
   }
 
   Future<Map<String, int>?> getLastScan2(
-      String providerId, String totemId) async {
+      String providerId, String totemId,) async {
     final List<TotemRow> roe = await (select(totems)
           ..where(
             (t) => Expression.and(

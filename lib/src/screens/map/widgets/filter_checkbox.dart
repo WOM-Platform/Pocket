@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:wom_pocket/src/models/source_group_wom.dart';
 
-import '../../../my_logger.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 class CheckboxRowFilter extends StatefulWidget {
   final WomGroupBy group;
   final ValueChanged<bool?> onChanged;
 
   const CheckboxRowFilter(
-      {Key? key, required this.group, required this.onChanged})
+      {required this.group, required this.onChanged, Key? key,})
       : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class CheckboxRowFilterState extends State<CheckboxRowFilter> {
               });
 
               widget.onChanged(value);
-            }),
+            },),
 //        Text(widget.group.type),
         Text(widget.group.type, style: TextStyle(color: Colors.white)),
         Expanded(
@@ -44,7 +44,7 @@ class CheckboxRowFilterState extends State<CheckboxRowFilter> {
         Text(
           widget.group.count.toString() + ' WOM',
           style: TextStyle(color: Colors.white),
-        )
+        ),
       ],
     );
   }

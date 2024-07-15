@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 
-import '../../my_logger.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 enum ZoomStatus { outside, enabled, disabled, loading }
 
@@ -19,7 +19,7 @@ enum ZoomStatus { outside, enabled, disabled, loading }
 
 final enableSearchButtonProvider =
     AutoDisposeNotifierProvider<EnableSearchButtonNotifier, ZoomStatus>(
-        EnableSearchButtonNotifier.new);
+        EnableSearchButtonNotifier.new,);
 
 class EnableSearchButtonNotifier extends AutoDisposeNotifier<ZoomStatus> {
   @override
@@ -61,7 +61,7 @@ class SearchNewPointButton extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(10)),
+              borderRadius: BorderRadius.circular(10),),
           child: Row(
             children: [
               Icon(Icons.pinch),

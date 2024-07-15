@@ -2,16 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/src/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/models/source_group_wom.dart';
 
-import '../../../my_logger.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 class AimsList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(mapNotifierProvider);
-    logger.i("build aims list");
+    logger.i('build aims list');
     if (state is! AsyncData) {
       return Text(
         '-',
@@ -42,7 +42,7 @@ class ChipFilter extends StatefulWidget {
   final Function? onRemove;
   final List<WomGroupBy> aims;
 
-  const ChipFilter({Key? key, required this.aims, this.onAdd, this.onRemove})
+  const ChipFilter({required this.aims, Key? key, this.onAdd, this.onRemove})
       : super(key: key);
 
   @override
@@ -90,7 +90,7 @@ class _ChipFilterState extends State<ChipFilter> {
                 },
               ),
             );
-          }),
+          },),
     );
   }
 }

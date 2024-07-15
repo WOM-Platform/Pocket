@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/src/application/pin_notifier.dart';
-import 'package:wom_pocket/src/application/transaction_notifier.dart';
-import 'package:wom_pocket/src/blocs/pin/bloc.dart';
+import 'package:wom_pocket/src/core/application/pin_notifier.dart';
+import 'package:wom_pocket/src/core/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/core/blocs/pin/bloc.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/screens/pin/widgets/code_panel.dart';

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:wom_pocket/src/core/ui/widgets/voucher_card.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
-import 'package:wom_pocket/src/widgets/voucher_card.dart';
 
 class TransactionDetailsScreen extends StatefulWidget {
   final TransactionModel transactionModel;
 
   const TransactionDetailsScreen({
-    Key? key,
-    required this.transactionModel,
+    required this.transactionModel, Key? key,
   }) : super(key: key);
 
   @override

@@ -11,10 +11,10 @@ import 'package:logger/logger.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
-import 'app.dart';
-import 'constants.dart';
-import 'main.dart';
-import 'src/utils/utils.dart';
+import 'package:wom_pocket/app.dart';
+import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/main.dart';
+import 'package:wom_pocket/src/utils/utils.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +60,7 @@ Future<void> main() async {
   mapStyle = await rootBundle.loadString('assets/map_style.txt');
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
     statusBarColor: Colors.red,
-  ));
+  ),);
 
   runApp(FeatureDiscovery(
       child: ProviderScope(
@@ -71,5 +71,5 @@ Future<void> main() async {
       fallbackLocale: Locale('it'),
       child: App(),
     ),
-  )));
+  ),),);
 }

@@ -1,8 +1,8 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../constants.dart';
-import '../my_logger.dart';
+import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 final protocol = isDev ? 'wom-dev' : 'wom';
 final oldDeepLink = isDev ? 'dev.wom.social' : 'wom.social';
@@ -19,12 +19,12 @@ class DeepLinkModel extends Equatable {
   late TransactionType type;
 
   DeepLinkModel.fromUri(this.uri) {
-    logger.i("DeepLinkModel constructor");
+    logger.i('DeepLinkModel constructor');
     try {
       if (uri != null) {
         logger.i(uri.toString());
-        logger.i("scheme: " + uri!.scheme);
-        logger.i("host: " + uri!.host);
+        logger.i('scheme: ' + uri!.scheme);
+        logger.i('host: ' + uri!.host);
 
         final scheme = uri!.scheme;
         final host = uri!.host;
@@ -46,7 +46,7 @@ class DeepLinkModel extends Equatable {
                   uri!.pathSegments.length > 2 ? uri!.pathSegments[2] : null;
               break;
             default:
-              throw Exception("Type of transaction is NOT valid");
+              throw Exception('Type of transaction is NOT valid');
           }
 
           otc = pathSegments[1];
@@ -61,18 +61,18 @@ class DeepLinkModel extends Equatable {
           migrationPartialKey =
               uri!.pathSegments.length < 2 ? null : uri!.pathSegments[1];
         } else {
-          throw Exception("Scheme: $scheme OR host: $host not valid");
+          throw Exception('Scheme: $scheme OR host: $host not valid');
         }
 
         if (otc == null || otc!.isEmpty) {
-          throw Exception("OTC is null or empty");
+          throw Exception('OTC is null or empty');
         }
         if (type == TransactionType.MIGRATION_IMPORT &&
             (migrationPartialKey == null || migrationPartialKey!.isEmpty)) {
-          throw Exception("migrationPartialKey is null or empty");
+          throw Exception('migrationPartialKey is null or empty');
         }
       } else {
-        throw Exception("URI is null");
+        throw Exception('URI is null');
       }
     } catch (ex, st) {
       logger.e('DeepLink.fromUri', error: ex, stackTrace: st);
@@ -82,7 +82,7 @@ class DeepLinkModel extends Equatable {
 
   @override
   String toString() {
-    return "link: " + uri.toString();
+    return 'link: ' + uri.toString();
   }
 
   @override

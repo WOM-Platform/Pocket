@@ -3,8 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/src/core/application/transaction_notifier.dart';
 
-import 'package:wom_pocket/src/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 class InfoPayment extends ConsumerWidget {
@@ -26,10 +26,10 @@ class InfoPayment extends ConsumerWidget {
     final SimpleFilter? simpleFilters = responseInfoPay.simpleFilter;
 
     final greyStyle = TextStyle(
-        color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 15.0);
+        color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 15.0,);
 
     final valueStyle = TextStyle(
-        color: darkPrimaryColor, fontWeight: FontWeight.w600, fontSize: 17.0);
+        color: darkPrimaryColor, fontWeight: FontWeight.w600, fontSize: 17.0,);
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -51,7 +51,7 @@ class InfoPayment extends ConsumerWidget {
                   Icon(
                     Icons.check_circle,
                     color: Colors.green,
-                  )
+                  ),
                 ],
               ),
               Divider(
@@ -103,7 +103,7 @@ class InfoPayment extends ConsumerWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters.aim ?? "-",
+                                simpleFilters.aim ?? '-',
                                 style: valueStyle,
                               ),
                             ],
@@ -115,7 +115,7 @@ class InfoPayment extends ConsumerWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters.bounds?.toString() ?? "-",
+                                simpleFilters.bounds?.toString() ?? '-',
                                 style: valueStyle,
                               ),
                             ],
@@ -127,11 +127,11 @@ class InfoPayment extends ConsumerWidget {
                                 style: greyStyle,
                               ),
                               Text(
-                                simpleFilters.maxAge?.toString() ?? "-",
+                                simpleFilters.maxAge?.toString() ?? '-',
                                 style: valueStyle,
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     )
@@ -156,7 +156,7 @@ class InfoPayment extends ConsumerWidget {
                       ref
                           .read(transactionNotifierProvider(params).notifier)
                           .confirmPayment(responseInfoPay);
-                    }),
+                    },),
               ),
               Center(
                 child: TextButton(

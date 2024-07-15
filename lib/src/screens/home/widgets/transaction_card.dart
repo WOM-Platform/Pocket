@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'package:wom_pocket/src/application/aim_notifier.dart';
-import 'package:wom_pocket/src/exchange/ui/screens/exchange_receipt.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
+import 'package:wom_pocket/src/features/exchange/ui/screens/exchange_receipt.dart';
+import 'package:collection/collection.dart';
 import 'package:wom_pocket/src/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/migration/ui/export_screen.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:share/share.dart';
-import 'package:collection/collection.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class TransactionCard extends ConsumerWidget {
@@ -22,11 +21,10 @@ class TransactionCard extends ConsumerWidget {
   final Function? onDuplicate;
 
   const TransactionCard(
-      {Key? key,
-      required this.transaction,
+      {required this.transaction, Key? key,
       this.onDelete,
       this.onEdit,
-      this.onDuplicate})
+      this.onDuplicate,})
       : super(key: key);
 
   @override
@@ -245,7 +243,7 @@ class TransactionCard extends ConsumerWidget {
                               t2: transaction.aimCodes.length > 1
                                   ? transaction.aimCode
                                   : (aim?.titles ?? const {})[languageCode] ??
-                                      '-'),
+                                      '-',),
                         if (transaction.source.isNotEmpty)
                           ItemRow(
                               t1: transaction.type == TransactionType.VOUCHERS
@@ -253,7 +251,7 @@ class TransactionCard extends ConsumerWidget {
                                   : transaction.type == TransactionType.PAYMENT
                                       ? 'pos'
                                       : 'device'.tr(),
-                              t2: transaction.source),
+                              t2: transaction.source,),
                       ],
                     ),
                   ),
@@ -262,7 +260,7 @@ class TransactionCard extends ConsumerWidget {
               ),
               SizedBox(
                 height: 5,
-              )
+              ),
             ],
           ),
         ),

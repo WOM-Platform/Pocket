@@ -6,10 +6,9 @@ import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:wom_pocket/src/application/app_notifier.dart';
-import 'package:wom_pocket/src/application/app_state.dart';
+import 'package:wom_pocket/src/core/application/app_notifier.dart';
+import 'package:wom_pocket/src/core/application/app_state.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:wom_pocket/src/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
@@ -52,7 +51,7 @@ class App extends ConsumerWidget {
               return supportedLocales.first;
             }
 
-            for (var supportedLocale in supportedLocales) {
+            for (final supportedLocale in supportedLocales) {
               if (supportedLocale.languageCode == locale.languageCode &&
                   supportedLocale.countryCode == locale.countryCode) {
                 Intl.defaultLocale = supportedLocale.toString();
@@ -86,7 +85,7 @@ class App extends ConsumerWidget {
           routes: {
             '/': (_) => GateWidget(),
             '/settings': (context) => SettingsScreen(),
-          }),
+          },),
     );
   }
 }
@@ -100,7 +99,7 @@ class GateWidget extends ConsumerWidget {
     ref.listen<AsyncValue<String?>>(
       deepLinkNotifierProvider,
       (previous, next) {
-        logger.i("APP BLOC LISTENER ----> state is: $next");
+        logger.i('APP BLOC LISTENER ----> state is: $next');
         if (next is AsyncData) {
           final data = next.value;
           if (data == null) return;
@@ -109,7 +108,7 @@ class GateWidget extends ConsumerWidget {
             launchTotemDialog(context, totemData);
           } else {
             try {
-              logger.i("AppNotifier uri : $data");
+              logger.i('AppNotifier uri : $data');
               final deepLink = DeepLinkModel.fromUri(Uri.parse(data));
 
               if (deepLink.type == TransactionType.MIGRATION_IMPORT) {
@@ -119,7 +118,7 @@ class GateWidget extends ConsumerWidget {
                     builder: (context) => ProviderScope(
                       overrides: [
                         deeplinkProvider.overrideWithValue(deepLink),
-                        importNotifierProvider
+                        importNotifierProvider,
                       ],
                       child: ImportScreen(),
                     ),
@@ -138,7 +137,7 @@ class GateWidget extends ConsumerWidget {
               }
             } on PlatformException catch (ex, st) {
               logger.e('AppRepository: error getting deep link',
-                  error: ex, stackTrace: st);
+                  error: ex, stackTrace: st,);
             } on FormatException catch (ex, st) {
               logger.e('Error getting deep link', error: ex, stackTrace: st);
             } catch (ex, st) {
@@ -160,7 +159,7 @@ class GateWidget extends ConsumerWidget {
         }
       });
     }
-    logger.i("APP BLOC BUILDER ----> state is: $state");
+    logger.i('APP BLOC BUILDER ----> state is: $state');
 
     if (state is AsyncData) {
       final data = state.value;

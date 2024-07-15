@@ -16,9 +16,8 @@ class MigrationExportScreen extends ConsumerWidget {
   final bool backTo;
 
   const MigrationExportScreen({
-    Key? key,
+    required this.data, Key? key,
     this.backTo = true,
-    required this.data,
   }) : super(key: key);
 
   static final format = DateFormat('dd MMMM yyyy');
@@ -43,7 +42,7 @@ class MigrationExportScreen extends ConsumerWidget {
               style: TextStyle(
                   fontSize: 30,
                   color: Colors.white,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,),
               textAlign: TextAlign.center,
             ),
           ),
@@ -97,7 +96,7 @@ class MigrationExportScreen extends ConsumerWidget {
           Text(
             data.code,
             style: TextStyle(
-                fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+                fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold,),
           ),
           const SizedBox(height: 16),
           Text(
@@ -111,12 +110,12 @@ class MigrationExportScreen extends ConsumerWidget {
           Text(
             format.format(data.importDeadline),
             style: TextStyle(
-                fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+                fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold,),
           ),
           const SizedBox(height: 16),
           if (kDebugMode) ...[
             Text(data.link),
-          ]
+          ],
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -127,7 +126,7 @@ class MigrationExportScreen extends ConsumerWidget {
                     MaterialPageRoute(
                       builder: (c) => GateWidget(),
                     ),
-                    (route) => false);
+                    (route) => false,);
               },
               label: Text('backToHome'.tr()),
             )

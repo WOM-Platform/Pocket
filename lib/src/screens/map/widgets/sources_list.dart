@@ -2,15 +2,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/src/blocs/map/bloc.dart';
-import '../../../../src/models/source_group_wom.dart';
-import '../../../my_logger.dart';
+import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/models/source_group_wom.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 class SourcesList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(mapNotifierProvider);
-    logger.i("build source list");
+    logger.i('build source list');
 
     if (state is! AsyncData) {
       return Text(
@@ -88,7 +88,7 @@ class _ChipFilterState extends State<ChipFilter> {
                 },
               ),
             );
-          }),
+          },),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_discovery/feature_discovery.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -11,24 +10,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/core/services/app_repository.dart';
+import 'package:wom_pocket/src/features/exchange/ui/screens/exchange.dart';
+import 'package:wom_pocket/src/features/offers/ui/offers_screen.dart';
 
-import 'package:wom_pocket/src/application/app_notifier.dart';
-import 'package:wom_pocket/src/exchange/ui/screens/exchange.dart';
 import 'package:wom_pocket/src/migration/application/import_notifier.dart';
 import 'package:wom_pocket/src/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/new_home/ui/new_home.dart';
 import 'package:wom_pocket/src/nfc/utils.dart';
-import 'package:wom_pocket/src/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/scanner/ui/scan_screen.dart';
-import 'package:wom_pocket/src/services/app_repository.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:store_redirect/store_redirect.dart';
-import '../../models/deep_link_model.dart';
-import '../../my_logger.dart';
-import '../../screens/pin/pin_screen.dart';
-import '../../screens/settings/settings.dart';
-import '../../utils/colors.dart';
+import 'package:wom_pocket/src/core/application/app_notifier.dart';
+import 'package:wom_pocket/src/models/deep_link_model.dart';
+import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/screens/pin/pin_screen.dart';
+import 'package:wom_pocket/src/screens/settings/settings.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 class HomeScreen2 extends StatefulHookConsumerWidget {
   static const String path = '/home';
@@ -69,7 +68,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
           closeIcon: const SizedBox.shrink(),
           buttons: [
             DialogButton(
-                child: Text(actionText ?? '-'),
+                child: Text(actionText),
                 onPressed: () {
                   if (status.isOutOfService) {
                     Navigator.of(context).pop();
@@ -77,10 +76,10 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                   } else {
                     StoreRedirect.redirect(
                         androidAppId: 'social.wom.pocket',
-                        iOSAppId: '1466969163');
+                        iOSAppId: '1466969163',);
                   }
-                }),
-          ]).show();
+                },),
+          ],).show();
       // });
     }
   }
@@ -315,7 +314,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
                 builder: (context) => ProviderScope(
                   overrides: [
                     deeplinkProvider.overrideWithValue(deepLinkModel),
-                    importNotifierProvider
+                    importNotifierProvider,
                   ],
                   child: ImportScreen(),
                 ),
@@ -328,7 +327,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
               MaterialPageRoute<bool>(
                 builder: (context) => ProviderScope(
                   overrides: [
-                    deeplinkProvider.overrideWithValue(deepLinkModel)
+                    deeplinkProvider.overrideWithValue(deepLinkModel),
                   ],
                   child: PinScreen(),
                 ),
@@ -357,7 +356,7 @@ class _HomeScreen2State extends ConsumerState<HomeScreen2> {
             onPressed: () {
               Navigator.pop(context);
             },
-          )
+          ),
         ],
       ).show();
     }

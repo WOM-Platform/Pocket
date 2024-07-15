@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:wom_pocket/src/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 
 class CustomSlider extends HookConsumerWidget {
@@ -27,7 +27,7 @@ class CustomSlider extends HookConsumerWidget {
           valueIndicatorColor: Theme.of(context).colorScheme.secondary,
           valueIndicatorTextStyle: TextStyle(
               color: Theme.of(context).primaryColor,
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,),
 //            thumbShape: _CustomThumbShape(),
 //            valueIndicatorShape: _CustomValueIndicatorShape(),
 //            valueIndicatorTextStyle:
@@ -49,20 +49,20 @@ class CustomSlider extends HookConsumerWidget {
             //     .read(mapNotifierProvider.notifier)
             //     .updateMap(UpdateMap(sliderValue: v));
           },
-        ));
+        ),);
   }
 }
 
 const valueIndicatorTextSlider = [
-  "Big Bang",
-  "5y",
-  "3y",
-  "1y",
-  "9m",
-  "6m",
-  "3m",
-  "1m",
-  "2w",
-  "1w",
-  "Last 24h",
+  'Big Bang',
+  '5y',
+  '3y',
+  '1y',
+  '9m',
+  '6m',
+  '3m',
+  '1m',
+  '2w',
+  '1w',
+  'Last 24h',
 ];

@@ -5,19 +5,19 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/src/application/aim_notifier.dart';
-import 'package:wom_pocket/src/application/transactions_notifier.dart';
-import 'package:wom_pocket/src/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
+import 'package:wom_pocket/src/core/application/transactions_notifier.dart';
+import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/database/database.dart';
-import 'package:wom_pocket/src/exchange/application/exchange_notifier.dart';
+import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/models/transaction_model.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/pin/pin_screen.dart';
-import 'package:wom_pocket/src/services/transaction_repository.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
 
-import '../../my_logger.dart';
-import 'import_state.dart';
+import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/migration/application/import_state.dart';
 
 part 'import_notifier.g.dart';
 
@@ -57,7 +57,7 @@ class ImportNotifier extends _$ImportNotifier {
       final zipFile = File('${migrationDir.path}/zip_encrypted_wom_migration');
       await zipFile.writeAsBytes(bytes);
       await ZipFile.extractToDirectory(
-          zipFile: zipFile, destinationDir: migrationDir);
+          zipFile: zipFile, destinationDir: migrationDir,);
 
       final womEncryptedJsonFile = File('${migrationDir.path}/woms');
       final womEncryptedJson = await womEncryptedJsonFile.readAsString();
@@ -76,9 +76,9 @@ class ImportNotifier extends _$ImportNotifier {
         aims.add(woms[i].aim);
       }
 
-      String tmp = "";
+      String tmp = '';
       aims.forEach((aim) {
-        tmp = tmp + "$aim, ";
+        tmp = tmp + '$aim, ';
       });
 
       final aimsString = tmp.trim().substring(0, tmp.length - 1);

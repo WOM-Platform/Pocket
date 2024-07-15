@@ -9,7 +9,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map.dart';
 import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
 
-import '../../../constants.dart';
+import 'package:wom_pocket/constants.dart';
 
 part 'pos_list_screen.g.dart';
 
@@ -54,8 +54,7 @@ class PosListScreen extends ConsumerWidget {
   final Function(LatLng)? goToLocation;
 
   const PosListScreen({
-    Key? key,
-    required this.items,
+    required this.items, Key? key,
     this.goToLocation,
   }) : super(key: key);
 
@@ -106,8 +105,8 @@ class PosListScreen extends ConsumerWidget {
                               // Utils.launchUrl(items[i].url!);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (_) =>
-                                      SuggestionScreen(url: items[i].url!)));
-                            })
+                                      SuggestionScreen(url: items[i].url!),),);
+                            },)
                         : null,
                     subtitle: items[i].url != null
                         ? Text(
@@ -171,7 +170,7 @@ class EmptyListWidget extends ConsumerWidget {
                 ),
                 TextSpan(
                     text: '${'search_here'.tr()}"',
-                    style: style.copyWith(fontWeight: FontWeight.bold)),
+                    style: style.copyWith(fontWeight: FontWeight.bold),),
                 TextSpan(
                   text: '.',
                 ),
@@ -216,7 +215,7 @@ class EmptyListWidget extends ConsumerWidget {
                               image: DecorationImage(
                                   image:
                                       AssetImage('assets/images/urbino.jpeg'),
-                                  fit: BoxFit.cover)),
+                                  fit: BoxFit.cover,),),
                         ),
                         Container(color: Colors.black.withOpacity(0.3)),
                         Center(
@@ -225,7 +224,7 @@ class EmptyListWidget extends ConsumerWidget {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 22),
+                                fontSize: 22,),
                           ),
                         ),
                       ],
@@ -253,7 +252,7 @@ class EmptyListWidget extends ConsumerWidget {
               // )
             ],
           ),
-        )
+        ),
 
         // Text(
         //   '🔍​ Premi il pulsante "${'search_here')}"',

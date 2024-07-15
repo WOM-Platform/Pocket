@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
@@ -13,7 +14,6 @@ import 'package:wom_pocket/src/nfc/application/nfc_notifier.dart';
 import 'package:wom_pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:wom_pocket/src/screens/map/map_screen.dart';
 import 'package:wom_pocket/src/transaction/ui/transactions_screen.dart';
-import 'package:wom_pocket/src/widgets/my_appbar.dart';
 
 class NewHome extends ConsumerStatefulWidget {
   const NewHome({Key? key}) : super(key: key);
@@ -108,7 +108,7 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                                 child: Container(
                                   color: Colors.transparent,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),

@@ -183,7 +183,7 @@ class Utils {
   static String getRandomString(int length) {
     final _rnd = Random();
     return String.fromCharCodes(Iterable.generate(
-        length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+        length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),),);
   }
 }
 

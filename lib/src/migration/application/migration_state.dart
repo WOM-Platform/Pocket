@@ -7,7 +7,7 @@ part 'migration_state.freezed.dart';
 @freezed
 class MigrationState with _$MigrationState {
   const factory MigrationState.data(
-      {required String pin, required List<WomRow> woms}) = MigrationStateData;
+      {required String pin, required List<WomRow> woms,}) = MigrationStateData;
 
   const factory MigrationState.loading() = MigrationStateLoading;
 

@@ -26,17 +26,17 @@ main() {
           22000,
           (index) => WomRow(
                 id: index.toString(),
-                sourceName: "sourceName",
-                secret: "secret",
-                geohash: "abcde",
-                aim: "P",
-                sourceId: "sourceId",
+                sourceName: 'sourceName',
+                secret: 'secret',
+                geohash: 'abcde',
+                aim: 'P',
+                sourceId: 'sourceId',
                 transactionId: index,
                 addedOn: thirtyDaysAgo,
                 spent: 0,
                 latitude: 0.0,
                 longitude: 0.0,
-              )).map((w) => w.toCompanion(true)),
+              ),).map((w) => w.toCompanion(true)),
     ]);
   });
 

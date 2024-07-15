@@ -1,4 +1,4 @@
-import 'package:wom_pocket/src/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/core/application/transaction_notifier.dart';
 
 class LocationServiceException extends PocketException {}
 

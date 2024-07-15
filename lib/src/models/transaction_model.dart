@@ -9,15 +9,15 @@ part 'transaction_model.freezed.dart';
 
 @freezed
 class TransactionModel with _$TransactionModel {
-  static const tblTransaction = "Transactions";
-  static const dbId = "Id";
-  static const dbTimestamp = "Timestamp";
-  static const dbType = "type";
-  static const dbCountry = "country";
-  static const dbSize = "size";
-  static const dbSource = "source";
-  static const dbAim = "Aim";
-  static const dbAckUrl = "ackUrl";
+  static const tblTransaction = 'Transactions';
+  static const dbId = 'Id';
+  static const dbTimestamp = 'Timestamp';
+  static const dbType = 'type';
+  static const dbCountry = 'country';
+  static const dbSize = 'size';
+  static const dbSource = 'source';
+  static const dbAim = 'Aim';
+  static const dbAckUrl = 'ackUrl';
 
   const factory TransactionModel({
     @TransactionTypeConverter() required TransactionType type,
@@ -27,11 +27,10 @@ class TransactionModel with _$TransactionModel {
     @DateTimeConverter() @JsonKey(name: 'Timestamp') required DateTime date,
     // @JsonKey(name: 'Aim') required Aim aim,
     @JsonKey(name: 'Id') required int id,
-    String? ackUrl,
+    required int size, String? ackUrl,
     String? pin,
     String? link,
     @DateTimeConverter() DateTime? importDeadline,
-    required int size,
   }) = _TransactionModel;
 }
 

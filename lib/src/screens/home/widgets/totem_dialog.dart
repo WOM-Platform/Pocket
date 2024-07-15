@@ -9,15 +9,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/src/application/aim_notifier.dart';
-import 'package:wom_pocket/src/application/location_notifier.dart';
-import 'package:wom_pocket/src/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
+import 'package:wom_pocket/src/core/application/location_notifier.dart';
+import 'package:wom_pocket/src/core/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/core/services/transaction_repository.dart';
+import 'package:wom_pocket/src/features/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/models/deep_link_model.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
-import 'package:wom_pocket/src/services/transaction_repository.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 part 'totem_dialog.g.dart';
@@ -123,7 +123,7 @@ class TotemMetadata with _$TotemMetadata {
 class TotemDialogState with _$TotemDialogState {
   const factory TotemDialogState.complete(
       {required DeepLinkModel deepLinkModel,
-      required String password}) = TotemDialogComplete;
+      required String password,}) = TotemDialogComplete;
 
   const factory TotemDialogState.retrievingGPS() = TotemDialogRetrievingGPS;
 
@@ -135,7 +135,7 @@ class TotemDialogState with _$TotemDialogState {
   const factory TotemDialogState.initialLoading() = TotemDialogInitialLoading;
 
   const factory TotemDialogState.error(TotemError totemError, Object error,
-      {StackTrace? st}) = TotemDialogStateError;
+      {StackTrace? st,}) = TotemDialogStateError;
 }
 
 @riverpod
@@ -166,7 +166,7 @@ class TotemNotifier extends _$TotemNotifier {
       final currentPosition =
           await ref.refresh(locationNotifierProvider.future);
       if (currentPosition.isMocked) {
-        state = TotemDialogStateError(TotemError.mockedLocation, "");
+        state = TotemDialogStateError(TotemError.mockedLocation, '');
         return;
       }
       final location =
@@ -260,7 +260,7 @@ class TotemNotifier extends _$TotemNotifier {
     } catch (ex, st) {
       logger.e('handleError', error: ex, stackTrace: st);
     }
-    state = TotemDialogStateError(totemError, "");
+    state = TotemDialogStateError(totemError, '');
   }
 }
 
@@ -272,8 +272,7 @@ class TotemDialog extends ConsumerWidget {
   // final TotemSource? source;
 
   const TotemDialog({
-    Key? key,
-    required this.totemData,
+    required this.totemData, Key? key,
     // this.source,
     this.askGender = true,
     this.askPosition = true,
@@ -301,7 +300,7 @@ class TotemDialog extends ConsumerWidget {
     final state = ref.watch(totemNotifierProvider(
       totemData,
       askGender: askGender,
-    ));
+    ),);
     final size = MediaQuery.sizeOf(context);
     return Dialog(
       child: Container(
@@ -376,12 +375,12 @@ class TotemDialog extends ConsumerWidget {
                               .read(totemNotifierProvider(
                                 totemData,
                                 askGender: askGender,
-                              ).notifier)
+                              ).notifier,)
                               .action();
                       }
                     },
                     child: Text(state.totemError.errorActionText(context)),
-                  )
+                  ),
                 ],
               ),
             ] else ...[
@@ -422,7 +421,7 @@ enum Gender {
 class GenderSelectorWidget extends HookConsumerWidget {
   final Function onAction;
 
-  const GenderSelectorWidget({Key? key, required this.onAction})
+  const GenderSelectorWidget({required this.onAction, Key? key})
       : super(key: key);
 
   @override
@@ -460,7 +459,7 @@ class GenderSelectorWidget extends HookConsumerWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('cancel'.tr())),
+                  child: Text('cancel'.tr()),),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,

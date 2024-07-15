@@ -1,26 +1,26 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/src/application/aim_notifier.dart';
-import 'package:wom_pocket/src/application/transactions_notifier.dart';
-import 'package:wom_pocket/src/blocs/transactions_list/bloc.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
+import 'package:wom_pocket/src/core/application/transactions_notifier.dart';
+import 'package:wom_pocket/src/core/blocs/transactions_list/bloc.dart';
 import 'package:wom_pocket/src/models/aim_percentage.dart';
 
 part 'wom_stats_notifier.g.dart';
 
 @riverpod
 Future<List<AimInPercentage>> fetchAimInPercentage(
-    FetchAimInPercentageRef ref) async {
+    FetchAimInPercentageRef ref,) async {
   return ref.watch(getDatabaseProvider).womsDao.getAimInPercentage();
 }
 
 @riverpod
 Future<int> fetchWomCountEarnedInTheLastWeek(
-    FetchWomCountEarnedInTheLastWeekRef ref) async {
+    FetchWomCountEarnedInTheLastWeekRef ref,) async {
   return ref.watch(getDatabaseProvider).womsDao.getWomCountEarnedLastWeek();
 }
 
 @riverpod
 Future<int> fetchWomCountSpentInTheLastWeek(
-    FetchWomCountSpentInTheLastWeekRef ref) async {
+    FetchWomCountSpentInTheLastWeekRef ref,) async {
   return ref.watch(getDatabaseProvider).womsDao.getWomCountSpentLastWeek();
 }
 

@@ -16,7 +16,7 @@ BitmapDescriptor? standardPin;
 Future<BitmapDescriptor> getPosPin() async {
   return await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(devicePixelRatio: Platform.isIOS ? 1 : null),
-      'assets/images/wom_pos_pin.png');
+      'assets/images/wom_pos_pin.png',);
 }
 
 @Riverpod()

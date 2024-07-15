@@ -18,7 +18,7 @@ part 'database.g.dart';
 
 @DriftDatabase(
     tables: [Wom, Aims, Transactions, Totems],
-    daos: [WomsDao, AimsDao, TransactionsDao, TotemsDao])
+    daos: [WomsDao, AimsDao, TransactionsDao, TotemsDao],)
 class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
   MyDatabase([DatabaseConnection? connection])

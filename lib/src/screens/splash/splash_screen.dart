@@ -1,7 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 
-import '../../my_logger.dart';
+import 'package:wom_pocket/src/my_logger.dart';
 
 /*
 adb shell 'am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "wom://pay/910895d04a39438bbe6a7db04c5b1f59"'
@@ -23,11 +23,11 @@ class SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     // bloc = BlocProvider.of<AppBloc>(context);
-    logger.i("splash init");
+    logger.i('splash init');
     super.initState();
 
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+        duration: const Duration(milliseconds: 1000), vsync: this,);
 
     opacityLogo = CurvedAnimation(parent: _controller, curve: Curves.easeInOut)
       ..addListener(() {
@@ -35,7 +35,7 @@ class SplashScreenState extends State<SplashScreen>
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          logger.i("animation complete");
+          logger.i('animation complete');
         }
       });
     _controller.forward();
@@ -127,7 +127,7 @@ class SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    logger.i("splash dispose");
+    logger.i('splash dispose');
     _controller.dispose();
     super.dispose();
   }

@@ -6,8 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:wom_pocket/src/scanner/application/scanner_state.dart';
 
-import '../../my_logger.dart';
-import '../../utils/colors.dart';
+import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 class ScanScreen extends ConsumerStatefulWidget {
   const ScanScreen({Key? key}) : super(key: key);
@@ -77,7 +77,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                     color: Colors.black,
                     onPressed: () {
                       Navigator.of(context).pop();
-                    }),
+                    },),
               ),
               GestureDetector(
                 onScaleUpdate: (details) {
@@ -136,7 +136,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
 class TopMessage extends StatelessWidget {
   final String text;
 
-  const TopMessage({super.key, required this.text});
+  const TopMessage({required this.text, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +157,7 @@ class TopMessage extends StatelessWidget {
 class ScanInfo extends ConsumerWidget {
   final Function(bool) onUpdate;
 
-  const ScanInfo({Key? key, required this.onUpdate}) : super(key: key);
+  const ScanInfo({required this.onUpdate, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

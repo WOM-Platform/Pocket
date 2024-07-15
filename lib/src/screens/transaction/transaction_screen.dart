@@ -7,23 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/src/application/transaction_notifier.dart';
-import 'package:wom_pocket/src/application/transactions_notifier.dart';
-import 'package:wom_pocket/src/blocs/map/bloc.dart';
-import 'package:wom_pocket/src/blocs/transaction/bloc.dart';
-import 'package:wom_pocket/src/exchange/application/exchange_notifier.dart';
+import 'package:wom_pocket/src/core/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/core/application/transactions_notifier.dart';
+import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/core/blocs/transaction/bloc.dart';
+import 'package:wom_pocket/src/core/ui/widgets/voucher_card.dart';
+import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/transaction/info_payment.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
-import 'package:wom_pocket/src/widgets/voucher_card.dart';
 
 class TransactionScreen extends ConsumerStatefulWidget {
   final TransactionNotifierParams params;
 
   const TransactionScreen({
-    Key? key,
-    required this.params,
+    required this.params, Key? key,
   }) : super(key: key);
 
   @override
@@ -47,7 +46,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     _animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.fastOutSlowIn,
-    ));
+    ),);
   }
 
   @override
@@ -106,12 +105,12 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                       if (state.infoPay == null) {
                         ref
                             .read(transactionNotifierProvider(widget.params)
-                                .notifier)
+                                .notifier,)
                             .refresh();
                       } else {
                         ref
                             .read(transactionNotifierProvider(widget.params)
-                                .notifier)
+                                .notifier,)
                             .confirmPayment(state.infoPay!);
                       }
                     },
@@ -122,7 +121,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                     params: widget.params,
                     responseInfoPay: state.infoPayment,
                     password: state.password,
-                  ));
+                  ),);
                 } else if (state is TransactionErrorState) {
                   return TransactionErrorWidget(
                     errorKey: state.translationKey,
@@ -132,7 +131,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                     tryAgain: () {
                       ref
                           .read(transactionNotifierProvider(widget.params)
-                              .notifier)
+                              .notifier,)
                           .refresh();
                     },
                     backToHome: backToHome,
@@ -144,7 +143,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                     tryAgain: () {
                       ref
                           .read(transactionNotifierProvider(widget.params)
-                              .notifier)
+                              .notifier,)
                           .refresh();
                     },
                   );
@@ -156,7 +155,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                       final url = state.transaction.ackUrl;
                       return Transform(
                         transform: Matrix4.translationValues(
-                            0.0, _animation.value * (-10), 0.0),
+                            0.0, _animation.value * (-10), 0.0,),
                         child: Center(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -169,7 +168,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                   color: Theme.of(context).primaryColor,
                                 ),
                                 child: FlareActor(
-                                  "assets/flare/check.flr",
+                                  'assets/flare/check.flr',
                                   alignment: Alignment.center,
                                   fit: BoxFit.contain,
                                   animation: 'success',
@@ -182,12 +181,12 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                 opacity: _animation as Animation<double>,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
+                                      horizontal: 10.0,),
                                   child: Center(
                                     child: Text(
                                       getMessage(state.transaction.type),
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 20.0),
+                                          color: Colors.white, fontSize: 20.0,),
                                     ),
                                   ),
                                 ),
@@ -199,9 +198,9 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                 opacity: _animation as Animation<double>,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
+                                      horizontal: 10.0,),
                                   child: TicketCard(
-                                      transaction: state.transaction),
+                                      transaction: state.transaction,),
                                 ),
                               ),
                               SizedBox(
@@ -226,7 +225,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -255,7 +254,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              });
+              },);
             },
           ),
         ),
@@ -316,8 +315,7 @@ class TransactionErrorWidget extends StatelessWidget {
   final Function()? tryAgain;
 
   const TransactionErrorWidget({
-    Key? key,
-    required this.message,
+    required this.message, Key? key,
     this.backToHome,
     this.tryAgain,
     this.errorKey,
@@ -356,7 +354,7 @@ class TransactionErrorWidget extends StatelessWidget {
               TextButton(
                 onPressed: backToHome,
                 child: Text(
-                  "cancel".tr(),
+                  'cancel'.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -388,10 +386,8 @@ class TransactionWarningWidget extends StatelessWidget {
   final String desc;
 
   const TransactionWarningWidget({
-    Key? key,
+    required this.title, required this.desc, Key? key,
     this.tryAgain,
-    required this.title,
-    required this.desc,
   }) : super(key: key);
 
   @override
@@ -410,7 +406,7 @@ class TransactionWarningWidget extends StatelessWidget {
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,),
             ),
             SizedBox(height: 24.0),
             Text(

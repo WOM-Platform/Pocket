@@ -9,7 +9,7 @@ class PosMapData with _$PosMapData {
   const factory PosMapData(
       {required List<POSMap> posList,
       required Set<Marker> markers,
-      @Default(false) bool isLoading}) = _PosMapData;
+      @Default(false) bool isLoading,}) = _PosMapData;
 
   factory PosMapData.empty() => PosMapData(posList: [], markers: {});
 }

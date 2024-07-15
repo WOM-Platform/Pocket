@@ -11,7 +11,7 @@ main() {
           requestId: 'requestId',
         ),
         validateTotemQrCodeWithRegex(
-            "https://link.wom.social/cmi/providerId/eventId/totemId/requestId"));
+            'https://link.wom.social/cmi/providerId/eventId/totemId/requestId',),);
     expect(
         TotemData(
           providerId: 'providerId',
@@ -20,7 +20,7 @@ main() {
           requestId: null,
         ),
         validateTotemQrCodeWithRegex(
-            "https://link.wom.social/cmi/providerId/eventId/totemId/"));
+            'https://link.wom.social/cmi/providerId/eventId/totemId/',),);
     expect(
         TotemData(
           providerId: 'providerId',
@@ -29,15 +29,15 @@ main() {
           requestId: null,
         ),
         validateTotemQrCodeWithRegex(
-            "https://link.wom.social/cmi/providerId/eventId/totemId"));
+            'https://link.wom.social/cmi/providerId/eventId/totemId',),);
     expect(
         null,
         validateTotemQrCodeWithRegex(
-            "https://link.wom.social/cmi/providerId/eventId/"));
+            'https://link.wom.social/cmi/providerId/eventId/',),);
   });
 
   test('Deep link 2', () {
-    final link2 = "https://link.wom.social/cmi/providerId/totemId";
+    final link2 = 'https://link.wom.social/cmi/providerId/totemId';
     expect(
         TotemData(
           providerId: 'providerId',
@@ -45,7 +45,7 @@ main() {
           eventId: null,
           requestId: null,
         ),
-        validateTotemQrCodeWithRegex(link2));
+        validateTotemQrCodeWithRegex(link2),);
     expect(
         TotemData(
           providerId: 'providerId',
@@ -53,11 +53,11 @@ main() {
           eventId: null,
           requestId: null,
         ),
-        validateTotemQrCodeWithRegex('$link2/'));
+        validateTotemQrCodeWithRegex('$link2/'),);
     expect(
         null,
         validateTotemQrCodeWithRegex(
-            "https://link.wom.social/cmi/providerId/"));
+            'https://link.wom.social/cmi/providerId/',),);
     expect(
         TotemData(
           providerId: 'providerId',
@@ -66,6 +66,6 @@ main() {
           requestId: 'requestId',
         ),
         validateTotemQrCodeWithRegex(
-            "https://link.wom.social/cmi/providerId/totemId?token=requestId"));
+            'https://link.wom.social/cmi/providerId/totemId?token=requestId',),);
   });
 }

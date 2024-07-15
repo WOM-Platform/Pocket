@@ -14,7 +14,7 @@ class CodePanel extends StatelessWidget {
       required this.currentLength,
       this.borderColor,
       this.foregroundColor,
-      this.status = 0})
+      this.status = 0,})
       : assert(codeLength > 0),
         assert(currentLength >= 0),
         assert(currentLength <= codeLength);
@@ -40,8 +40,8 @@ class CodePanel extends StatelessWidget {
               decoration: new BoxDecoration(
                   shape: BoxShape.circle,
                   border: new Border.all(color: color, width: 2.0),
-                  color: foregroundColor),
-            )));
+                  color: foregroundColor,),
+            ),),);
       } else {
         circles.add(new SizedBox(
             width: W,
@@ -52,7 +52,7 @@ class CodePanel extends StatelessWidget {
                 border: new Border.all(color: color, width: 1.0),
                 color: color,
               ),
-            )));
+            ),),);
       }
     }
 
@@ -66,8 +66,8 @@ class CodePanel extends StatelessWidget {
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: circles,
-                )),
-          ]),
+                ),),
+          ],),
     );
   }
 }

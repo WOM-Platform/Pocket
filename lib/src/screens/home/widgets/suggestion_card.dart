@@ -7,7 +7,7 @@ class SuggestionCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   const SuggestionCard(
-      {Key? key, this.suggestionModel, this.onDeleteCard, this.onTap})
+      {Key? key, this.suggestionModel, this.onDeleteCard, this.onTap,})
       : super(key: key);
 
   @override

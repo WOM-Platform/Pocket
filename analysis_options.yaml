@@ -12,22 +12,34 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   plugins:
     - custom_lint
-
+  errors:
+    todo: ignore
+    fixme: ignore
+  exclude:
+    - .fvm/**
+    - '**/*.g.dart'
+    - '**/*.freezed.dart'
+    - 'migration/*'
+    - 'test/*'
+    -
 linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at
-  # https://dart-lang.github.io/linter/lints/index.html.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
-
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+    - avoid_print
+    - avoid_void_async
+    - await_only_futures
+    - always_use_package_imports
+    - always_put_required_named_parameters_first
+    - avoid_empty_else
+    - avoid_returning_null_for_void
+    - close_sinks
+    #    - lines_longer_than_80_chars
+    - prefer_single_quotes
+    - prefer_final_in_for_each
+    - require_trailing_commas
+    #    - use_build_context_synchronously
+    #    - sort_pub_dependencies
+    - sort_unnamed_constructors_first
+    - unnecessary_parenthesis
+    - unnecessary_to_list_in_spreads
+    - use_colored_box
+    - use_decorated_box

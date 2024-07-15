@@ -7,17 +7,17 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wom_pocket/src/application/aim_notifier.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
+import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
 import 'package:wom_pocket/src/log_output.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/screens/intro/intro.dart';
 import 'package:wom_pocket/src/screens/table_page/db_page.dart';
 import 'package:wom_pocket/src/utils/utils.dart';
-import 'package:wom_pocket/src/widgets/my_appbar.dart';
 
-import '../../../constants.dart';
-import '../../migration/ui/migration_screen.dart';
+import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/migration/ui/migration_screen.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   @override
@@ -129,10 +129,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       : () async {
                           Hive.box('settings').delete('gender');
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('genderInfoRemoved'.tr())));
+                              content: Text('genderInfoRemoved'.tr()),),);
                         },
                 );
-              }),
+              },),
           SettingSectionTitle(
             text: 'App',
             desc: 'settings.app.desc'.tr(),
@@ -166,7 +166,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => IntroScreen(
                         fromSettings: true,
-                      )));
+                      ),),);
             },
           ),
           SettingsItem(
@@ -205,7 +205,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             SettingSectionTitle(text: 'Developer options'),
             SettingsItem(
               title: 'Clear DB (only for debug)',
-              subtitle: "Delete all data of local database",
+              subtitle: 'Delete all data of local database',
               icon: Icons.delete,
               onTap: () async {
                 ref.read(getDatabaseProvider).deleteEverything();
@@ -213,7 +213,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             SettingsItem(
               title: 'Show logs',
-              subtitle: "Go to logs screen",
+              subtitle: 'Go to logs screen',
               icon: Icons.bug_report,
               onTap: () async {
                 Navigator.of(context)
@@ -247,11 +247,9 @@ class SettingsItem extends StatelessWidget {
   final VoidCallback? onTap;
 
   const SettingsItem(
-      {Key? key,
-      required this.title,
-      required this.subtitle,
+      {required this.title, required this.subtitle, Key? key,
       this.icon,
-      this.onTap})
+      this.onTap,})
       : super(key: key);
 
   @override
@@ -284,7 +282,7 @@ class SettingSectionTitle extends StatelessWidget {
   final String text;
   final String? desc;
 
-  const SettingSectionTitle({super.key, required this.text, this.desc});
+  const SettingSectionTitle({required this.text, super.key, this.desc});
 
   @override
   Widget build(BuildContext context) {
@@ -366,7 +364,7 @@ class LanguageSelectorDialog extends StatelessWidget {
                     child: Text(l.languageCode.tr()),
                   ),
                 ],
-              )
+              ),
           ],
         ),
       ),

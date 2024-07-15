@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/src/core/blocs/suggestions/bloc.dart';
 
-import 'package:wom_pocket/src/blocs/suggestions/bloc.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
 class SuggestionsSection extends ConsumerWidget {
@@ -26,7 +26,7 @@ class SuggestionsSection extends ConsumerWidget {
                       color: baseIconColor,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 10.0),
+                            vertical: 20.0, horizontal: 10.0,),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
@@ -38,7 +38,7 @@ class SuggestionsSection extends ConsumerWidget {
                                 style: TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.grey[400]),
+                                    color: Colors.grey[400],),
                               ),
                             ),
                             Padding(
@@ -51,7 +51,7 @@ class SuggestionsSection extends ConsumerWidget {
                                 style: TextStyle(
                                     fontSize: 24.0,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                    color: Colors.white,),
                               ),
                             ),
                           ],
@@ -101,6 +101,6 @@ class SuggestionsSection extends ConsumerWidget {
           child: CircularProgressIndicator(),
         ),
       );
-    });
+    },);
   }
 }

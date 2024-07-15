@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wom_pocket/src/exchange/ui/screens/exchange.dart';
+import 'package:wom_pocket/src/features/exchange/ui/screens/exchange.dart';
 
 class ExchangeCard extends StatelessWidget {
   const ExchangeCard({super.key});
@@ -46,7 +46,7 @@ class ExchangeCard extends StatelessWidget {
                           Colors.transparent,
                           Colors.transparent,
                           Colors.transparent,
-                        ]),
+                        ],),
                   ),
                 ),
                 Align(
@@ -59,7 +59,7 @@ class ExchangeCard extends StatelessWidget {
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

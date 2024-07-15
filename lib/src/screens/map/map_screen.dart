@@ -7,15 +7,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:wom_pocket/src/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
 import 'package:wom_pocket/src/screens/map/widgets/aims_list.dart';
 import 'package:wom_pocket/src/screens/map/widgets/custom_slider.dart';
 import 'package:wom_pocket/src/screens/map/widgets/sources_list.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../../constants.dart';
-import '../../my_logger.dart';
-import '../../utils/colors.dart';
+import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 final maxHeight = Platform.isIOS ? 375.0 : 350.0;
 final minHeight = Platform.isIOS ? 80.0 : 45.0;
@@ -31,7 +31,7 @@ class MapScreen extends StatelessWidget {
           elevation: 0,
           systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: primaryColor,
-              statusBarIconBrightness: Brightness.light),
+              statusBarIconBrightness: Brightness.light,),
           backgroundColor: Theme.of(context).primaryColor,
           actions: [
             // IconButton(
@@ -67,16 +67,16 @@ class MapBody extends ConsumerWidget {
     ref.listen<AsyncValue<MapState>>(mapNotifierProvider, (p, n) {
       if (p != null && p is AsyncData && n is AsyncData) {
         if (p.value!.markers.isEmpty && n.value!.markers.isNotEmpty) {
-          logger.i("move camera");
+          logger.i('move camera');
           final controller = ref.read(mapNotifierProvider.notifier).controller;
           final middlePointLat = n.value!.markers
               .fold<double>(43.72, (sum, item) => sum + item.position.latitude);
           final middlePointLong = n.value!.markers.fold<double>(
-              12.63, (sum, item) => sum + item.position.longitude);
+              12.63, (sum, item) => sum + item.position.longitude,);
           final lat = middlePointLat / (n.value!.markers.length + 1);
           final long = middlePointLong / (n.value!.markers.length + 1);
           logger.i(
-              'middle lat long = $lat, $long for ${n.value!.markers.length} markers');
+              'middle lat long = $lat, $long for ${n.value!.markers.length} markers',);
           controller?.animateCamera(CameraUpdate.newCameraPosition(
             CameraPosition(
               target: LatLng(
@@ -85,14 +85,14 @@ class MapBody extends ConsumerWidget {
               ),
               zoom: lastZoom,
             ),
-          ));
+          ),);
         }
       }
     });
     return Container(
       padding: enabled
           ? EdgeInsets.only(
-              bottom: minHeight, top: MediaQuery.of(context).padding.top)
+              bottom: minHeight, top: MediaQuery.of(context).padding.top,)
           : null,
       // key: PageStorageKey('map'),
       child: GoogleMap(
@@ -128,7 +128,7 @@ class MapBody extends ConsumerWidget {
 
 class MapPanel extends ConsumerWidget {
   final style = TextStyle(
-      fontSize: 15.0, fontWeight: FontWeight.w600, color: Colors.white);
+      fontSize: 15.0, fontWeight: FontWeight.w600, color: Colors.white,);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -148,7 +148,7 @@ class MapPanel extends ConsumerWidget {
                 height: 5,
                 decoration: BoxDecoration(
                     color: Colors.grey[300],
-                    borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),),
               ),
             ],
           ),
@@ -180,7 +180,7 @@ class MapPanel extends ConsumerWidget {
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
               final state = ref.watch(mapNotifierProvider);
               logger.i(
-                  "build wom without location: ${state.valueOrNull?.womCountWithoutLocation}");
+                  'build wom without location: ${state.valueOrNull?.womCountWithoutLocation}',);
               if (state.valueOrNull?.womCountWithoutLocation == 0) {
                 return SizedBox.shrink();
               }

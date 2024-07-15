@@ -7,7 +7,7 @@ import 'package:wom_pocket/src/screens/home/widgets/transaction_list.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 
-import 'transaction_card_info_dialog.dart';
+import 'package:wom_pocket/src/transaction/ui/transaction_card_info_dialog.dart';
 
 class TransactionInfo extends StatelessWidget {
   const TransactionInfo({Key? key}) : super(key: key);
@@ -46,7 +46,7 @@ class TransactionInfo extends StatelessWidget {
           iconData: Icons.swipe_rounded,
           color: Colors.grey,
           description: 'transactionInfoSwipeDesc'.tr(),
-        )
+        ),
       ],
     );
   }
@@ -63,7 +63,7 @@ class TransactionsScreen extends ConsumerWidget {
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: primaryColor,
-            statusBarIconBrightness: Brightness.light),
+            statusBarIconBrightness: Brightness.light,),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
@@ -72,7 +72,7 @@ class TransactionsScreen extends ConsumerWidget {
               onPressed: () {
                 Alert(context: context, content: TransactionInfo(), buttons: [])
                     .show();
-              }),
+              },),
         ],
       ),
       body: SingleChildScrollView(

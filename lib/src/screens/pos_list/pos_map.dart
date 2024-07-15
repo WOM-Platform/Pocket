@@ -15,9 +15,9 @@ import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
 import 'package:wom_pocket/src/screens/pos_list/search_button.dart';
-import '../../utils/location_utils.dart';
-import 'carousel.dart';
-import 'pos_list_screen.dart';
+import 'package:wom_pocket/src/utils/location_utils.dart';
+import 'package:wom_pocket/src/screens/pos_list/carousel.dart';
+import 'package:wom_pocket/src/screens/pos_list/pos_list_screen.dart';
 
 part 'pos_map.g.dart';
 
@@ -78,9 +78,9 @@ Future<Location> currentLocationProvider(CurrentLocationProviderRef ref) async {
     case LocationPermission.whileInUse:
       //We can get the location from the device
       final p = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+          desiredAccuracy: LocationAccuracy.high,);
       print(p);
-      logger.i("position is mocked ${p.isMocked}");
+      logger.i('position is mocked ${p.isMocked}');
       return Location(latitude: p.latitude, longitude: p.longitude);
     case LocationPermission.denied:
       final ask = await Geolocator.requestPermission();
@@ -88,8 +88,8 @@ Future<Location> currentLocationProvider(CurrentLocationProviderRef ref) async {
       if (ask == LocationPermission.always ||
           ask == LocationPermission.whileInUse) {
         final p = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
-        logger.i("p ${p.isMocked}");
+            desiredAccuracy: LocationAccuracy.high,);
+        logger.i('p ${p.isMocked}');
         return Location(latitude: p.latitude, longitude: p.longitude);
       }
       print('currentLocationProvider: LocationPermission.denied');
@@ -220,8 +220,8 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                                 ?.getVisibleRegion()
                                 .then((value) => ref
                                     .read(
-                                        latLongBoundsNotifierProvider.notifier)
-                                    .state = value);
+                                        latLongBoundsNotifierProvider.notifier,)
+                                    .state = value,);
                           },
                           onMapCreated: (GoogleMapController controller) {
                             controller.setMapStyle(mapStyle);
@@ -243,8 +243,8 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                                   color: Colors.grey,
                                   onPressed: () {
                                     goToCurrentLocation(
-                                        _controller.future, minZoom);
-                                  }),
+                                        _controller.future, minZoom,);
+                                  },),
                             ),
                           ),
                         Positioned(
@@ -293,7 +293,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                     // color: Colors.green,
                     height: 50,
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 8.0),
+                        horizontal: 8, vertical: 8.0,),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -309,7 +309,7 @@ class _PosMapScreenState extends ConsumerState<PosMapScreen> {
                           icons: [Icons.map, Icons.list],
                           activeBgColors: [
                             [Colors.blue],
-                            [Colors.pink]
+                            [Colors.pink],
                           ],
                           onToggle: (index) {
                             print('switched to: $index');

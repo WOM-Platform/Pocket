@@ -5,10 +5,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:wom_pocket/src/application/aim_notifier.dart';
-import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:collection/collection.dart';
+import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:wom_pocket/src/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
@@ -59,7 +58,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: primaryColor,
-            statusBarIconBrightness: Brightness.light),
+            statusBarIconBrightness: Brightness.light,),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [],
       ),
@@ -160,7 +159,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                               ],
                             ),
                           ),
-                      ]
+                      ],
                       // read about it in the PieChartData section
                       ),
                   swapAnimationDuration: Duration(milliseconds: 150),
@@ -181,12 +180,12 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                                 .firstWhereOrNull((a) => a.code == aims[i].aim)
                                 ?.title(
                                     languageCode:
-                                        context.locale.languageCode) ??
+                                        context.locale.languageCode,) ??
                             aims[i].aim,
                         isSquare: true,
                       ),
                       SizedBox(height: 4),
-                    ]
+                    ],
                   ],
                 ),
               ),
@@ -200,10 +199,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
 
 class Indicator extends StatelessWidget {
   const Indicator({
-    super.key,
-    required this.color,
-    required this.text,
-    required this.isSquare,
+    required this.color, required this.text, required this.isSquare, super.key,
     this.size = 16,
     this.textColor,
   });
@@ -241,7 +237,7 @@ class Indicator extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-        )
+        ),
       ],
     );
   }

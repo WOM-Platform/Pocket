@@ -12,8 +12,8 @@ import 'package:wom_pocket/src/my_logger.dart';
 import 'package:wom_pocket/src/utils/colors.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 
-import 'constants.dart';
-import 'src/utils/utils.dart';
+import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/utils/utils.dart';
 
 late String mapStyle;
 

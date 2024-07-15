@@ -106,7 +106,7 @@ abstract class Record {
   NdefRecord toNdef();
 
   static Record fromNdef(NdefRecord record) {
-    print("NdefTypeNameFormat: ${record.typeNameFormat}");
+    print('NdefTypeNameFormat: ${record.typeNameFormat}');
     if (record.typeNameFormat == NdefTypeNameFormat.nfcWellknown &&
         record.type.length == 1 &&
         record.type.first == 0x55) return WellknownUriRecord.fromNdef(record);
@@ -124,7 +124,7 @@ abstract class Record {
 }
 
 class WellknownUriRecord implements Record {
-  WellknownUriRecord({this.identifier, required this.uri});
+  WellknownUriRecord({required this.uri, this.identifier});
 
   final Uint8List? identifier;
 

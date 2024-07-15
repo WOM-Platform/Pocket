@@ -9,7 +9,7 @@ import 'package:wom_pocket/src/utils/utils.dart';
 enum PopupActions { open, copy }
 
 class SuggestionScreen extends StatefulWidget {
-  SuggestionScreen({Key? key, required this.url}) : super(key: key);
+  SuggestionScreen({required this.url, Key? key}) : super(key: key);
 
   final String url;
 

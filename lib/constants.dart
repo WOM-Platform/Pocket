@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wom_pocket/src/utils/config.dart';
 
-import 'src/utils/colors.dart';
+import 'package:wom_pocket/src/utils/colors.dart';
 
 late String domain;
 late String registryKey;

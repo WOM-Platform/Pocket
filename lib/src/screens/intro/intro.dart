@@ -9,8 +9,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/core/application/app_notifier.dart';
 
-import 'package:wom_pocket/src/application/app_notifier.dart';
 import 'package:wom_pocket/src/models/totem_data.dart';
 import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/nfc/utils.dart';
@@ -68,7 +68,7 @@ class IntroScreen extends HookConsumerWidget {
             height: 285.0,
             width: 285.0,
             alignment: Alignment.center,
-          )),
+          ),),
       IntroPage(
         textColor: Colors.white,
         backGroundColor: const Color(0xFF8BC34A),
@@ -114,7 +114,7 @@ class IntroScreen extends HookConsumerWidget {
             style: ElevatedButton.styleFrom(backgroundColor: accentColor),
             onPressed: () {
               final totemData = validateTotemQrCodeWithRegex(
-                  'https://link.wom.social/cmi/e3441c34-b02c-4bd9-8de5-9e312468ca69/d67c6e3a-053a-4cb7-b4ce-d1d0427c6cad');
+                  'https://link.wom.social/cmi/e3441c34-b02c-4bd9-8de5-9e312468ca69/d67c6e3a-053a-4cb7-b4ce-d1d0427c6cad',);
               if (totemData != null) {
                 launchTotemDialog(context, totemData);
               }
@@ -203,13 +203,9 @@ class IntroPage extends StatelessWidget {
   final Widget? bottomButton;
 
   const IntroPage({
-    Key? key,
-    required this.backGroundColor,
-    required this.title,
-    required this.message,
+    required this.backGroundColor, required this.title, required this.message, required this.child, Key? key,
     this.textColor,
     this.bottomButton,
-    required this.child,
   }) : super(key: key);
 
   @override
@@ -254,7 +250,7 @@ class IntroPage extends StatelessWidget {
             if (bottomButton != null) bottomButton!,
             SizedBox(
               height: 80,
-            )
+            ),
           ],
         ),
       ),

@@ -22,7 +22,7 @@ class _LogOutputScreenState extends State<LogOutputScreen> {
               onPressed: () {
                 devOutput = '';
                 setState(() {});
-              }),
+              },),
         ],
       ),
       body: SingleChildScrollView(

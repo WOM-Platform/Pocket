@@ -20,7 +20,7 @@ class ListingCarouselWidget extends ConsumerWidget {
   const ListingCarouselWidget(this.items, {Key? key}) : super(key: key);
 
   void onPageChanged(
-      POSMap item, int index, CarouselPageChangedReason reason, WidgetRef ref) {
+      POSMap item, int index, CarouselPageChangedReason reason, WidgetRef ref,) {
     if (reason == CarouselPageChangedReason.manual) {
       final markerId = MarkerId(item.id);
       print(ref.read(mapControllerNotifierProvider));
@@ -75,8 +75,7 @@ class CarouselItem extends StatelessWidget {
   final POSMap store;
 
   const CarouselItem({
-    Key? key,
-    required this.store,
+    required this.store, Key? key,
   }) : super(key: key);
 
   @override
@@ -102,7 +101,7 @@ class CarouselItem extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            height: 1),
+                            height: 1,),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -115,17 +114,17 @@ class CarouselItem extends StatelessWidget {
                                 // Utils.launchUrl(store.url!);
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (_) =>
-                                        SuggestionScreen(url: store.url!)));
+                                        SuggestionScreen(url: store.url!),),);
                               },
                               child: Text(
                                 store.url!,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                    decoration: TextDecoration.underline),
+                                    decoration: TextDecoration.underline,),
                               ),
                             ),
                           ],
-                        )
+                        ),
                     ],
                   ),
                 ),
