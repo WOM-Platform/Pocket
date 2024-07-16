@@ -12,7 +12,7 @@ import 'package:wom_pocket/src/features/offers/data/offer.dart';
 import 'package:wom_pocket/src/features/offers/domain/entities/static_cities.dart';
 import 'package:wom_pocket/src/features/offers/ui/carousel.dart';
 import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
-import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
 
@@ -396,6 +396,6 @@ class OffersMapNotifier extends _$OffersMapNotifier {
 
   Future<void> updateCitiesMarkers() async {
     await loadStaticCityMarkers();
-    ref.refresh(showStaticCitiesProvider);
+    ref.invalidate(showStaticCitiesProvider);
   }
 }

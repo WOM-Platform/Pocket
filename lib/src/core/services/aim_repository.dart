@@ -2,9 +2,9 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/services/transaction_repository.dart';
-import 'package:wom_pocket/src/database/database.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 
 final aimRepositoryProvider = Provider<AimRepository>((ref) {
   return AimRepository(

@@ -1,6 +1,6 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
-import 'package:wom_pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/src/core/models/transaction_model.dart';
 
 abstract class TransactionState extends Equatable {}
 

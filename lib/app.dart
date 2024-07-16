@@ -9,21 +9,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:wom_pocket/src/core/application/app_notifier.dart';
 import 'package:wom_pocket/src/core/application/app_state.dart';
-import 'package:wom_pocket/src/migration/application/import_notifier.dart';
-import 'package:wom_pocket/src/migration/ui/import_screen.dart';
-import 'package:wom_pocket/src/models/deep_link_model.dart';
-import 'package:wom_pocket/src/models/totem_data.dart';
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/nfc/utils.dart';
-import 'package:wom_pocket/src/screens/home/home_screen.dart';
-import 'package:wom_pocket/src/screens/pin/pin_screen.dart';
+import 'package:wom_pocket/src/features/migration/application/import_notifier.dart';
+import 'package:wom_pocket/src/features/migration/ui/import_screen.dart';
+import 'package:wom_pocket/src/core/models/deep_link_model.dart';
+import 'package:wom_pocket/src/core/models/totem_data.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/nfc/utils.dart';
+import 'package:wom_pocket/src/features/root/root_screen.dart';
+import 'package:wom_pocket/src/features/pin/pin_screen.dart';
 
-import 'package:wom_pocket/src/screens/intro/intro.dart';
-import 'package:wom_pocket/src/screens/settings/settings.dart';
-import 'package:wom_pocket/src/screens/splash/splash_screen.dart';
+import 'package:wom_pocket/src/features/intro/intro.dart';
+import 'package:wom_pocket/src/features/settings/settings.dart';
+import 'package:wom_pocket/src/features/splash/splash_screen.dart';
 
 import 'package:flutter/material.dart';
-import 'package:wom_pocket/src/utils/colors.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 
 bool fakeModeVar = false;
 String? fakeData;
@@ -169,7 +169,7 @@ class GateWidget extends ConsumerWidget {
 
       if (data is NormalMode) {
         return FeatureDiscovery(
-          child: HomeScreen2(),
+          child: RootScreen(),
         );
       }
     }

@@ -11,8 +11,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wom_pocket/src/features/offers/application/pos_notifier.dart';
 import 'package:wom_pocket/src/features/offers/ui/offer_tile.dart';
 
-import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
-import 'package:wom_pocket/src/utils/colors.dart';
+import 'package:wom_pocket/src/features/offers/ui/suggestion.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 
 class POSDetailsScreen extends ConsumerWidget {
   final List<Offer> offers;

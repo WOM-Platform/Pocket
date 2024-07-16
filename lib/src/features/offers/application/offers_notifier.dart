@@ -7,7 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
 import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/features/offers/data/offer.dart';
-import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 
 part 'offers_notifier.g.dart';
 

@@ -1,7 +1,7 @@
 /*
 import 'dart:async';
 
-import 'package:wom_pocket/src/models/deep_link_model.dart';
+import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import '../../my_logger.dart';
 import './bloc.dart';
 

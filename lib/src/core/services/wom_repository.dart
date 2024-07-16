@@ -1,6 +1,6 @@
-import 'package:wom_pocket/src/database/database.dart';
-import 'package:wom_pocket/src/models/source_group_wom.dart';
-import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
+import 'package:wom_pocket/src/core/models/source_group_wom.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 
 
 class WomRepository {

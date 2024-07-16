@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/src/models/suggestion_model.dart';
+import 'package:wom_pocket/src/core/models/suggestion_model.dart';
 import 'package:wom_pocket/src/core/blocs/suggestions/bloc.dart';
 
 final suggestionNotifierProvider =

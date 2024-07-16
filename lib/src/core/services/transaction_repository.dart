@@ -5,15 +5,15 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
-import 'package:wom_pocket/src/database/database.dart';
-import 'package:wom_pocket/src/database/extensions.dart';
-import 'package:wom_pocket/src/models/totem_data.dart';
-import 'package:wom_pocket/src/models/transaction_model.dart';
-import 'package:wom_pocket/src/models/wom_model.dart';
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/screens/home/widgets/totem_dialog.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
+import 'package:wom_pocket/src/core/database/extensions.dart';
+import 'package:wom_pocket/src/core/models/totem_data.dart';
+import 'package:wom_pocket/src/core/models/transaction_model.dart';
+import 'package:wom_pocket/src/core/models/wom_model.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/root/widgets/totem_dialog.dart';
 
 final pocketProvider = Provider<Pocket>((ref) => Pocket(domain, registryKey));
 

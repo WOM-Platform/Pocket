@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
 
 class BadgeScreen extends ConsumerWidget {

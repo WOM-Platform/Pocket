@@ -7,11 +7,11 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/blocs/transaction/bloc.dart';
 import 'package:wom_pocket/src/core/services/transaction_repository.dart';
-import 'package:wom_pocket/src/models/deep_link_model.dart';
-import 'package:wom_pocket/src/models/transaction_model.dart';
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/utils/location_exception.dart';
-import 'package:wom_pocket/src/utils/my_extensions.dart';
+import 'package:wom_pocket/src/core/models/deep_link_model.dart';
+import 'package:wom_pocket/src/core/models/transaction_model.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/location_exception.dart';
+import 'package:wom_pocket/src/core/utils/my_extensions.dart';
 
 part 'transaction_notifier.g.dart';
 

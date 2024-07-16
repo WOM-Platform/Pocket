@@ -6,7 +6,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/application/new_exchange_state.dart';
 
-import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -14,10 +14,10 @@ import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/features/offers/ui/offer_tile.dart';
 import 'package:wom_pocket/src/features/offers/ui/pos_details_screen.dart';
 
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/new_home/ui/section_title.dart';
-import 'package:wom_pocket/src/utils/location_exception.dart';
-import 'package:wom_pocket/src/utils/location_utils.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/new_home/ui/section_title.dart';
+import 'package:wom_pocket/src/core/utils/location_exception.dart';
+import 'package:wom_pocket/src/core/utils/location_utils.dart';
 
 final refreshControllerProvider = Provider<RefreshController>((ref) {
   final c = RefreshController(initialRefresh: false);

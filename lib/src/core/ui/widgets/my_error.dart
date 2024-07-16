@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:wom_pocket/constants.dart';
+import 'package:wom_pocket/src/core/constants.dart';
 
 class MyErrorWidget extends StatelessWidget {
   final Object? ex;

@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
-import 'package:wom_pocket/src/database/database.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
 
 part 'totem_scans_notifier.g.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wom_pocket/src/utils/colors.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 
 class PocketAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;

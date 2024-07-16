@@ -8,9 +8,9 @@ import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
-import 'package:wom_pocket/src/database/database.dart';
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/screens/home/widgets/wom_stats_widget.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
 
 import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
 

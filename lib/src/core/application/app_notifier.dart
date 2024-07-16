@@ -4,11 +4,11 @@ import 'package:nfc_background/nfc_background.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:wom_pocket/src/core/services/app_repository.dart';
-import 'package:wom_pocket/src/models/deep_link_model.dart';
-import 'package:wom_pocket/src/models/totem_data.dart';
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/new_home/application/wom_stats_notifier.dart';
-import 'package:wom_pocket/src/utils/utils.dart';
+import 'package:wom_pocket/src/core/models/deep_link_model.dart';
+import 'package:wom_pocket/src/core/models/totem_data.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
 
 import 'package:wom_pocket/src/core/application/app_state.dart';
 

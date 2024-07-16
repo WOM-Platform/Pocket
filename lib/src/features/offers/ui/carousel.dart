@@ -9,8 +9,8 @@ import 'package:wom_pocket/src/features/offers/application/offer_map_notifier.da
 import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/features/offers/ui/pos_details_screen.dart';
 
-import 'package:wom_pocket/src/screens/suggestion/suggestion.dart';
-import 'package:wom_pocket/src/utils/colors.dart';
+import 'package:wom_pocket/src/features/offers/ui/suggestion.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 
 import 'package:wom_pocket/src/features/offers/ui/search_button.dart';
 

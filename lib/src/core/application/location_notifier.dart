@@ -3,8 +3,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/features/offers/application/offers_notifier.dart';
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/utils/location_utils.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/location_utils.dart';
 
 part 'location_notifier.g.dart';
 

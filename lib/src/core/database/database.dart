@@ -1,0 +1,100 @@
+// To open the database, add these imports to the existing file defining the
+// database class. They are used to open the database.
+import 'dart:io';
+
+import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
+import 'package:wom_pocket/src/core/database/aims_dao.dart';
+import 'package:wom_pocket/src/core/database/tables.dart';
+import 'package:wom_pocket/src/core/database/totems_dao.dart';
+import 'package:wom_pocket/src/core/database/transactions_dao.dart';
+import 'package:wom_pocket/src/core/database/woms_dao.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+
+part 'database.g.dart';
+
+@DriftDatabase(
+    tables: [Wom, Aims, Transactions, Totems],
+    daos: [WomsDao, AimsDao, TransactionsDao, TotemsDao],)
+class MyDatabase extends _$MyDatabase {
+  // we tell the database where to store the data with this constructor
+  MyDatabase([DatabaseConnection? connection])
+      : super(connection ?? _openConnection());
+
+  @visibleForTesting
+  MyDatabase.query(QueryExecutor executor) : super(executor);
+
+  @override
+  int get schemaVersion => 6;
+
+  Future<void> deleteEverything() async {
+    await transaction(() async {
+      // Deleting tables in reverse topological order to avoid foreign-key conflicts
+      final tables = allTables.toList().reversed;
+      for (final table in tables) await delete(table).go();
+    });
+  }
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        logger.i('onCreate');
+        await m.createAll();
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        logger.wtf('from $from to $to');
+        if (from < 4) {
+          await m.addColumn(wom, wom.donationId);
+          await m.addColumn(wom, wom.spentOn);
+          await m.renameColumn(wom, 'live', wom.spent);
+          await m.renameColumn(wom, 'Timestamp', wom.addedOn);
+          await m.addColumn(transactions, transactions.pin);
+          await m.addColumn(transactions, transactions.link);
+          await m.addColumn(transactions, transactions.deadline);
+        } else if (from < 5) {
+          await m.createTable(totems);
+        } else if (from < 6) {
+          await m.addColumn(totems, totems.eventName);
+          await m.addColumn(totems, totems.sessionName);
+          await m.addColumn(totems, totems.womLink);
+          await m.addColumn(totems, totems.womPin);
+          await m.addColumn(totems, totems.latitude);
+          await m.addColumn(totems, totems.longitude);
+          await m.addColumn(totems, totems.totemName);
+          await m.addColumn(totems, totems.providerName);
+          await m.addColumn(totems, totems.email);
+          await m.addColumn(totems, totems.phoneNumber);
+          await m.addColumn(totems, totems.url);
+        }
+      },
+      beforeOpen: (details) async {
+        print('version before: ${details.versionBefore}');
+        print('version now: ${details.versionNow}');
+
+        if (kDebugMode) {
+          // This check pulls in a fair amount of code that's not needed
+          // anywhere else, so we recommend only doing it in debug builds.
+          // await validateDatabaseSchema();
+        }
+
+        return Future.value();
+      },
+    );
+  }
+}
+
+LazyDatabase _openConnection() {
+  // the LazyDatabase util lets us find the right location for the file async.
+  return LazyDatabase(() async {
+    // put the database file, called db.sqlite here, into the documents folder
+    // for your app.
+    final dbFolder = await getApplicationDocumentsDirectory();
+    print(dbFolder.path);
+    final file = File(p.join(dbFolder.path, 'pocket.db'));
+    return NativeDatabase(file);
+  });
+}

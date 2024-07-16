@@ -10,7 +10,7 @@ import 'package:dart_wom_connector/dart_wom_connector.dart'
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:wom_pocket/src/blocs/transaction/transaction_event.dart';
 import 'package:wom_pocket/src/blocs/transaction/transaction_state.dart';
-import 'package:wom_pocket/src/models/transaction_model.dart';
+import 'package:wom_pocket/src/core/models/transaction_model.dart';
 import 'package:wom_pocket/src/services/transaction_repository.dart';
 
 import '../../my_logger.dart';

@@ -1,7 +1,7 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart' show Aim;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/services/aim_repository.dart';
-import 'package:wom_pocket/src/database/database.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
 
 part 'aim_notifier.g.dart';
 

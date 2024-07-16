@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 
-import 'package:wom_pocket/src/models/transaction_model.dart';
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/utils/colors.dart';
+import 'package:wom_pocket/src/core/models/transaction_model.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 
 import 'package:collection/collection.dart';
 
@@ -238,6 +238,7 @@ class VoucherClipper extends CustomClipper<Path> {
 class AimsRow extends StatelessWidget {
   final String? aims;
   Set<String> aimsSet = Set();
+
 
   AimsRow({Key? key, this.aims}) {
     if (aims != null) {

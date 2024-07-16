@@ -7,8 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/ui/screens/exchange_receipt.dart';
 
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/utils/colors.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 
 class NewExchangeWidget extends HookConsumerWidget {
   const NewExchangeWidget({Key? key}) : super(key: key);

@@ -8,12 +8,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wom_pocket/app.dart';
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/utils/colors.dart';
-import 'package:wom_pocket/src/utils/config.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/core/utils/config.dart';
 
-import 'package:wom_pocket/constants.dart';
-import 'package:wom_pocket/src/utils/utils.dart';
+import 'package:wom_pocket/src/core/constants.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
 
 late String mapStyle;
 

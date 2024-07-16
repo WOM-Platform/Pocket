@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/blocs/pin/bloc.dart';
-import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 
 part 'pin_notifier.g.dart';
 

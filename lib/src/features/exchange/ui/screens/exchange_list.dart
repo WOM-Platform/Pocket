@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
-import 'package:wom_pocket/src/new_home/ui/section_title.dart';
-import 'package:wom_pocket/src/screens/home/widgets/transaction_card.dart';
+import 'package:wom_pocket/src/features/new_home/ui/section_title.dart';
+import 'package:wom_pocket/src/features/root/widgets/transaction_card.dart';
 
 class ExchangeListScreen extends ConsumerWidget {
   const ExchangeListScreen({Key? key}) : super(key: key);

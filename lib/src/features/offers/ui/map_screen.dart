@@ -11,8 +11,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/features/offers/application/offer_map_notifier.dart';
 import 'package:wom_pocket/src/features/offers/ui/search_button.dart';
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/utils/colors.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/offers/ui/carousel.dart';
 
 enum PosScreen { list, map }
