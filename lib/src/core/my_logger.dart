@@ -19,7 +19,7 @@ String devOutput = '';
 class DevOutput extends LogOutput {
   @override
   void output(OutputEvent event) {
-    print('---------');
+    logger.i('---------');
     event.lines.forEach(print);
     event.lines.forEach((v) {
       devOutput += '\n$v';

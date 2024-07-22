@@ -57,8 +57,9 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
         title: Text('stats'.tr()),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: primaryColor,
-            statusBarIconBrightness: Brightness.light,),
+          statusBarColor: primaryColor,
+          statusBarIconBrightness: Brightness.light,
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [],
       ),
@@ -114,54 +115,54 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                 width: baseSize * 2,
                 child: PieChart(
                   PieChartData(
-                      pieTouchData: PieTouchData(
-                        touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                          setState(() {
-                            if (!event.isInterestedForInteractions ||
-                                pieTouchResponse == null ||
-                                pieTouchResponse.touchedSection == null) {
-                              touchedIndex = '';
-                              return;
-                            }
-                            touchedIndex = aims[pieTouchResponse
-                                    .touchedSection!.touchedSectionIndex]
-                                .aim;
-                          });
-                        },
-                      ),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 0,
-                      sections: [
-                        for (int i = 0; i < aims.length; i++)
-                          PieChartSectionData(
-                            value: aims[i].count.toDouble(),
-                            // showTitle: widget.enabled,
-                            title: '${aims[i].percentage.toStringAsFixed(0)}%',
-                            titlePositionPercentageOffset: 0.9,
-                            // title: aims[i].aim,
-                            color: aimColors[min(i, 9)],
-                            radius: aims[i].aim == touchedIndex
-                                ? baseSize
-                                : baseSize - 10.0,
-                            titleStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(1.0, 1.0),
-                                  blurRadius: 3.0,
-                                  color: Colors.black,
-                                ),
-                              ],
-                            ),
+                    pieTouchData: PieTouchData(
+                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                        setState(() {
+                          if (!event.isInterestedForInteractions ||
+                              pieTouchResponse == null ||
+                              pieTouchResponse.touchedSection == null) {
+                            touchedIndex = '';
+                            return;
+                          }
+                          touchedIndex = aims[pieTouchResponse
+                                  .touchedSection!.touchedSectionIndex]
+                              .aim;
+                        });
+                      },
+                    ),
+                    borderData: FlBorderData(
+                      show: false,
+                    ),
+                    sectionsSpace: 0,
+                    centerSpaceRadius: 0,
+                    sections: [
+                      for (int i = 0; i < aims.length; i++)
+                        PieChartSectionData(
+                          value: aims[i].count.toDouble(),
+                          // showTitle: widget.enabled,
+                          title: '${aims[i].percentage.toStringAsFixed(0)}%',
+                          titlePositionPercentageOffset: 0.9,
+                          // title: aims[i].aim,
+                          color: aimColors[min(i, 9)],
+                          radius: aims[i].aim == touchedIndex
+                              ? baseSize
+                              : baseSize - 10.0,
+                          titleStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            shadows: <Shadow>[
+                              Shadow(
+                                offset: Offset(1.0, 1.0),
+                                blurRadius: 3.0,
+                                color: Colors.black,
+                              ),
+                            ],
                           ),
-                      ],
-                      // read about it in the PieChartData section
-                      ),
+                        ),
+                    ],
+                    // read about it in the PieChartData section
+                  ),
                   swapAnimationDuration: Duration(milliseconds: 150),
                   // Optional
                   swapAnimationCurve: Curves.linear, // Optional
@@ -179,8 +180,8 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                         text: aimList
                                 .firstWhereOrNull((a) => a.code == aims[i].aim)
                                 ?.title(
-                                    languageCode:
-                                        context.locale.languageCode,) ??
+                                  languageCode: context.locale.languageCode,
+                                ) ??
                             aims[i].aim,
                         isSquare: true,
                       ),
@@ -199,7 +200,10 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
 
 class Indicator extends StatelessWidget {
   const Indicator({
-    required this.color, required this.text, required this.isSquare, super.key,
+    required this.color,
+    required this.text,
+    required this.isSquare,
+    super.key,
     this.size = 16,
     this.textColor,
   });

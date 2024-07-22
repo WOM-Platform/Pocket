@@ -16,7 +16,8 @@ class PosTile extends ConsumerWidget {
   final String? distance;
 
   const PosTile({
-    required this.posName, Key? key,
+    required this.posName,
+    Key? key,
     this.withCard = true,
     this.imageUrl,
     this.distance,
@@ -62,7 +63,8 @@ class PosBanner extends StatelessWidget {
   final bool isVirtual;
 
   const PosBanner({
-    required this.posName, Key? key,
+    required this.posName,
+    Key? key,
     this.imageUrl,
     this.isVirtual = false,
     this.distance,
@@ -193,9 +195,10 @@ class OfferTile extends StatelessWidget {
               Text(
                 '${offer.cost}',
                 style: TextStyle(
-                    color: Color(0xFF2A69FF),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,),
+                  color: Color(0xFF2A69FF),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
               ),
               Image.asset(
                 'assets/images/logo_1.png',

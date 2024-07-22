@@ -17,12 +17,13 @@ class _LogOutputScreenState extends State<LogOutputScreen> {
         title: Text('Logs'),
         actions: [
           IconButton(
-              icon: Icon(Icons.clear),
-              color: Colors.red,
-              onPressed: () {
-                devOutput = '';
-                setState(() {});
-              },),
+            icon: Icon(Icons.clear),
+            color: Colors.red,
+            onPressed: () {
+              devOutput = '';
+              setState(() {});
+            },
+          ),
         ],
       ),
       body: SingleChildScrollView(

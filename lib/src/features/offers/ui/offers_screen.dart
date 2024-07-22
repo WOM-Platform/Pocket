@@ -16,7 +16,7 @@ import 'package:wom_pocket/src/features/offers/ui/pos_details_screen.dart';
 
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/new_home/ui/section_title.dart';
-import 'package:wom_pocket/src/core/utils/location_exception.dart';
+import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
 import 'package:wom_pocket/src/core/utils/location_utils.dart';
 
 final refreshControllerProvider = Provider<RefreshController>((ref) {
@@ -76,7 +76,8 @@ class PocketErrorWidget extends StatelessWidget {
   final String errorText;
 
   const PocketErrorWidget({
-    required this.errorText, Key? key,
+    required this.errorText,
+    Key? key,
     this.ex,
     this.tryAgain,
     this.tryAgainText,
@@ -170,8 +171,10 @@ class OffersList extends ConsumerWidget {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (c) => OfferMapsScreen(
-                                      position: LatLng(cities[index].lat,
-                                          cities[index].long,),
+                                      position: LatLng(
+                                        cities[index].lat,
+                                        cities[index].long,
+                                      ),
                                     ),
                                   ),
                                 );
@@ -229,15 +232,22 @@ class OffersList extends ConsumerWidget {
                       }
                     } on LocationPermissionDeniedForever {
                       Alert(
-                          context: context,
-                          type: AlertType.error,
-                          title: 'locationPermissionDeniedForever'.tr(),
-                          buttons: [],).show();
-                      logger.e('OffersScreen: LocationPermissionDeniedForever',
-                          error: ex, stackTrace: st,);
+                        context: context,
+                        type: AlertType.error,
+                        title: 'locationPermissionDeniedForever'.tr(),
+                        buttons: [],
+                      ).show();
+                      logger.e(
+                        'OffersScreen: LocationPermissionDeniedForever',
+                        error: ex,
+                        stackTrace: st,
+                      );
                     } catch (ex, st) {
-                      logger.e('OffersScreen, unkown error',
-                          error: ex, stackTrace: st,);
+                      logger.e(
+                        'OffersScreen, unkown error',
+                        error: ex,
+                        stackTrace: st,
+                      );
                     }
                   },
                   tryAgainText: 'grantPermission'.tr(),
@@ -298,21 +308,22 @@ class VirtualOfferList extends ConsumerWidget {
           SizedBox(
             height: 100,
             child: ListView.builder(
-                padding: const EdgeInsets.only(left: 16),
-                scrollDirection: Axis.horizontal,
-                itemCount: count.valueOrNull ?? 0,
-                itemBuilder: (c, index) {
-                  return ProviderScope(
-                    overrides: [
-                      currentQuestion.overrideWithValue(
-                        ref
-                            .watch(paginatedVirtualOffersProvider(index ~/ 10))
-                            .whenData((page) => page.data[index % 10]),
-                      ),
-                    ],
-                    child: VirtualPOSCard(),
-                  );
-                },),
+              padding: const EdgeInsets.only(left: 16),
+              scrollDirection: Axis.horizontal,
+              itemCount: count.valueOrNull ?? 0,
+              itemBuilder: (c, index) {
+                return ProviderScope(
+                  overrides: [
+                    currentQuestion.overrideWithValue(
+                      ref
+                          .watch(paginatedVirtualOffersProvider(index ~/ 10))
+                          .whenData((page) => page.data[index % 10]),
+                    ),
+                  ],
+                  child: VirtualPOSCard(),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -326,7 +337,9 @@ class CityCard extends StatelessWidget {
   final double? fontSize;
 
   const CityCard({
-    required this.city, required this.onTap, Key? key,
+    required this.city,
+    required this.onTap,
+    Key? key,
     this.fontSize,
   }) : super(key: key);
 
@@ -341,7 +354,9 @@ class CityCard extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(city.imageAsset), fit: BoxFit.cover,),
+                  image: AssetImage(city.imageAsset),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Container(color: Colors.black.withOpacity(0.3)),

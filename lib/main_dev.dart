@@ -32,11 +32,11 @@ Future<void> main() async {
   final allAims = await database.select(database.aims).get();
   allAims.forEach(print);
   final woms = await database.select(database.wom).get();
-  print(woms.length);
-  print(woms[0]);
+  logger.i(woms.length);
+  logger.i(woms[0]);
   final myTransactions = await database.select(database.transactions).get();
-  print(myTransactions.length);
-  print(myTransactions[0]);*/
+  logger.i(myTransactions.length);
+  logger.i(myTransactions[0]);*/
 
   // Firebase
   await Firebase.initializeApp();
@@ -58,18 +58,23 @@ Future<void> main() async {
   logger.i('DEV VERSION');
   registryKey = await Utils.getPublicKey();
   mapStyle = await rootBundle.loadString('assets/map_style.txt');
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-    statusBarColor: Colors.red,
-  ),);
-
-  runApp(FeatureDiscovery(
-      child: ProviderScope(
-    child: EasyLocalization(
-      supportedLocales: [Locale('en'), Locale('it')],
-      path: 'assets/lang',
-      // <-- change the path of the translation files
-      fallbackLocale: Locale('it'),
-      child: App(),
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.red,
     ),
-  ),),);
+  );
+
+  runApp(
+    FeatureDiscovery(
+      child: ProviderScope(
+        child: EasyLocalization(
+          supportedLocales: [Locale('en'), Locale('it')],
+          path: 'assets/lang',
+          // <-- change the path of the translation files
+          fallbackLocale: Locale('it'),
+          child: App(),
+        ),
+      ),
+    ),
+  );
 }

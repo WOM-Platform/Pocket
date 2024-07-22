@@ -91,7 +91,7 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
       return null;
     }
     roe.forEach((element) {
-      print('${element.sessionId} ${element.timestamp}');
+      logger.i('${element.sessionId} ${element.timestamp}');
     });
     final lastSessionId = roe.last.sessionId;
     final participationCount = roe.length;
@@ -121,7 +121,9 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
   }
 
   Future<Map<String, int>?> getLastScan2(
-      String providerId, String totemId,) async {
+    String providerId,
+    String totemId,
+  ) async {
     final List<TotemRow> roe = await (select(totems)
           ..where(
             (t) => Expression.and(
@@ -138,7 +140,7 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
     }
     final m = <String, int>{};
     roe.forEach((element) {
-      print('${element.sessionId} ${element.timestamp}');
+      logger.i('${element.sessionId} ${element.timestamp}');
       m[element.sessionId] = (m[element.sessionId] ?? 0) + 1;
     });
     return m;

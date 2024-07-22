@@ -11,8 +11,13 @@ abstract class MapState extends Equatable {
   final List<WomGroupBy> aims;
   final int womCountWithoutLocation;
 
-  MapState(this.sliderValue, this.markers, this.sources, this.aims,
-      this.womCountWithoutLocation,);
+  MapState(
+    this.sliderValue,
+    this.markers,
+    this.sources,
+    this.aims,
+    this.womCountWithoutLocation,
+  );
 
   @override
   List<Object?> get props =>
@@ -20,30 +25,31 @@ abstract class MapState extends Equatable {
 }
 
 class InitialMapState extends MapState {
-  InitialMapState(
-      {double sliderValue = 0.0,
-      Set<Marker> markers = const {},
-      List<WomGroupBy> sources = const [],
-      List<WomGroupBy> aims = const [],
-      int womCountWithoutLocation = 0,})
-      : super(sliderValue, markers, sources, aims, womCountWithoutLocation);
+  InitialMapState({
+    double sliderValue = 0.0,
+    Set<Marker> markers = const {},
+    List<WomGroupBy> sources = const [],
+    List<WomGroupBy> aims = const [],
+    int womCountWithoutLocation = 0,
+  }) : super(sliderValue, markers, sources, aims, womCountWithoutLocation);
 }
 
 class MapUpdated extends MapState {
-  MapUpdated(
-      {Set<Marker> markers = const {},
-      double? sliderValue,
-      List<WomGroupBy> sources = const [],
-      List<WomGroupBy> aims = const [],
-      int womCountWithoutLocation = 0,})
-      : super(sliderValue, markers, sources, aims, womCountWithoutLocation);
+  MapUpdated({
+    Set<Marker> markers = const {},
+    double? sliderValue,
+    List<WomGroupBy> sources = const [],
+    List<WomGroupBy> aims = const [],
+    int womCountWithoutLocation = 0,
+  }) : super(sliderValue, markers, sources, aims, womCountWithoutLocation);
 
   MapUpdated copyWith(
-      Set<Marker>? markers,
-      double? sliderValue,
-      List<WomGroupBy>? sources,
-      List<WomGroupBy>? aims,
-      int? womCountWithoutLocation,) {
+    Set<Marker>? markers,
+    double? sliderValue,
+    List<WomGroupBy>? sources,
+    List<WomGroupBy>? aims,
+    int? womCountWithoutLocation,
+  ) {
     return MapUpdated(
       markers: markers ?? this.markers,
       sliderValue: sliderValue ?? this.sliderValue,

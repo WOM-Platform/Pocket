@@ -5,17 +5,15 @@ import 'package:dart_wom_connector/dart_wom_connector.dart'
 import 'package:geolocator/geolocator.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/src/core/blocs/transaction/bloc.dart';
+import 'package:wom_pocket/src/features/transaction/application/transaction_state.dart';
 import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/core/utils/location_exception.dart';
+import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
 import 'package:wom_pocket/src/core/utils/my_extensions.dart';
 
 part 'transaction_notifier.g.dart';
-
-class PocketException implements Exception {}
 
 class TransactionNotifierParams {
   final DeepLinkModel deepLinkModel;
@@ -163,29 +161,48 @@ class TransactionNotifier extends _$TransactionNotifier {
         logEvent('wom_payment_done');
         state = AsyncData(TransactionCompleteState(transaction));
       } on InsufficientVouchers {
-        state = AsyncData(TransactionErrorState(
+        state = AsyncData(
+          TransactionErrorState(
             error: 'Non hai voucher a sufficienza per questa richiesta',
-            translationKey: 'wrong_number_of_vouchers',),);
+            translationKey: 'wrong_number_of_vouchers',
+          ),
+        );
       } on ServerException catch (ex, st) {
-        logger.e('ServerException: ${ex.statusCode}',
-            error: ex, stackTrace: st,);
-        state = AsyncData(TransactionErrorState(
-            error: ex.error, translationKey: ex.translationKey,),);
+        logger.e(
+          'ServerException: ${ex.statusCode}',
+          error: ex,
+          stackTrace: st,
+        );
+        state = AsyncData(
+          TransactionErrorState(
+            error: ex.error,
+            translationKey: ex.translationKey,
+          ),
+        );
       } on TimeoutException catch (ex, st) {
         logger.e('TimeoutException', error: ex, stackTrace: st);
-        state = AsyncData(TransactionErrorState(
+        state = AsyncData(
+          TransactionErrorState(
             error: 'La richiesta ha impiegato troppo tempo',
-            translationKey: 'request_timeout_exception',),);
+            translationKey: 'request_timeout_exception',
+          ),
+        );
       } catch (ex, st) {
         logger.e('Unknown error', error: ex, stackTrace: st);
-        state = AsyncData(TransactionErrorState(
-            error: ex.toString(), translationKey: 'unknown_error',),);
+        state = AsyncData(
+          TransactionErrorState(
+            error: ex.toString(),
+            translationKey: 'unknown_error',
+          ),
+        );
       }
     } else {
-      state = AsyncData(TransactionNoDataConnectionState(
-        infoPay: infoPayment,
-        password: _password,
-      ),);
+      state = AsyncData(
+        TransactionNoDataConnectionState(
+          infoPay: infoPayment,
+          password: _password,
+        ),
+      );
     }
   }
 }

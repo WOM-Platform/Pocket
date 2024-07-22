@@ -41,51 +41,52 @@ class App extends ConsumerWidget {
 
     return OKToast(
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          localeResolutionCallback: (locale, supportedLocales) {
-            if (locale == null) {
-              Intl.defaultLocale = supportedLocales.first.toString();
-              return supportedLocales.first;
-            }
-
-            for (final supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode &&
-                  supportedLocale.countryCode == locale.countryCode) {
-                Intl.defaultLocale = supportedLocale.toString();
-                return supportedLocale;
-              }
-            }
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        localeResolutionCallback: (locale, supportedLocales) {
+          if (locale == null) {
             Intl.defaultLocale = supportedLocales.first.toString();
             return supportedLocales.first;
-          },
-          theme: themeData.copyWith(
-            textTheme: GoogleFonts.ralewayTextTheme(themeData.textTheme),
-            bottomNavigationBarTheme: BottomNavigationBarThemeData(
-              backgroundColor: primaryColor,
-              selectedItemColor: accentColor,
-              unselectedItemColor: Colors.white,
-            ),
-            colorScheme: themeData.colorScheme.copyWith(
-              secondary: accentColor,
-              background: backgroundColor,
-            ),
-          ),
-          builder: (context, child) {
-            // Obtain the current media query information.
-            final mediaQueryData = MediaQuery.of(context);
+          }
 
-            return MediaQuery(
-              data: mediaQueryData.copyWith(textScaler: TextScaler.linear(1.0)),
-              child: child!,
-            );
-          },
-          routes: {
-            '/': (_) => GateWidget(),
-            '/settings': (context) => SettingsScreen(),
-          },),
+          for (final supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode &&
+                supportedLocale.countryCode == locale.countryCode) {
+              Intl.defaultLocale = supportedLocale.toString();
+              return supportedLocale;
+            }
+          }
+          Intl.defaultLocale = supportedLocales.first.toString();
+          return supportedLocales.first;
+        },
+        theme: themeData.copyWith(
+          textTheme: GoogleFonts.ralewayTextTheme(themeData.textTheme),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: primaryColor,
+            selectedItemColor: accentColor,
+            unselectedItemColor: Colors.white,
+          ),
+          colorScheme: themeData.colorScheme.copyWith(
+            secondary: accentColor,
+            background: backgroundColor,
+          ),
+        ),
+        builder: (context, child) {
+          // Obtain the current media query information.
+          final mediaQueryData = MediaQuery.of(context);
+
+          return MediaQuery(
+            data: mediaQueryData.copyWith(textScaler: TextScaler.linear(1.0)),
+            child: child!,
+          );
+        },
+        routes: {
+          '/': (_) => GateWidget(),
+          '/settings': (context) => SettingsScreen(),
+        },
+      ),
     );
   }
 }
@@ -136,8 +137,11 @@ class GateWidget extends ConsumerWidget {
                 );
               }
             } on PlatformException catch (ex, st) {
-              logger.e('AppRepository: error getting deep link',
-                  error: ex, stackTrace: st,);
+              logger.e(
+                'AppRepository: error getting deep link',
+                error: ex,
+                stackTrace: st,
+              );
             } on FormatException catch (ex, st) {
               logger.e('Error getting deep link', error: ex, stackTrace: st);
             } catch (ex, st) {
@@ -151,7 +155,7 @@ class GateWidget extends ConsumerWidget {
     if (Platform.isAndroid) {
       ref.listen<AsyncValue<TotemData?>>(nfcBackgroundNotifierProvider,
           (previous, next) async {
-        print('getNfcIntentProvider new intent');
+        logger.i('getNfcIntentProvider new intent');
         final currentState = next;
         if (currentState is AsyncData && currentState.value != null) {
           await launchTotemDialog(context, currentState.requireValue!);

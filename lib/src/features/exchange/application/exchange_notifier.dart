@@ -2,11 +2,11 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:drift/drift.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/services/aim_repository.dart';
-import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/database/extensions.dart';
 import 'package:wom_pocket/src/features/exchange/application/new_exchange_state.dart';
@@ -19,7 +19,8 @@ part 'exchange_notifier.g.dart';
 
 @riverpod
 Future<List<TransactionModel>> getExchangeTransactions(
-    GetExchangeTransactionsRef ref,) async {
+  GetExchangeTransactionsRef ref,
+) async {
   var aims = await ref.read(aimRepositoryProvider).getFlatAimList();
 
   try {

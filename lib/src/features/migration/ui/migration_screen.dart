@@ -29,13 +29,14 @@ class MyWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final confirm = ref.watch(confirmExportProvider);
     return Checkbox(
-        value: confirm,
-        onChanged: (value) {
-          if (value == null || value == confirm) return;
-          ref.read(confirmExportProvider.notifier).update((state) => !state);
-          // OR
-          // ref.read(confirmExportProvider.notifier).state = !confirm;
-        },);
+      value: confirm,
+      onChanged: (value) {
+        if (value == null || value == confirm) return;
+        ref.read(confirmExportProvider.notifier).update((state) => !state);
+        // OR
+        // ref.read(confirmExportProvider.notifier).state = !confirm;
+      },
+    );
   }
 }
 
@@ -81,8 +82,10 @@ class PageOne extends ConsumerWidget {
             const SizedBox(
               height: 16,
             ),
-            Text('exportWizard'.tr(),
-                style: TextStyle(fontSize: 30, color: Colors.white),),
+            Text(
+              'exportWizard'.tr(),
+              style: TextStyle(fontSize: 30, color: Colors.white),
+            ),
             const SizedBox(
               height: 32,
             ),
@@ -138,8 +141,9 @@ class PageThree extends ConsumerWidget {
                   margin: const EdgeInsets.symmetric(vertical: 16),
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                      color: lightBackground,
-                      borderRadius: BorderRadius.circular(10),),
+                    color: lightBackground,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   height: 80,
                   child: Row(
                     children: [
@@ -157,8 +161,9 @@ class PageThree extends ConsumerWidget {
                             child: Text(
                               pinState.pin.length > i ? pinState.pin[i] : '  ',
                               style: TextStyle(
-                                  fontSize: 40,
-                                  color: Theme.of(context).primaryColor,),
+                                fontSize: 40,
+                                color: Theme.of(context).primaryColor,
+                              ),
                             ),
                           ),
                         ),
@@ -300,13 +305,14 @@ class SummaryPage extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: TextButton(
-                  onPressed: () {
-                    ref.read(pageControllerProvider).jumpToPage(1);
-                  },
-                  child: Text(
-                    'back'.tr(),
-                    style: TextStyle(color: Colors.white),
-                  ),),
+                onPressed: () {
+                  ref.read(pageControllerProvider).jumpToPage(1);
+                },
+                child: Text(
+                  'back'.tr(),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
           Spacer(),
           if (migrationState is MigrationStateData)
@@ -318,7 +324,8 @@ class SummaryPage extends ConsumerWidget {
                 final res = await Alert(
                   context: context,
                   style: AlertStyle(
-                      descStyle: TextStyle(fontSize: 14, color: Colors.grey),),
+                    descStyle: TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
                   type: AlertType.warning,
                   title: 'confirmToExportWom'.tr(),
                   desc: 'confirmToExportWomDesc'.tr(),

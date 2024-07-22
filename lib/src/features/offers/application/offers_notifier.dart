@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
-import 'package:wom_pocket/src/core/services/transaction_repository.dart';
+import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/features/offers/data/offer.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 

@@ -20,12 +20,13 @@ class TransactionCard extends ConsumerWidget {
   final Function? onEdit;
   final Function? onDuplicate;
 
-  const TransactionCard(
-      {required this.transaction, Key? key,
-      this.onDelete,
-      this.onEdit,
-      this.onDuplicate,})
-      : super(key: key);
+  const TransactionCard({
+    required this.transaction,
+    Key? key,
+    this.onDelete,
+    this.onEdit,
+    this.onDuplicate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -239,19 +240,21 @@ class TransactionCard extends ConsumerWidget {
                           ),
                         if ((aim?.titles ?? const {})[languageCode] != null)
                           ItemRow(
-                              t1: 'aim',
-                              t2: transaction.aimCodes.length > 1
-                                  ? transaction.aimCode
-                                  : (aim?.titles ?? const {})[languageCode] ??
-                                      '-',),
+                            t1: 'aim',
+                            t2: transaction.aimCodes.length > 1
+                                ? transaction.aimCode
+                                : (aim?.titles ?? const {})[languageCode] ??
+                                    '-',
+                          ),
                         if (transaction.source.isNotEmpty)
                           ItemRow(
-                              t1: transaction.type == TransactionType.VOUCHERS
-                                  ? 'instrument'
-                                  : transaction.type == TransactionType.PAYMENT
-                                      ? 'pos'
-                                      : 'device'.tr(),
-                              t2: transaction.source,),
+                            t1: transaction.type == TransactionType.VOUCHERS
+                                ? 'instrument'
+                                : transaction.type == TransactionType.PAYMENT
+                                    ? 'pos'
+                                    : 'device'.tr(),
+                            t2: transaction.source,
+                          ),
                       ],
                     ),
                   ),

@@ -17,8 +17,9 @@ import 'package:wom_pocket/src/core/my_logger.dart';
 part 'database.g.dart';
 
 @DriftDatabase(
-    tables: [Wom, Aims, Transactions, Totems],
-    daos: [WomsDao, AimsDao, TransactionsDao, TotemsDao],)
+  tables: [Wom, Aims, Transactions, Totems],
+  daos: [WomsDao, AimsDao, TransactionsDao, TotemsDao],
+)
 class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
   MyDatabase([DatabaseConnection? connection])
@@ -72,8 +73,8 @@ class MyDatabase extends _$MyDatabase {
         }
       },
       beforeOpen: (details) async {
-        print('version before: ${details.versionBefore}');
-        print('version now: ${details.versionNow}');
+        logger.i('version before: ${details.versionBefore}');
+        logger.i('version now: ${details.versionNow}');
 
         if (kDebugMode) {
           // This check pulls in a fair amount of code that's not needed
@@ -93,7 +94,7 @@ LazyDatabase _openConnection() {
     // put the database file, called db.sqlite here, into the documents folder
     // for your app.
     final dbFolder = await getApplicationDocumentsDirectory();
-    print(dbFolder.path);
+    logger.i(dbFolder.path);
     final file = File(p.join(dbFolder.path, 'pocket.db'));
     return NativeDatabase(file);
   });

@@ -24,7 +24,9 @@ class TransactionsDao extends DatabaseAccessor<MyDatabase>
           ..orderBy(
             [
               (tbl) => OrderingTerm(
-                  expression: tbl.timestamp, mode: OrderingMode.desc,),
+                    expression: tbl.timestamp,
+                    mode: OrderingMode.desc,
+                  ),
             ],
           ))
         .get();
@@ -33,8 +35,10 @@ class TransactionsDao extends DatabaseAccessor<MyDatabase>
   // Get all woms not spent
   Future<List<MyTransaction>> get getExchangeTransactions {
     return (select(transactions)
-          ..where((tbl) => tbl.type
-              .isBiggerOrEqualValue(TransactionType.EXCHANGE_EXPORT.index),)
+          ..where(
+            (tbl) => tbl.type
+                .isBiggerOrEqualValue(TransactionType.EXCHANGE_EXPORT.index),
+          )
           ..orderBy(
             [
               (tbl) => OrderingTerm(
@@ -62,11 +66,12 @@ class TransactionsDao extends DatabaseAccessor<MyDatabase>
     ).get();
     if (count.isEmpty) return 0;
     return min(
-        count.fold<int>(
-            0,
-            (previousValue, element) =>
-                previousValue + element.data['size'] as int,),
-        60,);
+      count.fold<int>(
+        0,
+        (previousValue, element) => previousValue + element.data['size'] as int,
+      ),
+      60,
+    );
   }
 
   // returns the generated id

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/offers/application/offer_map_notifier.dart';
 import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/features/offers/ui/pos_details_screen.dart';
@@ -13,7 +14,6 @@ import 'package:wom_pocket/src/features/offers/ui/suggestion.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 
 import 'package:wom_pocket/src/features/offers/ui/search_button.dart';
-
 
 final carouselControllerProvider =
     Provider.autoDispose<CarouselController>((ref) {
@@ -28,14 +28,18 @@ class ListingCarouselWidget extends ConsumerWidget {
   final LatLng? position;
   final Function(LatLng) onTapCity;
 
-  //
   const ListingCarouselWidget({
-    required this.onTapCity, Key? key,
+    required this.onTapCity,
+    Key? key,
     this.position,
   }) : super(key: key);
 
-  void onPageChanged(OfferPOS item, int index, CarouselPageChangedReason reason,
-      WidgetRef ref,) {
+  void onPageChanged(
+    OfferPOS item,
+    int index,
+    CarouselPageChangedReason reason,
+    WidgetRef ref,
+  ) {
     if (reason == CarouselPageChangedReason.manual) {
       final markerId = MarkerId(item.id);
       final controller = ref.read(mapControllerProvider);
@@ -66,7 +70,7 @@ class ListingCarouselWidget extends ConsumerWidget {
       return const SizedBox.shrink();
 
     final widgetHeight = 116.0;
-    print('ListingCarouselWidget there are ${data.offers}');
+    logger.i('ListingCarouselWidget there are ${data.offers}');
     return CarouselSlider.builder(
       key: ValueKey('offers'),
       carouselController: ref.watch(carouselControllerProvider),
@@ -91,16 +95,14 @@ class CarouselItem extends StatelessWidget {
   final OfferPOS pos;
 
   const CarouselItem({
-    required this.pos, Key? key,
+    required this.pos,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // const iconRadius = 14.0;
-    // const iconSize = 18.0;
 
     return InkWell(
-      // key: Key(store.storeId),
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -143,9 +145,10 @@ class CarouselItem extends StatelessWidget {
                         // Characters(offer.name).toList().join('\u{200B}'),
                         pos.name,
                         style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            height: 1,),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          height: 1,
+                        ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -162,8 +165,11 @@ class CarouselItem extends StatelessWidget {
                 if (pos.url != null)
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => SuggestionScreen(url: pos.url!),),);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => SuggestionScreen(url: pos.url!),
+                        ),
+                      );
                     },
                     child: Text(
                       pos.url!,

@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/src/core/services/transaction_repository.dart';
+import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/features/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/features/offers/data/offer.dart';
 import 'package:wom_pocket/src/features/offers/domain/entities/static_cities.dart';
@@ -58,13 +58,17 @@ class OffersMapNotifier extends _$OffersMapNotifier {
               ? inactivePOS ?? BitmapDescriptor.defaultMarker
               : activePOS ??
                   BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueGreen,);
+                    BitmapDescriptor.hueGreen,
+                  );
           // bitmapDescriptor = await BitmapDescriptor.fromAssetImage(
           //     ImageConfiguration(), 'assets/images/wom_pin.png');
         } else {
           // >1
           final markerIcon = await getBytesFromCanvas(
-              150, place.count.toString(), getColor(place.count),);
+            150,
+            place.count.toString(),
+            getColor(place.count),
+          );
           if (markerIcon != null) {
             bitmapDescriptor = BitmapDescriptor.fromBytes(markerIcon);
           } else {
@@ -73,7 +77,8 @@ class OffersMapNotifier extends _$OffersMapNotifier {
         }
 
         final MarkerId markerId = MarkerId(
-            place.isMultiple ? place.getId() : place.items.first.offer.id,);
+          place.isMultiple ? place.getId() : place.items.first.offer.id,
+        );
 
         final marker = Marker(
           onTap: () {
@@ -163,7 +168,10 @@ class OffersMapNotifier extends _$OffersMapNotifier {
   }
 
   Future<Uint8List?> getBytesFromCanvas(
-      int size, String text, MaterialColor color,) async {
+    int size,
+    String text,
+    MaterialColor color,
+  ) async {
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
     final Paint paint1 = Paint()..color = color[400]!;
@@ -176,7 +184,10 @@ class OffersMapNotifier extends _$OffersMapNotifier {
     painter.text = TextSpan(
       text: text,
       style: TextStyle(
-          fontSize: size / 4, color: Colors.black, fontWeight: FontWeight.bold,),
+        fontSize: size / 4,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
     );
     painter.layout();
     painter.paint(
@@ -238,18 +249,22 @@ class OffersMapNotifier extends _$OffersMapNotifier {
   }
 
   Future<BitmapDescriptor?> createCustomMarkerBitmapWithNameAndImage(
-      Uint8List imageBytes, Size size, String name,) async {
+    Uint8List imageBytes,
+    Size size,
+    String name,
+  ) async {
     // final textRectHeight = 70.0;
 
     TextSpan span = new TextSpan(
-        style: new TextStyle(
-          height: 1.2,
-          color: Colors.black,
-          backgroundColor: Colors.white,
-          fontSize: size.width / 4,
-          fontWeight: FontWeight.bold,
-        ),
-        text: name,);
+      style: new TextStyle(
+        height: 1.2,
+        color: Colors.black,
+        backgroundColor: Colors.white,
+        fontSize: size.width / 4,
+        fontWeight: FontWeight.bold,
+      ),
+      text: name,
+    );
 
     TextPainter tp = new TextPainter(
       text: span,
@@ -281,17 +296,25 @@ class OffersMapNotifier extends _$OffersMapNotifier {
 
     //ADD TEXT WITH ALIGN TO CANVAS
     tp.paint(
-        canvas, Offset((size.width / 2) - (tp.width / 2) + leftPadding, 5.0),);
+      canvas,
+      Offset((size.width / 2) - (tp.width / 2) + leftPadding, 5.0),
+    );
 
     // circle for image
     Rect oval = Rect.fromLTWH(
-        leftPadding, tp.height + bottomTextPadding, size.width, size.height,);
+      leftPadding,
+      tp.height + bottomTextPadding,
+      size.width,
+      size.height,
+    );
 
     final image = await getImageFromByteData(imageBytes);
 
     final radius = size.width / 2;
-    final center = Offset(size.width / 2.0 + leftPadding,
-        size.height / 2.0 + tp.height + bottomTextPadding,);
+    final center = Offset(
+      size.width / 2.0 + leftPadding,
+      size.height / 2.0 + tp.height + bottomTextPadding,
+    );
     Paint paintBorder = Paint()
       ..color = Colors.white
       ..strokeWidth = size.width / 18
@@ -309,16 +332,19 @@ class OffersMapNotifier extends _$OffersMapNotifier {
     }
 
     canvas.drawPath(
-        getTrianglePath(
-          leftPadding,
-          size.height + tp.height + bottomTextPadding,
-        ),
-        textBgBoxPaint,);
+      getTrianglePath(
+        leftPadding,
+        size.height + tp.height + bottomTextPadding,
+      ),
+      textBgBoxPaint,
+    );
 
-    canvas.clipPath(Path()
-      ..addOval(
-        oval,
-      ),);
+    canvas.clipPath(
+      Path()
+        ..addOval(
+          oval,
+        ),
+    );
 
     paintImage(
       canvas: canvas,

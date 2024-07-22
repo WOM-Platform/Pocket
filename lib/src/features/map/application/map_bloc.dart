@@ -10,7 +10,7 @@ import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
+import 'package:wom_pocket/src/core/services/wom_repository.dart';
 
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
 
@@ -63,12 +63,16 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
 
         if (!place.isMultiple) {
           bitmapDescriptor = await BitmapDescriptor.fromAssetImage(
-              ImageConfiguration(devicePixelRatio: Platform.isIOS ? 1 : null),
-              'assets/images/wom_pos_pin.png',);
+            ImageConfiguration(devicePixelRatio: Platform.isIOS ? 1 : null),
+            'assets/images/wom_pos_pin.png',
+          );
         } else {
           // >1
           final markerIcon = await getBytesFromCanvas(
-              150, place.count.toString(), getColor(place.count),);
+            150,
+            place.count.toString(),
+            getColor(place.count),
+          );
           if (markerIcon != null) {
             bitmapDescriptor = BitmapDescriptor.fromBytes(markerIcon);
           } else {
@@ -223,7 +227,7 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
         aimCondition = aimCondition || a == element.voucher.aim;
       }
       if (!aimCondition) {
-        print('aimCondition false');
+        logger.i('aimCondition false');
       }
 
       return timeCondition && sourceCondition && aimCondition;
@@ -274,7 +278,10 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
   }
 
   Future<Uint8List?> getBytesFromCanvas(
-      int size, String text, MaterialColor color,) async {
+    int size,
+    String text,
+    MaterialColor color,
+  ) async {
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
     final Paint paint1 = Paint()..color = color[400]!;
@@ -287,7 +294,10 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
     painter.text = TextSpan(
       text: text,
       style: TextStyle(
-          fontSize: size / 4, color: Colors.black, fontWeight: FontWeight.bold,),
+        fontSize: size / 4,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
     );
     painter.layout();
     painter.paint(

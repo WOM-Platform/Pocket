@@ -5,6 +5,7 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
@@ -15,11 +16,12 @@ import 'package:wom_pocket/src/core/models/wom_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/root/widgets/totem_dialog.dart';
 
-final pocketProvider = Provider<Pocket>((ref) => Pocket(domain, registryKey));
-
 final transactionRepositoryProvider = Provider<TransactionRepository>((ref) {
   return TransactionRepository(
-      ref.watch(pocketProvider), ref.watch(getDatabaseProvider), Dio(),);
+    ref.watch(pocketProvider),
+    ref.watch(getDatabaseProvider),
+    Dio(),
+  );
 });
 
 class TransactionRepository {
@@ -31,16 +33,23 @@ class TransactionRepository {
     logger.i('Repository constructor');
   }
 
-  Future<TransactionModel> getWoms(String otc, String password,
-      {double? lat, double? long,}) async {
+  Future<TransactionModel> getWoms(
+    String otc,
+    String password, {
+    double? lat,
+    double? long,
+  }) async {
     logger.i('getWoms');
     try {
       final response =
           await pocket.redeemVouchers(otc, password, lat: lat, long: long);
       return saveWoms(response);
     } on ServerException catch (ex, st) {
-      logger.e('ServerException: ${ex.statusCode}, ${ex.message}',
-          error: ex, stackTrace: st,);
+      logger.e(
+        'ServerException: ${ex.statusCode}, ${ex.message}',
+        error: ex,
+        stackTrace: st,
+      );
       rethrow;
     } catch (ex, st) {
       logger.e('Unknown error', error: ex, stackTrace: st);
@@ -83,38 +92,45 @@ class TransactionRepository {
 
     final geoHasher = GeoHasher();
 
-    await database.womsDao.addVouchers(vouchers
-        .map(
-          (e) => WomCompanion.insert(
-            id: e.id,
-            sourceName: redeem.sourceName,
-            secret: e.secret,
-            geohash: geoHasher.encode(
-              e.longitude,
-              e.latitude,
+    await database.womsDao.addVouchers(
+      vouchers
+          .map(
+            (e) => WomCompanion.insert(
+              id: e.id,
+              sourceName: redeem.sourceName,
+              secret: e.secret,
+              geohash: geoHasher.encode(
+                e.longitude,
+                e.latitude,
+              ),
+              aim: e.aim,
+              sourceId: redeem.sourceId,
+              transactionId: id,
+              addedOn: e.timestamp.millisecondsSinceEpoch,
+              spent: WomStatus.ON.index,
+              latitude: e.latitude,
+              longitude: e.longitude,
             ),
-            aim: e.aim,
-            sourceId: redeem.sourceId,
-            transactionId: id,
-            addedOn: e.timestamp.millisecondsSinceEpoch,
-            spent: WomStatus.ON.index,
-            latitude: e.latitude,
-            longitude: e.longitude,
-          ),
-        )
-        .toList(),);
+          )
+          .toList(),
+    );
 
     return tx.copyWith(id: id);
   }
 
   Future<PaymentInfoResponse> requestPayment(
-      String otc, String? password,) async {
+    String otc,
+    String? password,
+  ) async {
     logger.i('requestPayment');
     return pocket.requestInfoPayment(otc, password);
   }
 
   Future<TransactionModel> pay(
-      String otc, String? password, PaymentInfoResponse infoPay,) async {
+    String otc,
+    String? password,
+    PaymentInfoResponse infoPay,
+  ) async {
     logger.i('pay');
 
     try {
@@ -173,19 +189,21 @@ class TransactionRepository {
     try {
       final json = data.toJson();
       json.removeWhere((key, value) => value == null);
-      final response =
-          await dio.post('$functionsBaseUrl/embedded-scan3SecondGen', data: {
-        ...json,
-        'lastSessionIdScanned': lastSessionIdScanned,
-        'eventParticipationCount': eventParticipationCount,
-        'latitude': location.latitude,
-        'longitude': location.longitude,
-        'gender': gender,
-        'isMocked': isMocked,
-        'userHasAlreadyScannedThisTotemForLastSessionScanned':
-            userHasAlreadyScannedThisTotemForLastSessionScanned,
-        // 'source': source,
-      },);
+      final response = await dio.post(
+        '$functionsBaseUrl/embedded-scan3SecondGen',
+        data: {
+          ...json,
+          'lastSessionIdScanned': lastSessionIdScanned,
+          'eventParticipationCount': eventParticipationCount,
+          'latitude': location.latitude,
+          'longitude': location.longitude,
+          'gender': gender,
+          'isMocked': isMocked,
+          'userHasAlreadyScannedThisTotemForLastSessionScanned':
+              userHasAlreadyScannedThisTotemForLastSessionScanned,
+          // 'source': source,
+        },
+      );
       if (response.statusCode == 200) {
         return TotemResponse.fromJson(response.data);
       }
@@ -212,10 +230,12 @@ class TransactionRepository {
     try {
       final json = data.toJson();
       json.removeWhere((key, value) => value == null);
-      final response = await dio
-          .post('$functionsBaseUrl/embedded-verifyTotemSecondGen', data: {
-        ...json,
-      },);
+      final response = await dio.post(
+        '$functionsBaseUrl/embedded-verifyTotemSecondGen',
+        data: {
+          ...json,
+        },
+      );
       if (response.statusCode == 200) {
         return TotemResponse.fromJson(response.data);
       }

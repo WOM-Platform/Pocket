@@ -1,10 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/services/wom_repository.dart';
-
-final womRepositoryProvider = Provider<WomRepository>((ref) {
-  return WomRepository(ref.watch(getDatabaseProvider));
-});
 
 final totalWomCountProvider = FutureProvider<int>((ref) async {
   return ref.watch(womRepositoryProvider).getTotalWomCount();

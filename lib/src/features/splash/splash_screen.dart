@@ -16,18 +16,18 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  // AppBloc? bloc;
   late AnimationController _controller;
   late Animation<double> opacityLogo;
 
   @override
   void initState() {
-    // bloc = BlocProvider.of<AppBloc>(context);
     logger.i('splash init');
     super.initState();
 
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this,);
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
 
     opacityLogo = CurvedAnimation(parent: _controller, curve: Curves.easeInOut)
       ..addListener(() {
@@ -39,78 +39,7 @@ class SplashScreenState extends State<SplashScreen>
         }
       });
     _controller.forward();
-
-    /*final deepLinkObservable = Observable.fromFuture(bloc.getDeepLink());
-    final animationCompleteObservable =
-        Observable.fromFuture(_controller.forward().whenComplete(() {}));
-
-    animationCompleteObservable.zipWith<DeepLinkModel, DeepLinkModel>(
-        deepLinkObservable, (_, deeplink) {
-      return deeplink;
-    }).listen((deepLinkModel) {
-      if (deepLinkModel != null) {
-        //WidgetsBinding.instance
-        //        .addPostFrameCallback((_) => afterFirstLayout(context));
-        logger.i("SplashScreen: chiamata tramite deeplink" +
-            deepLinkModel.toString());
-        goToPinScreen(deepLinkModel);
-      } else {
-        Utils.isFirstOpen().then((isFirstOpen) {
-          if (isFirstOpen) {
-            Navigator.pushReplacementNamed(context, '/intro');
-          } else {
-            Navigator.pushReplacementNamed(context, '/home');
-          }
-        });
-      }
-    });
-*/
-    //TODO old method delete in RELEASE
-//    bloc.getDeepLink().then((deepLinkModel) {
-//      logger.i("SplashScreen: uri data detected");
-//      _controller.forward().(() {
-//        if (deepLinkModel == null) {
-//          Utils.isFirstOpen().then((isFirstOpen) {
-//            if (isFirstOpen) {
-//              Navigator.pushReplacementNamed(context, '/intro');
-//            } else {
-//              Navigator.pushReplacementNamed(context, '/home');
-//            }
-//          });
-//        } else {
-//          logger.i("SplashScreen: chiamata tramite deeplink" +
-//              deepLinkModel.toString());
-//          var blocProviderPin = myBlocProvider.BlocProvider(
-//            bloc: PinBloc(),
-//            child: PinScreen(
-//              deepLinkModel: deepLinkModel,
-//            ),
-//          );
-//          Navigator.pushReplacement(
-//            context,
-//            MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
-//          );
-//        }
-//      });
-//    });
   }
-
-/*  goToPinScreen(DeepLinkModel deepLinkModel) {
-//    var blocProviderPin = myBlocProvider.BlocProvider(
-//      bloc: PinBloc(),
-//      child: PinScreen(
-//        deepLinkModel: deepLinkModel,
-//      ),
-//    );
-    var blocProviderPin = BlocProvider(
-      bloc: PinBloc(deepLinkModel),
-      child: PinScreen(),
-    );
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute<bool>(builder: (context) => blocProviderPin),
-    );
-  }*/
 
   @override
   Widget build(BuildContext context) {

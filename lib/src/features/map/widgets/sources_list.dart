@@ -63,32 +63,33 @@ class _ChipFilterState extends State<ChipFilter> {
       height: 50.0,
       padding: const EdgeInsets.only(top: 8),
       child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: widget.sources!.length,
-          itemBuilder: (context, index) {
-            final a = widget.sources![index];
-            return Padding(
-              padding: const EdgeInsets.only(right: 2.0),
-              child: FilterChip(
-                label: Text(
-                  '${a.type} (${a.count})',
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                ),
-                selectedColor: Theme.of(context).colorScheme.secondary,
-                selected: chips.contains(a.type),
-                onSelected: (selected) {
-                  if (selected) {
-                    chips.add(a.type);
-                    widget.onAdd!(a.type);
-                  } else {
-                    chips.remove(a.type);
-                    widget.onRemove!(a.type);
-                  }
-                  setState(() {});
-                },
+        scrollDirection: Axis.horizontal,
+        itemCount: widget.sources!.length,
+        itemBuilder: (context, index) {
+          final a = widget.sources![index];
+          return Padding(
+            padding: const EdgeInsets.only(right: 2.0),
+            child: FilterChip(
+              label: Text(
+                '${a.type} (${a.count})',
+                style: TextStyle(color: Theme.of(context).primaryColor),
               ),
-            );
-          },),
+              selectedColor: Theme.of(context).colorScheme.secondary,
+              selected: chips.contains(a.type),
+              onSelected: (selected) {
+                if (selected) {
+                  chips.add(a.type);
+                  widget.onAdd!(a.type);
+                } else {
+                  chips.remove(a.type);
+                  widget.onRemove!(a.type);
+                }
+                setState(() {});
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

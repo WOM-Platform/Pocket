@@ -42,7 +42,9 @@ class NewExchange extends HookConsumerWidget {
   final int totalAvailableWom;
 
   const NewExchange({
-    required this.dailyAvailableWom, required this.totalAvailableWom, super.key,
+    required this.dailyAvailableWom,
+    required this.totalAvailableWom,
+    super.key,
   });
 
   @override
@@ -59,8 +61,8 @@ class NewExchange extends HookConsumerWidget {
     // }
     final maxS = min(totalAvailableWom, dailyAvailableWom).toDouble();
     final minS = min(1, dailyAvailableWom).toDouble();
-    print(maxS);
-    print(minS);
+    logger.i(maxS);
+    logger.i(minS);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -83,8 +85,12 @@ class NewExchange extends HookConsumerWidget {
             )
           else ...[
             Text(
-              getMessage(context, 60 - dailyAvailableWom,
-                  min(totalAvailableWom, dailyAvailableWom), totalAvailableWom,),
+              getMessage(
+                context,
+                60 - dailyAvailableWom,
+                min(totalAvailableWom, dailyAvailableWom),
+                totalAvailableWom,
+              ),
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

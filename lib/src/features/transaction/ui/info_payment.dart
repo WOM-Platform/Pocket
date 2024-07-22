@@ -3,9 +3,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/src/core/application/transaction/transaction_notifier.dart';
 
 import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
 
 class InfoPayment extends ConsumerWidget {
   final TransactionNotifierParams params;
@@ -26,10 +26,16 @@ class InfoPayment extends ConsumerWidget {
     final SimpleFilter? simpleFilters = responseInfoPay.simpleFilter;
 
     final greyStyle = TextStyle(
-        color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 15.0,);
+      color: Colors.grey,
+      fontWeight: FontWeight.w500,
+      fontSize: 15.0,
+    );
 
     final valueStyle = TextStyle(
-        color: darkPrimaryColor, fontWeight: FontWeight.w600, fontSize: 17.0,);
+      color: darkPrimaryColor,
+      fontWeight: FontWeight.w600,
+      fontSize: 17.0,
+    );
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -142,21 +148,22 @@ class InfoPayment extends ConsumerWidget {
               ),
               Center(
                 child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: darkPrimaryColor,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: darkPrimaryColor,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      'confirm_payment'.tr(),
+                      style: TextStyle(color: Colors.white, fontSize: 20.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        'confirm_payment'.tr(),
-                        style: TextStyle(color: Colors.white, fontSize: 20.0),
-                      ),
-                    ),
-                    onPressed: () {
-                      ref
-                          .read(transactionNotifierProvider(params).notifier)
-                          .confirmPayment(responseInfoPay);
-                    },),
+                  ),
+                  onPressed: () {
+                    ref
+                        .read(transactionNotifierProvider(params).notifier)
+                        .confirmPayment(responseInfoPay);
+                  },
+                ),
               ),
               Center(
                 child: TextButton(

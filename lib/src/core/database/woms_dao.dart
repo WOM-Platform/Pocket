@@ -77,10 +77,10 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     bool orderByDate = false,
   }) async {
     var whereClause = OptionalQuery(
-            filters: simpleFilter,
-            womStatus: WomStatus.ON,
-            enabledRandom: enabledRandom,)
-        .build();
+      filters: simpleFilter,
+      womStatus: WomStatus.ON,
+      enabledRandom: enabledRandom,
+    ).build();
     final customQuery = 'SELECT * '
         'FROM ${WomModel.tblWom} $whereClause;';
 
@@ -94,8 +94,9 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     return list;
   }
 
-  Future<List<WomRow>> getVouchersForPayment(
-      {SimpleFilter? simpleFilter,}) async {
+  Future<List<WomRow>> getVouchersForPayment({
+    SimpleFilter? simpleFilter,
+  }) async {
     return _getVouchersToPay(
       simpleFilter: simpleFilter,
       enabledRandom: true,
@@ -170,7 +171,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
       readsFrom: {wom},
     ).get();
     final list = rowList.map((row) {
-      print(row);
+      logger.i(row);
       return AimInPercentage.fromJson(row.data);
     }).toList();
     return list;

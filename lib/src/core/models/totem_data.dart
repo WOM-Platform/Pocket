@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 
 part 'totem_data.freezed.dart';
 
@@ -35,7 +36,7 @@ TotemData? validateTotemQrCodeWithRegex(String text) {
 
   if (regExp.hasMatch(text)) {
     final match = regExp.firstMatch(text);
-    print(match?[0]);
+    logger.i(match?[0]);
 
     final providerId = match?[1];
     final eventId = match?[2];
@@ -55,7 +56,7 @@ TotemData? validateTotemQrCodeWithRegex(String text) {
 
   if (regExp2.hasMatch(text)) {
     final match = regExp2.firstMatch(text);
-    print(match?[0]);
+    logger.i(match?[0]);
 
     final providerId = match?[1];
     final totemId = match?[2];

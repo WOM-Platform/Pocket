@@ -28,15 +28,16 @@ class WomModel {
   int? transactionId;
   String? aim;
 
-  WomModel(
-      {this.gLocation,
-      this.live,
-      this.id,
-      this.secret,
-      this.timestamp,
-      this.sourceId,
-      this.sourceName,
-      this.aim,}) {
+  WomModel({
+    this.gLocation,
+    this.live,
+    this.id,
+    this.secret,
+    this.timestamp,
+    this.sourceId,
+    this.sourceName,
+    this.aim,
+  }) {
     final geohaser = GeoHasher();
     this.geohash = geohaser.encode(
       this.gLocation!.longitude,

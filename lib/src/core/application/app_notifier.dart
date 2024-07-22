@@ -39,10 +39,10 @@ class NfcBackgroundNotifier extends _$NfcBackgroundNotifier {
 
   @override
   Future<TotemData?> build() async {
-    print('NfcBackgroundNotifier build');
+    logger.i('NfcBackgroundNotifier build');
     ref.listen<AsyncValue<TotemData>>(getNfcIntentProvider,
         (previous, next) async {
-      print('getNfcIntentProvider new intent');
+      logger.i('getNfcIntentProvider new intent');
 
       final currentState = next;
       if (!_lock && currentState is AsyncData) {

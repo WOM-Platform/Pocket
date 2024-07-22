@@ -14,7 +14,8 @@ class NewExchangeScreen extends ConsumerWidget {
   final int womCount;
 
   const NewExchangeScreen({
-    required this.womCount, Key? key,
+    required this.womCount,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -120,7 +121,8 @@ class ExchangeReceiptScreen extends ConsumerWidget {
   final (String link, String pin, int womCount) data;
 
   const ExchangeReceiptScreen({
-    required this.data, super.key,
+    required this.data,
+    super.key,
   });
 
   @override
@@ -154,13 +156,16 @@ class ExchangeDataWidget extends StatelessWidget {
   final bool backTo;
 
   const ExchangeDataWidget({
-    required this.link, required this.pin, required this.womCount, super.key,
+    required this.link,
+    required this.pin,
+    required this.womCount,
+    super.key,
     this.backTo = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    print(link);
+    logger.i(link);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -169,7 +174,10 @@ class ExchangeDataWidget extends StatelessWidget {
           child: Text(
             '${'donation'.tr()}\n$womCount WOM',
             style: TextStyle(
-                fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold,),
+              fontSize: 30,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -205,7 +213,10 @@ class ExchangeDataWidget extends StatelessWidget {
         Text(
           pin,
           style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold,),
+            fontSize: 24,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),

@@ -62,17 +62,19 @@ class TransactionsScreen extends ConsumerWidget {
         title: Text('transactions'.tr()),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: primaryColor,
-            statusBarIconBrightness: Brightness.light,),
+          statusBarColor: primaryColor,
+          statusBarIconBrightness: Brightness.light,
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
-              icon: Icon(Icons.info),
-              color: Colors.white,
-              onPressed: () {
-                Alert(context: context, content: TransactionInfo(), buttons: [])
-                    .show();
-              },),
+            icon: Icon(Icons.info),
+            color: Colors.white,
+            onPressed: () {
+              Alert(context: context, content: TransactionInfo(), buttons: [])
+                  .show();
+            },
+          ),
         ],
       ),
       body: SingleChildScrollView(

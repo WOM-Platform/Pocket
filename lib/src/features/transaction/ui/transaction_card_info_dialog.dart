@@ -7,7 +7,11 @@ class TransactionTypeInfo extends StatelessWidget {
   final Color color;
 
   const TransactionTypeInfo({
-    required this.text, required this.iconData, required this.color, required this.description, Key? key,
+    required this.text,
+    required this.iconData,
+    required this.color,
+    required this.description,
+    Key? key,
   }) : super(key: key);
 
   @override

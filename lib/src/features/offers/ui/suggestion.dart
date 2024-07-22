@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 
 enum PopupActions { open, copy }
@@ -27,15 +28,15 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
     // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
     final split = widget.url.split('/');
-    print(split);
+    logger.i(split);
     restrictedDomain = '${split[0]}//${split[2]}/';
-    print(restrictedDomain);
+    logger.i(restrictedDomain);
 
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       //
       // onWebResourceError: (err) {
-      // print('Page error: $err');
+      // logger.i('Page error: $err');
       // },
       //
       //
@@ -45,22 +46,22 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            print('WebView is loading (progress : $progress%)');
+            logger.i('WebView is loading (progress : $progress%)');
             setState(() {
               loadingStatus = progress.toDouble();
             });
           },
           onPageStarted: (String url) {
-            print('Page started loading: $url');
+            logger.i('Page started loading: $url');
           },
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
             if (!request.url.startsWith(restrictedDomain)) {
-              print('blocking navigation to $request}');
+              logger.i('blocking navigation to $request}');
               return NavigationDecision.prevent;
             }
-            print('allowing navigation to $request');
+            logger.i('allowing navigation to $request');
             return NavigationDecision.navigate;
           },
         ),

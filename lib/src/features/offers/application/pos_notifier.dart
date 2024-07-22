@@ -1,6 +1,6 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/src/core/services/transaction_repository.dart';
+import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 
 part 'pos_notifier.g.dart';
 

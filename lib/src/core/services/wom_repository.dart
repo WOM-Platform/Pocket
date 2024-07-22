@@ -1,7 +1,12 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/models/source_group_wom.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 
+final womRepositoryProvider = Provider<WomRepository>((ref) {
+  return WomRepository(ref.watch(getDatabaseProvider));
+});
 
 class WomRepository {
   // final WomDB _womDb = WomDB.get();
@@ -9,35 +14,12 @@ class WomRepository {
 
   WomRepository(this.database);
 
-//  Future<List<WomModel>> getWoms({
-//    int startDate,
-//    int endDate,
-//    LatLngBounds bounds,
-//    String filter,
-//    Set<String> sources,
-//    bool all = false,
-//  }) async {
-//    if (sources != null && sources.isEmpty) {
-//      logger.i("fetchWom: empty list of woms for source empty or null");
-//      return List<WomModel>();
-//    }
-//    final woms = await _womDb.getWoms(
-//        startDate: startDate ?? 0,
-//        endDate: endDate ?? 0,
-//        sources: sources);
-//    logger.i("fetchWom: reading complete woms : ${woms.length}");
-//    return woms;
-//  }
-
-//  Future<int> getMinDate() async {
-//    return await _womDb.getMinDate();
-//  }
-
   Future<List<WomGroupBy>> getWomGroupedBySource() async {
     logger.i('BY SOURCES: fetchGroupedWoms: loading woms');
     final groupedWoms = await database.womsDao.getWomsGroupedBySources();
     logger.i(
-        'BY SOURCES: fetchGroupedWoms: reading complete woms : ${groupedWoms.length}',);
+      'BY SOURCES: fetchGroupedWoms: reading complete woms : ${groupedWoms.length}',
+    );
     return groupedWoms;
   }
 
@@ -45,7 +27,8 @@ class WomRepository {
     logger.i('BY AIM: fetchGroupedWoms: loading woms');
     final groupedWoms = await database.womsDao.getWomGroupedByAim();
     logger.i(
-        'BY AIM: fetchGroupedWoms: reading complete woms : ${groupedWoms.length}',);
+      'BY AIM: fetchGroupedWoms: reading complete woms : ${groupedWoms.length}',
+    );
     return groupedWoms;
   }
 
@@ -67,7 +50,8 @@ class WomRepository {
     logger.i('BY AIM: fetchGroupedWoms: loading woms');
     final groupedWoms = await database.womsDao.getWomCountWithoutLocation();
     logger.i(
-        'BY AIM: getWomCountWithoutLocation: reading complete woms : ${groupedWoms}',);
+      'BY AIM: getWomCountWithoutLocation: reading complete woms : ${groupedWoms}',
+    );
     return groupedWoms;
   }
 }

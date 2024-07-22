@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/offers/application/pos_notifier.dart';
 import 'package:wom_pocket/src/features/offers/ui/offer_tile.dart';
 
@@ -26,7 +27,9 @@ class POSDetailsScreen extends ConsumerWidget {
   final OfferPosition? position;
 
   const POSDetailsScreen({
-    required this.posName, required this.position, Key? key,
+    required this.posName,
+    required this.position,
+    Key? key,
     this.imageUrl,
     this.distance,
     this.description,
@@ -53,8 +56,9 @@ class POSDetailsScreen extends ConsumerWidget {
         title: Text('posDetail'.tr()),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: primaryColor,
-            statusBarIconBrightness: Brightness.light,),
+          statusBarColor: primaryColor,
+          statusBarIconBrightness: Brightness.light,
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           if (!isVirtual && url != null)
@@ -166,7 +170,7 @@ class POSDetailsScreen extends ConsumerWidget {
                                 ),
                               },
                               onCameraMove: (pos) {
-                                print(pos.zoom);
+                                logger.i(pos.zoom);
                               },
                               initialCameraPosition: CameraPosition(
                                 zoom: 19,
@@ -188,9 +192,10 @@ class POSDetailsScreen extends ConsumerWidget {
                         const SizedBox(height: 8),
                         InkWell(
                           onTap: () async {
-                            final uri = createQueryUri(pos!
-                                    .address?.formattedAddress ??
-                                'Via Enrico Fermi, 24 Sant\'Egidio alla Vibrata',);
+                            final uri = createQueryUri(
+                              pos!.address?.formattedAddress ??
+                                  'Via Enrico Fermi, 24 Sant\'Egidio alla Vibrata',
+                            );
                             if (await canLaunchUrl(uri)) {
                               launchUrl(uri);
                             }
@@ -297,14 +302,20 @@ class POSDetailsScreen extends ConsumerWidget {
 
     if (kIsWeb) {
       uri = Uri.https(
-          'www.google.com', '/maps/search/', {'api': '1', 'query': query},);
+        'www.google.com',
+        '/maps/search/',
+        {'api': '1', 'query': query},
+      );
     } else if (Platform.isAndroid) {
       uri = Uri(scheme: 'geo', host: '0,0', queryParameters: {'q': query});
     } else if (Platform.isIOS) {
       uri = Uri.https('maps.apple.com', '/', {'q': query});
     } else {
       uri = Uri.https(
-          'www.google.com', '/maps/search/', {'api': '1', 'query': query},);
+        'www.google.com',
+        '/maps/search/',
+        {'api': '1', 'query': query},
+      );
     }
 
     return uri;
@@ -314,8 +325,11 @@ class POSDetailsScreen extends ConsumerWidget {
     Uri uri;
 
     if (kIsWeb) {
-      uri = Uri.https('www.google.com', '/maps/search/',
-          {'api': '1', 'query': '$latitude,$longitude'},);
+      uri = Uri.https(
+        'www.google.com',
+        '/maps/search/',
+        {'api': '1', 'query': '$latitude,$longitude'},
+      );
     } else if (Platform.isAndroid) {
       var query = '$latitude,$longitude';
 
@@ -330,8 +344,11 @@ class POSDetailsScreen extends ConsumerWidget {
 
       uri = Uri.https('maps.apple.com', '/', params);
     } else {
-      uri = Uri.https('www.google.com', '/maps/search/',
-          {'api': '1', 'query': '$latitude,$longitude'},);
+      uri = Uri.https(
+        'www.google.com',
+        '/maps/search/',
+        {'api': '1', 'query': '$latitude,$longitude'},
+      );
     }
 
     return uri;

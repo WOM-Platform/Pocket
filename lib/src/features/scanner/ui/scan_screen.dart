@@ -70,14 +70,15 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                 top: MediaQuery.of(context).padding.top + 8,
                 right: 16,
                 child: IconButton(
-                    icon: CircleAvatar(
-                      child: Icon(Icons.clear),
-                      backgroundColor: Colors.white,
-                    ),
-                    color: Colors.black,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },),
+                  icon: CircleAvatar(
+                    child: Icon(Icons.clear),
+                    backgroundColor: Colors.white,
+                  ),
+                  color: Colors.black,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
               GestureDetector(
                 onScaleUpdate: (details) {

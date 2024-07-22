@@ -87,9 +87,10 @@ class PageOne extends ConsumerWidget {
             Text(
               'importWizard'.tr(),
               style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,),
+                fontSize: 30,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(
               height: 32,
@@ -146,8 +147,9 @@ class PageThree extends ConsumerWidget {
                     margin: const EdgeInsets.symmetric(vertical: 16),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                        color: lightBackground,
-                        borderRadius: BorderRadius.circular(10),),
+                      color: lightBackground,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     height: 80,
                     child: Row(
                       children: [
@@ -159,7 +161,9 @@ class PageThree extends ConsumerWidget {
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
-                                      width: 1.0, color: Colors.black,),
+                                    width: 1.0,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
                               alignment: Alignment.center,
@@ -168,8 +172,9 @@ class PageThree extends ConsumerWidget {
                                     ? pinState.pin[i]
                                     : '  ',
                                 style: TextStyle(
-                                    fontSize: 40,
-                                    color: Theme.of(context).primaryColor,),
+                                  fontSize: 40,
+                                  color: Theme.of(context).primaryColor,
+                                ),
                               ),
                             ),
                           ),
@@ -253,16 +258,18 @@ class PageThree extends ConsumerWidget {
                           importState is ImportError ||
                           importState is JustImported) {
                         Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (c) => GateWidget(),
-                            ),
-                            (route) => false,);
+                          MaterialPageRoute(
+                            builder: (c) => GateWidget(),
+                          ),
+                          (route) => false,
+                        );
                       } else {
                         Alert(
                           context: context,
                           style: AlertStyle(
-                              descStyle:
-                                  TextStyle(fontSize: 14, color: Colors.grey),),
+                            descStyle:
+                                TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
                           type: AlertType.warning,
                           title: 'confirmToImportWom'.tr(),
                           desc: '',

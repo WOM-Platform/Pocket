@@ -42,7 +42,8 @@ class MapIndexNotifier extends Notifier<PosScreen> {
 
 final showMapListFilterProvider =
     NotifierProvider<ShowMapListFilterNotifier, bool>(
-        ShowMapListFilterNotifier.new,);
+  ShowMapListFilterNotifier.new,
+);
 
 class ShowMapListFilterNotifier extends Notifier<bool> {
   @override
@@ -154,16 +155,18 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
         title: Text('offerMapTitle'.tr()),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: primaryColor,
-            statusBarIconBrightness: Brightness.light,),
+          statusBarColor: primaryColor,
+          statusBarIconBrightness: Brightness.light,
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
-              icon: Icon(Icons.gps_fixed),
-              color: Colors.white,
-              onPressed: () {
-                _goToCurrentLocation();
-              },),
+            icon: Icon(Icons.gps_fixed),
+            color: Colors.white,
+            onPressed: () {
+              _goToCurrentLocation();
+            },
+          ),
         ],
       ),
       body: Stack(
@@ -181,27 +184,13 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
                   ?.updateMap();
             },
             onCameraMove: (cameraPosition) async {
-              print(cameraPosition.zoom);
-              // ref.read(serviceFiltersShowProvider.notifier).state = false;
+              logger.i(cameraPosition.zoom);
 
               ref.read(zoomMapProvider.notifier).state = cameraPosition.zoom;
-
-              // ref
-              //     .read(enableCarouselProvider.notifier)
-              //     .update((state) => cameraPosition.zoom > 16);
-
-              /*if ((cameraPosition.zoom * 10).round() / 10 < minZoom) {
-                ref.read(enableSearchButtonProvider.notifier).outside();
-              } else {
-                ref.read(enableSearchButtonProvider.notifier).enabled();
-              }*/
               ref
                   .read(offersMapNotifierProvider(widget.position).notifier)
                   .clusterManager
                   ?.onCameraMove(cameraPosition);
-              // ref.read(mapControllerProvider)?.getVisibleRegion().then(
-              //     (value) =>
-              //         ref.read(latLongBoundsProvider.notifier).state = value);
             },
             onMapCreated: (GoogleMapController controller) {
               controller.setMapStyle(mapStyle);
@@ -243,20 +232,6 @@ class _OfferMapsScreenState extends ConsumerState<OfferMapsScreen> {
               ],
             ),
           ),
-          /*  Align(
-            alignment: Alignment.topLeft,
-            child: SizedBox(
-              height: 70,
-              child: ElevatedButton(
-                onPressed: () {
-                  ref
-                      .read(offersMapNotifierProvider(widget.position).notifier)
-                      .updateCitiesMarkers();
-                },
-                child: Text('update'),
-              ),
-            ),
-          )*/
         ],
       ),
     );

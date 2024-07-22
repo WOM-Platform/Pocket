@@ -11,12 +11,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
-import 'package:wom_pocket/src/core/application/transaction/transaction_notifier.dart';
 import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/features/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/features/transaction/ui/transaction_screen.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 
@@ -121,9 +121,10 @@ class TotemMetadata with _$TotemMetadata {
 
 @freezed
 class TotemDialogState with _$TotemDialogState {
-  const factory TotemDialogState.complete(
-      {required DeepLinkModel deepLinkModel,
-      required String password,}) = TotemDialogComplete;
+  const factory TotemDialogState.complete({
+    required DeepLinkModel deepLinkModel,
+    required String password,
+  }) = TotemDialogComplete;
 
   const factory TotemDialogState.retrievingGPS() = TotemDialogRetrievingGPS;
 
@@ -134,8 +135,11 @@ class TotemDialogState with _$TotemDialogState {
 
   const factory TotemDialogState.initialLoading() = TotemDialogInitialLoading;
 
-  const factory TotemDialogState.error(TotemError totemError, Object error,
-      {StackTrace? st,}) = TotemDialogStateError;
+  const factory TotemDialogState.error(
+    TotemError totemError,
+    Object error, {
+    StackTrace? st,
+  }) = TotemDialogStateError;
 }
 
 @riverpod
@@ -239,7 +243,7 @@ class TotemNotifier extends _$TotemNotifier {
       };
       if (error == TotemError.gpsServiceDisabled) {
         _subscription = Geolocator.getServiceStatusStream().listen((event) {
-          print('gps event: $event');
+          logger.i('gps event: $event');
           if (event == ServiceStatus.enabled) {
             action();
           }
@@ -272,7 +276,8 @@ class TotemDialog extends ConsumerWidget {
   // final TotemSource? source;
 
   const TotemDialog({
-    required this.totemData, Key? key,
+    required this.totemData,
+    Key? key,
     // this.source,
     this.askGender = true,
     this.askPosition = true,
@@ -297,10 +302,12 @@ class TotemDialog extends ConsumerWidget {
         );
       }
     });
-    final state = ref.watch(totemNotifierProvider(
-      totemData,
-      askGender: askGender,
-    ),);
+    final state = ref.watch(
+      totemNotifierProvider(
+        totemData,
+        askGender: askGender,
+      ),
+    );
     final size = MediaQuery.sizeOf(context);
     return Dialog(
       child: Container(
@@ -372,10 +379,12 @@ class TotemDialog extends ConsumerWidget {
                         case TotemError.gpsTimeout:
                         case TotemError.unknown:
                           ref
-                              .read(totemNotifierProvider(
-                                totemData,
-                                askGender: askGender,
-                              ).notifier,)
+                              .read(
+                                totemNotifierProvider(
+                                  totemData,
+                                  askGender: askGender,
+                                ).notifier,
+                              )
                               .action();
                       }
                     },
@@ -456,10 +465,11 @@ class GenderSelectorWidget extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('cancel'.tr()),),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('cancel'.tr()),
+              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,

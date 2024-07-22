@@ -16,7 +16,8 @@ class MigrationExportScreen extends ConsumerWidget {
   final bool backTo;
 
   const MigrationExportScreen({
-    required this.data, Key? key,
+    required this.data,
+    Key? key,
     this.backTo = true,
   }) : super(key: key);
 
@@ -40,9 +41,10 @@ class MigrationExportScreen extends ConsumerWidget {
             child: Text(
               'exportPocket'.tr(),
               style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,),
+                fontSize: 30,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -96,7 +98,10 @@ class MigrationExportScreen extends ConsumerWidget {
           Text(
             data.code,
             style: TextStyle(
-                fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold,),
+              fontSize: 24,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 16),
           Text(
@@ -110,7 +115,10 @@ class MigrationExportScreen extends ConsumerWidget {
           Text(
             format.format(data.importDeadline),
             style: TextStyle(
-                fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold,),
+              fontSize: 24,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 16),
           if (kDebugMode) ...[
@@ -123,10 +131,11 @@ class MigrationExportScreen extends ConsumerWidget {
           ? FloatingActionButton.extended(
               onPressed: () async {
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (c) => GateWidget(),
-                    ),
-                    (route) => false,);
+                  MaterialPageRoute(
+                    builder: (c) => GateWidget(),
+                  ),
+                  (route) => false,
+                );
               },
               label: Text('backToHome'.tr()),
             )

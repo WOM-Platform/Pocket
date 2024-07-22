@@ -12,7 +12,6 @@ import 'package:uni_links/uni_links.dart';
 import 'package:http/http.dart' as http;
 import 'package:wom_pocket/src/core/my_logger.dart';
 
-
 final appRepositoryProvider = Provider<AppRepository>((ref) {
   return AppRepository(ref.watch(aimRepositoryProvider));
 });

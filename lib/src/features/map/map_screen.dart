@@ -30,8 +30,9 @@ class MapScreen extends StatelessWidget {
           title: Text('womMap'.tr()),
           elevation: 0,
           systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: primaryColor,
-              statusBarIconBrightness: Brightness.light,),
+            statusBarColor: primaryColor,
+            statusBarIconBrightness: Brightness.light,
+          ),
           backgroundColor: Theme.of(context).primaryColor,
           actions: [
             // IconButton(
@@ -72,27 +73,34 @@ class MapBody extends ConsumerWidget {
           final middlePointLat = n.value!.markers
               .fold<double>(43.72, (sum, item) => sum + item.position.latitude);
           final middlePointLong = n.value!.markers.fold<double>(
-              12.63, (sum, item) => sum + item.position.longitude,);
+            12.63,
+            (sum, item) => sum + item.position.longitude,
+          );
           final lat = middlePointLat / (n.value!.markers.length + 1);
           final long = middlePointLong / (n.value!.markers.length + 1);
           logger.i(
-              'middle lat long = $lat, $long for ${n.value!.markers.length} markers',);
-          controller?.animateCamera(CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(
-                lat,
-                long,
+            'middle lat long = $lat, $long for ${n.value!.markers.length} markers',
+          );
+          controller?.animateCamera(
+            CameraUpdate.newCameraPosition(
+              CameraPosition(
+                target: LatLng(
+                  lat,
+                  long,
+                ),
+                zoom: lastZoom,
               ),
-              zoom: lastZoom,
             ),
-          ),);
+          );
         }
       }
     });
     return Container(
       padding: enabled
           ? EdgeInsets.only(
-              bottom: minHeight, top: MediaQuery.of(context).padding.top,)
+              bottom: minHeight,
+              top: MediaQuery.of(context).padding.top,
+            )
           : null,
       // key: PageStorageKey('map'),
       child: GoogleMap(
@@ -128,7 +136,10 @@ class MapBody extends ConsumerWidget {
 
 class MapPanel extends ConsumerWidget {
   final style = TextStyle(
-      fontSize: 15.0, fontWeight: FontWeight.w600, color: Colors.white,);
+    fontSize: 15.0,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -147,8 +158,9 @@ class MapPanel extends ConsumerWidget {
                 width: 30,
                 height: 5,
                 decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),),
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                ),
               ),
             ],
           ),
@@ -180,7 +192,8 @@ class MapPanel extends ConsumerWidget {
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
               final state = ref.watch(mapNotifierProvider);
               logger.i(
-                  'build wom without location: ${state.valueOrNull?.womCountWithoutLocation}',);
+                'build wom without location: ${state.valueOrNull?.womCountWithoutLocation}',
+              );
               if (state.valueOrNull?.womCountWithoutLocation == 0) {
                 return SizedBox.shrink();
               }

@@ -26,7 +26,10 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
   }
 
   void _sort<T>(
-      Comparable<T>? getField(WomRow d), int columnIndex, bool ascending,) {
+    Comparable<T>? getField(WomRow d),
+    int columnIndex,
+    bool ascending,
+  ) {
     _womsDataSources!._sort<T>(getField, ascending);
     setState(() {
       _sortColumnIndex = columnIndex;
@@ -78,19 +81,28 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                   label: Text(WomModel.dbSourceName),
                   numeric: true,
                   onSort: (columnIndex, ascending) => _sort<String>(
-                      (d) => d.sourceName, columnIndex, ascending,),
+                    (d) => d.sourceName,
+                    columnIndex,
+                    ascending,
+                  ),
                 ),
                 DataColumn(
                   label: Text(WomModel.dbLat),
                   numeric: true,
                   onSort: (latIndex, ascending) => _sort<String>(
-                      (d) => d.latitude.toString(), latIndex, ascending,),
+                    (d) => d.latitude.toString(),
+                    latIndex,
+                    ascending,
+                  ),
                 ),
                 DataColumn(
                   label: Text(WomModel.dbLong),
                   numeric: true,
                   onSort: (longIndex, ascending) => _sort<String>(
-                      (d) => d.longitude.toString(), longIndex, ascending,),
+                    (d) => d.longitude.toString(),
+                    longIndex,
+                    ascending,
+                  ),
                 ),
                 DataColumn(
                   label: Text('spent'),
@@ -114,7 +126,10 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                   label: Text(WomModel.dbTransactionId),
                   numeric: true,
                   onSort: (columnIndex, ascending) => _sort<num>(
-                      (d) => d.transactionId, columnIndex, ascending,),
+                    (d) => d.transactionId,
+                    columnIndex,
+                    ascending,
+                  ),
                 ),
               ],
               source: _womsDataSources!,
@@ -168,9 +183,11 @@ class _WomsDataSources extends DataTableSource {
         DataCell(Text(wom.sourceName)),
         DataCell(Text(wom.latitude.toString())),
         DataCell(Text(wom.longitude.toString())),
-        DataCell(Text(WomStatus.values[wom.spent]
-            .toString()
-            .replaceAll('WomStatus.', ''),),),
+        DataCell(
+          Text(
+            WomStatus.values[wom.spent].toString().replaceAll('WomStatus.', ''),
+          ),
+        ),
         DataCell(Text(wom.secret)),
         DataCell(Text('${DateTime.fromMillisecondsSinceEpoch(wom.addedOn)}')),
         DataCell(Text('${wom.transactionId}')),

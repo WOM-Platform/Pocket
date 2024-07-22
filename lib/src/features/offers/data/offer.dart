@@ -111,7 +111,11 @@ double fromDegreesToRadians(double d) {
 }
 
 double distanceBetweenPoints(
-    double lat1, double lng1, double lat2, double lng2,) {
+  double lat1,
+  double lng1,
+  double lat2,
+  double lng2,
+) {
   double dLng = fromDegreesToRadians(lng2 - lng1);
   double dLat = fromDegreesToRadians(lat2 - lat1);
 

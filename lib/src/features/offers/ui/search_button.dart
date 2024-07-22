@@ -9,7 +9,6 @@ import 'package:wom_pocket/src/core/my_logger.dart';
 
 import 'package:wom_pocket/src/core/utils/colors.dart';
 
-
 enum ZoomStatus { outside, enabled, disabled, loading }
 
 final enableCarouselProvider = Provider.autoDispose<bool>((ref) {
@@ -61,8 +60,9 @@ class SearchNewPointButton extends ConsumerWidget {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(16),),
+            color: Colors.grey.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

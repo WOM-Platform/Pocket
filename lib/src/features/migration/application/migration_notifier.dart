@@ -6,10 +6,10 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
-import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/migration/application/migration_state.dart';
@@ -77,15 +77,16 @@ class MigrationNotifier extends _$MigrationNotifier {
 
       await ref.read(getDatabaseProvider).transactionsDao.addTransaction(
             TransactionsCompanion.insert(
-                source: '',
-                aim: '',
-                timestamp: DateTime.now().millisecondsSinceEpoch,
-                type: TransactionType.MIGRATION_EXPORT.index,
-                size: data.womCount,
-                pin: Value(pin),
-                link: Value(link),
-                deadline:
-                    Value(migrationData.importDeadline.millisecondsSinceEpoch),),
+              source: '',
+              aim: '',
+              timestamp: DateTime.now().millisecondsSinceEpoch,
+              type: TransactionType.MIGRATION_EXPORT.index,
+              size: data.womCount,
+              pin: Value(pin),
+              link: Value(link),
+              deadline:
+                  Value(migrationData.importDeadline.millisecondsSinceEpoch),
+            ),
           );
       ref.invalidate(exchangeNotifierProvider);
       ref.invalidate(fetchTransactionsProvider);
@@ -106,18 +107,18 @@ class MigrationNotifier extends _$MigrationNotifier {
     final woms = await ref.read(getDatabaseProvider).womsDao.getAllWoms;
     final totems = await ref.read(getDatabaseProvider).totemsDao.getScans();
     if (woms.isEmpty) {
-      print('woms empty');
+      logger.i('woms empty');
       throw Exception('Woms table is Empty');
     }
     final dir = await getTemporaryDirectory();
-    print(dir.path);
+    logger.i(dir.path);
     final migrationDir = Directory('${dir.path}/migration/export');
     final file = File('${migrationDir.path}/woms');
     if (await migrationDir.exists()) {
       await migrationDir.delete(recursive: true);
     }
     await migrationDir.create(recursive: true);
-    print('wom da esportare: ${woms.length}');
+    logger.i('wom da esportare: ${woms.length}');
 
     final device = await _getDevice();
     final map = <String, dynamic>{
@@ -131,7 +132,10 @@ class MigrationNotifier extends _$MigrationNotifier {
 
     final zipFile = File('${migrationDir.path}/zip_wom_migration');
     await ZipFile.createFromFiles(
-        sourceDir: migrationDir, files: [file], zipFile: zipFile,);
+      sourceDir: migrationDir,
+      files: [file],
+      zipFile: zipFile,
+    );
 
     final zippedBytes = await zipFile.readAsBytes();
     final key = Utils.getRandomString(28);
@@ -139,7 +143,7 @@ class MigrationNotifier extends _$MigrationNotifier {
     // final encryptedFile = File('${migrationDir.path}/encrypted_zip_woms');
     // await encryptedFile.writeAsBytes(bytes);
     // logger.wtf(bytes.length / 1000);
-    // print(file.path);
+    // logger.i(file.path);
     return WomExportData(file.path, bytes, key, woms.length);
   }
 

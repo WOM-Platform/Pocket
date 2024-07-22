@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/src/core/application/transaction/transaction_notifier.dart';
+import 'package:wom_pocket/src/features/transaction/application/transaction_state.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
-import 'package:wom_pocket/src/core/blocs/transaction/bloc.dart';
 import 'package:wom_pocket/src/core/ui/widgets/voucher_card.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
+import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/features/transaction/ui/info_payment.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 
@@ -22,7 +22,8 @@ class TransactionScreen extends ConsumerStatefulWidget {
   final TransactionNotifierParams params;
 
   const TransactionScreen({
-    required this.params, Key? key,
+    required this.params,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -43,10 +44,12 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
 
-    _animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.fastOutSlowIn,
-    ),);
+    _animation = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.fastOutSlowIn,
+      ),
+    );
   }
 
   @override
@@ -96,165 +99,186 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
           backgroundColor: Theme.of(context).primaryColor,
           body: Builder(
             builder: (BuildContext context) {
-              return state.when(data: (state) {
-                if (state is TransactionNoDataConnectionState) {
-                  return TransactionWarningWidget(
-                    title: 'no_connection_title'.tr(),
-                    desc: 'no_connection_transaction_desc'.tr(),
-                    tryAgain: () {
-                      if (state.infoPay == null) {
-                        ref
-                            .read(transactionNotifierProvider(widget.params)
-                                .notifier,)
-                            .refresh();
-                      } else {
-                        ref
-                            .read(transactionNotifierProvider(widget.params)
-                                .notifier,)
-                            .confirmPayment(state.infoPay!);
-                      }
-                    },
-                  );
-                } else if (state is TransactionInfoPaymentState) {
-                  return Center(
+              return state.when(
+                data: (state) {
+                  if (state is TransactionNoDataConnectionState) {
+                    return TransactionWarningWidget(
+                      title: 'no_connection_title'.tr(),
+                      desc: 'no_connection_transaction_desc'.tr(),
+                      tryAgain: () {
+                        if (state.infoPay == null) {
+                          ref
+                              .read(
+                                transactionNotifierProvider(widget.params)
+                                    .notifier,
+                              )
+                              .refresh();
+                        } else {
+                          ref
+                              .read(
+                                transactionNotifierProvider(widget.params)
+                                    .notifier,
+                              )
+                              .confirmPayment(state.infoPay!);
+                        }
+                      },
+                    );
+                  } else if (state is TransactionInfoPaymentState) {
+                    return Center(
                       child: InfoPayment(
-                    params: widget.params,
-                    responseInfoPay: state.infoPayment,
-                    password: state.password,
-                  ),);
-                } else if (state is TransactionErrorState) {
-                  return TransactionErrorWidget(
-                    errorKey: state.translationKey,
-                    message: state.translationKey != null
-                        ? state.translationKey!.tr()
-                        : state.error,
-                    tryAgain: () {
-                      ref
-                          .read(transactionNotifierProvider(widget.params)
-                              .notifier,)
-                          .refresh();
-                    },
-                    backToHome: backToHome,
-                  );
-                } else if (state is TransactionMissingLocationState) {
-                  return TransactionWarningWidget(
-                    title: 'missing_location_error'.tr(),
-                    desc: 'missing_location_error_desc'.tr(),
-                    tryAgain: () {
-                      ref
-                          .read(transactionNotifierProvider(widget.params)
-                              .notifier,)
-                          .refresh();
-                    },
-                  );
-                } else if (state is TransactionCompleteState) {
-                  _controller.forward();
-                  return AnimatedBuilder(
-                    animation: _controller,
-                    builder: (BuildContext context, Widget? child) {
-                      final url = state.transaction.ackUrl;
-                      return Transform(
-                        transform: Matrix4.translationValues(
-                            0.0, _animation.value * (-10), 0.0,),
-                        child: Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Container(
-                                height: height / 3,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                child: FlareActor(
-                                  'assets/flare/check.flr',
-                                  alignment: Alignment.center,
-                                  fit: BoxFit.contain,
-                                  animation: 'success',
-                                ),
-                              ),
-                              SizedBox(
-                                height: _animation.value * 5.0,
-                              ),
-                              FadeTransition(
-                                opacity: _animation as Animation<double>,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0,),
-                                  child: Center(
-                                    child: Text(
-                                      getMessage(state.transaction.type),
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20.0,),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: _animation.value * 10.0,
-                              ),
-                              FadeTransition(
-                                opacity: _animation as Animation<double>,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0,),
-                                  child: TicketCard(
-                                      transaction: state.transaction,),
-                                ),
-                              ),
-                              SizedBox(
-                                height: _animation.value * 30.0,
-                              ),
-                              FadeTransition(
-                                opacity: _animation as Animation<double>,
-                                child: Container(
-                                  margin:
-                                      EdgeInsets.symmetric(horizontal: 80.0),
-                                  child: FloatingActionButton.extended(
-                                    onPressed: () {
-                                      if (state.transaction.type ==
-                                              TransactionType.PAYMENT &&
-                                          url != null) {
-                                        Utils.launchURL(url);
-                                      }
-                                      backToHome();
-                                    },
-                                    label: Text(
-                                      '${state.transaction.type == TransactionType.PAYMENT && url != null ? 'Continue' : 'Ok'}',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        params: widget.params,
+                        responseInfoPay: state.infoPayment,
+                        password: state.password,
+                      ),
+                    );
+                  } else if (state is TransactionErrorState) {
+                    return TransactionErrorWidget(
+                      errorKey: state.translationKey,
+                      message: state.translationKey != null
+                          ? state.translationKey!.tr()
+                          : state.error,
+                      tryAgain: () {
+                        ref
+                            .read(
+                              transactionNotifierProvider(widget.params)
+                                  .notifier,
+                            )
+                            .refresh();
+                      },
+                      backToHome: backToHome,
+                    );
+                  } else if (state is TransactionMissingLocationState) {
+                    return TransactionWarningWidget(
+                      title: 'missing_location_error'.tr(),
+                      desc: 'missing_location_error_desc'.tr(),
+                      tryAgain: () {
+                        ref
+                            .read(
+                              transactionNotifierProvider(widget.params)
+                                  .notifier,
+                            )
+                            .refresh();
+                      },
+                    );
+                  } else if (state is TransactionCompleteState) {
+                    _controller.forward();
+                    return AnimatedBuilder(
+                      animation: _controller,
+                      builder: (BuildContext context, Widget? child) {
+                        final url = state.transaction.ackUrl;
+                        return Transform(
+                          transform: Matrix4.translationValues(
+                            0.0,
+                            _animation.value * (-10),
+                            0.0,
                           ),
-                        ),
-                      );
-                    },
+                          child: Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Container(
+                                  height: height / 3,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  child: FlareActor(
+                                    'assets/flare/check.flr',
+                                    alignment: Alignment.center,
+                                    fit: BoxFit.contain,
+                                    animation: 'success',
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: _animation.value * 5.0,
+                                ),
+                                FadeTransition(
+                                  opacity: _animation as Animation<double>,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        getMessage(state.transaction.type),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: _animation.value * 10.0,
+                                ),
+                                FadeTransition(
+                                  opacity: _animation as Animation<double>,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0,
+                                    ),
+                                    child: TicketCard(
+                                      transaction: state.transaction,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: _animation.value * 30.0,
+                                ),
+                                FadeTransition(
+                                  opacity: _animation as Animation<double>,
+                                  child: Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 80.0),
+                                    child: FloatingActionButton.extended(
+                                      onPressed: () {
+                                        if (state.transaction.type ==
+                                                TransactionType.PAYMENT &&
+                                            url != null) {
+                                          Utils.launchURL(url);
+                                        }
+                                        backToHome();
+                                      },
+                                      label: Text(
+                                        '${state.transaction.type == TransactionType.PAYMENT && url != null ? 'Continue' : 'Ok'}',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  } else if (state is TransactionLoadingState) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Center(
+                    child: Text(
+                      'somethings_wrong'.tr(),
+                      style: whiteTextStyle,
+                    ),
                   );
-                } else if (state is TransactionLoadingState) {
+                },
+                error: (err, st) {
+                  return Center(
+                    child: Text(
+                      'somethings_wrong'.tr(),
+                      style: whiteTextStyle,
+                    ),
+                  );
+                },
+                loading: () {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                }
-                return Center(
-                  child: Text(
-                    'somethings_wrong'.tr(),
-                    style: whiteTextStyle,
-                  ),
-                );
-              }, error: (err, st) {
-                return Center(
-                  child: Text(
-                    'somethings_wrong'.tr(),
-                    style: whiteTextStyle,
-                  ),
-                );
-              }, loading: () {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              },);
+                },
+              );
             },
           ),
         ),
@@ -315,7 +339,8 @@ class TransactionErrorWidget extends StatelessWidget {
   final Function()? tryAgain;
 
   const TransactionErrorWidget({
-    required this.message, Key? key,
+    required this.message,
+    Key? key,
     this.backToHome,
     this.tryAgain,
     this.errorKey,
@@ -386,7 +411,9 @@ class TransactionWarningWidget extends StatelessWidget {
   final String desc;
 
   const TransactionWarningWidget({
-    required this.title, required this.desc, Key? key,
+    required this.title,
+    required this.desc,
+    Key? key,
     this.tryAgain,
   }) : super(key: key);
 
@@ -404,9 +431,10 @@ class TransactionWarningWidget extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,),
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(height: 24.0),
             Text(

@@ -7,9 +7,9 @@ part 'totem_scans_notifier.g.dart';
 
 @riverpod
 Future<Map<int, List<TotemRow>>> getScannedTotems(
-    GetScannedTotemsRef ref,) async {
-  final list =
-      await ref.watch(getDatabaseProvider).totemsDao.getScans();
+  GetScannedTotemsRef ref,
+) async {
+  final list = await ref.watch(getDatabaseProvider).totemsDao.getScans();
 
   final t = <int, List<TotemRow>>{};
   for (int i = 0; i < list.length; i++) {

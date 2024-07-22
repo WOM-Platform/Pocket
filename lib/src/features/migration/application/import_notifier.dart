@@ -5,10 +5,10 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
-import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
@@ -39,7 +39,7 @@ class ImportNotifier extends _$ImportNotifier {
         state = JustImported();
         return;
       }
-      print(response);
+      logger.i(response);
       final responseBytes = await ref
           .read(pocketProvider)
           .retrieveMigrationPayload(otc, password);
@@ -57,7 +57,9 @@ class ImportNotifier extends _$ImportNotifier {
       final zipFile = File('${migrationDir.path}/zip_encrypted_wom_migration');
       await zipFile.writeAsBytes(bytes);
       await ZipFile.extractToDirectory(
-          zipFile: zipFile, destinationDir: migrationDir,);
+        zipFile: zipFile,
+        destinationDir: migrationDir,
+      );
 
       final womEncryptedJsonFile = File('${migrationDir.path}/woms');
       final womEncryptedJson = await womEncryptedJsonFile.readAsString();
@@ -67,8 +69,8 @@ class ImportNotifier extends _$ImportNotifier {
       final woms = womList.map((e) => WomRow.fromJson(e)).toList();
       final totems = totemList.map((e) => TotemRow.fromJson(e)).toList();
       final device = map['device'] as String;
-      print('Hai importato: ${woms.length} wom');
-      print('Hai importato: ${totems.length} totems');
+      logger.i('Hai importato: ${woms.length} wom');
+      logger.i('Hai importato: ${totems.length} totems');
 
       final aims = <String?>{};
 

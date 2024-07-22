@@ -8,7 +8,8 @@ class SectionTitle extends ConsumerWidget {
   final double leftPadding;
 
   const SectionTitle({
-    required this.title, Key? key,
+    required this.title,
+    Key? key,
     this.onTap,
     this.text,
     this.leftPadding = 0,

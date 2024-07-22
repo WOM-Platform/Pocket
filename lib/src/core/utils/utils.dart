@@ -153,8 +153,8 @@ class Utils {
 
     final encrypted = encrypter.encrypt(text, iv: iv);
     // final decrypted = encrypter.decrypt(encrypted, iv: iv);
-    // print(decrypted);
-    // print(encrypted.base64);
+    // logger.i(decrypted);
+    // logger.i(encrypted.base64);
     return encrypted.bytes;
   }
 
@@ -175,15 +175,19 @@ class Utils {
     final encrypter = Encrypter(AES(key));
     final decrypted = encrypter.decryptBytes(Encrypted(bytes), iv: iv);
 
-    // print(decrypted);
-    // print(encrypted.base64);
+    // logger.i(decrypted);
+    // logger.i(encrypted.base64);
     return Uint8List.fromList(decrypted);
   }
 
   static String getRandomString(int length) {
     final _rnd = Random();
-    return String.fromCharCodes(Iterable.generate(
-        length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),),);
+    return String.fromCharCodes(
+      Iterable.generate(
+        length,
+        (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),
+      ),
+    );
   }
 }
 

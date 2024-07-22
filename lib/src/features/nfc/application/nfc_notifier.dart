@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 
 part 'nfc_notifier.freezed.dart';
 
@@ -106,7 +107,7 @@ abstract class Record {
   NdefRecord toNdef();
 
   static Record fromNdef(NdefRecord record) {
-    print('NdefTypeNameFormat: ${record.typeNameFormat}');
+    logger.i('NdefTypeNameFormat: ${record.typeNameFormat}');
     if (record.typeNameFormat == NdefTypeNameFormat.nfcWellknown &&
         record.type.length == 1 &&
         record.type.first == 0x55) return WellknownUriRecord.fromNdef(record);

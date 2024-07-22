@@ -15,9 +15,11 @@ class TicketCard extends StatelessWidget {
   final TransactionModel transaction;
   final bool isForHome;
 
-  const TicketCard(
-      {required this.transaction, Key? key, this.isForHome = false,})
-      : super(key: key);
+  const TicketCard({
+    required this.transaction,
+    Key? key,
+    this.isForHome = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,25 +82,29 @@ class TicketCard extends StatelessWidget {
           Text(
             '${transaction.size} wom',
             style: TextStyle(
-                color: Colors.green,
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,),
+              color: Colors.green,
+              fontSize: 30.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Divider(),
           AutoSizeText.rich(
-            TextSpan(children: <TextSpan>[
-              TextSpan(
-                text: 'from'.tr(),
-                style: TextStyle(color: primaryColor, fontSize: 20.0),
-              ),
-              TextSpan(
-                text: ' ${transaction.source}',
-                style: TextStyle(
+            TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'from'.tr(),
+                  style: TextStyle(color: primaryColor, fontSize: 20.0),
+                ),
+                TextSpan(
+                  text: ' ${transaction.source}',
+                  style: TextStyle(
                     color: primaryColor,
                     fontSize: 20.0,
-                    fontWeight: FontWeight.bold,),
-              ),
-            ],),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
             maxLines: 1,
             minFontSize: 8,
           ),
@@ -151,9 +157,10 @@ class TicketCard extends StatelessWidget {
                   Text(
                     transaction.source,
                     style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                        color: baseIconColor,),
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                      color: baseIconColor,
+                    ),
                   ),
                   Expanded(child: Container()),
                   if (transaction.aimCodes.isEmpty)
@@ -167,7 +174,8 @@ class TicketCard extends StatelessWidget {
                             .watch(aimNotifierProvider)
                             .valueOrNull
                             ?.firstWhereOrNull(
-                                (a) => a.code == transaction.aimCodes.first,);
+                              (a) => a.code == transaction.aimCodes.first,
+                            );
                         return Text(
                           aim?.titles[languageCode] ?? '-',
                         );
@@ -186,22 +194,26 @@ class TicketCard extends StatelessWidget {
                     text:
                         "${'you'.tr()} ${isEarnTransaction ? "earned".tr() : "used".tr()}",
                     style: TextStyle(
-                        fontSize: 22.0,
-                        color: isEarnTransaction ? Colors.green : Colors.red,
-                        fontWeight: FontWeight.w400,),
+                      fontSize: 22.0,
+                      color: isEarnTransaction ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                   TextSpan(
-                      text: ' ${transaction.size.toString()}',
-                      style: TextStyle(
-                          fontSize: 22.0,
-                          color: isEarnTransaction ? Colors.green : Colors.red,
-                          fontWeight: FontWeight.bold,),),
+                    text: ' ${transaction.size.toString()}',
+                    style: TextStyle(
+                      fontSize: 22.0,
+                      color: isEarnTransaction ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   TextSpan(
                     text: ' WOM',
                     style: TextStyle(
-                        fontSize: 22.0,
-                        color: isEarnTransaction ? Colors.green : Colors.red,
-                        fontWeight: FontWeight.w400,),
+                      fontSize: 22.0,
+                      color: isEarnTransaction ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ],
               ),
@@ -225,9 +237,14 @@ class VoucherClipper extends CustomClipper<Path> {
     path.lineTo(size.width, size.height);
     path.lineTo(size.width, 0.0);
     path.addOval(
-        Rect.fromCircle(center: Offset(0.0, size.height / 2), radius: radius),);
-    path.addOval(Rect.fromCircle(
-        center: Offset(size.width, size.height / 2), radius: radius,),);
+      Rect.fromCircle(center: Offset(0.0, size.height / 2), radius: radius),
+    );
+    path.addOval(
+      Rect.fromCircle(
+        center: Offset(size.width, size.height / 2),
+        radius: radius,
+      ),
+    );
     return path;
   }
 
@@ -238,7 +255,6 @@ class VoucherClipper extends CustomClipper<Path> {
 class AimsRow extends StatelessWidget {
   final String? aims;
   Set<String> aimsSet = Set();
-
 
   AimsRow({Key? key, this.aims}) {
     if (aims != null) {

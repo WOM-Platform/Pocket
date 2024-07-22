@@ -61,25 +61,28 @@ class _RootScreenState extends ConsumerState<RootScreen> {
           : 'update'.tr().toUpperCase();
 
       Alert(
-          context: context,
-          title: getTitle(status.status),
-          onWillPopActive: !status.isCanUpdate,
-          closeFunction: () {},
-          closeIcon: const SizedBox.shrink(),
-          buttons: [
-            DialogButton(
-                child: Text(actionText),
-                onPressed: () {
-                  if (status.isOutOfService) {
-                    Navigator.of(context).pop();
-                    checkVersion();
-                  } else {
-                    StoreRedirect.redirect(
-                        androidAppId: 'social.wom.pocket',
-                        iOSAppId: '1466969163',);
-                  }
-                },),
-          ],).show();
+        context: context,
+        title: getTitle(status.status),
+        onWillPopActive: !status.isCanUpdate,
+        closeFunction: () {},
+        closeIcon: const SizedBox.shrink(),
+        buttons: [
+          DialogButton(
+            child: Text(actionText),
+            onPressed: () {
+              if (status.isOutOfService) {
+                Navigator.of(context).pop();
+                checkVersion();
+              } else {
+                StoreRedirect.redirect(
+                  androidAppId: 'social.wom.pocket',
+                  iOSAppId: '1466969163',
+                );
+              }
+            },
+          ),
+        ],
+      ).show();
       // });
     }
   }

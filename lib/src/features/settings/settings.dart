@@ -110,28 +110,32 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             },
           ),
           ValueListenableBuilder(
-              valueListenable: Hive.box('settings').listenable(),
-              builder: (context, box, _) {
-                final gender = box.get('gender');
-                String title = 'removeGenderInfoTitle'.tr();
-                String desc = 'removeGenderInfoDescription'.tr();
-                if (gender == null) {
-                  title = 'genderNotSetTitle'.tr();
-                  desc = 'genderNotSetDescription'.tr();
-                }
-                return SettingsItem(
-                  title: title,
-                  subtitle: desc,
-                  icon: MdiIcons.genderMaleFemale,
-                  onTap: gender == null
-                      ? null
-                      : () async {
-                          Hive.box('settings').delete('gender');
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('genderInfoRemoved'.tr()),),);
-                        },
-                );
-              },),
+            valueListenable: Hive.box('settings').listenable(),
+            builder: (context, box, _) {
+              final gender = box.get('gender');
+              String title = 'removeGenderInfoTitle'.tr();
+              String desc = 'removeGenderInfoDescription'.tr();
+              if (gender == null) {
+                title = 'genderNotSetTitle'.tr();
+                desc = 'genderNotSetDescription'.tr();
+              }
+              return SettingsItem(
+                title: title,
+                subtitle: desc,
+                icon: MdiIcons.genderMaleFemale,
+                onTap: gender == null
+                    ? null
+                    : () async {
+                        Hive.box('settings').delete('gender');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('genderInfoRemoved'.tr()),
+                          ),
+                        );
+                      },
+              );
+            },
+          ),
           SettingSectionTitle(
             text: 'App',
             desc: 'settings.app.desc'.tr(),
@@ -162,10 +166,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             // ),
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(
+                MaterialPageRoute(
                   builder: (_) => IntroScreen(
-                        fromSettings: true,
-                      ),),);
+                    fromSettings: true,
+                  ),
+                ),
+              );
             },
           ),
           SettingsItem(
@@ -245,11 +252,13 @@ class SettingsItem extends StatelessWidget {
   final IconData? icon;
   final VoidCallback? onTap;
 
-  const SettingsItem(
-      {required this.title, required this.subtitle, Key? key,
-      this.icon,
-      this.onTap,})
-      : super(key: key);
+  const SettingsItem({
+    required this.title,
+    required this.subtitle,
+    Key? key,
+    this.icon,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

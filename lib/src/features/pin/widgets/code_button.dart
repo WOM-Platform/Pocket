@@ -33,9 +33,10 @@ class CodeButton extends StatelessWidget {
               ? Text(
                   code.toString(),
                   style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,),
+                    fontSize: 28,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.white,
+                  ),
                 )
               : Icon(
                   icon,

@@ -23,20 +23,21 @@ main() {
         DateTime.now().subtract(Duration(days: 30)).millisecondsSinceEpoch;
     await db.womsDao.addVouchers([
       ...List.generate(
-          22000,
-          (index) => WomRow(
-                id: index.toString(),
-                sourceName: 'sourceName',
-                secret: 'secret',
-                geohash: 'abcde',
-                aim: 'P',
-                sourceId: 'sourceId',
-                transactionId: index,
-                addedOn: thirtyDaysAgo,
-                spent: 0,
-                latitude: 0.0,
-                longitude: 0.0,
-              ),).map((w) => w.toCompanion(true)),
+        22000,
+        (index) => WomRow(
+          id: index.toString(),
+          sourceName: 'sourceName',
+          secret: 'secret',
+          geohash: 'abcde',
+          aim: 'P',
+          sourceId: 'sourceId',
+          transactionId: index,
+          addedOn: thirtyDaysAgo,
+          spent: 0,
+          latitude: 0.0,
+          longitude: 0.0,
+        ),
+      ).map((w) => w.toCompanion(true)),
     ]);
   });
 

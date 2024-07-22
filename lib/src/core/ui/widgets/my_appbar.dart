@@ -40,7 +40,8 @@ class SecondLevelAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
   const SecondLevelAppBar({
-    required this.title, super.key,
+    required this.title,
+    super.key,
     this.actions,
   });
 
@@ -50,8 +51,9 @@ class SecondLevelAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(title),
       elevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: primaryColor,
-          statusBarIconBrightness: Brightness.light,),
+        statusBarColor: primaryColor,
+        statusBarIconBrightness: Brightness.light,
+      ),
       backgroundColor: Theme.of(context).primaryColor,
       actions: actions,
     );

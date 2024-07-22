@@ -17,39 +17,41 @@ class CustomSlider extends HookConsumerWidget {
     logger.wtf('sliderValue = $sliderValue');
     final ThemeData theme = Theme.of(context);
     return SliderTheme(
-        data: theme.sliderTheme.copyWith(
-          activeTrackColor: Colors.grey[100],
-          inactiveTrackColor: Theme.of(context).colorScheme.secondary,
-          activeTickMarkColor: Colors.grey,
-          inactiveTickMarkColor: Colors.white,
-          overlayColor: Colors.black12,
-          thumbColor: Theme.of(context).colorScheme.secondary,
-          valueIndicatorColor: Theme.of(context).colorScheme.secondary,
-          valueIndicatorTextStyle: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontWeight: FontWeight.bold,),
+      data: theme.sliderTheme.copyWith(
+        activeTrackColor: Colors.grey[100],
+        inactiveTrackColor: Theme.of(context).colorScheme.secondary,
+        activeTickMarkColor: Colors.grey,
+        inactiveTickMarkColor: Colors.white,
+        overlayColor: Colors.black12,
+        thumbColor: Theme.of(context).colorScheme.secondary,
+        valueIndicatorColor: Theme.of(context).colorScheme.secondary,
+        valueIndicatorTextStyle: TextStyle(
+          color: Theme.of(context).primaryColor,
+          fontWeight: FontWeight.bold,
+        ),
 //            thumbShape: _CustomThumbShape(),
 //            valueIndicatorShape: _CustomValueIndicatorShape(),
 //            valueIndicatorTextStyle:
-        ),
-        child: Slider(
-          divisions: 10,
-          label: valueIndicatorTextSlider[sliderValue.value.toInt()],
-          min: 0.0,
-          max: 10.0,
-          onChangeEnd: (v) {
-            ref
-                .read(mapNotifierProvider.notifier)
-                .updateMap(UpdateMap(sliderValue: v, forceFilterUpdate: true));
-          },
-          value: sliderValue.value,
-          onChanged: (v) {
-            sliderValue.value = v;
-            // ref
-            //     .read(mapNotifierProvider.notifier)
-            //     .updateMap(UpdateMap(sliderValue: v));
-          },
-        ),);
+      ),
+      child: Slider(
+        divisions: 10,
+        label: valueIndicatorTextSlider[sliderValue.value.toInt()],
+        min: 0.0,
+        max: 10.0,
+        onChangeEnd: (v) {
+          ref
+              .read(mapNotifierProvider.notifier)
+              .updateMap(UpdateMap(sliderValue: v, forceFilterUpdate: true));
+        },
+        value: sliderValue.value,
+        onChanged: (v) {
+          sliderValue.value = v;
+          // ref
+          //     .read(mapNotifierProvider.notifier)
+          //     .updateMap(UpdateMap(sliderValue: v));
+        },
+      ),
+    );
   }
 }
 
