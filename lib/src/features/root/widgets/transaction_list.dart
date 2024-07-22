@@ -4,9 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:wom_pocket/src/core/application/transactions_notifier.dart';
-import 'package:wom_pocket/src/core/blocs/transactions_list/bloc.dart';
+import 'package:wom_pocket/src/core/application/transactions_list/transactions_list_state.dart';
+import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
 import 'package:wom_pocket/src/features/root/widgets/transaction_card.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 

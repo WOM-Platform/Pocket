@@ -1,11 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/src/core/blocs/pin/bloc.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/pin/application/pin_state.dart';
 
 part 'pin_notifier.g.dart';
-
-// final pinNotifierProvider =
-//     NotifierProvider.autoDispose<PinNotifier, PinState>(PinNotifier.new);
 
 @riverpod
 class PinNotifier extends _$PinNotifier {

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/core/models/source_group_wom.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 

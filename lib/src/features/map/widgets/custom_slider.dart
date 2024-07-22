@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 
 class CustomSlider extends HookConsumerWidget {

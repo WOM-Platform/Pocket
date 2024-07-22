@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/src/core/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/core/application/transaction/transaction_notifier.dart';
 
 import 'package:wom_pocket/src/core/utils/colors.dart';
 

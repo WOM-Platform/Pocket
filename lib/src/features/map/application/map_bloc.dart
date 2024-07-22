@@ -12,7 +12,7 @@ import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
 
-import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
 
 final mapNotifierProvider =
     AutoDisposeAsyncNotifierProvider<MapBloc, MapState>(MapBloc.new);

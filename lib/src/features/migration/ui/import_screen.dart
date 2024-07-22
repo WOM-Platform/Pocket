@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/app.dart';
-import 'package:wom_pocket/src/core/application/pin_notifier.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_error.dart';
 
 import 'package:wom_pocket/src/features/migration/application/import_notifier.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/features/migration/application/import_state.dart';
+import 'package:wom_pocket/src/features/pin/application/pin_notifier.dart';
 import 'package:wom_pocket/src/features/pin/widgets/keyboard.dart';
 
 import 'package:wom_pocket/src/core/utils/colors.dart';

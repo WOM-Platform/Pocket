@@ -11,7 +11,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
-import 'package:wom_pocket/src/core/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/core/application/transaction/transaction_notifier.dart';
 import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/features/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';

@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wom_pocket/src/core/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/core/application/transaction/transaction_notifier.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/features/totem/application/totem_scans_notifier.dart';

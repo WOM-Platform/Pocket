@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/src/core/application/pin_notifier.dart';
-import 'package:wom_pocket/src/core/application/transaction_notifier.dart';
-import 'package:wom_pocket/src/core/blocs/pin/bloc.dart';
+import 'package:wom_pocket/src/core/application/transaction/transaction_notifier.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/pin/application/pin_notifier.dart';
+import 'package:wom_pocket/src/features/pin/application/pin_state.dart';
 import 'package:wom_pocket/src/features/pin/widgets/code_panel.dart';
 import 'package:wom_pocket/src/features/pin/widgets/keyboard.dart';
 import 'package:wom_pocket/src/features/transaction/ui/transaction_screen.dart';

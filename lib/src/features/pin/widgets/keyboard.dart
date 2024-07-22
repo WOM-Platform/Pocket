@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/src/core/application/pin_notifier.dart';
+import 'package:wom_pocket/src/features/pin/application/pin_notifier.dart';
 
 import 'package:wom_pocket/src/features/pin/widgets/code_button.dart';
 

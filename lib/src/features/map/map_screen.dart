@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/features/map/widgets/aims_list.dart';
 import 'package:wom_pocket/src/features/map/widgets/custom_slider.dart';
 import 'package:wom_pocket/src/features/map/widgets/sources_list.dart';

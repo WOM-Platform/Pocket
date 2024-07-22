@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wom_pocket/src/core/application/transaction_notifier.dart';
-import 'package:wom_pocket/src/core/application/transactions_notifier.dart';
-import 'package:wom_pocket/src/core/blocs/map/bloc.dart';
+import 'package:wom_pocket/src/core/application/transaction/transaction_notifier.dart';
+import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/core/blocs/transaction/bloc.dart';
 import 'package:wom_pocket/src/core/ui/widgets/voucher_card.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';

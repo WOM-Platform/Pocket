@@ -1,7 +1,7 @@
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
-import 'package:wom_pocket/src/core/blocs/transactions_list/bloc.dart';
+import 'package:wom_pocket/src/core/application/transactions_list/transactions_list_state.dart';
 import 'package:wom_pocket/src/core/services/aim_repository.dart';
 import 'package:wom_pocket/src/core/database/extensions.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
