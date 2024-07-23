@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:dart_geohash/dart_geohash.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
@@ -16,13 +16,16 @@ import 'package:wom_pocket/src/core/models/wom_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/root/widgets/totem_dialog.dart';
 
-final transactionRepositoryProvider = Provider<TransactionRepository>((ref) {
+part 'transaction_repository.g.dart';
+
+@riverpod
+TransactionRepository transactionRepository(TransactionRepositoryRef ref) {
   return TransactionRepository(
     ref.watch(pocketProvider),
     ref.watch(getDatabaseProvider),
     Dio(),
   );
-});
+}
 
 class TransactionRepository {
   final Pocket pocket;

@@ -119,8 +119,10 @@ class _Item extends StatelessWidget {
       trailing: t.womPin != null && t.womLink != null
           ? SvgPicture.asset(
               'assets/images/wom_logo.svg',
-              width: 40,
-              color: Theme.of(context).primaryColor,
+              width: 40,colorFilter: ColorFilter.mode(
+        Theme.of(context).primaryColor,
+        BlendMode.srcIn,
+      ),
             )
           : null,
     );
@@ -265,7 +267,10 @@ class _TotemMapScreenState extends State<_TotemMapScreen> {
                           child: SvgPicture.asset(
                             'assets/images/wom_logo.svg',
                             width: 40,
-                            color: Theme.of(context).primaryColor,
+                            colorFilter: ColorFilter.mode(
+                              Theme.of(context).primaryColor,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                       ],

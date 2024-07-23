@@ -58,7 +58,7 @@ final fetchWomCountSpentInTheLastWeekProvider =
 );
 
 typedef FetchWomCountSpentInTheLastWeekRef = AutoDisposeFutureProviderRef<int>;
-String _$fetchWomSpentHash() => r'f60931b756efb151eecd5e8000525c3c65e0831a';
+String _$fetchWomSpentHash() => r'3d57b848c58908152544e017a29d9e3bef2e003d';
 
 /// See also [fetchWomSpent].
 @ProviderFor(fetchWomSpent)
@@ -74,7 +74,7 @@ final fetchWomSpentProvider = AutoDisposeFutureProvider<int>.internal(
 
 typedef FetchWomSpentRef = AutoDisposeFutureProviderRef<int>;
 String _$transactionCountNotifierHash() =>
-    r'3f1f76ca7209992ab4c0a022d5abdc6853aa7324';
+    r'aa4c0756de8b5fbf3a6d6f7245ae2e0156d1b531';
 
 /// See also [TransactionCountNotifier].
 @ProviderFor(TransactionCountNotifier)

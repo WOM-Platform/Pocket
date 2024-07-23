@@ -28,21 +28,20 @@ Future<int> fetchWomCountSpentInTheLastWeek(
 }
 
 @riverpod
-Future<int> fetchWomSpent(FetchWomCountSpentInTheLastWeekRef ref) async {
+Future<int> fetchWomSpent(FetchWomSpentRef ref) async {
   return ref.watch(getDatabaseProvider).womsDao.getWomCountSpent();
 }
 
 @Riverpod(keepAlive: true)
 class TransactionCountNotifier extends _$TransactionCountNotifier {
-  int count = 0;
+  int _count = 0;
 
   FutureOr<int> build() async {
     final state = await ref.watch(fetchTransactionsProvider.future);
     if (state is TransactionsLoaded) {
-      count = state.transactions.length;
-      return count;
+      _count = state.transactions.length;
+      return _count;
     }
-
-    return count;
+    return _count;
   }
 }

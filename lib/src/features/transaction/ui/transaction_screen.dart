@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -58,11 +56,6 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     super.dispose();
   }
 
-  Future<bool> _onWillPop() {
-    backToHome();
-    return Future.value(false);
-  }
-
   void backToHome() {
     refreshHome();
     Navigator.of(context).pop();
@@ -93,8 +86,10 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
         statusBarIconBrightness: Brightness.light,
         statusBarColor: Theme.of(context).primaryColor,
       ),
-      child: WillPopScope(
-        onWillPop: _onWillPop,
+      child: PopScope(
+        onPopInvoked: (_){
+          refreshHome();
+        },
         child: Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
           body: Builder(

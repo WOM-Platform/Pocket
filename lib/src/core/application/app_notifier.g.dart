@@ -21,7 +21,7 @@ final getNFCBackgroundProvider = AutoDisposeProvider<NfcBackground>.internal(
 );
 
 typedef GetNFCBackgroundRef = AutoDisposeProviderRef<NfcBackground>;
-String _$getNfcIntentHash() => r'9bdb9b09c237adb2353994c3f169d35371c7fc3d';
+String _$getNfcIntentHash() => r'1fe3c5cab4aa2f0043da7ed0243b83da4ebaf7cb';
 
 /// See also [getNfcIntent].
 @ProviderFor(getNfcIntent)
@@ -36,7 +36,7 @@ final getNfcIntentProvider = AutoDisposeStreamProvider<TotemData>.internal(
 
 typedef GetNfcIntentRef = AutoDisposeStreamProviderRef<TotemData>;
 String _$nfcBackgroundNotifierHash() =>
-    r'a10eb51d3cc82eb9f798418713034a6129742a88';
+    r'282b755e1856d3ccdf339e908fb3679c5137434b';
 
 /// See also [NfcBackgroundNotifier].
 @ProviderFor(NfcBackgroundNotifier)

@@ -76,7 +76,7 @@ class MigrationExportScreen extends ConsumerWidget {
                   );
                 }
               },
-              child: Container(
+              child: ColoredBox(
                 color: Colors.white,
                 child: QrImageView(
                   data: data.link,

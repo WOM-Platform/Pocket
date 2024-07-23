@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -230,18 +229,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SizedBox(height: 48),
         ],
       ),
-    );
-  }
-
-  Future<void> _clearTutorial(context) async {
-    await FeatureDiscovery.clearPreferences(
-      context,
-      const <String>{
-        t_scan,
-        t_home,
-        t_offers,
-        t_settings,
-      },
     );
   }
 }

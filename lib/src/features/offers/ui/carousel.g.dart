@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'migration_notifier.dart';
+part of 'carousel.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$migrationNotifierHash() => r'09769681879de089d839df846ce9c8f38b05741f';
+String _$carouselControllerHash() =>
+    r'ebded5237381d1b7308643a510aa654a96cb55c6';
 
-/// See also [MigrationNotifier].
-@ProviderFor(MigrationNotifier)
-final migrationNotifierProvider =
-    AutoDisposeNotifierProvider<MigrationNotifier, MigrationState>.internal(
-  MigrationNotifier.new,
-  name: r'migrationNotifierProvider',
+/// See also [carouselController].
+@ProviderFor(carouselController)
+final carouselControllerProvider =
+    AutoDisposeProvider<CarouselController>.internal(
+  carouselController,
+  name: r'carouselControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$migrationNotifierHash,
+      : _$carouselControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$MigrationNotifier = AutoDisposeNotifier<MigrationState>;
+typedef CarouselControllerRef = AutoDisposeProviderRef<CarouselController>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

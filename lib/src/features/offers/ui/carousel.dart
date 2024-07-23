@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/offers/application/offer_map_notifier.dart';
 import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
@@ -15,14 +16,12 @@ import 'package:wom_pocket/src/core/utils/colors.dart';
 
 import 'package:wom_pocket/src/features/offers/ui/search_button.dart';
 
-final carouselControllerProvider =
-    Provider.autoDispose<CarouselController>((ref) {
-  return CarouselController();
-});
+part 'carousel.g.dart';
 
-final citiesCarouselControllerProvider = Provider<CarouselController>((ref) {
+@riverpod
+CarouselController carouselController(CarouselControllerRef ref) {
   return CarouselController();
-});
+}
 
 class ListingCarouselWidget extends ConsumerWidget {
   final LatLng? position;

@@ -55,7 +55,7 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
       places,
       (markers) {
         logger
-            .wtf('update from cluster manager with ${markers.length} markers');
+            .w('update from cluster manager with ${markers.length} markers');
         state = AsyncData(updateMap(UpdateMap(markers: markers)));
       },
       markerBuilder: (place) async {

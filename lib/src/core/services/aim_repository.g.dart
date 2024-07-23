@@ -1,26 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'migration_notifier.dart';
+part of 'aim_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$migrationNotifierHash() => r'09769681879de089d839df846ce9c8f38b05741f';
+String _$aimRepositoryHash() => r'502861c019565ead744b16ce4e60538324bc4076';
 
-/// See also [MigrationNotifier].
-@ProviderFor(MigrationNotifier)
-final migrationNotifierProvider =
-    AutoDisposeNotifierProvider<MigrationNotifier, MigrationState>.internal(
-  MigrationNotifier.new,
-  name: r'migrationNotifierProvider',
+/// See also [aimRepository].
+@ProviderFor(aimRepository)
+final aimRepositoryProvider = AutoDisposeProvider<AimRepository>.internal(
+  aimRepository,
+  name: r'aimRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$migrationNotifierHash,
+      : _$aimRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$MigrationNotifier = AutoDisposeNotifier<MigrationState>;
+typedef AimRepositoryRef = AutoDisposeProviderRef<AimRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

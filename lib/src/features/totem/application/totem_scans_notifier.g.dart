@@ -6,7 +6,7 @@ part of 'totem_scans_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getScannedTotemsHash() => r'62688b3758d8b542c7454b515b68286fb6a93e57';
+String _$getScannedTotemsHash() => r'976fceb3f375346644694b20674d9db5a117aa1a';
 
 /// See also [getScannedTotems].
 @ProviderFor(getScannedTotems)

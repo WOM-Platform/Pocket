@@ -78,29 +78,29 @@ class NFCNotifier extends _$NFCNotifier {
     // });
   }
 
-  TotemData? _processNFC(NfcTag tag) {
-    final tech = Ndef.from(tag);
-    TotemData? _t;
-    if (tech is Ndef) {
-      final cachedMessage = tech.cachedMessage;
-      if (cachedMessage != null) {
-        for (int i = 0; i < cachedMessage.records.length; i++) {
-          final record = cachedMessage.records[i];
-
-          final _record = Record.fromNdef(record);
-          if (_record is WellknownUriRecord) {
-            final link = _record.uri.toString();
-            final totemData = validateTotemQrCodeWithRegex(link);
-            if (totemData != null) {
-              _t = totemData;
-              break;
-            }
-          }
-        }
-      }
-    }
-    return _t;
-  }
+  // TotemData? _processNFC(NfcTag tag) {
+  //   final tech = Ndef.from(tag);
+  //   TotemData? _t;
+  //   if (tech is Ndef) {
+  //     final cachedMessage = tech.cachedMessage;
+  //     if (cachedMessage != null) {
+  //       for (int i = 0; i < cachedMessage.records.length; i++) {
+  //         final record = cachedMessage.records[i];
+  //
+  //         final _record = Record.fromNdef(record);
+  //         if (_record is WellknownUriRecord) {
+  //           final link = _record.uri.toString();
+  //           final totemData = validateTotemQrCodeWithRegex(link);
+  //           if (totemData != null) {
+  //             _t = totemData;
+  //             break;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return _t;
+  // }
 }
 
 abstract class Record {

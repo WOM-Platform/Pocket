@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
@@ -14,9 +15,12 @@ import 'package:wom_pocket/src/features/transaction/application/transaction_noti
 import 'package:wom_pocket/src/features/transaction/ui/transaction_screen.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 
-final deeplinkProvider = Provider<DeepLinkModel>((ref) {
+part 'pin_screen.g.dart';
+
+@riverpod
+DeepLinkModel deeplink(DeeplinkRef ref) {
   throw UnimplementedError();
-});
+}
 
 class PinScreen extends ConsumerWidget {
   // late PinBloc bloc;

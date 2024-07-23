@@ -65,8 +65,8 @@ Future<void> main() async {
   );
 
   runApp(
-    FeatureDiscovery(
-      child: ProviderScope(
+    ProviderScope(
+      child: FeatureDiscovery(
         child: EasyLocalization(
           supportedLocales: [Locale('en'), Locale('it')],
           path: 'assets/lang',

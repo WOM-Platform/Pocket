@@ -89,8 +89,8 @@ void main() async {
 
 startApp() {
   runApp(
-    FeatureDiscovery(
-      child: ProviderScope(
+    ProviderScope(
+      child: FeatureDiscovery(
         child: EasyLocalization(
           supportedLocales: [
             Locale('en'),

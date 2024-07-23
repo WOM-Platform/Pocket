@@ -30,10 +30,7 @@ MyDatabase getDatabase(GetDatabaseRef ref) {
 class AimNotifier extends _$AimNotifier {
   @override
   FutureOr<List<Aim>> build() async {
-    // var aims = await ref.read(aimRepositoryProvider).getFlatAimList();
-    // if (aims.isEmpty) {
     var aims = await ref.read(aimRepositoryProvider).updateAim();
-    // }
     return aims;
   }
 }

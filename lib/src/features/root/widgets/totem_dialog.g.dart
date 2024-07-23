@@ -54,7 +54,7 @@ Map<String, dynamic> _$$TotemMetadataImplToJson(_$TotemMetadataImpl instance) =>
 // RiverpodGenerator
 // **************************************************************************
 
-String _$totemNotifierHash() => r'47567817d88ee9624332ac1179f2082efe62e330';
+String _$totemNotifierHash() => r'a6dc758646f3a8abfd553baca6c71672ec7111d0';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -117,7 +117,7 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
             controller: controller,
           ),
           if (loadingStatus < 100)
-            Container(
+            ColoredBox(
               color: Colors.white,
               child: Center(
                 child: Padding(

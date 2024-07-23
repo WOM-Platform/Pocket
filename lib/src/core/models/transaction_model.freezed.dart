@@ -28,12 +28,12 @@ mixin _$TransactionModel {
       throw _privateConstructorUsedError; // @JsonKey(name: 'Aim') required Aim aim,
   @JsonKey(name: 'Id')
   int get id => throw _privateConstructorUsedError;
+  int get size => throw _privateConstructorUsedError;
   String? get ackUrl => throw _privateConstructorUsedError;
   String? get pin => throw _privateConstructorUsedError;
   String? get link => throw _privateConstructorUsedError;
   @DateTimeConverter()
   DateTime? get importDeadline => throw _privateConstructorUsedError;
-  int get size => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TransactionModelCopyWith<TransactionModel> get copyWith =>
@@ -52,11 +52,11 @@ abstract class $TransactionModelCopyWith<$Res> {
       @JsonKey(name: 'Aim') String aimCode,
       @DateTimeConverter() @JsonKey(name: 'Timestamp') DateTime date,
       @JsonKey(name: 'Id') int id,
+      int size,
       String? ackUrl,
       String? pin,
       String? link,
-      @DateTimeConverter() DateTime? importDeadline,
-      int size});
+      @DateTimeConverter() DateTime? importDeadline});
 }
 
 /// @nodoc
@@ -77,11 +77,11 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
     Object? aimCode = null,
     Object? date = null,
     Object? id = null,
+    Object? size = null,
     Object? ackUrl = freezed,
     Object? pin = freezed,
     Object? link = freezed,
     Object? importDeadline = freezed,
-    Object? size = null,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -104,6 +104,10 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      size: null == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as int,
       ackUrl: freezed == ackUrl
           ? _value.ackUrl
           : ackUrl // ignore: cast_nullable_to_non_nullable
@@ -120,10 +124,6 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
           ? _value.importDeadline
           : importDeadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      size: null == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as int,
     ) as $Val);
   }
 }
@@ -142,11 +142,11 @@ abstract class _$$TransactionModelImplCopyWith<$Res>
       @JsonKey(name: 'Aim') String aimCode,
       @DateTimeConverter() @JsonKey(name: 'Timestamp') DateTime date,
       @JsonKey(name: 'Id') int id,
+      int size,
       String? ackUrl,
       String? pin,
       String? link,
-      @DateTimeConverter() DateTime? importDeadline,
-      int size});
+      @DateTimeConverter() DateTime? importDeadline});
 }
 
 /// @nodoc
@@ -165,11 +165,11 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
     Object? aimCode = null,
     Object? date = null,
     Object? id = null,
+    Object? size = null,
     Object? ackUrl = freezed,
     Object? pin = freezed,
     Object? link = freezed,
     Object? importDeadline = freezed,
-    Object? size = null,
   }) {
     return _then(_$TransactionModelImpl(
       type: null == type
@@ -192,6 +192,10 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      size: null == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as int,
       ackUrl: freezed == ackUrl
           ? _value.ackUrl
           : ackUrl // ignore: cast_nullable_to_non_nullable
@@ -208,10 +212,6 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
           ? _value.importDeadline
           : importDeadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      size: null == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
@@ -225,11 +225,11 @@ class _$TransactionModelImpl implements _TransactionModel {
       @JsonKey(name: 'Aim') required this.aimCode,
       @DateTimeConverter() @JsonKey(name: 'Timestamp') required this.date,
       @JsonKey(name: 'Id') required this.id,
+      required this.size,
       this.ackUrl,
       this.pin,
       this.link,
-      @DateTimeConverter() this.importDeadline,
-      required this.size});
+      @DateTimeConverter() this.importDeadline});
 
   @override
   @TransactionTypeConverter()
@@ -249,6 +249,8 @@ class _$TransactionModelImpl implements _TransactionModel {
   @JsonKey(name: 'Id')
   final int id;
   @override
+  final int size;
+  @override
   final String? ackUrl;
   @override
   final String? pin;
@@ -257,12 +259,10 @@ class _$TransactionModelImpl implements _TransactionModel {
   @override
   @DateTimeConverter()
   final DateTime? importDeadline;
-  @override
-  final int size;
 
   @override
   String toString() {
-    return 'TransactionModel(type: $type, source: $source, aimCode: $aimCode, date: $date, id: $id, ackUrl: $ackUrl, pin: $pin, link: $link, importDeadline: $importDeadline, size: $size)';
+    return 'TransactionModel(type: $type, source: $source, aimCode: $aimCode, date: $date, id: $id, size: $size, ackUrl: $ackUrl, pin: $pin, link: $link, importDeadline: $importDeadline)';
   }
 
   @override
@@ -275,17 +275,17 @@ class _$TransactionModelImpl implements _TransactionModel {
             (identical(other.aimCode, aimCode) || other.aimCode == aimCode) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.size, size) || other.size == size) &&
             (identical(other.ackUrl, ackUrl) || other.ackUrl == ackUrl) &&
             (identical(other.pin, pin) || other.pin == pin) &&
             (identical(other.link, link) || other.link == link) &&
             (identical(other.importDeadline, importDeadline) ||
-                other.importDeadline == importDeadline) &&
-            (identical(other.size, size) || other.size == size));
+                other.importDeadline == importDeadline));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, type, source, aimCode, date, id,
-      ackUrl, pin, link, importDeadline, size);
+      size, ackUrl, pin, link, importDeadline);
 
   @JsonKey(ignore: true)
   @override
@@ -297,18 +297,19 @@ class _$TransactionModelImpl implements _TransactionModel {
 
 abstract class _TransactionModel implements TransactionModel {
   const factory _TransactionModel(
-      {@TransactionTypeConverter() required final TransactionType type,
-      required final String source,
-      @JsonKey(name: 'Aim') required final String aimCode,
-      @DateTimeConverter()
-      @JsonKey(name: 'Timestamp')
-      required final DateTime date,
-      @JsonKey(name: 'Id') required final int id,
-      final String? ackUrl,
-      final String? pin,
-      final String? link,
-      @DateTimeConverter() final DateTime? importDeadline,
-      required final int size}) = _$TransactionModelImpl;
+          {@TransactionTypeConverter() required final TransactionType type,
+          required final String source,
+          @JsonKey(name: 'Aim') required final String aimCode,
+          @DateTimeConverter()
+          @JsonKey(name: 'Timestamp')
+          required final DateTime date,
+          @JsonKey(name: 'Id') required final int id,
+          required final int size,
+          final String? ackUrl,
+          final String? pin,
+          final String? link,
+          @DateTimeConverter() final DateTime? importDeadline}) =
+      _$TransactionModelImpl;
 
   @override
   @TransactionTypeConverter()
@@ -326,6 +327,8 @@ abstract class _TransactionModel implements TransactionModel {
   @JsonKey(name: 'Id')
   int get id;
   @override
+  int get size;
+  @override
   String? get ackUrl;
   @override
   String? get pin;
@@ -334,8 +337,6 @@ abstract class _TransactionModel implements TransactionModel {
   @override
   @DateTimeConverter()
   DateTime? get importDeadline;
-  @override
-  int get size;
   @override
   @JsonKey(ignore: true)
   _$$TransactionModelImplCopyWith<_$TransactionModelImpl> get copyWith =>

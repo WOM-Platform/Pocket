@@ -191,7 +191,7 @@ class ExchangeDataWidget extends StatelessWidget {
         ),
         const SizedBox(height: 32),
         Center(
-          child: Container(
+          child: ColoredBox(
             color: Colors.white,
             child: QrImageView(
               data: link,

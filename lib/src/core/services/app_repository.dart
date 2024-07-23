@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info/package_info.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/services/aim_repository.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
@@ -12,9 +12,12 @@ import 'package:uni_links/uni_links.dart';
 import 'package:http/http.dart' as http;
 import 'package:wom_pocket/src/core/my_logger.dart';
 
-final appRepositoryProvider = Provider<AppRepository>((ref) {
+part 'app_repository.g.dart';
+
+@riverpod
+AppRepository appRepository(AppRepositoryRef ref) {
   return AppRepository(ref.watch(aimRepositoryProvider));
-});
+}
 
 class AppRepository {
   final AimRepository _aimRepository;
