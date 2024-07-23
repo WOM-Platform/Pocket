@@ -35,7 +35,7 @@ class OffersMapNotifier extends _$OffersMapNotifier {
   BitmapDescriptor? inactivePOS;
 
   FutureOr<OffersMapData> build(LatLng? position) async {
-    logger.wtf('OffersMapNotifier build');
+    logger.w('OffersMapNotifier build');
     loadStaticCityMarkers();
     clusterManager ??= ClusterManager<OfferCluster>(
       [],

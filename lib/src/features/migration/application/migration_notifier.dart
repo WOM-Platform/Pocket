@@ -142,7 +142,7 @@ class MigrationNotifier extends _$MigrationNotifier {
     final bytes = Utils.encryptBytesWithAes(zippedBytes, '$key$pin');
     // final encryptedFile = File('${migrationDir.path}/encrypted_zip_woms');
     // await encryptedFile.writeAsBytes(bytes);
-    // logger.wtf(bytes.length / 1000);
+    // logger.w(bytes.length / 1000);
     // logger.i(file.path);
     return WomExportData(file.path, bytes, key, woms.length);
   }

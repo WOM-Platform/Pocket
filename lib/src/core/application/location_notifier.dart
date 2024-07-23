@@ -28,7 +28,7 @@ class LocationNotifier extends _$LocationNotifier {
           timeLimit: Duration(seconds: 15),
         );
         logger.i('position is mocked ${currentPosition.isMocked}');
-        logger.wtf(currentPosition);
+        logger.w(currentPosition);
         return currentPosition;
       }
       logger.w('permissions are not granted');

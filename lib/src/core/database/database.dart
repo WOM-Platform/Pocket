@@ -47,7 +47,7 @@ class MyDatabase extends _$MyDatabase {
         await m.createAll();
       },
       onUpgrade: (Migrator m, int from, int to) async {
-        logger.wtf('from $from to $to');
+        logger.w('from $from to $to');
         if (from < 4) {
           await m.addColumn(wom, wom.donationId);
           await m.addColumn(wom, wom.spentOn);

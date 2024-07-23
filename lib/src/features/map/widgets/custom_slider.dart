@@ -14,7 +14,7 @@ class CustomSlider extends HookConsumerWidget {
     // final MapBloc bloc = BlocProvider.of<MapBloc>(context);
     // final sliderValue = state.valueOrNull?.sliderValue ?? 0.0;
     final sliderValue = useState(0.0);
-    logger.wtf('sliderValue = $sliderValue');
+    logger.w('sliderValue = $sliderValue');
     final ThemeData theme = Theme.of(context);
     return SliderTheme(
       data: theme.sliderTheme.copyWith(

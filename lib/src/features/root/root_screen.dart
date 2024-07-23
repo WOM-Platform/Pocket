@@ -301,7 +301,7 @@ class _RootScreenState extends ConsumerState<RootScreen> {
             builder: (_) => ScanScreen(),
           ),
         );
-        logger.wtf('_startScan: $link');
+        logger.w('_startScan: $link');
         if (link == null) return;
         final totemData = validateTotemQrCodeWithRegex(link);
         if (totemData != null) {

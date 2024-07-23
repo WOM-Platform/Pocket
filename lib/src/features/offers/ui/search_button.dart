@@ -25,14 +25,14 @@ class EnableSearchButtonNotifier
     extends AutoDisposeFamilyNotifier<ZoomStatus, LatLng?> {
   @override
   ZoomStatus build(LatLng? position) {
-    logger.wtf('EnableSearchButtonNotifier build');
+    logger.w('EnableSearchButtonNotifier build');
     final posMapData = ref.watch(offersMapNotifierProvider(position));
     final zoom = ref.watch(zoomMapProvider);
     if (posMapData.isLoading) {
-      logger.wtf('EnableSearchButtonNotifier build => loading');
+      logger.w('EnableSearchButtonNotifier build => loading');
       return ZoomStatus.loading;
     }
-    logger.wtf('EnableSearchButtonNotifier build => disabled');
+    logger.w('EnableSearchButtonNotifier build => disabled');
     if (zoom >= minZoom) {
       return ZoomStatus.enabled;
     }
