@@ -8,13 +8,13 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:wom_pocket/src/my_logger.dart';
-import 'package:wom_pocket/src/utils/config.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/config.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
-import 'app.dart';
-import 'constants.dart';
-import 'main.dart';
-import 'src/utils/utils.dart';
+import 'package:wom_pocket/app.dart';
+import 'package:wom_pocket/src/core/constants.dart';
+import 'package:wom_pocket/main.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,11 +32,11 @@ Future<void> main() async {
   final allAims = await database.select(database.aims).get();
   allAims.forEach(print);
   final woms = await database.select(database.wom).get();
-  print(woms.length);
-  print(woms[0]);
+  logger.i(woms.length);
+  logger.i(woms[0]);
   final myTransactions = await database.select(database.transactions).get();
-  print(myTransactions.length);
-  print(myTransactions[0]);*/
+  logger.i(myTransactions.length);
+  logger.i(myTransactions[0]);*/
 
   // Firebase
   await Firebase.initializeApp();
@@ -58,18 +58,23 @@ Future<void> main() async {
   logger.i('DEV VERSION');
   registryKey = await Utils.getPublicKey();
   mapStyle = await rootBundle.loadString('assets/map_style.txt');
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-    statusBarColor: Colors.red,
-  ));
-
-  runApp(FeatureDiscovery(
-      child: ProviderScope(
-    child: EasyLocalization(
-      supportedLocales: [Locale('en'), Locale('it')],
-      path: 'assets/lang',
-      // <-- change the path of the translation files
-      fallbackLocale: Locale('it'),
-      child: App(),
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.red,
     ),
-  )));
+  );
+
+  runApp(
+    ProviderScope(
+      child: FeatureDiscovery(
+        child: EasyLocalization(
+          supportedLocales: [Locale('en'), Locale('it')],
+          path: 'assets/lang',
+          // <-- change the path of the translation files
+          fallbackLocale: Locale('it'),
+          child: App(),
+        ),
+      ),
+    ),
+  );
 }

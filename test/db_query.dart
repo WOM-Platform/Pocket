@@ -26,35 +26,37 @@ void main() async {
         DateTime.now().subtract(Duration(days: 365)).millisecondsSinceEpoch;
     await db.womsDao.addVouchers([
       ...List.generate(
-          27,
-          (index) => WomRow(
-                id: index.toString(),
-                sourceName: "sourceName",
-                secret: "secret",
-                geohash: "abcde",
-                aim: "P",
-                sourceId: "sourceId",
-                transactionId: index,
-                addedOn: thirtyDaysAgo,
-                spent: 0,
-                latitude: 0.0,
-                longitude: 0.0,
-              )).map((w) => w.toCompanion(true)),
+        27,
+        (index) => WomRow(
+          id: index.toString(),
+          sourceName: 'sourceName',
+          secret: 'secret',
+          geohash: 'abcde',
+          aim: 'P',
+          sourceId: 'sourceId',
+          transactionId: index,
+          addedOn: thirtyDaysAgo,
+          spent: 0,
+          latitude: 0.0,
+          longitude: 0.0,
+        ),
+      ).map((w) => w.toCompanion(true)),
       ...List.generate(
-          20,
-          (index) => WomRow(
-                id: (100 + index).toString(),
-                sourceName: "sourceName",
-                secret: "secret",
-                geohash: "abcde",
-                aim: "P",
-                sourceId: "sourceId",
-                transactionId: 100 + index,
-                addedOn: oneYearAgo,
-                spent: 0,
-                latitude: 0.0,
-                longitude: 0.0,
-              )).map((w) => w.toCompanion(true)),
+        20,
+        (index) => WomRow(
+          id: (100 + index).toString(),
+          sourceName: 'sourceName',
+          secret: 'secret',
+          geohash: 'abcde',
+          aim: 'P',
+          sourceId: 'sourceId',
+          transactionId: 100 + index,
+          addedOn: oneYearAgo,
+          spent: 0,
+          latitude: 0.0,
+          longitude: 0.0,
+        ),
+      ).map((w) => w.toCompanion(true)),
     ]);
   });
 
@@ -62,9 +64,9 @@ void main() async {
     await db.close();
   });
 
-  group("query", () {
+  group('query', () {
     test('schemeVersion', () async {
-      final schemeVersion = await db.schemaVersion;
+      final schemeVersion = db.schemaVersion;
       expect(schemeVersion, 5);
     });
 
@@ -73,7 +75,7 @@ void main() async {
       expect(woms, 47);
     });
 
-    test("test maxAge query", () async {
+    test('test maxAge query', () async {
       final filter = SimpleFilter(maxAge: 31);
 
       final woms = await db.womsDao.getVouchersForPayment(simpleFilter: filter);
@@ -81,7 +83,7 @@ void main() async {
       expect(woms.length, 27);
     });
 
-    test("test maxAge query", () async {
+    test('test maxAge query', () async {
       final filter = SimpleFilter(maxAge: 20);
 
       final woms = await db.womsDao.getVouchersForPayment(simpleFilter: filter);

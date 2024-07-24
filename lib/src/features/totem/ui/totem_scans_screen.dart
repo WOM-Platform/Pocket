@@ -1,19 +1,28 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:wom_pocket/src/application/transaction_notifier.dart';
-import 'package:wom_pocket/src/database/database.dart';
+import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/features/totem/application/totem_scans_notifier.dart';
-import 'package:wom_pocket/src/models/deep_link_model.dart';
-import 'package:wom_pocket/src/screens/pos_list/pos_map_notifier.dart';
-import 'package:wom_pocket/src/screens/transaction/transaction_screen.dart';
-import 'package:wom_pocket/src/utils/date_utils.dart';
-import 'package:wom_pocket/src/utils/utils.dart';
-import 'package:wom_pocket/src/widgets/my_appbar.dart';
+import 'package:wom_pocket/src/core/models/deep_link_model.dart';
+import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/features/transaction/ui/transaction_screen.dart';
+import 'package:wom_pocket/src/core/utils/date_utils.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
+
+BitmapDescriptor? standardPin;
+
+Future<BitmapDescriptor> getPosPin() async {
+  return await BitmapDescriptor.fromAssetImage(
+    ImageConfiguration(devicePixelRatio: Platform.isIOS ? 1 : null),
+    'assets/images/wom_pos_pin.png',
+  );
+}
 
 class TotemScansScreen extends ConsumerWidget {
   const TotemScansScreen({Key? key}) : super(key: key);
@@ -43,7 +52,7 @@ class TotemScansScreen extends ConsumerWidget {
                         t: value[value.keys.elementAt(i)]![k],
                       ),
                     Divider(),
-                  ]
+                  ],
                 ],
               ),
         _ => Center(
@@ -57,7 +66,7 @@ class TotemScansScreen extends ConsumerWidget {
 class _Header extends StatelessWidget {
   final TotemRow t;
 
-  const _Header({super.key, required this.t});
+  const _Header({required this.t});
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +85,7 @@ class _Header extends StatelessWidget {
 class _Item extends StatelessWidget {
   final TotemRow t;
 
-  const _Item({super.key, required this.t});
+  const _Item({required this.t});
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +119,10 @@ class _Item extends StatelessWidget {
       trailing: t.womPin != null && t.womLink != null
           ? SvgPicture.asset(
               'assets/images/wom_logo.svg',
-              width: 40,
-              color: Theme.of(context).primaryColor,
+              width: 40,colorFilter: ColorFilter.mode(
+        Theme.of(context).primaryColor,
+        BlendMode.srcIn,
+      ),
             )
           : null,
     );
@@ -239,7 +250,8 @@ class _TotemMapScreenState extends State<_TotemMapScreen> {
                           ),
                           onPressed: () {
                             final deepLink = DeepLinkModel.fromUri(
-                                Uri.parse(widget.womLink!));
+                              Uri.parse(widget.womLink!),
+                            );
                             Navigator.push(
                               context,
                               MaterialPageRoute<bool>(
@@ -255,7 +267,10 @@ class _TotemMapScreenState extends State<_TotemMapScreen> {
                           child: SvgPicture.asset(
                             'assets/images/wom_logo.svg',
                             width: 40,
-                            color: Theme.of(context).primaryColor,
+                            colorFilter: ColorFilter.mode(
+                              Theme.of(context).primaryColor,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                       ],
@@ -280,8 +295,10 @@ class _TotemMapScreenState extends State<_TotemMapScreen> {
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           Text(widget.sessionName),
-                          Text(widget.timestamp
-                              .format(context.locale.languageCode)),
+                          Text(
+                            widget.timestamp
+                                .format(context.locale.languageCode),
+                          ),
                           if ((widget.email != null &&
                                   widget.email!.isNotEmpty) ||
                               (widget.phoneNumber != null &&
@@ -367,7 +384,7 @@ class _TotemMapScreenState extends State<_TotemMapScreen> {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
