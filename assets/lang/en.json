@@ -285,6 +285,6 @@
     "exchange_export_share_message": "I donated {} WOM",
     "exchange_import_share_message": "I received {} WOM"
   },
-  "send_migration_data": "Ho migrato i miei WOM. Clicca qui {} per importarli, questo è il PIN: {}",
-  "send_exchange_data": "Voglio scambiare i miei WOM con te. Clicca qui {} per importarli, questo è il PIN: {}"
+  "send_migration_data": "WOM migration started. Open {} on the device you want to import your WOMs, using the following PIN: {}.",
+  "send_exchange_data": "Please accept these WOM vouchers as a token of my gratitude. Open {} to receive them, using the following PIN: {}."
 }
