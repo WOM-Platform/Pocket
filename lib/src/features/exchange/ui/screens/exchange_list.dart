@@ -12,6 +12,9 @@ class ExchangeListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final exchangeState = ref.watch(getExchangeTransactionsProvider);
+    if (exchangeState.valueOrNull?.isEmpty ?? true) {
+      return SizedBox.shrink();
+    }
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(

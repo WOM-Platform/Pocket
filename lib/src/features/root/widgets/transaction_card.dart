@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/ui/screens/exchange_receipt.dart';
 import 'package:collection/collection.dart';
+import 'package:wom_pocket/src/features/in_app_webview/ui/in_app_webview.dart';
 import 'package:wom_pocket/src/features/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/features/migration/ui/export_screen.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
@@ -16,17 +17,23 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class TransactionCard extends ConsumerWidget {
   final TransactionModel transaction;
-  final Function? onDelete;
-  final Function? onEdit;
-  final Function? onDuplicate;
+  final Function? onTap;
 
   const TransactionCard({
     required this.transaction,
+    this.onTap,
     Key? key,
-    this.onDelete,
-    this.onEdit,
-    this.onDuplicate,
   }) : super(key: key);
+
+  Future share(BuildContext context, Aim? aim) async {
+    var message = shareMessage(transaction.type);
+    if (aim != null) {
+      final aimTitle = aim.title(languageCode: context.locale.languageCode);
+      message =
+          '$message ${aimTitle != null ? '${tr('home.for')} $aimTitle' : ''}';
+    }
+    Share.share(message);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,105 +53,47 @@ class TransactionCard extends ConsumerWidget {
                 transaction.importDeadline == null ||
                 transaction.link == null);
 
-    return Slidable(
-      key: ValueKey(transaction.id),
-      // actionPane: SlidableDrawerActionPane(),
-      // actionExtentRatio: 0.25,
-      startActionPane: isValidMigration || isValidPayment || isValidExchange
-          ? ActionPane(
-              motion: const ScrollMotion(),
-              extentRatio: 0.3,
-              // dismissible: DismissiblePane(
-              //   onDismissed: () {},
-              // ),
-              children: [
-                if (isValidMigration)
-                  SlidableAction(
-                    onPressed: (context) async {
-                      if (transaction.pin == null ||
-                          transaction.importDeadline == null ||
-                          transaction.link == null) {
-                        return;
-                      }
+    return GestureDetector(
+      onTap: () async {
+        if (isValidPayment) {
+          if (transaction.ackUrl != null) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => InAppWebViewScreen(
+                  url: transaction.ackUrl!,
+                ),
+              ),
+            );
+          }
+        } else if (isValidMigration) {
+          if (transaction.pin == null ||
+              transaction.importDeadline == null ||
+              transaction.link == null) {
+            return;
+          }
 
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => MigrationExportScreen(
-                            backTo: false,
-                            data: MigrationData(
-                              code: transaction.pin!,
-                              importDeadline: transaction.importDeadline!,
-                              link: transaction.link!,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    icon: Icons.qr_code_2,
-                  )
-                else if (isValidPayment)
-                  SlidableAction(
-                    onPressed: (context) async {
-                      final uri = Uri.parse(transaction.ackUrl!);
-                      if (await canLaunchUrl(uri)) {
-                        launchUrl(uri);
-                      }
-                    },
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    icon: Icons.receipt,
-                  )
-                else if (isValidExchange)
-                  SlidableAction(
-                    onPressed: (context) async {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => ExchangeReceiptScreen(
-                            data: (
-                              transaction.link!,
-                              transaction.pin!,
-                              transaction.size
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    icon: Icons.receipt,
-                  ),
-              ],
-            )
-          : null,
-      // The end action pane is the one at the right or the bottom side.
-      endActionPane: ActionPane(
-        motion: ScrollMotion(),
-        extentRatio: 0.3,
-        children: [
-          SlidableAction(
-            flex: 2,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            onPressed: (context) async {
-              var message = shareMessage(transaction.type);
-              if (aim != null) {
-                final aimTitle =
-                    aim.title(languageCode: context.locale.languageCode);
-                message =
-                    '$message  ${aimTitle != null ? 'for $aimTitle' : ''}';
-              }
-              Share.share(message);
-            },
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            icon: Icons.share,
-          ),
-        ],
-      ),
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => MigrationExportScreen(
+                backTo: false,
+                data: MigrationData(
+                  code: transaction.pin!,
+                  importDeadline: transaction.importDeadline!,
+                  link: transaction.link!,
+                ),
+              ),
+            ),
+          );
+        } else if (isValidExchange) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => ExchangeReceiptScreen(
+                data: (transaction.link!, transaction.pin!, transaction.size),
+              ),
+            ),
+          );
+        }
+      },
       child: Card(
         elevation: 8.0,
         shape: RoundedRectangleBorder(
@@ -165,7 +114,7 @@ class TransactionCard extends ConsumerWidget {
                   ),
                   Spacer(),
                   Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsets.only(right: 16.0),
                     child: Icon(
                       icon(transaction.type),
                       color: iconColor(transaction.type),
@@ -189,45 +138,18 @@ class TransactionCard extends ConsumerWidget {
                     ),
                   ),
                   Spacer(),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(right: 8.0),
-                  //   child: Icon(
-                  //     icon(transaction.type),
-                  //     color: iconColor(transaction.type),
-                  //   ),
-                  // ),
                 ],
               ),
               Divider(
                 height: 2,
               ),
-//              Padding(
-//                padding: const EdgeInsets.symmetric(vertical: 4.0),
-//                child: Text(
-//                  transaction.source,
-//                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-//                  textAlign: TextAlign.start,
-//                ),
-//              ),
               SizedBox(
                 height: 10.0,
               ),
               Row(
-//              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-//                Spacer(),
-//                     Expanded(
-//                       child: Column(
-//                         crossAxisAlignment: CrossAxisAlignment.stretch,
-//                         children: <Widget>[
-//                           // ItemRow(t1: 'id', t2: transaction.id.toString()),
-//                           // ItemRow(t1: 'date', t2: transaction.formatDate()),
-//                         ],
-//                       ),
-//                     ),
-//                Spacer(),
-                  //TODO formatta la data di scadenza
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -258,11 +180,91 @@ class TransactionCard extends ConsumerWidget {
                       ],
                     ),
                   ),
-//                Spacer(),
+                  /*PopupMenuButton<CardAction>(
+                    // initialValue: selectedItem,
+                    icon: const Icon(Icons.more_vert),
+                    onSelected: (CardAction item) async {
+                      switch (item) {
+                        case CardAction.migration:
+                          if (transaction.pin == null ||
+                              transaction.importDeadline == null ||
+                              transaction.link == null) {
+                            return;
+                          }
+
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => MigrationExportScreen(
+                                backTo: false,
+                                data: MigrationData(
+                                  code: transaction.pin!,
+                                  importDeadline: transaction.importDeadline!,
+                                  link: transaction.link!,
+                                ),
+                              ),
+                            ),
+                          );
+                          break;
+                        case CardAction.payment:
+                          final uri = Uri.parse(transaction.ackUrl!);
+                          if (await canLaunchUrl(uri)) {
+                            launchUrl(uri);
+                          }
+                          break;
+                        case CardAction.exchange:
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => ExchangeReceiptScreen(
+                                data: (
+                                  transaction.link!,
+                                  transaction.pin!,
+                                  transaction.size
+                                ),
+                              ),
+                            ),
+                          );
+                          break;
+                        case CardAction.share:
+                          share(context, aim);
+                          break;
+                      }
+                    },
+                    itemBuilder: (BuildContext context) =>
+                        <PopupMenuEntry<CardAction>>[
+                      if (isValidMigration)
+                        const PopupMenuItem<CardAction>(
+                          value: CardAction.migration,
+                          child: ListTile(
+                            leading: Icon(Icons.qr_code_2),
+                            title: Text('Qr-Code'),
+                          ),
+                        )
+                      else if (isValidPayment)
+                        const PopupMenuItem<CardAction>(
+                          value: CardAction.payment,
+                          child: ListTile(
+                            leading: Icon(Icons.web),
+                            title: Text('Receipt'),
+                          ),
+                        )
+                      else if (isValidExchange)
+                        const PopupMenuItem<CardAction>(
+                          value: CardAction.exchange,
+                          child: ListTile(
+                            leading: Icon(Icons.receipt),
+                            title: Text('Share'),
+                          ),
+                        ),
+                      const PopupMenuItem<CardAction>(
+                        value: CardAction.share,
+                        child: ListTile(
+                          leading: Icon(Icons.share),
+                          title: Text('Share'),
+                        ),
+                      ),
+                    ],
+                  ),*/
                 ],
-              ),
-              SizedBox(
-                height: 5,
               ),
             ],
           ),
@@ -273,19 +275,34 @@ class TransactionCard extends ConsumerWidget {
 
   String shareMessage(TransactionType type) {
     return switch (type) {
-      TransactionType.VOUCHERS => 'I earned '
-          '${transaction.size} WOM  from '
-          '${transaction.source}',
-      TransactionType.PAYMENT => 'I used '
-          '${transaction.size} WOM  at '
-          '${transaction.source}',
-      TransactionType.MIGRATION_IMPORT => 'I imported '
-          '${transaction.size} WOM  from '
-          '${transaction.source}',
-      TransactionType.MIGRATION_EXPORT => 'I exported '
-          '${transaction.size} WOM',
-      TransactionType.EXCHANGE_EXPORT => 'Ho donato ${transaction.size} WOM',
-      TransactionType.EXCHANGE_IMPORT => 'Ho ricevuto ${transaction.size} WOM',
+      TransactionType.VOUCHERS => tr(
+          'home.vouchers_share_message',
+          args: [transaction.size.toString(), transaction.source],
+        ),
+      TransactionType.PAYMENT => tr(
+          'home.payment_share_message',
+          args: [transaction.size.toString(), transaction.source],
+        ),
+      TransactionType.MIGRATION_IMPORT => tr(
+          'home.migration_import_share_message',
+          args: [transaction.size.toString(), transaction.source],
+        ),
+      TransactionType.MIGRATION_EXPORT => tr(
+          'home.migration_export_share_message',
+          args: [transaction.size.toString()],
+        ),
+      TransactionType.EXCHANGE_EXPORT => tr(
+          'home.exchange_export_share_message',
+          args: [
+            transaction.size.toString(),
+          ],
+        ),
+      TransactionType.EXCHANGE_IMPORT => tr(
+          'home.exchange_import_share_message',
+          args: [
+            transaction.size.toString(),
+          ],
+        ),
     };
   }
 
@@ -325,6 +342,13 @@ class TransactionCard extends ConsumerWidget {
         Colors.red,
     };
   }
+}
+
+enum CardAction {
+  migration,
+  payment,
+  exchange,
+  share,
 }
 
 class ItemRow extends StatelessWidget {

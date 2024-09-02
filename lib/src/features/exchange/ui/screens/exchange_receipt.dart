@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share/share.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/application/new_exchange_state.dart';
 
@@ -132,6 +133,22 @@ class ExchangeReceiptScreen extends ConsumerWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.ios_share),
+            color: Colors.white,
+            onPressed: () {
+              final message = tr(
+                'send_exchange_data',
+                args: [
+                  data.$1,
+                  data.$2,
+                ],
+              );
+              Share.share(message);
+            },
+          ),
+        ],
       ),
       body: ExchangeDataWidget(
         link: data.$1,

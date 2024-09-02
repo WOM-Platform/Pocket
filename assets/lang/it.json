@@ -275,5 +275,16 @@
   },
   "offers_screen": {
     "online_offers": "Offerte online"
-  }
+  },
+  "home": {
+    "for": "per",
+    "vouchers_share_message": "Ho guadagnato {} WOM da {}",
+    "payment_share_message": "Ho usato {} WOM in {}",
+    "migration_import_share_message": "Ho importato {} WOM da {}",
+    "migration_export_share_message": "Ho esportato {} WOM",
+    "exchange_export_share_message": "Ho donato {} WOM",
+    "exchange_import_share_message": "Ho ricevuto {} WOM"
+  },
+  "send_migration_data": "Ho migrato i miei WOM. Clicca qui {} per importarli, questo è il PIN: {}",
+  "send_exchange_data": "Voglio scambiare i miei WOM con te. Clicca qui {} per importarli, questo è il PIN: {}"
 }

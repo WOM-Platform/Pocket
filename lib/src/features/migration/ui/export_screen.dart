@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share/share.dart';
 import 'package:wom_pocket/app.dart';
 
 import 'package:wom_pocket/src/features/migration/application/import_notifier.dart';
@@ -32,6 +33,22 @@ class MigrationExportScreen extends ConsumerWidget {
           : AppBar(
               elevation: 0,
               backgroundColor: Theme.of(context).primaryColor,
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.ios_share),
+                  color: Colors.white,
+                  onPressed: () {
+                    final message = tr(
+                      'send_migration_data',
+                      args: [
+                        data.link,
+                        data.code,
+                      ],
+                    );
+                    Share.share(message);
+                  },
+                ),
+              ],
             ),
       body: ListView(
         padding: const EdgeInsets.all(16),
