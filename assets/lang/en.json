@@ -1,6 +1,8 @@
 {
   "confirmToExportWom": "Are you sure you want to export your WOM?",
   "confirmToExportWomDesc": "If you proceed, your WOM vouchers will no longer be available on this device",
+  "confirmToExchangeWom": "Are you sure you want to exchange your WOM?",
+  "confirmToExchangeWomDesc": "If you proceed, your WOM vouchers will no longer be available on this device",
   "back": "Back",
   "missingData": "Missing data",
   "chosenPin": "Chosen PIN: ",

@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/ui/screens/exchange_receipt.dart';
 
@@ -50,19 +51,9 @@ class NewExchange extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final wom = useState<int>(min(totalAvailableWom, dailyAvailableWom));
-
-    // if (min(totalAvailableWom, dailyAvailableWom) == 0) {
-    //   return Padding(
-    //     padding: const EdgeInsets.all(8.0),
-    //     child: Center(
-    //       child: Text('Non hai WOM da poter scambiare oggi, torna domani',style: TextS,),
-    //     ),
-    //   );
-    // }
     final maxS = min(totalAvailableWom, dailyAvailableWom).toDouble();
     final minS = min(1, dailyAvailableWom).toDouble();
-    logger.i(maxS);
-    logger.i(minS);
+    logger.i('$maxS $minS');
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -118,12 +109,43 @@ class NewExchange extends HookConsumerWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => NewExchangeScreen(womCount: wom.value),
+                onPressed: () async {
+                  final res = await Alert(
+                    context: context,
+                    style: AlertStyle(
+                      descStyle: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
-                  );
+                    type: AlertType.warning,
+                    title: 'confirmToExchangeWom'.tr(),
+                    desc: 'confirmToExchangeWomDesc'.tr(),
+                    buttons: [
+                      DialogButton(
+                        color: Colors.white,
+                        child: Text(
+                          'cancel'.tr(),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                      ),
+                      DialogButton(
+                        child: Text(
+                          'continue'.tr(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () async {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                    ],
+                  ).show();
+                  if (res ?? false) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => NewExchangeScreen(womCount: wom.value),
+                      ),
+                    );
+                  }
                 },
                 child: Text(
                   '${'donate'.tr()} ${wom.value} WOM',

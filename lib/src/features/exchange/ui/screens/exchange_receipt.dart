@@ -120,9 +120,11 @@ class NewExchangeScreen extends ConsumerWidget {
 
 class ExchangeReceiptScreen extends ConsumerWidget {
   final (String link, String pin, int womCount) data;
+  final bool fromHome;
 
   const ExchangeReceiptScreen({
     required this.data,
+    this.fromHome = false,
     super.key,
   });
 
@@ -156,12 +158,14 @@ class ExchangeReceiptScreen extends ConsumerWidget {
         womCount: data.$3,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          Navigator.of(context).pop();
-        },
-        label: Text('done'.tr()),
-      ),
+      floatingActionButton: fromHome
+          ? null
+          : FloatingActionButton.extended(
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+              label: Text('closeApp'.tr()),
+            ),
     );
   }
 }

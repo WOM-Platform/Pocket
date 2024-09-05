@@ -9,26 +9,6 @@ class ExchangeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final exchangeState = ref.watch(exchangeNotifierProvider);
-    // final exchangeListState =
-    //     ref.watch(getExchangeTransactionsProvider).valueOrNull;
-
-    // ref.listen(exchangeNotifierProvider, (previous, next) {
-    //   if (next is NewExchangeStateData) {
-    //     Navigator.of(context).push(
-    //       MaterialPageRoute(
-    //         builder: (_) => ExchangeReceiptScreen(
-    //           link: next.link,
-    //           pin: next.pin,
-    //           womCount: next.size,
-    //         ),
-    //       ),
-    //     );
-    //   }
-    // });
-    //
-    // final isLoading =
-    //     exchangeState is ExchangeStateInitial || exchangeListState == null;
     return Scaffold(
       appBar: PocketAppBar(),
       body: ListView(

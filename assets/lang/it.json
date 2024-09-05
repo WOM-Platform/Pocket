@@ -1,6 +1,8 @@
 {
   "confirmToExportWom": "Confermi di voler esportare i tuoi WOM?",
   "confirmToExportWomDesc": "Continuando i tuoi WOM non saranno più disponibili su questo dispositivo",
+  "confirmToExchangeWom": "Confermi di voler condividere i tuoi WOM?",
+  "confirmToExchangeWomDesc": "Continuando i tuoi WOM non saranno più disponibili su questo dispositivo",
   "back": "Indietro",
   "missingData": "Dati mancanti",
   "chosenPin": "Pin scelto: ",

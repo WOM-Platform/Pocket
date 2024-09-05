@@ -89,6 +89,7 @@ class TransactionCard extends ConsumerWidget {
             MaterialPageRoute(
               builder: (_) => ExchangeReceiptScreen(
                 data: (transaction.link!, transaction.pin!, transaction.size),
+                fromHome: true,
               ),
             ),
           );
