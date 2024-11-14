@@ -137,9 +137,7 @@ class TransactionNotifier extends _$TransactionNotifier {
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
       throw LocationPermissionDeniedForever();
-      // return Future.error(
-      //     'Location permissions are permanently denied, we cannot request permissions.');
-    }
+     }
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.

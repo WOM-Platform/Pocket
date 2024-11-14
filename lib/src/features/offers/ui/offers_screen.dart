@@ -221,7 +221,7 @@ class OffersList extends ConsumerWidget {
               );
             },
             error: (ex, st) {
-              if (ex is MyLocationException) {
+              if (ex is LocationException) {
                 return PocketErrorWidget(
                   errorText: 'noLocationPermission'.tr(),
                   tryAgain: () async {
@@ -253,7 +253,7 @@ class OffersList extends ConsumerWidget {
                   tryAgainText: 'grantPermission'.tr(),
                   ex: ex,
                 );
-              } else if (ex is LocationDisabledException) {
+              } else if (ex is ServiceGPSDisabled) {
                 return PocketErrorWidget(
                   errorText: 'noLocationService'.tr(),
                   tryAgain: () {

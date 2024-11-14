@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/src/features/offers/application/offers_notifier.dart';
+import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/utils/location_utils.dart';
 
@@ -13,7 +13,7 @@ class LocationNotifier extends _$LocationNotifier {
   FutureOr<Position> build() async {
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      throw LocationDisabledException();
+      throw ServiceGPSDisabled();
     }
 
     final loc = await _getCurrentLocation();
@@ -33,16 +33,16 @@ class LocationNotifier extends _$LocationNotifier {
       }
       logger.w('permissions are not granted');
       logger.e('LocationPermissionException');
-      throw LocationPermissionException();
+      throw LocationPermissionDenied();
     } on LocationServiceDisabledException catch (ex, st) {
       logger.e('LocationServiceDisabledException', error: ex, stackTrace: st);
-      throw LocationDisabledException();
+      throw ServiceGPSDisabled();
     } on TimeoutException catch (ex, st) {
       logger.e('LocationTimeoutException', error: ex, stackTrace: st);
-      throw LocationTimeoutException();
+      throw GetLocationTimeout();
     } catch (ex, st) {
       logger.e('LocationUnknownException', error: ex, stackTrace: st);
-      throw LocationUnknownException(ex: ex, stackTrace: st);
+      rethrow;
     }
   }
 }

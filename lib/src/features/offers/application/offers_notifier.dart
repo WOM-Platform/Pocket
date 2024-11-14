@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
@@ -10,8 +9,6 @@ import 'package:wom_pocket/src/features/offers/data/offer.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 
 part 'offers_notifier.g.dart';
-
-part 'offers_notifier.freezed.dart';
 
 final paginatedVirtualOffersProvider = FutureProvider.autoDispose
     .family<VirtualPosPagination, int>((ref, pageIndex) async {
@@ -94,20 +91,4 @@ class OffersNotifier extends _$OffersNotifier {
     if (d > 1000) return '${(d / 1000).toStringAsFixed(1)} km';
     return '${d.toStringAsFixed(0)} m';
   }
-}
-
-@freezed
-class MyLocationException with _$MyLocationException {
-  const factory MyLocationException.timeout() = LocationTimeoutException;
-
-  const factory MyLocationException.missingPermission() =
-      LocationPermissionException;
-
-  const factory MyLocationException.serviceDisabled() =
-      LocationDisabledException;
-
-  const factory MyLocationException.unknown({
-    required Object ex,
-    StackTrace? stackTrace,
-  }) = LocationUnknownException;
 }

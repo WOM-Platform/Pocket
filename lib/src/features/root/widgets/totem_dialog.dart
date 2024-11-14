@@ -11,8 +11,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
+import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
 import 'package:wom_pocket/src/core/services/transaction_repository.dart';
-import 'package:wom_pocket/src/features/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
@@ -26,6 +26,7 @@ part 'totem_dialog.freezed.dart';
 
 enum TotemError {
   gpsPermission,
+  gpsPermissionDeniedForever,
   gpsTimeout,
   gpsServiceDisabled,
   sessionNotStarted,
@@ -44,12 +45,14 @@ enum TotemError {
   bool get hasCancel =>
       this == TotemError.gpsServiceDisabled ||
       this == TotemError.gpsPermission ||
+      this == TotemError.gpsPermissionDeniedForever ||
       this == TotemError.gpsTimeout ||
       this == TotemError.unknown;
 
   String errorActionText(BuildContext context) {
     return switch (this) {
       gpsPermission => 'allowGPSPermission'.tr(),
+      gpsPermissionDeniedForever => 'open_permission_settings'.tr(),
       gpsServiceDisabled => 'enableGPS'.tr(),
       sessionExpired ||
       wrongRequestId ||
@@ -234,11 +237,13 @@ class TotemNotifier extends _$TotemNotifier {
       } else {
         handleError(verifyResponse);
       }
-    } on MyLocationException catch (ex, st) {
+    } on LocationException catch (ex, st) {
       final error = switch (ex) {
-        LocationDisabledException() => TotemError.gpsServiceDisabled,
-        LocationPermissionException() => TotemError.gpsPermission,
-        LocationTimeoutException() => TotemError.gpsTimeout,
+        ServiceGPSDisabled() => TotemError.gpsServiceDisabled,
+        GetLocationTimeout() => TotemError.gpsTimeout,
+        LocationPermissionDenied() => TotemError.gpsPermission,
+        LocationPermissionDeniedForever() =>
+          TotemError.gpsPermissionDeniedForever,
         _ => TotemError.unknown
       };
       if (error == TotemError.gpsServiceDisabled) {
@@ -374,6 +379,10 @@ class TotemDialog extends ConsumerWidget {
                           break;
                         case TotemError.gpsServiceDisabled:
                           Geolocator.openLocationSettings();
+                          break;
+                        case TotemError.gpsPermissionDeniedForever:
+                          Navigator.of(context).pop();
+                          Geolocator.openAppSettings();
                           break;
                         case TotemError.gpsPermission:
                         case TotemError.gpsTimeout:

@@ -3,23 +3,23 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
 
-goToCurrentLocation(
-  Future<GoogleMapController> controller,
-  double zoom, {
-  bool withAnimation = true,
-}) async {
-  if (await requestPermission()) {
-    final currentPosition = await Geolocator.getCurrentPosition();
-    logger.i('position is mocked ${currentPosition.isMocked}');
-    final c = await controller;
-    await _goToLocation(
-      c,
-      LatLng(currentPosition.latitude, currentPosition.longitude),
-      withAnimation: withAnimation,
-      zoom: zoom,
-    );
-  }
-}
+// goToCurrentLocation(
+//   Future<GoogleMapController> controller,
+//   double zoom, {
+//   bool withAnimation = true,
+// }) async {
+//   if (await requestPermission()) {
+//     final currentPosition = await Geolocator.getCurrentPosition();
+//     logger.i('position is mocked ${currentPosition.isMocked}');
+//     final c = await controller;
+//     await _goToLocation(
+//       c,
+//       LatLng(currentPosition.latitude, currentPosition.longitude),
+//       withAnimation: withAnimation,
+//       zoom: zoom,
+//     );
+//   }
+// }
 
 Future<void> _goToLocation(
   GoogleMapController controller,
