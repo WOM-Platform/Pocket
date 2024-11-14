@@ -50,9 +50,6 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
           return Stack(
             children: [
               MobileScanner(
-                onScannerStarted: (args) {
-                  logger.i('Scanner onScannerStarted');
-                },
                 controller: cameraController,
                 onDetect: onDetect,
               ),
