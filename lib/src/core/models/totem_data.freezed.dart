@@ -25,8 +25,12 @@ mixin _$TotemData {
   String? get eventId => throw _privateConstructorUsedError;
   String? get requestId => throw _privateConstructorUsedError;
 
+  /// Serializes this TotemData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TotemData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TotemDataCopyWith<TotemData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$TotemDataCopyWithImpl<$Res, $Val extends TotemData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TotemData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -99,6 +105,8 @@ class __$$TotemDataImplCopyWithImpl<$Res>
       _$TotemDataImpl _value, $Res Function(_$TotemDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TotemData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -167,12 +175,14 @@ class _$TotemDataImpl implements _TotemData {
                 other.requestId == requestId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, providerId, totemId, eventId, requestId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TotemData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TotemDataImplCopyWith<_$TotemDataImpl> get copyWith =>
@@ -204,8 +214,11 @@ abstract class _TotemData implements TotemData {
   String? get eventId;
   @override
   String? get requestId;
+
+  /// Create a copy of TotemData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TotemDataImplCopyWith<_$TotemDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

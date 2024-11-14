@@ -87,6 +87,9 @@ class _$NewExchangeStateCopyWithImpl<$Res, $Val extends NewExchangeState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of NewExchangeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -106,6 +109,8 @@ class __$$NewExchangeStateDataImplCopyWithImpl<$Res>
       $Res Function(_$NewExchangeStateDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NewExchangeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -162,7 +167,9 @@ class _$NewExchangeStateDataImpl implements NewExchangeStateData {
   @override
   int get hashCode => Object.hash(runtimeType, link, pin, womCount);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NewExchangeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NewExchangeStateDataImplCopyWith<_$NewExchangeStateDataImpl>
@@ -257,7 +264,10 @@ abstract class NewExchangeStateData implements NewExchangeState {
   String get link;
   String get pin;
   int get womCount;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NewExchangeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NewExchangeStateDataImplCopyWith<_$NewExchangeStateDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -278,6 +288,9 @@ class __$$NewExchangeStateLoadingImplCopyWithImpl<$Res>
       _$NewExchangeStateLoadingImpl _value,
       $Res Function(_$NewExchangeStateLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of NewExchangeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -399,6 +412,9 @@ class __$$NewExchangeStateinsufficientVouchersImplCopyWithImpl<$Res>
       _$NewExchangeStateinsufficientVouchersImpl _value,
       $Res Function(_$NewExchangeStateinsufficientVouchersImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of NewExchangeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -524,6 +540,8 @@ class __$$NewExchangeStateErrorImplCopyWithImpl<$Res>
       $Res Function(_$NewExchangeStateErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NewExchangeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -568,7 +586,9 @@ class _$NewExchangeStateErrorImpl implements NewExchangeStateError {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(error), st);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NewExchangeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NewExchangeStateErrorImplCopyWith<_$NewExchangeStateErrorImpl>
@@ -659,7 +679,10 @@ abstract class NewExchangeStateError implements NewExchangeState {
 
   Object get error;
   StackTrace get st;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NewExchangeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NewExchangeStateErrorImplCopyWith<_$NewExchangeStateErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -729,6 +752,9 @@ class _$ExchangeStateCopyWithImpl<$Res, $Val extends ExchangeState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ExchangeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -748,6 +774,8 @@ class __$$ExchangeStateInitialImplCopyWithImpl<$Res>
       $Res Function(_$ExchangeStateInitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ExchangeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -798,7 +826,9 @@ class _$ExchangeStateInitialImpl implements ExchangeStateInitial {
   int get hashCode =>
       Object.hash(runtimeType, dailyAvailableWom, totalAvailableWom);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ExchangeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ExchangeStateInitialImplCopyWith<_$ExchangeStateInitialImpl>
@@ -883,7 +913,10 @@ abstract class ExchangeStateInitial implements ExchangeState {
 
   int get dailyAvailableWom;
   int get totalAvailableWom;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ExchangeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ExchangeStateInitialImplCopyWith<_$ExchangeStateInitialImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -902,6 +935,9 @@ class __$$ExchangeStateLoadingImplCopyWithImpl<$Res>
   __$$ExchangeStateLoadingImplCopyWithImpl(_$ExchangeStateLoadingImpl _value,
       $Res Function(_$ExchangeStateLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ExchangeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1015,6 +1051,8 @@ class __$$ExchangeStateErrorImplCopyWithImpl<$Res>
       $Res Function(_$ExchangeStateErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ExchangeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1059,7 +1097,9 @@ class _$ExchangeStateErrorImpl implements ExchangeStateError {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(error), st);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ExchangeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ExchangeStateErrorImplCopyWith<_$ExchangeStateErrorImpl> get copyWith =>
@@ -1142,7 +1182,10 @@ abstract class ExchangeStateError implements ExchangeState {
 
   Object get error;
   StackTrace get st;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ExchangeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ExchangeStateErrorImplCopyWith<_$ExchangeStateErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

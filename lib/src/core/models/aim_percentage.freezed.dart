@@ -24,8 +24,12 @@ mixin _$AimInPercentage {
   int get count => throw _privateConstructorUsedError;
   double get percentage => throw _privateConstructorUsedError;
 
+  /// Serializes this AimInPercentage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AimInPercentage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AimInPercentageCopyWith<AimInPercentage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +53,8 @@ class _$AimInPercentageCopyWithImpl<$Res, $Val extends AimInPercentage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AimInPercentage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,6 +98,8 @@ class __$$AimInPercentageImplCopyWithImpl<$Res>
       _$AimInPercentageImpl _value, $Res Function(_$AimInPercentageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AimInPercentage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -148,11 +156,13 @@ class _$AimInPercentageImpl implements _AimInPercentage {
                 other.percentage == percentage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, aim, count, percentage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AimInPercentage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AimInPercentageImplCopyWith<_$AimInPercentageImpl> get copyWith =>
@@ -182,8 +192,11 @@ abstract class _AimInPercentage implements AimInPercentage {
   int get count;
   @override
   double get percentage;
+
+  /// Create a copy of AimInPercentage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AimInPercentageImplCopyWith<_$AimInPercentageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

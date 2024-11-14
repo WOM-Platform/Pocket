@@ -20,7 +20,9 @@ mixin _$OffersMapData {
   Set<Marker> get markers => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OffersMapData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OffersMapDataCopyWith<OffersMapData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$OffersMapDataCopyWithImpl<$Res, $Val extends OffersMapData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of OffersMapData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +91,8 @@ class __$$OffersMapDataImplCopyWithImpl<$Res>
       _$OffersMapDataImpl _value, $Res Function(_$OffersMapDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OffersMapData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -164,7 +170,9 @@ class _$OffersMapDataImpl implements _OffersMapData {
       const DeepCollectionEquality().hash(_markers),
       isLoading);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OffersMapData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$OffersMapDataImplCopyWith<_$OffersMapDataImpl> get copyWith =>
@@ -183,8 +191,11 @@ abstract class _OffersMapData implements OffersMapData {
   Set<Marker> get markers;
   @override
   bool get isLoading;
+
+  /// Create a copy of OffersMapData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OffersMapDataImplCopyWith<_$OffersMapDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

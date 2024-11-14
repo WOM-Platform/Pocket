@@ -24,8 +24,12 @@ mixin _$WomExport {
   String get sourceId => throw _privateConstructorUsedError;
   String get sourceName => throw _privateConstructorUsedError;
 
+  /// Serializes this WomExport to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WomExport
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WomExportCopyWith<WomExport> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$WomExportCopyWithImpl<$Res, $Val extends WomExport>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WomExport
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -73,6 +79,8 @@ class _$WomExportCopyWithImpl<$Res, $Val extends WomExport>
     ) as $Val);
   }
 
+  /// Create a copy of WomExport
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $VoucherCopyWith<$Res> get wom {
@@ -104,6 +112,8 @@ class __$$WomExportImplCopyWithImpl<$Res>
       _$WomExportImpl _value, $Res Function(_$WomExportImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WomExport
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -171,11 +181,13 @@ class _$WomExportImpl with DiagnosticableTreeMixin implements _WomExport {
                 other.sourceName == sourceName));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, wom, sourceId, sourceName);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WomExport
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WomExportImplCopyWith<_$WomExportImpl> get copyWith =>
@@ -204,8 +216,11 @@ abstract class _WomExport implements WomExport {
   String get sourceId;
   @override
   String get sourceName;
+
+  /// Create a copy of WomExport
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WomExportImplCopyWith<_$WomExportImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

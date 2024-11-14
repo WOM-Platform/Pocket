@@ -35,7 +35,9 @@ mixin _$TransactionModel {
   @DateTimeConverter()
   DateTime? get importDeadline => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionModelCopyWith<TransactionModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -69,6 +71,8 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -157,6 +161,8 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
       $Res Function(_$TransactionModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -287,7 +293,9 @@ class _$TransactionModelImpl implements _TransactionModel {
   int get hashCode => Object.hash(runtimeType, type, source, aimCode, date, id,
       size, ackUrl, pin, link, importDeadline);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionModelImplCopyWith<_$TransactionModelImpl> get copyWith =>
@@ -315,15 +323,15 @@ abstract class _TransactionModel implements TransactionModel {
   @TransactionTypeConverter()
   TransactionType get type;
   @override
-  String get source;
-  @override // required String country,
+  String get source; // required String country,
+  @override
   @JsonKey(name: 'Aim')
   String get aimCode;
   @override
   @DateTimeConverter()
   @JsonKey(name: 'Timestamp')
-  DateTime get date;
-  @override // @JsonKey(name: 'Aim') required Aim aim,
+  DateTime get date; // @JsonKey(name: 'Aim') required Aim aim,
+  @override
   @JsonKey(name: 'Id')
   int get id;
   @override
@@ -337,8 +345,11 @@ abstract class _TransactionModel implements TransactionModel {
   @override
   @DateTimeConverter()
   DateTime? get importDeadline;
+
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionModelImplCopyWith<_$TransactionModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

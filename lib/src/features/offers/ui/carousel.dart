@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,8 +19,8 @@ import 'package:wom_pocket/src/features/offers/ui/search_button.dart';
 part 'carousel.g.dart';
 
 @riverpod
-CarouselController carouselController(CarouselControllerRef ref) {
-  return CarouselController();
+CarouselSliderController carouselController(CarouselControllerRef ref) {
+  return CarouselSliderController();
 }
 
 class ListingCarouselWidget extends ConsumerWidget {

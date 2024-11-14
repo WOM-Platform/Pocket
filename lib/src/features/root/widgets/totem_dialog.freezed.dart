@@ -31,8 +31,12 @@ mixin _$TotemResponse {
   String? get totemName => throw _privateConstructorUsedError;
   TotemMetadata? get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this TotemResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TotemResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TotemResponseCopyWith<TotemResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -68,6 +72,8 @@ class _$TotemResponseCopyWithImpl<$Res, $Val extends TotemResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TotemResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -126,6 +132,8 @@ class _$TotemResponseCopyWithImpl<$Res, $Val extends TotemResponse>
     ) as $Val);
   }
 
+  /// Create a copy of TotemResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TotemMetadataCopyWith<$Res>? get metadata {
@@ -171,6 +179,8 @@ class __$$TotemResponseImplCopyWithImpl<$Res>
       _$TotemResponseImpl _value, $Res Function(_$TotemResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TotemResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -297,12 +307,14 @@ class _$TotemResponseImpl implements _TotemResponse {
                 other.metadata == metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, status, sessionId, eventId, link,
       pin, eventName, providerName, sessionName, totemName, metadata);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TotemResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TotemResponseImplCopyWith<_$TotemResponseImpl> get copyWith =>
@@ -352,8 +364,11 @@ abstract class _TotemResponse implements TotemResponse {
   String? get totemName;
   @override
   TotemMetadata? get metadata;
+
+  /// Create a copy of TotemResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TotemResponseImplCopyWith<_$TotemResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -368,8 +383,12 @@ mixin _$TotemMetadata {
   String? get email => throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
 
+  /// Serializes this TotemMetadata to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TotemMetadata
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TotemMetadataCopyWith<TotemMetadata> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -393,6 +412,8 @@ class _$TotemMetadataCopyWithImpl<$Res, $Val extends TotemMetadata>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TotemMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -436,6 +457,8 @@ class __$$TotemMetadataImplCopyWithImpl<$Res>
       _$TotemMetadataImpl _value, $Res Function(_$TotemMetadataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TotemMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -491,11 +514,13 @@ class _$TotemMetadataImpl implements _TotemMetadata {
                 other.phoneNumber == phoneNumber));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, url, email, phoneNumber);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TotemMetadata
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TotemMetadataImplCopyWith<_$TotemMetadataImpl> get copyWith =>
@@ -524,8 +549,11 @@ abstract class _TotemMetadata implements TotemMetadata {
   String? get email;
   @override
   String? get phoneNumber;
+
+  /// Create a copy of TotemMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TotemMetadataImplCopyWith<_$TotemMetadataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -620,6 +648,9 @@ class _$TotemDialogStateCopyWithImpl<$Res, $Val extends TotemDialogState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -639,6 +670,8 @@ class __$$TotemDialogCompleteImplCopyWithImpl<$Res>
       $Res Function(_$TotemDialogCompleteImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -688,7 +721,9 @@ class _$TotemDialogCompleteImpl implements TotemDialogComplete {
   @override
   int get hashCode => Object.hash(runtimeType, deepLinkModel, password);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TotemDialogCompleteImplCopyWith<_$TotemDialogCompleteImpl> get copyWith =>
@@ -797,7 +832,10 @@ abstract class TotemDialogComplete implements TotemDialogState {
 
   DeepLinkModel get deepLinkModel;
   String get password;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TotemDialogCompleteImplCopyWith<_$TotemDialogCompleteImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -818,6 +856,9 @@ class __$$TotemDialogRetrievingGPSImplCopyWithImpl<$Res>
       _$TotemDialogRetrievingGPSImpl _value,
       $Res Function(_$TotemDialogRetrievingGPSImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -956,6 +997,9 @@ class __$$TotemDialogCommunicationWithServerImplCopyWithImpl<$Res>
       _$TotemDialogCommunicationWithServerImpl _value,
       $Res Function(_$TotemDialogCommunicationWithServerImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1095,6 +1139,9 @@ class __$$TotemDialogGenderRequestImplCopyWithImpl<$Res>
       _$TotemDialogGenderRequestImpl _value,
       $Res Function(_$TotemDialogGenderRequestImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1233,6 +1280,9 @@ class __$$TotemDialogInitialLoadingImplCopyWithImpl<$Res>
       _$TotemDialogInitialLoadingImpl _value,
       $Res Function(_$TotemDialogInitialLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1372,6 +1422,8 @@ class __$$TotemDialogStateErrorImplCopyWithImpl<$Res>
       $Res Function(_$TotemDialogStateErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1425,7 +1477,9 @@ class _$TotemDialogStateErrorImpl implements TotemDialogStateError {
   int get hashCode => Object.hash(
       runtimeType, totemError, const DeepCollectionEquality().hash(error), st);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TotemDialogStateErrorImplCopyWith<_$TotemDialogStateErrorImpl>
@@ -1535,7 +1589,10 @@ abstract class TotemDialogStateError implements TotemDialogState {
   TotemError get totemError;
   Object get error;
   StackTrace? get st;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TotemDialogState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TotemDialogStateErrorImplCopyWith<_$TotemDialogStateErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

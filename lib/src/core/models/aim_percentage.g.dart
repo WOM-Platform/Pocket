@@ -10,7 +10,7 @@ _$AimInPercentageImpl _$$AimInPercentageImplFromJson(
         Map<String, dynamic> json) =>
     _$AimInPercentageImpl(
       aim: json['aim'] as String,
-      count: json['count'] as int,
+      count: (json['count'] as num).toInt(),
       percentage: (json['percentage'] as num).toDouble(),
     );
 

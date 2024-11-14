@@ -22,6 +22,8 @@ final fetchAimInPercentageProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FetchAimInPercentageRef
     = AutoDisposeFutureProviderRef<List<AimInPercentage>>;
 String _$fetchWomCountEarnedInTheLastWeekHash() =>
@@ -40,6 +42,8 @@ final fetchWomCountEarnedInTheLastWeekProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FetchWomCountEarnedInTheLastWeekRef = AutoDisposeFutureProviderRef<int>;
 String _$fetchWomCountSpentInTheLastWeekHash() =>
     r'c46ad3e1e71e78233efd4375837d4551cbc3a3b6';
@@ -57,6 +61,8 @@ final fetchWomCountSpentInTheLastWeekProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FetchWomCountSpentInTheLastWeekRef = AutoDisposeFutureProviderRef<int>;
 String _$fetchWomSpentHash() => r'3d57b848c58908152544e017a29d9e3bef2e003d';
 
@@ -72,6 +78,8 @@ final fetchWomSpentProvider = AutoDisposeFutureProvider<int>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FetchWomSpentRef = AutoDisposeFutureProviderRef<int>;
 String _$transactionCountNotifierHash() =>
     r'aa4c0756de8b5fbf3a6d6f7245ae2e0156d1b531';
@@ -91,4 +99,4 @@ final transactionCountNotifierProvider =
 
 typedef _$TransactionCountNotifier = AsyncNotifier<int>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

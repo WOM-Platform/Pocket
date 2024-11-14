@@ -374,6 +374,28 @@ class WomRow extends DataClass implements Insertable<WomRow> {
         longitude: longitude ?? this.longitude,
         donationId: donationId.present ? donationId.value : this.donationId,
       );
+  WomRow copyWithCompanion(WomCompanion data) {
+    return WomRow(
+      id: data.id.present ? data.id.value : this.id,
+      sourceName:
+          data.sourceName.present ? data.sourceName.value : this.sourceName,
+      secret: data.secret.present ? data.secret.value : this.secret,
+      geohash: data.geohash.present ? data.geohash.value : this.geohash,
+      aim: data.aim.present ? data.aim.value : this.aim,
+      sourceId: data.sourceId.present ? data.sourceId.value : this.sourceId,
+      transactionId: data.transactionId.present
+          ? data.transactionId.value
+          : this.transactionId,
+      addedOn: data.addedOn.present ? data.addedOn.value : this.addedOn,
+      spentOn: data.spentOn.present ? data.spentOn.value : this.spentOn,
+      spent: data.spent.present ? data.spent.value : this.spent,
+      latitude: data.latitude.present ? data.latitude.value : this.latitude,
+      longitude: data.longitude.present ? data.longitude.value : this.longitude,
+      donationId:
+          data.donationId.present ? data.donationId.value : this.donationId,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('WomRow(')
@@ -746,6 +768,14 @@ class AimRow extends DataClass implements Insertable<AimRow> {
         code: code ?? this.code,
         titles: titles ?? this.titles,
       );
+  AimRow copyWithCompanion(AimsCompanion data) {
+    return AimRow(
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      titles: data.titles.present ? data.titles.value : this.titles,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('AimRow(')
@@ -1114,6 +1144,21 @@ class MyTransaction extends DataClass implements Insertable<MyTransaction> {
         deadline: deadline.present ? deadline.value : this.deadline,
         link: link.present ? link.value : this.link,
       );
+  MyTransaction copyWithCompanion(TransactionsCompanion data) {
+    return MyTransaction(
+      id: data.id.present ? data.id.value : this.id,
+      source: data.source.present ? data.source.value : this.source,
+      aim: data.aim.present ? data.aim.value : this.aim,
+      timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+      type: data.type.present ? data.type.value : this.type,
+      size: data.size.present ? data.size.value : this.size,
+      ackUrl: data.ackUrl.present ? data.ackUrl.value : this.ackUrl,
+      pin: data.pin.present ? data.pin.value : this.pin,
+      deadline: data.deadline.present ? data.deadline.value : this.deadline,
+      link: data.link.present ? data.link.value : this.link,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('MyTransaction(')
@@ -1774,6 +1819,33 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
         longitude: longitude.present ? longitude.value : this.longitude,
         timestamp: timestamp ?? this.timestamp,
       );
+  TotemRow copyWithCompanion(TotemsCompanion data) {
+    return TotemRow(
+      id: data.id.present ? data.id.value : this.id,
+      sessionId: data.sessionId.present ? data.sessionId.value : this.sessionId,
+      totemId: data.totemId.present ? data.totemId.value : this.totemId,
+      eventId: data.eventId.present ? data.eventId.value : this.eventId,
+      providerId:
+          data.providerId.present ? data.providerId.value : this.providerId,
+      providerName: data.providerName.present
+          ? data.providerName.value
+          : this.providerName,
+      womLink: data.womLink.present ? data.womLink.value : this.womLink,
+      eventName: data.eventName.present ? data.eventName.value : this.eventName,
+      sessionName:
+          data.sessionName.present ? data.sessionName.value : this.sessionName,
+      womPin: data.womPin.present ? data.womPin.value : this.womPin,
+      totemName: data.totemName.present ? data.totemName.value : this.totemName,
+      email: data.email.present ? data.email.value : this.email,
+      phoneNumber:
+          data.phoneNumber.present ? data.phoneNumber.value : this.phoneNumber,
+      url: data.url.present ? data.url.value : this.url,
+      latitude: data.latitude.present ? data.latitude.value : this.latitude,
+      longitude: data.longitude.present ? data.longitude.value : this.longitude,
+      timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('TotemRow(')
@@ -2063,6 +2135,7 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
 
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(e);
+  $MyDatabaseManager get managers => $MyDatabaseManager(this);
   late final $WomTable wom = $WomTable(this);
   late final $AimsTable aims = $AimsTable(this);
   late final $TransactionsTable transactions = $TransactionsTable(this);
@@ -2078,4 +2151,1009 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [wom, aims, transactions, totems];
+}
+
+typedef $$WomTableCreateCompanionBuilder = WomCompanion Function({
+  required String id,
+  required String sourceName,
+  required String secret,
+  required String geohash,
+  required String aim,
+  required String sourceId,
+  required int transactionId,
+  required int addedOn,
+  Value<int?> spentOn,
+  required int spent,
+  required double latitude,
+  required double longitude,
+  Value<String?> donationId,
+  Value<int> rowid,
+});
+typedef $$WomTableUpdateCompanionBuilder = WomCompanion Function({
+  Value<String> id,
+  Value<String> sourceName,
+  Value<String> secret,
+  Value<String> geohash,
+  Value<String> aim,
+  Value<String> sourceId,
+  Value<int> transactionId,
+  Value<int> addedOn,
+  Value<int?> spentOn,
+  Value<int> spent,
+  Value<double> latitude,
+  Value<double> longitude,
+  Value<String?> donationId,
+  Value<int> rowid,
+});
+
+class $$WomTableFilterComposer extends Composer<_$MyDatabase, $WomTable> {
+  $$WomTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get sourceName => $composableBuilder(
+      column: $table.sourceName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get secret => $composableBuilder(
+      column: $table.secret, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get geohash => $composableBuilder(
+      column: $table.geohash, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get aim => $composableBuilder(
+      column: $table.aim, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get sourceId => $composableBuilder(
+      column: $table.sourceId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get transactionId => $composableBuilder(
+      column: $table.transactionId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get addedOn => $composableBuilder(
+      column: $table.addedOn, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get spentOn => $composableBuilder(
+      column: $table.spentOn, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get spent => $composableBuilder(
+      column: $table.spent, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get latitude => $composableBuilder(
+      column: $table.latitude, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get longitude => $composableBuilder(
+      column: $table.longitude, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get donationId => $composableBuilder(
+      column: $table.donationId, builder: (column) => ColumnFilters(column));
+}
+
+class $$WomTableOrderingComposer extends Composer<_$MyDatabase, $WomTable> {
+  $$WomTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get sourceName => $composableBuilder(
+      column: $table.sourceName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get secret => $composableBuilder(
+      column: $table.secret, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get geohash => $composableBuilder(
+      column: $table.geohash, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get aim => $composableBuilder(
+      column: $table.aim, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get sourceId => $composableBuilder(
+      column: $table.sourceId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get transactionId => $composableBuilder(
+      column: $table.transactionId,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get addedOn => $composableBuilder(
+      column: $table.addedOn, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get spentOn => $composableBuilder(
+      column: $table.spentOn, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get spent => $composableBuilder(
+      column: $table.spent, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get latitude => $composableBuilder(
+      column: $table.latitude, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get longitude => $composableBuilder(
+      column: $table.longitude, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get donationId => $composableBuilder(
+      column: $table.donationId, builder: (column) => ColumnOrderings(column));
+}
+
+class $$WomTableAnnotationComposer extends Composer<_$MyDatabase, $WomTable> {
+  $$WomTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get sourceName => $composableBuilder(
+      column: $table.sourceName, builder: (column) => column);
+
+  GeneratedColumn<String> get secret =>
+      $composableBuilder(column: $table.secret, builder: (column) => column);
+
+  GeneratedColumn<String> get geohash =>
+      $composableBuilder(column: $table.geohash, builder: (column) => column);
+
+  GeneratedColumn<String> get aim =>
+      $composableBuilder(column: $table.aim, builder: (column) => column);
+
+  GeneratedColumn<String> get sourceId =>
+      $composableBuilder(column: $table.sourceId, builder: (column) => column);
+
+  GeneratedColumn<int> get transactionId => $composableBuilder(
+      column: $table.transactionId, builder: (column) => column);
+
+  GeneratedColumn<int> get addedOn =>
+      $composableBuilder(column: $table.addedOn, builder: (column) => column);
+
+  GeneratedColumn<int> get spentOn =>
+      $composableBuilder(column: $table.spentOn, builder: (column) => column);
+
+  GeneratedColumn<int> get spent =>
+      $composableBuilder(column: $table.spent, builder: (column) => column);
+
+  GeneratedColumn<double> get latitude =>
+      $composableBuilder(column: $table.latitude, builder: (column) => column);
+
+  GeneratedColumn<double> get longitude =>
+      $composableBuilder(column: $table.longitude, builder: (column) => column);
+
+  GeneratedColumn<String> get donationId => $composableBuilder(
+      column: $table.donationId, builder: (column) => column);
+}
+
+class $$WomTableTableManager extends RootTableManager<
+    _$MyDatabase,
+    $WomTable,
+    WomRow,
+    $$WomTableFilterComposer,
+    $$WomTableOrderingComposer,
+    $$WomTableAnnotationComposer,
+    $$WomTableCreateCompanionBuilder,
+    $$WomTableUpdateCompanionBuilder,
+    (WomRow, BaseReferences<_$MyDatabase, $WomTable, WomRow>),
+    WomRow,
+    PrefetchHooks Function()> {
+  $$WomTableTableManager(_$MyDatabase db, $WomTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$WomTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$WomTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$WomTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> sourceName = const Value.absent(),
+            Value<String> secret = const Value.absent(),
+            Value<String> geohash = const Value.absent(),
+            Value<String> aim = const Value.absent(),
+            Value<String> sourceId = const Value.absent(),
+            Value<int> transactionId = const Value.absent(),
+            Value<int> addedOn = const Value.absent(),
+            Value<int?> spentOn = const Value.absent(),
+            Value<int> spent = const Value.absent(),
+            Value<double> latitude = const Value.absent(),
+            Value<double> longitude = const Value.absent(),
+            Value<String?> donationId = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              WomCompanion(
+            id: id,
+            sourceName: sourceName,
+            secret: secret,
+            geohash: geohash,
+            aim: aim,
+            sourceId: sourceId,
+            transactionId: transactionId,
+            addedOn: addedOn,
+            spentOn: spentOn,
+            spent: spent,
+            latitude: latitude,
+            longitude: longitude,
+            donationId: donationId,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String sourceName,
+            required String secret,
+            required String geohash,
+            required String aim,
+            required String sourceId,
+            required int transactionId,
+            required int addedOn,
+            Value<int?> spentOn = const Value.absent(),
+            required int spent,
+            required double latitude,
+            required double longitude,
+            Value<String?> donationId = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              WomCompanion.insert(
+            id: id,
+            sourceName: sourceName,
+            secret: secret,
+            geohash: geohash,
+            aim: aim,
+            sourceId: sourceId,
+            transactionId: transactionId,
+            addedOn: addedOn,
+            spentOn: spentOn,
+            spent: spent,
+            latitude: latitude,
+            longitude: longitude,
+            donationId: donationId,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$WomTableProcessedTableManager = ProcessedTableManager<
+    _$MyDatabase,
+    $WomTable,
+    WomRow,
+    $$WomTableFilterComposer,
+    $$WomTableOrderingComposer,
+    $$WomTableAnnotationComposer,
+    $$WomTableCreateCompanionBuilder,
+    $$WomTableUpdateCompanionBuilder,
+    (WomRow, BaseReferences<_$MyDatabase, $WomTable, WomRow>),
+    WomRow,
+    PrefetchHooks Function()>;
+typedef $$AimsTableCreateCompanionBuilder = AimsCompanion Function({
+  Value<int> id,
+  required String code,
+  required Map<String, dynamic> titles,
+});
+typedef $$AimsTableUpdateCompanionBuilder = AimsCompanion Function({
+  Value<int> id,
+  Value<String> code,
+  Value<Map<String, dynamic>> titles,
+});
+
+class $$AimsTableFilterComposer extends Composer<_$MyDatabase, $AimsTable> {
+  $$AimsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get code => $composableBuilder(
+      column: $table.code, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<Map<String, dynamic>, Map<String, dynamic>,
+          String>
+      get titles => $composableBuilder(
+          column: $table.titles,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+}
+
+class $$AimsTableOrderingComposer extends Composer<_$MyDatabase, $AimsTable> {
+  $$AimsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get code => $composableBuilder(
+      column: $table.code, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get titles => $composableBuilder(
+      column: $table.titles, builder: (column) => ColumnOrderings(column));
+}
+
+class $$AimsTableAnnotationComposer extends Composer<_$MyDatabase, $AimsTable> {
+  $$AimsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<Map<String, dynamic>, String> get titles =>
+      $composableBuilder(column: $table.titles, builder: (column) => column);
+}
+
+class $$AimsTableTableManager extends RootTableManager<
+    _$MyDatabase,
+    $AimsTable,
+    AimRow,
+    $$AimsTableFilterComposer,
+    $$AimsTableOrderingComposer,
+    $$AimsTableAnnotationComposer,
+    $$AimsTableCreateCompanionBuilder,
+    $$AimsTableUpdateCompanionBuilder,
+    (AimRow, BaseReferences<_$MyDatabase, $AimsTable, AimRow>),
+    AimRow,
+    PrefetchHooks Function()> {
+  $$AimsTableTableManager(_$MyDatabase db, $AimsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AimsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AimsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AimsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> code = const Value.absent(),
+            Value<Map<String, dynamic>> titles = const Value.absent(),
+          }) =>
+              AimsCompanion(
+            id: id,
+            code: code,
+            titles: titles,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String code,
+            required Map<String, dynamic> titles,
+          }) =>
+              AimsCompanion.insert(
+            id: id,
+            code: code,
+            titles: titles,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$AimsTableProcessedTableManager = ProcessedTableManager<
+    _$MyDatabase,
+    $AimsTable,
+    AimRow,
+    $$AimsTableFilterComposer,
+    $$AimsTableOrderingComposer,
+    $$AimsTableAnnotationComposer,
+    $$AimsTableCreateCompanionBuilder,
+    $$AimsTableUpdateCompanionBuilder,
+    (AimRow, BaseReferences<_$MyDatabase, $AimsTable, AimRow>),
+    AimRow,
+    PrefetchHooks Function()>;
+typedef $$TransactionsTableCreateCompanionBuilder = TransactionsCompanion
+    Function({
+  Value<int> id,
+  required String source,
+  required String aim,
+  required int timestamp,
+  required int type,
+  required int size,
+  Value<String?> ackUrl,
+  Value<String?> pin,
+  Value<int?> deadline,
+  Value<String?> link,
+});
+typedef $$TransactionsTableUpdateCompanionBuilder = TransactionsCompanion
+    Function({
+  Value<int> id,
+  Value<String> source,
+  Value<String> aim,
+  Value<int> timestamp,
+  Value<int> type,
+  Value<int> size,
+  Value<String?> ackUrl,
+  Value<String?> pin,
+  Value<int?> deadline,
+  Value<String?> link,
+});
+
+class $$TransactionsTableFilterComposer
+    extends Composer<_$MyDatabase, $TransactionsTable> {
+  $$TransactionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get source => $composableBuilder(
+      column: $table.source, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get aim => $composableBuilder(
+      column: $table.aim, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get timestamp => $composableBuilder(
+      column: $table.timestamp, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get size => $composableBuilder(
+      column: $table.size, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get ackUrl => $composableBuilder(
+      column: $table.ackUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get pin => $composableBuilder(
+      column: $table.pin, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get deadline => $composableBuilder(
+      column: $table.deadline, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get link => $composableBuilder(
+      column: $table.link, builder: (column) => ColumnFilters(column));
+}
+
+class $$TransactionsTableOrderingComposer
+    extends Composer<_$MyDatabase, $TransactionsTable> {
+  $$TransactionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get source => $composableBuilder(
+      column: $table.source, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get aim => $composableBuilder(
+      column: $table.aim, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get timestamp => $composableBuilder(
+      column: $table.timestamp, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get size => $composableBuilder(
+      column: $table.size, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get ackUrl => $composableBuilder(
+      column: $table.ackUrl, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get pin => $composableBuilder(
+      column: $table.pin, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get deadline => $composableBuilder(
+      column: $table.deadline, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get link => $composableBuilder(
+      column: $table.link, builder: (column) => ColumnOrderings(column));
+}
+
+class $$TransactionsTableAnnotationComposer
+    extends Composer<_$MyDatabase, $TransactionsTable> {
+  $$TransactionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get source =>
+      $composableBuilder(column: $table.source, builder: (column) => column);
+
+  GeneratedColumn<String> get aim =>
+      $composableBuilder(column: $table.aim, builder: (column) => column);
+
+  GeneratedColumn<int> get timestamp =>
+      $composableBuilder(column: $table.timestamp, builder: (column) => column);
+
+  GeneratedColumn<int> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<int> get size =>
+      $composableBuilder(column: $table.size, builder: (column) => column);
+
+  GeneratedColumn<String> get ackUrl =>
+      $composableBuilder(column: $table.ackUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get pin =>
+      $composableBuilder(column: $table.pin, builder: (column) => column);
+
+  GeneratedColumn<int> get deadline =>
+      $composableBuilder(column: $table.deadline, builder: (column) => column);
+
+  GeneratedColumn<String> get link =>
+      $composableBuilder(column: $table.link, builder: (column) => column);
+}
+
+class $$TransactionsTableTableManager extends RootTableManager<
+    _$MyDatabase,
+    $TransactionsTable,
+    MyTransaction,
+    $$TransactionsTableFilterComposer,
+    $$TransactionsTableOrderingComposer,
+    $$TransactionsTableAnnotationComposer,
+    $$TransactionsTableCreateCompanionBuilder,
+    $$TransactionsTableUpdateCompanionBuilder,
+    (
+      MyTransaction,
+      BaseReferences<_$MyDatabase, $TransactionsTable, MyTransaction>
+    ),
+    MyTransaction,
+    PrefetchHooks Function()> {
+  $$TransactionsTableTableManager(_$MyDatabase db, $TransactionsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TransactionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TransactionsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TransactionsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> source = const Value.absent(),
+            Value<String> aim = const Value.absent(),
+            Value<int> timestamp = const Value.absent(),
+            Value<int> type = const Value.absent(),
+            Value<int> size = const Value.absent(),
+            Value<String?> ackUrl = const Value.absent(),
+            Value<String?> pin = const Value.absent(),
+            Value<int?> deadline = const Value.absent(),
+            Value<String?> link = const Value.absent(),
+          }) =>
+              TransactionsCompanion(
+            id: id,
+            source: source,
+            aim: aim,
+            timestamp: timestamp,
+            type: type,
+            size: size,
+            ackUrl: ackUrl,
+            pin: pin,
+            deadline: deadline,
+            link: link,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String source,
+            required String aim,
+            required int timestamp,
+            required int type,
+            required int size,
+            Value<String?> ackUrl = const Value.absent(),
+            Value<String?> pin = const Value.absent(),
+            Value<int?> deadline = const Value.absent(),
+            Value<String?> link = const Value.absent(),
+          }) =>
+              TransactionsCompanion.insert(
+            id: id,
+            source: source,
+            aim: aim,
+            timestamp: timestamp,
+            type: type,
+            size: size,
+            ackUrl: ackUrl,
+            pin: pin,
+            deadline: deadline,
+            link: link,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$TransactionsTableProcessedTableManager = ProcessedTableManager<
+    _$MyDatabase,
+    $TransactionsTable,
+    MyTransaction,
+    $$TransactionsTableFilterComposer,
+    $$TransactionsTableOrderingComposer,
+    $$TransactionsTableAnnotationComposer,
+    $$TransactionsTableCreateCompanionBuilder,
+    $$TransactionsTableUpdateCompanionBuilder,
+    (
+      MyTransaction,
+      BaseReferences<_$MyDatabase, $TransactionsTable, MyTransaction>
+    ),
+    MyTransaction,
+    PrefetchHooks Function()>;
+typedef $$TotemsTableCreateCompanionBuilder = TotemsCompanion Function({
+  Value<int> id,
+  required String sessionId,
+  required String totemId,
+  required String eventId,
+  required String providerId,
+  Value<String?> providerName,
+  Value<String?> womLink,
+  Value<String?> eventName,
+  Value<String?> sessionName,
+  Value<String?> womPin,
+  Value<String?> totemName,
+  Value<String?> email,
+  Value<String?> phoneNumber,
+  Value<String?> url,
+  Value<double?> latitude,
+  Value<double?> longitude,
+  required DateTime timestamp,
+});
+typedef $$TotemsTableUpdateCompanionBuilder = TotemsCompanion Function({
+  Value<int> id,
+  Value<String> sessionId,
+  Value<String> totemId,
+  Value<String> eventId,
+  Value<String> providerId,
+  Value<String?> providerName,
+  Value<String?> womLink,
+  Value<String?> eventName,
+  Value<String?> sessionName,
+  Value<String?> womPin,
+  Value<String?> totemName,
+  Value<String?> email,
+  Value<String?> phoneNumber,
+  Value<String?> url,
+  Value<double?> latitude,
+  Value<double?> longitude,
+  Value<DateTime> timestamp,
+});
+
+class $$TotemsTableFilterComposer extends Composer<_$MyDatabase, $TotemsTable> {
+  $$TotemsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get sessionId => $composableBuilder(
+      column: $table.sessionId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get totemId => $composableBuilder(
+      column: $table.totemId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get eventId => $composableBuilder(
+      column: $table.eventId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get providerId => $composableBuilder(
+      column: $table.providerId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get providerName => $composableBuilder(
+      column: $table.providerName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get womLink => $composableBuilder(
+      column: $table.womLink, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get eventName => $composableBuilder(
+      column: $table.eventName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get sessionName => $composableBuilder(
+      column: $table.sessionName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get womPin => $composableBuilder(
+      column: $table.womPin, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get totemName => $composableBuilder(
+      column: $table.totemName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get email => $composableBuilder(
+      column: $table.email, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get phoneNumber => $composableBuilder(
+      column: $table.phoneNumber, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get url => $composableBuilder(
+      column: $table.url, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get latitude => $composableBuilder(
+      column: $table.latitude, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get longitude => $composableBuilder(
+      column: $table.longitude, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get timestamp => $composableBuilder(
+      column: $table.timestamp, builder: (column) => ColumnFilters(column));
+}
+
+class $$TotemsTableOrderingComposer
+    extends Composer<_$MyDatabase, $TotemsTable> {
+  $$TotemsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get sessionId => $composableBuilder(
+      column: $table.sessionId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get totemId => $composableBuilder(
+      column: $table.totemId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get eventId => $composableBuilder(
+      column: $table.eventId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get providerId => $composableBuilder(
+      column: $table.providerId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get providerName => $composableBuilder(
+      column: $table.providerName,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get womLink => $composableBuilder(
+      column: $table.womLink, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get eventName => $composableBuilder(
+      column: $table.eventName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get sessionName => $composableBuilder(
+      column: $table.sessionName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get womPin => $composableBuilder(
+      column: $table.womPin, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get totemName => $composableBuilder(
+      column: $table.totemName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get email => $composableBuilder(
+      column: $table.email, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get phoneNumber => $composableBuilder(
+      column: $table.phoneNumber, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get url => $composableBuilder(
+      column: $table.url, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get latitude => $composableBuilder(
+      column: $table.latitude, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get longitude => $composableBuilder(
+      column: $table.longitude, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get timestamp => $composableBuilder(
+      column: $table.timestamp, builder: (column) => ColumnOrderings(column));
+}
+
+class $$TotemsTableAnnotationComposer
+    extends Composer<_$MyDatabase, $TotemsTable> {
+  $$TotemsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get sessionId =>
+      $composableBuilder(column: $table.sessionId, builder: (column) => column);
+
+  GeneratedColumn<String> get totemId =>
+      $composableBuilder(column: $table.totemId, builder: (column) => column);
+
+  GeneratedColumn<String> get eventId =>
+      $composableBuilder(column: $table.eventId, builder: (column) => column);
+
+  GeneratedColumn<String> get providerId => $composableBuilder(
+      column: $table.providerId, builder: (column) => column);
+
+  GeneratedColumn<String> get providerName => $composableBuilder(
+      column: $table.providerName, builder: (column) => column);
+
+  GeneratedColumn<String> get womLink =>
+      $composableBuilder(column: $table.womLink, builder: (column) => column);
+
+  GeneratedColumn<String> get eventName =>
+      $composableBuilder(column: $table.eventName, builder: (column) => column);
+
+  GeneratedColumn<String> get sessionName => $composableBuilder(
+      column: $table.sessionName, builder: (column) => column);
+
+  GeneratedColumn<String> get womPin =>
+      $composableBuilder(column: $table.womPin, builder: (column) => column);
+
+  GeneratedColumn<String> get totemName =>
+      $composableBuilder(column: $table.totemName, builder: (column) => column);
+
+  GeneratedColumn<String> get email =>
+      $composableBuilder(column: $table.email, builder: (column) => column);
+
+  GeneratedColumn<String> get phoneNumber => $composableBuilder(
+      column: $table.phoneNumber, builder: (column) => column);
+
+  GeneratedColumn<String> get url =>
+      $composableBuilder(column: $table.url, builder: (column) => column);
+
+  GeneratedColumn<double> get latitude =>
+      $composableBuilder(column: $table.latitude, builder: (column) => column);
+
+  GeneratedColumn<double> get longitude =>
+      $composableBuilder(column: $table.longitude, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get timestamp =>
+      $composableBuilder(column: $table.timestamp, builder: (column) => column);
+}
+
+class $$TotemsTableTableManager extends RootTableManager<
+    _$MyDatabase,
+    $TotemsTable,
+    TotemRow,
+    $$TotemsTableFilterComposer,
+    $$TotemsTableOrderingComposer,
+    $$TotemsTableAnnotationComposer,
+    $$TotemsTableCreateCompanionBuilder,
+    $$TotemsTableUpdateCompanionBuilder,
+    (TotemRow, BaseReferences<_$MyDatabase, $TotemsTable, TotemRow>),
+    TotemRow,
+    PrefetchHooks Function()> {
+  $$TotemsTableTableManager(_$MyDatabase db, $TotemsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TotemsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TotemsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TotemsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> sessionId = const Value.absent(),
+            Value<String> totemId = const Value.absent(),
+            Value<String> eventId = const Value.absent(),
+            Value<String> providerId = const Value.absent(),
+            Value<String?> providerName = const Value.absent(),
+            Value<String?> womLink = const Value.absent(),
+            Value<String?> eventName = const Value.absent(),
+            Value<String?> sessionName = const Value.absent(),
+            Value<String?> womPin = const Value.absent(),
+            Value<String?> totemName = const Value.absent(),
+            Value<String?> email = const Value.absent(),
+            Value<String?> phoneNumber = const Value.absent(),
+            Value<String?> url = const Value.absent(),
+            Value<double?> latitude = const Value.absent(),
+            Value<double?> longitude = const Value.absent(),
+            Value<DateTime> timestamp = const Value.absent(),
+          }) =>
+              TotemsCompanion(
+            id: id,
+            sessionId: sessionId,
+            totemId: totemId,
+            eventId: eventId,
+            providerId: providerId,
+            providerName: providerName,
+            womLink: womLink,
+            eventName: eventName,
+            sessionName: sessionName,
+            womPin: womPin,
+            totemName: totemName,
+            email: email,
+            phoneNumber: phoneNumber,
+            url: url,
+            latitude: latitude,
+            longitude: longitude,
+            timestamp: timestamp,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String sessionId,
+            required String totemId,
+            required String eventId,
+            required String providerId,
+            Value<String?> providerName = const Value.absent(),
+            Value<String?> womLink = const Value.absent(),
+            Value<String?> eventName = const Value.absent(),
+            Value<String?> sessionName = const Value.absent(),
+            Value<String?> womPin = const Value.absent(),
+            Value<String?> totemName = const Value.absent(),
+            Value<String?> email = const Value.absent(),
+            Value<String?> phoneNumber = const Value.absent(),
+            Value<String?> url = const Value.absent(),
+            Value<double?> latitude = const Value.absent(),
+            Value<double?> longitude = const Value.absent(),
+            required DateTime timestamp,
+          }) =>
+              TotemsCompanion.insert(
+            id: id,
+            sessionId: sessionId,
+            totemId: totemId,
+            eventId: eventId,
+            providerId: providerId,
+            providerName: providerName,
+            womLink: womLink,
+            eventName: eventName,
+            sessionName: sessionName,
+            womPin: womPin,
+            totemName: totemName,
+            email: email,
+            phoneNumber: phoneNumber,
+            url: url,
+            latitude: latitude,
+            longitude: longitude,
+            timestamp: timestamp,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$TotemsTableProcessedTableManager = ProcessedTableManager<
+    _$MyDatabase,
+    $TotemsTable,
+    TotemRow,
+    $$TotemsTableFilterComposer,
+    $$TotemsTableOrderingComposer,
+    $$TotemsTableAnnotationComposer,
+    $$TotemsTableCreateCompanionBuilder,
+    $$TotemsTableUpdateCompanionBuilder,
+    (TotemRow, BaseReferences<_$MyDatabase, $TotemsTable, TotemRow>),
+    TotemRow,
+    PrefetchHooks Function()>;
+
+class $MyDatabaseManager {
+  final _$MyDatabase _db;
+  $MyDatabaseManager(this._db);
+  $$WomTableTableManager get wom => $$WomTableTableManager(_db, _db.wom);
+  $$AimsTableTableManager get aims => $$AimsTableTableManager(_db, _db.aims);
+  $$TransactionsTableTableManager get transactions =>
+      $$TransactionsTableTableManager(_db, _db.transactions);
+  $$TotemsTableTableManager get totems =>
+      $$TotemsTableTableManager(_db, _db.totems);
 }

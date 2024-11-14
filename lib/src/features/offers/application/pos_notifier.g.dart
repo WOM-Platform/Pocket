@@ -141,6 +141,8 @@ class GetPosProvider extends FutureProvider<PhysicalPOS> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetPosRef on FutureProviderRef<PhysicalPOS> {
   /// The parameter `posID` of this provider.
   String get posID;
@@ -154,4 +156,4 @@ class _GetPosProviderElement extends FutureProviderElement<PhysicalPOS>
   String get posID => (origin as GetPosProvider).posID;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -22,6 +22,8 @@ final getExchangeTransactionsProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef GetExchangeTransactionsRef
     = AutoDisposeFutureProviderRef<List<TransactionModel>>;
 String _$exchangeNotifierHash() => r'093160512b698db0e1804cdf898d197480b8616b';
@@ -192,6 +194,8 @@ class NewExchangeNotifierProvider extends AutoDisposeNotifierProviderImpl<
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin NewExchangeNotifierRef
     on AutoDisposeNotifierProviderRef<NewExchangeState> {
   /// The parameter `womCount` of this provider.
@@ -207,4 +211,4 @@ class _NewExchangeNotifierProviderElement
   int get womCount => (origin as NewExchangeNotifierProvider).womCount;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

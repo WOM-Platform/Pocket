@@ -1,6 +1,6 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
+import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:math' as math;
 

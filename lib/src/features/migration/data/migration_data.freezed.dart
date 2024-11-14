@@ -25,8 +25,12 @@ mixin _$MigrationData {
   @DateTimeConverter()
   DateTime get importDeadline => throw _privateConstructorUsedError;
 
+  /// Serializes this MigrationData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MigrationData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MigrationDataCopyWith<MigrationData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +55,8 @@ class _$MigrationDataCopyWithImpl<$Res, $Val extends MigrationData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MigrationData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -95,6 +101,8 @@ class __$$MigrationDataImplCopyWithImpl<$Res>
       _$MigrationDataImpl _value, $Res Function(_$MigrationDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MigrationData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -154,11 +162,13 @@ class _$MigrationDataImpl implements _MigrationData {
                 other.importDeadline == importDeadline));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, link, importDeadline);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MigrationData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MigrationDataImplCopyWith<_$MigrationDataImpl> get copyWith =>
@@ -189,8 +199,11 @@ abstract class _MigrationData implements MigrationData {
   @override
   @DateTimeConverter()
   DateTime get importDeadline;
+
+  /// Create a copy of MigrationData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MigrationDataImplCopyWith<_$MigrationDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -90,6 +90,9 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -112,6 +115,8 @@ class __$$ScannerStateSingleImplCopyWithImpl<$Res>
       $Res Function(_$ScannerStateSingleImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,6 +145,8 @@ class __$$ScannerStateSingleImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TotemDataCopyWith<$Res>? get totemData {
@@ -191,7 +198,9 @@ class _$ScannerStateSingleImpl implements ScannerStateSingle {
   @override
   int get hashCode => Object.hash(runtimeType, url, total, type, totemData);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ScannerStateSingleImplCopyWith<_$ScannerStateSingleImpl> get copyWith =>
@@ -290,7 +299,10 @@ abstract class ScannerStateSingle implements ScannerState {
   int get total;
   TransactionType get type;
   TotemData? get totemData;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ScannerStateSingleImplCopyWith<_$ScannerStateSingleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -312,6 +324,8 @@ class __$$ScannerStateMultipleImplCopyWithImpl<$Res>
       $Res Function(_$ScannerStateMultipleImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -350,7 +364,9 @@ class _$ScannerStateMultipleImpl implements ScannerStateMultiple {
   @override
   int get hashCode => Object.hash(runtimeType, total);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ScannerStateMultipleImplCopyWith<_$ScannerStateMultipleImpl>
@@ -444,7 +460,10 @@ abstract class ScannerStateMultiple implements ScannerState {
       _$ScannerStateMultipleImpl;
 
   int get total;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ScannerStateMultipleImplCopyWith<_$ScannerStateMultipleImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -465,6 +484,9 @@ class __$$ScannerStateProcessingImplCopyWithImpl<$Res>
       _$ScannerStateProcessingImpl _value,
       $Res Function(_$ScannerStateProcessingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -589,6 +611,8 @@ class __$$ScannerStateEmptyImplCopyWithImpl<$Res>
       $Res Function(_$ScannerStateEmptyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -627,7 +651,9 @@ class _$ScannerStateEmptyImpl implements ScannerStateEmpty {
   @override
   int get hashCode => Object.hash(runtimeType, total);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ScannerStateEmptyImplCopyWith<_$ScannerStateEmptyImpl> get copyWith =>
@@ -720,7 +746,10 @@ abstract class ScannerStateEmpty implements ScannerState {
       _$ScannerStateEmptyImpl;
 
   int get total;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ScannerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ScannerStateEmptyImplCopyWith<_$ScannerStateEmptyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

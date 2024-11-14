@@ -90,6 +90,9 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -106,6 +109,9 @@ class __$$ImportInitialImplCopyWithImpl<$Res>
   __$$ImportInitialImplCopyWithImpl(
       _$ImportInitialImpl _value, $Res Function(_$ImportInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -234,6 +240,9 @@ class __$$ImportLoadingImplCopyWithImpl<$Res>
   __$$ImportLoadingImplCopyWithImpl(
       _$ImportLoadingImpl _value, $Res Function(_$ImportLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -365,6 +374,8 @@ class __$$ImportErrorImplCopyWithImpl<$Res>
       _$ImportErrorImpl _value, $Res Function(_$ImportErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -418,7 +429,9 @@ class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(ex), st);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImportErrorImplCopyWith<_$ImportErrorImpl> get copyWith =>
@@ -511,7 +524,10 @@ abstract class ImportError implements ImportState {
 
   Object get ex;
   StackTrace get st;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImportErrorImplCopyWith<_$ImportErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -530,6 +546,9 @@ class __$$JustImportedImplCopyWithImpl<$Res>
   __$$JustImportedImplCopyWithImpl(
       _$JustImportedImpl _value, $Res Function(_$JustImportedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -659,6 +678,8 @@ class __$$ImportCompletedImplCopyWithImpl<$Res>
       _$ImportCompletedImpl _value, $Res Function(_$ImportCompletedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -707,7 +728,9 @@ class _$ImportCompletedImpl
   @override
   int get hashCode => Object.hash(runtimeType, count);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImportCompletedImplCopyWith<_$ImportCompletedImpl> get copyWith =>
@@ -799,7 +822,10 @@ abstract class ImportCompleted implements ImportState {
   const factory ImportCompleted(final int count) = _$ImportCompletedImpl;
 
   int get count;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImportCompletedImplCopyWith<_$ImportCompletedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

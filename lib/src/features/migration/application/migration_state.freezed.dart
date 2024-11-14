@@ -90,6 +90,9 @@ class _$MigrationStateCopyWithImpl<$Res, $Val extends MigrationState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -109,6 +112,8 @@ class __$$MigrationStateDataImplCopyWithImpl<$Res>
       $Res Function(_$MigrationStateDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -163,7 +168,9 @@ class _$MigrationStateDataImpl implements MigrationStateData {
   int get hashCode =>
       Object.hash(runtimeType, pin, const DeepCollectionEquality().hash(_woms));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MigrationStateDataImplCopyWith<_$MigrationStateDataImpl> get copyWith =>
@@ -258,7 +265,10 @@ abstract class MigrationStateData implements MigrationState {
 
   String get pin;
   List<WomRow> get woms;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MigrationStateDataImplCopyWith<_$MigrationStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -278,6 +288,9 @@ class __$$MigrationStateLoadingImplCopyWithImpl<$Res>
   __$$MigrationStateLoadingImplCopyWithImpl(_$MigrationStateLoadingImpl _value,
       $Res Function(_$MigrationStateLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -400,6 +413,9 @@ class __$$MigrationStateInitialImplCopyWithImpl<$Res>
   __$$MigrationStateInitialImplCopyWithImpl(_$MigrationStateInitialImpl _value,
       $Res Function(_$MigrationStateInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -528,6 +544,8 @@ class __$$MigrationStateCompleteImplCopyWithImpl<$Res>
       $Res Function(_$MigrationStateCompleteImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -541,6 +559,8 @@ class __$$MigrationStateCompleteImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MigrationDataCopyWith<$Res> get data {
@@ -574,7 +594,9 @@ class _$MigrationStateCompleteImpl implements MigrationStateComplete {
   @override
   int get hashCode => Object.hash(runtimeType, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MigrationStateCompleteImplCopyWith<_$MigrationStateCompleteImpl>
@@ -667,7 +689,10 @@ abstract class MigrationStateComplete implements MigrationState {
       _$MigrationStateCompleteImpl;
 
   MigrationData get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MigrationStateCompleteImplCopyWith<_$MigrationStateCompleteImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -689,6 +714,8 @@ class __$$MigrationStateErrorImplCopyWithImpl<$Res>
       $Res Function(_$MigrationStateErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -733,7 +760,9 @@ class _$MigrationStateErrorImpl implements MigrationStateError {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(error), st);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MigrationStateErrorImplCopyWith<_$MigrationStateErrorImpl> get copyWith =>
@@ -827,7 +856,10 @@ abstract class MigrationStateError implements MigrationState {
 
   Object get error;
   StackTrace get st;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MigrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MigrationStateErrorImplCopyWith<_$MigrationStateErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -95,6 +95,9 @@ class _$NFCStateCopyWithImpl<$Res, $Val extends NFCState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -116,6 +119,8 @@ class __$$NFCStateDataImplCopyWithImpl<$Res>
       _$NFCStateDataImpl _value, $Res Function(_$NFCStateDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,6 +134,8 @@ class __$$NFCStateDataImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TotemDataCopyWith<$Res> get totemData {
@@ -163,7 +170,9 @@ class _$NFCStateDataImpl implements NFCStateData {
   @override
   int get hashCode => Object.hash(runtimeType, totemData);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NFCStateDataImplCopyWith<_$NFCStateDataImpl> get copyWith =>
@@ -261,7 +270,10 @@ abstract class NFCStateData implements NFCState {
       _$NFCStateDataImpl;
 
   TotemData get totemData;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NFCStateDataImplCopyWith<_$NFCStateDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -280,6 +292,9 @@ class __$$NFCStateListeningImplCopyWithImpl<$Res>
   __$$NFCStateListeningImplCopyWithImpl(_$NFCStateListeningImpl _value,
       $Res Function(_$NFCStateListeningImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -406,6 +421,9 @@ class __$$NFCStateUnavailableImplCopyWithImpl<$Res>
   __$$NFCStateUnavailableImplCopyWithImpl(_$NFCStateUnavailableImpl _value,
       $Res Function(_$NFCStateUnavailableImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -533,6 +551,9 @@ class __$$NFCStateLoadingImplCopyWithImpl<$Res>
   __$$NFCStateLoadingImplCopyWithImpl(
       _$NFCStateLoadingImpl _value, $Res Function(_$NFCStateLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -659,6 +680,9 @@ class __$$NFCStateInvalidDataImplCopyWithImpl<$Res>
   __$$NFCStateInvalidDataImplCopyWithImpl(_$NFCStateInvalidDataImpl _value,
       $Res Function(_$NFCStateInvalidDataImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -789,6 +813,8 @@ class __$$NFCStateErrorImplCopyWithImpl<$Res>
       _$NFCStateErrorImpl _value, $Res Function(_$NFCStateErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -833,7 +859,9 @@ class _$NFCStateErrorImpl implements NFCStateError {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(error), st);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NFCStateErrorImplCopyWith<_$NFCStateErrorImpl> get copyWith =>
@@ -932,7 +960,10 @@ abstract class NFCStateError implements NFCState {
 
   Object get error;
   StackTrace get st;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NFCState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NFCStateErrorImplCopyWith<_$NFCStateErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

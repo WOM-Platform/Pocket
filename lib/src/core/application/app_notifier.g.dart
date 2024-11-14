@@ -20,6 +20,8 @@ final getNFCBackgroundProvider = AutoDisposeProvider<NfcBackground>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef GetNFCBackgroundRef = AutoDisposeProviderRef<NfcBackground>;
 String _$getNfcIntentHash() => r'1fe3c5cab4aa2f0043da7ed0243b83da4ebaf7cb';
 
@@ -34,6 +36,8 @@ final getNfcIntentProvider = AutoDisposeStreamProvider<TotemData>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef GetNfcIntentRef = AutoDisposeStreamProviderRef<TotemData>;
 String _$nfcBackgroundNotifierHash() =>
     r'282b755e1856d3ccdf339e908fb3679c5137434b';
@@ -53,4 +57,4 @@ final nfcBackgroundNotifierProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$NfcBackgroundNotifier = AutoDisposeAsyncNotifier<TotemData?>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
