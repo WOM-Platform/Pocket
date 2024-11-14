@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feature_discovery/feature_discovery.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,14 +66,12 @@ Future<void> main() async {
 
   runApp(
     ProviderScope(
-      child: FeatureDiscovery(
-        child: EasyLocalization(
-          supportedLocales: [Locale('en'), Locale('it')],
-          path: 'assets/lang',
-          // <-- change the path of the translation files
-          fallbackLocale: Locale('it'),
-          child: App(),
-        ),
+      child: EasyLocalization(
+        supportedLocales: [Locale('en'), Locale('it')],
+        path: 'assets/lang',
+        // <-- change the path of the translation files
+        fallbackLocale: Locale('it'),
+        child: App(),
       ),
     ),
   );

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feature_discovery/feature_discovery.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -172,9 +172,7 @@ class GateWidget extends ConsumerWidget {
       }
 
       if (data is NormalMode) {
-        return FeatureDiscovery(
-          child: RootScreen(),
-        );
+        return RootScreen();
       }
     }
     return SplashScreen();
