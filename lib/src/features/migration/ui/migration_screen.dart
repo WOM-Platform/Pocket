@@ -228,7 +228,7 @@ class SummaryPage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: migrationState.when(
-        data: (pin, woms) {
+        data: (pin, womsCount,totemsCount) {
           return SafeArea(
             child: ListView(
               padding: const EdgeInsets.all(16),
@@ -261,7 +261,18 @@ class SummaryPage extends ConsumerWidget {
                       style: titleStyle,
                     ),
                     const SizedBox(width: 8),
-                    Text(woms.length.toString(), style: descStyle),
+                    Text(womsCount.toString(), style: descStyle),
+                  ],
+                ),
+                const SizedBox(height: 16), Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Scansioni da migrare',
+                      style: titleStyle,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(totemsCount.toString(), style: descStyle),
                   ],
                 ),
                 const SizedBox(height: 16),

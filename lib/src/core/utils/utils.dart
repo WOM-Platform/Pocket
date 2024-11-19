@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:encrypt/encrypt.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wom_pocket/src/core/constants.dart';
@@ -193,11 +194,27 @@ class Utils {
 
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 
-class WomExportData {
+class WomExportData extends Equatable {
   final String path;
   final String partialKey;
   final List<int> bytes;
   final int womCount;
+  final int totemsCount;
 
-  WomExportData(this.path, this.bytes, this.partialKey, this.womCount);
+  WomExportData(
+    this.path,
+    this.bytes,
+    this.partialKey,
+    this.womCount,
+    this.totemsCount,
+  );
+
+  @override
+  List<Object?> get props => [
+        path,
+        partialKey,
+        bytes,
+        womCount,
+        totemsCount,
+      ];
 }

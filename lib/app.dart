@@ -70,7 +70,7 @@ class App extends ConsumerWidget {
           ),
           colorScheme: themeData.colorScheme.copyWith(
             secondary: accentColor,
-            background: backgroundColor,
+            surface: backgroundColor,
           ),
         ),
         builder: (context, child) {

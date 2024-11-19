@@ -12,12 +12,14 @@ import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
+import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/features/pin/pin_screen.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/migration/application/import_state.dart';
+import 'package:collection/collection.dart';
 
 part 'import_notifier.g.dart';
 
@@ -27,7 +29,7 @@ class ImportNotifier extends _$ImportNotifier {
     return ImportInitial();
   }
 
-  Future<void> importWom(String password) async {
+  Future checkImport(String password) async {
     try {
       state = ImportState.loading();
       final otc = ref.read(deeplinkProvider).otc;
@@ -43,7 +45,6 @@ class ImportNotifier extends _$ImportNotifier {
       final responseBytes = await ref
           .read(pocketProvider)
           .retrieveMigrationPayload(otc, password);
-      // final file = File.fromRawPath(responseBytes);
 
       final dir = await getTemporaryDirectory();
       final partialKey = ref.read(deeplinkProvider).migrationPartialKey;
@@ -72,20 +73,49 @@ class ImportNotifier extends _$ImportNotifier {
       logger.i('Hai importato: ${woms.length} wom');
       logger.i('Hai importato: ${totems.length} totems');
 
-      final aims = <String?>{};
+      final tmp = <String?>{};
 
       for (int i = 0; i < woms.length; i++) {
-        aims.add(woms[i].aim);
+        tmp.add(woms[i].aim);
       }
 
-      String tmp = '';
-      aims.forEach((aim) {
-        tmp = tmp + '$aim, ';
-      });
+      final aims = <Aim>[];
+      final aimsList = await ref.read(aimNotifierProvider.future);
+      for (final a in tmp) {
+        final aim = aimsList.firstWhereOrNull((element) => element.code == a);
+        if (aim != null) {
+          aims.add(aim);
+        }
+      }
 
-      final aimsString = tmp.trim().substring(0, tmp.length - 1);
-      logger.i(aimsString);
-      logger.i(tmp);
+      state = ImportSummary(
+        woms: woms,
+        totems: totems,
+        aims: aims,
+        otc: otc,
+        password: password,
+        device: device,
+      );
+    } catch (ex, st) {
+      logger.e('checkImport', error: ex, stackTrace: st);
+      state = ImportError(ex, st);
+    }
+  }
+
+  Future<void> importWom() async {
+    final currentState = state;
+    if (currentState is! ImportSummary) {
+      return;
+    }
+    try {
+      state = ImportState.loading();
+
+      final otc = currentState.otc;
+      final password = currentState.password;
+      final woms = currentState.woms;
+      final totems = currentState.totems;
+      final aims = currentState.aims;
+      final device = currentState.device;
 
       final tx = TransactionModel(
         id: 0,
@@ -93,38 +123,38 @@ class ImportNotifier extends _$ImportNotifier {
         size: woms.length,
         type: TransactionType.MIGRATION_IMPORT,
         source: device,
-        aimCode: tmp,
+        aimCode: aims.map((a) => a.code).join(','),
       );
 
       // await ref.read(getDatabaseProvider).deleteEverything();
 
-      final tId = await ref
-          .read(getDatabaseProvider)
-          .transactionsDao
-          .addTransaction(tx.toTransactionCompanion());
+      final totemsCompanion = totems.map((w) => w.toCompanion(true)).toList();
+      await ref.read(getDatabaseProvider).importWoma(
+            tx.toTransactionCompanion(),
+            woms,
+            totemsCompanion,
+          );
 
-      await ref
-          .read(getDatabaseProvider)
-          .totemsDao
-          .addTotems(totems.map((w) => w.toCompanion(true)).toList());
-
-      final finalWoms =
-          woms.map((e) => e.copyWith(transactionId: tId)).toList();
-      await ref
-          .read(getDatabaseProvider)
-          .womsDao
-          .addVouchers(finalWoms.map((w) => w.toCompanion(true)).toList());
       await ref.read(pocketProvider).completeMigration(otc, password);
-
-      ref.invalidate(exchangeNotifierProvider);
-      ref.invalidate(availableWomCountProvider);
-      ref.invalidate(fetchTransactionsProvider);
-      ref.invalidate(mapNotifierProvider);
-      ref.invalidate(totalWomCountProvider);
       state = ImportCompleted(woms.length);
     } catch (ex, st) {
       logger.e('importWom', error: ex, stackTrace: st);
       state = ImportError(ex, st);
     }
+    refreshHome();
+  }
+
+  refreshHome() {
+    ref.invalidate(availableWomCountProvider);
+    ref.invalidate(fetchTransactionsProvider);
+    ref.invalidate(exchangeNotifierProvider);
+    ref.invalidate(totalWomCountProvider);
+    ref.invalidate(mapNotifierProvider);
+    ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
+    ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
+  }
+
+  void goToPin() {
+    state = ImportInitial();
   }
 }

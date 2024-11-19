@@ -5,6 +5,7 @@ import 'package:drift/drift.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/database/tables.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/my_extensions.dart';
 
 part 'transactions_dao.g.dart';
 
@@ -84,8 +85,4 @@ class TransactionsDao extends DatabaseAccessor<MyDatabase>
   Future<int> addTransaction(TransactionsCompanion entry) async {
     return into(transactions).insert(entry);
   }
-}
-
-extension DateTimeX on DateTime {
-  DateTime get midnight => this.copyWith(hour: 0, minute: 0, second: 0);
 }

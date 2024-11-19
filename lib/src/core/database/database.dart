@@ -31,6 +31,23 @@ class MyDatabase extends _$MyDatabase {
   @override
   int get schemaVersion => 6;
 
+  Future<void> importWoma(
+    TransactionsCompanion tx,
+    List<WomRow> woms,
+    List<TotemsCompanion> totems,
+  ) {
+    return transaction(() async {
+      final idx = await transactionsDao.addTransaction(tx);
+      await totemsDao.addTotems(totems);
+
+      final finalWoms = woms
+          .map((e) => e.copyWith(transactionId: idx))
+          .map((e) => e.toCompanion(true))
+          .toList();
+      await womsDao.addVouchers(finalWoms);
+    });
+  }
+
   Future<void> deleteEverything() async {
     await transaction(() async {
       // Deleting tables in reverse topological order to avoid foreign-key conflicts

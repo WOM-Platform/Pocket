@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -112,6 +113,106 @@ class PageOne extends ConsumerWidget {
   }
 }
 
+class ImportSummaryWidget extends ConsumerWidget {
+  final List<Aim> aims;
+  final String device;
+  final int womsCount;
+  final int totemsCount;
+
+  const ImportSummaryWidget({
+    required this.aims, required this.device, required this.womsCount, required this.totemsCount, Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final languageCode = context.locale.languageCode;
+    final titleStyle = TextStyle(color: Colors.white, fontSize: 18);
+    final descStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    );
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Image.asset(
+                  'assets/images/migration.png',
+                  height: 150,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Text(
+              'womMigration'.tr(),
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'Device di origine:',
+                  style: titleStyle,
+                ),
+                const SizedBox(width: 8),
+                Text(device.toString(), style: descStyle),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'Wom da importare',
+                  style: titleStyle,
+                ),
+                const SizedBox(width: 8),
+                Text(womsCount.toString(), style: descStyle),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'Scansioni da importare',
+                  style: titleStyle,
+                ),
+                const SizedBox(width: 8),
+                Text(totemsCount.toString(), style: descStyle),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'Aim:',
+                  style: titleStyle,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  aims.map((a) => a.titles[languageCode] ?? '-').join(','),
+                  style: descStyle,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class PageThree extends ConsumerWidget {
   const PageThree({Key? key}) : super(key: key);
 
@@ -193,6 +294,13 @@ class PageThree extends ConsumerWidget {
             child: CircularProgressIndicator(),
           ),
           error: (ex, st) => MyErrorWidget(ex: ex),
+          importSummary: (totems, woms, aims, _, device, __) =>
+              ImportSummaryWidget(
+            aims: aims,
+            womsCount: woms.length,
+            totemsCount: totems.length,
+            device: device,
+          ),
           completed: (womCount) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
@@ -230,18 +338,23 @@ class PageThree extends ConsumerWidget {
       ),
       floatingActionButton: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'cancel'.tr(),
-                style: TextStyle(color: Colors.white),
+          if (importState is! ImportCompleted)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: TextButton(
+                onPressed: () {
+                  if (importState is ImportSummary) {
+                    ref.read(importNotifierProvider.notifier).goToPin();
+                  } else {
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Text(
+                  importState is ImportSummary ? 'back'.tr() : 'cancel'.tr(),
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
-          ),
           Spacer(),
           if (importState is! ImportLoading && pinState.pin.length == 4)
             FloatingActionButton.extended(
@@ -250,7 +363,9 @@ class PageThree extends ConsumerWidget {
                         importState is ImportError ||
                         importState is JustImported
                     ? 'backToHome'.tr()
-                    : 'conclude'.tr(),
+                    : importState is ImportSummary
+                        ? 'conclude'.tr()
+                        : 'continue'.tr(),
               ),
               onPressed: confirm
                   ? () {
@@ -263,7 +378,7 @@ class PageThree extends ConsumerWidget {
                           ),
                           (route) => false,
                         );
-                      } else {
+                      } else if (importState is ImportSummary) {
                         Alert(
                           context: context,
                           style: AlertStyle(
@@ -287,15 +402,17 @@ class PageThree extends ConsumerWidget {
                               child: Text('continue'.tr()),
                               onPressed: () {
                                 Navigator.pop(context);
-
-                                if (pinState.pin.length != 4) return;
                                 ref
                                     .read(importNotifierProvider.notifier)
-                                    .importWom(pinState.pin);
+                                    .importWom();
                               },
                             ),
                           ],
                         ).show();
+                      } else {
+                        ref
+                            .read(importNotifierProvider.notifier)
+                            .checkImport(pinState.pin);
                       }
                     }
                   : null,

@@ -82,6 +82,9 @@ dependencies:
   flutter_sticky_header: ^0.6.5
   material_design_icons_flutter: ^7.0.7296
   sentry_flutter:
+  flutter_riverpod: any
+  collection: any
+  meta: any
 
 dev_dependencies:
   flutter_test:

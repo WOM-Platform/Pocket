@@ -1,6 +1,10 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart'
     show ServerException;
 
+extension DateTimeX on DateTime {
+  DateTime get midnight => this.copyWith(hour: 0, minute: 0, second: 0);
+}
+
 extension ServerExceptionX on ServerException {
   String? get translationKey {
     final e = type.replaceFirst(typeBase, '');

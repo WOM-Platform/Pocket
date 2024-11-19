@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$MigrationState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String pin, List<WomRow> woms) data,
+    required TResult Function(String pin, int womsCount, int totemsCount) data,
     required TResult Function() loading,
     required TResult Function() initial,
     required TResult Function(MigrationData data) complete,
@@ -27,7 +27,7 @@ mixin _$MigrationState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, List<WomRow> woms)? data,
+    TResult? Function(String pin, int womsCount, int totemsCount)? data,
     TResult? Function()? loading,
     TResult? Function()? initial,
     TResult? Function(MigrationData data)? complete,
@@ -36,7 +36,7 @@ mixin _$MigrationState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, List<WomRow> woms)? data,
+    TResult Function(String pin, int womsCount, int totemsCount)? data,
     TResult Function()? loading,
     TResult Function()? initial,
     TResult Function(MigrationData data)? complete,
@@ -101,7 +101,7 @@ abstract class _$$MigrationStateDataImplCopyWith<$Res> {
           $Res Function(_$MigrationStateDataImpl) then) =
       __$$MigrationStateDataImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String pin, List<WomRow> woms});
+  $Res call({String pin, int womsCount, int totemsCount});
 }
 
 /// @nodoc
@@ -118,17 +118,22 @@ class __$$MigrationStateDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? pin = null,
-    Object? woms = null,
+    Object? womsCount = null,
+    Object? totemsCount = null,
   }) {
     return _then(_$MigrationStateDataImpl(
       pin: null == pin
           ? _value.pin
           : pin // ignore: cast_nullable_to_non_nullable
               as String,
-      woms: null == woms
-          ? _value._woms
-          : woms // ignore: cast_nullable_to_non_nullable
-              as List<WomRow>,
+      womsCount: null == womsCount
+          ? _value.womsCount
+          : womsCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      totemsCount: null == totemsCount
+          ? _value.totemsCount
+          : totemsCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -137,22 +142,18 @@ class __$$MigrationStateDataImplCopyWithImpl<$Res>
 
 class _$MigrationStateDataImpl implements MigrationStateData {
   const _$MigrationStateDataImpl(
-      {required this.pin, required final List<WomRow> woms})
-      : _woms = woms;
+      {required this.pin, required this.womsCount, required this.totemsCount});
 
   @override
   final String pin;
-  final List<WomRow> _woms;
   @override
-  List<WomRow> get woms {
-    if (_woms is EqualUnmodifiableListView) return _woms;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_woms);
-  }
+  final int womsCount;
+  @override
+  final int totemsCount;
 
   @override
   String toString() {
-    return 'MigrationState.data(pin: $pin, woms: $woms)';
+    return 'MigrationState.data(pin: $pin, womsCount: $womsCount, totemsCount: $totemsCount)';
   }
 
   @override
@@ -161,12 +162,14 @@ class _$MigrationStateDataImpl implements MigrationStateData {
         (other.runtimeType == runtimeType &&
             other is _$MigrationStateDataImpl &&
             (identical(other.pin, pin) || other.pin == pin) &&
-            const DeepCollectionEquality().equals(other._woms, _woms));
+            (identical(other.womsCount, womsCount) ||
+                other.womsCount == womsCount) &&
+            (identical(other.totemsCount, totemsCount) ||
+                other.totemsCount == totemsCount));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, pin, const DeepCollectionEquality().hash(_woms));
+  int get hashCode => Object.hash(runtimeType, pin, womsCount, totemsCount);
 
   /// Create a copy of MigrationState
   /// with the given fields replaced by the non-null parameter values.
@@ -180,31 +183,31 @@ class _$MigrationStateDataImpl implements MigrationStateData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String pin, List<WomRow> woms) data,
+    required TResult Function(String pin, int womsCount, int totemsCount) data,
     required TResult Function() loading,
     required TResult Function() initial,
     required TResult Function(MigrationData data) complete,
     required TResult Function(Object error, StackTrace st) error,
   }) {
-    return data(pin, woms);
+    return data(pin, womsCount, totemsCount);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, List<WomRow> woms)? data,
+    TResult? Function(String pin, int womsCount, int totemsCount)? data,
     TResult? Function()? loading,
     TResult? Function()? initial,
     TResult? Function(MigrationData data)? complete,
     TResult? Function(Object error, StackTrace st)? error,
   }) {
-    return data?.call(pin, woms);
+    return data?.call(pin, womsCount, totemsCount);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, List<WomRow> woms)? data,
+    TResult Function(String pin, int womsCount, int totemsCount)? data,
     TResult Function()? loading,
     TResult Function()? initial,
     TResult Function(MigrationData data)? complete,
@@ -212,7 +215,7 @@ class _$MigrationStateDataImpl implements MigrationStateData {
     required TResult orElse(),
   }) {
     if (data != null) {
-      return data(pin, woms);
+      return data(pin, womsCount, totemsCount);
     }
     return orElse();
   }
@@ -261,10 +264,12 @@ class _$MigrationStateDataImpl implements MigrationStateData {
 abstract class MigrationStateData implements MigrationState {
   const factory MigrationStateData(
       {required final String pin,
-      required final List<WomRow> woms}) = _$MigrationStateDataImpl;
+      required final int womsCount,
+      required final int totemsCount}) = _$MigrationStateDataImpl;
 
   String get pin;
-  List<WomRow> get woms;
+  int get womsCount;
+  int get totemsCount;
 
   /// Create a copy of MigrationState
   /// with the given fields replaced by the non-null parameter values.
@@ -316,7 +321,7 @@ class _$MigrationStateLoadingImpl implements MigrationStateLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String pin, List<WomRow> woms) data,
+    required TResult Function(String pin, int womsCount, int totemsCount) data,
     required TResult Function() loading,
     required TResult Function() initial,
     required TResult Function(MigrationData data) complete,
@@ -328,7 +333,7 @@ class _$MigrationStateLoadingImpl implements MigrationStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, List<WomRow> woms)? data,
+    TResult? Function(String pin, int womsCount, int totemsCount)? data,
     TResult? Function()? loading,
     TResult? Function()? initial,
     TResult? Function(MigrationData data)? complete,
@@ -340,7 +345,7 @@ class _$MigrationStateLoadingImpl implements MigrationStateLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, List<WomRow> woms)? data,
+    TResult Function(String pin, int womsCount, int totemsCount)? data,
     TResult Function()? loading,
     TResult Function()? initial,
     TResult Function(MigrationData data)? complete,
@@ -441,7 +446,7 @@ class _$MigrationStateInitialImpl implements MigrationStateInitial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String pin, List<WomRow> woms) data,
+    required TResult Function(String pin, int womsCount, int totemsCount) data,
     required TResult Function() loading,
     required TResult Function() initial,
     required TResult Function(MigrationData data) complete,
@@ -453,7 +458,7 @@ class _$MigrationStateInitialImpl implements MigrationStateInitial {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, List<WomRow> woms)? data,
+    TResult? Function(String pin, int womsCount, int totemsCount)? data,
     TResult? Function()? loading,
     TResult? Function()? initial,
     TResult? Function(MigrationData data)? complete,
@@ -465,7 +470,7 @@ class _$MigrationStateInitialImpl implements MigrationStateInitial {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, List<WomRow> woms)? data,
+    TResult Function(String pin, int womsCount, int totemsCount)? data,
     TResult Function()? loading,
     TResult Function()? initial,
     TResult Function(MigrationData data)? complete,
@@ -606,7 +611,7 @@ class _$MigrationStateCompleteImpl implements MigrationStateComplete {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String pin, List<WomRow> woms) data,
+    required TResult Function(String pin, int womsCount, int totemsCount) data,
     required TResult Function() loading,
     required TResult Function() initial,
     required TResult Function(MigrationData data) complete,
@@ -618,7 +623,7 @@ class _$MigrationStateCompleteImpl implements MigrationStateComplete {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, List<WomRow> woms)? data,
+    TResult? Function(String pin, int womsCount, int totemsCount)? data,
     TResult? Function()? loading,
     TResult? Function()? initial,
     TResult? Function(MigrationData data)? complete,
@@ -630,7 +635,7 @@ class _$MigrationStateCompleteImpl implements MigrationStateComplete {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, List<WomRow> woms)? data,
+    TResult Function(String pin, int womsCount, int totemsCount)? data,
     TResult Function()? loading,
     TResult Function()? initial,
     TResult Function(MigrationData data)? complete,
@@ -772,7 +777,7 @@ class _$MigrationStateErrorImpl implements MigrationStateError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String pin, List<WomRow> woms) data,
+    required TResult Function(String pin, int womsCount, int totemsCount) data,
     required TResult Function() loading,
     required TResult Function() initial,
     required TResult Function(MigrationData data) complete,
@@ -784,7 +789,7 @@ class _$MigrationStateErrorImpl implements MigrationStateError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, List<WomRow> woms)? data,
+    TResult? Function(String pin, int womsCount, int totemsCount)? data,
     TResult? Function()? loading,
     TResult? Function()? initial,
     TResult? Function(MigrationData data)? complete,
@@ -796,7 +801,7 @@ class _$MigrationStateErrorImpl implements MigrationStateError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, List<WomRow> woms)? data,
+    TResult Function(String pin, int womsCount, int totemsCount)? data,
     TResult Function()? loading,
     TResult Function()? initial,
     TResult Function(MigrationData data)? complete,

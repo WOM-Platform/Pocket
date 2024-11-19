@@ -6,7 +6,7 @@ part of 'migration_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$migrationNotifierHash() => r'09769681879de089d839df846ce9c8f38b05741f';
+String _$migrationNotifierHash() => r'8bebecb252602eeef9e46cf3a90013666b6d814d';
 
 /// See also [MigrationNotifier].
 @ProviderFor(MigrationNotifier)

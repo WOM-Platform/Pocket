@@ -29,11 +29,16 @@ class MigrationNotifier extends _$MigrationNotifier {
     return MigrationStateInitial();
   }
 
-  addPin(String pin) async {
+  Future<void> addPin(String pin) async {
     try {
       state = MigrationStateLoading();
       final woms = await ref.read(getDatabaseProvider).womsDao.getAllWoms;
-      state = MigrationStateData(pin: pin, woms: woms);
+      final totems = await ref.read(getDatabaseProvider).totemsDao.getScans();
+      state = MigrationStateData(
+        pin: pin,
+        womsCount: woms.length,
+        totemsCount: totems.length,
+      );
     } catch (ex, st) {
       logger.e('addPin', error: ex, stackTrace: st);
       state = MigrationStateError(ex, st);
@@ -88,19 +93,23 @@ class MigrationNotifier extends _$MigrationNotifier {
                   Value(migrationData.importDeadline.millisecondsSinceEpoch),
             ),
           );
-      ref.invalidate(exchangeNotifierProvider);
-      ref.invalidate(fetchTransactionsProvider);
-      ref.invalidate(totalWomCountProvider);
-      ref.invalidate(mapNotifierProvider);
-      ref.invalidate(availableWomCountProvider);
-      ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
-      ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
+      refreshHome();
       logger.i(migrationData.link);
       state = MigrationStateComplete(data: migrationData);
     } catch (ex, st) {
       logger.e('exportWom', error: ex, stackTrace: st);
       state = MigrationStateError(ex, st);
     }
+  }
+
+  refreshHome() {
+    ref.invalidate(exchangeNotifierProvider);
+    ref.invalidate(fetchTransactionsProvider);
+    ref.invalidate(totalWomCountProvider);
+    ref.invalidate(mapNotifierProvider);
+    ref.invalidate(availableWomCountProvider);
+    ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
+    ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
   }
 
   Future<WomExportData> exportWomToJson(String pin) async {
@@ -144,19 +153,26 @@ class MigrationNotifier extends _$MigrationNotifier {
     // await encryptedFile.writeAsBytes(bytes);
     // logger.w(bytes.length / 1000);
     // logger.i(file.path);
-    return WomExportData(file.path, bytes, key, woms.length);
+    return WomExportData(
+      file.path,
+      bytes,
+      key,
+      woms.length,
+      totems.length,
+    );
   }
 
-  _getDevice() async {
+  Future<String> _getDevice() async {
+    String device = 'Unknown';
     try {
       final deviceInfoPlugin = DeviceInfoPlugin();
-
-      String device = '';
 
       if (Platform.isAndroid) {
         final deviceInfo =
             await deviceInfoPlugin.deviceInfo as AndroidDeviceInfo;
-        device = deviceInfo.model;
+        final manufacturer = deviceInfo.manufacturer;
+        final model = deviceInfo.model;
+        device = '$manufacturer $model';
       } else if (Platform.isIOS) {
         final deviceInfo = await deviceInfoPlugin.deviceInfo as IosDeviceInfo;
         device = deviceInfo.utsname.machine;
@@ -164,7 +180,7 @@ class MigrationNotifier extends _$MigrationNotifier {
       return device;
     } catch (ex, st) {
       logger.e('getDevice', error: ex, stackTrace: st);
-      return '';
+      return device;
     }
   }
 }

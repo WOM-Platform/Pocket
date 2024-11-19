@@ -22,6 +22,9 @@ mixin _$ImportState {
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
     required TResult Function() justImported,
+    required TResult Function(List<TotemRow> totems, List<WomRow> woms,
+            List<Aim> aims, String otc, String device, String password)
+        importSummary,
     required TResult Function(int count) completed,
   }) =>
       throw _privateConstructorUsedError;
@@ -31,6 +34,9 @@ mixin _$ImportState {
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
     TResult? Function()? justImported,
+    TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult? Function(int count)? completed,
   }) =>
       throw _privateConstructorUsedError;
@@ -40,6 +46,9 @@ mixin _$ImportState {
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
     TResult Function()? justImported,
+    TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) =>
@@ -50,6 +59,7 @@ mixin _$ImportState {
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
     required TResult Function(JustImported value) justImported,
+    required TResult Function(ImportSummary value) importSummary,
     required TResult Function(ImportCompleted value) completed,
   }) =>
       throw _privateConstructorUsedError;
@@ -59,6 +69,7 @@ mixin _$ImportState {
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
     TResult? Function(JustImported value)? justImported,
+    TResult? Function(ImportSummary value)? importSummary,
     TResult? Function(ImportCompleted value)? completed,
   }) =>
       throw _privateConstructorUsedError;
@@ -68,6 +79,7 @@ mixin _$ImportState {
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
     TResult Function(JustImported value)? justImported,
+    TResult Function(ImportSummary value)? importSummary,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) =>
@@ -148,6 +160,9 @@ class _$ImportInitialImpl
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
     required TResult Function() justImported,
+    required TResult Function(List<TotemRow> totems, List<WomRow> woms,
+            List<Aim> aims, String otc, String device, String password)
+        importSummary,
     required TResult Function(int count) completed,
   }) {
     return initial();
@@ -160,6 +175,9 @@ class _$ImportInitialImpl
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
     TResult? Function()? justImported,
+    TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult? Function(int count)? completed,
   }) {
     return initial?.call();
@@ -172,6 +190,9 @@ class _$ImportInitialImpl
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
     TResult Function()? justImported,
+    TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
@@ -188,6 +209,7 @@ class _$ImportInitialImpl
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
     required TResult Function(JustImported value) justImported,
+    required TResult Function(ImportSummary value) importSummary,
     required TResult Function(ImportCompleted value) completed,
   }) {
     return initial(this);
@@ -200,6 +222,7 @@ class _$ImportInitialImpl
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
     TResult? Function(JustImported value)? justImported,
+    TResult? Function(ImportSummary value)? importSummary,
     TResult? Function(ImportCompleted value)? completed,
   }) {
     return initial?.call(this);
@@ -212,6 +235,7 @@ class _$ImportInitialImpl
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
     TResult Function(JustImported value)? justImported,
+    TResult Function(ImportSummary value)? importSummary,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) {
@@ -279,6 +303,9 @@ class _$ImportLoadingImpl
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
     required TResult Function() justImported,
+    required TResult Function(List<TotemRow> totems, List<WomRow> woms,
+            List<Aim> aims, String otc, String device, String password)
+        importSummary,
     required TResult Function(int count) completed,
   }) {
     return loading();
@@ -291,6 +318,9 @@ class _$ImportLoadingImpl
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
     TResult? Function()? justImported,
+    TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult? Function(int count)? completed,
   }) {
     return loading?.call();
@@ -303,6 +333,9 @@ class _$ImportLoadingImpl
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
     TResult Function()? justImported,
+    TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
@@ -319,6 +352,7 @@ class _$ImportLoadingImpl
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
     required TResult Function(JustImported value) justImported,
+    required TResult Function(ImportSummary value) importSummary,
     required TResult Function(ImportCompleted value) completed,
   }) {
     return loading(this);
@@ -331,6 +365,7 @@ class _$ImportLoadingImpl
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
     TResult? Function(JustImported value)? justImported,
+    TResult? Function(ImportSummary value)? importSummary,
     TResult? Function(ImportCompleted value)? completed,
   }) {
     return loading?.call(this);
@@ -343,6 +378,7 @@ class _$ImportLoadingImpl
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
     TResult Function(JustImported value)? justImported,
+    TResult Function(ImportSummary value)? importSummary,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) {
@@ -444,6 +480,9 @@ class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
     required TResult Function() justImported,
+    required TResult Function(List<TotemRow> totems, List<WomRow> woms,
+            List<Aim> aims, String otc, String device, String password)
+        importSummary,
     required TResult Function(int count) completed,
   }) {
     return error(ex, st);
@@ -456,6 +495,9 @@ class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
     TResult? Function()? justImported,
+    TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult? Function(int count)? completed,
   }) {
     return error?.call(ex, st);
@@ -468,6 +510,9 @@ class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
     TResult Function()? justImported,
+    TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
@@ -484,6 +529,7 @@ class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
     required TResult Function(JustImported value) justImported,
+    required TResult Function(ImportSummary value) importSummary,
     required TResult Function(ImportCompleted value) completed,
   }) {
     return error(this);
@@ -496,6 +542,7 @@ class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
     TResult? Function(JustImported value)? justImported,
+    TResult? Function(ImportSummary value)? importSummary,
     TResult? Function(ImportCompleted value)? completed,
   }) {
     return error?.call(this);
@@ -508,6 +555,7 @@ class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
     TResult Function(JustImported value)? justImported,
+    TResult Function(ImportSummary value)? importSummary,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) {
@@ -583,6 +631,9 @@ class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
     required TResult Function() justImported,
+    required TResult Function(List<TotemRow> totems, List<WomRow> woms,
+            List<Aim> aims, String otc, String device, String password)
+        importSummary,
     required TResult Function(int count) completed,
   }) {
     return justImported();
@@ -595,6 +646,9 @@ class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
     TResult? Function()? justImported,
+    TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult? Function(int count)? completed,
   }) {
     return justImported?.call();
@@ -607,6 +661,9 @@ class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
     TResult Function()? justImported,
+    TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
@@ -623,6 +680,7 @@ class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
     required TResult Function(JustImported value) justImported,
+    required TResult Function(ImportSummary value) importSummary,
     required TResult Function(ImportCompleted value) completed,
   }) {
     return justImported(this);
@@ -635,6 +693,7 @@ class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
     TResult? Function(JustImported value)? justImported,
+    TResult? Function(ImportSummary value)? importSummary,
     TResult? Function(ImportCompleted value)? completed,
   }) {
     return justImported?.call(this);
@@ -647,6 +706,7 @@ class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
     TResult Function(JustImported value)? justImported,
+    TResult Function(ImportSummary value)? importSummary,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) {
@@ -659,6 +719,283 @@ class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
 
 abstract class JustImported implements ImportState {
   const factory JustImported() = _$JustImportedImpl;
+}
+
+/// @nodoc
+abstract class _$$ImportSummaryImplCopyWith<$Res> {
+  factory _$$ImportSummaryImplCopyWith(
+          _$ImportSummaryImpl value, $Res Function(_$ImportSummaryImpl) then) =
+      __$$ImportSummaryImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {List<TotemRow> totems,
+      List<WomRow> woms,
+      List<Aim> aims,
+      String otc,
+      String device,
+      String password});
+}
+
+/// @nodoc
+class __$$ImportSummaryImplCopyWithImpl<$Res>
+    extends _$ImportStateCopyWithImpl<$Res, _$ImportSummaryImpl>
+    implements _$$ImportSummaryImplCopyWith<$Res> {
+  __$$ImportSummaryImplCopyWithImpl(
+      _$ImportSummaryImpl _value, $Res Function(_$ImportSummaryImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? totems = null,
+    Object? woms = null,
+    Object? aims = null,
+    Object? otc = null,
+    Object? device = null,
+    Object? password = null,
+  }) {
+    return _then(_$ImportSummaryImpl(
+      totems: null == totems
+          ? _value._totems
+          : totems // ignore: cast_nullable_to_non_nullable
+              as List<TotemRow>,
+      woms: null == woms
+          ? _value._woms
+          : woms // ignore: cast_nullable_to_non_nullable
+              as List<WomRow>,
+      aims: null == aims
+          ? _value._aims
+          : aims // ignore: cast_nullable_to_non_nullable
+              as List<Aim>,
+      otc: null == otc
+          ? _value.otc
+          : otc // ignore: cast_nullable_to_non_nullable
+              as String,
+      device: null == device
+          ? _value.device
+          : device // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ImportSummaryImpl
+    with DiagnosticableTreeMixin
+    implements ImportSummary {
+  const _$ImportSummaryImpl(
+      {required final List<TotemRow> totems,
+      required final List<WomRow> woms,
+      required final List<Aim> aims,
+      required this.otc,
+      required this.device,
+      required this.password})
+      : _totems = totems,
+        _woms = woms,
+        _aims = aims;
+
+  final List<TotemRow> _totems;
+  @override
+  List<TotemRow> get totems {
+    if (_totems is EqualUnmodifiableListView) return _totems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_totems);
+  }
+
+  final List<WomRow> _woms;
+  @override
+  List<WomRow> get woms {
+    if (_woms is EqualUnmodifiableListView) return _woms;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_woms);
+  }
+
+  final List<Aim> _aims;
+  @override
+  List<Aim> get aims {
+    if (_aims is EqualUnmodifiableListView) return _aims;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_aims);
+  }
+
+  @override
+  final String otc;
+  @override
+  final String device;
+  @override
+  final String password;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ImportState.importSummary(totems: $totems, woms: $woms, aims: $aims, otc: $otc, device: $device, password: $password)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ImportState.importSummary'))
+      ..add(DiagnosticsProperty('totems', totems))
+      ..add(DiagnosticsProperty('woms', woms))
+      ..add(DiagnosticsProperty('aims', aims))
+      ..add(DiagnosticsProperty('otc', otc))
+      ..add(DiagnosticsProperty('device', device))
+      ..add(DiagnosticsProperty('password', password));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImportSummaryImpl &&
+            const DeepCollectionEquality().equals(other._totems, _totems) &&
+            const DeepCollectionEquality().equals(other._woms, _woms) &&
+            const DeepCollectionEquality().equals(other._aims, _aims) &&
+            (identical(other.otc, otc) || other.otc == otc) &&
+            (identical(other.device, device) || other.device == device) &&
+            (identical(other.password, password) ||
+                other.password == password));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_totems),
+      const DeepCollectionEquality().hash(_woms),
+      const DeepCollectionEquality().hash(_aims),
+      otc,
+      device,
+      password);
+
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImportSummaryImplCopyWith<_$ImportSummaryImpl> get copyWith =>
+      __$$ImportSummaryImplCopyWithImpl<_$ImportSummaryImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(Object ex, StackTrace st) error,
+    required TResult Function() justImported,
+    required TResult Function(List<TotemRow> totems, List<WomRow> woms,
+            List<Aim> aims, String otc, String device, String password)
+        importSummary,
+    required TResult Function(int count) completed,
+  }) {
+    return importSummary(totems, woms, aims, otc, device, password);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Object ex, StackTrace st)? error,
+    TResult? Function()? justImported,
+    TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
+    TResult? Function(int count)? completed,
+  }) {
+    return importSummary?.call(totems, woms, aims, otc, device, password);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(Object ex, StackTrace st)? error,
+    TResult Function()? justImported,
+    TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
+    TResult Function(int count)? completed,
+    required TResult orElse(),
+  }) {
+    if (importSummary != null) {
+      return importSummary(totems, woms, aims, otc, device, password);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ImportInitial value) initial,
+    required TResult Function(ImportLoading value) loading,
+    required TResult Function(ImportError value) error,
+    required TResult Function(JustImported value) justImported,
+    required TResult Function(ImportSummary value) importSummary,
+    required TResult Function(ImportCompleted value) completed,
+  }) {
+    return importSummary(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImportInitial value)? initial,
+    TResult? Function(ImportLoading value)? loading,
+    TResult? Function(ImportError value)? error,
+    TResult? Function(JustImported value)? justImported,
+    TResult? Function(ImportSummary value)? importSummary,
+    TResult? Function(ImportCompleted value)? completed,
+  }) {
+    return importSummary?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImportInitial value)? initial,
+    TResult Function(ImportLoading value)? loading,
+    TResult Function(ImportError value)? error,
+    TResult Function(JustImported value)? justImported,
+    TResult Function(ImportSummary value)? importSummary,
+    TResult Function(ImportCompleted value)? completed,
+    required TResult orElse(),
+  }) {
+    if (importSummary != null) {
+      return importSummary(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ImportSummary implements ImportState {
+  const factory ImportSummary(
+      {required final List<TotemRow> totems,
+      required final List<WomRow> woms,
+      required final List<Aim> aims,
+      required final String otc,
+      required final String device,
+      required final String password}) = _$ImportSummaryImpl;
+
+  List<TotemRow> get totems;
+  List<WomRow> get woms;
+  List<Aim> get aims;
+  String get otc;
+  String get device;
+  String get password;
+
+  /// Create a copy of ImportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ImportSummaryImplCopyWith<_$ImportSummaryImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -744,6 +1081,9 @@ class _$ImportCompletedImpl
     required TResult Function() loading,
     required TResult Function(Object ex, StackTrace st) error,
     required TResult Function() justImported,
+    required TResult Function(List<TotemRow> totems, List<WomRow> woms,
+            List<Aim> aims, String otc, String device, String password)
+        importSummary,
     required TResult Function(int count) completed,
   }) {
     return completed(count);
@@ -756,6 +1096,9 @@ class _$ImportCompletedImpl
     TResult? Function()? loading,
     TResult? Function(Object ex, StackTrace st)? error,
     TResult? Function()? justImported,
+    TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult? Function(int count)? completed,
   }) {
     return completed?.call(count);
@@ -768,6 +1111,9 @@ class _$ImportCompletedImpl
     TResult Function()? loading,
     TResult Function(Object ex, StackTrace st)? error,
     TResult Function()? justImported,
+    TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
+            String otc, String device, String password)?
+        importSummary,
     TResult Function(int count)? completed,
     required TResult orElse(),
   }) {
@@ -784,6 +1130,7 @@ class _$ImportCompletedImpl
     required TResult Function(ImportLoading value) loading,
     required TResult Function(ImportError value) error,
     required TResult Function(JustImported value) justImported,
+    required TResult Function(ImportSummary value) importSummary,
     required TResult Function(ImportCompleted value) completed,
   }) {
     return completed(this);
@@ -796,6 +1143,7 @@ class _$ImportCompletedImpl
     TResult? Function(ImportLoading value)? loading,
     TResult? Function(ImportError value)? error,
     TResult? Function(JustImported value)? justImported,
+    TResult? Function(ImportSummary value)? importSummary,
     TResult? Function(ImportCompleted value)? completed,
   }) {
     return completed?.call(this);
@@ -808,6 +1156,7 @@ class _$ImportCompletedImpl
     TResult Function(ImportLoading value)? loading,
     TResult Function(ImportError value)? error,
     TResult Function(JustImported value)? justImported,
+    TResult Function(ImportSummary value)? importSummary,
     TResult Function(ImportCompleted value)? completed,
     required TResult orElse(),
   }) {

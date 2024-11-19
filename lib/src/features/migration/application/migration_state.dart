@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/features/migration/data/migration_data.dart';
 
 part 'migration_state.freezed.dart';
@@ -8,7 +7,8 @@ part 'migration_state.freezed.dart';
 class MigrationState with _$MigrationState {
   const factory MigrationState.data({
     required String pin,
-    required List<WomRow> woms,
+    required int womsCount,
+    required int totemsCount,
   }) = MigrationStateData;
 
   const factory MigrationState.loading() = MigrationStateLoading;

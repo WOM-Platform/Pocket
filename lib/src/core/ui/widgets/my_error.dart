@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wom_pocket/src/core/constants.dart';
@@ -22,7 +23,7 @@ class MyErrorWidget extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Si è verificato un errore!',
+            'somethings_wrong'.tr(),
             style: TextStyle(color: Colors.white, fontSize: 30),
           ),
           if (kDebugMode || isDev) Text(ex.toString()),
