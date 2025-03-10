@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +47,7 @@ class ImportScreen extends ConsumerWidget {
         statusBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
-        body: PageView(
+        body: PageView(physics: NeverScrollableScrollPhysics(),
           controller: ref.watch(pageControllerProvider),
           children: [
             PageOne(),
@@ -120,7 +121,11 @@ class ImportSummaryWidget extends ConsumerWidget {
   final int totemsCount;
 
   const ImportSummaryWidget({
-    required this.aims, required this.device, required this.womsCount, required this.totemsCount, Key? key,
+    required this.aims,
+    required this.device,
+    required this.womsCount,
+    required this.totemsCount,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -301,7 +306,7 @@ class PageThree extends ConsumerWidget {
             totemsCount: totems.length,
             device: device,
           ),
-          completed: (womCount) {
+          completed: (womCount, error, stackTrace) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -322,6 +327,15 @@ class PageThree extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  if (error != null) ...[
+                    Text(
+                      'Durante l\'importazione dei totem si è verificato un errore!',
+                    ),
+                    if (kDebugMode)
+                      Text(
+                        error.toString() + '\n' + stackTrace.toString(),
+                      ),
+                  ]
                 ],
               ),
             );

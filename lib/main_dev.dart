@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -38,8 +37,6 @@ Future<void> main() async {
   logger.i(myTransactions.length);
   logger.i(myTransactions[0]);*/
 
-  // Firebase
-  await Firebase.initializeApp();
 
   // Hive
   await Hive.initFlutter();

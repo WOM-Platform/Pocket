@@ -24,5 +24,9 @@ class ImportState with _$ImportState {
     required String password,
   }) = ImportSummary;
 
-  const factory ImportState.completed(int count) = ImportCompleted;
+  const factory ImportState.completed(
+    int count, {
+    Object? ex,
+    StackTrace? st,
+  }) = ImportCompleted;
 }

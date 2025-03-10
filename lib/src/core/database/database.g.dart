@@ -1423,10 +1423,20 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
   late final GeneratedColumn<String> phoneNumber = GeneratedColumn<String>(
       'phoneNumber', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _imageMeta = const VerificationMeta('image');
+  @override
+  late final GeneratedColumn<String> image = GeneratedColumn<String>(
+      'image', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _urlMeta = const VerificationMeta('url');
   @override
   late final GeneratedColumn<String> url = GeneratedColumn<String>(
       'url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+      'notes', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _latitudeMeta =
       const VerificationMeta('latitude');
@@ -1461,7 +1471,9 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
         totemName,
         email,
         phoneNumber,
+        image,
         url,
+        notes,
         latitude,
         longitude,
         timestamp
@@ -1543,9 +1555,17 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
           phoneNumber.isAcceptableOrUnknown(
               data['phoneNumber']!, _phoneNumberMeta));
     }
+    if (data.containsKey('image')) {
+      context.handle(
+          _imageMeta, image.isAcceptableOrUnknown(data['image']!, _imageMeta));
+    }
     if (data.containsKey('url')) {
       context.handle(
           _urlMeta, url.isAcceptableOrUnknown(data['url']!, _urlMeta));
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
     }
     if (data.containsKey('latitude')) {
       context.handle(_latitudeMeta,
@@ -1596,8 +1616,12 @@ class $TotemsTable extends Totems with TableInfo<$TotemsTable, TotemRow> {
           .read(DriftSqlType.string, data['${effectivePrefix}email']),
       phoneNumber: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}phoneNumber']),
+      image: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}image']),
       url: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}url']),
+      notes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
       latitude: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}latitude']),
       longitude: attachedDatabase.typeMapping
@@ -1627,7 +1651,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
   final String? totemName;
   final String? email;
   final String? phoneNumber;
+  final String? image;
   final String? url;
+  final String? notes;
   final double? latitude;
   final double? longitude;
   final DateTime timestamp;
@@ -1645,7 +1671,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       this.totemName,
       this.email,
       this.phoneNumber,
+      this.image,
       this.url,
+      this.notes,
       this.latitude,
       this.longitude,
       required this.timestamp});
@@ -1681,8 +1709,14 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
     if (!nullToAbsent || phoneNumber != null) {
       map['phoneNumber'] = Variable<String>(phoneNumber);
     }
+    if (!nullToAbsent || image != null) {
+      map['image'] = Variable<String>(image);
+    }
     if (!nullToAbsent || url != null) {
       map['url'] = Variable<String>(url);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
     }
     if (!nullToAbsent || latitude != null) {
       map['latitude'] = Variable<double>(latitude);
@@ -1723,7 +1757,11 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       phoneNumber: phoneNumber == null && nullToAbsent
           ? const Value.absent()
           : Value(phoneNumber),
+      image:
+          image == null && nullToAbsent ? const Value.absent() : Value(image),
       url: url == null && nullToAbsent ? const Value.absent() : Value(url),
+      notes:
+          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
       latitude: latitude == null && nullToAbsent
           ? const Value.absent()
           : Value(latitude),
@@ -1751,7 +1789,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       totemName: serializer.fromJson<String?>(json['totemName']),
       email: serializer.fromJson<String?>(json['email']),
       phoneNumber: serializer.fromJson<String?>(json['phoneNumber']),
+      image: serializer.fromJson<String?>(json['image']),
       url: serializer.fromJson<String?>(json['url']),
+      notes: serializer.fromJson<String?>(json['notes']),
       latitude: serializer.fromJson<double?>(json['latitude']),
       longitude: serializer.fromJson<double?>(json['longitude']),
       timestamp: serializer.fromJson<DateTime>(json['timestamp']),
@@ -1774,7 +1814,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       'totemName': serializer.toJson<String?>(totemName),
       'email': serializer.toJson<String?>(email),
       'phoneNumber': serializer.toJson<String?>(phoneNumber),
+      'image': serializer.toJson<String?>(image),
       'url': serializer.toJson<String?>(url),
+      'notes': serializer.toJson<String?>(notes),
       'latitude': serializer.toJson<double?>(latitude),
       'longitude': serializer.toJson<double?>(longitude),
       'timestamp': serializer.toJson<DateTime>(timestamp),
@@ -1795,7 +1837,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
           Value<String?> totemName = const Value.absent(),
           Value<String?> email = const Value.absent(),
           Value<String?> phoneNumber = const Value.absent(),
+          Value<String?> image = const Value.absent(),
           Value<String?> url = const Value.absent(),
+          Value<String?> notes = const Value.absent(),
           Value<double?> latitude = const Value.absent(),
           Value<double?> longitude = const Value.absent(),
           DateTime? timestamp}) =>
@@ -1814,7 +1858,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
         totemName: totemName.present ? totemName.value : this.totemName,
         email: email.present ? email.value : this.email,
         phoneNumber: phoneNumber.present ? phoneNumber.value : this.phoneNumber,
+        image: image.present ? image.value : this.image,
         url: url.present ? url.value : this.url,
+        notes: notes.present ? notes.value : this.notes,
         latitude: latitude.present ? latitude.value : this.latitude,
         longitude: longitude.present ? longitude.value : this.longitude,
         timestamp: timestamp ?? this.timestamp,
@@ -1839,7 +1885,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       email: data.email.present ? data.email.value : this.email,
       phoneNumber:
           data.phoneNumber.present ? data.phoneNumber.value : this.phoneNumber,
+      image: data.image.present ? data.image.value : this.image,
       url: data.url.present ? data.url.value : this.url,
+      notes: data.notes.present ? data.notes.value : this.notes,
       latitude: data.latitude.present ? data.latitude.value : this.latitude,
       longitude: data.longitude.present ? data.longitude.value : this.longitude,
       timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
@@ -1862,7 +1910,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
           ..write('totemName: $totemName, ')
           ..write('email: $email, ')
           ..write('phoneNumber: $phoneNumber, ')
+          ..write('image: $image, ')
           ..write('url: $url, ')
+          ..write('notes: $notes, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
           ..write('timestamp: $timestamp')
@@ -1885,7 +1935,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
       totemName,
       email,
       phoneNumber,
+      image,
       url,
+      notes,
       latitude,
       longitude,
       timestamp);
@@ -1906,7 +1958,9 @@ class TotemRow extends DataClass implements Insertable<TotemRow> {
           other.totemName == this.totemName &&
           other.email == this.email &&
           other.phoneNumber == this.phoneNumber &&
+          other.image == this.image &&
           other.url == this.url &&
+          other.notes == this.notes &&
           other.latitude == this.latitude &&
           other.longitude == this.longitude &&
           other.timestamp == this.timestamp);
@@ -1926,7 +1980,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
   final Value<String?> totemName;
   final Value<String?> email;
   final Value<String?> phoneNumber;
+  final Value<String?> image;
   final Value<String?> url;
+  final Value<String?> notes;
   final Value<double?> latitude;
   final Value<double?> longitude;
   final Value<DateTime> timestamp;
@@ -1944,7 +2000,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     this.totemName = const Value.absent(),
     this.email = const Value.absent(),
     this.phoneNumber = const Value.absent(),
+    this.image = const Value.absent(),
     this.url = const Value.absent(),
+    this.notes = const Value.absent(),
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
     this.timestamp = const Value.absent(),
@@ -1963,7 +2021,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     this.totemName = const Value.absent(),
     this.email = const Value.absent(),
     this.phoneNumber = const Value.absent(),
+    this.image = const Value.absent(),
     this.url = const Value.absent(),
+    this.notes = const Value.absent(),
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
     required DateTime timestamp,
@@ -1986,7 +2046,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     Expression<String>? totemName,
     Expression<String>? email,
     Expression<String>? phoneNumber,
+    Expression<String>? image,
     Expression<String>? url,
+    Expression<String>? notes,
     Expression<double>? latitude,
     Expression<double>? longitude,
     Expression<DateTime>? timestamp,
@@ -2005,7 +2067,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
       if (totemName != null) 'totemName': totemName,
       if (email != null) 'email': email,
       if (phoneNumber != null) 'phoneNumber': phoneNumber,
+      if (image != null) 'image': image,
       if (url != null) 'url': url,
+      if (notes != null) 'notes': notes,
       if (latitude != null) 'latitude': latitude,
       if (longitude != null) 'longitude': longitude,
       if (timestamp != null) 'timestamp': timestamp,
@@ -2026,7 +2090,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
       Value<String?>? totemName,
       Value<String?>? email,
       Value<String?>? phoneNumber,
+      Value<String?>? image,
       Value<String?>? url,
+      Value<String?>? notes,
       Value<double?>? latitude,
       Value<double?>? longitude,
       Value<DateTime>? timestamp}) {
@@ -2044,7 +2110,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
       totemName: totemName ?? this.totemName,
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      image: image ?? this.image,
       url: url ?? this.url,
+      notes: notes ?? this.notes,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       timestamp: timestamp ?? this.timestamp,
@@ -2093,8 +2161,14 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
     if (phoneNumber.present) {
       map['phoneNumber'] = Variable<String>(phoneNumber.value);
     }
+    if (image.present) {
+      map['image'] = Variable<String>(image.value);
+    }
     if (url.present) {
       map['url'] = Variable<String>(url.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
     }
     if (latitude.present) {
       map['latitude'] = Variable<double>(latitude.value);
@@ -2124,7 +2198,9 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
           ..write('totemName: $totemName, ')
           ..write('email: $email, ')
           ..write('phoneNumber: $phoneNumber, ')
+          ..write('image: $image, ')
           ..write('url: $url, ')
+          ..write('notes: $notes, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
           ..write('timestamp: $timestamp')
@@ -2821,7 +2897,9 @@ typedef $$TotemsTableCreateCompanionBuilder = TotemsCompanion Function({
   Value<String?> totemName,
   Value<String?> email,
   Value<String?> phoneNumber,
+  Value<String?> image,
   Value<String?> url,
+  Value<String?> notes,
   Value<double?> latitude,
   Value<double?> longitude,
   required DateTime timestamp,
@@ -2840,7 +2918,9 @@ typedef $$TotemsTableUpdateCompanionBuilder = TotemsCompanion Function({
   Value<String?> totemName,
   Value<String?> email,
   Value<String?> phoneNumber,
+  Value<String?> image,
   Value<String?> url,
+  Value<String?> notes,
   Value<double?> latitude,
   Value<double?> longitude,
   Value<DateTime> timestamp,
@@ -2893,8 +2973,14 @@ class $$TotemsTableFilterComposer extends Composer<_$MyDatabase, $TotemsTable> {
   ColumnFilters<String> get phoneNumber => $composableBuilder(
       column: $table.phoneNumber, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<String> get image => $composableBuilder(
+      column: $table.image, builder: (column) => ColumnFilters(column));
+
   ColumnFilters<String> get url => $composableBuilder(
       column: $table.url, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<double> get latitude => $composableBuilder(
       column: $table.latitude, builder: (column) => ColumnFilters(column));
@@ -2955,8 +3041,14 @@ class $$TotemsTableOrderingComposer
   ColumnOrderings<String> get phoneNumber => $composableBuilder(
       column: $table.phoneNumber, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get image => $composableBuilder(
+      column: $table.image, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get url => $composableBuilder(
       column: $table.url, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<double> get latitude => $composableBuilder(
       column: $table.latitude, builder: (column) => ColumnOrderings(column));
@@ -3016,8 +3108,14 @@ class $$TotemsTableAnnotationComposer
   GeneratedColumn<String> get phoneNumber => $composableBuilder(
       column: $table.phoneNumber, builder: (column) => column);
 
+  GeneratedColumn<String> get image =>
+      $composableBuilder(column: $table.image, builder: (column) => column);
+
   GeneratedColumn<String> get url =>
       $composableBuilder(column: $table.url, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
 
   GeneratedColumn<double> get latitude =>
       $composableBuilder(column: $table.latitude, builder: (column) => column);
@@ -3065,7 +3163,9 @@ class $$TotemsTableTableManager extends RootTableManager<
             Value<String?> totemName = const Value.absent(),
             Value<String?> email = const Value.absent(),
             Value<String?> phoneNumber = const Value.absent(),
+            Value<String?> image = const Value.absent(),
             Value<String?> url = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
             Value<double?> latitude = const Value.absent(),
             Value<double?> longitude = const Value.absent(),
             Value<DateTime> timestamp = const Value.absent(),
@@ -3084,7 +3184,9 @@ class $$TotemsTableTableManager extends RootTableManager<
             totemName: totemName,
             email: email,
             phoneNumber: phoneNumber,
+            image: image,
             url: url,
+            notes: notes,
             latitude: latitude,
             longitude: longitude,
             timestamp: timestamp,
@@ -3103,7 +3205,9 @@ class $$TotemsTableTableManager extends RootTableManager<
             Value<String?> totemName = const Value.absent(),
             Value<String?> email = const Value.absent(),
             Value<String?> phoneNumber = const Value.absent(),
+            Value<String?> image = const Value.absent(),
             Value<String?> url = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
             Value<double?> latitude = const Value.absent(),
             Value<double?> longitude = const Value.absent(),
             required DateTime timestamp,
@@ -3122,7 +3226,9 @@ class $$TotemsTableTableManager extends RootTableManager<
             totemName: totemName,
             email: email,
             phoneNumber: phoneNumber,
+            image: image,
             url: url,
+            notes: notes,
             latitude: latitude,
             longitude: longitude,
             timestamp: timestamp,

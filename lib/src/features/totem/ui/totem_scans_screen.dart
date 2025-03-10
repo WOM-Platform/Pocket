@@ -1,27 +1,107 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:contacts_service/contacts_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/features/totem/application/totem_scans_notifier.dart';
-import 'package:wom_pocket/src/core/models/deep_link_model.dart';
-import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
-import 'package:wom_pocket/src/features/transaction/ui/transaction_screen.dart';
 import 'package:wom_pocket/src/core/utils/date_utils.dart';
-import 'package:wom_pocket/src/core/utils/utils.dart';
+import 'package:wom_pocket/src/features/totem/ui/totem_details.dart';
 
 BitmapDescriptor? standardPin;
 
 Future<BitmapDescriptor> getPosPin() async {
-  return await BitmapDescriptor.fromAssetImage(
-    ImageConfiguration(devicePixelRatio: Platform.isIOS ? 1 : null),
+  return await BitmapDescriptor.asset(
+    ImageConfiguration(devicePixelRatio: 1),
     'assets/images/wom_pos_pin.png',
   );
+}
+
+class SelectPictureModal extends StatelessWidget {
+  final Function()? onRemove;
+
+  const SelectPictureModal({this.onRemove, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'totem_scan_screen.select_image_source'.tr(),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 24),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).pop(false);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 4,
+                vertical: 16.0,
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.camera),
+                  const SizedBox(width: 16),
+                  Text('Camera'),
+                ],
+              ),
+            ),
+          ),
+          // const SizedBox(height: 16),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 4,
+                vertical: 16.0,
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.photo),
+                  const SizedBox(width: 16),
+                  Text('Galleria'),
+                ],
+              ),
+            ),
+          ),
+          if (onRemove != null)
+            InkWell(
+              onTap: () {
+                onRemove?.call();
+                Navigator.of(context).pop();
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 4,
+                  vertical: 16.0,
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.clear, color: Colors.red,),
+                    const SizedBox(width: 16),
+                    Text('Rimuvoi l\'immagine corrente'),
+                  ],
+                ),
+              ),
+            ),
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
 }
 
 class TotemScansScreen extends ConsumerWidget {
@@ -85,33 +165,49 @@ class _Header extends StatelessWidget {
 class _Item extends StatelessWidget {
   final TotemRow t;
 
-  const _Item({required this.t});
+  const _Item({super.key, required this.t});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: t.latitude != null && t.longitude != null
-          ? () {
-              final latLng = LatLng(t.latitude!, t.longitude!);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => _TotemMapScreen(
-                    latLng: latLng,
-                    totemName: t.totemName ?? 'Totem',
-                    eventName: t.eventName ?? 'Evento',
-                    sessionName: t.sessionName ?? 'Sessione',
-                    timestamp: t.timestamp,
-                    womLink: t.womLink,
-                    womPin: t.womPin,
-                    providerName: t.providerName ?? '',
-                    email: t.email,
-                    url: t.url,
-                    phoneNumber: t.phoneNumber,
-                  ),
+      leading: CircleAvatar(
+        backgroundColor: Colors.grey[200],
+        backgroundImage:
+            t.image != null ? MemoryImage(base64.decode(t.image!)) : null,
+        child: t.image != null
+            ? null
+            : Text(
+                t.totemName?[0] ?? '',
+                style: TextStyle(
+                  color: Colors.black,
                 ),
-              );
-            }
-          : null,
+              ),
+      ),
+      onTap: () {
+        final latLng = t.latitude != null && t.longitude != null
+            ? LatLng(t.latitude!, t.longitude!)
+            : null;
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => TotemMapScreen(
+              latLng: latLng,
+              totemId: t.totemId,
+              totemName: t.totemName ?? 'Totem',
+              eventName: t.eventName ?? 'Evento',
+              sessionName: t.sessionName,
+              timestamp: t.timestamp,
+              womLink: t.womLink,
+              womPin: t.womPin,
+              providerName: t.providerName ?? '',
+              email: t.email,
+              url: t.url,
+              phoneNumber: t.phoneNumber,
+              base64Image: t.image,
+              notes: t.notes,
+            ),
+          ),
+        );
+      },
       title: Text(t.totemName ?? 'Totem'),
       subtitle: Text(
         t.timestamp.format(context.locale.languageCode),
@@ -119,273 +215,118 @@ class _Item extends StatelessWidget {
       trailing: t.womPin != null && t.womLink != null
           ? SvgPicture.asset(
               'assets/images/wom_logo.svg',
-              width: 40,colorFilter: ColorFilter.mode(
-        Theme.of(context).primaryColor,
-        BlendMode.srcIn,
-      ),
+              width: 40,
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).primaryColor,
+                BlendMode.srcIn,
+              ),
             )
           : null,
     );
   }
 }
 
-class _TotemMapScreen extends StatefulWidget {
-  final String eventName;
-  final String sessionName;
-  final DateTime timestamp;
-  final String totemName;
-  final String providerName;
-  final LatLng latLng;
-  final String? womLink;
-  final String? womPin;
-  final String? email;
-  final String? phoneNumber;
-  final String? url;
+class InlineEditableText extends StatefulWidget {
+  const InlineEditableText({
+    required this.text,
+    required this.onSubmitted,
+    this.hint,
+    this.style,
+    this.emptyStyle,
+    Key? key,
+  }) : super(key: key);
 
-  const _TotemMapScreen({
-    required this.latLng,
-    required this.totemName,
-    required this.eventName,
-    required this.sessionName,
-    required this.timestamp,
-    required this.providerName,
-    this.womLink,
-    this.womPin,
-    this.email,
-    this.phoneNumber,
-    this.url,
-  });
+  final String? hint;
+  final String? text;
+  final TextStyle? style;
+  final TextStyle? emptyStyle;
+  final Function(String) onSubmitted;
 
   @override
-  State<_TotemMapScreen> createState() => _TotemMapScreenState();
+  State<InlineEditableText> createState() => _InlineEditableTextState();
 }
 
-class _TotemMapScreenState extends State<_TotemMapScreen> {
+class _InlineEditableTextState extends State<InlineEditableText> {
+  var _isEditing = false;
+  final _focusNode = FocusNode();
+  late var _text = widget.text;
+  late TextEditingController _controller;
+  var showEmpty = false;
+
   @override
   void initState() {
+    showEmpty = widget.text == null && (_text == null || _text!.isEmpty);
+    _controller = TextEditingController(text: _text ?? widget.hint);
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus) {
+        setState(() => _isEditing = false);
+      } else {
+        _controller.selection = TextSelection(
+          baseOffset: 0,
+          extentOffset: _controller.value.text.runes.length,
+        );
+      }
+    });
     super.initState();
+  }
 
-    if (standardPin == null) {
-      getPosPin().then((value) {
-        standardPin = value;
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          setState(() {});
-        });
-      });
-    }
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: SecondLevelAppBar(
-        title: widget.totemName,
-        // actions: [
-        //   if (widget.email != null)
-        //     IconButton(
-        //         icon: Icon(Icons.email),
-        //         color: Colors.white,
-        //         onPressed: () async {
-        //           final Uri emailLaunchUri = Uri(
-        //             scheme: 'mailto',
-        //             path: widget.email!,
-        //           );
-        //           Utils.launchUri(emailLaunchUri);
-        //         }),
-        //   if (widget.phoneNumber != null)
-        //     IconButton(
-        //       icon: Icon(Icons.contact_page),
-        //       color: Colors.white,
-        //       onPressed: () async {
-        //         final Uri emailLaunchUri = Uri(
-        //           scheme: 'tel',
-        //           path: widget.phoneNumber!,
-        //         );
-        //
-        //         Utils.launchUri(emailLaunchUri);
-        //       },
-        //     ),
-        //   if (widget.url != null)
-        //     IconButton(
-        //         icon: Icon(Icons.open_in_browser),
-        //         color: Colors.white,
-        //         onPressed: () async {
-        //           Utils.launchURL(widget.url!);
-        //         }),
-        // ],
-      ),
-      body: Stack(
-        children: [
-          GoogleMap(
-            myLocationButtonEnabled: false,
-            zoomControlsEnabled: false,
-            initialCameraPosition:
-                CameraPosition(target: widget.latLng, zoom: 14),
-            markers: {
-              if (standardPin != null)
-                Marker(
-                  markerId: MarkerId('location'),
-                  position: widget.latLng,
-                  icon: standardPin!,
-                ),
-            },
+    return GestureDetector(
+      onDoubleTap: () => setState(() {
+        _isEditing = !_isEditing;
+        _focusNode.requestFocus();
+      }),
+      child: TextField(
+        minLines: 1,
+        maxLines: 4,
+        style: showEmpty ? widget.emptyStyle : widget.style,
+        focusNode: _focusNode,
+        controller: _controller,
+        textInputAction: TextInputAction.done,
+        onChanged: (changed) {
+          if (changed.isEmpty && !showEmpty) {
+            setState(() {
+              showEmpty = true;
+            });
+          } else if (changed.isNotEmpty && showEmpty) {
+            setState(() {
+              showEmpty = false;
+            });
+          }
+        },
+        onSubmitted: (changed) {
+          widget.onSubmitted(changed);
+          if (changed.isEmpty) {
+            _controller.text = widget.hint ?? '';
+          }
+          setState(() {
+            _text = changed.isEmpty ? null : changed;
+            _isEditing = false;
+          });
+        },
+        showCursor: _isEditing,
+        cursorColor: Colors.black,
+        enableInteractiveSelection: _isEditing,
+        decoration: InputDecoration(
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 0,
+            vertical: 4.4,
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (widget.womPin != null && widget.womLink != null) ...[
-                    Row(
-                      children: [
-                        Spacer(),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).secondaryHeaderColor,
-                          ),
-                          onPressed: () {
-                            final deepLink = DeepLinkModel.fromUri(
-                              Uri.parse(widget.womLink!),
-                            );
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<bool>(
-                                builder: (context) => TransactionScreen(
-                                  params: TransactionNotifierParams(
-                                    deepLink,
-                                    widget.womPin!,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                          child: SvgPicture.asset(
-                            'assets/images/wom_logo.svg',
-                            width: 40,
-                            colorFilter: ColorFilter.mode(
-                              Theme.of(context).primaryColor,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    // const SizedBox(height: 16),
-                  ],
-                  Card(
-                    margin: EdgeInsets.zero,
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (widget.providerName.isNotEmpty)
-                            Text(
-                              widget.providerName,
-                              style: Theme.of(context).textTheme.titleSmall,
-                            ),
-                          Text(
-                            widget.eventName,
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          Text(widget.sessionName),
-                          Text(
-                            widget.timestamp
-                                .format(context.locale.languageCode),
-                          ),
-                          if ((widget.email != null &&
-                                  widget.email!.isNotEmpty) ||
-                              (widget.phoneNumber != null &&
-                                  widget.phoneNumber!.isNotEmpty) ||
-                              (widget.url != null &&
-                                  widget.url!.isNotEmpty)) ...[
-                            Divider(),
-                            Text(
-                              'totem_scan_screen.contact_info'.tr(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
-                            ),
-                            if (widget.email != null &&
-                                widget.email!.isNotEmpty) ...[
-                              const SizedBox(height: 8),
-                              InkWell(
-                                onTap: () {
-                                  final Uri emailLaunchUri = Uri(
-                                    scheme: 'mailto',
-                                    path: widget.email!,
-                                  );
-                                  Utils.launchUri(emailLaunchUri);
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.email),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      widget.email!,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                            if (widget.phoneNumber != null &&
-                                widget.phoneNumber!.isNotEmpty) ...[
-                              const SizedBox(height: 8),
-                              InkWell(
-                                onTap: () {
-                                  final Uri emailLaunchUri = Uri(
-                                    scheme: 'tel',
-                                    path: widget.phoneNumber!,
-                                  );
-
-                                  Utils.launchUri(emailLaunchUri);
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.phone),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      widget.phoneNumber!,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                            if (widget.url != null &&
-                                widget.url!.isNotEmpty) ...[
-                              const SizedBox(height: 8),
-                              InkWell(
-                                onTap: () {
-                                  Utils.launchURL(widget.url!);
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.open_in_browser),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      widget.url!,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ],
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          border: _isEditing
+              ? const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(0)),
+                )
+              : InputBorder.none,
+        ),
       ),
     );
   }

@@ -25,7 +25,7 @@ mixin _$ImportState {
     required TResult Function(List<TotemRow> totems, List<WomRow> woms,
             List<Aim> aims, String otc, String device, String password)
         importSummary,
-    required TResult Function(int count) completed,
+    required TResult Function(int count, Object? ex, StackTrace? st) completed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,7 +37,7 @@ mixin _$ImportState {
     TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult? Function(int count)? completed,
+    TResult? Function(int count, Object? ex, StackTrace? st)? completed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -49,7 +49,7 @@ mixin _$ImportState {
     TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult Function(int count)? completed,
+    TResult Function(int count, Object? ex, StackTrace? st)? completed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -163,7 +163,7 @@ class _$ImportInitialImpl
     required TResult Function(List<TotemRow> totems, List<WomRow> woms,
             List<Aim> aims, String otc, String device, String password)
         importSummary,
-    required TResult Function(int count) completed,
+    required TResult Function(int count, Object? ex, StackTrace? st) completed,
   }) {
     return initial();
   }
@@ -178,7 +178,7 @@ class _$ImportInitialImpl
     TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult? Function(int count)? completed,
+    TResult? Function(int count, Object? ex, StackTrace? st)? completed,
   }) {
     return initial?.call();
   }
@@ -193,7 +193,7 @@ class _$ImportInitialImpl
     TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult Function(int count)? completed,
+    TResult Function(int count, Object? ex, StackTrace? st)? completed,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -306,7 +306,7 @@ class _$ImportLoadingImpl
     required TResult Function(List<TotemRow> totems, List<WomRow> woms,
             List<Aim> aims, String otc, String device, String password)
         importSummary,
-    required TResult Function(int count) completed,
+    required TResult Function(int count, Object? ex, StackTrace? st) completed,
   }) {
     return loading();
   }
@@ -321,7 +321,7 @@ class _$ImportLoadingImpl
     TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult? Function(int count)? completed,
+    TResult? Function(int count, Object? ex, StackTrace? st)? completed,
   }) {
     return loading?.call();
   }
@@ -336,7 +336,7 @@ class _$ImportLoadingImpl
     TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult Function(int count)? completed,
+    TResult Function(int count, Object? ex, StackTrace? st)? completed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -483,7 +483,7 @@ class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
     required TResult Function(List<TotemRow> totems, List<WomRow> woms,
             List<Aim> aims, String otc, String device, String password)
         importSummary,
-    required TResult Function(int count) completed,
+    required TResult Function(int count, Object? ex, StackTrace? st) completed,
   }) {
     return error(ex, st);
   }
@@ -498,7 +498,7 @@ class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
     TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult? Function(int count)? completed,
+    TResult? Function(int count, Object? ex, StackTrace? st)? completed,
   }) {
     return error?.call(ex, st);
   }
@@ -513,7 +513,7 @@ class _$ImportErrorImpl with DiagnosticableTreeMixin implements ImportError {
     TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult Function(int count)? completed,
+    TResult Function(int count, Object? ex, StackTrace? st)? completed,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -634,7 +634,7 @@ class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
     required TResult Function(List<TotemRow> totems, List<WomRow> woms,
             List<Aim> aims, String otc, String device, String password)
         importSummary,
-    required TResult Function(int count) completed,
+    required TResult Function(int count, Object? ex, StackTrace? st) completed,
   }) {
     return justImported();
   }
@@ -649,7 +649,7 @@ class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
     TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult? Function(int count)? completed,
+    TResult? Function(int count, Object? ex, StackTrace? st)? completed,
   }) {
     return justImported?.call();
   }
@@ -664,7 +664,7 @@ class _$JustImportedImpl with DiagnosticableTreeMixin implements JustImported {
     TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult Function(int count)? completed,
+    TResult Function(int count, Object? ex, StackTrace? st)? completed,
     required TResult orElse(),
   }) {
     if (justImported != null) {
@@ -892,7 +892,7 @@ class _$ImportSummaryImpl
     required TResult Function(List<TotemRow> totems, List<WomRow> woms,
             List<Aim> aims, String otc, String device, String password)
         importSummary,
-    required TResult Function(int count) completed,
+    required TResult Function(int count, Object? ex, StackTrace? st) completed,
   }) {
     return importSummary(totems, woms, aims, otc, device, password);
   }
@@ -907,7 +907,7 @@ class _$ImportSummaryImpl
     TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult? Function(int count)? completed,
+    TResult? Function(int count, Object? ex, StackTrace? st)? completed,
   }) {
     return importSummary?.call(totems, woms, aims, otc, device, password);
   }
@@ -922,7 +922,7 @@ class _$ImportSummaryImpl
     TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult Function(int count)? completed,
+    TResult Function(int count, Object? ex, StackTrace? st)? completed,
     required TResult orElse(),
   }) {
     if (importSummary != null) {
@@ -1004,7 +1004,7 @@ abstract class _$$ImportCompletedImplCopyWith<$Res> {
           $Res Function(_$ImportCompletedImpl) then) =
       __$$ImportCompletedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int count});
+  $Res call({int count, Object? ex, StackTrace? st});
 }
 
 /// @nodoc
@@ -1021,12 +1021,19 @@ class __$$ImportCompletedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? count = null,
+    Object? ex = freezed,
+    Object? st = freezed,
   }) {
     return _then(_$ImportCompletedImpl(
       null == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
+      ex: freezed == ex ? _value.ex : ex,
+      st: freezed == st
+          ? _value.st
+          : st // ignore: cast_nullable_to_non_nullable
+              as StackTrace?,
     ));
   }
 }
@@ -1036,14 +1043,18 @@ class __$$ImportCompletedImplCopyWithImpl<$Res>
 class _$ImportCompletedImpl
     with DiagnosticableTreeMixin
     implements ImportCompleted {
-  const _$ImportCompletedImpl(this.count);
+  const _$ImportCompletedImpl(this.count, {this.ex, this.st});
 
   @override
   final int count;
+  @override
+  final Object? ex;
+  @override
+  final StackTrace? st;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ImportState.completed(count: $count)';
+    return 'ImportState.completed(count: $count, ex: $ex, st: $st)';
   }
 
   @override
@@ -1051,7 +1062,9 @@ class _$ImportCompletedImpl
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'ImportState.completed'))
-      ..add(DiagnosticsProperty('count', count));
+      ..add(DiagnosticsProperty('count', count))
+      ..add(DiagnosticsProperty('ex', ex))
+      ..add(DiagnosticsProperty('st', st));
   }
 
   @override
@@ -1059,11 +1072,14 @@ class _$ImportCompletedImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ImportCompletedImpl &&
-            (identical(other.count, count) || other.count == count));
+            (identical(other.count, count) || other.count == count) &&
+            const DeepCollectionEquality().equals(other.ex, ex) &&
+            (identical(other.st, st) || other.st == st));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, count);
+  int get hashCode => Object.hash(
+      runtimeType, count, const DeepCollectionEquality().hash(ex), st);
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.
@@ -1084,9 +1100,9 @@ class _$ImportCompletedImpl
     required TResult Function(List<TotemRow> totems, List<WomRow> woms,
             List<Aim> aims, String otc, String device, String password)
         importSummary,
-    required TResult Function(int count) completed,
+    required TResult Function(int count, Object? ex, StackTrace? st) completed,
   }) {
-    return completed(count);
+    return completed(count, ex, st);
   }
 
   @override
@@ -1099,9 +1115,9 @@ class _$ImportCompletedImpl
     TResult? Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult? Function(int count)? completed,
+    TResult? Function(int count, Object? ex, StackTrace? st)? completed,
   }) {
-    return completed?.call(count);
+    return completed?.call(count, ex, st);
   }
 
   @override
@@ -1114,11 +1130,11 @@ class _$ImportCompletedImpl
     TResult Function(List<TotemRow> totems, List<WomRow> woms, List<Aim> aims,
             String otc, String device, String password)?
         importSummary,
-    TResult Function(int count)? completed,
+    TResult Function(int count, Object? ex, StackTrace? st)? completed,
     required TResult orElse(),
   }) {
     if (completed != null) {
-      return completed(count);
+      return completed(count, ex, st);
     }
     return orElse();
   }
@@ -1168,9 +1184,12 @@ class _$ImportCompletedImpl
 }
 
 abstract class ImportCompleted implements ImportState {
-  const factory ImportCompleted(final int count) = _$ImportCompletedImpl;
+  const factory ImportCompleted(final int count,
+      {final Object? ex, final StackTrace? st}) = _$ImportCompletedImpl;
 
   int get count;
+  Object? get ex;
+  StackTrace? get st;
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.

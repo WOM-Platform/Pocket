@@ -273,7 +273,17 @@
   },
   "totem_scan_screen": {
     "no_scan": "Non hai scansionato ancora nessun Totem!",
-    "contact_info": "Info di contatto"
+    "contact_info": "Info di contatto",
+    "provider": "Organizzatore",
+    "event": "Evento",
+    "phone": "Telefono",
+    "website": "Sito web",
+    "notes": "Note",
+    "tap_here_to_change": "Clicca qui per inserire una nota",
+    "select_image_source": "Seleziona la sorgente della tua immagine"
+  },
+  "crop_screen": {
+    "save": "Salva"
   },
   "offers_screen": {
     "online_offers": "Offerte online"

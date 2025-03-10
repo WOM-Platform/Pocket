@@ -48,6 +48,7 @@ class MigrationScreen extends ConsumerWidget {
     ref.listen(migrationNotifierProvider, (previous, next) {});
     return Scaffold(
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: ref.watch(pageControllerProvider),
         children: [
           PageOne(),
@@ -228,7 +229,7 @@ class SummaryPage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: migrationState.when(
-        data: (pin, womsCount,totemsCount) {
+        data: (pin, womsCount, totemsCount) {
           return SafeArea(
             child: ListView(
               padding: const EdgeInsets.all(16),
@@ -264,7 +265,8 @@ class SummaryPage extends ConsumerWidget {
                     Text(womsCount.toString(), style: descStyle),
                   ],
                 ),
-                const SizedBox(height: 16), Row(
+                const SizedBox(height: 16),
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(

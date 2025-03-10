@@ -273,7 +273,17 @@
   },
   "totem_scan_screen": {
     "no_scan": "You haven't scanned any totems yet.",
-    "contact_info": "Contact info"
+    "contact_info": "Contact info",
+    "provider": "Provider",
+    "event": "Event",
+    "phone": "Phone",
+    "website": "Website",
+    "notes": "Notes",
+    "tap_here_to_change": "Tap here to add notes",
+    "select_image_source": "Select image source"
+  },
+  "crop_screen": {
+    "save": "Save"
   },
   "offers_screen": {
     "online_offers": "Offerte online"

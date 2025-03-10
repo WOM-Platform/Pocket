@@ -14,7 +14,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "soical.wom.pocket"
+    namespace "social.wom.pocket"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 

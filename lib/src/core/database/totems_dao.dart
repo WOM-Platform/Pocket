@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/database/tables.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
@@ -60,6 +59,38 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
     });
   }
 
+  Future<int> updateTotemWithImagePath(
+    String totemId,
+    String image,
+  ) async {
+    return (update(totems)..where((t) => t.totemId.equals(totemId))).write(
+      TotemsCompanion(
+        image: Value(image),
+      ),
+    );
+  }
+
+  Future<int> removeImage(
+      String totemId,
+      ) async {
+    return (update(totems)..where((t) => t.totemId.equals(totemId))).write(
+      TotemsCompanion(
+        image: Value(null),
+      ),
+    );
+  }
+
+  Future<int> updateNotes(
+      String totemId,
+      String notes,
+      ) async {
+    return (update(totems)..where((t) => t.totemId.equals(totemId))).write(
+      TotemsCompanion(
+        notes: Value(notes),
+      ),
+    );
+  }
+
   Future<List<TotemRow>> getScans() {
     return (select(totems)
           ..orderBy([
@@ -69,6 +100,17 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
                 ),
           ]))
         .get();
+  }
+
+  Stream<List<TotemRow>> getScansStream() {
+    return (select(totems)
+      ..orderBy([
+            (t) => OrderingTerm(
+          expression: t.timestamp,
+          mode: OrderingMode.desc,
+        ),
+      ]))
+        .watch();
   }
 
   Future<(String, int, bool)?> getLastScan(
@@ -109,9 +151,10 @@ class TotemsDao extends DatabaseAccessor<MyDatabase> with _$TotemsDaoMixin {
           ))
         .get();
     if (newRoe.length > 1) {
-      FirebaseAnalytics.instance.logEvent(
-        name: 'SessionTotemQuery multiple row returned',
-      );
+      // TODO add log event
+      // FirebaseAnalytics.instance.logEvent(
+      //   name: 'SessionTotemQuery multiple row returned',
+      // );
     }
     return (
       lastSessionId,

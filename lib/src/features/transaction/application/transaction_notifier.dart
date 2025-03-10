@@ -37,7 +37,7 @@ class TransactionNotifier extends _$TransactionNotifier {
   }
 
   Future<TransactionState> init() async {
-    if (await InternetConnectionChecker().hasConnection) {
+    if (await InternetConnectionChecker.instance.hasConnection) {
       try {
         TransactionModel transaction;
         if (_type == TransactionType.VOUCHERS) {
@@ -151,7 +151,7 @@ class TransactionNotifier extends _$TransactionNotifier {
 
   Future confirmPayment(PaymentInfoResponse infoPayment) async {
     state = AsyncLoading();
-    if (await InternetConnectionChecker().hasConnection) {
+    if (await InternetConnectionChecker.instance.hasConnection) {
       try {
         final transaction = await ref
             .read(transactionRepositoryProvider)

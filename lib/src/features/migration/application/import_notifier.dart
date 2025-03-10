@@ -129,14 +129,29 @@ class ImportNotifier extends _$ImportNotifier {
       // await ref.read(getDatabaseProvider).deleteEverything();
 
       final totemsCompanion = totems.map((w) => w.toCompanion(true)).toList();
-      await ref.read(getDatabaseProvider).importWoma(
+      await ref.read(getDatabaseProvider).importWoms(
             tx.toTransactionCompanion(),
             woms,
-            totemsCompanion,
           );
 
+      Object? object = null;
+      StackTrace? stackTrace = null;
+      try {
+        await ref.read(getDatabaseProvider).importTotems(
+              totemsCompanion,
+            );
+      } catch (ex, st) {
+        object = ex;
+        stackTrace = st;
+        logger.e('importWom', error: ex, stackTrace: st);
+      }
+
       await ref.read(pocketProvider).completeMigration(otc, password);
-      state = ImportCompleted(woms.length);
+      state = ImportCompleted(
+        woms.length,
+        ex: object,
+        st: stackTrace,
+      );
     } catch (ex, st) {
       logger.e('importWom', error: ex, stackTrace: st);
       state = ImportError(ex, st);

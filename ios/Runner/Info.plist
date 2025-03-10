@@ -76,5 +76,9 @@
       <string>tel</string>
       <string>mailto</string>
     </array>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Permesso necessario per poter selezionare una immagine dalla propria galleria</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Permesso necessario per acquisire una immagine dalla fotocamera</string>
 </dict>
 </plist>

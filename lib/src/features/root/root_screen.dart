@@ -17,15 +17,16 @@ import 'package:wom_pocket/src/features/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/features/new_home/ui/new_home.dart';
 import 'package:wom_pocket/src/features/nfc/utils.dart';
-import 'package:wom_pocket/src/features/scanner/ui/scan_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:wom_pocket/src/core/application/app_notifier.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/pin/pin_screen.dart';
+import 'package:wom_pocket/src/features/scanner/ui/scan_screen.dart';
 import 'package:wom_pocket/src/features/settings/settings.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
 
 class RootScreen extends StatefulHookConsumerWidget {
   static const String path = '/home';
@@ -105,6 +106,7 @@ class _RootScreenState extends ConsumerState<RootScreen> {
           NewHome(),
           OffersListScreen(),
           ExchangeScreen(),
+          TotemScansScreen(),
           // BadgeScreen(),
           SettingsScreen(),
         ],
@@ -128,6 +130,7 @@ class _RootScreenState extends ConsumerState<RootScreen> {
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: primaryColor,
+        selectedLabelStyle: TextStyle(fontSize: 12),
         unselectedItemColor: Color(0xFF96BBD9),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -141,6 +144,10 @@ class _RootScreenState extends ConsumerState<RootScreen> {
           BottomNavigationBarItem(
             icon: Icon(MdiIcons.handCoin),
             label: 'exchange'.tr(),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.connect_without_contact),
+            label: 'Connessioni'.tr(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
@@ -164,7 +171,7 @@ class _RootScreenState extends ConsumerState<RootScreen> {
   }
 
   _startScan(BuildContext context) async {
-    if (await InternetConnectionChecker().hasConnection) {
+    if (await InternetConnectionChecker.instance.hasConnection) {
       logEvent('open_wom_scan');
       try {
         final link = await Navigator.of(context).push(
@@ -172,6 +179,7 @@ class _RootScreenState extends ConsumerState<RootScreen> {
             builder: (_) => ScanScreen(),
           ),
         );
+        // final link = 'https://link.wom.social/cmi/lHWStaR4SYbuRBXhapAo/55fd0da1-bcc8-4a97-b512-000eac7933b2';
         logger.w('_startScan: $link');
         if (link == null) return;
         final totemData = validateTotemQrCodeWithRegex(link);

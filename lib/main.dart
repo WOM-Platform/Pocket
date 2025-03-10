@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +11,7 @@ import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/core/utils/config.dart';
-
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 
@@ -24,7 +24,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   // Firebase
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
 
   // Hive
   await Hive.initFlutter();
@@ -61,30 +61,28 @@ void main() async {
     return startApp();
   }
 
-  return startApp();
-
   // Sentry
+  Logger.addLogListener((event) {
+    if (event.level == Level.error) {
+      Sentry.captureException(
+        event.error,
+        stackTrace: event.stackTrace,
+      );
+    }
+  });
 
-  // Logger.addLogListener((event) {
-  //   if (event.level == Level.error) {
-  //     Sentry.captureException(
-  //       event.error,
-  //       stackTrace: event.stackTrace,
-  //     );
-  //   }
-  // });
-
-  // Initialize Sentry for error reporting in production mode
-  // return SentryFlutter.init(
-  //   (options) {
-  //     options.dsn =
-  //         'https://218b34241744a0da156461b858740c8d@o1180190.ingest.us.sentry.io/4506859071012864';
-  //     options.debug = !kReleaseMode;
-  //     options.tracesSampleRate = 1.0;
-  //     options.tracesSampler = (_) => 1.0;
-  //   },
-  //   appRunner: () => startApp(),
-  // );
+  //Initialize Sentry for error reporting in production mode
+  return SentryFlutter.init(
+        (options) {
+      options.dsn = 'https://fbc8f71a286071f39b21a2d60be9544a@sentry.digit.srl/3';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+      options.debug = !kReleaseMode;
+      options.tracesSampler = (_) => 1.0;
+    },
+    appRunner: startApp,
+  );
 }
 
 startApp() {

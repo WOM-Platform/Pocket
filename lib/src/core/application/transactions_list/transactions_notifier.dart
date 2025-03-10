@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
@@ -9,13 +10,13 @@ import 'package:wom_pocket/src/core/my_logger.dart';
 part 'transactions_notifier.g.dart';
 
 @Riverpod(keepAlive: true)
-Future<TransactionsState> fetchTransactions(FetchTransactionsRef ref) async {
+Future<TransactionsState> fetchTransactions(Ref ref) async {
   var aims = await ref.read(aimRepositoryProvider).getFlatAimList();
 
   try {
     //Se non ho gli aim salvati nel db li scarico da internet
     if (aims.isEmpty) {
-      if (await InternetConnectionChecker().hasConnection) {
+      if (await InternetConnectionChecker.instance.hasConnection) {
         // final repo = AppRepository();
         aims = await ref.read(aimRepositoryProvider).updateAim();
       } else {

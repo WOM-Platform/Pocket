@@ -29,22 +29,27 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase.query(QueryExecutor executor) : super(executor);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
-  Future<void> importWoma(
+  Future<void> importWoms(
     TransactionsCompanion tx,
     List<WomRow> woms,
-    List<TotemsCompanion> totems,
   ) {
     return transaction(() async {
       final idx = await transactionsDao.addTransaction(tx);
-      await totemsDao.addTotems(totems);
-
       final finalWoms = woms
           .map((e) => e.copyWith(transactionId: idx))
           .map((e) => e.toCompanion(true))
           .toList();
       await womsDao.addVouchers(finalWoms);
+    });
+  }
+
+  Future<void> importTotems(
+    List<TotemsCompanion> totems,
+  ) {
+    return transaction(() async {
+      await totemsDao.addTotems(totems);
     });
   }
 
@@ -87,6 +92,9 @@ class MyDatabase extends _$MyDatabase {
           await m.addColumn(totems, totems.email);
           await m.addColumn(totems, totems.phoneNumber);
           await m.addColumn(totems, totems.url);
+        } else if (from < 7) {
+          await m.addColumn(totems, totems.image);
+          await m.addColumn(totems, totems.notes);
         }
       },
       beforeOpen: (details) async {

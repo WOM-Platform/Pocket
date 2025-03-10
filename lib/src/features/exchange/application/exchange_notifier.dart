@@ -26,7 +26,7 @@ Future<List<TransactionModel>> getExchangeTransactions(
   try {
     //Se non ho gli aim salvati nel db li scarico da internet
     if (aims.isEmpty) {
-      if (await InternetConnectionChecker().hasConnection) {
+      if (await InternetConnectionChecker.instance.hasConnection) {
         aims = await ref.read(aimRepositoryProvider).updateAim();
       } else {
         logger.i('Aims null or empty and No internet connection');

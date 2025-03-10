@@ -60,12 +60,6 @@ class MigrationNotifier extends _$MigrationNotifier {
         throw Exception('pin must to be integer');
       }
 
-      // v2 all in connector
-      // final vouchers = await WomDB.get().getAllWoms();
-      // final response =
-      //     await read(pocketProvider).createNewMigrationV2(vouchers, pin);
-
-      // v1
       final data = await exportWomToJson(pin);
       final response =
           await ref.read(pocketProvider).createNewMigration(data.bytes, pin);
