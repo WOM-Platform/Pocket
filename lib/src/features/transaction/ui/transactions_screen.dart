@@ -41,12 +41,12 @@ class TransactionInfo extends StatelessWidget {
           color: Colors.red,
           description: 'transactionInfoExportDesc'.tr(),
         ),
-        TransactionTypeInfo(
-          text: 'transactionInfoSwipeTitle'.tr(),
-          iconData: Icons.swipe_rounded,
-          color: Colors.grey,
-          description: 'transactionInfoSwipeDesc'.tr(),
-        ),
+        // TransactionTypeInfo(
+        //   text: 'transactionInfoSwipeTitle'.tr(),
+        //   iconData: Icons.swipe_rounded,
+        //   color: Colors.grey,
+        //   description: 'transactionInfoSwipeDesc'.tr(),
+        // ),
       ],
     );
   }

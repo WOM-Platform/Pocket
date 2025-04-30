@@ -178,6 +178,7 @@
   "whereWeAre": "Dove siamo",
   "device": "dispositivo",
   "exchange": "Scambio",
+  "connections": "Connessioni",
   "lastDonation": "Le tue ultime donazioni",
   "noDonation": "Non hai effettuato alcuna donazione",
   "noWomToDonate": "Accumula WOM per fare una donazione",
@@ -209,8 +210,8 @@
   "totemErrorGpsPermission": "Ho bisogno della tua posizione per verificare che tu sia fisicamente nel posto corretto",
   "totemErrorGpsServiceDisabled": "Ho bisogno della tua posizione per verificare che tu sia fisicamente nel posto corretto",
   "totemErrorEventIsClosed": "L’evento sembra essere terminato",
-  "totemErrorSessionAlreadyScanned": "Hai già scansionato il QR Code per questa sessione",
-  "totemErrorSessionAlreadyScannedForThisTotem": "Hai già scansionato il QR Code per questa sessione con questo Totem",
+  "totemErrorSessionAlreadyScanned": "Hai già scansionato il QR Code per questa sessione.\nSe pensi di non aver ricevuto i tuoi WOM vai sulla tab \"Connessioni\", seleziona il totem e riscatta i tuoi WOM dal pulsantino in alto a destra.",
+  "totemErrorSessionAlreadyScannedForThisTotem": "Hai già scansionato il QR Code per questa sessione con questo Totem.\nSe pensi di non aver ricevuto i tuoi WOM vai sulla tab \"Connessioni\", seleziona il totem e riscatta i tuoi WOM dal pulsantino in alto a destra.",
   "totemSessionInactive": "Il totem è abbinato ad una sessione attualmente non attiva",
   "totemErrorOutOfPolygon": "La tua posizione corrente è troppo lontana dall’evento",
   "totemDisabled": "Questo totem non risulta al momento attivo.",
@@ -281,6 +282,50 @@
     "notes": "Note",
     "tap_here_to_change": "Clicca qui per inserire una nota",
     "select_image_source": "Seleziona la sorgente della tua immagine"
+  },
+  "personal_totem": {
+    "name": "Nome",
+    "email": "Email",
+    "phone": "Telefono",
+    "url": "URL",
+    "generate_desc": "Crea il la tua card personale per condividerla...",
+    "generate_button": "Genera",
+    "errors": {
+      "missing_permissions": "Sembra che tu non abbia concesso qualche permesso, vai nelle impostazioni premendo il pulsante sottostante.",
+      "gps_disabled":"Il GPS è disabilitato, premi il pulsante sotto per abilitarlo dalle impostazioni.",
+      "generic": "Si è verificato un errore imprevisto!"
+    },
+    "error_actions": {
+      "generic": "Riprova",
+      "gps_disabled": "Abilita GPS",
+      "missing_permissions": "Concedi i permessi"
+    }
+  },
+  "redeem_personal_totem": {
+    "try_again": "Prova di nuovo",
+    "errors": {
+      "out_of_time": "Il tempo trascorso è maggiore di 1 minuto, riprova a scansionare il QR-Code!",
+      "out_of_distance": "Sicuro di essere in prossimità del dispositivo?",
+      "generic": "Si è verificato un errore imprevisto",
+      "missing_permissions": "Sembra che tu non abbia concesso qualche permesso, vai nelle impostazioni premendo il pulsante sottostante.",
+      "gps_disabled":"Il GPS è disabilitato, premi il pulsante sotto per abilitarlo dalle impostazioni."
+    },
+    "error_actions": {
+      "generic": "Riprova",
+      "gps_disabled": "Abilita GPS",
+      "missing_permissions": "Concedi i permessi"
+    },
+    "processing": "Stiamo effettuando le verifiche necessarie per validare la scansione!"
+  },
+  "edit_my_personal_totem":{
+    "edit": "Modifica",
+    "save": "Salva",
+    "success": "Salvataggio avvenuto con successo!",
+    "error": "Errore durante il salvataggio!",
+    "name": "Nome",
+    "email": "Email",
+    "phone": "Telefono",
+    "url": "URL"
   },
   "crop_screen": {
     "save": "Salva"

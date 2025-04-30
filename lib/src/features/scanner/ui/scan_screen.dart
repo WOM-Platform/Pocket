@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/features/scanner/application/scanner_state.dart';
 
 import 'package:wom_pocket/src/core/my_logger.dart';
@@ -73,7 +74,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                   ),
                   color: Colors.black,
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    context.maybePop();
                   },
                 ),
               ),
@@ -127,7 +128,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     // scanned = true;
     final qr = barcode.barcodes.first.rawValue;
     cameraController.stop();
-    Navigator.of(context).pop(qr);
+    context.maybePop(qr);
   }
 }
 
@@ -211,7 +212,7 @@ class ScanInfo extends ConsumerWidget {
                           color: Colors.white,
                         ),
                         onPressed: () {
-                          Navigator.of(context).pop(state.url);
+                          context.maybePop(state.url);
                         },
                       ),
                     ),

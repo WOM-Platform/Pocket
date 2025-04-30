@@ -6,7 +6,23 @@ part of 'location_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$locationNotifierHash() => r'92a10209db4eff998924479b178a295bd9411d49';
+String _$getPositionHash() => r'fb4a23c6f8d3e1793a982959e50bfd81733a8999';
+
+/// See also [getPosition].
+@ProviderFor(getPosition)
+final getPositionProvider = AutoDisposeFutureProvider<Position>.internal(
+  getPosition,
+  name: r'getPositionProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getPositionHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetPositionRef = AutoDisposeFutureProviderRef<Position>;
+String _$locationNotifierHash() => r'0fb19007b2bef7e3e6b1dccbb12038c11597f46f';
 
 /// See also [LocationNotifier].
 @ProviderFor(LocationNotifier)

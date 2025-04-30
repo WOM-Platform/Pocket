@@ -49,23 +49,5 @@ class ExchangeListScreen extends ConsumerWidget {
         ],
       ),
     );
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     actions: [
-    //       IconButton(
-    //           icon: Icon(Icons.add),
-    //           color: Colors.white,
-    //           onPressed: () {
-    //             Navigator.push(
-    //               context,
-    //               MaterialPageRoute<bool>(
-    //                 builder: (context) => NewExchangeWidget(),
-    //               ),
-    //             );
-    //           }),
-    //     ],
-    //   ),
-    //   body: ,
-    // );
   }
 }

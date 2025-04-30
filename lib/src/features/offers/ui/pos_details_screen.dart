@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
@@ -15,7 +16,7 @@ import 'package:wom_pocket/src/features/offers/ui/offer_tile.dart';
 import 'package:wom_pocket/src/features/offers/ui/suggestion.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 
-class POSDetailsScreen extends ConsumerWidget {
+class PosDetailsData {
   final List<Offer> offers;
   final String posName;
   final String? imageUrl;
@@ -26,17 +27,43 @@ class POSDetailsScreen extends ConsumerWidget {
   final String? posID;
   final OfferPosition? position;
 
-  const POSDetailsScreen({
+  PosDetailsData({
     required this.posName,
+    required this.imageUrl,
+    required this.url,
     required this.position,
-    Key? key,
-    this.imageUrl,
     this.distance,
-    this.description,
     this.posID,
+    this.description,
     this.isVirtual = false,
-    this.offers = const [],
-    this.url,
+    this.offers = const <Offer>[],
+  });
+}
+
+class POSDetailsScreen extends ConsumerWidget {
+  List<Offer> get offers => data.offers;
+
+  String get posName => data.posName;
+
+  String? get imageUrl => data.imageUrl;
+
+  String? get distance => data.distance;
+
+  String? get url => data.url;
+
+  bool get isVirtual => data.isVirtual;
+
+  String? get description => data.description;
+
+  String? get posID => data.posID;
+
+  OfferPosition? get position => data.position;
+
+  final PosDetailsData data;
+
+  const POSDetailsScreen({
+    required this.data,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -184,25 +211,22 @@ class POSDetailsScreen extends ConsumerWidget {
                         ],
                       ),
                     ),
-                  if (pos != null)
+                  if (pos?.address?.formattedAddress != null)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // Text(pos.name),
                         const SizedBox(height: 8),
                         InkWell(
                           onTap: () async {
                             final uri = createQueryUri(
-                              pos!.address?.formattedAddress ??
-                                  'Via Enrico Fermi, 24 Sant\'Egidio alla Vibrata',
+                              pos!.address!.formattedAddress,
                             );
                             if (await canLaunchUrl(uri)) {
                               launchUrl(uri);
                             }
                           },
                           child: Text(
-                            pos.address?.formattedAddress ??
-                                'Via Enrico Fermi, 24 Sant\'Egidio alla Vibrata',
+                            pos!.address!.formattedAddress,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.blue,
@@ -355,7 +379,8 @@ class POSDetailsScreen extends ConsumerWidget {
   }
 
   void goToExternalSite(BuildContext context, String url) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => SuggestionScreen(url: url)));
+    context.push('/offers/pos-details/external-info?url=$url');
+    // Navigator.of(context)
+    //     .push(MaterialPageRoute(builder: (_) => SuggestionScreen(url: url)));
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/application/new_exchange_state.dart';
 
@@ -107,7 +108,7 @@ class NewExchangeScreen extends ConsumerWidget {
           ? null
           : FloatingActionButton.extended(
               onPressed: () async {
-                Navigator.of(context).pop();
+                context.maybePop();
               },
               label: state is NewExchangeStateError ||
                       state is NewExchangeStateinsufficientVouchers
@@ -118,13 +119,26 @@ class NewExchangeScreen extends ConsumerWidget {
   }
 }
 
-class ExchangeReceiptScreen extends ConsumerWidget {
-  final (String link, String pin, int womCount) data;
+class ExchangeReceiptData {
+  final String link;
+  final String pin;
+  final int womCount;
   final bool fromHome;
+
+  ExchangeReceiptData({
+    required this.link,
+    required this.pin,
+    required this.womCount,
+    required this.fromHome,
+  });
+}
+
+class ExchangeReceiptScreen extends ConsumerWidget {
+  final ExchangeReceiptData data;
+
 
   const ExchangeReceiptScreen({
     required this.data,
-    this.fromHome = false,
     super.key,
   });
 
@@ -143,8 +157,8 @@ class ExchangeReceiptScreen extends ConsumerWidget {
               final message = tr(
                 'send_exchange_data',
                 args: [
-                  data.$1,
-                  data.$2,
+                  data.link,
+                  data.pin,
                 ],
               );
               Share.share(message);
@@ -153,16 +167,16 @@ class ExchangeReceiptScreen extends ConsumerWidget {
         ],
       ),
       body: ExchangeDataWidget(
-        link: data.$1,
-        pin: data.$2,
-        womCount: data.$3,
+        link: data.link,
+        pin: data.pin,
+        womCount: data.womCount,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: fromHome
+      floatingActionButton: data.fromHome
           ? null
           : FloatingActionButton.extended(
               onPressed: () async {
-                Navigator.of(context).pop();
+                context.maybePop();
               },
               label: Text('closeApp'.tr()),
             ),

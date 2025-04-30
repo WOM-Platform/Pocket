@@ -3,7 +3,10 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/features/exchange/ui/screens/exchange_receipt.dart';
 import 'package:collection/collection.dart';
 import 'package:wom_pocket/src/features/in_app_webview/ui/in_app_webview.dart';
@@ -55,13 +58,14 @@ class TransactionCard extends ConsumerWidget {
       onTap: () async {
         if (isValidPayment) {
           if (transaction.ackUrl != null) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => InAppWebViewScreen(
-                  url: transaction.ackUrl!,
-                ),
-              ),
-            );
+            context.push('/in-app-webview/${transaction.ackUrl}');
+            // Navigator.of(context).push(
+            //   MaterialPageRoute(
+            //     builder: (context) => InAppWebViewScreen(
+            //       url: transaction.ackUrl!,
+            //     ),
+            //   ),
+            // );
           }
         } else if (isValidMigration) {
           if (transaction.pin == null ||
@@ -70,27 +74,29 @@ class TransactionCard extends ConsumerWidget {
             return;
           }
 
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => MigrationExportScreen(
-                backTo: false,
-                data: MigrationData(
-                  code: transaction.pin!,
-                  importDeadline: transaction.importDeadline!,
-                  link: transaction.link!,
-                ),
-              ),
-            ),
-          );
+          context.push('${context.sourceRoutePath}/migration', extra: MigrationData(
+            code: transaction.pin!,
+            importDeadline: transaction.importDeadline!,
+            link: transaction.link!,
+          ),);
+
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (_) => MigrationExportScreen(
+          //       backTo: false,
+          //       data: ,
+          //     ),
+          //   ),
+          // );
         } else if (isValidExchange) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => ExchangeReceiptScreen(
-                data: (transaction.link!, transaction.pin!, transaction.size),
-                fromHome: true,
-              ),
-            ),
+          final data = ExchangeReceiptData(
+            link: transaction.link!,
+            pin: transaction.pin!,
+            womCount: transaction.size,
+            fromHome: true,
           );
+
+          context.push('${context.sourceRoutePath}/receipt', extra: data);
         }
       },
       child: Card(

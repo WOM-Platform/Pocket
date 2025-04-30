@@ -7,7 +7,9 @@ import 'package:wom_pocket/src/core/utils/colors.dart';
 late String domain;
 late String registryKey;
 Flavor? flavor;
+
 bool get isDev => flavor == Flavor.DEVELOPMENT;
+
 String get appName => '${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET';
 
 const exchangeSourceId = '64e5f0c93a5339481060a756';
@@ -15,6 +17,12 @@ const exchangeSourceId = '64e5f0c93a5339481060a756';
 const functionsBaseUrl =
     'https://europe-west3-count-me-in-ef93b.cloudfunctions.net';
 
+const encryptKey =
+    'ce8dFAkMDBEOECEZCxgMBiAUFQwKFhg=';
+
+const maxPersonalDistanceInMeters = 1000;
+const maxTimeRangeInSeconds = 60;
+const digitProviderId = 'e3441c34-b02c-4bd9-8de5-9e312468ca69';
 //Tutorial keys
 const t_scan = 'scan3';
 const t_home = 'home3';

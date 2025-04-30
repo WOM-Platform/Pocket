@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,7 +25,14 @@ class LocationNotifier extends _$LocationNotifier {
     logger.w('_getCurrentLocation');
     try {
       if (await requestPermission()) {
+        final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+        if (!serviceEnabled) {
+          throw ServiceGPSDisabled();
+        }
+
         final currentPosition = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.medium,
           timeLimit: Duration(seconds: 15),
         );
         logger.i('position is mocked ${currentPosition.isMocked}');
@@ -50,5 +58,39 @@ class LocationNotifier extends _$LocationNotifier {
 extension PositionX on Position {
   toLocation() {
     return LatLng(latitude, longitude);
+  }
+}
+
+
+@riverpod
+Future<Position> getPosition(Ref ref) async {
+  try {
+    if (await requestPermission()) {
+      final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+      if (!serviceEnabled) {
+        throw ServiceGPSDisabled();
+      }
+
+      final currentPosition = await Geolocator.getCurrentPosition(
+        timeLimit: Duration(seconds: 30),
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      logger.i('position is mocked ${currentPosition.isMocked}');
+      logger.i(currentPosition);
+      return currentPosition;
+    }
+    logger.w('permissions are not granted');
+    logger.e('LocationPermissionException');
+    throw LocationPermissionDenied();
+  } on LocationServiceDisabledException catch (ex, st) {
+    logger.e('LocationServiceDisabledException', error: ex, stackTrace: st);
+    throw ServiceGPSDisabled();
+  } on TimeoutException catch (ex, st) {
+    logger.e('LocationTimeoutException', error: ex, stackTrace: st);
+    throw GetLocationTimeout();
+  } catch (ex, st) {
+    logger.e('LocationUnknownException', error: ex, stackTrace: st);
+    rethrow;
   }
 }

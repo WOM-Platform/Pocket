@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 
 import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
@@ -168,7 +169,7 @@ class InfoPayment extends ConsumerWidget {
               Center(
                 child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    context.maybePop();
                   },
                   child: Text(
                     'cancel'.tr(),

@@ -143,7 +143,7 @@ class TransactionNotifier extends _$TransactionNotifier {
     // continue accessing the position of the device.
     final position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.low,
-      timeLimit: Duration(seconds: 15),
+      timeLimit: Duration(seconds: 30),
     );
 
     return position;

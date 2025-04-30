@@ -8,13 +8,16 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/application/app_notifier.dart';
 
 import 'package:wom_pocket/src/core/models/totem_data.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/features/nfc/utils.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/features/totem/utils.dart';
 
 class IntroScreen extends HookConsumerWidget {
   final bool fromSettings;
@@ -172,13 +175,14 @@ class IntroScreen extends HookConsumerWidget {
             child: min(selectedPage.value, pages.length - 1) == pages.length - 1
                 ? TextButton(
                     onPressed: () {
-                      if (fromSettings) {
-                        Navigator.of(context).pop();
-                      } else {
-                        ref
-                            .read(appNotifierProvider.notifier)
-                            .goIntoNormalMode();
-                      }
+                      context.maybePop();
+                      // if (fromSettings) {
+                      //   context.maybePop();
+                      // } else {
+                      //   ref
+                      //       .read(appNotifierProvider.notifier)
+                      //       .goIntoNormalMode();
+                      // }
                     },
                     child: Text(
                       'done'.tr(),

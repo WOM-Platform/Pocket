@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
+import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
@@ -25,14 +26,14 @@ part 'import_notifier.g.dart';
 
 @riverpod
 class ImportNotifier extends _$ImportNotifier {
-  ImportState build() {
+  ImportState build(DeepLinkModel deepLinkModel) {
     return ImportInitial();
   }
 
   Future checkImport(String password) async {
     try {
       state = ImportState.loading();
-      final otc = ref.read(deeplinkProvider).otc;
+      final otc = deepLinkModel.otc;
       if (otc == null) throw Exception('Otc is null');
       final response =
           await ref.read(pocketProvider).getInfoAboutMigration(otc, password);
@@ -47,7 +48,7 @@ class ImportNotifier extends _$ImportNotifier {
           .retrieveMigrationPayload(otc, password);
 
       final dir = await getTemporaryDirectory();
-      final partialKey = ref.read(deeplinkProvider).migrationPartialKey;
+      final partialKey = deepLinkModel.migrationPartialKey;
       final migrationDir = Directory('${dir.path}/migration/import');
       if (await migrationDir.exists()) {
         await migrationDir.delete(recursive: true);

@@ -2,7 +2,7 @@ name: wom_pocket
 description: A new Flutter application.
 publish_to: none
 
-version: 1.7.4+109
+version: 1.8.3+118
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -43,7 +43,7 @@ dependencies:
   google_maps_cluster_manager_2: ^3.2.0
   google_maps_flutter: ^2.10.0
   auto_size_text: ^3.0.0
-  flare_flutter: ^3.0.2
+  rive: ^0.13.20
   clippy_flutter: ^2.0.0-nullsafety.1
   flutter_slidable: ^3.0.1
   share: ^2.0.4
@@ -76,16 +76,19 @@ dependencies:
   flutter_cache_manager:
   freezed_annotation:
   dio:
-  easy_localization: ^3.0.7
+  easy_localization: ^3.0.7+1
   nfc_manager:
   nfc_background:
     path: /Users/gianmarcodifrancesco/Work/Digit/nfc_background
   flutter_sticky_header: ^0.7.0
   material_design_icons_flutter: ^7.0.7296
   sentry_flutter:
-  flutter_riverpod: any
+  flutter_riverpod:
   collection: any
   meta: any
+  go_router:
+  validatorless: ^1.2.4
+  form_builder_validators: ^11.1.2
 
 dev_dependencies:
   flutter_test:

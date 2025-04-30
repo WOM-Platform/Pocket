@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wom_pocket/src/core/constants.dart';
+import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -217,4 +218,61 @@ class WomExportData extends Equatable {
         womCount,
         totemsCount,
       ];
+}
+
+const connectionBaseUrl = 'https://link.wom.social/connection';
+
+String getMyTotemLink(String totemId) {
+  return '$connectionBaseUrl/$totemId';
+}
+
+String aesDecrypt(String encrypted) {
+  final decrypted = encrypter.decrypt(Encrypted.fromBase64(encrypted), iv: iv);
+  print(encrypted);
+  return decrypted.toString();
+}
+
+final key = Key.fromUtf8(encryptKey);
+final iv = IV.fromLength(16);
+
+final encrypter = Encrypter(AES(key, mode: AESMode.cbc, padding: 'PKCS7'));
+
+String aesEncrypt(String text) {
+  final encrypted = encrypter.encrypt(text, iv: iv);
+  print(encrypted.base64);
+  return encrypted.base64;
+}
+
+ConnectionTotemData? createTotemLinkFromConnection(String link) {
+  if (validatePersonalConnection(link) == null) {
+    return null;
+  }
+  final encrypted = link.split('/').last;
+  final decoded = Uri.decodeComponent(encrypted);
+  final decrypted = aesDecrypt(decoded);
+  final url = '$connectionBaseUrl/$decrypted';
+  print(url);
+  final uri = Uri.tryParse(url);
+  if (uri == null) {
+    return null;
+  }
+
+  final totemId = uri.pathSegments[1];
+
+  if(totemId.isEmpty){
+    return null;
+  }
+  final timestamp = int.tryParse(uri.queryParameters['timestamp'] ?? '');
+  final latitude = double.tryParse(uri.queryParameters['latitude'] ?? '');
+  final longitude = double.tryParse(uri.queryParameters['longitude'] ?? '');
+
+  if (timestamp != null && latitude != null && longitude != null) {
+    return ConnectionTotemData(
+      totemId: totemId,
+      timestamp: DateTime.fromMillisecondsSinceEpoch(timestamp),
+      lat: latitude,
+      long: longitude,
+    );
+  }
+  return null;
 }

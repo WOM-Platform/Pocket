@@ -5,25 +5,36 @@ class MyButton extends StatelessWidget {
   final Function()? onPressed;
   final String? text;
   final Widget? child;
+  final bool isLoading;
 
   const MyButton({
     this.text,
     super.key,
     this.onPressed,
     this.child,
+    this.isLoading = false,
   }) : assert(text != null || child != null);
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
       ),
-      onPressed: onPressed,
-      child: child ?? Text(text ?? ''),
+      onPressed: isLoading ? null : onPressed,
+      label: child ?? Text(text ?? ''),
+      icon: isLoading
+          ? SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+              ),
+            )
+          : null,
     );
   }
 }

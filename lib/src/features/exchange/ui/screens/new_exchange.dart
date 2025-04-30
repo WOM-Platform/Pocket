@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/ui/screens/exchange_receipt.dart';
 
@@ -125,7 +127,7 @@ class NewExchange extends HookConsumerWidget {
                           'cancel'.tr(),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pop(false);
+                          context.maybePop(false);
                         },
                       ),
                       DialogButton(
@@ -134,17 +136,13 @@ class NewExchange extends HookConsumerWidget {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
-                          Navigator.of(context).pop(true);
+                          context.maybePop(true);
                         },
                       ),
                     ],
                   ).show();
                   if (res ?? false) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => NewExchangeScreen(womCount: wom.value),
-                      ),
-                    );
+                    context.push('/exchange/new/${wom.value}');
                   }
                 },
                 child: Text(

@@ -66,43 +66,27 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text(
-            'availableWom'.tr(),
-            style: labelStyle,
-          ),
-          Text(
-            availableWomCount,
-            style: valueStyle,
+          TextWithLabel(
+            label: 'availableWom'.tr(),
+            text: availableWomCount,
           ),
           const SizedBox(height: 8),
-          Text(
-            'Wom spesi:',
-            style: labelStyle,
-          ),
-          Text(
-            womSpentCount,
-            style: valueStyle,
+          TextWithLabel(
+            label: 'Wom spesi:',
+            text: womSpentCount,
           ),
           const SizedBox(height: 24),
           SectionTitle(
             title: 'lastWeek'.tr(),
           ),
-          Text(
-            'womEarned'.tr(),
-            style: labelStyle,
-          ),
-          Text(
-            earnedLastWeek,
-            style: valueStyle,
+          TextWithLabel(
+            label: 'womEarned'.tr(),
+            text: earnedLastWeek,
           ),
           const SizedBox(height: 8),
-          Text(
-            'womSpent'.tr(),
-            style: labelStyle,
-          ),
-          Text(
-            spentLastWeek,
-            style: valueStyle,
+          TextWithLabel(
+            label: 'womSpent'.tr(),
+            text: spentLastWeek,
           ),
           const SizedBox(height: 24),
           SectionTitle(
@@ -260,3 +244,32 @@ List<Color> aimColors = <Color>[
   Colors.purpleAccent,
   Colors.cyanAccent,
 ];
+
+class TextWithLabel extends StatelessWidget {
+  final String label;
+  final String? text;
+
+  TextWithLabel({
+    super.key,
+    required this.label,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          label,
+          style: TextStyle(color: Colors.grey, fontSize: 14),
+        ),
+        Text(
+          text ?? '-',
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+        ),
+      ],
+    );
+  }
+}

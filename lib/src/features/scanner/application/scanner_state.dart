@@ -41,7 +41,8 @@ class ScannerNotifier extends _$ScannerNotifier {
       final rawValue = qr.rawValue;
       if (rawValue != null) {
         final totemData = validateTotemQrCodeWithRegex(rawValue);
-        if (totemData != null) {
+        final encryptedTotemData = validatePersonalConnection(rawValue);
+        if (totemData != null || encryptedTotemData != null) {
           validQr.add((rawValue, TransactionType.VOUCHERS));
         } else {
           try {

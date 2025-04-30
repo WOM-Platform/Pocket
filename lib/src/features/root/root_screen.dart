@@ -4,16 +4,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/services/app_repository.dart';
-import 'package:wom_pocket/src/features/exchange/ui/screens/exchange.dart';
+import 'package:wom_pocket/src/features/exchange/ui/screens/exchange_screen.dart';
 import 'package:wom_pocket/src/features/offers/ui/offers_screen.dart';
-
-import 'package:wom_pocket/src/features/migration/application/import_notifier.dart';
-import 'package:wom_pocket/src/features/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/features/new_home/ui/new_home.dart';
 import 'package:wom_pocket/src/features/nfc/utils.dart';
@@ -22,11 +21,11 @@ import 'package:store_redirect/store_redirect.dart';
 import 'package:wom_pocket/src/core/application/app_notifier.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/features/pin/pin_screen.dart';
 import 'package:wom_pocket/src/features/scanner/ui/scan_screen.dart';
 import 'package:wom_pocket/src/features/settings/settings.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
+import 'package:wom_pocket/src/features/totem/utils.dart';
 
 class RootScreen extends StatefulHookConsumerWidget {
   static const String path = '/home';
@@ -44,7 +43,7 @@ class _RootScreenState extends ConsumerState<RootScreen> {
   }
 
   Future checkVersion() async {
-    final status = await ref.read(appNotifierProvider.notifier).getAppStatus();
+    final status = await ref.read(appRepositoryProvider).getAppStatus();
     logger.i(status);
     if (!status.isOk) {
       // SchedulerBinding.instance?.addPostFrameCallback((Duration duration) {
@@ -63,7 +62,7 @@ class _RootScreenState extends ConsumerState<RootScreen> {
             child: Text(actionText),
             onPressed: () {
               if (status.isOutOfService) {
-                Navigator.of(context).pop();
+                context.maybePop();
                 checkVersion();
               } else {
                 StoreRedirect.redirect(
@@ -94,11 +93,6 @@ class _RootScreenState extends ConsumerState<RootScreen> {
   @override
   Widget build(BuildContext context) {
     final index = useState<int>(0);
-
-    final titleStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
-    final descStyle = TextStyle(
-      fontSize: 20,
-    );
     return Scaffold(
       body: IndexedStack(
         index: index.value,
@@ -174,47 +168,47 @@ class _RootScreenState extends ConsumerState<RootScreen> {
     if (await InternetConnectionChecker.instance.hasConnection) {
       logEvent('open_wom_scan');
       try {
-        final link = await Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ScanScreen(),
-          ),
-        );
-        // final link = 'https://link.wom.social/cmi/lHWStaR4SYbuRBXhapAo/55fd0da1-bcc8-4a97-b512-000eac7933b2';
+        final link = await context.push('/scan');
         logger.w('_startScan: $link');
-        if (link == null) return;
+        if (link == null || link is! String) return;
         final totemData = validateTotemQrCodeWithRegex(link);
-        if (totemData != null) {
+        final encryptedTotemData = validatePersonalConnection(link);
+        if (encryptedTotemData != null) {
+          launchMyTotemDialog(context, link);
+        } else if (totemData != null) {
           launchTotemDialog(context, totemData);
         } else {
           final deepLinkModel = DeepLinkModel.fromUri(Uri.parse(link));
           logger.i('wom_scan_done $link');
           logEvent('wom_scan_done');
           if (deepLinkModel.type == TransactionType.MIGRATION_IMPORT) {
-            Navigator.push(
-              context,
-              MaterialPageRoute<bool>(
-                builder: (context) => ProviderScope(
-                  overrides: [
-                    deeplinkProvider.overrideWithValue(deepLinkModel),
-                    importNotifierProvider,
-                  ],
-                  child: ImportScreen(),
-                ),
-              ),
-            );
+            context.go('/import', extra: deepLinkModel);
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute<bool>(
+            //     builder: (context) => ProviderScope(
+            //       overrides: [
+            //         deeplinkProvider.overrideWithValue(deepLinkModel),
+            //         importNotifierProvider,
+            //       ],
+            //       child: ImportScreen(),
+            //     ),
+            //   ),
+            // );
           } else {
             logger.i('go to pin screen $deepLinkModel');
-            await Navigator.push(
-              context,
-              MaterialPageRoute<bool>(
-                builder: (context) => ProviderScope(
-                  overrides: [
-                    deeplinkProvider.overrideWithValue(deepLinkModel),
-                  ],
-                  child: PinScreen(),
-                ),
-              ),
-            );
+            context.go('/pin', extra: deepLinkModel);
+            // await Navigator.push(
+            //   context,
+            //   MaterialPageRoute<bool>(
+            //     builder: (context) => ProviderScope(
+            //       overrides: [
+            //         deeplinkProvider.overrideWithValue(deepLinkModel),
+            //       ],
+            //       child: PinScreen(),
+            //     ),
+            //   ),
+            // );
           }
         }
       } on PlatformException {
@@ -236,7 +230,7 @@ class _RootScreenState extends ConsumerState<RootScreen> {
           DialogButton(
             child: Text('Ok'),
             onPressed: () {
-              Navigator.pop(context);
+              context.maybePop();
             },
           ),
         ],

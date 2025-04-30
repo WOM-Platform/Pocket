@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
 import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
@@ -169,13 +172,15 @@ class TotemNotifier extends _$TotemNotifier {
       }
 
       gender = gender == Gender.notAvailable ? null : gender;
+
       state = TotemDialogState.retrievingGPS();
       final currentPosition =
-          await ref.refresh(locationNotifierProvider.future);
+          await ref.refresh(getPositionProvider.future);
       if (currentPosition.isMocked) {
         state = TotemDialogStateError(TotemError.mockedLocation, '');
         return;
       }
+
       final location =
           LatLng(currentPosition.latitude, currentPosition.longitude);
       state = TotemDialogCommunicationWithServer();
@@ -248,7 +253,7 @@ class TotemNotifier extends _$TotemNotifier {
       };
       if (error == TotemError.gpsServiceDisabled) {
         _subscription = Geolocator.getServiceStatusStream().listen((event) {
-          logger.i('gps event: $event');
+          logger.i('GPS event: $event');
           if (event == ServiceStatus.enabled) {
             action();
           }
@@ -296,7 +301,11 @@ class TotemDialog extends ConsumerWidget {
           askGender: askGender,
         ), (previous, next) {
       if (next is TotemDialogComplete) {
-        Navigator.pushReplacement(
+        context.pushReplacement(
+          '/transaction',
+          extra: TransactionNotifierParams(next.deepLinkModel, next.password),
+        );
+        /*Navigator.pushReplacement(
           ref.context,
           MaterialPageRoute<bool>(
             builder: (context) => TransactionScreen(
@@ -304,7 +313,7 @@ class TotemDialog extends ConsumerWidget {
                   TransactionNotifierParams(next.deepLinkModel, next.password),
             ),
           ),
-        );
+        );*/
       }
     });
     final state = ref.watch(
@@ -343,7 +352,10 @@ class TotemDialog extends ConsumerWidget {
                 size: 50,
               ),
               const SizedBox(height: 8),
-              Text(state.totemError.description(context)),
+              Text(
+                state.totemError.description(context),
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -351,7 +363,7 @@ class TotemDialog extends ConsumerWidget {
                   if (state.totemError.hasCancel)
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        context.maybePop();
                       },
                       child: Text('cancel'.tr()),
                     ),
@@ -375,13 +387,13 @@ class TotemDialog extends ConsumerWidget {
                         case TotemError.noWomForThisEvent:
                         case TotemError.totemSessionInactive:
                         case TotemError.mockedLocation:
-                          Navigator.of(context).pop();
+                          context.maybePop();
                           break;
                         case TotemError.gpsServiceDisabled:
                           Geolocator.openLocationSettings();
                           break;
                         case TotemError.gpsPermissionDeniedForever:
-                          Navigator.of(context).pop();
+                          context.maybePop();
                           Geolocator.openAppSettings();
                           break;
                         case TotemError.gpsPermission:
@@ -475,7 +487,7 @@ class GenderSelectorWidget extends HookConsumerWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  context.maybePop();
                 },
                 child: Text('cancel'.tr()),
               ),

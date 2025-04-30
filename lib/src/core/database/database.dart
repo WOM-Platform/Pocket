@@ -7,6 +7,7 @@ import 'package:drift/native.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/src/core/database/aims_dao.dart';
 import 'package:wom_pocket/src/core/database/tables.dart';
 import 'package:wom_pocket/src/core/database/totems_dao.dart';
@@ -70,37 +71,51 @@ class MyDatabase extends _$MyDatabase {
       },
       onUpgrade: (Migrator m, int from, int to) async {
         logger.w('from $from to $to');
-        if (from < 4) {
-          await m.addColumn(wom, wom.donationId);
-          await m.addColumn(wom, wom.spentOn);
-          await m.renameColumn(wom, 'live', wom.spent);
-          await m.renameColumn(wom, 'Timestamp', wom.addedOn);
-          await m.addColumn(transactions, transactions.pin);
-          await m.addColumn(transactions, transactions.link);
-          await m.addColumn(transactions, transactions.deadline);
-        } else if (from < 5) {
-          await m.createTable(totems);
-        } else if (from < 6) {
-          await m.addColumn(totems, totems.eventName);
-          await m.addColumn(totems, totems.sessionName);
-          await m.addColumn(totems, totems.womLink);
-          await m.addColumn(totems, totems.womPin);
-          await m.addColumn(totems, totems.latitude);
-          await m.addColumn(totems, totems.longitude);
-          await m.addColumn(totems, totems.totemName);
-          await m.addColumn(totems, totems.providerName);
-          await m.addColumn(totems, totems.email);
-          await m.addColumn(totems, totems.phoneNumber);
-          await m.addColumn(totems, totems.url);
-        } else if (from < 7) {
-          await m.addColumn(totems, totems.image);
-          await m.addColumn(totems, totems.notes);
-        }
+
+        Sentry.addBreadcrumb(
+          Breadcrumb(
+            message: 'db migration from $from to $to',
+          ),
+        );
+
+        await transaction(() async {
+          if (from < 4) {
+            await m.addColumn(wom, wom.donationId);
+            await m.addColumn(wom, wom.spentOn);
+            await m.renameColumn(wom, 'live', wom.spent);
+            await m.renameColumn(wom, 'Timestamp', wom.addedOn);
+            await m.addColumn(transactions, transactions.pin);
+            await m.addColumn(transactions, transactions.link);
+            await m.addColumn(transactions, transactions.deadline);
+          } else if (from < 5) {
+            await m.createTable(totems);
+          } else if (from < 6) {
+            await m.addColumn(totems, totems.eventName);
+            await m.addColumn(totems, totems.sessionName);
+            await m.addColumn(totems, totems.womLink);
+            await m.addColumn(totems, totems.womPin);
+            await m.addColumn(totems, totems.latitude);
+            await m.addColumn(totems, totems.longitude);
+            await m.addColumn(totems, totems.totemName);
+            await m.addColumn(totems, totems.providerName);
+            await m.addColumn(totems, totems.email);
+            await m.addColumn(totems, totems.phoneNumber);
+            await m.addColumn(totems, totems.url);
+          } else if (from < 7) {
+            await m.addColumn(totems, totems.image);
+            await m.addColumn(totems, totems.notes);
+          }
+        });
       },
       beforeOpen: (details) async {
-        logger.i('version before: ${details.versionBefore}');
-        logger.i('version now: ${details.versionNow}');
-
+        final message =
+            'db beforeOpen ${details.versionBefore} => ${details.versionNow}';
+        logger.i(message);
+        Sentry.addBreadcrumb(
+          Breadcrumb(
+            message: message,
+          ),
+        );
         if (kDebugMode) {
           // This check pulls in a fair amount of code that's not needed
           // anywhere else, so we recommend only doing it in debug builds.

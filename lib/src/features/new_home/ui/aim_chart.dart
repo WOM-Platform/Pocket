@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wom_pocket/app.dart';
 
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 
@@ -45,8 +47,7 @@ class AimChartState extends ConsumerState<AimChart> {
           title: 'stats'.tr(),
           text: 'seeAll'.tr(),
           onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => StatsScreen()));
+            context.push('/stats');
           },
         ),
         Row(
@@ -56,31 +57,19 @@ class AimChartState extends ConsumerState<AimChart> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    'availableWom'.tr(),
-                    style: labelStyle,
-                  ),
-                  Text(
-                    count,
-                    style: valueStyle,
+                  TextWithLabel(
+                    label: 'availableWom'.tr(),
+                    text: count,
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    'earnLastWeek'.tr(),
-                    style: labelStyle,
-                  ),
-                  Text(
-                    earnedLastWeek,
-                    style: valueStyle,
+                  TextWithLabel(
+                    label: 'earnLastWeek'.tr(),
+                    text: earnedLastWeek,
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    'spentLastWeek'.tr(),
-                    style: labelStyle,
-                  ),
-                  Text(
-                    spentLastWeek,
-                    style: valueStyle,
+                  TextWithLabel(
+                    label: 'spentLastWeek'.tr(),
+                    text: spentLastWeek,
                   ),
                 ],
               ),

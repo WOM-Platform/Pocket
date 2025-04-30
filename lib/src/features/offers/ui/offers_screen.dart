@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -46,9 +47,8 @@ class OffersListScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (c) => OfferMapsScreen()));
-            },
+              context.go('/offers/map');
+             },
             child: Text('showMap'.tr()),
           ),
         ],
@@ -168,16 +168,11 @@ class OffersList extends ConsumerWidget {
                             child: CityCard(
                               city: cities[index],
                               onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (c) => OfferMapsScreen(
-                                      position: LatLng(
-                                        cities[index].lat,
-                                        cities[index].long,
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                context.push('/offers/map', extra: LatLng(
+                                  cities[index].lat,
+                                  cities[index].long,
+                                ),);
+
                               },
                             ),
                           );
@@ -190,21 +185,18 @@ class OffersList extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: InkWell(
                           onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => POSDetailsScreen(
-                                  posName: offers[i].name,
-                                  isVirtual: false,
-                                  imageUrl:
-                                      offers[i].cover?.midDensityFullWidthUrl,
-                                  distance: offers[i].distance,
-                                  url: offers[i].url,
-                                  offers: offers[i].offers,
-                                  posID: offers[i].id,
-                                  position: offers[i].position,
-                                ),
-                              ),
+                            final data = PosDetailsData(
+                              posName: offers[i].name,
+                              isVirtual: false,
+                              imageUrl: offers[i].cover?.midDensityFullWidthUrl,
+                              distance: offers[i].distance,
+                              url: offers[i].url,
+                              offers: offers[i].offers,
+                              posID: offers[i].id,
+                              position: offers[i].position,
                             );
+                            context.push('/offers/pos-details', extra: data);
+
                           },
                           child: PosTile(
                             posName: offers[i].name,
@@ -389,17 +381,15 @@ class VirtualPOSCard extends ConsumerWidget {
           aspectRatio: 3 / 2,
           child: InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => POSDetailsScreen(
-                    posName: virtual.name,
-                    isVirtual: true,
-                    url: virtual.url,
-                    imageUrl: virtual.cover?.midDensityFullWidthUrl,
-                    position: null,
-                  ),
-                ),
+              final data = PosDetailsData(
+                posName: virtual.name,
+                isVirtual: true,
+                url: virtual.url,
+                imageUrl: virtual.cover?.midDensityFullWidthUrl,
+                position: null,
               );
+              context.push('/offers/pos-details', extra: data);
+
             },
             child: Card(
               clipBehavior: Clip.antiAlias,

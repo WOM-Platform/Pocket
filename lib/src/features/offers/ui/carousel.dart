@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
@@ -100,22 +101,18 @@ class CarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => POSDetailsScreen(
-              posName: pos.name,
-              description: pos.description,
-              distance: pos.distance,
-              url: pos.url,
-              offers: pos.offers,
-              imageUrl: pos.cover?.midDensityFullWidthUrl,
-              position: pos.position,
-            ),
-          ),
+        final data = PosDetailsData(
+          posName: pos.name,
+          description: pos.description,
+          distance: pos.distance,
+          url: pos.url,
+          offers: pos.offers,
+          imageUrl: pos.cover?.midDensityFullWidthUrl,
+          position: pos.position,
         );
+        context.push('/offers/map/pos-details', extra: data);
       },
       child: Card(
         elevation: 8.0,
@@ -164,11 +161,12 @@ class CarouselItem extends StatelessWidget {
                 if (pos.url != null)
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => SuggestionScreen(url: pos.url!),
-                        ),
-                      );
+                      context.push('/offers/map/pos-details/external-info?url=${pos.url!}');
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (_) => SuggestionScreen(url: pos.url!),
+                      //   ),
+                      // );
                     },
                     child: Text(
                       pos.url!,

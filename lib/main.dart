@@ -106,9 +106,12 @@ startApp() {
 //https://link.wom.social/vouchers/a769134e-b2af-4c3c-bdf0-013dc609de7c
 
 // adb shell am start -a android.intent.action.VIEW -d https://link.dev.wom.social/vouchers/4f4ef4b1-e57b-4517-8eda-75db59caddc2
+// adb shell am start -a android.intent.action.VIEW -d wom://transfer/4f4ef4b1-e57b-4517-8eda-75db59caddc2
 // adb shell am start -a android.intent.action.VIEW -d https://link.wom.social/vouchers/aca81697-1e93-49d0-be20-5e3897d09296
+// adb shell am start -a android.intent.action.VIEW -d https://link.wom.social/connection/Y%2FuOjyJxoidfPNRywyfGqlDopl0kECI29TO1LV43JnJJqfKv8Hmaw%2BnQW8D27fRxIHtdWTId3gyXk2fZeYmS3MNiKMvGAo%2FnjyyvTEcBhxGms263zTKA7D6gvlNwSP2Q
 
 //fvm flutter build apk --flavor development -t lib/main_dev.dart
 //xcrun simctl openurl booted https://dev.wom.social/vouchers/5722523d-3257-493e-9107-d8954a1fcd91
 
-//xcrun simctl openurl booted https://link.dev.wom.social/vouchers/2bfa24d3-27a7-4a45-816c-39826fc210dd
+//xcrun simctl openurl booted https://link.wom.social/connection/Y%2FuOjyJxoidfPNRywyfGqlDopl0kECI29TO1LV43JnJJqfKv8Hmaw%2BnQW8D27fRxIHtdWTId3gyXk2fZeYmS3MNiKMvGAo%2FnjyyvTEcBhxGms263zTKA7D6gvlNwSP2Q
+

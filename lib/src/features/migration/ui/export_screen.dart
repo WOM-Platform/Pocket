@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
 import 'package:wom_pocket/app.dart';
@@ -78,19 +79,20 @@ class MigrationExportScreen extends ConsumerWidget {
             child: GestureDetector(
               onTap: () {
                 if (kDebugMode) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (c) => ProviderScope(
-                        overrides: [
-                          deeplinkProvider.overrideWithValue(
-                            DeepLinkModel.fromUri(Uri.parse(data.link)),
-                          ),
-                          importNotifierProvider,
-                        ],
-                        child: ImportScreen(),
-                      ),
-                    ),
-                  );
+                  context.go('/import',extra: DeepLinkModel.fromUri(Uri.parse(data.link)));
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (c) => ProviderScope(
+                  //       overrides: [
+                  //         deeplinkProvider.overrideWithValue(
+                  //           DeepLinkModel.fromUri(Uri.parse(data.link)),
+                  //         ),
+                  //         importNotifierProvider,
+                  //       ],
+                  //       child: ImportScreen(),
+                  //     ),
+                  //   ),
+                  // );
                 }
               },
               child: ColoredBox(
@@ -147,12 +149,13 @@ class MigrationExportScreen extends ConsumerWidget {
       floatingActionButton: backTo
           ? FloatingActionButton.extended(
               onPressed: () async {
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (c) => GateWidget(),
-                  ),
-                  (route) => false,
-                );
+                context.go('/');
+                // Navigator.of(context).pushAndRemoveUntil(
+                //   MaterialPageRoute(
+                //     builder: (c) => GateWidget(),
+                //   ),
+                //   (route) => false,
+                // );
               },
               label: Text('backToHome'.tr()),
             )

@@ -55,7 +55,9 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
             logger.i('Page started loading: $url');
           },
           onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {},
+          onWebResourceError: (WebResourceError error) {
+            logger.e('SuggestionScreen',error: error);
+          },
           onNavigationRequest: (NavigationRequest request) {
             if (!request.url.startsWith(restrictedDomain)) {
               logger.i('blocking navigation to $request}');

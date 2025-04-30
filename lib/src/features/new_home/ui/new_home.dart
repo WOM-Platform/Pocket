@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 
 import 'package:wom_pocket/src/core/my_logger.dart';
@@ -98,12 +99,7 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                               GestureDetector(
                                 onTap: () {
                                   logEvent('open_wom_map');
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MapScreen(),
-                                    ),
-                                  );
+                                  context.push('/wom-map');
                                 },
                                 child: Container(
                                   color: Colors.transparent,
@@ -132,11 +128,7 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                       text: 'seeAll'.tr(),
                       leftPadding: 16,
                       onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => TransactionsScreen(),
-                          ),
-                        );
+                        context.push('/transactions');
                       },
                     ),
                   ),

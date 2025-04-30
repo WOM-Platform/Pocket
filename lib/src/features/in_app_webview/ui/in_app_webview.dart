@@ -12,7 +12,7 @@ enum PopupActions { open, copy }
 class InAppWebViewScreen extends StatefulWidget {
   InAppWebViewScreen({required this.url, Key? key}) : super(key: key);
 
-  final String url;
+  final String? url;
 
   @override
   State<InAppWebViewScreen> createState() => _InAppWebViewScreenState();
@@ -27,46 +27,54 @@ class _InAppWebViewScreenState extends State<InAppWebViewScreen> {
     // Enable virtual display.
     // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
-    final split = widget.url.split('/');
-    logger.i(split);
-    restrictedDomain = '${split[0]}//${split[2]}/';
-    logger.i(restrictedDomain);
+    final url = widget.url;
+    if (url != null) {
+      final split = url.split('/');
+      logger.i(split);
+      restrictedDomain = '${split[0]}//${split[2]}/';
+      logger.i(restrictedDomain);
 
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      //
-      // onWebResourceError: (err) {
-      // logger.i('Page error: $err');
-      // },
-      //
-      //
-      // gestureNavigationEnabled: true,
-      //
-      //   ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-            logger.i('WebView is loading (progress : $progress%)');
-            setState(() {
-              loadingStatus = progress.toDouble();
-            });
-          },
-          onPageStarted: (String url) {
-            logger.i('Page started loading: $url');
-          },
-          onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
-            if (!request.url.startsWith(restrictedDomain)) {
-              logger.i('blocking navigation to $request}');
-              return NavigationDecision.prevent;
-            }
-            logger.i('allowing navigation to $request');
-            return NavigationDecision.navigate;
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse(widget.url));
+      controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        //
+        // onWebResourceError: (err) {
+        // logger.i('Page error: $err');
+        // },
+        //
+        //
+        // gestureNavigationEnabled: true,
+        //
+        //   ..setBackgroundColor(const Color(0x00000000))
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onProgress: (int progress) {
+              logger.i('WebView is loading (progress : $progress%)');
+              setState(() {
+                loadingStatus = progress.toDouble();
+              });
+            },
+            onPageStarted: (String url) {
+              logger.i('Page started loading: $url');
+            },
+            onPageFinished: (String url) {},
+            onWebResourceError: (WebResourceError error) {
+              logger.e(
+                'InAppWebviewScreen',
+                error: error,
+              );
+            },
+            onNavigationRequest: (NavigationRequest request) {
+              if (!request.url.startsWith(restrictedDomain)) {
+                logger.i('blocking navigation to $request}');
+                return NavigationDecision.prevent;
+              }
+              logger.i('allowing navigation to $request');
+              return NavigationDecision.navigate;
+            },
+          ),
+        )
+        ..loadRequest(Uri.parse(url));
+    }
   }
 
   late String restrictedDomain;
@@ -74,72 +82,80 @@ class _InAppWebViewScreenState extends State<InAppWebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final url = widget.url;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text(widget.url),
+        title: Text(widget.url ?? 'Invalid url'),
         actions: [
-          PopupMenuButton<PopupActions>(
-            initialValue: null,
-            // Callback that sets the selected popup menu item.
-            onSelected: (PopupActions item) {
-              switch (item) {
-                case PopupActions.open:
-                  Utils.launchURL(widget.url);
-                  break;
-                case PopupActions.copy:
-                  Clipboard.setData(ClipboardData(text: widget.url)).then((_) {
-                    showToast(
-                      'Indirizzo web copiato negli appunti',
-                      position: ToastPosition.bottom,
-                    );
-                  });
-                  break;
-              }
-            },
-            itemBuilder: (BuildContext context) =>
-                <PopupMenuEntry<PopupActions>>[
-              PopupMenuItem<PopupActions>(
-                value: PopupActions.open,
-                child: Text('openWithSystemBrowser'.tr()),
-              ),
-              PopupMenuItem<PopupActions>(
-                value: PopupActions.copy,
-                child: Text('copyWebAddress'.tr()),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          WebViewWidget(
-            controller: controller,
-          ),
-          if (loadingStatus < 100)
-            ColoredBox(
-              color: Colors.white,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('Caricamento...', style: TextStyle(fontSize: 18)),
-                      const SizedBox(height: 8),
-                      LinearProgressIndicator(
-                        color: Theme.of(context).primaryColor,
-                        backgroundColor: Colors.grey,
-                        value: loadingStatus / 100,
-                        semanticsLabel: 'Linear progress indicator',
-                      ),
-                    ],
-                  ),
+          if (url != null)
+            PopupMenuButton<PopupActions>(
+              initialValue: null,
+              // Callback that sets the selected popup menu item.
+              onSelected: (PopupActions item) {
+                switch (item) {
+                  case PopupActions.open:
+                    Utils.launchURL(url);
+                    break;
+                  case PopupActions.copy:
+                    Clipboard.setData(ClipboardData(text: url)).then((_) {
+                      showToast(
+                        'Indirizzo web copiato negli appunti',
+                        position: ToastPosition.bottom,
+                      );
+                    });
+                    break;
+                }
+              },
+              itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<PopupActions>>[
+                PopupMenuItem<PopupActions>(
+                  value: PopupActions.open,
+                  child: Text('openWithSystemBrowser'.tr()),
                 ),
-              ),
+                PopupMenuItem<PopupActions>(
+                  value: PopupActions.copy,
+                  child: Text('copyWebAddress'.tr()),
+                ),
+              ],
             ),
         ],
       ),
+      body: url == null
+          ? Center(
+              // TODO translate
+              child: Text('URL non valido'),
+            )
+          : Stack(
+              children: [
+                WebViewWidget(
+                  controller: controller,
+                ),
+                if (loadingStatus < 100)
+                  ColoredBox(
+                    color: Colors.white,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text('Caricamento...',
+                                style: TextStyle(fontSize: 18)),
+                            const SizedBox(height: 8),
+                            LinearProgressIndicator(
+                              color: Theme.of(context).primaryColor,
+                              backgroundColor: Colors.grey,
+                              value: loadingStatus / 100,
+                              semanticsLabel: 'Linear progress indicator',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
     );
   }
 }

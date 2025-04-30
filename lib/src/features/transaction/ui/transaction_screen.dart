@@ -1,9 +1,11 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rive/rive.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 
 import 'package:wom_pocket/src/features/transaction/application/transaction_state.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
@@ -58,7 +60,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
 
   void backToHome() {
     refreshHome();
-    Navigator.of(context).pop();
+    context.go('/');
   }
 
   refreshHome() {
@@ -87,7 +89,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
         statusBarColor: Theme.of(context).primaryColor,
       ),
       child: PopScope(
-        onPopInvoked: (_){
+        onPopInvokedWithResult: (_, __) {
           refreshHome();
         },
         child: Scaffold(
@@ -178,11 +180,11 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                     shape: BoxShape.circle,
                                     color: Theme.of(context).primaryColor,
                                   ),
-                                  child: FlareActor(
-                                    'assets/flare/check.flr',
+                                  child: RiveAnimation.asset(
+                                    'assets/flare/check.riv',
                                     alignment: Alignment.center,
                                     fit: BoxFit.contain,
-                                    animation: 'success',
+                                    // animation: 'success',
                                   ),
                                 ),
                                 SizedBox(
@@ -253,20 +255,10 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                       child: CircularProgressIndicator(),
                     );
                   }
-                  return Center(
-                    child: Text(
-                      'somethings_wrong'.tr(),
-                      style: whiteTextStyle,
-                    ),
-                  );
+                  return GenericError();
                 },
                 error: (err, st) {
-                  return Center(
-                    child: Text(
-                      'somethings_wrong'.tr(),
-                      style: whiteTextStyle,
-                    ),
-                  );
+                  return GenericError();
                 },
                 loading: () {
                   return Center(
@@ -290,6 +282,20 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
       TransactionType.EXCHANGE_EXPORT => '',
       TransactionType.EXCHANGE_IMPORT => 'import_exchange_completed'.tr(),
     };
+  }
+}
+
+class GenericError extends StatelessWidget {
+  const GenericError({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TransactionErrorWidget(
+      message: 'somethings_wrong'.tr(),
+      backToHome: () {
+        context.maybePop();
+      },
+    );
   }
 }
 

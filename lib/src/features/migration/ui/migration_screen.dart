@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/core/constants.dart';
 
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_error.dart';
 import 'package:wom_pocket/src/features/migration/application/migration_notifier.dart';
 import 'package:wom_pocket/src/features/migration/application/migration_state.dart';
@@ -185,7 +186,7 @@ class PageThree extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  context.maybePop();
                 },
                 child: Text(
                   'cancel'.tr(),
@@ -349,7 +350,7 @@ class SummaryPage extends ConsumerWidget {
                         'cancel'.tr(),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pop(false);
+                        context.maybePop(false);
                       },
                     ),
                     DialogButton(
@@ -358,7 +359,7 @@ class SummaryPage extends ConsumerWidget {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
-                        Navigator.of(context).pop(true);
+                        context.maybePop(true);
                       },
                     ),
                   ],

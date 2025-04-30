@@ -2,11 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/features/settings/table_page/db_page.dart';
 import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
@@ -63,12 +66,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               onTap: () async {
                 final woms =
                     await ref.read(getDatabaseProvider).womsDao.getAllWoms;
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        WomDbTablePage(woms: woms),
-                  ),
-                );
+                context.push('/settings/wom-db-table', extra: woms);
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (BuildContext context) =>
+                //         WomDbTablePage(woms: woms),
+                //   ),
+                // );
               },
             ),
           SettingsItem(
@@ -80,8 +84,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 totalWomCountProvider.future,
               );
               if (count > 0) {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (c) => MigrationScreen()));
+                context.push('/settings/migration');
               } else {
                 Alert(
                   context: context,
@@ -96,18 +99,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             text: 'settings.cmi.title'.tr(),
             desc: 'settings.cmi.desc'.tr(),
           ),
-          SettingsItem(
-            title: 'settings.cmi.totem_title'.tr(),
-            subtitle: 'settings.cmi.totem_desc'.tr(),
-            icon: Icons.list,
-            onTap: () async {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => TotemScansScreen(),
-                ),
-              );
-            },
-          ),
+          // SettingsItem(
+          //   title: 'settings.cmi.totem_title'.tr(),
+          //   subtitle: 'settings.cmi.totem_desc'.tr(),
+          //   icon: Icons.list,
+          //   onTap: () async {
+          //     context.push('/settings/totem-scans');
+          //   },
+          // ),
           ValueListenableBuilder(
             valueListenable: Hive.box('settings').listenable(),
             builder: (context, box, _) {
@@ -165,13 +164,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             // ),
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => IntroScreen(
-                    fromSettings: true,
-                  ),
-                ),
-              );
+              context.go('/settings/intro');
             },
           ),
           SettingsItem(
@@ -214,6 +207,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               icon: Icons.delete,
               onTap: () async {
                 ref.read(getDatabaseProvider).deleteEverything();
+                Hive.box('settings').clear();
               },
             ),
             SettingsItem(
@@ -221,8 +215,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               subtitle: 'Go to logs screen',
               icon: Icons.bug_report,
               onTap: () async {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (c) => LogOutputScreen()));
+                context.push('/settings/logs');
+                // Navigator.of(context)
+                //     .push(MaterialPageRoute(builder: (c) => LogOutputScreen()));
               },
             ),
           ],
@@ -354,7 +349,7 @@ class LanguageSelectorDialog extends StatelessWidget {
                     onChanged: (val) {
                       if (val == null) return;
                       context.setLocale(val);
-                      Navigator.of(context).pop();
+                      context.maybePop();
                     },
                     child: Text(l.languageCode.tr()),
                   ),

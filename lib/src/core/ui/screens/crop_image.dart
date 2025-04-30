@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_editor/image_editor.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
 
 class ConfigurableCrop extends StatefulWidget {
@@ -111,7 +112,7 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
               if (_croppedData != null) {
                 croppedData = null;
               } else {
-                Navigator.of(context).pop();
+                context.maybePop();
               }
             },
           ),
@@ -188,7 +189,7 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
                       child: MyButton(
                         onPressed: () {
                           canPop = true;
-                          Navigator.of(context).pop(_croppedData);
+                          context.maybePop(_croppedData);
                         },
                         text: 'crop_screen.save'.tr(),
                       ),

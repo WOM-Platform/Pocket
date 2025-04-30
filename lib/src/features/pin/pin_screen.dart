@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
@@ -12,18 +12,16 @@ import 'package:wom_pocket/src/features/pin/application/pin_state.dart';
 import 'package:wom_pocket/src/features/pin/widgets/code_panel.dart';
 import 'package:wom_pocket/src/features/pin/widgets/keyboard.dart';
 import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
-import 'package:wom_pocket/src/features/transaction/ui/transaction_screen.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
-
-part 'pin_screen.g.dart';
-
-@riverpod
-DeepLinkModel deeplink(DeeplinkRef ref) {
-  throw UnimplementedError();
-}
 
 class PinScreen extends ConsumerWidget {
   // late PinBloc bloc;
+  final DeepLinkModel deepLinkModel;
+
+  PinScreen({
+    required this.deepLinkModel,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,10 +32,9 @@ class PinScreen extends ConsumerWidget {
       ),
     );
     final pinState = ref.watch(pinNotifierProvider);
-    final deeplinkModel = ref.watch(deeplinkProvider);
     ref.listen<PinState>(pinNotifierProvider, (previous, next) {
       if (next is PinVerified) {
-        goToAcceptCredits(context, next.pin, deeplinkModel);
+        goToAcceptCredits(context, next.pin);
       }
     });
     return Scaffold(
@@ -88,19 +85,19 @@ class PinScreen extends ConsumerWidget {
     );
   }
 
-  void goToAcceptCredits(
-    BuildContext context,
-    String password,
-    DeepLinkModel deepLinkModel,
-  ) {
+  void goToAcceptCredits(BuildContext context, String password) {
     logger.i('goToAcceptCredits');
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute<bool>(
-        builder: (context) => TransactionScreen(
-          params: TransactionNotifierParams(deepLinkModel, password),
-        ),
-      ),
+    context.go(
+      '/transaction',
+      extra: TransactionNotifierParams(deepLinkModel, password),
     );
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute<bool>(
+    //     builder: (context) => TransactionScreen(
+    //       params: TransactionNotifierParams(deepLinkModel, password),
+    //     ),
+    //   ),
+    // );
   }
 }

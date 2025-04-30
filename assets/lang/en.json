@@ -178,6 +178,7 @@
   "whereWeAre": "Active locations",
   "device": "device",
   "exchange": "Exchange",
+  "connections": "Connections",
   "lastDonation": "Last donations",
   "noDonation": "No donations",
   "noWomToDonate": "Collect WOM vouchers to make a donation",
@@ -209,8 +210,8 @@
   "totemErrorGpsPermission": "I need access to your location in order to check whether you are in the right place",
   "totemErrorGpsServiceDisabled": "I need access to your location in order to check whether you are in the right place",
   "totemErrorEventIsClosed": "The event has ended",
-  "totemErrorSessionAlreadyScanned": "You already scanned the QR Code for this session",
-  "totemErrorSessionAlreadyScannedForThisTotem": "You already scanned the QR Code for this session with this totem",
+  "totemErrorSessionAlreadyScanned": "You already scanned the QR Code for this session.\nIf you think you have not received your WOMs, go to the \"Connections\" tab, select the totem and redeem your WOMs from the button at the top right.",
+  "totemErrorSessionAlreadyScannedForThisTotem": "You already scanned the QR Code for this session with this totem.\nIf you think you have not received your WOMs, go to the \"Connections\" tab, select the totem and redeem your WOMs from the button at the top right.",
   "totemSessionInactive": "The totem is linked to an inactive session",
   "totemErrorOutOfPolygon": "Your current location is too far away from the event",
   "totemDisabled": "This totem is not active now.",
@@ -281,6 +282,50 @@
     "notes": "Notes",
     "tap_here_to_change": "Tap here to add notes",
     "select_image_source": "Select image source"
+  },
+  "personal_totem": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "url": "URL",
+    "generate_desc": "Create your personal card to share it...",
+    "generate_button": "Generate",
+    "errors": {
+      "missing_permissions": "It seems you haven't granted some permissions, go to settings by pressing the button below.",
+      "gps_disabled": "GPS is disabled, press the button below to enable it from settings.",
+      "generic": "An unexpected error occurred!"
+    },
+    "error_actions": {
+      "missing_permissions": "Grant permissions",
+      "gps_disabled": "Enable GPS",
+      "generic": "Try again"
+    }
+  },
+  "redeem_personal_totem": {
+    "try_again": "Try again",
+    "errors": {
+      "out_of_time": "The elapsed time is more than 1 minute, please scan the QR code again!",
+      "out_of_distance": "Are you sure you are near the device?",
+      "generic": "An unexpected error occurred",
+      "missing_permissions": "It seems you haven't granted some permissions, go to settings by pressing the button below.",
+      "gps_disabled": "GPS is disabled, press the button below to enable it from settings."
+    },
+    "error_actions": {
+      "missing_permissions": "Grant permissions",
+      "gps_disabled": "Enable GPS",
+      "generic": "Try again"
+    },
+    "processing": "We are performing the necessary checks to validate the scan!"
+  },
+  "edit_my_personal_totem": {
+    "edit": "Edit",
+    "save": "Save",
+    "success": "Successfully saved!",
+    "error": "Error during saving!",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "url": "URL"
   },
   "crop_screen": {
     "save": "Save"

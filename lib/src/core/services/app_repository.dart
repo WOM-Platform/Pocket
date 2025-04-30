@@ -8,7 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/services/aim_repository.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
-import 'package:uni_links/uni_links.dart';
+// import 'package:uni_links/uni_links.dart';
 import 'package:http/http.dart' as http;
 import 'package:wom_pocket/src/core/my_logger.dart';
 
@@ -30,25 +30,25 @@ class AppRepository {
     return _aimRepository.updateAim();
   }
 
-  Future<DeepLinkModel> getDeepLink() async {
-    try {
-      Uri? initialUri = await getInitialUri();
-      logger.i('AppRepository uri : $initialUri');
-      final deepLinkModel = DeepLinkModel.fromUri(initialUri);
-      return deepLinkModel;
-    } on PlatformException {
-      logger.i('AppReposirotry');
-      logger.i('Failed to get initial link.');
-      return Future.error('Failed to get initial link.');
-    } on FormatException {
-      logger.i('AppReposirotry');
-      logger.i('Failed to parse the initial link as Uri.');
-      return Future.error('Failed to parse the initial link as Uri.');
-    } catch (e, st) {
-      logger.e('Unknown error', error: e, stackTrace: st);
-      return Future.error(e);
-    }
-  }
+  // Future<DeepLinkModel> getDeepLink() async {
+  //   try {
+  //     Uri? initialUri = await getInitialUri();
+  //     logger.i('AppRepository uri : $initialUri');
+  //     final deepLinkModel = DeepLinkModel.fromUri(initialUri);
+  //     return deepLinkModel;
+  //   } on PlatformException {
+  //     logger.i('AppReposirotry');
+  //     logger.i('Failed to get initial link.');
+  //     return Future.error('Failed to get initial link.');
+  //   } on FormatException {
+  //     logger.i('AppReposirotry');
+  //     logger.i('Failed to parse the initial link as Uri.');
+  //     return Future.error('Failed to parse the initial link as Uri.');
+  //   } catch (e, st) {
+  //     logger.e('Unknown error', error: e, stackTrace: st);
+  //     return Future.error(e);
+  //   }
+  // }
 
   Future<AppStatus> getAppStatus() async {
     final platform = Platform.operatingSystem.toLowerCase();

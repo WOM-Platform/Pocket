@@ -15,6 +15,7 @@ import 'package:wom_pocket/src/core/models/transaction_model.dart';
 import 'package:wom_pocket/src/core/models/wom_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/root/widgets/totem_dialog.dart';
+import 'package:wom_pocket/src/features/totem/models/my_totem_response.dart';
 
 part 'transaction_repository.g.dart';
 
@@ -241,6 +242,46 @@ class TransactionRepository {
       );
       if (response.statusCode == 200) {
         return TotemResponse.fromJson(response.data);
+      }
+      throw Exception('Error from embedded api: ${response.statusCode}');
+    } on DioException catch (e) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx and is also not 304.
+      if (e.response != null) {
+        logger.w(e.response!.data);
+        logger.w(e.response!.headers);
+        logger.w(e.response!.requestOptions);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        logger.w(e.requestOptions);
+        logger.w(e.message);
+      }
+      rethrow;
+    } catch (ex) {
+      rethrow;
+    }
+  }
+
+  Future<MyTotemResponse> generatePersonalTotem({
+    required String name,
+    String? email,
+    String? phone,
+    String? website,
+    String? totemId,
+  }) async {
+    try {
+      final response = await dio.post(
+        '$functionsBaseUrl/embedded-generatePersonalTotem',
+        data: {
+          'name': name,
+          'email': email,
+          'phone': phone,
+          'website': website,
+          'totemId': totemId,
+        },
+      );
+      if (response.statusCode == 200) {
+        return MyTotemResponse.fromJson(response.data);
       }
       throw Exception('Error from embedded api: ${response.statusCode}');
     } on DioException catch (e) {

@@ -222,3 +222,189 @@ abstract class _TotemData implements TotemData {
   _$$TotemDataImplCopyWith<_$TotemDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$ConnectionTotemData {
+  String get totemId => throw _privateConstructorUsedError;
+  DateTime get timestamp => throw _privateConstructorUsedError;
+  double get lat => throw _privateConstructorUsedError;
+  double get long => throw _privateConstructorUsedError;
+
+  /// Create a copy of ConnectionTotemData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ConnectionTotemDataCopyWith<ConnectionTotemData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ConnectionTotemDataCopyWith<$Res> {
+  factory $ConnectionTotemDataCopyWith(
+          ConnectionTotemData value, $Res Function(ConnectionTotemData) then) =
+      _$ConnectionTotemDataCopyWithImpl<$Res, ConnectionTotemData>;
+  @useResult
+  $Res call({String totemId, DateTime timestamp, double lat, double long});
+}
+
+/// @nodoc
+class _$ConnectionTotemDataCopyWithImpl<$Res, $Val extends ConnectionTotemData>
+    implements $ConnectionTotemDataCopyWith<$Res> {
+  _$ConnectionTotemDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ConnectionTotemData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? totemId = null,
+    Object? timestamp = null,
+    Object? lat = null,
+    Object? long = null,
+  }) {
+    return _then(_value.copyWith(
+      totemId: null == totemId
+          ? _value.totemId
+          : totemId // ignore: cast_nullable_to_non_nullable
+              as String,
+      timestamp: null == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      lat: null == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double,
+      long: null == long
+          ? _value.long
+          : long // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ConnectionTotemDataImplCopyWith<$Res>
+    implements $ConnectionTotemDataCopyWith<$Res> {
+  factory _$$ConnectionTotemDataImplCopyWith(_$ConnectionTotemDataImpl value,
+          $Res Function(_$ConnectionTotemDataImpl) then) =
+      __$$ConnectionTotemDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String totemId, DateTime timestamp, double lat, double long});
+}
+
+/// @nodoc
+class __$$ConnectionTotemDataImplCopyWithImpl<$Res>
+    extends _$ConnectionTotemDataCopyWithImpl<$Res, _$ConnectionTotemDataImpl>
+    implements _$$ConnectionTotemDataImplCopyWith<$Res> {
+  __$$ConnectionTotemDataImplCopyWithImpl(_$ConnectionTotemDataImpl _value,
+      $Res Function(_$ConnectionTotemDataImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ConnectionTotemData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? totemId = null,
+    Object? timestamp = null,
+    Object? lat = null,
+    Object? long = null,
+  }) {
+    return _then(_$ConnectionTotemDataImpl(
+      totemId: null == totemId
+          ? _value.totemId
+          : totemId // ignore: cast_nullable_to_non_nullable
+              as String,
+      timestamp: null == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      lat: null == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double,
+      long: null == long
+          ? _value.long
+          : long // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ConnectionTotemDataImpl implements _ConnectionTotemData {
+  const _$ConnectionTotemDataImpl(
+      {required this.totemId,
+      required this.timestamp,
+      required this.lat,
+      required this.long});
+
+  @override
+  final String totemId;
+  @override
+  final DateTime timestamp;
+  @override
+  final double lat;
+  @override
+  final double long;
+
+  @override
+  String toString() {
+    return 'ConnectionTotemData(totemId: $totemId, timestamp: $timestamp, lat: $lat, long: $long)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ConnectionTotemDataImpl &&
+            (identical(other.totemId, totemId) || other.totemId == totemId) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp) &&
+            (identical(other.lat, lat) || other.lat == lat) &&
+            (identical(other.long, long) || other.long == long));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, totemId, timestamp, lat, long);
+
+  /// Create a copy of ConnectionTotemData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ConnectionTotemDataImplCopyWith<_$ConnectionTotemDataImpl> get copyWith =>
+      __$$ConnectionTotemDataImplCopyWithImpl<_$ConnectionTotemDataImpl>(
+          this, _$identity);
+}
+
+abstract class _ConnectionTotemData implements ConnectionTotemData {
+  const factory _ConnectionTotemData(
+      {required final String totemId,
+      required final DateTime timestamp,
+      required final double lat,
+      required final double long}) = _$ConnectionTotemDataImpl;
+
+  @override
+  String get totemId;
+  @override
+  DateTime get timestamp;
+  @override
+  double get lat;
+  @override
+  double get long;
+
+  /// Create a copy of ConnectionTotemData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ConnectionTotemDataImplCopyWith<_$ConnectionTotemDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

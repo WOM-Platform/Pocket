@@ -1,26 +1,11 @@
-import 'dart:io';
 
-import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:wom_pocket/src/core/application/app_notifier.dart';
-import 'package:wom_pocket/src/core/application/app_state.dart';
-import 'package:wom_pocket/src/features/migration/application/import_notifier.dart';
-import 'package:wom_pocket/src/features/migration/ui/import_screen.dart';
-import 'package:wom_pocket/src/core/models/deep_link_model.dart';
-import 'package:wom_pocket/src/core/models/totem_data.dart';
-import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/features/nfc/utils.dart';
-import 'package:wom_pocket/src/features/root/root_screen.dart';
-import 'package:wom_pocket/src/features/pin/pin_screen.dart';
+import 'package:wom_pocket/src/core/routing/router.dart';
 
-import 'package:wom_pocket/src/features/intro/intro.dart';
-import 'package:wom_pocket/src/features/settings/settings.dart';
-import 'package:wom_pocket/src/features/splash/splash_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
@@ -40,7 +25,8 @@ class App extends ConsumerWidget {
     );
 
     return OKToast(
-      child: MaterialApp(
+      child: MaterialApp.router(
+        routerConfig: router,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
@@ -82,16 +68,16 @@ class App extends ConsumerWidget {
             child: child!,
           );
         },
-        routes: {
-          '/': (_) => GateWidget(),
-          '/settings': (context) => SettingsScreen(),
-        },
+        // routes: {
+        //   '/': (_) => GateWidget(),
+        //   '/settings': (context) => SettingsScreen(),
+        // },
       ),
     );
   }
 }
 
-class GateWidget extends ConsumerWidget {
+/*class GateWidget extends ConsumerWidget {
   const GateWidget({Key? key}) : super(key: key);
 
   @override
@@ -113,28 +99,9 @@ class GateWidget extends ConsumerWidget {
               final deepLink = DeepLinkModel.fromUri(Uri.parse(data));
 
               if (deepLink.type == TransactionType.MIGRATION_IMPORT) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<bool>(
-                    builder: (context) => ProviderScope(
-                      overrides: [
-                        deeplinkProvider.overrideWithValue(deepLink),
-                        importNotifierProvider,
-                      ],
-                      child: ImportScreen(),
-                    ),
-                  ),
-                );
+                context.go('/import', extra: deepLink);
               } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<bool>(
-                    builder: (context) => ProviderScope(
-                      overrides: [deeplinkProvider.overrideWithValue(deepLink)],
-                      child: PinScreen(),
-                    ),
-                  ),
-                );
+                context.go('/pin', extra: deepLink);
               }
             } on PlatformException catch (ex, st) {
               logger.e(
@@ -177,4 +144,4 @@ class GateWidget extends ConsumerWidget {
     }
     return SplashScreen();
   }
-}
+}*/

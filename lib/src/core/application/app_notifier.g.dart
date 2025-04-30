@@ -6,7 +6,7 @@ part of 'app_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getNFCBackgroundHash() => r'd13e770cf050f355b097c0fa67dc5defbfcdafaf';
+String _$getNFCBackgroundHash() => r'2901de39a46e5a088ecbdf703de96b6ecd576e95';
 
 /// See also [getNFCBackground].
 @ProviderFor(getNFCBackground)
@@ -23,7 +23,7 @@ final getNFCBackgroundProvider = AutoDisposeProvider<NfcBackground>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetNFCBackgroundRef = AutoDisposeProviderRef<NfcBackground>;
-String _$getNfcIntentHash() => r'1fe3c5cab4aa2f0043da7ed0243b83da4ebaf7cb';
+String _$getNfcIntentHash() => r'3d3f4ebb4266c05a12017bdeac8f43e4477f3b67';
 
 /// See also [getNfcIntent].
 @ProviderFor(getNfcIntent)

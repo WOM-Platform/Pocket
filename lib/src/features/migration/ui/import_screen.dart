@@ -6,7 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wom_pocket/app.dart';
+import 'package:wom_pocket/src/core/models/deep_link_model.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_error.dart';
 
 import 'package:wom_pocket/src/features/migration/application/import_notifier.dart';
@@ -37,7 +40,12 @@ final pinControllerProvider =
 });
 
 class ImportScreen extends ConsumerWidget {
-  const ImportScreen({Key? key}) : super(key: key);
+  final DeepLinkModel deepLinkModel;
+
+  const ImportScreen({
+    required this.deepLinkModel,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,11 +55,16 @@ class ImportScreen extends ConsumerWidget {
         statusBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
-        body: PageView(physics: NeverScrollableScrollPhysics(),
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
           controller: ref.watch(pageControllerProvider),
           children: [
-            PageOne(),
-            PageThree(),
+            PageOne(
+              deepLinkModel: deepLinkModel,
+            ),
+            PageThree(
+              deepLinkModel: deepLinkModel,
+            ),
           ],
         ),
       ),
@@ -60,7 +73,12 @@ class ImportScreen extends ConsumerWidget {
 }
 
 class PageOne extends ConsumerWidget {
-  const PageOne({Key? key}) : super(key: key);
+  final DeepLinkModel deepLinkModel;
+
+  const PageOne({
+    Key? key,
+    required this.deepLinkModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -219,12 +237,17 @@ class ImportSummaryWidget extends ConsumerWidget {
 }
 
 class PageThree extends ConsumerWidget {
-  const PageThree({Key? key}) : super(key: key);
+  final DeepLinkModel deepLinkModel;
+
+  const PageThree({
+    Key? key,
+    required this.deepLinkModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final confirm = ref.watch(confirmImportProvider);
-    final importState = ref.watch(importNotifierProvider);
+    final importState = ref.watch(importNotifierProvider(deepLinkModel));
     final pinState = ref.watch(pinNotifierProvider);
     final descStyle = TextStyle(color: Colors.white, fontSize: 18);
 
@@ -358,9 +381,11 @@ class PageThree extends ConsumerWidget {
               child: TextButton(
                 onPressed: () {
                   if (importState is ImportSummary) {
-                    ref.read(importNotifierProvider.notifier).goToPin();
+                    ref
+                        .read(importNotifierProvider(deepLinkModel).notifier)
+                        .goToPin();
                   } else {
-                    Navigator.of(context).pop();
+                    context.maybePop();
                   }
                 },
                 child: Text(
@@ -386,12 +411,13 @@ class PageThree extends ConsumerWidget {
                       if (importState is ImportCompleted ||
                           importState is ImportError ||
                           importState is JustImported) {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (c) => GateWidget(),
-                          ),
-                          (route) => false,
-                        );
+                        context.go('/');
+                        // Navigator.of(context).pushAndRemoveUntil(
+                        //   MaterialPageRoute(
+                        //     builder: (c) => GateWidget(),
+                        //   ),
+                        //   (route) => false,
+                        // );
                       } else if (importState is ImportSummary) {
                         Alert(
                           context: context,
@@ -409,15 +435,16 @@ class PageThree extends ConsumerWidget {
                                 'cancel'.tr(),
                               ),
                               onPressed: () {
-                                Navigator.pop(context);
+                                context.maybePop();
                               },
                             ),
                             DialogButton(
                               child: Text('continue'.tr()),
                               onPressed: () {
-                                Navigator.pop(context);
+                               context.maybePop();
                                 ref
-                                    .read(importNotifierProvider.notifier)
+                                    .read(importNotifierProvider(deepLinkModel)
+                                        .notifier)
                                     .importWom();
                               },
                             ),
@@ -425,7 +452,8 @@ class PageThree extends ConsumerWidget {
                         ).show();
                       } else {
                         ref
-                            .read(importNotifierProvider.notifier)
+                            .read(
+                                importNotifierProvider(deepLinkModel).notifier)
                             .checkImport(pinState.pin);
                       }
                     }

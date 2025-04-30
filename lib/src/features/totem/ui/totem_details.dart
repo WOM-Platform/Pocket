@@ -10,6 +10,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
@@ -24,7 +25,7 @@ import 'package:wom_pocket/src/features/transaction/ui/transaction_screen.dart';
 import 'package:wom_pocket/src/core/utils/date_utils.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 
-class TotemMapScreen extends ConsumerStatefulWidget {
+class TotemMapData {
   final String totemId;
   final String eventName;
   final String? sessionName;
@@ -40,23 +41,59 @@ class TotemMapScreen extends ConsumerStatefulWidget {
   final String? base64Image;
   final String? notes;
 
-  static const platform = MethodChannel('social.wom.pocket/contact');
-
-  const TotemMapScreen({
+  TotemMapData({
     required this.totemId,
-    required this.latLng,
-    required this.totemName,
     required this.eventName,
     required this.sessionName,
     required this.timestamp,
+    required this.totemName,
     required this.providerName,
-    this.base64Image,
-    this.womLink,
-    this.womPin,
-    this.email,
-    this.phoneNumber,
-    this.url,
-    this.notes,
+    required this.latLng,
+    required this.womLink,
+    required this.womPin,
+    required this.email,
+    required this.phoneNumber,
+    required this.url,
+    required this.base64Image,
+    required this.notes,
+  });
+}
+
+class TotemMapScreen extends ConsumerStatefulWidget {
+  String get totemId => data.totemId;
+
+  String get eventName => data.eventName;
+
+  String? get sessionName => data.sessionName;
+
+  DateTime get timestamp => data.timestamp;
+
+  String get totemName => data.totemName;
+
+  String get providerName => data.providerName;
+
+  LatLng? get latLng => data.latLng;
+
+  String? get womLink => data.womLink;
+
+  String? get womPin => data.womPin;
+
+  String? get email => data.email;
+
+  String? get phoneNumber => data.phoneNumber;
+
+  String? get url => data.url;
+
+  String? get base64Image => data.base64Image;
+
+  String? get notes => data.notes;
+
+  static const platform = MethodChannel('social.wom.pocket/contact');
+
+  final TotemMapData data;
+
+  const TotemMapScreen({
+    required this.data,
   });
 
   @override
@@ -250,11 +287,9 @@ startActivity(intent);*/
 
                     final originalImageBytes = await image.readAsBytes();
 
-                    final imageBytes = await Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ConfigurableCrop(originalImageBytes),
-                      ),
+                    final imageBytes = await context.push<Uint8List?>(
+                      '/totem/image-crop',
+                      extra: originalImageBytes,
                     );
 
                     if (imageBytes != null) {
@@ -264,7 +299,9 @@ startActivity(intent);*/
                             .read(getDatabaseProvider)
                             .totemsDao
                             .updateTotemWithImagePath(
-                                widget.totemId, base64Image);
+                              widget.totemId,
+                              base64Image,
+                            );
                         setState(() {
                           isLoadingImage = false;
                           this.imageBytes = imageBytes;
@@ -499,17 +536,24 @@ startActivity(intent);*/
     final deepLink = DeepLinkModel.fromUri(
       Uri.parse(widget.womLink!),
     );
-    Navigator.push(
-      context,
-      MaterialPageRoute<bool>(
-        builder: (context) => TransactionScreen(
-          params: TransactionNotifierParams(
-            deepLink,
-            widget.womPin!,
-          ),
-        ),
+    context.push(
+      '/transaction',
+      extra: TransactionNotifierParams(
+        deepLink,
+        widget.womPin!,
       ),
     );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute<bool>(
+    //     builder: (context) => TransactionScreen(
+    //       params: TransactionNotifierParams(
+    //         deepLink,
+    //         widget.womPin!,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 

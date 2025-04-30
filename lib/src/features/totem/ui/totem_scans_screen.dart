@@ -6,7 +6,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/features/totem/application/totem_scans_notifier.dart';
@@ -42,7 +44,8 @@ class SelectPictureModal extends StatelessWidget {
           const SizedBox(height: 24),
           InkWell(
             onTap: () {
-              Navigator.of(context).pop(false);
+              context.maybePop(false);
+              // Navigator.of(context).pop(false);
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -61,7 +64,7 @@ class SelectPictureModal extends StatelessWidget {
           // const SizedBox(height: 16),
           InkWell(
             onTap: () {
-              Navigator.of(context).pop(true);
+              context.maybePop(true);
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -81,7 +84,7 @@ class SelectPictureModal extends StatelessWidget {
             InkWell(
               onTap: () {
                 onRemove?.call();
-                Navigator.of(context).pop();
+                context.maybePop();
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -90,7 +93,10 @@ class SelectPictureModal extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.clear, color: Colors.red,),
+                    Icon(
+                      Icons.clear,
+                      color: Colors.red,
+                    ),
                     const SizedBox(width: 16),
                     Text('Rimuvoi l\'immagine corrente'),
                   ],
@@ -112,7 +118,13 @@ class TotemScansScreen extends ConsumerWidget {
     final state = ref.watch(getScannedTotemsProvider);
     return Scaffold(
       appBar: SecondLevelAppBar(
-        title: 'Totems',
+        title: 'connections'.tr(),
+        actions: [
+          IconButton(onPressed: (){
+            context.go('/totem/account');
+          }, icon: Icon(Icons.account_circle),),
+          const SizedBox(width: 8),
+        ],
       ),
       body: switch (state) {
         AsyncData(:final value) => value.isEmpty
@@ -187,26 +199,31 @@ class _Item extends StatelessWidget {
         final latLng = t.latitude != null && t.longitude != null
             ? LatLng(t.latitude!, t.longitude!)
             : null;
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => TotemMapScreen(
-              latLng: latLng,
-              totemId: t.totemId,
-              totemName: t.totemName ?? 'Totem',
-              eventName: t.eventName ?? 'Evento',
-              sessionName: t.sessionName,
-              timestamp: t.timestamp,
-              womLink: t.womLink,
-              womPin: t.womPin,
-              providerName: t.providerName ?? '',
-              email: t.email,
-              url: t.url,
-              phoneNumber: t.phoneNumber,
-              base64Image: t.image,
-              notes: t.notes,
-            ),
-          ),
+
+        final data = TotemMapData(
+          latLng: latLng,
+          totemId: t.totemId,
+          totemName: t.totemName ?? 'Totem',
+          eventName: t.eventName ?? 'Evento',
+          sessionName: t.sessionName,
+          timestamp: t.timestamp,
+          womLink: t.womLink,
+          womPin: t.womPin,
+          providerName: t.providerName ?? '',
+          email: t.email,
+          url: t.url,
+          phoneNumber: t.phoneNumber,
+          base64Image: t.image,
+          notes: t.notes,
         );
+        context.push('/settings/totem-scans/map', extra: data);
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (context) => TotemMapScreen(
+        //       data: data,
+        //     ),
+        //   ),
+        // );
       },
       title: Text(t.totemName ?? 'Totem'),
       subtitle: Text(
