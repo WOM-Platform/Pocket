@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wom_pocket/src/models/totem_data.dart';
+import 'package:wom_pocket/src/core/models/totem_data.dart';
 
 main() {
   test('Deep link', () {
@@ -34,12 +34,6 @@ main() {
       ),
       validateTotemQrCodeWithRegex(
         'https://link.wom.social/cmi/providerId/eventId/totemId',
-      ),
-    );
-    expect(
-      null,
-      validateTotemQrCodeWithRegex(
-        'https://link.wom.social/cmi/providerId/eventId/',
       ),
     );
   });
@@ -81,6 +75,23 @@ main() {
         'https://link.wom.social/cmi/providerId/totemId?token=requestId',
       ),
     );
-  });
+
+    final now = DateTime.now();
+    final data = ConnectionTotemData(
+      lat: 0.0,
+      long: 0.0,
+      totemId: 'totemId',
+      timestamp: now,
+    );
+
+    expect(data.toLink,
+        'https://link.wom.social/connection/v1/totemId?timestamp=${now.millisecondsSinceEpoch}&latitude=0.0&longitude=0.0');
+
+    expect(
+      validateTotemQrCodeWithRegex(
+        'https://link.wom.social/connection/v1/',
+      ),
+      isNull,
+    );
   });
 }

@@ -53,21 +53,6 @@ class SettingsRoute extends GoRoute {
               builder: (_, __) => MigrationScreen(),
             ),
             GoRoute(
-              path: 'totem-scans',
-              parentNavigatorKey: rootNavigatorKey,
-              builder: (_, __) => TotemScansScreen(),
-              routes: [
-                GoRoute(
-                  path: 'map',
-                  parentNavigatorKey: rootNavigatorKey,
-                  builder: (_, state) {
-                    final data = state.extra as TotemMapData;
-                    return TotemMapScreen(data: data);
-                  },
-                ),
-              ],
-            ),
-            GoRoute(
               path: 'wom-db-table',
               parentNavigatorKey: rootNavigatorKey,
               builder: (_, state) {

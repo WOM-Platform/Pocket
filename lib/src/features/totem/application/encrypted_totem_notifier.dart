@@ -73,7 +73,8 @@ class EncryptedTotemNotifier extends _$EncryptedTotemNotifier {
           EncryptedTotemStateFailure(failure: PersonalTotemFailure.gpsDisabled);
     } on LocationPermissionDenied {
       state = EncryptedTotemStateFailure(
-          failure: PersonalTotemFailure.missingPermissions);
+        failure: PersonalTotemFailure.missingPermissions,
+      );
     } catch (ex, st) {
       state = EncryptedTotemStateFailure(
         failure: PersonalTotemFailure.generic,

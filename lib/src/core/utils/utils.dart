@@ -247,21 +247,24 @@ ConnectionTotemData? createTotemLinkFromConnection(String link) {
   if (validatePersonalConnection(link) == null) {
     return null;
   }
-  final encrypted = link.split('/').last;
-  final decoded = Uri.decodeComponent(encrypted);
-  final decrypted = aesDecrypt(decoded);
-  final url = '$connectionBaseUrl/$decrypted';
+  // final encrypted = link.split('/').last;
+  // final decoded = Uri.decodeComponent(encrypted);
+  // final decrypted = aesDecrypt(decoded);
+  // final url = '$connectionBaseUrl/$decrypted';
+  final url = link;
   print(url);
   final uri = Uri.tryParse(url);
   if (uri == null) {
     return null;
   }
 
-  final totemId = uri.pathSegments[1];
+  final version = uri.pathSegments[1];
+  final totemId = uri.pathSegments[2];
 
-  if(totemId.isEmpty){
+  if (totemId.isEmpty) {
     return null;
   }
+
   final timestamp = int.tryParse(uri.queryParameters['timestamp'] ?? '');
   final latitude = double.tryParse(uri.queryParameters['latitude'] ?? '');
   final longitude = double.tryParse(uri.queryParameters['longitude'] ?? '');
@@ -275,4 +278,11 @@ ConnectionTotemData? createTotemLinkFromConnection(String link) {
     );
   }
   return null;
+}
+
+extension StringX on String? {
+  bool get isNullOrEmpty {
+    final tmp = this;
+    return tmp == null || tmp.isEmpty;
+  }
 }

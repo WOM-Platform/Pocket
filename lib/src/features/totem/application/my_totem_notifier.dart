@@ -4,7 +4,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
-import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/services/transaction_repository.dart';
@@ -92,8 +91,11 @@ class MyTotemNotifier extends _$MyTotemNotifier {
           state = MyTotemStateError(MyTotemError.missingPermissions);
           t.cancel();
         } catch (ex, st) {
-          logger.e('MyTotemNotifier: periodic timer: ',
-              error: ex, stackTrace: st);
+          logger.e(
+            'MyTotemNotifier: periodic timer: ',
+            error: ex,
+            stackTrace: st,
+          );
           state = MyTotemStateError(MyTotemError.generic);
           t.cancel();
         }
@@ -105,10 +107,10 @@ class MyTotemNotifier extends _$MyTotemNotifier {
     final params =
         '$totemId?timestamp=$timestamp&latitude=${position.latitude}&longitude=${position.longitude}';
 
-    final encrypted = aesEncrypt(params);
-    final decoded = Uri.encodeComponent(encrypted);
+    // final encrypted = aesEncrypt(params);
+    // final decoded = Uri.encodeComponent(encrypted);
 
-    return '$connectionBaseUrl/$decoded';
+    return '$connectionBaseUrl/v1/$params';
   }
 
   Future<String> _getNewLink(String totemId) async {

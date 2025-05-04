@@ -373,7 +373,7 @@ startActivity(intent);*/
             widget.eventName,
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          if (widget.sessionName != null && widget.sessionName!.isNotEmpty) ...[
+          if (!widget.sessionName.isNullOrEmpty) ...[
             Text(widget.sessionName!),
           ],
           Text(

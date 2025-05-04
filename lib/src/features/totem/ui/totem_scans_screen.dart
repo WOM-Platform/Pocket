@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
 import 'package:wom_pocket/src/features/totem/application/totem_scans_notifier.dart';
 import 'package:wom_pocket/src/core/utils/date_utils.dart';
 import 'package:wom_pocket/src/features/totem/ui/totem_details.dart';
@@ -120,9 +121,12 @@ class TotemScansScreen extends ConsumerWidget {
       appBar: SecondLevelAppBar(
         title: 'connections'.tr(),
         actions: [
-          IconButton(onPressed: (){
-            context.go('/totem/account');
-          }, icon: Icon(Icons.account_circle),),
+          IconButton(
+            onPressed: () {
+              context.go('/totem/account');
+            },
+            icon: Icon(Icons.account_circle),
+          ),
           const SizedBox(width: 8),
         ],
       ),
@@ -165,7 +169,7 @@ class _Header extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8, 16, 4),
       child: Text(
-        '${t.eventName ?? 'Evento'}${t.sessionName != null ? ' | ${t.sessionName}' : ''}',
+        '${t.eventName ?? 'Evento'}${t.sessionName.isNullOrEmpty ? '' : ' | ${t.sessionName}'}',
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),
@@ -216,7 +220,7 @@ class _Item extends StatelessWidget {
           base64Image: t.image,
           notes: t.notes,
         );
-        context.push('/settings/totem-scans/map', extra: data);
+        context.push('/totem/map', extra: data);
         // Navigator.of(context).push(
         //   MaterialPageRoute(
         //     builder: (context) => TotemMapScreen(

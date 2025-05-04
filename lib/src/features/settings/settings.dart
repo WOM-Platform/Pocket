@@ -12,6 +12,7 @@ import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/features/settings/table_page/db_page.dart';
+import 'package:wom_pocket/src/features/totem/application/my_totem_notifier.dart';
 import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
 import 'package:wom_pocket/src/core/log_output.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
@@ -29,7 +30,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool current = false;
 
-  bool get showDBViewer => tap > 6;
+  bool get enableDebugFeatures => tap > 6;
 
   int tap = 0;
 
@@ -57,7 +58,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () => Utils.launchURL('https://demo.wom.social/pay'),
           ),
-          if (showDBViewer)
+          if (enableDebugFeatures)
             SettingsItem(
               title: 'Visita WOM DB',
               subtitle: '',
@@ -199,27 +200,38 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               });
             },
           ),
-          if (isDev || kDebugMode) ...[
+
+          if (isDev || kDebugMode || enableDebugFeatures) ...[
             SettingSectionTitle(text: 'Developer options'),
             SettingsItem(
-              title: 'Clear DB (only for debug)',
-              subtitle: 'Delete all data of local database',
+              title: 'Clear my totem info',
+              subtitle: 'Remove all info about me and my totem',
               icon: Icons.delete,
               onTap: () async {
-                ref.read(getDatabaseProvider).deleteEverything();
-                Hive.box('settings').clear();
+                Hive.box('settings').delete(totemIdKey);
               },
             ),
-            SettingsItem(
-              title: 'Show logs',
-              subtitle: 'Go to logs screen',
-              icon: Icons.bug_report,
-              onTap: () async {
-                context.push('/settings/logs');
-                // Navigator.of(context)
-                //     .push(MaterialPageRoute(builder: (c) => LogOutputScreen()));
-              },
-            ),
+            if (isDev || kDebugMode) ...[
+              SettingsItem(
+                title: 'Clear DB (only for debug)',
+                subtitle: 'Delete all data of local database',
+                icon: Icons.delete,
+                onTap: () async {
+                  ref.read(getDatabaseProvider).deleteEverything();
+                  Hive.box('settings').clear();
+                },
+              ),
+              SettingsItem(
+                title: 'Show logs',
+                subtitle: 'Go to logs screen',
+                icon: Icons.bug_report,
+                onTap: () async {
+                  context.push('/settings/logs');
+                  // Navigator.of(context)
+                  //     .push(MaterialPageRoute(builder: (c) => LogOutputScreen()));
+                },
+              ),
+            ],
           ],
           const SizedBox(height: 48),
         ],
