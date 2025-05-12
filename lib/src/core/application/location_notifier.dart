@@ -61,7 +61,6 @@ extension PositionX on Position {
   }
 }
 
-
 @riverpod
 Future<Position> getPosition(Ref ref) async {
   try {
@@ -80,15 +79,17 @@ Future<Position> getPosition(Ref ref) async {
       logger.i(currentPosition);
       return currentPosition;
     }
-    logger.w('permissions are not granted');
-    logger.e('LocationPermissionException');
+    logger.w('LocationPermissionException');
     throw LocationPermissionDenied();
   } on LocationServiceDisabledException catch (ex, st) {
-    logger.e('LocationServiceDisabledException', error: ex, stackTrace: st);
+    logger.w('LocationServiceDisabledException', error: ex, stackTrace: st);
     throw ServiceGPSDisabled();
   } on TimeoutException catch (ex, st) {
-    logger.e('LocationTimeoutException', error: ex, stackTrace: st);
+    logger.w('LocationTimeoutException', error: ex, stackTrace: st);
     throw GetLocationTimeout();
+  } on LocationPermissionDeniedForever catch (ex, st){
+    logger.w('LocationPermissionDeniedForever', error: ex, stackTrace: st);
+    throw LocationPermissionDenied();
   } catch (ex, st) {
     logger.e('LocationUnknownException', error: ex, stackTrace: st);
     rethrow;

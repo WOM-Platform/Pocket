@@ -216,16 +216,18 @@ class ImportSummaryWidget extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Aim:',
                   style: titleStyle,
                 ),
                 const SizedBox(width: 8),
-                Text(
-                  aims.map((a) => a.titles[languageCode] ?? '-').join(','),
-                  style: descStyle,
+                Flexible(
+                  child: Text(
+                    aims.map((a) => a.titles[languageCode] ?? '-').join(','),
+                    style: descStyle,
+                  ),
                 ),
               ],
             ),
@@ -441,7 +443,7 @@ class PageThree extends ConsumerWidget {
                             DialogButton(
                               child: Text('continue'.tr()),
                               onPressed: () {
-                               context.maybePop();
+                                context.maybePop();
                                 ref
                                     .read(importNotifierProvider(deepLinkModel)
                                         .notifier)

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
 import 'package:wom_pocket/src/features/totem/application/my_totem_notifier.dart';
@@ -82,6 +83,7 @@ class EditMyTotemScreen extends HookConsumerWidget {
             MyButton(
               isLoading: isLoading.value,
               onPressed: () async {
+                FocusManager.instance.primaryFocus?.unfocus();
                 try {
                   if (formKey.currentState?.validate() ?? false) {
                     isLoading.value = true;
@@ -106,6 +108,7 @@ class EditMyTotemScreen extends HookConsumerWidget {
                       ),
                     );
                     ref.invalidate(myTotemNotifierProvider);
+                    context.maybePop();
                   }
                 } catch (ex, st) {
                   isLoading.value = false;

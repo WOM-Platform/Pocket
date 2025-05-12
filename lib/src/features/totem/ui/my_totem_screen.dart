@@ -14,16 +14,40 @@ import 'package:wom_pocket/src/features/totem/application/my_totem_notifier.dart
 import 'package:wom_pocket/src/features/totem/application/my_totem_state.dart';
 import 'package:wom_pocket/src/features/totem/utils.dart';
 
-class MyTotemScreen extends ConsumerWidget {
+class MyTotemScreen extends ConsumerStatefulWidget {
   const MyTotemScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyTotemScreen> createState() => _MyTotemScreenState();
+}
+
+class _MyTotemScreenState extends ConsumerState<MyTotemScreen>
+    with WidgetsBindingObserver {
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Future didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      final currentState = ref.read(myTotemNotifierProvider);
+      if (currentState is MyTotemStateError) {
+        ref.invalidate(myTotemNotifierProvider);
+        WidgetsBinding.instance.removeObserver(this);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(myTotemNotifierProvider);
 
     return Scaffold(
       appBar: SecondLevelAppBar(
-        title: 'Il mio account',
+        title: 'personal_totem.title'.tr(),
         actions: [
           if (state is MyTotemStateLoaded)
             IconButton(
@@ -113,7 +137,10 @@ class MyTotemScreen extends ConsumerWidget {
                 color: Colors.orange,
               ),
               const SizedBox(height: 8),
-              Text(error.translate,textAlign: TextAlign.center,),
+              Text(
+                error.translate,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 8),
               Center(
                 child: MyButton(
@@ -134,6 +161,7 @@ class MyTotemScreen extends ConsumerWidget {
                         Geolocator.openLocationSettings();
                         break;
                       case MyTotemError.missingPermissions:
+                        WidgetsBinding.instance.addObserver(this);
                         Geolocator.openAppSettings();
                         break;
                     }

@@ -284,6 +284,7 @@
     "select_image_source": "Select image source"
   },
   "personal_totem": {
+    "title": "My account",
     "name": "Name",
     "email": "Email",
     "phone": "Phone",
