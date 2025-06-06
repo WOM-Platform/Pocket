@@ -663,7 +663,6 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
   late final GeneratedColumn<String> code = GeneratedColumn<String>(
       'code', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _titlesMeta = const VerificationMeta('titles');
   @override
   late final GeneratedColumnWithTypeConverter<Map<String, dynamic>, String>
       titles = GeneratedColumn<String>('titles', aliasedName, false,
@@ -690,7 +689,6 @@ class $AimsTable extends Aims with TableInfo<$AimsTable, AimRow> {
     } else if (isInserting) {
       context.missing(_codeMeta);
     }
-    context.handle(_titlesMeta, const VerificationResult.success());
     return context;
   }
 
@@ -2209,6 +2207,858 @@ class TotemsCompanion extends UpdateCompanion<TotemRow> {
   }
 }
 
+class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BadgesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _challengeIdMeta =
+      const VerificationMeta('challengeId');
+  @override
+  late final GeneratedColumn<String> challengeId = GeneratedColumn<String>(
+      'challenge_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  late final GeneratedColumnWithTypeConverter<Map<String, String>, Uint8List>
+      name = GeneratedColumn<Uint8List>('name', aliasedName, false,
+              type: DriftSqlType.blob, requiredDuringInsert: true)
+          .withConverter<Map<String, String>>($BadgesTable.$convertername);
+  @override
+  late final GeneratedColumnWithTypeConverter<Map<String, String>?, Uint8List>
+      description = GeneratedColumn<Uint8List>('description', aliasedName, true,
+              type: DriftSqlType.blob, requiredDuringInsert: false)
+          .withConverter<Map<String, String>?>(
+              $BadgesTable.$converterdescriptionn);
+  @override
+  late final GeneratedColumnWithTypeConverter<ImageData?, Uint8List> image =
+      GeneratedColumn<Uint8List>('image', aliasedName, true,
+              type: DriftSqlType.blob, requiredDuringInsert: false)
+          .withConverter<ImageData?>($BadgesTable.$converterimagen);
+  static const VerificationMeta _achievedAtMeta =
+      const VerificationMeta('achievedAt');
+  @override
+  late final GeneratedColumn<DateTime> achievedAt = GeneratedColumn<DateTime>(
+      'achieved_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _lastUpdateMeta =
+      const VerificationMeta('lastUpdate');
+  @override
+  late final GeneratedColumn<DateTime> lastUpdate = GeneratedColumn<DateTime>(
+      'last_update', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _seenMeta = const VerificationMeta('seen');
+  @override
+  late final GeneratedColumn<bool> seen = GeneratedColumn<bool>(
+      'seen', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("seen" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _achievedMeta =
+      const VerificationMeta('achieved');
+  @override
+  late final GeneratedColumn<bool> achieved = GeneratedColumn<bool>(
+      'achieved', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("achieved" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _isPublicMeta =
+      const VerificationMeta('isPublic');
+  @override
+  late final GeneratedColumn<bool> isPublic = GeneratedColumn<bool>(
+      'is_public', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_public" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        challengeId,
+        name,
+        description,
+        image,
+        achievedAt,
+        createdAt,
+        lastUpdate,
+        seen,
+        achieved,
+        isPublic
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'badges';
+  @override
+  VerificationContext validateIntegrity(Insertable<BadgeEntry> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('challenge_id')) {
+      context.handle(
+          _challengeIdMeta,
+          challengeId.isAcceptableOrUnknown(
+              data['challenge_id']!, _challengeIdMeta));
+    }
+    if (data.containsKey('achieved_at')) {
+      context.handle(
+          _achievedAtMeta,
+          achievedAt.isAcceptableOrUnknown(
+              data['achieved_at']!, _achievedAtMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('last_update')) {
+      context.handle(
+          _lastUpdateMeta,
+          lastUpdate.isAcceptableOrUnknown(
+              data['last_update']!, _lastUpdateMeta));
+    }
+    if (data.containsKey('seen')) {
+      context.handle(
+          _seenMeta, seen.isAcceptableOrUnknown(data['seen']!, _seenMeta));
+    }
+    if (data.containsKey('achieved')) {
+      context.handle(_achievedMeta,
+          achieved.isAcceptableOrUnknown(data['achieved']!, _achievedMeta));
+    }
+    if (data.containsKey('is_public')) {
+      context.handle(_isPublicMeta,
+          isPublic.isAcceptableOrUnknown(data['is_public']!, _isPublicMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  BadgeEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BadgeEntry(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      challengeId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}challenge_id']),
+      name: $BadgesTable.$convertername.fromSql(attachedDatabase.typeMapping
+          .read(DriftSqlType.blob, data['${effectivePrefix}name'])!),
+      description: $BadgesTable.$converterdescriptionn.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.blob, data['${effectivePrefix}description'])),
+      image: $BadgesTable.$converterimagen.fromSql(attachedDatabase.typeMapping
+          .read(DriftSqlType.blob, data['${effectivePrefix}image'])),
+      achievedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}achieved_at']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at']),
+      lastUpdate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_update']),
+      seen: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}seen'])!,
+      achieved: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}achieved'])!,
+      isPublic: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_public'])!,
+    );
+  }
+
+  @override
+  $BadgesTable createAlias(String alias) {
+    return $BadgesTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<Map<String, String>, Uint8List, Object?>
+      $convertername = mapTranslationConverter;
+  static JsonTypeConverter2<Map<String, String>, Uint8List, Object?>
+      $converterdescription = mapTranslationConverter;
+  static JsonTypeConverter2<Map<String, String>?, Uint8List?, Object?>
+      $converterdescriptionn =
+      JsonTypeConverter2.asNullable($converterdescription);
+  static JsonTypeConverter2<ImageData, Uint8List, Object?> $converterimage =
+      imageUrlBinaryConverter;
+  static JsonTypeConverter2<ImageData?, Uint8List?, Object?> $converterimagen =
+      JsonTypeConverter2.asNullable($converterimage);
+}
+
+class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
+  final String id;
+  final String? challengeId;
+  final Map<String, String> name;
+  final Map<String, String>? description;
+  final ImageData? image;
+  final DateTime? achievedAt;
+  final DateTime? createdAt;
+  final DateTime? lastUpdate;
+  final bool seen;
+  final bool achieved;
+  final bool isPublic;
+  const BadgeEntry(
+      {required this.id,
+      this.challengeId,
+      required this.name,
+      this.description,
+      this.image,
+      this.achievedAt,
+      this.createdAt,
+      this.lastUpdate,
+      required this.seen,
+      required this.achieved,
+      required this.isPublic});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    if (!nullToAbsent || challengeId != null) {
+      map['challenge_id'] = Variable<String>(challengeId);
+    }
+    {
+      map['name'] =
+          Variable<Uint8List>($BadgesTable.$convertername.toSql(name));
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<Uint8List>(
+          $BadgesTable.$converterdescriptionn.toSql(description));
+    }
+    if (!nullToAbsent || image != null) {
+      map['image'] =
+          Variable<Uint8List>($BadgesTable.$converterimagen.toSql(image));
+    }
+    if (!nullToAbsent || achievedAt != null) {
+      map['achieved_at'] = Variable<DateTime>(achievedAt);
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<DateTime>(createdAt);
+    }
+    if (!nullToAbsent || lastUpdate != null) {
+      map['last_update'] = Variable<DateTime>(lastUpdate);
+    }
+    map['seen'] = Variable<bool>(seen);
+    map['achieved'] = Variable<bool>(achieved);
+    map['is_public'] = Variable<bool>(isPublic);
+    return map;
+  }
+
+  BadgesCompanion toCompanion(bool nullToAbsent) {
+    return BadgesCompanion(
+      id: Value(id),
+      challengeId: challengeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(challengeId),
+      name: Value(name),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      image:
+          image == null && nullToAbsent ? const Value.absent() : Value(image),
+      achievedAt: achievedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(achievedAt),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+      lastUpdate: lastUpdate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastUpdate),
+      seen: Value(seen),
+      achieved: Value(achieved),
+      isPublic: Value(isPublic),
+    );
+  }
+
+  factory BadgeEntry.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BadgeEntry(
+      id: serializer.fromJson<String>(json['id']),
+      challengeId: serializer.fromJson<String?>(json['challengeId']),
+      name: $BadgesTable.$convertername
+          .fromJson(serializer.fromJson<Object?>(json['name'])),
+      description: $BadgesTable.$converterdescriptionn
+          .fromJson(serializer.fromJson<Object?>(json['description'])),
+      image: $BadgesTable.$converterimagen
+          .fromJson(serializer.fromJson<Object?>(json['image'])),
+      achievedAt: serializer.fromJson<DateTime?>(json['achievedAt']),
+      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
+      lastUpdate: serializer.fromJson<DateTime?>(json['lastUpdate']),
+      seen: serializer.fromJson<bool>(json['seen']),
+      achieved: serializer.fromJson<bool>(json['achieved']),
+      isPublic: serializer.fromJson<bool>(json['isPublic']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'challengeId': serializer.toJson<String?>(challengeId),
+      'name':
+          serializer.toJson<Object?>($BadgesTable.$convertername.toJson(name)),
+      'description': serializer.toJson<Object?>(
+          $BadgesTable.$converterdescriptionn.toJson(description)),
+      'image': serializer
+          .toJson<Object?>($BadgesTable.$converterimagen.toJson(image)),
+      'achievedAt': serializer.toJson<DateTime?>(achievedAt),
+      'createdAt': serializer.toJson<DateTime?>(createdAt),
+      'lastUpdate': serializer.toJson<DateTime?>(lastUpdate),
+      'seen': serializer.toJson<bool>(seen),
+      'achieved': serializer.toJson<bool>(achieved),
+      'isPublic': serializer.toJson<bool>(isPublic),
+    };
+  }
+
+  BadgeEntry copyWith(
+          {String? id,
+          Value<String?> challengeId = const Value.absent(),
+          Map<String, String>? name,
+          Value<Map<String, String>?> description = const Value.absent(),
+          Value<ImageData?> image = const Value.absent(),
+          Value<DateTime?> achievedAt = const Value.absent(),
+          Value<DateTime?> createdAt = const Value.absent(),
+          Value<DateTime?> lastUpdate = const Value.absent(),
+          bool? seen,
+          bool? achieved,
+          bool? isPublic}) =>
+      BadgeEntry(
+        id: id ?? this.id,
+        challengeId: challengeId.present ? challengeId.value : this.challengeId,
+        name: name ?? this.name,
+        description: description.present ? description.value : this.description,
+        image: image.present ? image.value : this.image,
+        achievedAt: achievedAt.present ? achievedAt.value : this.achievedAt,
+        createdAt: createdAt.present ? createdAt.value : this.createdAt,
+        lastUpdate: lastUpdate.present ? lastUpdate.value : this.lastUpdate,
+        seen: seen ?? this.seen,
+        achieved: achieved ?? this.achieved,
+        isPublic: isPublic ?? this.isPublic,
+      );
+  BadgeEntry copyWithCompanion(BadgesCompanion data) {
+    return BadgeEntry(
+      id: data.id.present ? data.id.value : this.id,
+      challengeId:
+          data.challengeId.present ? data.challengeId.value : this.challengeId,
+      name: data.name.present ? data.name.value : this.name,
+      description:
+          data.description.present ? data.description.value : this.description,
+      image: data.image.present ? data.image.value : this.image,
+      achievedAt:
+          data.achievedAt.present ? data.achievedAt.value : this.achievedAt,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      lastUpdate:
+          data.lastUpdate.present ? data.lastUpdate.value : this.lastUpdate,
+      seen: data.seen.present ? data.seen.value : this.seen,
+      achieved: data.achieved.present ? data.achieved.value : this.achieved,
+      isPublic: data.isPublic.present ? data.isPublic.value : this.isPublic,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BadgeEntry(')
+          ..write('id: $id, ')
+          ..write('challengeId: $challengeId, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('image: $image, ')
+          ..write('achievedAt: $achievedAt, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('lastUpdate: $lastUpdate, ')
+          ..write('seen: $seen, ')
+          ..write('achieved: $achieved, ')
+          ..write('isPublic: $isPublic')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, challengeId, name, description, image,
+      achievedAt, createdAt, lastUpdate, seen, achieved, isPublic);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BadgeEntry &&
+          other.id == this.id &&
+          other.challengeId == this.challengeId &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.image == this.image &&
+          other.achievedAt == this.achievedAt &&
+          other.createdAt == this.createdAt &&
+          other.lastUpdate == this.lastUpdate &&
+          other.seen == this.seen &&
+          other.achieved == this.achieved &&
+          other.isPublic == this.isPublic);
+}
+
+class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
+  final Value<String> id;
+  final Value<String?> challengeId;
+  final Value<Map<String, String>> name;
+  final Value<Map<String, String>?> description;
+  final Value<ImageData?> image;
+  final Value<DateTime?> achievedAt;
+  final Value<DateTime?> createdAt;
+  final Value<DateTime?> lastUpdate;
+  final Value<bool> seen;
+  final Value<bool> achieved;
+  final Value<bool> isPublic;
+  final Value<int> rowid;
+  const BadgesCompanion({
+    this.id = const Value.absent(),
+    this.challengeId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.image = const Value.absent(),
+    this.achievedAt = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.lastUpdate = const Value.absent(),
+    this.seen = const Value.absent(),
+    this.achieved = const Value.absent(),
+    this.isPublic = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  BadgesCompanion.insert({
+    required String id,
+    this.challengeId = const Value.absent(),
+    required Map<String, String> name,
+    this.description = const Value.absent(),
+    this.image = const Value.absent(),
+    this.achievedAt = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.lastUpdate = const Value.absent(),
+    this.seen = const Value.absent(),
+    this.achieved = const Value.absent(),
+    this.isPublic = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        name = Value(name);
+  static Insertable<BadgeEntry> custom({
+    Expression<String>? id,
+    Expression<String>? challengeId,
+    Expression<Uint8List>? name,
+    Expression<Uint8List>? description,
+    Expression<Uint8List>? image,
+    Expression<DateTime>? achievedAt,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? lastUpdate,
+    Expression<bool>? seen,
+    Expression<bool>? achieved,
+    Expression<bool>? isPublic,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (challengeId != null) 'challenge_id': challengeId,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (image != null) 'image': image,
+      if (achievedAt != null) 'achieved_at': achievedAt,
+      if (createdAt != null) 'created_at': createdAt,
+      if (lastUpdate != null) 'last_update': lastUpdate,
+      if (seen != null) 'seen': seen,
+      if (achieved != null) 'achieved': achieved,
+      if (isPublic != null) 'is_public': isPublic,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  BadgesCompanion copyWith(
+      {Value<String>? id,
+      Value<String?>? challengeId,
+      Value<Map<String, String>>? name,
+      Value<Map<String, String>?>? description,
+      Value<ImageData?>? image,
+      Value<DateTime?>? achievedAt,
+      Value<DateTime?>? createdAt,
+      Value<DateTime?>? lastUpdate,
+      Value<bool>? seen,
+      Value<bool>? achieved,
+      Value<bool>? isPublic,
+      Value<int>? rowid}) {
+    return BadgesCompanion(
+      id: id ?? this.id,
+      challengeId: challengeId ?? this.challengeId,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      image: image ?? this.image,
+      achievedAt: achievedAt ?? this.achievedAt,
+      createdAt: createdAt ?? this.createdAt,
+      lastUpdate: lastUpdate ?? this.lastUpdate,
+      seen: seen ?? this.seen,
+      achieved: achieved ?? this.achieved,
+      isPublic: isPublic ?? this.isPublic,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (challengeId.present) {
+      map['challenge_id'] = Variable<String>(challengeId.value);
+    }
+    if (name.present) {
+      map['name'] =
+          Variable<Uint8List>($BadgesTable.$convertername.toSql(name.value));
+    }
+    if (description.present) {
+      map['description'] = Variable<Uint8List>(
+          $BadgesTable.$converterdescriptionn.toSql(description.value));
+    }
+    if (image.present) {
+      map['image'] =
+          Variable<Uint8List>($BadgesTable.$converterimagen.toSql(image.value));
+    }
+    if (achievedAt.present) {
+      map['achieved_at'] = Variable<DateTime>(achievedAt.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (lastUpdate.present) {
+      map['last_update'] = Variable<DateTime>(lastUpdate.value);
+    }
+    if (seen.present) {
+      map['seen'] = Variable<bool>(seen.value);
+    }
+    if (achieved.present) {
+      map['achieved'] = Variable<bool>(achieved.value);
+    }
+    if (isPublic.present) {
+      map['is_public'] = Variable<bool>(isPublic.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BadgesCompanion(')
+          ..write('id: $id, ')
+          ..write('challengeId: $challengeId, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('image: $image, ')
+          ..write('achievedAt: $achievedAt, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('lastUpdate: $lastUpdate, ')
+          ..write('seen: $seen, ')
+          ..write('achieved: $achieved, ')
+          ..write('isPublic: $isPublic, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ChallengesTable extends Challenges
+    with TableInfo<$ChallengesTable, ChallengeEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ChallengesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  late final GeneratedColumnWithTypeConverter<Map<String, String>, Uint8List>
+      name = GeneratedColumn<Uint8List>('name', aliasedName, false,
+              type: DriftSqlType.blob, requiredDuringInsert: true)
+          .withConverter<Map<String, String>>($ChallengesTable.$convertername);
+  @override
+  late final GeneratedColumnWithTypeConverter<Map<String, String>?, Uint8List>
+      description = GeneratedColumn<Uint8List>('description', aliasedName, true,
+              type: DriftSqlType.blob, requiredDuringInsert: false)
+          .withConverter<Map<String, String>?>(
+              $ChallengesTable.$converterdescriptionn);
+  static const VerificationMeta _isPublicMeta =
+      const VerificationMeta('isPublic');
+  @override
+  late final GeneratedColumn<bool> isPublic = GeneratedColumn<bool>(
+      'is_public', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_public" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  @override
+  List<GeneratedColumn> get $columns => [id, name, description, isPublic];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'challenges';
+  @override
+  VerificationContext validateIntegrity(Insertable<ChallengeEntry> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('is_public')) {
+      context.handle(_isPublicMeta,
+          isPublic.isAcceptableOrUnknown(data['is_public']!, _isPublicMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ChallengeEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ChallengeEntry(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      name: $ChallengesTable.$convertername.fromSql(attachedDatabase.typeMapping
+          .read(DriftSqlType.blob, data['${effectivePrefix}name'])!),
+      description: $ChallengesTable.$converterdescriptionn.fromSql(
+          attachedDatabase.typeMapping
+              .read(DriftSqlType.blob, data['${effectivePrefix}description'])),
+      isPublic: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_public'])!,
+    );
+  }
+
+  @override
+  $ChallengesTable createAlias(String alias) {
+    return $ChallengesTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<Map<String, String>, Uint8List, Object?>
+      $convertername = mapTranslationConverter;
+  static JsonTypeConverter2<Map<String, String>, Uint8List, Object?>
+      $converterdescription = mapTranslationConverter;
+  static JsonTypeConverter2<Map<String, String>?, Uint8List?, Object?>
+      $converterdescriptionn =
+      JsonTypeConverter2.asNullable($converterdescription);
+}
+
+class ChallengeEntry extends DataClass implements Insertable<ChallengeEntry> {
+  final String id;
+  final Map<String, String> name;
+  final Map<String, String>? description;
+  final bool isPublic;
+  const ChallengeEntry(
+      {required this.id,
+      required this.name,
+      this.description,
+      required this.isPublic});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    {
+      map['name'] =
+          Variable<Uint8List>($ChallengesTable.$convertername.toSql(name));
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<Uint8List>(
+          $ChallengesTable.$converterdescriptionn.toSql(description));
+    }
+    map['is_public'] = Variable<bool>(isPublic);
+    return map;
+  }
+
+  ChallengesCompanion toCompanion(bool nullToAbsent) {
+    return ChallengesCompanion(
+      id: Value(id),
+      name: Value(name),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      isPublic: Value(isPublic),
+    );
+  }
+
+  factory ChallengeEntry.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ChallengeEntry(
+      id: serializer.fromJson<String>(json['id']),
+      name: $ChallengesTable.$convertername
+          .fromJson(serializer.fromJson<Object?>(json['name'])),
+      description: $ChallengesTable.$converterdescriptionn
+          .fromJson(serializer.fromJson<Object?>(json['description'])),
+      isPublic: serializer.fromJson<bool>(json['isPublic']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'name': serializer
+          .toJson<Object?>($ChallengesTable.$convertername.toJson(name)),
+      'description': serializer.toJson<Object?>(
+          $ChallengesTable.$converterdescriptionn.toJson(description)),
+      'isPublic': serializer.toJson<bool>(isPublic),
+    };
+  }
+
+  ChallengeEntry copyWith(
+          {String? id,
+          Map<String, String>? name,
+          Value<Map<String, String>?> description = const Value.absent(),
+          bool? isPublic}) =>
+      ChallengeEntry(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description.present ? description.value : this.description,
+        isPublic: isPublic ?? this.isPublic,
+      );
+  ChallengeEntry copyWithCompanion(ChallengesCompanion data) {
+    return ChallengeEntry(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      description:
+          data.description.present ? data.description.value : this.description,
+      isPublic: data.isPublic.present ? data.isPublic.value : this.isPublic,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChallengeEntry(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('isPublic: $isPublic')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, description, isPublic);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ChallengeEntry &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.isPublic == this.isPublic);
+}
+
+class ChallengesCompanion extends UpdateCompanion<ChallengeEntry> {
+  final Value<String> id;
+  final Value<Map<String, String>> name;
+  final Value<Map<String, String>?> description;
+  final Value<bool> isPublic;
+  final Value<int> rowid;
+  const ChallengesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.isPublic = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ChallengesCompanion.insert({
+    required String id,
+    required Map<String, String> name,
+    this.description = const Value.absent(),
+    this.isPublic = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        name = Value(name);
+  static Insertable<ChallengeEntry> custom({
+    Expression<String>? id,
+    Expression<Uint8List>? name,
+    Expression<Uint8List>? description,
+    Expression<bool>? isPublic,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (isPublic != null) 'is_public': isPublic,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ChallengesCompanion copyWith(
+      {Value<String>? id,
+      Value<Map<String, String>>? name,
+      Value<Map<String, String>?>? description,
+      Value<bool>? isPublic,
+      Value<int>? rowid}) {
+    return ChallengesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      isPublic: isPublic ?? this.isPublic,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<Uint8List>(
+          $ChallengesTable.$convertername.toSql(name.value));
+    }
+    if (description.present) {
+      map['description'] = Variable<Uint8List>(
+          $ChallengesTable.$converterdescriptionn.toSql(description.value));
+    }
+    if (isPublic.present) {
+      map['is_public'] = Variable<bool>(isPublic.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChallengesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('isPublic: $isPublic, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(e);
   $MyDatabaseManager get managers => $MyDatabaseManager(this);
@@ -2216,17 +3066,21 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   late final $AimsTable aims = $AimsTable(this);
   late final $TransactionsTable transactions = $TransactionsTable(this);
   late final $TotemsTable totems = $TotemsTable(this);
+  late final $BadgesTable badges = $BadgesTable(this);
+  late final $ChallengesTable challenges = $ChallengesTable(this);
   late final WomsDao womsDao = WomsDao(this as MyDatabase);
   late final AimsDao aimsDao = AimsDao(this as MyDatabase);
   late final TransactionsDao transactionsDao =
       TransactionsDao(this as MyDatabase);
   late final TotemsDao totemsDao = TotemsDao(this as MyDatabase);
+  late final BadgeDao badgeDao = BadgeDao(this as MyDatabase);
+  late final ChallengeDao challengeDao = ChallengeDao(this as MyDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [wom, aims, transactions, totems];
+      [wom, aims, transactions, totems, badges, challenges];
 }
 
 typedef $$WomTableCreateCompanionBuilder = WomCompanion Function({
@@ -3252,6 +4106,432 @@ typedef $$TotemsTableProcessedTableManager = ProcessedTableManager<
     (TotemRow, BaseReferences<_$MyDatabase, $TotemsTable, TotemRow>),
     TotemRow,
     PrefetchHooks Function()>;
+typedef $$BadgesTableCreateCompanionBuilder = BadgesCompanion Function({
+  required String id,
+  Value<String?> challengeId,
+  required Map<String, String> name,
+  Value<Map<String, String>?> description,
+  Value<ImageData?> image,
+  Value<DateTime?> achievedAt,
+  Value<DateTime?> createdAt,
+  Value<DateTime?> lastUpdate,
+  Value<bool> seen,
+  Value<bool> achieved,
+  Value<bool> isPublic,
+  Value<int> rowid,
+});
+typedef $$BadgesTableUpdateCompanionBuilder = BadgesCompanion Function({
+  Value<String> id,
+  Value<String?> challengeId,
+  Value<Map<String, String>> name,
+  Value<Map<String, String>?> description,
+  Value<ImageData?> image,
+  Value<DateTime?> achievedAt,
+  Value<DateTime?> createdAt,
+  Value<DateTime?> lastUpdate,
+  Value<bool> seen,
+  Value<bool> achieved,
+  Value<bool> isPublic,
+  Value<int> rowid,
+});
+
+class $$BadgesTableFilterComposer extends Composer<_$MyDatabase, $BadgesTable> {
+  $$BadgesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get challengeId => $composableBuilder(
+      column: $table.challengeId, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<Map<String, String>, Map<String, String>,
+          Uint8List>
+      get name => $composableBuilder(
+          column: $table.name,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<Map<String, String>?, Map<String, String>,
+          Uint8List>
+      get description => $composableBuilder(
+          column: $table.description,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<ImageData?, ImageData, Uint8List> get image =>
+      $composableBuilder(
+          column: $table.image,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<DateTime> get achievedAt => $composableBuilder(
+      column: $table.achievedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get lastUpdate => $composableBuilder(
+      column: $table.lastUpdate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get seen => $composableBuilder(
+      column: $table.seen, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get achieved => $composableBuilder(
+      column: $table.achieved, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isPublic => $composableBuilder(
+      column: $table.isPublic, builder: (column) => ColumnFilters(column));
+}
+
+class $$BadgesTableOrderingComposer
+    extends Composer<_$MyDatabase, $BadgesTable> {
+  $$BadgesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get challengeId => $composableBuilder(
+      column: $table.challengeId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<Uint8List> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<Uint8List> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<Uint8List> get image => $composableBuilder(
+      column: $table.image, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get achievedAt => $composableBuilder(
+      column: $table.achievedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get lastUpdate => $composableBuilder(
+      column: $table.lastUpdate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get seen => $composableBuilder(
+      column: $table.seen, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get achieved => $composableBuilder(
+      column: $table.achieved, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isPublic => $composableBuilder(
+      column: $table.isPublic, builder: (column) => ColumnOrderings(column));
+}
+
+class $$BadgesTableAnnotationComposer
+    extends Composer<_$MyDatabase, $BadgesTable> {
+  $$BadgesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get challengeId => $composableBuilder(
+      column: $table.challengeId, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<Map<String, String>, Uint8List> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<Map<String, String>?, Uint8List>
+      get description => $composableBuilder(
+          column: $table.description, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<ImageData?, Uint8List> get image =>
+      $composableBuilder(column: $table.image, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get achievedAt => $composableBuilder(
+      column: $table.achievedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastUpdate => $composableBuilder(
+      column: $table.lastUpdate, builder: (column) => column);
+
+  GeneratedColumn<bool> get seen =>
+      $composableBuilder(column: $table.seen, builder: (column) => column);
+
+  GeneratedColumn<bool> get achieved =>
+      $composableBuilder(column: $table.achieved, builder: (column) => column);
+
+  GeneratedColumn<bool> get isPublic =>
+      $composableBuilder(column: $table.isPublic, builder: (column) => column);
+}
+
+class $$BadgesTableTableManager extends RootTableManager<
+    _$MyDatabase,
+    $BadgesTable,
+    BadgeEntry,
+    $$BadgesTableFilterComposer,
+    $$BadgesTableOrderingComposer,
+    $$BadgesTableAnnotationComposer,
+    $$BadgesTableCreateCompanionBuilder,
+    $$BadgesTableUpdateCompanionBuilder,
+    (BadgeEntry, BaseReferences<_$MyDatabase, $BadgesTable, BadgeEntry>),
+    BadgeEntry,
+    PrefetchHooks Function()> {
+  $$BadgesTableTableManager(_$MyDatabase db, $BadgesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$BadgesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BadgesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BadgesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String?> challengeId = const Value.absent(),
+            Value<Map<String, String>> name = const Value.absent(),
+            Value<Map<String, String>?> description = const Value.absent(),
+            Value<ImageData?> image = const Value.absent(),
+            Value<DateTime?> achievedAt = const Value.absent(),
+            Value<DateTime?> createdAt = const Value.absent(),
+            Value<DateTime?> lastUpdate = const Value.absent(),
+            Value<bool> seen = const Value.absent(),
+            Value<bool> achieved = const Value.absent(),
+            Value<bool> isPublic = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              BadgesCompanion(
+            id: id,
+            challengeId: challengeId,
+            name: name,
+            description: description,
+            image: image,
+            achievedAt: achievedAt,
+            createdAt: createdAt,
+            lastUpdate: lastUpdate,
+            seen: seen,
+            achieved: achieved,
+            isPublic: isPublic,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            Value<String?> challengeId = const Value.absent(),
+            required Map<String, String> name,
+            Value<Map<String, String>?> description = const Value.absent(),
+            Value<ImageData?> image = const Value.absent(),
+            Value<DateTime?> achievedAt = const Value.absent(),
+            Value<DateTime?> createdAt = const Value.absent(),
+            Value<DateTime?> lastUpdate = const Value.absent(),
+            Value<bool> seen = const Value.absent(),
+            Value<bool> achieved = const Value.absent(),
+            Value<bool> isPublic = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              BadgesCompanion.insert(
+            id: id,
+            challengeId: challengeId,
+            name: name,
+            description: description,
+            image: image,
+            achievedAt: achievedAt,
+            createdAt: createdAt,
+            lastUpdate: lastUpdate,
+            seen: seen,
+            achieved: achieved,
+            isPublic: isPublic,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$BadgesTableProcessedTableManager = ProcessedTableManager<
+    _$MyDatabase,
+    $BadgesTable,
+    BadgeEntry,
+    $$BadgesTableFilterComposer,
+    $$BadgesTableOrderingComposer,
+    $$BadgesTableAnnotationComposer,
+    $$BadgesTableCreateCompanionBuilder,
+    $$BadgesTableUpdateCompanionBuilder,
+    (BadgeEntry, BaseReferences<_$MyDatabase, $BadgesTable, BadgeEntry>),
+    BadgeEntry,
+    PrefetchHooks Function()>;
+typedef $$ChallengesTableCreateCompanionBuilder = ChallengesCompanion Function({
+  required String id,
+  required Map<String, String> name,
+  Value<Map<String, String>?> description,
+  Value<bool> isPublic,
+  Value<int> rowid,
+});
+typedef $$ChallengesTableUpdateCompanionBuilder = ChallengesCompanion Function({
+  Value<String> id,
+  Value<Map<String, String>> name,
+  Value<Map<String, String>?> description,
+  Value<bool> isPublic,
+  Value<int> rowid,
+});
+
+class $$ChallengesTableFilterComposer
+    extends Composer<_$MyDatabase, $ChallengesTable> {
+  $$ChallengesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<Map<String, String>, Map<String, String>,
+          Uint8List>
+      get name => $composableBuilder(
+          column: $table.name,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<Map<String, String>?, Map<String, String>,
+          Uint8List>
+      get description => $composableBuilder(
+          column: $table.description,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<bool> get isPublic => $composableBuilder(
+      column: $table.isPublic, builder: (column) => ColumnFilters(column));
+}
+
+class $$ChallengesTableOrderingComposer
+    extends Composer<_$MyDatabase, $ChallengesTable> {
+  $$ChallengesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<Uint8List> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<Uint8List> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isPublic => $composableBuilder(
+      column: $table.isPublic, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ChallengesTableAnnotationComposer
+    extends Composer<_$MyDatabase, $ChallengesTable> {
+  $$ChallengesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<Map<String, String>, Uint8List> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<Map<String, String>?, Uint8List>
+      get description => $composableBuilder(
+          column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<bool> get isPublic =>
+      $composableBuilder(column: $table.isPublic, builder: (column) => column);
+}
+
+class $$ChallengesTableTableManager extends RootTableManager<
+    _$MyDatabase,
+    $ChallengesTable,
+    ChallengeEntry,
+    $$ChallengesTableFilterComposer,
+    $$ChallengesTableOrderingComposer,
+    $$ChallengesTableAnnotationComposer,
+    $$ChallengesTableCreateCompanionBuilder,
+    $$ChallengesTableUpdateCompanionBuilder,
+    (
+      ChallengeEntry,
+      BaseReferences<_$MyDatabase, $ChallengesTable, ChallengeEntry>
+    ),
+    ChallengeEntry,
+    PrefetchHooks Function()> {
+  $$ChallengesTableTableManager(_$MyDatabase db, $ChallengesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChallengesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChallengesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChallengesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<Map<String, String>> name = const Value.absent(),
+            Value<Map<String, String>?> description = const Value.absent(),
+            Value<bool> isPublic = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              ChallengesCompanion(
+            id: id,
+            name: name,
+            description: description,
+            isPublic: isPublic,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required Map<String, String> name,
+            Value<Map<String, String>?> description = const Value.absent(),
+            Value<bool> isPublic = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              ChallengesCompanion.insert(
+            id: id,
+            name: name,
+            description: description,
+            isPublic: isPublic,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ChallengesTableProcessedTableManager = ProcessedTableManager<
+    _$MyDatabase,
+    $ChallengesTable,
+    ChallengeEntry,
+    $$ChallengesTableFilterComposer,
+    $$ChallengesTableOrderingComposer,
+    $$ChallengesTableAnnotationComposer,
+    $$ChallengesTableCreateCompanionBuilder,
+    $$ChallengesTableUpdateCompanionBuilder,
+    (
+      ChallengeEntry,
+      BaseReferences<_$MyDatabase, $ChallengesTable, ChallengeEntry>
+    ),
+    ChallengeEntry,
+    PrefetchHooks Function()>;
 
 class $MyDatabaseManager {
   final _$MyDatabase _db;
@@ -3262,4 +4542,8 @@ class $MyDatabaseManager {
       $$TransactionsTableTableManager(_db, _db.transactions);
   $$TotemsTableTableManager get totems =>
       $$TotemsTableTableManager(_db, _db.totems);
+  $$BadgesTableTableManager get badges =>
+      $$BadgesTableTableManager(_db, _db.badges);
+  $$ChallengesTableTableManager get challenges =>
+      $$ChallengesTableTableManager(_db, _db.challenges);
 }

@@ -179,6 +179,7 @@
   "device": "device",
   "exchange": "Exchange",
   "connections": "Connections",
+  "achievement": "Achievement",
   "lastDonation": "Last donations",
   "noDonation": "No donations",
   "noWomToDonate": "Collect WOM vouchers to make a donation",
@@ -284,7 +285,7 @@
     "select_image_source": "Select image source"
   },
   "personal_totem": {
-    "title": "My account",
+    "title": "My contact",
     "name": "Name",
     "email": "Email",
     "phone": "Phone",

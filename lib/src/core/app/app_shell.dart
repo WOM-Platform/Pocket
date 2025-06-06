@@ -16,6 +16,7 @@ import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
 
 import 'package:wom_pocket/src/features/nfc/utils.dart';
 import 'package:wom_pocket/src/features/totem/utils.dart';
@@ -70,12 +71,21 @@ class _AppShellState extends ConsumerState<AppShell> {
   _startScan(BuildContext context) async {
     try {
       final link = (await context.push('/scan')) as String?;
+      // final link =
+      //     'https://link.wom.social/challenge/v1/6842708d101719fdfca75768';
       logger.w('_startScan: $link');
       if (link == null) return;
       final totemData = validateTotemQrCodeWithRegex(link);
-      final encryptedTotemData = validatePersonalConnection(link);
-      if (encryptedTotemData != null) {
-        launchMyTotemDialog(context, link);
+      final connectionLink = validatePersonalConnection(link);
+      final challenge = validateChallenge(link);
+      logger.w('_startScan: $link');
+      if (challenge != null) {
+        final challengeId = getChallengeIdFromLink(link);
+        if (challengeId != null) {
+          context.push('/badge/challenge/$challengeId');
+        }
+      } else if (connectionLink != null) {
+        launchConnectionDialog(context, link);
       } else if (totemData != null) {
         launchTotemDialog(context, totemData);
       } else {

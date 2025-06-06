@@ -2,6 +2,8 @@
 // database class. They are used to open the database.
 import 'dart:io';
 
+import 'package:wom_pocket/src/core/database/challenge_dao.dart';
+import 'package:wom_pocket/src/features/badge/data/badge.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/src/core/database/aims_dao.dart';
+import 'package:wom_pocket/src/core/database/badge_dao.dart';
 import 'package:wom_pocket/src/core/database/tables.dart';
 import 'package:wom_pocket/src/core/database/totems_dao.dart';
 import 'package:wom_pocket/src/core/database/transactions_dao.dart';
@@ -18,8 +21,8 @@ import 'package:wom_pocket/src/core/my_logger.dart';
 part 'database.g.dart';
 
 @DriftDatabase(
-  tables: [Wom, Aims, Transactions, Totems],
-  daos: [WomsDao, AimsDao, TransactionsDao, TotemsDao],
+  tables: [Wom, Aims, Transactions, Totems, Badges, Challenges],
+  daos: [WomsDao, AimsDao, TransactionsDao, TotemsDao, BadgeDao, ChallengeDao],
 )
 class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
@@ -30,7 +33,7 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase.query(QueryExecutor executor) : super(executor);
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   Future<void> importWoms(
     TransactionsCompanion tx,
@@ -104,6 +107,9 @@ class MyDatabase extends _$MyDatabase {
           } else if (from < 7) {
             await m.addColumn(totems, totems.image);
             await m.addColumn(totems, totems.notes);
+          } else if (from < 8) {
+            await m.createTable(badges);
+            await m.createTable(challenges);
           }
         });
       },

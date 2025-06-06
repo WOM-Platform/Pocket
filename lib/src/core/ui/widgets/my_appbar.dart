@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 
 class PocketAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -13,7 +14,16 @@ class PocketAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
-      actions: actions,
+      actions: [
+        ...?actions,
+        IconButton(
+          onPressed: () {
+            context.push('/settings');
+          },
+          icon: Icon(Icons.settings),
+          color: primaryColor,
+        ),
+      ],
       systemOverlayStyle: SystemUiOverlayStyle(
         systemNavigationBarColor: primaryColor, // Navigation bar
         statusBarColor: Colors.white, // Status bar
@@ -38,11 +48,13 @@ class PocketAppBar extends StatelessWidget implements PreferredSizeWidget {
 class SecondLevelAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final String title;
+  final PreferredSizeWidget? bottom;
 
   const SecondLevelAppBar({
     required this.title,
     super.key,
     this.actions,
+    this.bottom,
   });
 
   @override
@@ -56,9 +68,11 @@ class SecondLevelAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       backgroundColor: Theme.of(context).primaryColor,
       actions: actions,
+      bottom: bottom,
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize =>
+      Size.fromHeight(bottom != null ? kToolbarHeight * 2 : kToolbarHeight);
 }

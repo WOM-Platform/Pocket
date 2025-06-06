@@ -13,7 +13,7 @@ import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/features/settings/table_page/db_page.dart';
 import 'package:wom_pocket/src/features/totem/application/my_totem_notifier.dart';
-import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
+import 'package:wom_pocket/src/features/totem/ui/connections_screen.dart';
 import 'package:wom_pocket/src/core/log_output.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/features/intro/intro.dart';
@@ -37,7 +37,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PocketAppBar(),
+      appBar: SecondLevelAppBar(title: 'settings_title'.tr()),
       body: ListView(
         children: <Widget>[
           SettingSectionTitle(

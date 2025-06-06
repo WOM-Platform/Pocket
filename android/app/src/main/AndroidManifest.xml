@@ -121,6 +121,12 @@
                         android:host="@string/new_deep_host"
                         android:pathPrefix="/connection"/>
 
+                <!-- https://link.wom.social/challenge -->
+                <data
+                        android:scheme="https"
+                        android:host="@string/new_deep_host"
+                        android:pathPrefix="/challenge"/>
+
                 <!-- https://link.wom.social/vouchers -->
                 <data
                         android:scheme="https"

@@ -101,3 +101,16 @@ String? validatePersonalConnection(String text) {
 
   return null;
 }
+
+String? validateChallenge(String text) {
+  final connectionRegExp = new RegExp(
+    'https:\/\/link\.wom\.social\/challenge\/v1\/(.*)+',
+    caseSensitive: false,
+  );
+
+  if (connectionRegExp.hasMatch(text)) {
+    return text;
+  }
+
+  return null;
+}

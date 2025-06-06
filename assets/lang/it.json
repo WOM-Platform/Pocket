@@ -179,6 +179,7 @@
   "device": "dispositivo",
   "exchange": "Scambio",
   "connections": "Connessioni",
+  "achievement": "Traguardi",
   "lastDonation": "Le tue ultime donazioni",
   "noDonation": "Non hai effettuato alcuna donazione",
   "noWomToDonate": "Accumula WOM per fare una donazione",
@@ -284,7 +285,7 @@
     "select_image_source": "Seleziona la sorgente della tua immagine"
   },
   "personal_totem": {
-    "title": "Il mio account",
+    "title": "Il mio contatto",
     "name": "Nome",
     "email": "Email",
     "phone": "Telefono",

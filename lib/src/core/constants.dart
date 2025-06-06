@@ -23,6 +23,7 @@ const encryptKey =
 const maxPersonalDistanceInMeters = 1000;
 const maxTimeRangeInSeconds = 60;
 const digitProviderId = 'e3441c34-b02c-4bd9-8de5-9e312468ca69';
+const myContactsEventId = 'f3cfd410-09cc-4b34-8b00-e4f9e0bf1420';
 //Tutorial keys
 const t_scan = 'scan3';
 const t_home = 'home3';

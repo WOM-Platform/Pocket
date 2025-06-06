@@ -10,6 +10,7 @@ import 'package:wom_pocket/src/core/application/app_notifier.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/badge/navigation/badge_routes.dart';
 import 'package:wom_pocket/src/features/exchange/navigation/exchange_routes.dart';
 import 'package:wom_pocket/src/features/in_app_webview/ui/in_app_webview.dart';
 import 'package:wom_pocket/src/features/migration/ui/import_screen.dart';
@@ -32,10 +33,11 @@ final branches = [
   offersStatefulShell,
   exchangeStatefulShell,
   totemStatefulShell,
-  settingsStatefulShell,
+  badgeStatefulShell,
 ];
 
 final _appRoutes = <GoRoute>[
+  SettingsRoute(),
   GoRoute(
     path: '/scan',
     builder: (context, state) => ScanScreen(),
@@ -110,7 +112,7 @@ final router = GoRouter(
                     final totemData = validateTotemQrCodeWithRegex(data);
                     final encryptedTotemData = validatePersonalConnection(data);
                     if (encryptedTotemData != null) {
-                      launchMyTotemDialog(context, data);
+                      launchConnectionDialog(context, data);
                     } else if (totemData != null) {
                       // TODO check how handle dialog with GoRouter
                       launchTotemDialog(context, totemData);

@@ -102,7 +102,7 @@ class _MyTotemScreenState extends ConsumerState<MyTotemScreen>
                     child: TextButton(
                   child: Text(totemLink),
                   onPressed: () {
-                    launchMyTotemDialog(context, totemLink);
+                    launchConnectionDialog(context, totemLink);
                   },
                 )),
               const SizedBox(height: 8),

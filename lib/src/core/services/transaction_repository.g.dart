@@ -6,8 +6,24 @@ part of 'transaction_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$getDioHash() => r'06d64f8c72c8e7d66dec6e4d9ba99b987231a1ed';
+
+/// See also [getDio].
+@ProviderFor(getDio)
+final getDioProvider = AutoDisposeProvider<Dio>.internal(
+  getDio,
+  name: r'getDioProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getDioHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetDioRef = AutoDisposeProviderRef<Dio>;
 String _$transactionRepositoryHash() =>
-    r'bb24d3a061a60140de12ef58305df159589693c3';
+    r'9890b667c15392df5bc23b8c368c0d254c94f792';
 
 /// See also [transactionRepository].
 @ProviderFor(transactionRepository)

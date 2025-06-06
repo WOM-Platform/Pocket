@@ -280,6 +280,30 @@ ConnectionTotemData? createTotemLinkFromConnection(String link) {
   return null;
 }
 
+String? getChallengeIdFromLink(String link) {
+  try {
+    if (validateChallenge(link) == null) {
+      return null;
+    }
+    final url = link;
+    final uri = Uri.tryParse(url);
+    if (uri == null) {
+      return null;
+    }
+
+    final version = uri.pathSegments[1];
+    final challengeId = uri.pathSegments[2];
+
+    if (challengeId.isEmpty) {
+      return null;
+    }
+
+    return challengeId;
+  } catch (ex) {
+    return null;
+  }
+}
+
 extension StringX on String? {
   bool get isNullOrEmpty {
     final tmp = this;

@@ -76,8 +76,8 @@ class _MyBottomNavigationBarState extends ConsumerState<MyBottomNavigationBar> {
           label: 'connections'.tr(),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'settings_title'.tr(),
+          icon: Icon(MdiIcons.hexagon),
+          label: 'achievement'.tr(),
         ),
       ],
       currentIndex: _getBottomNavigationIndex(context, state),

@@ -19,7 +19,7 @@ import 'package:wom_pocket/src/core/ui/screens/crop_image.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
-import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
+import 'package:wom_pocket/src/features/totem/ui/connections_screen.dart';
 import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
 import 'package:wom_pocket/src/features/transaction/ui/transaction_screen.dart';
 import 'package:wom_pocket/src/core/utils/date_utils.dart';

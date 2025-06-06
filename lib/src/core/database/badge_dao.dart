@@ -1,35 +1,58 @@
 import 'package:drift/drift.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
+import 'package:wom_pocket/src/core/database/tables.dart';
 
 part 'badge_dao.g.dart';
 
-// the _TodosDaoMixin will be created by drift. It contains all the necessary
-// fields for the tables. The <MyDatabase> type annotation is the database class
-// that should use this dao.
-@DriftAccessor(tables: [])
+@DriftAccessor(tables: [Badges])
 class BadgeDao extends DatabaseAccessor<MyDatabase> with _$BadgeDaoMixin {
-  // this constructor is required so that the main database can create an instance
-  // of this object.
   BadgeDao(MyDatabase db) : super(db);
 
-/*  // Get all woms not spent
-  Future<List<AimRow>> get getFlatAimList {
-    return select(aims).get();
+  Future<List<BadgeEntry>> getAllBadgeEntries() => select(badges).get();
+
+  Future<BadgeEntry?> getBadgeEntryById(String id) {
+    return (select(badges)..where((b) => b.id.equals(id))).getSingleOrNull();
   }
 
-  Future<AimRow> getAim(String aimCode) {
-    return (select(aims)..where((tbl) => tbl.code.equals(aimCode))).getSingle();
+  Future<List<BadgeEntry>> getBadgeEntryByChallengeId(String challengeId) {
+    return (select(badges)..where((b) => b.challengeId.equals(challengeId)))
+        .get();
   }
 
-  // returns the generated id
-  Future<void> addAims(List<AimsCompanion> entries) async {
+  Future<int> insertBadgeEntry(BadgesCompanion entry) {
+    return into(badges).insert(entry, mode: InsertMode.insertOrReplace);
+  }
+
+  Future<void> insertBadgeEntries(List<BadgesCompanion> entries) async {
     await batch((batch) {
-      batch.insertAll(aims, entries, mode: InsertMode.insertOrReplace);
+      batch.insertAll(badges, entries, mode: InsertMode.insertOrReplace);
     });
   }
 
-  Future<void> deleteTable() async {
-    final deleted = await delete(aims).go();
-    logger.i('Deleted $deleted rows');
-  }*/
+  Future<int> updateBadgeEntry(BadgesCompanion entry) {
+    return (update(badges)..where((b) => b.id.equals(entry.id.value)))
+        .write(entry);
+  }
+
+  Future<int> deleteBadgeEntry(String id) {
+    return (delete(badges)..where((b) => b.id.equals(id))).go();
+  }
+
+  Future<int> deleteAllBadgeEntries() {
+    return delete(badges).go();
+  }
+
+  Future<int> markBadgeAsSeen(String id) {
+    return (update(badges)..where((b) => b.id.equals(id)))
+        .write(BadgesCompanion(seen: Value(true)));
+  }
+
+  Future<int> markBadgeAsAchieved(String challengeId) {
+    return (update(badges)..where((b) => b.id.equals(challengeId))).write(
+      BadgesCompanion(
+        achieved: Value(true),
+        achievedAt: Value(DateTime.now()),
+      ),
+    );
+  }
 }

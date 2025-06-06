@@ -1,9 +1,20 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:wom_pocket/src/features/badge/data/badge.dart';
 
-// this will generate a table called "woms" for us. The rows of that table will
-// be represented by a class called "Todo".
+JsonTypeConverter2<Map<String, String>, Uint8List, Object?>
+    mapTranslationConverter = TypeConverter.jsonb(
+  fromJson: (json) => Map<String, String>.from(json as Map<String, dynamic>),
+  toJson: (pref) => pref,
+);
+
+JsonTypeConverter2<ImageData, Uint8List, Object?> imageUrlBinaryConverter =
+    TypeConverter.jsonb(
+  fromJson: (json) => ImageData.fromJson(json as Map<String, Object?>),
+  toJson: (pref) => pref.toJson(),
+);
+
 @DataClassName('WomRow')
 class Wom extends Table {
   TextColumn get id => text().named('Id').unique()();
@@ -71,31 +82,55 @@ class Transactions extends Table {
   TextColumn get link => text().named('link').nullable()();
 }
 
-// class WomExchanges extends Table {
-//   IntColumn get id => integer().autoIncrement()();
-//
-//   DateTimeColumn get addedOn => dateTime()();
-//
-//   TextColumn get qrcode => text()();
-//
-//   IntColumn get count => integer()();
-// }
+@DataClassName('BadgeEntry')
+class Badges extends Table {
+  @override
+  String get tableName => 'badges';
 
-// class Badges extends Table {
-//   TextColumn get id => text().unique()();
-//
-//   @override
-//   Set<Column> get primaryKey => {id};
-// }
+  TextColumn get id => text()();
 
-// This will make drift generate a class called "Category" to represent a row in
-// this table. By default, "Categorie" would have been used because it only
-//strips away the trailing "s" in the table name.
-// @DataClassName('Category')
-// class Categories extends Table {
-//   IntColumn get id => integer().autoIncrement()();
-//   TextColumn get description => text()();
-// }
+  TextColumn get challengeId => text().nullable()();
+
+  BlobColumn get name => blob().map(mapTranslationConverter)();
+
+  BlobColumn get description =>
+      blob().map(mapTranslationConverter).nullable()();
+
+  BlobColumn get image => blob().map(imageUrlBinaryConverter).nullable()();
+
+  DateTimeColumn get achievedAt => dateTime().nullable()();
+
+  DateTimeColumn get createdAt => dateTime().nullable()();
+
+  DateTimeColumn get lastUpdate => dateTime().nullable()();
+
+  BoolColumn get seen => boolean().withDefault(const Constant(false))();
+
+  BoolColumn get achieved => boolean().withDefault(const Constant(false))();
+
+  BoolColumn get isPublic => boolean().withDefault(const Constant(false))();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+@DataClassName('ChallengeEntry')
+class Challenges extends Table {
+  @override
+  String get tableName => 'challenges';
+
+  TextColumn get id => text()();
+
+  BlobColumn get name => blob().map(mapTranslationConverter)();
+
+  BlobColumn get description =>
+      blob().map(mapTranslationConverter).nullable()();
+
+  BoolColumn get isPublic => boolean().withDefault(const Constant(false))();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
 
 @DataClassName('TotemRow')
 class Totems extends Table {
@@ -128,6 +163,7 @@ class Totems extends Table {
   TextColumn get image => text().named('image').nullable()();
 
   TextColumn get url => text().named('url').nullable()();
+
   TextColumn get notes => text().named('notes').nullable()();
 
   RealColumn get latitude => real().named('latitude').nullable()();

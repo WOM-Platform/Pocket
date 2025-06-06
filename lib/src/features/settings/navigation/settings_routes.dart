@@ -10,21 +10,21 @@ import 'package:wom_pocket/src/features/scanner/ui/scan_screen.dart';
 import 'package:wom_pocket/src/features/settings/settings.dart';
 import 'package:wom_pocket/src/features/settings/table_page/db_page.dart';
 import 'package:wom_pocket/src/features/totem/ui/totem_details.dart';
-import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
+import 'package:wom_pocket/src/features/totem/ui/connections_screen.dart';
 
 final _shellNavigatorSettingsKey = GlobalKey<NavigatorState>();
 
-final settingsStatefulShell = StatefulShellBranch(
+/*final settingsStatefulShell = StatefulShellBranch(
   navigatorKey: _shellNavigatorSettingsKey,
   routes: [SettingsRoute()],
-);
+);*/
 
 class SettingsRoute extends GoRoute {
   SettingsRoute()
       : super(
           path: '/settings',
           // config: HomeTabRouteConfig(),
-          parentNavigatorKey: _shellNavigatorSettingsKey,
+          // parentNavigatorKey: _shellNavigatorSettingsKey,
           // redirect: (context, state) {
           // Scroll to top of the shell route.
           // final goRouter = GoRouter.of(rootNavigatorKey.currentContext!);

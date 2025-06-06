@@ -6,7 +6,7 @@ part of 'my_totem_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$myTotemNotifierHash() => r'cb9d1e506e2f57c43d4452aa19a72f1d44a77f24';
+String _$myTotemNotifierHash() => r'1ab1750d38416a4063ee12254e528d06d792ebf3';
 
 /// See also [MyTotemNotifier].
 @ProviderFor(MyTotemNotifier)

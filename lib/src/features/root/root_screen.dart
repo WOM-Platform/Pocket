@@ -1,3 +1,4 @@
+/*
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -11,6 +12,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/services/app_repository.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
 import 'package:wom_pocket/src/features/exchange/ui/screens/exchange_screen.dart';
 import 'package:wom_pocket/src/features/offers/ui/offers_screen.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
@@ -24,7 +26,7 @@ import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/scanner/ui/scan_screen.dart';
 import 'package:wom_pocket/src/features/settings/settings.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
-import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
+import 'package:wom_pocket/src/features/totem/ui/connections_screen.dart';
 import 'package:wom_pocket/src/features/totem/utils.dart';
 
 class RootScreen extends StatefulHookConsumerWidget {
@@ -168,13 +170,20 @@ class _RootScreenState extends ConsumerState<RootScreen> {
     if (await InternetConnectionChecker.instance.hasConnection) {
       logEvent('open_wom_scan');
       try {
-        final link = await context.push('/scan');
+        // final link = await context.push('/scan');
+        final link = 'https://link.wom.social/challenge/v1/6842708d101719fdfca75768';
         logger.w('_startScan: $link');
         if (link == null || link is! String) return;
         final totemData = validateTotemQrCodeWithRegex(link);
-        final encryptedTotemData = validatePersonalConnection(link);
-        if (encryptedTotemData != null) {
-          launchMyTotemDialog(context, link);
+        final connectionLink = validatePersonalConnection(link);
+        final challenge = validateChallenge(link);
+        if (challenge != null) {
+          final challengeId = getChallengeIdFromLink(link);
+          if (challengeId != null) {
+            context.go('/badge/challenge/$challengeId');
+          }
+        } else if (connectionLink != null) {
+          launchConnectionDialog(context, link);
         } else if (totemData != null) {
           launchTotemDialog(context, totemData);
         } else {
@@ -238,3 +247,4 @@ class _RootScreenState extends ConsumerState<RootScreen> {
     }
   }
 }
+*/

@@ -6,8 +6,9 @@ import 'package:wom_pocket/src/core/routing/router.dart';
 import 'package:wom_pocket/src/core/ui/screens/crop_image.dart';
 import 'package:wom_pocket/src/features/totem/ui/edit_my_totem_screen.dart';
 import 'package:wom_pocket/src/features/totem/ui/my_totem_screen.dart';
+import 'package:wom_pocket/src/features/totem/ui/search_screen.dart';
 import 'package:wom_pocket/src/features/totem/ui/totem_details.dart';
-import 'package:wom_pocket/src/features/totem/ui/totem_scans_screen.dart';
+import 'package:wom_pocket/src/features/totem/ui/connections_screen.dart';
 
 final _shellNavigatorTotemKey = GlobalKey<NavigatorState>();
 
@@ -31,6 +32,13 @@ class TotemRoute extends GoRoute {
               builder: (_, state) {
                 final data = state.extra as TotemMapData;
                 return TotemMapScreen(data: data);
+              },
+            ),
+            GoRoute(
+              path: 'search',
+              parentNavigatorKey: rootNavigatorKey,
+              builder: (_, state) {
+                return SearchScreen();
               },
             ),
             GoRoute(

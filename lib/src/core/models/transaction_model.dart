@@ -67,18 +67,25 @@ extension TransactionModelX on TransactionModel {
   }
 }
 
-class DateTimeConverter implements JsonConverter<DateTime, dynamic> {
+class DateTimeConverter implements JsonConverter<DateTime?, Object?> {
   const DateTimeConverter();
 
   @override
-  DateTime fromJson(dynamic value) {
-    return value is String
-        ? DateTime.parse(value)
-        : DateTime.fromMillisecondsSinceEpoch(value);
+  DateTime? fromJson(Object? value) {
+    if (value ==null) {
+      return null;
+    }
+    if (value is String) {
+      return DateTime.parse(value);
+    } else {
+      return value is int
+          ? DateTime.fromMillisecondsSinceEpoch(value)
+          : null;
+    }
   }
 
   @override
-  String toJson(DateTime data) => data.toIso8601String();
+  String? toJson(DateTime? data) => data?.toIso8601String();
 }
 
 class TransactionTypeConverter implements JsonConverter<TransactionType, int> {

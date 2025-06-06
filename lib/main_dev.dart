@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,13 +45,9 @@ Future<void> main() async {
 
   flavor = Flavor.DEVELOPMENT;
   domain = 'dev.wom.social';
-  logger = Logger(
-    printer: PrettyPrinter(
-      noBoxingByDefault: true,
-      printEmojis: false,
-    ),
-    // filter: ReleaseFilter(),
-    output: DevOutput(),
+  logger = logger = Logger(
+    filter: !isDev && !kDebugMode ? ReleaseFilter() : null,
+    output: !isDev && !kDebugMode ? DevOutput() : null,
   );
   logger.i('DEV VERSION');
   registryKey = await Utils.getPublicKey();

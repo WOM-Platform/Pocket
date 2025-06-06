@@ -3,7 +3,7 @@ import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/features/root/widgets/totem_dialog.dart';
 import 'package:wom_pocket/src/features/totem/ui/my_totem_dialog.dart';
 
-Future<void> launchMyTotemDialog(
+Future<void> launchConnectionDialog(
   BuildContext context,
   String link,
 ) async {
