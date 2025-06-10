@@ -3,11 +3,12 @@ import 'package:dart_wom_connector/dart_wom_connector.dart'
 import 'package:wom_pocket/src/core/models/wom_model.dart';
 
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/badge/data/badge.dart';
 
 class OptionalQuery {
   final int startDate;
   final int endDate;
-  final WomStatus womStatus;
+  final WomStatus? womStatus;
   final Set<String?>? sources;
   final Set<String?>? aims;
   final SimpleFilter? filters;
@@ -20,7 +21,7 @@ class OptionalQuery {
     this.amount,
     this.startDate = 0,
     this.endDate = 0,
-    this.womStatus = WomStatus.ON,
+    this.womStatus,
     this.sources,
     this.filters,
     this.aims,
@@ -34,10 +35,12 @@ class OptionalQuery {
         ? 'WHERE ${WomModel.tblWom}.${WomModel.dbAddedOn} BETWEEN $startDate AND $endDate'
         : '';
 
-    var statusWhereClause = '${WomModel.tblWom}.spent = ${womStatus.index}';
-    whereClause = whereClause.isEmpty
-        ? 'WHERE $statusWhereClause'
-        : '$whereClause AND $statusWhereClause';
+    if (womStatus != null) {
+      var statusWhereClause = '${WomModel.tblWom}.spent = ${womStatus!.index}';
+      whereClause = whereClause.isEmpty
+          ? 'WHERE $statusWhereClause'
+          : '$whereClause AND $statusWhereClause';
+    }
 
     if (sources != null) {
       final sourceWhereClause = buildSourceClause(sources!);
@@ -183,5 +186,63 @@ class OptionalQuery {
 
     logger.i(filtersWhereClause);
     return filtersWhereClause;
+  }
+}
+
+class BadgeQuery {
+  final BadgeSimpleFilter filter;
+
+  BadgeQuery({
+    required this.filter,
+  });
+
+  String build() {
+    var whereClause = '';
+
+    // Interval time check
+    if (filter.interval != null) {
+      whereClause = 'WHERE ${WomModel.tblWom}.${WomModel.dbAddedOn} BETWEEN '
+          '${filter.interval!.start.millisecondsSinceEpoch} AND ${filter.interval!.end.millisecondsSinceEpoch}';
+    }
+
+    // Aim check
+    if (filter.aim != null) {
+      whereClause = whereClause.isEmpty
+          ? "WHERE ${WomModel.tblWom}.${WomModel.dbAim} = \'${filter.aim}\'"
+          : "$whereClause AND ${WomModel.tblWom}.${WomModel.dbAim} = \'${filter.aim}\'";
+    }
+
+    // Source check
+    if (filter.sourceId != null) {
+      whereClause = whereClause.isEmpty
+          ? "WHERE ${WomModel.tblWom}.${WomModel.dbSourceName} = \'${filter.sourceId}\'"
+          : "$whereClause AND ${WomModel.tblWom}.${WomModel.dbSourceName} = \'${filter.sourceId}\'";
+    }
+
+    // Position check
+    if (filter.bounds != null) {
+      String boundsClause = '';
+      final double leftTopLatitude = filter.bounds!.leftTop[0];
+      final double leftTopLongitude = filter.bounds!.leftTop[1];
+      final double rightBottomLatitude = filter.bounds!.rightBottom[0];
+      final double rightBottomLongitude = filter.bounds!.rightBottom[1];
+
+      final latQuery = (leftTopLatitude > rightBottomLatitude)
+          ? '(${WomModel.dbLat} <= $leftTopLatitude AND ${WomModel.dbLat} >= $rightBottomLatitude)'
+          : '(${WomModel.dbLat} <= $leftTopLatitude OR ${WomModel.dbLat} >= $rightBottomLatitude)';
+
+      final longQuery = (leftTopLongitude < rightBottomLongitude)
+          ? '(${WomModel.dbLong} >= $leftTopLongitude AND ${WomModel.dbLong} <= $rightBottomLongitude)'
+          : '(${WomModel.dbLong} >= $leftTopLongitude OR ${WomModel.dbLong} <= $rightBottomLongitude)';
+
+      boundsClause = '$latQuery AND $longQuery';
+      whereClause = whereClause.isEmpty
+          ? 'WHERE $boundsClause'
+          : '$whereClause AND $boundsClause';
+    }
+
+    logger.i('BadgeQuery build: $whereClause');
+
+    return whereClause;
   }
 }

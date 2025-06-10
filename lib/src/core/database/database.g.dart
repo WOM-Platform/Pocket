@@ -2217,6 +2217,12 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _informationUriMeta =
+      const VerificationMeta('informationUri');
+  @override
+  late final GeneratedColumn<String> informationUri = GeneratedColumn<String>(
+      'information_uri', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _challengeIdMeta =
       const VerificationMeta('challengeId');
   @override
@@ -2239,6 +2245,11 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
       GeneratedColumn<Uint8List>('image', aliasedName, true,
               type: DriftSqlType.blob, requiredDuringInsert: false)
           .withConverter<ImageData?>($BadgesTable.$converterimagen);
+  @override
+  late final GeneratedColumnWithTypeConverter<BadgeSimpleFilter?, Uint8List>
+      filter = GeneratedColumn<Uint8List>('filter', aliasedName, true,
+              type: DriftSqlType.blob, requiredDuringInsert: false)
+          .withConverter<BadgeSimpleFilter?>($BadgesTable.$converterfiltern);
   static const VerificationMeta _achievedAtMeta =
       const VerificationMeta('achievedAt');
   @override
@@ -2289,10 +2300,12 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
   @override
   List<GeneratedColumn> get $columns => [
         id,
+        informationUri,
         challengeId,
         name,
         description,
         image,
+        filter,
         achievedAt,
         createdAt,
         lastUpdate,
@@ -2314,6 +2327,12 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     } else if (isInserting) {
       context.missing(_idMeta);
+    }
+    if (data.containsKey('information_uri')) {
+      context.handle(
+          _informationUriMeta,
+          informationUri.isAcceptableOrUnknown(
+              data['information_uri']!, _informationUriMeta));
     }
     if (data.containsKey('challenge_id')) {
       context.handle(
@@ -2360,6 +2379,8 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
     return BadgeEntry(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      informationUri: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}information_uri']),
       challengeId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}challenge_id']),
       name: $BadgesTable.$convertername.fromSql(attachedDatabase.typeMapping
@@ -2369,6 +2390,9 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
           .read(DriftSqlType.blob, data['${effectivePrefix}description'])),
       image: $BadgesTable.$converterimagen.fromSql(attachedDatabase.typeMapping
           .read(DriftSqlType.blob, data['${effectivePrefix}image'])),
+      filter: $BadgesTable.$converterfiltern.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.blob, data['${effectivePrefix}filter'])),
       achievedAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}achieved_at']),
       createdAt: attachedDatabase.typeMapping
@@ -2400,14 +2424,20 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
       imageUrlBinaryConverter;
   static JsonTypeConverter2<ImageData?, Uint8List?, Object?> $converterimagen =
       JsonTypeConverter2.asNullable($converterimage);
+  static JsonTypeConverter2<BadgeSimpleFilter, Uint8List, Object?>
+      $converterfilter = simpleFilterBinaryConverter;
+  static JsonTypeConverter2<BadgeSimpleFilter?, Uint8List?, Object?>
+      $converterfiltern = JsonTypeConverter2.asNullable($converterfilter);
 }
 
 class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
   final String id;
+  final String? informationUri;
   final String? challengeId;
   final Map<String, String> name;
   final Map<String, String>? description;
   final ImageData? image;
+  final BadgeSimpleFilter? filter;
   final DateTime? achievedAt;
   final DateTime? createdAt;
   final DateTime? lastUpdate;
@@ -2416,10 +2446,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
   final bool isPublic;
   const BadgeEntry(
       {required this.id,
+      this.informationUri,
       this.challengeId,
       required this.name,
       this.description,
       this.image,
+      this.filter,
       this.achievedAt,
       this.createdAt,
       this.lastUpdate,
@@ -2430,6 +2462,9 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
+    if (!nullToAbsent || informationUri != null) {
+      map['information_uri'] = Variable<String>(informationUri);
+    }
     if (!nullToAbsent || challengeId != null) {
       map['challenge_id'] = Variable<String>(challengeId);
     }
@@ -2444,6 +2479,10 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
     if (!nullToAbsent || image != null) {
       map['image'] =
           Variable<Uint8List>($BadgesTable.$converterimagen.toSql(image));
+    }
+    if (!nullToAbsent || filter != null) {
+      map['filter'] =
+          Variable<Uint8List>($BadgesTable.$converterfiltern.toSql(filter));
     }
     if (!nullToAbsent || achievedAt != null) {
       map['achieved_at'] = Variable<DateTime>(achievedAt);
@@ -2463,6 +2502,9 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
   BadgesCompanion toCompanion(bool nullToAbsent) {
     return BadgesCompanion(
       id: Value(id),
+      informationUri: informationUri == null && nullToAbsent
+          ? const Value.absent()
+          : Value(informationUri),
       challengeId: challengeId == null && nullToAbsent
           ? const Value.absent()
           : Value(challengeId),
@@ -2472,6 +2514,8 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
           : Value(description),
       image:
           image == null && nullToAbsent ? const Value.absent() : Value(image),
+      filter:
+          filter == null && nullToAbsent ? const Value.absent() : Value(filter),
       achievedAt: achievedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(achievedAt),
@@ -2492,6 +2536,7 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BadgeEntry(
       id: serializer.fromJson<String>(json['id']),
+      informationUri: serializer.fromJson<String?>(json['informationUri']),
       challengeId: serializer.fromJson<String?>(json['challengeId']),
       name: $BadgesTable.$convertername
           .fromJson(serializer.fromJson<Object?>(json['name'])),
@@ -2499,6 +2544,8 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
           .fromJson(serializer.fromJson<Object?>(json['description'])),
       image: $BadgesTable.$converterimagen
           .fromJson(serializer.fromJson<Object?>(json['image'])),
+      filter: $BadgesTable.$converterfiltern
+          .fromJson(serializer.fromJson<Object?>(json['filter'])),
       achievedAt: serializer.fromJson<DateTime?>(json['achievedAt']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       lastUpdate: serializer.fromJson<DateTime?>(json['lastUpdate']),
@@ -2512,6 +2559,7 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
+      'informationUri': serializer.toJson<String?>(informationUri),
       'challengeId': serializer.toJson<String?>(challengeId),
       'name':
           serializer.toJson<Object?>($BadgesTable.$convertername.toJson(name)),
@@ -2519,6 +2567,8 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
           $BadgesTable.$converterdescriptionn.toJson(description)),
       'image': serializer
           .toJson<Object?>($BadgesTable.$converterimagen.toJson(image)),
+      'filter': serializer
+          .toJson<Object?>($BadgesTable.$converterfiltern.toJson(filter)),
       'achievedAt': serializer.toJson<DateTime?>(achievedAt),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'lastUpdate': serializer.toJson<DateTime?>(lastUpdate),
@@ -2530,10 +2580,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
 
   BadgeEntry copyWith(
           {String? id,
+          Value<String?> informationUri = const Value.absent(),
           Value<String?> challengeId = const Value.absent(),
           Map<String, String>? name,
           Value<Map<String, String>?> description = const Value.absent(),
           Value<ImageData?> image = const Value.absent(),
+          Value<BadgeSimpleFilter?> filter = const Value.absent(),
           Value<DateTime?> achievedAt = const Value.absent(),
           Value<DateTime?> createdAt = const Value.absent(),
           Value<DateTime?> lastUpdate = const Value.absent(),
@@ -2542,10 +2594,13 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
           bool? isPublic}) =>
       BadgeEntry(
         id: id ?? this.id,
+        informationUri:
+            informationUri.present ? informationUri.value : this.informationUri,
         challengeId: challengeId.present ? challengeId.value : this.challengeId,
         name: name ?? this.name,
         description: description.present ? description.value : this.description,
         image: image.present ? image.value : this.image,
+        filter: filter.present ? filter.value : this.filter,
         achievedAt: achievedAt.present ? achievedAt.value : this.achievedAt,
         createdAt: createdAt.present ? createdAt.value : this.createdAt,
         lastUpdate: lastUpdate.present ? lastUpdate.value : this.lastUpdate,
@@ -2556,12 +2611,16 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
   BadgeEntry copyWithCompanion(BadgesCompanion data) {
     return BadgeEntry(
       id: data.id.present ? data.id.value : this.id,
+      informationUri: data.informationUri.present
+          ? data.informationUri.value
+          : this.informationUri,
       challengeId:
           data.challengeId.present ? data.challengeId.value : this.challengeId,
       name: data.name.present ? data.name.value : this.name,
       description:
           data.description.present ? data.description.value : this.description,
       image: data.image.present ? data.image.value : this.image,
+      filter: data.filter.present ? data.filter.value : this.filter,
       achievedAt:
           data.achievedAt.present ? data.achievedAt.value : this.achievedAt,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
@@ -2577,10 +2636,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
   String toString() {
     return (StringBuffer('BadgeEntry(')
           ..write('id: $id, ')
+          ..write('informationUri: $informationUri, ')
           ..write('challengeId: $challengeId, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('image: $image, ')
+          ..write('filter: $filter, ')
           ..write('achievedAt: $achievedAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastUpdate: $lastUpdate, ')
@@ -2592,17 +2653,31 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
   }
 
   @override
-  int get hashCode => Object.hash(id, challengeId, name, description, image,
-      achievedAt, createdAt, lastUpdate, seen, achieved, isPublic);
+  int get hashCode => Object.hash(
+      id,
+      informationUri,
+      challengeId,
+      name,
+      description,
+      image,
+      filter,
+      achievedAt,
+      createdAt,
+      lastUpdate,
+      seen,
+      achieved,
+      isPublic);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is BadgeEntry &&
           other.id == this.id &&
+          other.informationUri == this.informationUri &&
           other.challengeId == this.challengeId &&
           other.name == this.name &&
           other.description == this.description &&
           other.image == this.image &&
+          other.filter == this.filter &&
           other.achievedAt == this.achievedAt &&
           other.createdAt == this.createdAt &&
           other.lastUpdate == this.lastUpdate &&
@@ -2613,10 +2688,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
 
 class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
   final Value<String> id;
+  final Value<String?> informationUri;
   final Value<String?> challengeId;
   final Value<Map<String, String>> name;
   final Value<Map<String, String>?> description;
   final Value<ImageData?> image;
+  final Value<BadgeSimpleFilter?> filter;
   final Value<DateTime?> achievedAt;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> lastUpdate;
@@ -2626,10 +2703,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
   final Value<int> rowid;
   const BadgesCompanion({
     this.id = const Value.absent(),
+    this.informationUri = const Value.absent(),
     this.challengeId = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
     this.image = const Value.absent(),
+    this.filter = const Value.absent(),
     this.achievedAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastUpdate = const Value.absent(),
@@ -2640,10 +2719,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
   });
   BadgesCompanion.insert({
     required String id,
+    this.informationUri = const Value.absent(),
     this.challengeId = const Value.absent(),
     required Map<String, String> name,
     this.description = const Value.absent(),
     this.image = const Value.absent(),
+    this.filter = const Value.absent(),
     this.achievedAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastUpdate = const Value.absent(),
@@ -2655,10 +2736,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
         name = Value(name);
   static Insertable<BadgeEntry> custom({
     Expression<String>? id,
+    Expression<String>? informationUri,
     Expression<String>? challengeId,
     Expression<Uint8List>? name,
     Expression<Uint8List>? description,
     Expression<Uint8List>? image,
+    Expression<Uint8List>? filter,
     Expression<DateTime>? achievedAt,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? lastUpdate,
@@ -2669,10 +2752,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (informationUri != null) 'information_uri': informationUri,
       if (challengeId != null) 'challenge_id': challengeId,
       if (name != null) 'name': name,
       if (description != null) 'description': description,
       if (image != null) 'image': image,
+      if (filter != null) 'filter': filter,
       if (achievedAt != null) 'achieved_at': achievedAt,
       if (createdAt != null) 'created_at': createdAt,
       if (lastUpdate != null) 'last_update': lastUpdate,
@@ -2685,10 +2770,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
 
   BadgesCompanion copyWith(
       {Value<String>? id,
+      Value<String?>? informationUri,
       Value<String?>? challengeId,
       Value<Map<String, String>>? name,
       Value<Map<String, String>?>? description,
       Value<ImageData?>? image,
+      Value<BadgeSimpleFilter?>? filter,
       Value<DateTime?>? achievedAt,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? lastUpdate,
@@ -2698,10 +2785,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
       Value<int>? rowid}) {
     return BadgesCompanion(
       id: id ?? this.id,
+      informationUri: informationUri ?? this.informationUri,
       challengeId: challengeId ?? this.challengeId,
       name: name ?? this.name,
       description: description ?? this.description,
       image: image ?? this.image,
+      filter: filter ?? this.filter,
       achievedAt: achievedAt ?? this.achievedAt,
       createdAt: createdAt ?? this.createdAt,
       lastUpdate: lastUpdate ?? this.lastUpdate,
@@ -2718,6 +2807,9 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
     if (id.present) {
       map['id'] = Variable<String>(id.value);
     }
+    if (informationUri.present) {
+      map['information_uri'] = Variable<String>(informationUri.value);
+    }
     if (challengeId.present) {
       map['challenge_id'] = Variable<String>(challengeId.value);
     }
@@ -2732,6 +2824,10 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
     if (image.present) {
       map['image'] =
           Variable<Uint8List>($BadgesTable.$converterimagen.toSql(image.value));
+    }
+    if (filter.present) {
+      map['filter'] = Variable<Uint8List>(
+          $BadgesTable.$converterfiltern.toSql(filter.value));
     }
     if (achievedAt.present) {
       map['achieved_at'] = Variable<DateTime>(achievedAt.value);
@@ -2761,10 +2857,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
   String toString() {
     return (StringBuffer('BadgesCompanion(')
           ..write('id: $id, ')
+          ..write('informationUri: $informationUri, ')
           ..write('challengeId: $challengeId, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('image: $image, ')
+          ..write('filter: $filter, ')
           ..write('achievedAt: $achievedAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastUpdate: $lastUpdate, ')
@@ -4108,10 +4206,12 @@ typedef $$TotemsTableProcessedTableManager = ProcessedTableManager<
     PrefetchHooks Function()>;
 typedef $$BadgesTableCreateCompanionBuilder = BadgesCompanion Function({
   required String id,
+  Value<String?> informationUri,
   Value<String?> challengeId,
   required Map<String, String> name,
   Value<Map<String, String>?> description,
   Value<ImageData?> image,
+  Value<BadgeSimpleFilter?> filter,
   Value<DateTime?> achievedAt,
   Value<DateTime?> createdAt,
   Value<DateTime?> lastUpdate,
@@ -4122,10 +4222,12 @@ typedef $$BadgesTableCreateCompanionBuilder = BadgesCompanion Function({
 });
 typedef $$BadgesTableUpdateCompanionBuilder = BadgesCompanion Function({
   Value<String> id,
+  Value<String?> informationUri,
   Value<String?> challengeId,
   Value<Map<String, String>> name,
   Value<Map<String, String>?> description,
   Value<ImageData?> image,
+  Value<BadgeSimpleFilter?> filter,
   Value<DateTime?> achievedAt,
   Value<DateTime?> createdAt,
   Value<DateTime?> lastUpdate,
@@ -4146,6 +4248,10 @@ class $$BadgesTableFilterComposer extends Composer<_$MyDatabase, $BadgesTable> {
   ColumnFilters<String> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<String> get informationUri => $composableBuilder(
+      column: $table.informationUri,
+      builder: (column) => ColumnFilters(column));
+
   ColumnFilters<String> get challengeId => $composableBuilder(
       column: $table.challengeId, builder: (column) => ColumnFilters(column));
 
@@ -4164,6 +4270,12 @@ class $$BadgesTableFilterComposer extends Composer<_$MyDatabase, $BadgesTable> {
   ColumnWithTypeConverterFilters<ImageData?, ImageData, Uint8List> get image =>
       $composableBuilder(
           column: $table.image,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<BadgeSimpleFilter?, BadgeSimpleFilter,
+          Uint8List>
+      get filter => $composableBuilder(
+          column: $table.filter,
           builder: (column) => ColumnWithTypeConverterFilters(column));
 
   ColumnFilters<DateTime> get achievedAt => $composableBuilder(
@@ -4197,6 +4309,10 @@ class $$BadgesTableOrderingComposer
   ColumnOrderings<String> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get informationUri => $composableBuilder(
+      column: $table.informationUri,
+      builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get challengeId => $composableBuilder(
       column: $table.challengeId, builder: (column) => ColumnOrderings(column));
 
@@ -4208,6 +4324,9 @@ class $$BadgesTableOrderingComposer
 
   ColumnOrderings<Uint8List> get image => $composableBuilder(
       column: $table.image, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<Uint8List> get filter => $composableBuilder(
+      column: $table.filter, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get achievedAt => $composableBuilder(
       column: $table.achievedAt, builder: (column) => ColumnOrderings(column));
@@ -4240,6 +4359,9 @@ class $$BadgesTableAnnotationComposer
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
+  GeneratedColumn<String> get informationUri => $composableBuilder(
+      column: $table.informationUri, builder: (column) => column);
+
   GeneratedColumn<String> get challengeId => $composableBuilder(
       column: $table.challengeId, builder: (column) => column);
 
@@ -4252,6 +4374,9 @@ class $$BadgesTableAnnotationComposer
 
   GeneratedColumnWithTypeConverter<ImageData?, Uint8List> get image =>
       $composableBuilder(column: $table.image, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<BadgeSimpleFilter?, Uint8List> get filter =>
+      $composableBuilder(column: $table.filter, builder: (column) => column);
 
   GeneratedColumn<DateTime> get achievedAt => $composableBuilder(
       column: $table.achievedAt, builder: (column) => column);
@@ -4296,10 +4421,12 @@ class $$BadgesTableTableManager extends RootTableManager<
               $$BadgesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
+            Value<String?> informationUri = const Value.absent(),
             Value<String?> challengeId = const Value.absent(),
             Value<Map<String, String>> name = const Value.absent(),
             Value<Map<String, String>?> description = const Value.absent(),
             Value<ImageData?> image = const Value.absent(),
+            Value<BadgeSimpleFilter?> filter = const Value.absent(),
             Value<DateTime?> achievedAt = const Value.absent(),
             Value<DateTime?> createdAt = const Value.absent(),
             Value<DateTime?> lastUpdate = const Value.absent(),
@@ -4310,10 +4437,12 @@ class $$BadgesTableTableManager extends RootTableManager<
           }) =>
               BadgesCompanion(
             id: id,
+            informationUri: informationUri,
             challengeId: challengeId,
             name: name,
             description: description,
             image: image,
+            filter: filter,
             achievedAt: achievedAt,
             createdAt: createdAt,
             lastUpdate: lastUpdate,
@@ -4324,10 +4453,12 @@ class $$BadgesTableTableManager extends RootTableManager<
           ),
           createCompanionCallback: ({
             required String id,
+            Value<String?> informationUri = const Value.absent(),
             Value<String?> challengeId = const Value.absent(),
             required Map<String, String> name,
             Value<Map<String, String>?> description = const Value.absent(),
             Value<ImageData?> image = const Value.absent(),
+            Value<BadgeSimpleFilter?> filter = const Value.absent(),
             Value<DateTime?> achievedAt = const Value.absent(),
             Value<DateTime?> createdAt = const Value.absent(),
             Value<DateTime?> lastUpdate = const Value.absent(),
@@ -4338,10 +4469,12 @@ class $$BadgesTableTableManager extends RootTableManager<
           }) =>
               BadgesCompanion.insert(
             id: id,
+            informationUri: informationUri,
             challengeId: challengeId,
             name: name,
             description: description,
             image: image,
+            filter: filter,
             achievedAt: achievedAt,
             createdAt: createdAt,
             lastUpdate: lastUpdate,

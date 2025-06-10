@@ -2,6 +2,7 @@
 // database class. They are used to open the database.
 import 'dart:io';
 
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:wom_pocket/src/core/database/challenge_dao.dart';
 import 'package:wom_pocket/src/features/badge/data/badge.dart';
 import 'package:drift/drift.dart';
@@ -33,7 +34,7 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase.query(QueryExecutor executor) : super(executor);
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   Future<void> importWoms(
     TransactionsCompanion tx,
@@ -110,6 +111,8 @@ class MyDatabase extends _$MyDatabase {
           } else if (from < 8) {
             await m.createTable(badges);
             await m.createTable(challenges);
+          } else if (from < 9) {
+            await m.addColumn(badges, badges.informationUri);
           }
         });
       },

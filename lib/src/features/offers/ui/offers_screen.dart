@@ -1,14 +1,18 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/features/offers/domain/entities/static_cities.dart';
 import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
@@ -45,11 +49,12 @@ class OffersListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: PocketAppBar(
         actions: [
-          TextButton(
+          IconButton(
+            color: primaryColor,
             onPressed: () {
               context.go('/offers/map');
-             },
-            child: Text('showMap'.tr()),
+            },
+            icon: Icon(Icons.map_outlined),
           ),
         ],
       ),
@@ -168,11 +173,13 @@ class OffersList extends ConsumerWidget {
                             child: CityCard(
                               city: cities[index],
                               onTap: () {
-                                context.push('/offers/map', extra: LatLng(
-                                  cities[index].lat,
-                                  cities[index].long,
-                                ),);
-
+                                context.push(
+                                  '/offers/map',
+                                  extra: LatLng(
+                                    cities[index].lat,
+                                    cities[index].long,
+                                  ),
+                                );
                               },
                             ),
                           );
@@ -196,7 +203,6 @@ class OffersList extends ConsumerWidget {
                               position: offers[i].position,
                             );
                             context.push('/offers/pos-details', extra: data);
-
                           },
                           child: PosTile(
                             posName: offers[i].name,
@@ -214,6 +220,26 @@ class OffersList extends ConsumerWidget {
             },
             error: (ex, st) {
               if (ex is LocationException) {
+                if (ex is ServiceGPSDisabled) {
+                  return PocketErrorWidget(
+                    errorText: 'noLocationService'.tr(),
+                    tryAgain: () {
+                      late final StreamSubscription sub;
+                      sub =
+                          Geolocator.getServiceStatusStream().listen((status) {
+                        if (status == ServiceStatus.enabled) {
+                          sub.cancel();
+                          ref.invalidate(locationNotifierProvider);
+                        }
+                      });
+                      Geolocator.openLocationSettings();
+                    },
+                    tryAgainText:
+                        'offers_screen.errors.gps_disabled_action'.tr(),
+                    ex: ex,
+                  );
+                }
+
                 return PocketErrorWidget(
                   errorText: 'noLocationPermission'.tr(),
                   tryAgain: () async {
@@ -243,15 +269,6 @@ class OffersList extends ConsumerWidget {
                     }
                   },
                   tryAgainText: 'grantPermission'.tr(),
-                  ex: ex,
-                );
-              } else if (ex is ServiceGPSDisabled) {
-                return PocketErrorWidget(
-                  errorText: 'noLocationService'.tr(),
-                  tryAgain: () {
-                    ref.invalidate(locationNotifierProvider);
-                  },
-                  tryAgainText: 'try_again'.tr(),
                   ex: ex,
                 );
               }
@@ -389,7 +406,6 @@ class VirtualPOSCard extends ConsumerWidget {
                 position: null,
               );
               context.push('/offers/pos-details', extra: data);
-
             },
             child: Card(
               clipBehavior: Clip.antiAlias,

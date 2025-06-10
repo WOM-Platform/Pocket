@@ -11,7 +11,7 @@ import 'package:wom_pocket/src/features/map/map_screen.dart';
 import 'package:wom_pocket/src/features/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/features/migration/ui/export_screen.dart';
 import 'package:wom_pocket/src/features/new_home/ui/new_home.dart';
-import 'package:wom_pocket/src/features/new_home/ui/stats.dart';
+import 'package:wom_pocket/src/features/new_home/ui/stats_screen.dart';
 import 'package:wom_pocket/src/features/settings/settings.dart';
 import 'package:wom_pocket/src/features/transaction/ui/transactions_screen.dart';
 
@@ -33,6 +33,7 @@ class BadgeRoutes extends GoRoute {
           routes: [
             GoRoute(
               path: 'details',
+              parentNavigatorKey: rootNavigatorKey,
               builder: (context, state) {
                 final b = state.extra as BadgeData;
                 return BadgeDetailsScreen(

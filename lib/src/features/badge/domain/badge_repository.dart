@@ -20,15 +20,21 @@ BadgeRepository getBadgeRepository(Ref ref) {
 abstract class BadgeRepository {
   Future<void> setAsSeen(String badgeId);
 
-  Future<List<BadgeData>> getBadges();
+  Future<List<BadgeData>> getPublicBadges();
+
+  Future<List<BadgeData>> refreshBadgeVerify();
 
   Future<BadgeData> getBadgeById(String badgeId);
 
   Future<ChallengeData> getChallengeById(String challengeId);
 
-  Future<List<ChallengeData>>getChallenges();
+  Future<List<ChallengeData>> getChallenges();
 
   Future saveChallenge(ChallengeData challenge);
+
+  Future<void> deleteAllBadges();
+
+  Future<void> deleteAllChallenges();
 }
 
 class BadgeRepositoryImpl implements BadgeRepository {
@@ -41,29 +47,50 @@ class BadgeRepositoryImpl implements BadgeRepository {
   );
 
   @override
-  Future<List<BadgeData>> getBadges() async {
+  Future<List<BadgeData>> getPublicBadges() async {
     try {
       final remoteBadges = await _remoteDataSource.getBadges();
-      final localBadges = await _localDataSource.getAllBadges();
+      final localBadges = await _localDataSource.getAllPublicBadges();
 
       // Save new badge locally
       for (final remoteBadge in remoteBadges) {
         final localBadge = localBadges
             .firstWhereOrNull((localBadge) => localBadge.id == remoteBadge.id);
         if (localBadge == null) {
-          await _localDataSource.saveBadge(remoteBadge);
+          await _localDataSource.saveNewBadge(remoteBadge);
         } else {
-          await _localDataSource.updateBadge(remoteBadge);
+          // Aggiorna sole le info aggiornabili, name, description, image
+          // non sovrascrive filter, achieved, achievedAt
+          await _localDataSource.verifyAndUpdateBadge(localBadge);
         }
       }
 
-      final outputList = await _localDataSource.getAllBadges();
-      return outputList;
+      // Ricarico tutta la lista locale che rispecchia lo stato attuale dei
+      // badge, visto che alcuni possono essere aggiornati a seguito di verifiche
+      // di completamento (fatte in [LocalDataSource])
+      final outputList = await _localDataSource.getAllPublicBadges();
+
+      // Torno solo badge con immagine
+      return outputList.where((badge) => badge.image != null).toList();
     } catch (e, st) {
-      logger.e('Error in BadgeRepositoryImpl fetching all badges: $e',
-          error: e, stackTrace: st);
+      logger.e(
+        'Error in BadgeRepositoryImpl fetching all badges: $e',
+        error: e,
+        stackTrace: st,
+      );
       rethrow;
     }
+  }
+
+  Future<List<BadgeData>> refreshBadgeVerify() async {
+    final localBadges = await _localDataSource.getAllPublicBadges();
+    for (final localBadge in localBadges) {
+      // Aggiorna sole le info aggiornabili, name, description, image
+      // non sovrascrive filter, achieved, achievedAt
+      await _localDataSource.verifyAndUpdateBadge(localBadge);
+    }
+    final outputList = await _localDataSource.getAllPublicBadges();
+    return outputList;
   }
 
   @override
@@ -94,23 +121,41 @@ class BadgeRepositoryImpl implements BadgeRepository {
   }
 
   @override
-  Future<List<ChallengeData>> getChallenges() async{
+  Future<List<ChallengeData>> getChallenges() async {
     try {
       return await _localDataSource.getChallenges();
     } catch (e) {
-      logger.e(
-          'Error in BadgeRepositoryImpl fetching challenges: $e');
+      logger.e('Error in BadgeRepositoryImpl fetching challenges: $e');
       rethrow;
     }
   }
 
   @override
-  Future saveChallenge(ChallengeData challenge) async{
+  Future saveChallenge(ChallengeData challenge) async {
     try {
       return await _localDataSource.saveChallenge(challenge);
     } catch (e) {
-      logger.e(
-          'Error in BadgeRepositoryImpl fetching challenges: $e');
+      logger.e('Error in BadgeRepositoryImpl fetching challenges: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteAllBadges() async {
+    try {
+      await _localDataSource.deleteAllBadges();
+    } catch (e) {
+      logger.e('Error in BadgeRepositoryImpl fetching challenges: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteAllChallenges()async {
+    try {
+      await _localDataSource.deleteAllChallenges();
+    } catch (e) {
+      logger.e('Error in BadgeRepositoryImpl fetching challenges: $e');
       rethrow;
     }
   }

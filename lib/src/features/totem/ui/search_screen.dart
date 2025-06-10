@@ -26,7 +26,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SecondLevelAppBar(
-        title: 'Ricerca contatti',
+        title: 'Ricerca',
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: SearchBar(
@@ -87,7 +87,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       scrollDirection: Axis.horizontal,
                       children: [
                         FilterChip(
+                          selectedColor: accentColor,
                           selected: state.showMyEvents,
+                          checkmarkColor: primaryColor,
                           label: Text('Eventi'),
                           onSelected: (value) {
                             ref
@@ -97,8 +99,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         ),
                         const SizedBox(width: 8),
                         FilterChip(
+                          checkmarkColor: primaryColor,
+                          selectedColor: accentColor,
                           selected: state.showMyContacts,
-                          label: Text('My contacts'),
+                          label: Text('I miei contatti'),
                           onSelected: (value) {
                             ref
                                 .read(totemSearchNotifierProvider.notifier)

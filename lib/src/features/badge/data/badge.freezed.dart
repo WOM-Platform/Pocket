@@ -36,6 +36,7 @@ mixin _$BadgeData {
   @DateTimeConverter()
   DateTime? get lastUpdate => throw _privateConstructorUsedError;
   String? get informationUri => throw _privateConstructorUsedError;
+  BadgeSimpleFilter? get simpleFilter => throw _privateConstructorUsedError;
 
   /// Serializes this BadgeData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -64,9 +65,11 @@ abstract class $BadgeDataCopyWith<$Res> {
       @DateTimeConverter() DateTime? achievedAt,
       @DateTimeConverter() DateTime? createdAt,
       @DateTimeConverter() DateTime? lastUpdate,
-      String? informationUri});
+      String? informationUri,
+      BadgeSimpleFilter? simpleFilter});
 
   $ImageDataCopyWith<$Res>? get image;
+  $BadgeSimpleFilterCopyWith<$Res>? get simpleFilter;
 }
 
 /// @nodoc
@@ -96,6 +99,7 @@ class _$BadgeDataCopyWithImpl<$Res, $Val extends BadgeData>
     Object? createdAt = freezed,
     Object? lastUpdate = freezed,
     Object? informationUri = freezed,
+    Object? simpleFilter = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -146,6 +150,10 @@ class _$BadgeDataCopyWithImpl<$Res, $Val extends BadgeData>
           ? _value.informationUri
           : informationUri // ignore: cast_nullable_to_non_nullable
               as String?,
+      simpleFilter: freezed == simpleFilter
+          ? _value.simpleFilter
+          : simpleFilter // ignore: cast_nullable_to_non_nullable
+              as BadgeSimpleFilter?,
     ) as $Val);
   }
 
@@ -160,6 +168,20 @@ class _$BadgeDataCopyWithImpl<$Res, $Val extends BadgeData>
 
     return $ImageDataCopyWith<$Res>(_value.image!, (value) {
       return _then(_value.copyWith(image: value) as $Val);
+    });
+  }
+
+  /// Create a copy of BadgeData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $BadgeSimpleFilterCopyWith<$Res>? get simpleFilter {
+    if (_value.simpleFilter == null) {
+      return null;
+    }
+
+    return $BadgeSimpleFilterCopyWith<$Res>(_value.simpleFilter!, (value) {
+      return _then(_value.copyWith(simpleFilter: value) as $Val);
     });
   }
 }
@@ -184,10 +206,13 @@ abstract class _$$BadgeDataImplCopyWith<$Res>
       @DateTimeConverter() DateTime? achievedAt,
       @DateTimeConverter() DateTime? createdAt,
       @DateTimeConverter() DateTime? lastUpdate,
-      String? informationUri});
+      String? informationUri,
+      BadgeSimpleFilter? simpleFilter});
 
   @override
   $ImageDataCopyWith<$Res>? get image;
+  @override
+  $BadgeSimpleFilterCopyWith<$Res>? get simpleFilter;
 }
 
 /// @nodoc
@@ -215,6 +240,7 @@ class __$$BadgeDataImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? lastUpdate = freezed,
     Object? informationUri = freezed,
+    Object? simpleFilter = freezed,
   }) {
     return _then(_$BadgeDataImpl(
       id: null == id
@@ -265,6 +291,10 @@ class __$$BadgeDataImplCopyWithImpl<$Res>
           ? _value.informationUri
           : informationUri // ignore: cast_nullable_to_non_nullable
               as String?,
+      simpleFilter: freezed == simpleFilter
+          ? _value.simpleFilter
+          : simpleFilter // ignore: cast_nullable_to_non_nullable
+              as BadgeSimpleFilter?,
     ));
   }
 }
@@ -284,7 +314,8 @@ class _$BadgeDataImpl implements _BadgeData {
       @DateTimeConverter() this.achievedAt,
       @DateTimeConverter() this.createdAt,
       @DateTimeConverter() this.lastUpdate,
-      this.informationUri})
+      this.informationUri,
+      this.simpleFilter})
       : _name = name,
         _description = description;
 
@@ -335,10 +366,12 @@ class _$BadgeDataImpl implements _BadgeData {
   final DateTime? lastUpdate;
   @override
   final String? informationUri;
+  @override
+  final BadgeSimpleFilter? simpleFilter;
 
   @override
   String toString() {
-    return 'BadgeData(id: $id, isPublic: $isPublic, name: $name, challengeId: $challengeId, description: $description, image: $image, seen: $seen, achieved: $achieved, achievedAt: $achievedAt, createdAt: $createdAt, lastUpdate: $lastUpdate, informationUri: $informationUri)';
+    return 'BadgeData(id: $id, isPublic: $isPublic, name: $name, challengeId: $challengeId, description: $description, image: $image, seen: $seen, achieved: $achieved, achievedAt: $achievedAt, createdAt: $createdAt, lastUpdate: $lastUpdate, informationUri: $informationUri, simpleFilter: $simpleFilter)';
   }
 
   @override
@@ -365,7 +398,9 @@ class _$BadgeDataImpl implements _BadgeData {
             (identical(other.lastUpdate, lastUpdate) ||
                 other.lastUpdate == lastUpdate) &&
             (identical(other.informationUri, informationUri) ||
-                other.informationUri == informationUri));
+                other.informationUri == informationUri) &&
+            (identical(other.simpleFilter, simpleFilter) ||
+                other.simpleFilter == simpleFilter));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -383,7 +418,8 @@ class _$BadgeDataImpl implements _BadgeData {
       achievedAt,
       createdAt,
       lastUpdate,
-      informationUri);
+      informationUri,
+      simpleFilter);
 
   /// Create a copy of BadgeData
   /// with the given fields replaced by the non-null parameter values.
@@ -414,7 +450,8 @@ abstract class _BadgeData implements BadgeData {
       @DateTimeConverter() final DateTime? achievedAt,
       @DateTimeConverter() final DateTime? createdAt,
       @DateTimeConverter() final DateTime? lastUpdate,
-      final String? informationUri}) = _$BadgeDataImpl;
+      final String? informationUri,
+      final BadgeSimpleFilter? simpleFilter}) = _$BadgeDataImpl;
 
   factory _BadgeData.fromJson(Map<String, dynamic> json) =
       _$BadgeDataImpl.fromJson;
@@ -447,12 +484,463 @@ abstract class _BadgeData implements BadgeData {
   DateTime? get lastUpdate;
   @override
   String? get informationUri;
+  @override
+  BadgeSimpleFilter? get simpleFilter;
 
   /// Create a copy of BadgeData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BadgeDataImplCopyWith<_$BadgeDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BadgeSimpleFilter _$BadgeSimpleFilterFromJson(Map<String, dynamic> json) {
+  return _BadgeSimpleFilter.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BadgeSimpleFilter {
+  int get count => throw _privateConstructorUsedError;
+  String? get aim => throw _privateConstructorUsedError;
+  String? get sourceId => throw _privateConstructorUsedError;
+  Bounds? get bounds => throw _privateConstructorUsedError;
+  Interval? get interval => throw _privateConstructorUsedError;
+
+  /// Serializes this BadgeSimpleFilter to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of BadgeSimpleFilter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $BadgeSimpleFilterCopyWith<BadgeSimpleFilter> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BadgeSimpleFilterCopyWith<$Res> {
+  factory $BadgeSimpleFilterCopyWith(
+          BadgeSimpleFilter value, $Res Function(BadgeSimpleFilter) then) =
+      _$BadgeSimpleFilterCopyWithImpl<$Res, BadgeSimpleFilter>;
+  @useResult
+  $Res call(
+      {int count,
+      String? aim,
+      String? sourceId,
+      Bounds? bounds,
+      Interval? interval});
+
+  $BoundsCopyWith<$Res>? get bounds;
+  $IntervalCopyWith<$Res>? get interval;
+}
+
+/// @nodoc
+class _$BadgeSimpleFilterCopyWithImpl<$Res, $Val extends BadgeSimpleFilter>
+    implements $BadgeSimpleFilterCopyWith<$Res> {
+  _$BadgeSimpleFilterCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of BadgeSimpleFilter
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? count = null,
+    Object? aim = freezed,
+    Object? sourceId = freezed,
+    Object? bounds = freezed,
+    Object? interval = freezed,
+  }) {
+    return _then(_value.copyWith(
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+      aim: freezed == aim
+          ? _value.aim
+          : aim // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sourceId: freezed == sourceId
+          ? _value.sourceId
+          : sourceId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bounds: freezed == bounds
+          ? _value.bounds
+          : bounds // ignore: cast_nullable_to_non_nullable
+              as Bounds?,
+      interval: freezed == interval
+          ? _value.interval
+          : interval // ignore: cast_nullable_to_non_nullable
+              as Interval?,
+    ) as $Val);
+  }
+
+  /// Create a copy of BadgeSimpleFilter
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $BoundsCopyWith<$Res>? get bounds {
+    if (_value.bounds == null) {
+      return null;
+    }
+
+    return $BoundsCopyWith<$Res>(_value.bounds!, (value) {
+      return _then(_value.copyWith(bounds: value) as $Val);
+    });
+  }
+
+  /// Create a copy of BadgeSimpleFilter
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $IntervalCopyWith<$Res>? get interval {
+    if (_value.interval == null) {
+      return null;
+    }
+
+    return $IntervalCopyWith<$Res>(_value.interval!, (value) {
+      return _then(_value.copyWith(interval: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$BadgeSimpleFilterImplCopyWith<$Res>
+    implements $BadgeSimpleFilterCopyWith<$Res> {
+  factory _$$BadgeSimpleFilterImplCopyWith(_$BadgeSimpleFilterImpl value,
+          $Res Function(_$BadgeSimpleFilterImpl) then) =
+      __$$BadgeSimpleFilterImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int count,
+      String? aim,
+      String? sourceId,
+      Bounds? bounds,
+      Interval? interval});
+
+  @override
+  $BoundsCopyWith<$Res>? get bounds;
+  @override
+  $IntervalCopyWith<$Res>? get interval;
+}
+
+/// @nodoc
+class __$$BadgeSimpleFilterImplCopyWithImpl<$Res>
+    extends _$BadgeSimpleFilterCopyWithImpl<$Res, _$BadgeSimpleFilterImpl>
+    implements _$$BadgeSimpleFilterImplCopyWith<$Res> {
+  __$$BadgeSimpleFilterImplCopyWithImpl(_$BadgeSimpleFilterImpl _value,
+      $Res Function(_$BadgeSimpleFilterImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BadgeSimpleFilter
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? count = null,
+    Object? aim = freezed,
+    Object? sourceId = freezed,
+    Object? bounds = freezed,
+    Object? interval = freezed,
+  }) {
+    return _then(_$BadgeSimpleFilterImpl(
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+      aim: freezed == aim
+          ? _value.aim
+          : aim // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sourceId: freezed == sourceId
+          ? _value.sourceId
+          : sourceId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bounds: freezed == bounds
+          ? _value.bounds
+          : bounds // ignore: cast_nullable_to_non_nullable
+              as Bounds?,
+      interval: freezed == interval
+          ? _value.interval
+          : interval // ignore: cast_nullable_to_non_nullable
+              as Interval?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BadgeSimpleFilterImpl implements _BadgeSimpleFilter {
+  const _$BadgeSimpleFilterImpl(
+      {required this.count,
+      this.aim,
+      this.sourceId,
+      this.bounds,
+      this.interval});
+
+  factory _$BadgeSimpleFilterImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BadgeSimpleFilterImplFromJson(json);
+
+  @override
+  final int count;
+  @override
+  final String? aim;
+  @override
+  final String? sourceId;
+  @override
+  final Bounds? bounds;
+  @override
+  final Interval? interval;
+
+  @override
+  String toString() {
+    return 'BadgeSimpleFilter(count: $count, aim: $aim, sourceId: $sourceId, bounds: $bounds, interval: $interval)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BadgeSimpleFilterImpl &&
+            (identical(other.count, count) || other.count == count) &&
+            (identical(other.aim, aim) || other.aim == aim) &&
+            (identical(other.sourceId, sourceId) ||
+                other.sourceId == sourceId) &&
+            (identical(other.bounds, bounds) || other.bounds == bounds) &&
+            (identical(other.interval, interval) ||
+                other.interval == interval));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, count, aim, sourceId, bounds, interval);
+
+  /// Create a copy of BadgeSimpleFilter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BadgeSimpleFilterImplCopyWith<_$BadgeSimpleFilterImpl> get copyWith =>
+      __$$BadgeSimpleFilterImplCopyWithImpl<_$BadgeSimpleFilterImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BadgeSimpleFilterImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BadgeSimpleFilter implements BadgeSimpleFilter {
+  const factory _BadgeSimpleFilter(
+      {required final int count,
+      final String? aim,
+      final String? sourceId,
+      final Bounds? bounds,
+      final Interval? interval}) = _$BadgeSimpleFilterImpl;
+
+  factory _BadgeSimpleFilter.fromJson(Map<String, dynamic> json) =
+      _$BadgeSimpleFilterImpl.fromJson;
+
+  @override
+  int get count;
+  @override
+  String? get aim;
+  @override
+  String? get sourceId;
+  @override
+  Bounds? get bounds;
+  @override
+  Interval? get interval;
+
+  /// Create a copy of BadgeSimpleFilter
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$BadgeSimpleFilterImplCopyWith<_$BadgeSimpleFilterImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Interval _$IntervalFromJson(Map<String, dynamic> json) {
+  return _Interval.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Interval {
+  @DateTimeConverter()
+  DateTime get start => throw _privateConstructorUsedError;
+  @DateTimeConverter()
+  DateTime get end => throw _privateConstructorUsedError;
+
+  /// Serializes this Interval to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Interval
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $IntervalCopyWith<Interval> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $IntervalCopyWith<$Res> {
+  factory $IntervalCopyWith(Interval value, $Res Function(Interval) then) =
+      _$IntervalCopyWithImpl<$Res, Interval>;
+  @useResult
+  $Res call(
+      {@DateTimeConverter() DateTime start, @DateTimeConverter() DateTime end});
+}
+
+/// @nodoc
+class _$IntervalCopyWithImpl<$Res, $Val extends Interval>
+    implements $IntervalCopyWith<$Res> {
+  _$IntervalCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Interval
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? start = null,
+    Object? end = null,
+  }) {
+    return _then(_value.copyWith(
+      start: null == start
+          ? _value.start
+          : start // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      end: null == end
+          ? _value.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$IntervalImplCopyWith<$Res>
+    implements $IntervalCopyWith<$Res> {
+  factory _$$IntervalImplCopyWith(
+          _$IntervalImpl value, $Res Function(_$IntervalImpl) then) =
+      __$$IntervalImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@DateTimeConverter() DateTime start, @DateTimeConverter() DateTime end});
+}
+
+/// @nodoc
+class __$$IntervalImplCopyWithImpl<$Res>
+    extends _$IntervalCopyWithImpl<$Res, _$IntervalImpl>
+    implements _$$IntervalImplCopyWith<$Res> {
+  __$$IntervalImplCopyWithImpl(
+      _$IntervalImpl _value, $Res Function(_$IntervalImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Interval
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? start = null,
+    Object? end = null,
+  }) {
+    return _then(_$IntervalImpl(
+      start: null == start
+          ? _value.start
+          : start // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      end: null == end
+          ? _value.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$IntervalImpl implements _Interval {
+  const _$IntervalImpl(
+      {@DateTimeConverter() required this.start,
+      @DateTimeConverter() required this.end});
+
+  factory _$IntervalImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IntervalImplFromJson(json);
+
+  @override
+  @DateTimeConverter()
+  final DateTime start;
+  @override
+  @DateTimeConverter()
+  final DateTime end;
+
+  @override
+  String toString() {
+    return 'Interval(start: $start, end: $end)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$IntervalImpl &&
+            (identical(other.start, start) || other.start == start) &&
+            (identical(other.end, end) || other.end == end));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, start, end);
+
+  /// Create a copy of Interval
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$IntervalImplCopyWith<_$IntervalImpl> get copyWith =>
+      __$$IntervalImplCopyWithImpl<_$IntervalImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$IntervalImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Interval implements Interval {
+  const factory _Interval(
+      {@DateTimeConverter() required final DateTime start,
+      @DateTimeConverter() required final DateTime end}) = _$IntervalImpl;
+
+  factory _Interval.fromJson(Map<String, dynamic> json) =
+      _$IntervalImpl.fromJson;
+
+  @override
+  @DateTimeConverter()
+  DateTime get start;
+  @override
+  @DateTimeConverter()
+  DateTime get end;
+
+  /// Create a copy of Interval
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$IntervalImplCopyWith<_$IntervalImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

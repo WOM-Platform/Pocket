@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
-import 'package:wom_pocket/src/features/new_home/ui/stats.dart';
+import 'package:wom_pocket/src/features/new_home/ui/stats_screen.dart';
 import 'package:wom_pocket/src/features/totem/application/my_totem_notifier.dart';
 import 'package:wom_pocket/src/features/totem/application/my_totem_state.dart';
 import 'package:wom_pocket/src/features/totem/utils.dart';

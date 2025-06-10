@@ -19,7 +19,7 @@ mixin _$ScannerState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String url, int total, TransactionType type, TotemData? totemData)
+            String url, int total, ScanAction scanAction, TotemData? totemData)
         single,
     required TResult Function(int total) multiple,
     required TResult Function() processing,
@@ -29,7 +29,7 @@ mixin _$ScannerState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String url, int total, TransactionType type, TotemData? totemData)?
+            String url, int total, ScanAction scanAction, TotemData? totemData)?
         single,
     TResult? Function(int total)? multiple,
     TResult? Function()? processing,
@@ -39,7 +39,7 @@ mixin _$ScannerState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String url, int total, TransactionType type, TotemData? totemData)?
+            String url, int total, ScanAction scanAction, TotemData? totemData)?
         single,
     TResult Function(int total)? multiple,
     TResult Function()? processing,
@@ -102,7 +102,7 @@ abstract class _$$ScannerStateSingleImplCopyWith<$Res> {
       __$$ScannerStateSingleImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {String url, int total, TransactionType type, TotemData? totemData});
+      {String url, int total, ScanAction scanAction, TotemData? totemData});
 
   $TotemDataCopyWith<$Res>? get totemData;
 }
@@ -122,7 +122,7 @@ class __$$ScannerStateSingleImplCopyWithImpl<$Res>
   $Res call({
     Object? url = null,
     Object? total = null,
-    Object? type = null,
+    Object? scanAction = null,
     Object? totemData = freezed,
   }) {
     return _then(_$ScannerStateSingleImpl(
@@ -134,10 +134,10 @@ class __$$ScannerStateSingleImplCopyWithImpl<$Res>
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
               as int,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as TransactionType,
+      scanAction: null == scanAction
+          ? _value.scanAction
+          : scanAction // ignore: cast_nullable_to_non_nullable
+              as ScanAction,
       totemData: freezed == totemData
           ? _value.totemData
           : totemData // ignore: cast_nullable_to_non_nullable
@@ -166,7 +166,7 @@ class _$ScannerStateSingleImpl implements ScannerStateSingle {
   const _$ScannerStateSingleImpl(
       {required this.url,
       required this.total,
-      required this.type,
+      required this.scanAction,
       this.totemData});
 
   @override
@@ -174,13 +174,13 @@ class _$ScannerStateSingleImpl implements ScannerStateSingle {
   @override
   final int total;
   @override
-  final TransactionType type;
+  final ScanAction scanAction;
   @override
   final TotemData? totemData;
 
   @override
   String toString() {
-    return 'ScannerState.single(url: $url, total: $total, type: $type, totemData: $totemData)';
+    return 'ScannerState.single(url: $url, total: $total, scanAction: $scanAction, totemData: $totemData)';
   }
 
   @override
@@ -190,13 +190,15 @@ class _$ScannerStateSingleImpl implements ScannerStateSingle {
             other is _$ScannerStateSingleImpl &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.total, total) || other.total == total) &&
-            (identical(other.type, type) || other.type == type) &&
+            (identical(other.scanAction, scanAction) ||
+                other.scanAction == scanAction) &&
             (identical(other.totemData, totemData) ||
                 other.totemData == totemData));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, url, total, type, totemData);
+  int get hashCode =>
+      Object.hash(runtimeType, url, total, scanAction, totemData);
 
   /// Create a copy of ScannerState
   /// with the given fields replaced by the non-null parameter values.
@@ -211,33 +213,33 @@ class _$ScannerStateSingleImpl implements ScannerStateSingle {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String url, int total, TransactionType type, TotemData? totemData)
+            String url, int total, ScanAction scanAction, TotemData? totemData)
         single,
     required TResult Function(int total) multiple,
     required TResult Function() processing,
     required TResult Function(int total) empty,
   }) {
-    return single(url, total, type, totemData);
+    return single(url, total, scanAction, totemData);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String url, int total, TransactionType type, TotemData? totemData)?
+            String url, int total, ScanAction scanAction, TotemData? totemData)?
         single,
     TResult? Function(int total)? multiple,
     TResult? Function()? processing,
     TResult? Function(int total)? empty,
   }) {
-    return single?.call(url, total, type, totemData);
+    return single?.call(url, total, scanAction, totemData);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String url, int total, TransactionType type, TotemData? totemData)?
+            String url, int total, ScanAction scanAction, TotemData? totemData)?
         single,
     TResult Function(int total)? multiple,
     TResult Function()? processing,
@@ -245,7 +247,7 @@ class _$ScannerStateSingleImpl implements ScannerStateSingle {
     required TResult orElse(),
   }) {
     if (single != null) {
-      return single(url, total, type, totemData);
+      return single(url, total, scanAction, totemData);
     }
     return orElse();
   }
@@ -292,12 +294,12 @@ abstract class ScannerStateSingle implements ScannerState {
   const factory ScannerStateSingle(
       {required final String url,
       required final int total,
-      required final TransactionType type,
+      required final ScanAction scanAction,
       final TotemData? totemData}) = _$ScannerStateSingleImpl;
 
   String get url;
   int get total;
-  TransactionType get type;
+  ScanAction get scanAction;
   TotemData? get totemData;
 
   /// Create a copy of ScannerState
@@ -378,7 +380,7 @@ class _$ScannerStateMultipleImpl implements ScannerStateMultiple {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String url, int total, TransactionType type, TotemData? totemData)
+            String url, int total, ScanAction scanAction, TotemData? totemData)
         single,
     required TResult Function(int total) multiple,
     required TResult Function() processing,
@@ -391,7 +393,7 @@ class _$ScannerStateMultipleImpl implements ScannerStateMultiple {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String url, int total, TransactionType type, TotemData? totemData)?
+            String url, int total, ScanAction scanAction, TotemData? totemData)?
         single,
     TResult? Function(int total)? multiple,
     TResult? Function()? processing,
@@ -404,7 +406,7 @@ class _$ScannerStateMultipleImpl implements ScannerStateMultiple {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String url, int total, TransactionType type, TotemData? totemData)?
+            String url, int total, ScanAction scanAction, TotemData? totemData)?
         single,
     TResult Function(int total)? multiple,
     TResult Function()? processing,
@@ -513,7 +515,7 @@ class _$ScannerStateProcessingImpl implements ScannerStateProcessing {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String url, int total, TransactionType type, TotemData? totemData)
+            String url, int total, ScanAction scanAction, TotemData? totemData)
         single,
     required TResult Function(int total) multiple,
     required TResult Function() processing,
@@ -526,7 +528,7 @@ class _$ScannerStateProcessingImpl implements ScannerStateProcessing {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String url, int total, TransactionType type, TotemData? totemData)?
+            String url, int total, ScanAction scanAction, TotemData? totemData)?
         single,
     TResult? Function(int total)? multiple,
     TResult? Function()? processing,
@@ -539,7 +541,7 @@ class _$ScannerStateProcessingImpl implements ScannerStateProcessing {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String url, int total, TransactionType type, TotemData? totemData)?
+            String url, int total, ScanAction scanAction, TotemData? totemData)?
         single,
     TResult Function(int total)? multiple,
     TResult Function()? processing,
@@ -664,7 +666,7 @@ class _$ScannerStateEmptyImpl implements ScannerStateEmpty {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String url, int total, TransactionType type, TotemData? totemData)
+            String url, int total, ScanAction scanAction, TotemData? totemData)
         single,
     required TResult Function(int total) multiple,
     required TResult Function() processing,
@@ -677,7 +679,7 @@ class _$ScannerStateEmptyImpl implements ScannerStateEmpty {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String url, int total, TransactionType type, TotemData? totemData)?
+            String url, int total, ScanAction scanAction, TotemData? totemData)?
         single,
     TResult? Function(int total)? multiple,
     TResult? Function()? processing,
@@ -690,7 +692,7 @@ class _$ScannerStateEmptyImpl implements ScannerStateEmpty {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String url, int total, TransactionType type, TotemData? totemData)?
+            String url, int total, ScanAction scanAction, TotemData? totemData)?
         single,
     TResult Function(int total)? multiple,
     TResult Function()? processing,

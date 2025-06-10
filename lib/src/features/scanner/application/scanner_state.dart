@@ -11,12 +11,38 @@ part 'scanner_state.freezed.dart';
 
 part 'scanner_state.g.dart';
 
+enum ScanAction {
+  redeem,
+  pay,
+  openChallenge,
+  importMigration,
+  importExchange,
+}
+
+/*  //     TransactionType.VOUCHERS => 'scanGetWom'.tr(),
+  //     TransactionType.PAYMENT => 'scanPay'.tr(),
+  //     TransactionType.MIGRATION_IMPORT => 'scanImportMigration'.tr(),
+  //     TransactionType.EXCHANGE_IMPORT => 'scanExchangeImport'.tr(),
+  //     _ => 'scanGetWom'.tr()*/
+
+_scanActionFromTransactionType(TransactionType type) {
+  return switch (type) {
+    TransactionType.VOUCHERS ||
+    TransactionType.MIGRATION_EXPORT ||
+    TransactionType.EXCHANGE_EXPORT =>
+      ScanAction.redeem,
+    TransactionType.PAYMENT => ScanAction.pay,
+    TransactionType.MIGRATION_IMPORT => ScanAction.redeem,
+    TransactionType.EXCHANGE_IMPORT => ScanAction.redeem,
+  };
+}
+
 @freezed
 class ScannerState with _$ScannerState {
   const factory ScannerState.single({
     required String url,
     required int total,
-    required TransactionType type,
+    required ScanAction scanAction,
     TotemData? totemData,
   }) = ScannerStateSingle;
 
@@ -36,19 +62,24 @@ class ScannerNotifier extends _$ScannerNotifier {
   }
 
   bool onProcessing(List<Barcode> barcodes) {
-    final validQr = <(String, TransactionType)>[];
+    final validQr = <(String, ScanAction)>[];
     for (final qr in barcodes) {
       final rawValue = qr.rawValue;
       if (rawValue != null) {
         final totemData = validateTotemQrCodeWithRegex(rawValue);
         final encryptedTotemData = validatePersonalConnection(rawValue);
         final challenge = validateChallenge(rawValue);
-        if (totemData != null || encryptedTotemData != null || challenge != null) {
-          validQr.add((rawValue, TransactionType.VOUCHERS));
+        if (totemData != null ||
+            encryptedTotemData != null ||
+            challenge != null) {
+          validQr.add((
+            rawValue,
+            challenge != null ? ScanAction.openChallenge : ScanAction.redeem
+          ));
         } else {
           try {
             final deep = DeepLinkModel.fromUri(Uri.parse(rawValue));
-            validQr.add((rawValue, deep.type));
+            validQr.add((rawValue, _scanActionFromTransactionType(deep.type)));
           } catch (ex) {}
         }
       }
@@ -66,7 +97,7 @@ class ScannerNotifier extends _$ScannerNotifier {
       // Riscatta wom mostra pulsante
       state = ScannerStateSingle(
         url: validQr.first.$1,
-        type: validQr.first.$2,
+        scanAction: validQr.first.$2,
         total: barcodes.length,
         totemData: validateTotemQrCodeWithRegex(validQr.first.$1),
       );

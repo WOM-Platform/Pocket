@@ -24,6 +24,10 @@ _$BadgeDataImpl _$$BadgeDataImplFromJson(Map<String, dynamic> json) =>
       createdAt: const DateTimeConverter().fromJson(json['createdAt']),
       lastUpdate: const DateTimeConverter().fromJson(json['lastUpdate']),
       informationUri: json['informationUri'] as String?,
+      simpleFilter: json['simpleFilter'] == null
+          ? null
+          : BadgeSimpleFilter.fromJson(
+              json['simpleFilter'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$BadgeDataImplToJson(_$BadgeDataImpl instance) =>
@@ -40,6 +44,43 @@ Map<String, dynamic> _$$BadgeDataImplToJson(_$BadgeDataImpl instance) =>
       'createdAt': const DateTimeConverter().toJson(instance.createdAt),
       'lastUpdate': const DateTimeConverter().toJson(instance.lastUpdate),
       'informationUri': instance.informationUri,
+      'simpleFilter': instance.simpleFilter,
+    };
+
+_$BadgeSimpleFilterImpl _$$BadgeSimpleFilterImplFromJson(
+        Map<String, dynamic> json) =>
+    _$BadgeSimpleFilterImpl(
+      count: (json['count'] as num).toInt(),
+      aim: json['aim'] as String?,
+      sourceId: json['sourceId'] as String?,
+      bounds: json['bounds'] == null
+          ? null
+          : Bounds.fromJson(json['bounds'] as Map<String, dynamic>),
+      interval: json['interval'] == null
+          ? null
+          : Interval.fromJson(json['interval'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$BadgeSimpleFilterImplToJson(
+        _$BadgeSimpleFilterImpl instance) =>
+    <String, dynamic>{
+      'count': instance.count,
+      'aim': instance.aim,
+      'sourceId': instance.sourceId,
+      'bounds': instance.bounds,
+      'interval': instance.interval,
+    };
+
+_$IntervalImpl _$$IntervalImplFromJson(Map<String, dynamic> json) =>
+    _$IntervalImpl(
+      start: DateTime.parse(json['start'] as String),
+      end: DateTime.parse(json['end'] as String),
+    );
+
+Map<String, dynamic> _$$IntervalImplToJson(_$IntervalImpl instance) =>
+    <String, dynamic>{
+      'start': instance.start.toIso8601String(),
+      'end': instance.end.toIso8601String(),
     };
 
 _$ImageDataImpl _$$ImageDataImplFromJson(Map<String, dynamic> json) =>

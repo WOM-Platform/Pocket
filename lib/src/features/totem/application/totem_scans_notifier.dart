@@ -29,7 +29,7 @@ Stream<Map<int, List<TotemRow>>> getEventTotems(Ref ref) async* {
       final providerId = o.providerId;
       final eventId = o.eventId;
       final h = hash('$providerId$sessionId$eventId');
-      if (providerId != digitProviderId && eventId != myContactsEventId) {
+      if (eventId != myContactsEventId) {
         if (t.containsKey(h)) {
           t[h] = [...t[h] ?? [], o];
         } else {

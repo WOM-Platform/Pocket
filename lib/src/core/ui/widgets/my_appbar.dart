@@ -34,7 +34,8 @@ class PocketAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           SvgPicture.asset(
             'assets/images/wom-pocket-icon.svg',
-            height: kToolbarHeight - 8,
+            // width: 200,
+            height: kToolbarHeight/2,
           ),
         ],
       ),

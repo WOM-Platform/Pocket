@@ -71,8 +71,6 @@ class _AppShellState extends ConsumerState<AppShell> {
   _startScan(BuildContext context) async {
     try {
       final link = (await context.push('/scan')) as String?;
-      // final link =
-      //     'https://link.wom.social/challenge/v1/6842708d101719fdfca75768';
       logger.w('_startScan: $link');
       if (link == null) return;
       final totemData = validateTotemQrCodeWithRegex(link);
@@ -94,31 +92,9 @@ class _AppShellState extends ConsumerState<AppShell> {
         logEvent('wom_scan_done');
         if (deepLinkModel.type == TransactionType.MIGRATION_IMPORT) {
           context.go('/import', extra: deepLinkModel);
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute<bool>(
-          //     builder: (context) => ProviderScope(
-          //       overrides: [
-          //         importNotifierProvider,
-          //       ],
-          //       child: ImportScreen(),
-          //     ),
-          //   ),
-          // );
         } else {
           logger.i('go to pin screen $deepLinkModel');
           context.go('/pin', extra: deepLinkModel);
-          // await Navigator.push(
-          //   context,
-          //   MaterialPageRoute<bool>(
-          //     builder: (context) => ProviderScope(
-          //       overrides: [
-          //         deeplinkProvider.overrideWithValue(deepLinkModel),
-          //       ],
-          //       child: PinScreen(),
-          //     ),
-          //   ),
-          // );
         }
       }
     } on PlatformException {
@@ -129,23 +105,5 @@ class _AppShellState extends ConsumerState<AppShell> {
       logger.e(st);
       throw ex;
     }
-  }
-
-  _showNoInternetConnectionDialog(BuildContext context) {
-    Alert(
-      context: context,
-      style: AlertStyle(),
-      type: AlertType.warning,
-      title: 'no_connection_title'.tr(),
-      desc: 'no_connection_desc'.tr(),
-      buttons: [
-        DialogButton(
-          child: Text('Ok'),
-          onPressed: () {
-            context.maybePop();
-          },
-        ),
-      ],
-    ).show();
   }
 }

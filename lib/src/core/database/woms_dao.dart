@@ -8,6 +8,7 @@ import 'package:wom_pocket/src/core/models/optional_query_model.dart';
 import 'package:wom_pocket/src/core/models/source_group_wom.dart';
 import 'package:wom_pocket/src/core/models/wom_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/badge/data/badge.dart';
 
 part 'woms_dao.g.dart';
 
@@ -107,6 +108,21 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     return _getVouchersToPay(
       orderByDate: true,
     );
+  }
+
+  Future<bool> verifyBadge(BadgeSimpleFilter filter) async {
+    var whereClause = BadgeQuery(filter: filter).build();
+    final customQuery = 'SELECT * '
+        'FROM ${WomModel.tblWom} $whereClause;';
+
+    final vouchers = (await customSelect(
+      customQuery,
+      readsFrom: {wom},
+    ).get())
+        .map((row) {
+      return wom.map(row.data);
+    }).toList();
+    return vouchers.length >= filter.count;
   }
 
   Future<List<WomGroupBy>> getWomGroupedByAim() async {

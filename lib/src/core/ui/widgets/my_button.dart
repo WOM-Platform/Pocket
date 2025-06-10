@@ -6,12 +6,14 @@ class MyButton extends StatelessWidget {
   final String? text;
   final Widget? child;
   final bool isLoading;
+  final Color? backgroundColor;
 
   const MyButton({
     this.text,
     super.key,
     this.onPressed,
     this.child,
+    this.backgroundColor,
     this.isLoading = false,
   }) : assert(text != null || child != null);
 
@@ -19,7 +21,7 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        backgroundColor: primaryColor,
+        backgroundColor: backgroundColor ?? primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),

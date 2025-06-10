@@ -205,7 +205,7 @@ startActivity(intent);*/
               getWom();
             },
             child: SvgPicture.asset(
-              'assets/images/wom_logo.svg',
+              'assets/images/wom-icon-brand.svg',
               width: 40,
               colorFilter: ColorFilter.mode(
                 Colors.white,

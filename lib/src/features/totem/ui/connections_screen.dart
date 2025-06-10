@@ -216,7 +216,7 @@ class _MyTabBarState extends ConsumerState<MyTabBar>
               ),
               Center(
                 child: Text(
-                  'My contacts',
+                  'I miei contatti',
                   // style: unselectedStyle,
                 ),
               )
@@ -284,67 +284,11 @@ class _MyContactsListState extends ConsumerState<MyContactsList>
   bool? sortByTimestamp = null;
 
   @override
-  void initState() {
-    super.initState();
-    print('initState');
-     list = [
-      TotemRow(
-        id: 0,
-        sessionId: 'sessionId',
-        totemId: 'totemId',
-        eventId: 'eventId',
-        providerId: 'providerId',
-        totemName: 'aaaaaaaa',
-        timestamp: DateTime.now()
-            .add(Duration(minutes: Random().nextInt(100))),
-      ),
-      TotemRow(
-        id: 1,
-        sessionId: 'sessionId',
-        totemId: 'totemId',
-        eventId: 'eventId',
-        providerId: 'providerId',
-        totemName: 'bbbbbbbbb',
-        timestamp: DateTime.now()
-            .add(Duration(minutes: Random().nextInt(100))),
-      ),
-      TotemRow(
-        id: 2,
-        sessionId: 'sessionId',
-        totemId: 'totemId',
-        eventId: 'eventId',
-        providerId: 'providerId',
-        totemName: 'ccccccc',
-        timestamp: DateTime.now()
-            .add(Duration(minutes: Random().nextInt(100))),
-      ),
-      TotemRow(
-        id: 0,
-        sessionId: 'sessionId',
-        totemId: 'totemId',
-        eventId: 'eventId',
-        providerId: 'providerId',
-        totemName: 'ddddddd',
-        timestamp: DateTime.now()
-            .add(Duration(minutes: Random().nextInt(100))),
-      )
-    ];
-  }
-
-  var list = [];
-  @override
-  void dispose() {
-    print('dispose');
-    super.dispose();
-  }
-
-  @override
   bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(getMyContactTotemsProvider);
-
 
     return switch (state) {
       AsyncData(:final value) => value.isEmpty
@@ -405,19 +349,18 @@ class _MyContactsListState extends ConsumerState<MyContactsList>
                 Expanded(
                   child: Builder(
                     builder: (context) {
-                      // final list = value.toList();
-
+                      final list = value.toList();
 
                       if (sortByAlpha == false) {
                         list.sort((b, a) =>
-                        a.totemName?.compareTo(b.totemName ?? '') ?? 1);
+                            a.totemName?.compareTo(b.totemName ?? '') ?? 1);
                       } else if (sortByTimestamp == true) {
                         list.sort((a, b) => a.timestamp.compareTo(b.timestamp));
                       } else if (sortByTimestamp == false) {
                         list.sort((b, a) => a.timestamp.compareTo(b.timestamp));
-                      } else{
+                      } else {
                         list.sort((a, b) =>
-                        a.totemName?.compareTo(b.totemName ?? '') ?? 1);
+                            a.totemName?.compareTo(b.totemName ?? '') ?? 1);
                       }
                       return ListView(
                         children: [

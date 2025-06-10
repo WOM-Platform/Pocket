@@ -68,10 +68,6 @@ class App extends ConsumerWidget {
             child: child!,
           );
         },
-        // routes: {
-        //   '/': (_) => GateWidget(),
-        //   '/settings': (context) => SettingsScreen(),
-        // },
       ),
     );
   }

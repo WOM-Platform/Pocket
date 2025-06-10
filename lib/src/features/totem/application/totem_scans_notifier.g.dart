@@ -24,7 +24,7 @@ final getScannedTotemsProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetScannedTotemsRef = AutoDisposeStreamProviderRef<List<TotemRow>>;
-String _$getEventTotemsHash() => r'9a0d192ad0fad4263909df561d5da4a54209935d';
+String _$getEventTotemsHash() => r'e9683346efc824097906a0d753ac06bfd38c5b1b';
 
 /// See also [getEventTotems].
 @ProviderFor(getEventTotems)

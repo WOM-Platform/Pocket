@@ -34,15 +34,15 @@ class BadgeScreen extends ConsumerWidget {
     final languageCode = context.locale.languageCode;
     return Scaffold(
       appBar: PocketAppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              ref.refresh(badgeNotifierProvider.future);
-            },
-            icon: Icon(Icons.refresh),
+          // actions: [
+          //   IconButton(
+          //     onPressed: () {
+          //       ref.refresh(badgeNotifierProvider.future);
+          //     },
+          //     icon: Icon(Icons.refresh),
+          //   ),
+          // ],
           ),
-        ],
-      ),
       body: RefreshIndicator(
         onRefresh: () => ref.refresh(badgeNotifierProvider.future),
         child: state.when(
@@ -77,29 +77,30 @@ class BadgeScreen extends ConsumerWidget {
                   child: Column(
                     children: [
                       BadgeList(badges: badgeDataList),
-                      for (final challenge in challengeDataList) ...[
-                        const SizedBox(height: 16),
-                        GestureDetector(
-                            onTap: () {
-                              context.go('/badge/challenge', extra: challenge);
-                            },
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  challenge.name[languageCode] ?? '',
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Icon(Icons.info_outline_rounded),
-                              ],
-                            )),
-                        BadgeList(badges: challenge.badges),
-                      ],
+                      // for (final challenge in challengeDataList) ...[
+                      //   const SizedBox(height: 16),
+                      //   GestureDetector(
+                      //     onTap: () {
+                      //       context.go('/badge/challenge', extra: challenge);
+                      //     },
+                      //     child: Row(
+                      //       crossAxisAlignment: CrossAxisAlignment.center,
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         Text(
+                      //           challenge.name[languageCode] ?? '',
+                      //           style: TextStyle(
+                      //             fontSize: 25,
+                      //             fontWeight: FontWeight.bold,
+                      //           ),
+                      //         ),
+                      //         const SizedBox(width: 8),
+                      //         Icon(Icons.info_outline_rounded),
+                      //       ],
+                      //     ),
+                      //   ),
+                      //   BadgeList(badges: challenge.badges),
+                      // ],
                     ],
                   ),
                 ),

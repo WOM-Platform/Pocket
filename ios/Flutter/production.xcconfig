@@ -2,5 +2,5 @@
 #include "Generated.xcconfig"
 
 EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64
-APP_NAME=WOM POCKET
+APP_NAME=WOM Pocket
 DEEP_PROTOCOL=wom

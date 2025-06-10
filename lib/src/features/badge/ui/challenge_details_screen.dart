@@ -1,7 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
 import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
@@ -60,7 +65,7 @@ class ChallengeWidgetByRemote extends ConsumerWidget {
   }
 }
 
-class _ChallengeWidget extends ConsumerWidget {
+class _ChallengeWidget extends HookConsumerWidget {
   final ChallengeData challenge;
   final bool showAcceptButton;
 
@@ -73,11 +78,13 @@ class _ChallengeWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-    final dateFormat = DateFormat('dd/MM/yyyy');
+    // final dateFormat = DateFormat('dd/MM/yyyy');
+    final isLoading = useState(false);
     final languageCode = context.locale.languageCode;
     return Scaffold(
       appBar: SecondLevelAppBar(
-          title: challenge.name[languageCode] ?? 'Challenge Details'),
+        title: challenge.name[languageCode] ?? 'Challenge',
+      ),
       body: SafeArea(
         bottom: true,
         child: Column(
@@ -87,26 +94,14 @@ class _ChallengeWidget extends ConsumerWidget {
               child: ListView(
                 padding: const EdgeInsets.all(16.0),
                 children: <Widget>[
-                  Text(
-                    challenge.name[languageCode] ?? '',
-                    style: textTheme.headlineSmall
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
+                  BadgeList(badges: challenge.badges),
                   if (challenge.description != null) ...[
+                    const SizedBox(height: 16),
                     Text(
                       challenge.description?[languageCode] ?? '',
-                      style: textTheme.bodyLarge,
+                      style: TextStyle(fontSize: 20),
                     ),
-                    const SizedBox(height: 16),
                   ],
-                  const SizedBox(height: 16),
-                  _buildDetailRow(
-                    context,
-                    'Public:',
-                    challenge.isPublic ? "Yes" : "No",
-                  ),
-                  BadgeList(badges: challenge.badges),
                 ],
               ),
             ),
@@ -114,38 +109,27 @@ class _ChallengeWidget extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: MyButton(
-                  onPressed: () {
-                    ref
-                        .read(badgeNotifierProvider.notifier)
-                        .acceptChallenge(challenge);
+                  isLoading: isLoading.value,
+                  onPressed: () async {
+                    try {
+                      isLoading.value = true;
+                      await ref
+                          .read(badgeNotifierProvider.notifier)
+                          .acceptChallenge(challenge);
+                      context.maybePop();
+                    } catch (ex, st) {
+                      logger.e(
+                        'Accetta la challenge',
+                        error: ex,
+                        stackTrace: st,
+                      );
+                    }
                   },
-                  child: Text('Accetta la challende'),
+                  child: Text('Accetta la challenge'),
                 ),
               ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildDetailRow(BuildContext context, String label, String value) {
-    final textTheme = Theme.of(context).textTheme;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$label ',
-            style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: textTheme.titleMedium,
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -248,6 +248,7 @@
   "scanPay": "Pay",
   "scanImportMigration": "Import",
   "scanExchangeImport": "Receive",
+  "scanOpenChallenge": "Open the challenge",
   "pin_screen": {
     "tip": "Insert the PIN you received together with the QR Code."
   },
@@ -333,7 +334,10 @@
     "save": "Save"
   },
   "offers_screen": {
-    "online_offers": "Offerte online"
+    "online_offers": "Online offers",
+    "errors": {
+      "gps_disabled_action": "Abilita GPS"
+    }
   },
   "home": {
     "for": "for",

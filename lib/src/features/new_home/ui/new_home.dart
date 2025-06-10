@@ -8,9 +8,10 @@ import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
-import 'package:wom_pocket/src/features/new_home/ui/aim_chart.dart';
+import 'package:wom_pocket/src/features/new_home/ui/stats_module.dart';
 import 'package:wom_pocket/src/features/new_home/ui/nfc_widget.dart';
 import 'package:wom_pocket/src/features/new_home/ui/section_title.dart';
+import 'package:wom_pocket/src/features/new_home/ui/widgets/badge_module.dart';
 import 'package:wom_pocket/src/features/nfc/application/nfc_notifier.dart';
 import 'package:wom_pocket/src/features/root/widgets/transaction_list.dart';
 import 'package:wom_pocket/src/features/map/map_screen.dart';
@@ -117,11 +118,7 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                     ),
                   ),
                   // SliverToBoxAdapter(child: ExchangeCard()),
-                  // SliverToBoxAdapter(
-                  //   child: SizedBox(
-                  //     height: 16,
-                  //   ),
-                  // ),
+                  BadgeModule(),
                   SliverToBoxAdapter(
                     child: SectionTitle(
                       title: 'lastTransactions'.tr(),

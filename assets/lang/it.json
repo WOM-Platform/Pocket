@@ -248,6 +248,7 @@
   "scanPay": "Paga",
   "scanImportMigration": "Importa",
   "scanExchangeImport": "Ricevi",
+  "scanOpenChallenge": "Apri la challenge",
   "pin_screen": {
     "tip": "Inserisci il PIN fornito con il QR Code per continuare."
   },
@@ -294,7 +295,7 @@
     "generate_button": "Genera",
     "errors": {
       "missing_permissions": "Sembra che tu non abbia concesso qualche permesso, vai nelle impostazioni premendo il pulsante sottostante.",
-      "gps_disabled":"Il GPS è disabilitato, premi il pulsante sotto per abilitarlo dalle impostazioni.",
+      "gps_disabled": "Il GPS è disabilitato, premi il pulsante sotto per abilitarlo dalle impostazioni.",
       "generic": "Si è verificato un errore imprevisto!"
     },
     "error_actions": {
@@ -310,7 +311,7 @@
       "out_of_distance": "Sicuro di essere in prossimità del dispositivo?",
       "generic": "Si è verificato un errore imprevisto",
       "missing_permissions": "Sembra che tu non abbia concesso qualche permesso, vai nelle impostazioni premendo il pulsante sottostante.",
-      "gps_disabled":"Il GPS è disabilitato, premi il pulsante sotto per abilitarlo dalle impostazioni."
+      "gps_disabled": "Il GPS è disabilitato, premi il pulsante sotto per abilitarlo dalle impostazioni."
     },
     "error_actions": {
       "generic": "Riprova",
@@ -319,7 +320,7 @@
     },
     "processing": "Stiamo effettuando le verifiche necessarie per validare la scansione!"
   },
-  "edit_my_personal_totem":{
+  "edit_my_personal_totem": {
     "edit": "Modifica",
     "save": "Salva",
     "success": "Salvataggio avvenuto con successo!",
@@ -333,7 +334,10 @@
     "save": "Salva"
   },
   "offers_screen": {
-    "online_offers": "Offerte online"
+    "online_offers": "Offerte online",
+    "errors": {
+      "gps_disabled_action": "Abilita GPS"
+    }
   },
   "home": {
     "for": "per",

@@ -202,7 +202,7 @@ class ScanInfo extends ConsumerWidget {
                       child: FloatingActionButton.extended(
                         backgroundColor: primaryColor,
                         label: Text(
-                          getText(state.type),
+                          getText(state.scanAction),
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -270,13 +270,24 @@ class ScanInfo extends ConsumerWidget {
     );
   }
 
-  getText(TransactionType type) {
-    return switch (type) {
-      TransactionType.VOUCHERS => 'scanGetWom'.tr(),
-      TransactionType.PAYMENT => 'scanPay'.tr(),
-      TransactionType.MIGRATION_IMPORT => 'scanImportMigration'.tr(),
-      TransactionType.EXCHANGE_IMPORT => 'scanExchangeImport'.tr(),
-      _ => 'scanGetWom'.tr()
+  // getText(TransactionType type) {
+  //   return switch (type) {
+  //     TransactionType.VOUCHERS => 'scanGetWom'.tr(),
+  //     TransactionType.PAYMENT => 'scanPay'.tr(),
+  //     TransactionType.MIGRATION_IMPORT => 'scanImportMigration'.tr(),
+  //     TransactionType.EXCHANGE_IMPORT => 'scanExchangeImport'.tr(),
+  //     _ => 'scanGetWom'.tr()
+  //   };
+  // }
+
+
+  getText(ScanAction action) {
+    return switch (action) {
+      ScanAction.redeem => 'scanGetWom'.tr(),
+      ScanAction.pay => 'scanPay'.tr(),
+      ScanAction.openChallenge => 'scanOpenChallenge'.tr(),
+      ScanAction.importMigration => 'scanImportMigration'.tr(),
+      ScanAction.importExchange => 'scanExchangeImport'.tr(),
     };
   }
 }

@@ -75,8 +75,8 @@ class TotemTile extends StatelessWidget {
       ),
       trailing: t.womPin != null && t.womLink != null
           ? SvgPicture.asset(
-        'assets/images/wom_logo.svg',
-        width: 40,
+        'assets/images/wom-icon-brand.svg',
+        width: 60,
         colorFilter: ColorFilter.mode(
           Theme.of(context).primaryColor,
           BlendMode.srcIn,

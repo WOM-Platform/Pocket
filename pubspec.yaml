@@ -2,7 +2,7 @@ name: wom_pocket
 description: A new Flutter application.
 publish_to: none
 
-version: 1.9.1+123
+version: 1.9.2+130
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -85,7 +85,7 @@ dependencies:
   sentry_flutter:
   flutter_riverpod:
   collection: any
-  meta: any
+  meta:
   go_router:
   validatorless: ^1.2.4
   form_builder_validators: ^11.1.2
@@ -95,7 +95,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  drift_dev: ^2.14.1
+  drift_dev: ^2.24.1
   hive_generator: ^2.0.1
   build_runner: ^2.4.8
   json_serializable: ^6.8.0
@@ -104,6 +104,8 @@ dev_dependencies:
   custom_lint:
   riverpod_lint: ^2.6.3
   delete_un_used_assets: ^1.0.1
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.4
 
 flutter:
 

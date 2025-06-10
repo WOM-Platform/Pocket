@@ -3,6 +3,7 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:readmore/readmore.dart';
 
 const loremIpsum =
@@ -190,6 +191,7 @@ class OfferTile extends StatelessWidget {
             ),
           const SizedBox(height: 16),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Spacer(),
               Text(
@@ -200,9 +202,10 @@ class OfferTile extends StatelessWidget {
                   fontSize: 22,
                 ),
               ),
-              Image.asset(
-                'assets/images/logo_1.png',
-                height: 26,
+              const SizedBox(width: 8),
+              SvgPicture.asset(
+                'assets/images/wom-icon-brand.svg',
+                width: 50,
               ),
             ],
           ),

@@ -14,6 +14,7 @@ import 'package:wom_pocket/src/core/application/app_notifier.dart';
 
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
+import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/features/nfc/utils.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
@@ -33,36 +34,41 @@ class IntroScreen extends HookConsumerWidget {
     final selectedPage = useState(0);
     final pages = [
       IntroPage(
-        backGroundColor: lightBackground,
+        textColor: Colors.white,
+        backGroundColor: darkBackground,
         message: 'introDesc1'.tr(),
         title: 'introTitle1'.tr(),
-        child: Padding(
+        child: Container(
+          width: MediaQuery.of(context).size.width - 48,
+          height: MediaQuery.of(context).size.width - 48,
           padding: const EdgeInsets.all(8.0),
-          child: SvgPicture.asset(
-            'assets/images/wom-pocket-icon.svg',
-            width: MediaQuery.of(context).size.width - 48,
-            alignment: Alignment.topCenter,
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            child: SvgPicture.asset(
+              'assets/images/wom-pocket-icon.svg',
+              alignment: Alignment.topCenter,
+            ),
           ),
         ),
       ),
       IntroPage(
+        textColor: Colors.white,
         backGroundColor: darkBackground,
         message: 'introDesc2'.tr(),
-        textColor: Colors.white,
         title: 'introTitle2'.tr(),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 32.0),
-          child: Image.asset(
-            'assets/images/logo_1.png',
-            height: 285.0,
-            width: 285.0,
-            alignment: Alignment.topCenter,
+          child: SvgPicture.asset(
+            'assets/images/wom-icon-brand.svg',
+            height: 260.0,
+            width: 260.0,
+            // alignment: Alignment.topCenter,
           ),
         ),
       ),
       IntroPage(
         textColor: Colors.white,
-        backGroundColor: Colors.orange,
+        backGroundColor: darkBackground,
         message: 'introDesc3'.tr(),
         title: 'introTitle3'.tr(),
         child: Image.asset(
@@ -74,7 +80,7 @@ class IntroScreen extends HookConsumerWidget {
       ),
       IntroPage(
         textColor: Colors.white,
-        backGroundColor: const Color(0xFF8BC34A),
+        backGroundColor: darkBackground,
         message: 'introDesc4'.tr(),
         title: 'introTitle4'.tr(),
         child: Image.asset(
@@ -86,7 +92,7 @@ class IntroScreen extends HookConsumerWidget {
       ),
       IntroPage(
         textColor: Colors.white,
-        backGroundColor: primaryColor,
+        backGroundColor: darkBackground,
         message: 'introDesc5'.tr(),
         title: 'introTitle5'.tr(),
         child: Image.asset(
@@ -97,13 +103,13 @@ class IntroScreen extends HookConsumerWidget {
         ),
       ),
       IntroPage(
-        textColor: Colors.red,
-        backGroundColor: Colors.white,
+        textColor: Colors.white,
+        backGroundColor: darkBackground,
         message: 'introDesc6'.tr(),
         title: 'introTitle6'.tr(),
         child: Icon(
           Icons.warning,
-          color: Colors.red,
+          color: Colors.white,
           size: 200,
         ),
       ),
@@ -113,8 +119,9 @@ class IntroScreen extends HookConsumerWidget {
           backGroundColor: darkBackground,
           message: 'introDesc7'.tr(),
           title: 'introTitle7'.tr(),
-          bottomButton: ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: accentColor),
+          bottomButton: MyButton(
+            backgroundColor: accentColor,
+            // style: ElevatedButton.styleFrom(backgroundColor: accentColor),
             onPressed: () {
               final totemData = validateTotemQrCodeWithRegex(
                 'https://link.wom.social/cmi/e3441c34-b02c-4bd9-8de5-9e312468ca69/d67c6e3a-053a-4cb7-b4ce-d1d0427c6cad',
@@ -128,11 +135,11 @@ class IntroScreen extends HookConsumerWidget {
               style: TextStyle(color: primaryColor),
             ),
           ),
-          child: Image.asset(
-            'assets/images/wom.png',
+          child: SvgPicture.asset(
+            'assets/images/wom-icon-brand.svg',
             height: 285.0,
             width: 285.0,
-            alignment: Alignment.topCenter,
+            // alignment: Alignment.topCenter,
           ),
         ),
     ];
@@ -158,7 +165,7 @@ class IntroScreen extends HookConsumerWidget {
                 return DotsIndicator(
                   decorator: DotsDecorator(
                     color: lightBlue,
-                    activeColor: Colors.pink,
+                    activeColor: Colors.yellow,
                   ),
                   position: min(selectedPage.value.toInt(), pages.length - 1),
                   dotsCount: pages.length,
@@ -169,7 +176,7 @@ class IntroScreen extends HookConsumerWidget {
         ),
         Positioned(
           bottom: 0,
-          right: 0,
+          right: 16,
           child: SizedBox(
             height: 80,
             child: min(selectedPage.value, pages.length - 1) == pages.length - 1

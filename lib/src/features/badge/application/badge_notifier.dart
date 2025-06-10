@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/badge/application/badge_state.dart';
@@ -12,12 +13,15 @@ part 'badge_notifier.g.dart';
 class BadgeNotifier extends _$BadgeNotifier {
   Future<BadgeState> build() async {
     final repo = ref.read(getBadgeRepositoryProvider);
-    final badges = await repo.getBadges();
+    final badges = await repo.getPublicBadges();
     final challenges = await repo.getChallenges();
 
     return BadgeState(
-      badges: badges,
-      challenges: challenges,
+      badges: [
+        ...badges,
+        ...challenges.expand((c) => c.badges),
+      ],
+      // challenges: challenges,
     );
   }
 
@@ -26,7 +30,7 @@ class BadgeNotifier extends _$BadgeNotifier {
     try {
       // Accedi al valore solo se lo stato è AsyncData e non nullo
       final currentBadges = currentState.asData?.value.badges;
-      final currentChallenges = currentState.asData?.value.challenges;
+      // final currentChallenges = currentState.asData?.value.challenges;
       if (currentBadges == null) {
         return;
       }
@@ -51,7 +55,7 @@ class BadgeNotifier extends _$BadgeNotifier {
       state = AsyncData(
         BadgeState(
           badges: updatedBadges,
-          challenges: currentChallenges ?? [],
+          // challenges: currentChallenges ?? [],
         ),
       );
       await ref.read(getBadgeRepositoryProvider).setAsSeen(badgeId);
@@ -61,20 +65,46 @@ class BadgeNotifier extends _$BadgeNotifier {
   }
 
   Future<void> acceptChallenge(ChallengeData challenge) async {
+    final currentState = state;
     try {
       await ref.read(getBadgeRepositoryProvider).saveChallenge(challenge);
-      final currentState = state;
       final v = state.value;
       if (currentState is AsyncData && v != null) {
         state = AsyncData(
           BadgeState(
-            badges: v.badges,
-            challenges: v.challenges,
+            badges: [...v.badges, ...challenge.badges],
+            // challenges: [...v.challenges, challenge],
           ),
         );
+      } else {
+        ref.invalidateSelf();
       }
     } catch (ex, st) {
       logger.e('acceptChallenge', error: ex, stackTrace: st);
+    }
+  }
+
+  // _refreshBadgeVerify() async {
+  //   final currentState = state;
+  //   try {
+  //     final v = state.value;
+  //     if (currentState is AsyncData && v != null) {
+  //       final badges =
+  //           await ref.read(getBadgeRepositoryProvider).refreshBadgeVerify();
+  //     }
+  //   } catch (ex, st) {
+  //     state = currentState;
+  //     logger.e('refreshBadgeVerify', error: ex, stackTrace: st);
+  //   }
+  // }
+
+  Future<void> resetAllBadges() async {
+    try {
+      await ref.read(getBadgeRepositoryProvider).deleteAllBadges();
+      await ref.read(getBadgeRepositoryProvider).deleteAllChallenges();
+      ref.invalidateSelf();
+    } catch (ex, st) {
+      logger.e('resetAllBadges', error: ex, stackTrace: st);
     }
   }
 }

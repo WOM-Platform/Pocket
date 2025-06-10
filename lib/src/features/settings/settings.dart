@@ -11,6 +11,7 @@ import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
+import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
 import 'package:wom_pocket/src/features/settings/table_page/db_page.dart';
 import 'package:wom_pocket/src/features/totem/application/my_totem_notifier.dart';
 import 'package:wom_pocket/src/features/totem/ui/connections_screen.dart';
@@ -143,29 +144,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             title: 'settings_show_intro_title'.tr(),
             subtitle: 'settings_show_intro_desc'.tr(),
             icon: Icons.question_mark,
-            // trailing: StatefulBuilder(
-            //   builder: (ctx, setState) {
-            //     return FutureBuilder<bool>(
-            //       future: Utils.readIsFirstOpen(),
-            //       builder: (ctx, AsyncSnapshot<bool> value) {
-            //         if (!value.hasData) {
-            //           return SizedBox.shrink();
-            //         }
-            //         logger.i(value);
-            //         return Switch(
-            //           value: value.data!,
-            //           onChanged: (bool v) async {
-            //             await Utils.setIsFirstOpen(v);
-            //             setState(() {});
-            //           },
-            //         );
-            //       },
-            //     );
-            //   },
-            // ),
-            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
             onTap: () {
-              context.go('/settings/intro');
+              context.push('/settings/intro');
             },
           ),
           SettingsItem(
@@ -209,6 +189,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               icon: Icons.delete,
               onTap: () async {
                 Hive.box('settings').delete(totemIdKey);
+              },
+            ),
+            SettingsItem(
+              title: 'Reset badge',
+              subtitle: 'Remove all info about me and my totem',
+              icon: Icons.refresh,
+              onTap: () async {
+                ref.read(badgeNotifierProvider.notifier).resetAllBadges();
               },
             ),
             if (isDev || kDebugMode) ...[

@@ -15,6 +15,12 @@ JsonTypeConverter2<ImageData, Uint8List, Object?> imageUrlBinaryConverter =
   toJson: (pref) => pref.toJson(),
 );
 
+JsonTypeConverter2<BadgeSimpleFilter, Uint8List, Object?>
+    simpleFilterBinaryConverter = TypeConverter.jsonb(
+  fromJson: (json) => BadgeSimpleFilter.fromJson(json as Map<String, Object?>),
+  toJson: (pref) => pref.toJson(),
+);
+
 @DataClassName('WomRow')
 class Wom extends Table {
   TextColumn get id => text().named('Id').unique()();
@@ -89,6 +95,8 @@ class Badges extends Table {
 
   TextColumn get id => text()();
 
+  TextColumn get informationUri => text().nullable()();
+
   TextColumn get challengeId => text().nullable()();
 
   BlobColumn get name => blob().map(mapTranslationConverter)();
@@ -97,6 +105,8 @@ class Badges extends Table {
       blob().map(mapTranslationConverter).nullable()();
 
   BlobColumn get image => blob().map(imageUrlBinaryConverter).nullable()();
+
+  BlobColumn get filter => blob().map(simpleFilterBinaryConverter).nullable()();
 
   DateTimeColumn get achievedAt => dateTime().nullable()();
 

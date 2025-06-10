@@ -10,6 +10,8 @@ import 'package:wom_pocket/src/core/application/app_notifier.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
+import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
 import 'package:wom_pocket/src/features/badge/navigation/badge_routes.dart';
 import 'package:wom_pocket/src/features/exchange/navigation/exchange_routes.dart';
 import 'package:wom_pocket/src/features/in_app_webview/ui/in_app_webview.dart';
@@ -96,9 +98,11 @@ final router = GoRouter(
           key: state.pageKey,
           child: Consumer(
             builder: (context, ref, child) {
+              ref.listen(badgeNotifierProvider, (_, __) {});
+
               ref.listen<AsyncValue<String?>>(
                 deepLinkNotifierProvider,
-                    (previous, next) {
+                (previous, next) {
                   logger.i('Router APP BLOC LISTENER ----> state is: $next');
                   if (next is AsyncData) {
                     final data = next.value;
@@ -110,8 +114,14 @@ final router = GoRouter(
 
                     // verifichiamo se è un deep link di tipo totem (cmi)
                     final totemData = validateTotemQrCodeWithRegex(data);
-                    final encryptedTotemData = validatePersonalConnection(data);
-                    if (encryptedTotemData != null) {
+                    final connectionLink = validatePersonalConnection(data);
+                    final challenge = validateChallenge(data);
+                    if (challenge != null) {
+                      final challengeId = getChallengeIdFromLink(data);
+                      if (challengeId != null) {
+                        context.push('/badge/challenge/$challengeId');
+                      }
+                    } else if (connectionLink != null) {
                       launchConnectionDialog(context, data);
                     } else if (totemData != null) {
                       // TODO check how handle dialog with GoRouter
@@ -123,31 +133,8 @@ final router = GoRouter(
 
                         if (deepLink.type == TransactionType.MIGRATION_IMPORT) {
                           context.push('/import', extra: deepLink);
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute<bool>(
-                          //     builder: (context) => ProviderScope(
-                          //       overrides: [
-                          //         deeplinkProvider.overrideWithValue(deepLink),
-                          //         importNotifierProvider,
-                          //       ],
-                          //       child: ImportScreen(),
-                          //     ),
-                          //   ),
-                          // );
                         } else {
                           context.push('/pin', extra: deepLink);
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute<bool>(
-                          //     builder: (context) => ProviderScope(
-                          //       overrides: [
-                          //         deeplinkProvider.overrideWithValue(deepLink)
-                          //       ],
-                          //       child: PinScreen(),
-                          //     ),
-                          //   ),
-                          // );
                         }
                       } on PlatformException catch (ex, st) {
                         logger.e(
@@ -159,8 +146,11 @@ final router = GoRouter(
                         logger.e('Router Error getting deep link',
                             error: ex, stackTrace: st);
                       } catch (ex, st) {
-                        logger.e('Router Error getting deep link',
-                            error: ex, stackTrace: st);
+                        logger.e(
+                          'Router Error getting deep link',
+                          error: ex,
+                          stackTrace: st,
+                        );
                       }
                     }
                   }

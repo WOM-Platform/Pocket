@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
+import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
 
 import 'package:wom_pocket/src/features/transaction/application/transaction_state.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
@@ -73,6 +74,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
     ref.invalidate(getExchangeTransactionsProvider);
     ref.invalidate(exchangeNotifierProvider);
+    ref.invalidate(badgeNotifierProvider);
   }
 
   final whiteTextStyle = TextStyle(color: Colors.white);
