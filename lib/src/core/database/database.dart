@@ -219,6 +219,8 @@ class MyDatabase extends _$MyDatabase {
       totems.email,
       totems.phoneNumber,
       totems.url,
+      totems.notes,
+      totems.image,
     ];
 
     if (await _tableExists(m, totems.actualTableName)) {
