@@ -77,9 +77,9 @@
 			<string>mailto</string>
 		</array>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>Permesso necessario per poter selezionare una immagine dalla propria galleria</string>
+		<string>Permesso necessario per poter selezionare una immagine dalla propria galleria ed abbinarlo ad un contatto.</string>
 		<key>NSCameraUsageDescription</key>
-		<string>Permesso necessario per acquisire una immagine dalla fotocamera</string>
+		<string>Richiediamo questo permesso per poter scansionare i QR-Code della piattaforma WOM o per scattare una foto da abbinare ad un contatto.</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
 	</dict>
