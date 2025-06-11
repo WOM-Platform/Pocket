@@ -34,7 +34,7 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase.query(QueryExecutor executor) : super(executor);
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   Future<void> importWoms(
     TransactionsCompanion tx,
@@ -91,9 +91,11 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(transactions, transactions.pin);
             await m.addColumn(transactions, transactions.link);
             await m.addColumn(transactions, transactions.deadline);
-          } else if (from < 5) {
+          }
+          if (from < 5) {
             await m.createTable(totems);
-          } else if (from < 6) {
+          }
+          if (from < 6) {
             await m.addColumn(totems, totems.eventName);
             await m.addColumn(totems, totems.sessionName);
             await m.addColumn(totems, totems.womLink);
@@ -105,14 +107,82 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(totems, totems.email);
             await m.addColumn(totems, totems.phoneNumber);
             await m.addColumn(totems, totems.url);
-          } else if (from < 7) {
+          }
+          if (from < 7) {
             await m.addColumn(totems, totems.image);
             await m.addColumn(totems, totems.notes);
-          } else if (from < 8) {
+          }
+          if (from < 8) {
             await m.createTable(badges);
             await m.createTable(challenges);
-          } else if (from < 9) {
+          }
+          if (from < 9) {
             await m.addColumn(badges, badges.informationUri);
+          }
+
+          if (from < 10) {
+            logger.i(
+              'Applying migration for schema version 10: checking for missing tables/columns from v7, v8, v9.',
+            );
+            if (!await _tableExists(m, badges.actualTableName)) {
+              await m.createTable(badges);
+              Sentry.addBreadcrumb(
+                Breadcrumb(
+                  message:
+                      'Migration to 10: Created "badges" table as it was missing.',
+                ),
+              );
+              logger.i(
+                'Migration to 10: Created "badges" table as it was missing.',
+              );
+            }
+
+            if (!await _tableExists(m, challenges.actualTableName)) {
+              await m.createTable(challenges);
+              Sentry.addBreadcrumb(
+                Breadcrumb(
+                  message:
+                      'Migration to 10: Created "challenges" table as it was missing.',
+                ),
+              );
+              logger.i(
+                'Migration to 10: Created "challenges" table as it was missing.',
+              );
+            }
+
+            if (!await _tableExists(m, totems.actualTableName)) {
+              await m.createTable(totems);
+              Sentry.addBreadcrumb(
+                Breadcrumb(
+                  message:
+                      'Migration to 10: Created "totems" table as it was missing.',
+                ),
+              );
+              logger.i(
+                'Migration to 10: Created "totems" table as it was missing.',
+              );
+            }
+
+            await _checkTotemTables(m);
+
+            if (await _tableExists(m, badges.actualTableName)) {
+              if (!await _columnExists(
+                m,
+                badges.actualTableName,
+                badges.informationUri.name,
+              )) {
+                await m.addColumn(badges, badges.informationUri);
+                Sentry.addBreadcrumb(
+                  Breadcrumb(
+                    message:
+                        'Migration to 10: Created "informationUri" table as it was missing.',
+                  ),
+                );
+                logger.i(
+                  'Migration to 10: Added "informationUri" column to "badges" table as it was missing.',
+                );
+              }
+            }
           }
         });
       },
@@ -134,6 +204,61 @@ class MyDatabase extends _$MyDatabase {
         return Future.value();
       },
     );
+  }
+
+  _checkTotemTables(Migrator m) async {
+    final columns = [
+      totems.eventName,
+      totems.sessionName,
+      totems.womLink,
+      totems.womPin,
+      totems.latitude,
+      totems.longitude,
+      totems.totemName,
+      totems.providerName,
+      totems.email,
+      totems.phoneNumber,
+      totems.url,
+    ];
+
+    if (await _tableExists(m, totems.actualTableName)) {
+      for (final column in columns) {
+        if (!await _columnExists(
+          m,
+          totems.actualTableName,
+          column.name,
+        )) {
+          await m.addColumn(totems, column);
+          Sentry.addBreadcrumb(
+            Breadcrumb(
+              message:
+                  'Migration to 10: Added "${column.name}" column to "totems" table as it was missing.',
+            ),
+          );
+          logger.i(
+            'Migration to 10: Added "${column.name}" column to "totems" table as it was missing.',
+          );
+        }
+      }
+    }
+  }
+
+  Future<bool> _tableExists(Migrator m, String tableName) async {
+    final result = await m.database.customSelect(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name = ?",
+      variables: [Variable.withString(tableName)],
+    ).getSingleOrNull();
+    return result != null;
+  }
+
+  Future<bool> _columnExists(
+    Migrator m,
+    String tableName,
+    String columnName,
+  ) async {
+    final List<QueryRow> columns =
+        await m.database.customSelect("PRAGMA table_info('$tableName')").get();
+    return columns.any((row) => row.read<String>('name') == columnName);
   }
 }
 
