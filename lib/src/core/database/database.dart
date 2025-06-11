@@ -2,7 +2,6 @@
 // database class. They are used to open the database.
 import 'dart:io';
 
-import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:wom_pocket/src/core/database/challenge_dao.dart';
 import 'package:wom_pocket/src/features/badge/data/badge.dart';
 import 'package:drift/drift.dart';
@@ -122,7 +121,7 @@ class MyDatabase extends _$MyDatabase {
 
           if (from < 10) {
             logger.i(
-              'Applying migration for schema version 10: checking for missing tables/columns from v7, v8, v9.',
+              'Applying migration for schema version 10: checking for missing tables/columns from v6, v7, v8, v9.',
             );
             if (!await _tableExists(m, badges.actualTableName)) {
               await m.createTable(badges);
