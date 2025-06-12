@@ -93,5 +93,17 @@ main() {
       ),
       isNull,
     );
+
+    expect(
+      validateChallenge('https://link.wom.social/challenge/v1/abcde'),
+      'https://link.wom.social/challenge/v1/abcde',
+    );
+
+    expect(
+      validateChallenge(
+        'wom://challenge/v1/6846f4d0b51528e329a9da79',
+      ),
+      'https://link.wom.social/challenge/v1/6846f4d0b51528e329a9da79',
+    );
   });
 }

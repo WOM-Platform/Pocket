@@ -69,13 +69,14 @@ class ScannerNotifier extends _$ScannerNotifier {
         final totemData = validateTotemQrCodeWithRegex(rawValue);
         final encryptedTotemData = validatePersonalConnection(rawValue);
         final challenge = validateChallenge(rawValue);
-        if (totemData != null ||
-            encryptedTotemData != null ||
-            challenge != null) {
-          validQr.add((
-            rawValue,
-            challenge != null ? ScanAction.openChallenge : ScanAction.redeem
-          ));
+        if (totemData != null || encryptedTotemData != null) {
+          validQr.add(
+            (rawValue, ScanAction.redeem),
+          );
+        } else if (challenge != null) {
+          validQr.add(
+            (challenge, ScanAction.openChallenge),
+          );
         } else {
           try {
             final deep = DeepLinkModel.fromUri(Uri.parse(rawValue));

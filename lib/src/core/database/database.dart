@@ -33,7 +33,7 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase.query(QueryExecutor executor) : super(executor);
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   Future<void> importWoms(
     TransactionsCompanion tx,
@@ -91,48 +91,148 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(transactions, transactions.link);
             await m.addColumn(transactions, transactions.deadline);
           }
+
           if (from < 5) {
             await m.createTable(totems);
           }
+
           if (from < 6) {
-            await m.addColumn(totems, totems.eventName);
-            await m.addColumn(totems, totems.sessionName);
-            await m.addColumn(totems, totems.womLink);
-            await m.addColumn(totems, totems.womPin);
-            await m.addColumn(totems, totems.latitude);
-            await m.addColumn(totems, totems.longitude);
-            await m.addColumn(totems, totems.totemName);
-            await m.addColumn(totems, totems.providerName);
-            await m.addColumn(totems, totems.email);
-            await m.addColumn(totems, totems.phoneNumber);
-            await m.addColumn(totems, totems.url);
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.eventName.name,
+            ))) {
+              await m.addColumn(totems, totems.eventName);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.sessionName.name,
+            ))) {
+              await m.addColumn(totems, totems.sessionName);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.womLink.name,
+            ))) {
+              await m.addColumn(totems, totems.womLink);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.womPin.name,
+            ))) {
+              await m.addColumn(totems, totems.womPin);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.latitude.name,
+            ))) {
+              await m.addColumn(totems, totems.latitude);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.longitude.name,
+            ))) {
+              await m.addColumn(totems, totems.longitude);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.totemName.name,
+            ))) {
+              await m.addColumn(totems, totems.totemName);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.providerName.name,
+            ))) {
+              await m.addColumn(totems, totems.providerName);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.email.name,
+            ))) {
+              await m.addColumn(totems, totems.email);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.phoneNumber.name,
+            ))) {
+              await m.addColumn(totems, totems.phoneNumber);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.url.name,
+            ))) {
+              await m.addColumn(totems, totems.url);
+            }
           }
+
           if (from < 7) {
-            await m.addColumn(totems, totems.image);
-            await m.addColumn(totems, totems.notes);
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.image.name,
+            ))) {
+              await m.addColumn(totems, totems.image);
+            }
+
+            if (!(await _columnExists(
+              m,
+              totems.actualTableName,
+              totems.notes.name,
+            ))) {
+              await m.addColumn(totems, totems.notes);
+            }
           }
+
           if (from < 8) {
             await m.createTable(badges);
             await m.createTable(challenges);
           }
+
           if (from < 9) {
-            await m.addColumn(badges, badges.informationUri);
+            if (!(await _columnExists(
+              m,
+              badges.actualTableName,
+              badges.informationUri.name,
+            ))) {
+              await m.addColumn(badges, badges.informationUri);
+            }
           }
 
-          if (from < 10) {
+          if (from < 11) {
             logger.i(
-              'Applying migration for schema version 10: checking for missing tables/columns from v6, v7, v8, v9.',
+              'Applying migration for schema version 11: checking for missing tables/columns from v6, v7, v8, v9.',
             );
             if (!await _tableExists(m, badges.actualTableName)) {
               await m.createTable(badges);
               Sentry.addBreadcrumb(
                 Breadcrumb(
                   message:
-                      'Migration to 10: Created "badges" table as it was missing.',
+                      'Migration to 11: Created "badges" table as it was missing.',
                 ),
               );
               logger.i(
-                'Migration to 10: Created "badges" table as it was missing.',
+                'Migration to 11: Created "badges" table as it was missing.',
               );
             }
 
@@ -141,11 +241,11 @@ class MyDatabase extends _$MyDatabase {
               Sentry.addBreadcrumb(
                 Breadcrumb(
                   message:
-                      'Migration to 10: Created "challenges" table as it was missing.',
+                      'Migration to 11: Created "challenges" table as it was missing.',
                 ),
               );
               logger.i(
-                'Migration to 10: Created "challenges" table as it was missing.',
+                'Migration to 11: Created "challenges" table as it was missing.',
               );
             }
 
@@ -154,11 +254,11 @@ class MyDatabase extends _$MyDatabase {
               Sentry.addBreadcrumb(
                 Breadcrumb(
                   message:
-                      'Migration to 10: Created "totems" table as it was missing.',
+                      'Migration to 11: Created "totems" table as it was missing.',
                 ),
               );
               logger.i(
-                'Migration to 10: Created "totems" table as it was missing.',
+                'Migration to 11: Created "totems" table as it was missing.',
               );
             }
 
@@ -174,11 +274,11 @@ class MyDatabase extends _$MyDatabase {
                 Sentry.addBreadcrumb(
                   Breadcrumb(
                     message:
-                        'Migration to 10: Created "informationUri" table as it was missing.',
+                        'Migration to 11: Created "informationUri" table as it was missing.',
                   ),
                 );
                 logger.i(
-                  'Migration to 10: Added "informationUri" column to "badges" table as it was missing.',
+                  'Migration to 11: Added "informationUri" column to "badges" table as it was missing.',
                 );
               }
             }

@@ -67,17 +67,21 @@ class BadgeNotifier extends _$BadgeNotifier {
   Future<void> acceptChallenge(ChallengeData challenge) async {
     final currentState = state;
     try {
-      await ref.read(getBadgeRepositoryProvider).saveChallenge(challenge);
       final v = state.value;
       if (currentState is AsyncData && v != null) {
+        await ref.read(getBadgeRepositoryProvider).saveChallenge(challenge);
+        final newList = v.badges.toList();
+        for (final badge in challenge.badges) {
+          if (newList.firstWhereOrNull((b) => b.id == badge.id) == null) {
+            newList.add(badge);
+          }
+        }
         state = AsyncData(
           BadgeState(
-            badges: [...v.badges, ...challenge.badges],
+            badges: newList,
             // challenges: [...v.challenges, challenge],
           ),
         );
-      } else {
-        ref.invalidateSelf();
       }
     } catch (ex, st) {
       logger.e('acceptChallenge', error: ex, stackTrace: st);

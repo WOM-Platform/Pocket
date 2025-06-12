@@ -78,7 +78,7 @@ class _AppShellState extends ConsumerState<AppShell> {
       final challenge = validateChallenge(link);
       logger.w('_startScan: $link');
       if (challenge != null) {
-        final challengeId = getChallengeIdFromLink(link);
+        final challengeId = getChallengeIdFromLink(challenge);
         if (challengeId != null) {
           context.push('/badge/challenge/$challengeId');
         }

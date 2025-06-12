@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 
 part 'totem_data.freezed.dart';
@@ -108,8 +109,25 @@ String? validateChallenge(String text) {
     caseSensitive: false,
   );
 
-  if (connectionRegExp.hasMatch(text)) {
-    return text;
+  // wom://challenge/v1/6846f4d0b51528e329a9da79
+  final connectionRegExp2 = new RegExp(
+    'wom:\/\/challenge\/v1\/(.*)+',
+    caseSensitive: false,
+  );
+
+  try {
+    if (connectionRegExp.hasMatch(text)) {
+      return text;
+    }
+
+    if (connectionRegExp2.hasMatch(text)) {
+      final match = connectionRegExp2.firstMatch(text);
+      final challengeId = match?[1];
+      return 'https://link.wom.social/challenge/v1/$challengeId';
+    }
+  } catch (ex, st) {
+    logger.e('validateChallenge', error: ex, stackTrace: st);
+    return null;
   }
 
   return null;

@@ -117,7 +117,7 @@ final router = GoRouter(
                     final connectionLink = validatePersonalConnection(data);
                     final challenge = validateChallenge(data);
                     if (challenge != null) {
-                      final challengeId = getChallengeIdFromLink(data);
+                      final challengeId = getChallengeIdFromLink(challenge);
                       if (challengeId != null) {
                         context.push('/badge/challenge/$challengeId');
                       }
