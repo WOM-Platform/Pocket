@@ -69,9 +69,10 @@ class BadgeNotifier extends _$BadgeNotifier {
     try {
       final v = state.value;
       if (currentState is AsyncData && v != null) {
-        await ref.read(getBadgeRepositoryProvider).saveChallenge(challenge);
+        await ref.read(getBadgeRepositoryProvider).saveNewChallenge(challenge);
         final newList = v.badges.toList();
         for (final badge in challenge.badges) {
+          // È possibile migliorare utilizzando una mappa anziché una lista
           if (newList.firstWhereOrNull((b) => b.id == badge.id) == null) {
             newList.add(badge);
           }

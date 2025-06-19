@@ -12,15 +12,14 @@ import 'package:wom_pocket/src/features/offers/application/offer_map_notifier.da
 import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/features/offers/ui/pos_details_screen.dart';
 
-import 'package:wom_pocket/src/features/offers/ui/suggestion.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 
 import 'package:wom_pocket/src/features/offers/ui/search_button.dart';
 
 part 'carousel.g.dart';
 
-@riverpod
-CarouselSliderController carouselController(CarouselControllerRef ref) {
+@Riverpod(keepAlive: true)
+CarouselSliderController carouselController(Ref ref) {
   return CarouselSliderController();
 }
 

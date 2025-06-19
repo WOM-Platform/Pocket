@@ -124,9 +124,13 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                             touchedIndex = '';
                             return;
                           }
-                          touchedIndex = aims[pieTouchResponse
-                                  .touchedSection!.touchedSectionIndex]
-                              .aim;
+                          if (pieTouchResponse
+                                  .touchedSection!.touchedSectionIndex >
+                              0) {
+                            touchedIndex = aims[pieTouchResponse
+                                    .touchedSection!.touchedSectionIndex]
+                                .aim;
+                          }
                         });
                       },
                     ),

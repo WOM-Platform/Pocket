@@ -107,7 +107,7 @@ class OffersMapNotifier extends _$OffersMapNotifier {
     logger.i('oOffersMapNotifier build => offers ${offers.length}');
     final clusterItems = offers.map((o) => OfferCluster(offer: o)).toList();
     posList = offers;
-    clusterManager!.setItems(clusterItems);
+    clusterManager?.setItems(clusterItems);
     return OffersMapData(
       offers: offers,
       markers: {},
@@ -153,14 +153,15 @@ class OffersMapNotifier extends _$OffersMapNotifier {
       if (offers.isNotEmpty) {
         Future.delayed(const Duration(milliseconds: 500)).then((value) {
           try {
-            controller.showMarkerInfoWindow(MarkerId(offers.first.id));
+            final offer = offers.first;
+            controller.showMarkerInfoWindow(MarkerId(offer.id));
             ref.read(carouselControllerProvider).jumpToPage(0);
           } catch (ex, st) {
             logger.e('showMarkerInfoWindow', error: ex, stackTrace: st);
           }
         });
       }
-      clusterManager!.setItems(clusterItems);
+      clusterManager?.setItems(clusterItems);
     } catch (ex, st) {
       logger.e('Load offers', error: ex, stackTrace: st);
       state = currentState;

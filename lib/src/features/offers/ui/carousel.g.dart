@@ -7,12 +7,11 @@ part of 'carousel.dart';
 // **************************************************************************
 
 String _$carouselControllerHash() =>
-    r'75269d92a6af4b88028596891e3530c6f8bef026';
+    r'70f93e4192213b7c62de7f05d8f28ca3cf38cb5a';
 
 /// See also [carouselController].
 @ProviderFor(carouselController)
-final carouselControllerProvider =
-    AutoDisposeProvider<CarouselSliderController>.internal(
+final carouselControllerProvider = Provider<CarouselSliderController>.internal(
   carouselController,
   name: r'carouselControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -24,7 +23,6 @@ final carouselControllerProvider =
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef CarouselControllerRef
-    = AutoDisposeProviderRef<CarouselSliderController>;
+typedef CarouselControllerRef = ProviderRef<CarouselSliderController>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

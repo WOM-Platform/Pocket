@@ -9,20 +9,17 @@ class OptionalQuery {
   final int startDate;
   final int endDate;
   final WomStatus? womStatus;
-  final Set<String?>? sources;
   final Set<String?>? aims;
   final SimpleFilter? filters;
-  final int? amount;
+  // final int? amount;
   final bool enabledRandom;
   final bool orderByDate;
   final bool excludeWomWithoutLocation;
 
   OptionalQuery({
-    this.amount,
     this.startDate = 0,
     this.endDate = 0,
     this.womStatus,
-    this.sources,
     this.filters,
     this.aims,
     this.enabledRandom = false,
@@ -40,14 +37,6 @@ class OptionalQuery {
       whereClause = whereClause.isEmpty
           ? 'WHERE $statusWhereClause'
           : '$whereClause AND $statusWhereClause';
-    }
-
-    if (sources != null) {
-      final sourceWhereClause = buildSourceClause(sources!);
-
-      whereClause = whereClause.isEmpty
-          ? 'WHERE $sourceWhereClause'
-          : '$whereClause AND $sourceWhereClause';
     }
 
     if (aims != null) {
@@ -68,9 +57,6 @@ class OptionalQuery {
             ? '$whereClause'
             : '$whereClause AND $filterClause';
       }
-//      whereClause = whereClause.isEmpty
-//          ? "WHERE $filterClause"
-//          : "$whereClause AND $filterClause";
     } else {
       // se non c'è simple filter allora prendo i wom di tutti gli aim eccetto quelli che iniziano con 0
       final aimClause = "${WomModel.tblWom}.${WomModel.dbAim} NOT LIKE \'0%\'";
@@ -90,10 +76,10 @@ class OptionalQuery {
       whereClause = '$whereClause ORDER BY addedOn';
     }
 
-    if (amount != null) {
-      whereClause =
-          whereClause.isEmpty ? '$whereClause' : '$whereClause LIMIT $amount';
-    }
+    // if (amount != null) {
+    //   whereClause =
+    //       whereClause.isEmpty ? '$whereClause' : '$whereClause LIMIT $amount';
+    // }
 
     logger.i('OptionalQueryModel build: $whereClause');
 
@@ -215,8 +201,8 @@ class BadgeQuery {
     // Source check
     if (filter.sourceId != null) {
       whereClause = whereClause.isEmpty
-          ? "WHERE ${WomModel.tblWom}.${WomModel.dbSourceName} = \'${filter.sourceId}\'"
-          : "$whereClause AND ${WomModel.tblWom}.${WomModel.dbSourceName} = \'${filter.sourceId}\'";
+          ? "WHERE ${WomModel.tblWom}.${WomModel.dbSourceId} = \'${filter.sourceId}\'"
+          : "$whereClause AND ${WomModel.tblWom}.${WomModel.dbSourceId} = \'${filter.sourceId}\'";
     }
 
     // Position check

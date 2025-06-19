@@ -223,8 +223,17 @@ class BadgeLocalDataSource {
     await _db.challengeDao.insertChallenge(entry);
     for (int i = 0; i < challenge.badges.length; i++) {
       final badge = challenge.badges[i];
-      final companion = _toCompanion(badge);
-      await _db.badgeDao.insertBadgeEntry(companion);
+      await saveNewBadge(badge);
+    }
+  }
+
+  // Salva una nuova challenge e tutti i suoi badge
+  Future saveNewChallenge(ChallengeData challenge) async {
+    final entry = _toChallengeEntry(challenge);
+    await _db.challengeDao.insertChallenge(entry);
+    for (int i = 0; i < challenge.badges.length; i++) {
+      final badge = challenge.badges[i];
+      await saveNewBadge(badge);
     }
   }
 

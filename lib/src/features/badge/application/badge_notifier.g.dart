@@ -6,7 +6,7 @@ part of 'badge_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$badgeNotifierHash() => r'4fb316dabc8b0b5e6aa7513e2050351364ceeda9';
+String _$badgeNotifierHash() => r'018d2f4dc212485dd7774856fc14d436d6e05ad1';
 
 /// See also [BadgeNotifier].
 @ProviderFor(BadgeNotifier)
