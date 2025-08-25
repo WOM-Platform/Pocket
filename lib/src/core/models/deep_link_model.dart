@@ -1,5 +1,6 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';

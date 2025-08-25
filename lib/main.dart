@@ -23,9 +23,6 @@ void main() async {
   // Intl
   await EasyLocalization.ensureInitialized();
 
-  // Firebase
-  // await Firebase.initializeApp();
-
   // Hive
   await Hive.initFlutter();
   await Hive.openBox('settings');

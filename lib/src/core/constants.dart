@@ -31,7 +31,7 @@ const t_offers = 'offers3';
 const t_settings = 'settings3';
 
 //Shared Preferences
-const IS_FIRST_OPEN = 'isFirstOpenV2';
+const isFirstOpenKey = 'isFirstOpenV3';
 const IS_SUGGESTIONS_DISABLED = 'isSuggestionsDisabled';
 const IS_FAKE_MODE = 'isFakeMode';
 const boxMigrationKey = 'migration';

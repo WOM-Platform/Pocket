@@ -2,7 +2,7 @@ name: wom_pocket
 description: A new Flutter application.
 publish_to: none
 
-version: 1.9.6+137
+version: 1.9.8+140
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -69,7 +69,7 @@ dependencies:
   fl_chart: ^0.66.0
   store_redirect: ^2.0.3
   readmore: ^3.0.0
-  google_fonts: ^6.2.1
+  google_fonts: ^6.3.0
   flutter_svg: ^2.0.9
   dots_indicator: ^3.0.0
   oktoast: ^3.4.0

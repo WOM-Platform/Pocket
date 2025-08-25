@@ -80,46 +80,50 @@ class EditMyTotemScreen extends HookConsumerWidget {
               validator: FormBuilderValidators.url(checkNullOrEmpty: false),
             ),
             const SizedBox(height: 16),
-            MyButton(
-              isLoading: isLoading.value,
-              onPressed: () async {
-                FocusManager.instance.primaryFocus?.unfocus();
-                try {
-                  if (formKey.currentState?.validate() ?? false) {
-                    isLoading.value = true;
+            Builder(
+              builder: (context) {
+                return MyButton(
+                  isLoading: isLoading.value,
+                  onPressed: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    try {
+                      if (formKey.currentState?.validate() ?? false) {
+                        isLoading.value = true;
 
-                    final name = nameController.text.trim();
-                    final email = emailController.text.trim().toLowerCase();
-                    final phone = phoneController.text.trim();
-                    final website = websiteController.text.trim().toLowerCase();
+                        final name = nameController.text.trim();
+                        final email = emailController.text.trim().toLowerCase();
+                        final phone = phoneController.text.trim();
+                        final website = websiteController.text.trim().toLowerCase();
 
-                    await ref
-                        .read(myTotemNotifierProvider.notifier)
-                        .savePersonalTotem(
-                          name: name,
-                          email: email.isEmpty ? null : email,
-                          phone: phone.isEmpty ? null : phone,
-                          website: website.isEmpty ? null : website,
+                        await ref
+                            .read(myTotemNotifierProvider.notifier)
+                            .savePersonalTotem(
+                              name: name,
+                              email: email.isEmpty ? null : email,
+                              phone: phone.isEmpty ? null : phone,
+                              website: website.isEmpty ? null : website,
+                            );
+                        isLoading.value = false;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('edit_my_personal_totem.success'.tr()),
+                          ),
                         );
-                    isLoading.value = false;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('edit_my_personal_totem.success'.tr()),
-                      ),
-                    );
-                    ref.invalidate(myTotemNotifierProvider);
-                    context.maybePop();
-                  }
-                } catch (ex, st) {
-                  isLoading.value = false;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('edit_my_personal_totem.error'.tr()),
-                    ),
-                  );
-                }
+                        ref.invalidate(myTotemNotifierProvider);
+                        context.maybePop();
+                      }
+                    } catch (ex, st) {
+                      isLoading.value = false;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('edit_my_personal_totem.error'.tr()),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text('edit_my_personal_totem.save'.tr()),
+                );
               },
-              child: Text('edit_my_personal_totem.save'.tr()),
             ),
           ],
         ),

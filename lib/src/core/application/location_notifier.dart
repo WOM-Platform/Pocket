@@ -45,6 +45,9 @@ class LocationNotifier extends _$LocationNotifier {
     } on LocationServiceDisabledException catch (ex, st) {
       logger.e('LocationServiceDisabledException', error: ex, stackTrace: st);
       throw ServiceGPSDisabled();
+    } on LocationPermissionDeniedForever catch (ex, st) {
+      logger.w('LocationPermissionDeniedForever', error: ex, stackTrace: st);
+      throw LocationPermissionDenied();
     } on TimeoutException catch (ex, st) {
       logger.e('LocationTimeoutException', error: ex, stackTrace: st);
       throw GetLocationTimeout();
@@ -87,7 +90,7 @@ Future<Position> getPosition(Ref ref) async {
   } on TimeoutException catch (ex, st) {
     logger.w('LocationTimeoutException', error: ex, stackTrace: st);
     throw GetLocationTimeout();
-  } on LocationPermissionDeniedForever catch (ex, st){
+  } on LocationPermissionDeniedForever catch (ex, st) {
     logger.w('LocationPermissionDeniedForever', error: ex, stackTrace: st);
     throw LocationPermissionDenied();
   } catch (ex, st) {

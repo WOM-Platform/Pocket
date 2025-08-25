@@ -48,10 +48,10 @@ class ListingCarouselWidget extends ConsumerWidget {
           LatLng(item.position.latitude, item.position.longitude),
         ),
       )
-          .then((value) {
+          .then((_) {
         controller.isMarkerInfoWindowShown(markerId).then(
-          (value) {
-            if (!value) {
+          (isShown) {
+            if (!isShown) {
               controller.showMarkerInfoWindow(markerId);
             }
           },
@@ -160,7 +160,8 @@ class CarouselItem extends StatelessWidget {
                 if (pos.url != null)
                   InkWell(
                     onTap: () {
-                      context.push('/offers/map/pos-details/external-info?url=${pos.url!}');
+                      context.push(
+                          '/offers/map/pos-details/external-info?url=${pos.url!}');
                       // Navigator.of(context).push(
                       //   MaterialPageRoute(
                       //     builder: (_) => SuggestionScreen(url: pos.url!),

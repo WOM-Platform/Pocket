@@ -67,6 +67,8 @@ class MyTotemNotifier extends _$MyTotemNotifier {
       state = MyTotemStateError(MyTotemError.gpsServiceDisabled);
     } on LocationPermissionDenied {
       state = MyTotemStateError(MyTotemError.missingPermissions);
+    } on LocationPermissionDeniedForever {
+      state = MyTotemStateError(MyTotemError.missingPermissions);
     } catch (ex, st) {
       state = MyTotemStateError(MyTotemError.generic);
       logger.e('MyTotemNotifier: _init: ', error: ex, stackTrace: st);
@@ -151,7 +153,7 @@ class MyTotemNotifier extends _$MyTotemNotifier {
       return id;
     } catch (ex, st) {
       logger.e(
-        'savePersonalTotem',
+        'MyTotemNotifier: savePersonalTotem',
         error: ex,
         stackTrace: st,
       );

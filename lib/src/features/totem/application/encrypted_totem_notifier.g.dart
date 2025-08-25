@@ -7,7 +7,7 @@ part of 'encrypted_totem_notifier.dart';
 // **************************************************************************
 
 String _$encryptedTotemNotifierHash() =>
-    r'ed5589a775f07e4b11c0fe2fb65e0dd99dc6916c';
+    r'b99044ff92a428b30b00c80c7617bd45e34a25da';
 
 /// Copied from Dart SDK
 class _SystemHash {

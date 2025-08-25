@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/src/core/app/application/app_shell_notifier.dart';
 
 import 'package:wom_pocket/src/core/app/ui/widgets/bottom_navigation_bar.dart';
@@ -73,6 +74,11 @@ class _AppShellState extends ConsumerState<AppShell> {
       final link = (await context.push('/scan')) as String?;
       logger.w('_startScan: $link');
       if (link == null) return;
+      Sentry.addBreadcrumb(
+        Breadcrumb(
+          message: 'Link from ScanScreen: $link',
+        ),
+      );
       final totemData = validateTotemQrCodeWithRegex(link);
       final connectionLink = validatePersonalConnection(link);
       final challenge = validateChallenge(link);

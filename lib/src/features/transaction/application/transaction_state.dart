@@ -46,9 +46,6 @@ class TransactionLoadingState extends TransactionState {
 }
 
 class TransactionMissingLocationState extends TransactionState {
-  // final TransactionEvent eventToRepeat;
-  // final LocationServiceException exception;
-
   TransactionMissingLocationState();
 
   @override

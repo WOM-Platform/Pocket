@@ -97,6 +97,20 @@ class MyDatabase extends _$MyDatabase {
           }
 
           if (from < 6) {
+
+            if (!await _tableExists(m, totems.actualTableName)) {
+              await m.createTable(totems);
+              Sentry.addBreadcrumb(
+                Breadcrumb(
+                  message:
+                  'Migration to $to: Created "totems" table as it was missing.',
+                ),
+              );
+              logger.i(
+                'Migration to $to: Created "totems" table as it was missing.',
+              );
+            }
+
             if (!(await _columnExists(
               m,
               totems.actualTableName,

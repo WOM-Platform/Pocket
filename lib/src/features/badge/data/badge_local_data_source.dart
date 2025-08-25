@@ -73,6 +73,7 @@ class BadgeLocalDataSource {
       informationUri:  badge.informationUri == null
           ? const drift.Value.absent()
           : drift.Value(badge.informationUri),
+      seen: drift.Value(badge.seen),
     );
   }
 
@@ -161,6 +162,7 @@ class BadgeLocalDataSource {
         updatedBadge = updatedBadge.copyWith(
           achievedAt: DateTime.now(),
           achieved: true,
+          seen: false,
         );
       }
     }

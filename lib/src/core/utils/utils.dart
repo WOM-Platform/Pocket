@@ -61,12 +61,12 @@ class Utils {
   //Check if is the first open
   static Future<bool> readIsFirstOpen() async {
     final isFirstOpen =
-        await Hive.box('settings').get(IS_FIRST_OPEN, defaultValue: false);
+        await Hive.box('settings').get(isFirstOpenKey, defaultValue: false);
     return !isFirstOpen;
   }
 
   static Future setIsFirstOpen(bool value) async {
-    await Hive.box('settings').put(IS_FIRST_OPEN, !value);
+    await Hive.box('settings').put(isFirstOpenKey, !value);
   }
 
   // static Future<bool> isSuggestionsDisabled() async {

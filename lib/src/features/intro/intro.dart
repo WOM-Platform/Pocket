@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/constants.dart';
@@ -15,6 +16,7 @@ import 'package:wom_pocket/src/core/application/app_notifier.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/features/nfc/utils.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
@@ -182,14 +184,13 @@ class IntroScreen extends HookConsumerWidget {
             child: min(selectedPage.value, pages.length - 1) == pages.length - 1
                 ? TextButton(
                     onPressed: () {
+                      Utils.setIsFirstOpen(false);
                       context.maybePop();
-                      // if (fromSettings) {
-                      //   context.maybePop();
-                      // } else {
-                      //   ref
-                      //       .read(appNotifierProvider.notifier)
-                      //       .goIntoNormalMode();
-                      // }
+                      if (fromSettings) {
+                        context.maybePop();
+                      } else {
+                        context.go('/');
+                      }
                     },
                     child: Text(
                       'done'.tr(),

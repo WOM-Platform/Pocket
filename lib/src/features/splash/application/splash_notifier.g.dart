@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'my_totem_notifier.dart';
+part of 'splash_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$myTotemNotifierHash() => r'be5335a05a193b31b9d38f9df64db5b47544714b';
+String _$splashNotifierHash() => r'73d69162b0482301829fb7433dbaea3eccbec593';
 
-/// See also [MyTotemNotifier].
-@ProviderFor(MyTotemNotifier)
-final myTotemNotifierProvider =
-    AutoDisposeNotifierProvider<MyTotemNotifier, MyTotemState>.internal(
-  MyTotemNotifier.new,
-  name: r'myTotemNotifierProvider',
+/// See also [SplashNotifier].
+@ProviderFor(SplashNotifier)
+final splashNotifierProvider =
+    AutoDisposeNotifierProvider<SplashNotifier, SplashState>.internal(
+  SplashNotifier.new,
+  name: r'splashNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$myTotemNotifierHash,
+      : _$splashNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$MyTotemNotifier = AutoDisposeNotifier<MyTotemState>;
+typedef _$SplashNotifier = AutoDisposeNotifier<SplashState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

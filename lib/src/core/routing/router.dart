@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/src/core/app/app_shell.dart';
 import 'package:wom_pocket/src/core/application/app_notifier.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
@@ -15,6 +16,7 @@ import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
 import 'package:wom_pocket/src/features/badge/navigation/badge_routes.dart';
 import 'package:wom_pocket/src/features/exchange/navigation/exchange_routes.dart';
 import 'package:wom_pocket/src/features/in_app_webview/ui/in_app_webview.dart';
+import 'package:wom_pocket/src/features/intro/intro.dart';
 import 'package:wom_pocket/src/features/migration/ui/import_screen.dart';
 import 'package:wom_pocket/src/features/new_home/navigation/home_routes.dart';
 import 'package:wom_pocket/src/features/nfc/utils.dart';
@@ -40,6 +42,10 @@ final branches = [
 
 final _appRoutes = <GoRoute>[
   SettingsRoute(),
+  GoRoute(
+    path: '/intro',
+    builder: (context, state) => IntroScreen(),
+  ),
   GoRoute(
     path: '/scan',
     builder: (context, state) => ScanScreen(),
@@ -84,13 +90,14 @@ final _appRoutes = <GoRoute>[
   ),
   GoRoute(
     path: '/splash',
-    builder: (context, state) => SplashScreen(),
+    builder: (context, state) => const SplashScreen(),
   ),
 ];
 
 // GoRouter configuration
 final router = GoRouter(
   navigatorKey: rootNavigatorKey,
+  initialLocation: '/splash',
   routes: [
     StatefulShellRoute.indexedStack(
       pageBuilder: (context, state, navigationShell) {
@@ -129,6 +136,11 @@ final router = GoRouter(
                     } else {
                       try {
                         logger.i('Router AppNotifier uri : $data');
+                        Sentry.addBreadcrumb(
+                          Breadcrumb(
+                            message: 'LRouter AppNotifier uri: $data',
+                          ),
+                        );
                         final deepLink = DeepLinkModel.fromUri(Uri.parse(data));
 
                         if (deepLink.type == TransactionType.MIGRATION_IMPORT) {

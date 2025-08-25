@@ -79,16 +79,16 @@ class TransactionNotifier extends _$TransactionNotifier {
           translationKey: ex.translationKey,
         );
       } on TimeoutException catch (ex, st) {
-        logger.e('TimeoutException', error: ex, stackTrace: st);
+        logger.w('TimeoutException', error: ex, stackTrace: st);
         return TransactionErrorState(
           error: 'La richiesta ha impiegato troppo tempo',
           translationKey: 'request_timeout_exception',
         );
       } on LocationServiceException catch (ex, st) {
-        logger.e('TransactionMissingLocationState', error: ex, stackTrace: st);
+        logger.w('TransactionMissingLocationState', error: ex, stackTrace: st);
         return TransactionMissingLocationState();
       } on LocationServiceDisabledException catch (ex, st) {
-        logger.e('GPS service disabled', error: ex, stackTrace: st);
+        logger.w('GPS service disabled', error: ex, stackTrace: st);
         return TransactionMissingLocationState();
       } catch (ex, st) {
         logger.e('Unknown error', error: ex, stackTrace: st);
