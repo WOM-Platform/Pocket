@@ -129,7 +129,7 @@ class BadgeRepositoryImpl implements BadgeRepository {
           remoteBadges: remoteChallengeBadges,
           localBadges: localChallengeBadges,
         );
-        await _localDataSource.saveChallenge(remoteChallenge);
+        await _localDataSource.updateChallenge(remoteChallenge);
       }
       return await _localDataSource.getChallenges();
     } catch (e) {
@@ -146,12 +146,21 @@ class BadgeRepositoryImpl implements BadgeRepository {
     for (final remoteBadge in remoteBadges) {
       final localBadge = localBadges
           .firstWhereOrNull((localBadge) => localBadge.id == remoteBadge.id);
+      // Badge non esiste localmente
       if (localBadge == null) {
         await _localDataSource.saveNewBadge(remoteBadge);
       } else {
         // Aggiorna sole le info aggiornabili, name, description, image
         // non sovrascrive filter, achieved, achievedAt
-        await _localDataSource.verifyAndUpdateBadge(localBadge);
+        await _localDataSource.verifyAndUpdateBadge(
+          localBadge.copyWith(
+            name: remoteBadge.name,
+            description: remoteBadge.description,
+            image: remoteBadge.image,
+            lastUpdate: remoteBadge.lastUpdate,
+            informationUri: remoteBadge.informationUri,
+          ),
+        );
       }
     }
   }

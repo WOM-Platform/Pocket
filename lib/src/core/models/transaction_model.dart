@@ -1,9 +1,8 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:drift/drift.dart' as drift;
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
-
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transaction_model.freezed.dart';
 
@@ -72,15 +71,13 @@ class DateTimeConverter implements JsonConverter<DateTime?, Object?> {
 
   @override
   DateTime? fromJson(Object? value) {
-    if (value ==null) {
+    if (value == null) {
       return null;
     }
     if (value is String) {
       return DateTime.parse(value);
     } else {
-      return value is int
-          ? DateTime.fromMillisecondsSinceEpoch(value)
-          : null;
+      return value is int ? DateTime.fromMillisecondsSinceEpoch(value) : null;
     }
   }
 

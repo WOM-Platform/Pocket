@@ -13,7 +13,7 @@ allprojects {
                         namespace project.group
                     }
                     project.android {
-                        compileSdkVersion 34
+                        compileSdkVersion 35
                         buildToolsVersion "34.0.0"
                     }
                 }

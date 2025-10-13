@@ -1,26 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
-import 'package:wom_pocket/src/core/models/deep_link_model.dart';
-import 'package:wom_pocket/src/features/map/application/bloc.dart';
-import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
-import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
+import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
+import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
+import 'package:wom_pocket/src/features/migration/application/import_state.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
-import 'package:wom_pocket/src/features/pin/pin_screen.dart';
-import 'package:wom_pocket/src/core/utils/utils.dart';
-
-import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/features/migration/application/import_state.dart';
-import 'package:collection/collection.dart';
 
 part 'import_notifier.g.dart';
 
@@ -71,8 +69,8 @@ class ImportNotifier extends _$ImportNotifier {
       final woms = womList.map((e) => WomRow.fromJson(e)).toList();
       final totems = totemList.map((e) => TotemRow.fromJson(e)).toList();
       final device = map['device'] as String;
-      logger.i('Hai importato: ${woms.length} wom');
-      logger.i('Hai importato: ${totems.length} totems');
+      logger.i('Stai importando: ${woms.length} wom');
+      logger.i('Stai importando ${totems.length} totems');
 
       final tmp = <String?>{};
 

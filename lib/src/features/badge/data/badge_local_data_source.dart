@@ -33,7 +33,7 @@ class BadgeLocalDataSource {
           ? const drift.Value.absent()
           : drift.Value(badge.image),
       achieved: drift.Value(badge.achieved),
-      seen: const drift.Value.absent(),
+      seen: drift.Value(badge.achieved),
       filter: badge.simpleFilter == null
           ? const drift.Value.absent()
           : drift.Value(badge.simpleFilter!),
@@ -125,6 +125,7 @@ class BadgeLocalDataSource {
         updatedBadge = updatedBadge.copyWith(
           achievedAt: DateTime.now(),
           achieved: true,
+          seen: false,
         );
       }
     }
@@ -220,13 +221,9 @@ class BadgeLocalDataSource {
     return output;
   }
 
-  Future saveChallenge(ChallengeData challenge) async {
+  Future updateChallenge(ChallengeData challenge) async {
     final entry = _toChallengeEntry(challenge);
     await _db.challengeDao.insertChallenge(entry);
-    for (int i = 0; i < challenge.badges.length; i++) {
-      final badge = challenge.badges[i];
-      await saveNewBadge(badge);
-    }
   }
 
   // Salva una nuova challenge e tutti i suoi badge

@@ -70,8 +70,9 @@ void main() async {
 
   //Initialize Sentry for error reporting in production mode
   return SentryFlutter.init(
-        (options) {
-      options.dsn = 'https://347c6f42c15716fcc049221092932fd3@o4509545347874816.ingest.de.sentry.io/4509545373040720';
+    (options) {
+      options.dsn =
+          'https://347c6f42c15716fcc049221092932fd3@o4509545347874816.ingest.de.sentry.io/4509545373040720';
       // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
       // We recommend adjusting this value in production.
       options.tracesSampleRate = 1.0;

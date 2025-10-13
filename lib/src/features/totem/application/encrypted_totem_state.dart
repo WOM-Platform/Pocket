@@ -10,8 +10,9 @@ class EncryptedTotemState with _$EncryptedTotemState {
 
   const factory EncryptedTotemState.invalid() = EncryptedTotemStateInvalid;
 
-  const factory EncryptedTotemState.failure(
-      {required PersonalTotemFailure failure}) = EncryptedTotemStateFailure;
+  const factory EncryptedTotemState.failure({
+    required PersonalTotemFailure failure,
+  }) = EncryptedTotemStateFailure;
 
   const factory EncryptedTotemState.completed({required TotemData totemData}) =
       EncryptedTotemStateCompleted;
@@ -28,9 +29,12 @@ enum PersonalTotemFailure {
     return switch (this) {
       PersonalTotemFailure.outOfTime => 'Ok',
       PersonalTotemFailure.outOfDistance => 'Ok',
-      PersonalTotemFailure.generic => 'redeem_personal_totem.error_actions.generic'.tr(),
-      PersonalTotemFailure.gpsDisabled => 'redeem_personal_totem.error_actions.gps_disabled'.tr(),
-      PersonalTotemFailure.missingPermissions => 'redeem_personal_totem.error_actions.missing_permissions'.tr(),
+      PersonalTotemFailure.generic =>
+        'redeem_personal_totem.error_actions.generic'.tr(),
+      PersonalTotemFailure.gpsDisabled =>
+        'redeem_personal_totem.error_actions.gps_disabled'.tr(),
+      PersonalTotemFailure.missingPermissions =>
+        'redeem_personal_totem.error_actions.missing_permissions'.tr(),
     };
   }
 
@@ -39,10 +43,13 @@ enum PersonalTotemFailure {
       PersonalTotemFailure.outOfTime =>
         'redeem_personal_totem.errors.out_of_time'.tr(),
       PersonalTotemFailure.outOfDistance =>
-          'redeem_personal_totem.errors.out_of_distance'.tr(),
-      PersonalTotemFailure.generic => 'redeem_personal_totem.errors.generic'.tr(),
-      PersonalTotemFailure.gpsDisabled => 'redeem_personal_totem.errors.gps_disabled'.tr(),
-      PersonalTotemFailure.missingPermissions => 'redeem_personal_totem.errors.missing_permissions'.tr(),
+        'redeem_personal_totem.errors.out_of_distance'.tr(),
+      PersonalTotemFailure.generic =>
+        'redeem_personal_totem.errors.generic'.tr(),
+      PersonalTotemFailure.gpsDisabled =>
+        'redeem_personal_totem.errors.gps_disabled'.tr(),
+      PersonalTotemFailure.missingPermissions =>
+        'redeem_personal_totem.errors.missing_permissions'.tr(),
     };
   }
 }

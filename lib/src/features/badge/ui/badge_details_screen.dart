@@ -62,7 +62,6 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
               badge: widget.badge,
             ),
           ),
-
           if (widget.badge.createdAt != null)
             Text('Anno di creazione: ${widget.badge.createdAt!.year}'),
           if (widget.badge.description != null) ...[
@@ -72,26 +71,26 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
               style: TextStyle(fontSize: 20),
             ),
           ],
-
-          if(widget.badge.simpleFilter!=null)
-            ...[
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Text(
-                    widget.badge.simpleFilter!.count.toString(),
-                    style: TextStyle(fontSize: 40),
-                  ),
-                  const SizedBox(width: 8),
-                  SvgPicture.asset('assets/images/wom-icon-brand.svg',width: 100,),
-                ],
-              ),
-            ],
+          if (widget.badge.simpleFilter != null) ...[
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Text(
+                  widget.badge.simpleFilter!.count.toString(),
+                  style: TextStyle(fontSize: 40),
+                ),
+                const SizedBox(width: 8),
+                SvgPicture.asset(
+                  'assets/images/wom-icon-brand.svg',
+                  width: 100,
+                ),
+              ],
+            ),
+          ],
           if (widget.badge.achieved && widget.badge.achievedAt != null) ...[
             const SizedBox(height: 16),
             Text('Hai verificato questo badge il: ${widget.badge.achievedAt}'),
           ],
-
         ],
       ),
     );

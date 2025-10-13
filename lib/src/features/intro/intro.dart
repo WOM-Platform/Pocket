@@ -195,9 +195,7 @@ class IntroScreen extends HookConsumerWidget {
                     child: Text(
                       'done'.tr(),
                       style: TextStyle(
-                        color: transactionCount > 0
-                            ? Theme.of(context).primaryColor
-                            : Colors.white,
+                        color: Colors.white,
                         fontSize: 20,
                       ),
                     ),
