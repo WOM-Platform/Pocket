@@ -12,10 +12,7 @@ import 'package:wom_pocket/src/features/badge/ui/badge_list.dart';
 class BadgeDetailsScreen extends ConsumerStatefulWidget {
   final BadgeData badge;
 
-  const BadgeDetailsScreen({
-    required this.badge,
-    super.key,
-  });
+  const BadgeDetailsScreen({required this.badge, super.key});
 
   @override
   ConsumerState createState() => _BadgeDetailsScreenState();
@@ -27,7 +24,7 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
     super.initState();
     if (widget.badge.achieved) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        ref.read(badgeNotifierProvider.notifier).setAsSeen(widget.badge.id);
+        ref.read(badgeProvider.notifier).setAsSeen(widget.badge.id);
       });
     }
   }
@@ -48,7 +45,8 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                    'Ultimo aggiornamento: ${dateFormat.format(widget.badge.lastUpdate!)}'),
+                  'Ultimo aggiornamento: ${dateFormat.format(widget.badge.lastUpdate!)}',
+                ),
               ],
             ),
           HexagonWidget(
@@ -58,9 +56,7 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
             width: 300,
             height: 300,
             type: HexagonType.FLAT,
-            child: BadgeTile(
-              badge: widget.badge,
-            ),
+            child: BadgeTile(badge: widget.badge),
           ),
           if (widget.badge.createdAt != null)
             Text('Anno di creazione: ${widget.badge.createdAt!.year}'),

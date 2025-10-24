@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
 
 class CustomSlider extends HookConsumerWidget {
   final double value = 0.0;
@@ -12,7 +11,7 @@ class CustomSlider extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // final state = ref.watch(mapNotifierProvider);
     // final MapBloc bloc = BlocProvider.of<MapBloc>(context);
-    // final sliderValue = state.valueOrNull?.sliderValue ?? 0.0;
+    // final sliderValue = state.value?.sliderValue ?? 0.0;
     final sliderValue = useState(0.0);
     logger.w('sliderValue = $sliderValue');
     final ThemeData theme = Theme.of(context);
@@ -29,9 +28,9 @@ class CustomSlider extends HookConsumerWidget {
           color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.bold,
         ),
-//            thumbShape: _CustomThumbShape(),
-//            valueIndicatorShape: _CustomValueIndicatorShape(),
-//            valueIndicatorTextStyle:
+        //            thumbShape: _CustomThumbShape(),
+        //            valueIndicatorShape: _CustomValueIndicatorShape(),
+        //            valueIndicatorTextStyle:
       ),
       child: Slider(
         divisions: 10,

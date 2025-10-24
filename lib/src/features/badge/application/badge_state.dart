@@ -5,7 +5,7 @@ import 'package:wom_pocket/src/features/badge/data/challenge.dart';
 part 'badge_state.freezed.dart';
 
 @freezed
-class BadgeState with _$BadgeState {
+abstract class BadgeState with _$BadgeState {
   const factory BadgeState({
     @Default([]) List<BadgeData> badges,
     @Default([]) List<ChallengeData> challenges,

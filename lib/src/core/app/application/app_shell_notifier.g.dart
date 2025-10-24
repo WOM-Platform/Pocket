@@ -6,21 +6,58 @@ part of 'app_shell_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(AppShellNotifier)
+const appShellProvider = AppShellNotifierProvider._();
+
+final class AppShellNotifierProvider
+    extends $NotifierProvider<AppShellNotifier, AppShellState> {
+  const AppShellNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'appShellProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$appShellNotifierHash();
+
+  @$internal
+  @override
+  AppShellNotifier create() => AppShellNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AppShellState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AppShellState>(value),
+    );
+  }
+}
+
 String _$appShellNotifierHash() => r'018eede1bde52912922bc7005e8fddd64407924c';
 
-/// See also [AppShellNotifier].
-@ProviderFor(AppShellNotifier)
-final appShellNotifierProvider =
-    NotifierProvider<AppShellNotifier, AppShellState>.internal(
-  AppShellNotifier.new,
-  name: r'appShellNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$appShellNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$AppShellNotifier = Notifier<AppShellState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$AppShellNotifier extends $Notifier<AppShellState> {
+  AppShellState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AppShellState, AppShellState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AppShellState, AppShellState>,
+              AppShellState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

@@ -13,8 +13,9 @@ part 'badge_module.g.dart';
 class BadgeModuleNotifier extends _$BadgeModuleNotifier {
   @override
   int build() {
-    final state = ref.watch(badgeNotifierProvider).valueOrNull;
-    final newBadgesToSee = (state?.badges
+    final state = ref.watch(badgeProvider).value;
+    final newBadgesToSee =
+        (state?.badges
                 .where((b) => b.seen == false && b.achieved == true)
                 .length ??
             0) +
@@ -36,12 +37,10 @@ class BadgeModule extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(badgeModuleNotifierProvider);
+    final count = ref.watch(badgeModuleProvider);
 
     if (count <= 0) {
-      return SliverToBoxAdapter(
-        child: SizedBox.shrink(),
-      );
+      return SliverToBoxAdapter(child: SizedBox.shrink());
     }
     return SliverToBoxAdapter(
       child: ElasticIn(
@@ -60,11 +59,7 @@ class BadgeModule extends ConsumerWidget {
                   child: Row(
                     // mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        MdiIcons.hexagon,
-                        size: 40,
-                        color: primaryColor,
-                      ),
+                      Icon(MdiIcons.hexagon, size: 40, color: primaryColor),
                       const SizedBox(width: 8),
                       Flexible(
                         child: Text(

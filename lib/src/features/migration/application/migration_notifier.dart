@@ -6,20 +6,19 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
-import 'package:wom_pocket/src/features/map/application/bloc.dart';
-import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
-import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
-import 'package:wom_pocket/src/features/migration/application/migration_state.dart';
-
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/src/features/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
+import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
+import 'package:wom_pocket/src/features/migration/application/migration_state.dart';
+import 'package:wom_pocket/src/features/migration/data/migration_data.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
-import 'package:wom_pocket/src/core/utils/utils.dart';
 
 part 'migration_notifier.g.dart';
 
@@ -61,8 +60,9 @@ class MigrationNotifier extends _$MigrationNotifier {
       }
 
       final data = await exportWomToJson(pin);
-      final response =
-          await ref.read(pocketProvider).createNewMigration(data.bytes, pin);
+      final response = await ref
+          .read(pocketProvider)
+          .createNewMigration(data.bytes, pin);
 
       final link = '${response.link}/${data.partialKey}';
       final migrationData = MigrationData(
@@ -74,7 +74,10 @@ class MigrationNotifier extends _$MigrationNotifier {
       await ref.read(getDatabaseProvider).womsDao.deleteTable();
       await ref.read(getDatabaseProvider).totemsDao.deleteTable();
 
-      await ref.read(getDatabaseProvider).transactionsDao.addTransaction(
+      await ref
+          .read(getDatabaseProvider)
+          .transactionsDao
+          .addTransaction(
             TransactionsCompanion.insert(
               source: '',
               aim: '',
@@ -83,8 +86,9 @@ class MigrationNotifier extends _$MigrationNotifier {
               size: data.womCount,
               pin: Value(pin),
               link: Value(link),
-              deadline:
-                  Value(migrationData.importDeadline.millisecondsSinceEpoch),
+              deadline: Value(
+                migrationData.importDeadline.millisecondsSinceEpoch,
+              ),
             ),
           );
       refreshHome();
@@ -97,7 +101,7 @@ class MigrationNotifier extends _$MigrationNotifier {
   }
 
   refreshHome() {
-    ref.invalidate(exchangeNotifierProvider);
+    ref.invalidate(exchangeProvider);
     ref.invalidate(fetchTransactionsProvider);
     ref.invalidate(totalWomCountProvider);
     ref.invalidate(mapNotifierProvider);
@@ -147,13 +151,7 @@ class MigrationNotifier extends _$MigrationNotifier {
     // await encryptedFile.writeAsBytes(bytes);
     // logger.w(bytes.length / 1000);
     // logger.i(file.path);
-    return WomExportData(
-      file.path,
-      bytes,
-      key,
-      woms.length,
-      totems.length,
-    );
+    return WomExportData(file.path, bytes, key, woms.length, totems.length);
   }
 
   Future<String> _getDevice() async {

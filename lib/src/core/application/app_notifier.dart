@@ -1,15 +1,16 @@
 import 'dart:async';
 
+import 'package:app_links/app_links.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nfc_background/nfc_background.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:uni_links/uni_links.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 
 part 'app_notifier.g.dart';
 
 bool isFirstOpen = false;
+final appLinks = AppLinks();
 
 @riverpod
 NfcBackground getNFCBackground(Ref ref) {
@@ -35,8 +36,10 @@ class NfcBackgroundNotifier extends _$NfcBackgroundNotifier {
   @override
   Future<TotemData?> build() async {
     logger.i('NfcBackgroundNotifier build');
-    ref.listen<AsyncValue<TotemData>>(getNfcIntentProvider,
-        (previous, next) async {
+    ref.listen<AsyncValue<TotemData>>(getNfcIntentProvider, (
+      previous,
+      next,
+    ) async {
       logger.i('getNfcIntentProvider new intent');
 
       final currentState = next;
@@ -54,7 +57,7 @@ class NfcBackgroundNotifier extends _$NfcBackgroundNotifier {
 }
 
 final _deepLinkStreamNotifierProvider = StreamProvider<String?>((ref) async* {
-  await for (final s in linkStream) {
+  await for (final s in appLinks.stringLinkStream) {
     logger.i('Subscription stream uri : $s');
     yield s;
   }
@@ -68,7 +71,7 @@ class DeepLinkNotifier extends AsyncNotifier<String?> {
   FutureOr<String?> build() async {
     ref.listen(_deepLinkStreamNotifierProvider, (previous, next) {
       if (next is AsyncData) {
-        final deepLink = next.valueOrNull;
+        final deepLink = next.value;
         if (deepLink != null) {
           logger.i('deeplink: $deepLink');
           state = AsyncData(deepLink);
@@ -76,7 +79,7 @@ class DeepLinkNotifier extends AsyncNotifier<String?> {
       }
     });
 
-    final initialDeepLink = await getInitialLink();
+    final initialDeepLink = await appLinks.getInitialLinkString();
     if (initialDeepLink != null) {
       logger.i('initialDeepLink: $initialDeepLink');
       await Future.delayed(Duration(milliseconds: 250));
@@ -85,7 +88,7 @@ class DeepLinkNotifier extends AsyncNotifier<String?> {
     return null;
   }
 
-  void reset(){
+  void reset() {
     state = AsyncData(null);
   }
 }

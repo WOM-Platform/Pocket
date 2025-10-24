@@ -1,15 +1,15 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 
 part 'aim_repository.g.dart';
 
 @riverpod
-AimRepository aimRepository(AimRepositoryRef ref) {
+AimRepository aimRepository(Ref ref) {
   return AimRepository(
     ref.watch(getDatabaseProvider),
     ref.watch(pocketProvider),

@@ -10,11 +10,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/offers/application/pos_notifier.dart';
 import 'package:wom_pocket/src/features/offers/ui/offer_tile.dart';
-
-import 'package:wom_pocket/src/features/offers/ui/suggestion.dart';
-import 'package:wom_pocket/src/core/utils/colors.dart';
 
 class PosDetailsData {
   final List<Offer> offers;
@@ -61,22 +59,16 @@ class POSDetailsScreen extends ConsumerWidget {
 
   final PosDetailsData data;
 
-  const POSDetailsScreen({
-    required this.data,
-    Key? key,
-  }) : super(key: key);
+  const POSDetailsScreen({required this.data, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     PhysicalPOS? pos;
     if (posID != null) {
-      pos = ref.watch(getPosProvider(posID!)).valueOrNull;
+      pos = ref.watch(getPosProvider(posID!)).value;
     }
 
-    final sectionStyle = TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.bold,
-    );
+    final sectionStyle = TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
 
     return Scaffold(
       appBar: AppBar(
@@ -120,15 +112,9 @@ class POSDetailsScreen extends ConsumerWidget {
                   if (offers.isNotEmpty) ...[
                     Row(
                       children: [
-                        Icon(
-                          Icons.local_offer,
-                          color: Colors.red,
-                        ),
+                        Icon(Icons.local_offer, color: Colors.red),
                         const SizedBox(width: 8),
-                        Text(
-                          'offers'.tr(),
-                          style: sectionStyle,
-                        ),
+                        Text('offers'.tr(), style: sectionStyle),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -136,18 +122,13 @@ class POSDetailsScreen extends ConsumerWidget {
                       Card(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: OfferTile(
-                            offer: offers[i],
-                          ),
+                          child: OfferTile(offer: offers[i]),
                         ),
                       ),
                       if (i < offers.length - 1) Divider(),
                     ],
                     const SizedBox(height: 16),
-                    Divider(
-                      height: 16,
-                      thickness: 2,
-                    ),
+                    Divider(height: 16, thickness: 2),
                   ],
                   if (position != null)
                     Padding(
@@ -158,10 +139,7 @@ class POSDetailsScreen extends ConsumerWidget {
                         children: [
                           Row(
                             children: [
-                              Icon(
-                                Icons.map,
-                                color: Colors.blue,
-                              ),
+                              Icon(Icons.map, color: Colors.blue),
                               const SizedBox(width: 8),
                               Text(
                                 'whereFindUs'.tr(),
@@ -185,8 +163,10 @@ class POSDetailsScreen extends ConsumerWidget {
                               },
                               zoomControlsEnabled: false,
                               zoomGesturesEnabled: false,
-                              minMaxZoomPreference:
-                                  MinMaxZoomPreference(16, 20),
+                              minMaxZoomPreference: MinMaxZoomPreference(
+                                16,
+                                20,
+                              ),
                               markers: {
                                 Marker(
                                   markerId: MarkerId(posName),
@@ -242,17 +222,11 @@ class POSDetailsScreen extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const SizedBox(height: 16),
-                        Divider(
-                          height: 16,
-                          thickness: 2,
-                        ),
+                        Divider(height: 16, thickness: 2),
                         const SizedBox(height: 16),
                         Row(
                           children: [
-                            Icon(
-                              Icons.info,
-                              color: Colors.green,
-                            ),
+                            Icon(Icons.info, color: Colors.green),
                             const SizedBox(width: 8),
                             Text(
                               'howUseOffer'.tr(),
@@ -273,10 +247,7 @@ class POSDetailsScreen extends ConsumerWidget {
                       children: [
                         Row(
                           children: [
-                            Icon(
-                              Icons.info,
-                              color: Colors.green,
-                            ),
+                            Icon(Icons.info, color: Colors.green),
                             const SizedBox(width: 8),
                             Text(
                               'howUseVirtualOffer'.tr(),
@@ -325,21 +296,19 @@ class POSDetailsScreen extends ConsumerWidget {
     Uri uri;
 
     if (kIsWeb) {
-      uri = Uri.https(
-        'www.google.com',
-        '/maps/search/',
-        {'api': '1', 'query': query},
-      );
+      uri = Uri.https('www.google.com', '/maps/search/', {
+        'api': '1',
+        'query': query,
+      });
     } else if (Platform.isAndroid) {
       uri = Uri(scheme: 'geo', host: '0,0', queryParameters: {'q': query});
     } else if (Platform.isIOS) {
       uri = Uri.https('maps.apple.com', '/', {'q': query});
     } else {
-      uri = Uri.https(
-        'www.google.com',
-        '/maps/search/',
-        {'api': '1', 'query': query},
-      );
+      uri = Uri.https('www.google.com', '/maps/search/', {
+        'api': '1',
+        'query': query,
+      });
     }
 
     return uri;
@@ -349,11 +318,10 @@ class POSDetailsScreen extends ConsumerWidget {
     Uri uri;
 
     if (kIsWeb) {
-      uri = Uri.https(
-        'www.google.com',
-        '/maps/search/',
-        {'api': '1', 'query': '$latitude,$longitude'},
-      );
+      uri = Uri.https('www.google.com', '/maps/search/', {
+        'api': '1',
+        'query': '$latitude,$longitude',
+      });
     } else if (Platform.isAndroid) {
       var query = '$latitude,$longitude';
 
@@ -368,11 +336,10 @@ class POSDetailsScreen extends ConsumerWidget {
 
       uri = Uri.https('maps.apple.com', '/', params);
     } else {
-      uri = Uri.https(
-        'www.google.com',
-        '/maps/search/',
-        {'api': '1', 'query': '$latitude,$longitude'},
-      );
+      uri = Uri.https('www.google.com', '/maps/search/', {
+        'api': '1',
+        'query': '$latitude,$longitude',
+      });
     }
 
     return uri;

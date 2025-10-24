@@ -5,21 +5,16 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/constants.dart';
-import 'package:wom_pocket/src/core/application/app_notifier.dart';
-
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
-import 'package:wom_pocket/src/features/nfc/utils.dart';
-import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/totem/utils.dart';
 
 class IntroScreen extends HookConsumerWidget {
@@ -31,8 +26,7 @@ class IntroScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactionCount =
-        ref.watch(transactionCountNotifierProvider).valueOrNull ?? 0;
+    final transactionCount = ref.watch(transactionCountProvider).value ?? 0;
     final selectedPage = useState(0);
     final pages = [
       IntroPage(
@@ -109,11 +103,7 @@ class IntroScreen extends HookConsumerWidget {
         backGroundColor: darkBackground,
         message: 'introDesc6'.tr(),
         title: 'introTitle6'.tr(),
-        child: Icon(
-          Icons.warning,
-          color: Colors.white,
-          size: 200,
-        ),
+        child: Icon(Icons.warning, color: Colors.white, size: 200),
       ),
       if (transactionCount == 0)
         IntroPage(
@@ -194,10 +184,7 @@ class IntroScreen extends HookConsumerWidget {
                     },
                     child: Text(
                       'done'.tr(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   )
                 : null,
@@ -248,10 +235,7 @@ class IntroPage extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: child,
-            ),
+            Expanded(flex: 2, child: child),
             Expanded(
               flex: 1,
               child: Center(
@@ -266,9 +250,7 @@ class IntroPage extends StatelessWidget {
               ),
             ),
             if (bottomButton != null) bottomButton!,
-            SizedBox(
-              height: 80,
-            ),
+            SizedBox(height: 80),
           ],
         ),
       ),

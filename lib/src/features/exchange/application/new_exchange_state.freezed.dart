@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,1183 +9,724 @@ part of 'new_exchange_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$NewExchangeState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String link, String pin, int womCount) data,
-    required TResult Function() loading,
-    required TResult Function() insufficientVouchers,
-    required TResult Function(Object error, StackTrace st) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String link, String pin, int womCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? insufficientVouchers,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String link, String pin, int womCount)? data,
-    TResult Function()? loading,
-    TResult Function()? insufficientVouchers,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateData value) data,
-    required TResult Function(NewExchangeStateLoading value) loading,
-    required TResult Function(NewExchangeStateinsufficientVouchers value)
-        insufficientVouchers,
-    required TResult Function(NewExchangeStateError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateData value)? data,
-    TResult? Function(NewExchangeStateLoading value)? loading,
-    TResult? Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult? Function(NewExchangeStateError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateData value)? data,
-    TResult Function(NewExchangeStateLoading value)? loading,
-    TResult Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult Function(NewExchangeStateError value)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NewExchangeState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NewExchangeState()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $NewExchangeStateCopyWith<$Res> {
-  factory $NewExchangeStateCopyWith(
-          NewExchangeState value, $Res Function(NewExchangeState) then) =
-      _$NewExchangeStateCopyWithImpl<$Res, NewExchangeState>;
+class $NewExchangeStateCopyWith<$Res>  {
+$NewExchangeStateCopyWith(NewExchangeState _, $Res Function(NewExchangeState) __);
 }
 
-/// @nodoc
-class _$NewExchangeStateCopyWithImpl<$Res, $Val extends NewExchangeState>
-    implements $NewExchangeStateCopyWith<$Res> {
-  _$NewExchangeStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [NewExchangeState].
+extension NewExchangeStatePatterns on NewExchangeState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  /// Create a copy of NewExchangeState
-  /// with the given fields replaced by the non-null parameter values.
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( NewExchangeStateData value)?  data,TResult Function( NewExchangeStateLoading value)?  loading,TResult Function( NewExchangeStateinsufficientVouchers value)?  insufficientVouchers,TResult Function( NewExchangeStateError value)?  error,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case NewExchangeStateData() when data != null:
+return data(_that);case NewExchangeStateLoading() when loading != null:
+return loading(_that);case NewExchangeStateinsufficientVouchers() when insufficientVouchers != null:
+return insufficientVouchers(_that);case NewExchangeStateError() when error != null:
+return error(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( NewExchangeStateData value)  data,required TResult Function( NewExchangeStateLoading value)  loading,required TResult Function( NewExchangeStateinsufficientVouchers value)  insufficientVouchers,required TResult Function( NewExchangeStateError value)  error,}){
+final _that = this;
+switch (_that) {
+case NewExchangeStateData():
+return data(_that);case NewExchangeStateLoading():
+return loading(_that);case NewExchangeStateinsufficientVouchers():
+return insufficientVouchers(_that);case NewExchangeStateError():
+return error(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( NewExchangeStateData value)?  data,TResult? Function( NewExchangeStateLoading value)?  loading,TResult? Function( NewExchangeStateinsufficientVouchers value)?  insufficientVouchers,TResult? Function( NewExchangeStateError value)?  error,}){
+final _that = this;
+switch (_that) {
+case NewExchangeStateData() when data != null:
+return data(_that);case NewExchangeStateLoading() when loading != null:
+return loading(_that);case NewExchangeStateinsufficientVouchers() when insufficientVouchers != null:
+return insufficientVouchers(_that);case NewExchangeStateError() when error != null:
+return error(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String link,  String pin,  int womCount)?  data,TResult Function()?  loading,TResult Function()?  insufficientVouchers,TResult Function( Object error,  StackTrace st)?  error,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case NewExchangeStateData() when data != null:
+return data(_that.link,_that.pin,_that.womCount);case NewExchangeStateLoading() when loading != null:
+return loading();case NewExchangeStateinsufficientVouchers() when insufficientVouchers != null:
+return insufficientVouchers();case NewExchangeStateError() when error != null:
+return error(_that.error,_that.st);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String link,  String pin,  int womCount)  data,required TResult Function()  loading,required TResult Function()  insufficientVouchers,required TResult Function( Object error,  StackTrace st)  error,}) {final _that = this;
+switch (_that) {
+case NewExchangeStateData():
+return data(_that.link,_that.pin,_that.womCount);case NewExchangeStateLoading():
+return loading();case NewExchangeStateinsufficientVouchers():
+return insufficientVouchers();case NewExchangeStateError():
+return error(_that.error,_that.st);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String link,  String pin,  int womCount)?  data,TResult? Function()?  loading,TResult? Function()?  insufficientVouchers,TResult? Function( Object error,  StackTrace st)?  error,}) {final _that = this;
+switch (_that) {
+case NewExchangeStateData() when data != null:
+return data(_that.link,_that.pin,_that.womCount);case NewExchangeStateLoading() when loading != null:
+return loading();case NewExchangeStateinsufficientVouchers() when insufficientVouchers != null:
+return insufficientVouchers();case NewExchangeStateError() when error != null:
+return error(_that.error,_that.st);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$NewExchangeStateDataImplCopyWith<$Res> {
-  factory _$$NewExchangeStateDataImplCopyWith(_$NewExchangeStateDataImpl value,
-          $Res Function(_$NewExchangeStateDataImpl) then) =
-      __$$NewExchangeStateDataImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String link, String pin, int womCount});
-}
-
-/// @nodoc
-class __$$NewExchangeStateDataImplCopyWithImpl<$Res>
-    extends _$NewExchangeStateCopyWithImpl<$Res, _$NewExchangeStateDataImpl>
-    implements _$$NewExchangeStateDataImplCopyWith<$Res> {
-  __$$NewExchangeStateDataImplCopyWithImpl(_$NewExchangeStateDataImpl _value,
-      $Res Function(_$NewExchangeStateDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NewExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? link = null,
-    Object? pin = null,
-    Object? womCount = null,
-  }) {
-    return _then(_$NewExchangeStateDataImpl(
-      link: null == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as String,
-      pin: null == pin
-          ? _value.pin
-          : pin // ignore: cast_nullable_to_non_nullable
-              as String,
-      womCount: null == womCount
-          ? _value.womCount
-          : womCount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$NewExchangeStateDataImpl implements NewExchangeStateData {
-  const _$NewExchangeStateDataImpl(
-      {required this.link, required this.pin, required this.womCount});
-
-  @override
-  final String link;
-  @override
-  final String pin;
-  @override
-  final int womCount;
-
-  @override
-  String toString() {
-    return 'NewExchangeState.data(link: $link, pin: $pin, womCount: $womCount)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NewExchangeStateDataImpl &&
-            (identical(other.link, link) || other.link == link) &&
-            (identical(other.pin, pin) || other.pin == pin) &&
-            (identical(other.womCount, womCount) ||
-                other.womCount == womCount));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, link, pin, womCount);
-
-  /// Create a copy of NewExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NewExchangeStateDataImplCopyWith<_$NewExchangeStateDataImpl>
-      get copyWith =>
-          __$$NewExchangeStateDataImplCopyWithImpl<_$NewExchangeStateDataImpl>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String link, String pin, int womCount) data,
-    required TResult Function() loading,
-    required TResult Function() insufficientVouchers,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return data(link, pin, womCount);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String link, String pin, int womCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? insufficientVouchers,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return data?.call(link, pin, womCount);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String link, String pin, int womCount)? data,
-    TResult Function()? loading,
-    TResult Function()? insufficientVouchers,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (data != null) {
-      return data(link, pin, womCount);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateData value) data,
-    required TResult Function(NewExchangeStateLoading value) loading,
-    required TResult Function(NewExchangeStateinsufficientVouchers value)
-        insufficientVouchers,
-    required TResult Function(NewExchangeStateError value) error,
-  }) {
-    return data(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateData value)? data,
-    TResult? Function(NewExchangeStateLoading value)? loading,
-    TResult? Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult? Function(NewExchangeStateError value)? error,
-  }) {
-    return data?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateData value)? data,
-    TResult Function(NewExchangeStateLoading value)? loading,
-    TResult Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult Function(NewExchangeStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (data != null) {
-      return data(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class NewExchangeStateData implements NewExchangeState {
-  const factory NewExchangeStateData(
-      {required final String link,
-      required final String pin,
-      required final int womCount}) = _$NewExchangeStateDataImpl;
-
-  String get link;
-  String get pin;
-  int get womCount;
-
-  /// Create a copy of NewExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NewExchangeStateDataImplCopyWith<_$NewExchangeStateDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$NewExchangeStateLoadingImplCopyWith<$Res> {
-  factory _$$NewExchangeStateLoadingImplCopyWith(
-          _$NewExchangeStateLoadingImpl value,
-          $Res Function(_$NewExchangeStateLoadingImpl) then) =
-      __$$NewExchangeStateLoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$NewExchangeStateLoadingImplCopyWithImpl<$Res>
-    extends _$NewExchangeStateCopyWithImpl<$Res, _$NewExchangeStateLoadingImpl>
-    implements _$$NewExchangeStateLoadingImplCopyWith<$Res> {
-  __$$NewExchangeStateLoadingImplCopyWithImpl(
-      _$NewExchangeStateLoadingImpl _value,
-      $Res Function(_$NewExchangeStateLoadingImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NewExchangeState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$NewExchangeStateLoadingImpl implements NewExchangeStateLoading {
-  const _$NewExchangeStateLoadingImpl();
 
-  @override
-  String toString() {
-    return 'NewExchangeState.loading()';
-  }
+class NewExchangeStateData implements NewExchangeState {
+  const NewExchangeStateData({required this.link, required this.pin, required this.womCount});
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NewExchangeStateLoadingImpl);
-  }
+ final  String link;
+ final  String pin;
+ final  int womCount;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
+/// Create a copy of NewExchangeState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$NewExchangeStateDataCopyWith<NewExchangeStateData> get copyWith => _$NewExchangeStateDataCopyWithImpl<NewExchangeStateData>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String link, String pin, int womCount) data,
-    required TResult Function() loading,
-    required TResult Function() insufficientVouchers,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return loading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String link, String pin, int womCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? insufficientVouchers,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return loading?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String link, String pin, int womCount)? data,
-    TResult Function()? loading,
-    TResult Function()? insufficientVouchers,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateData value) data,
-    required TResult Function(NewExchangeStateLoading value) loading,
-    required TResult Function(NewExchangeStateinsufficientVouchers value)
-        insufficientVouchers,
-    required TResult Function(NewExchangeStateError value) error,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateData value)? data,
-    TResult? Function(NewExchangeStateLoading value)? loading,
-    TResult? Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult? Function(NewExchangeStateError value)? error,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateData value)? data,
-    TResult Function(NewExchangeStateLoading value)? loading,
-    TResult Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult Function(NewExchangeStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NewExchangeStateData&&(identical(other.link, link) || other.link == link)&&(identical(other.pin, pin) || other.pin == pin)&&(identical(other.womCount, womCount) || other.womCount == womCount));
 }
 
-abstract class NewExchangeStateLoading implements NewExchangeState {
-  const factory NewExchangeStateLoading() = _$NewExchangeStateLoadingImpl;
+
+@override
+int get hashCode => Object.hash(runtimeType,link,pin,womCount);
+
+@override
+String toString() {
+  return 'NewExchangeState.data(link: $link, pin: $pin, womCount: $womCount)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$NewExchangeStateinsufficientVouchersImplCopyWith<$Res> {
-  factory _$$NewExchangeStateinsufficientVouchersImplCopyWith(
-          _$NewExchangeStateinsufficientVouchersImpl value,
-          $Res Function(_$NewExchangeStateinsufficientVouchersImpl) then) =
-      __$$NewExchangeStateinsufficientVouchersImplCopyWithImpl<$Res>;
+abstract mixin class $NewExchangeStateDataCopyWith<$Res> implements $NewExchangeStateCopyWith<$Res> {
+  factory $NewExchangeStateDataCopyWith(NewExchangeStateData value, $Res Function(NewExchangeStateData) _then) = _$NewExchangeStateDataCopyWithImpl;
+@useResult
+$Res call({
+ String link, String pin, int womCount
+});
+
+
+
+
+}
+/// @nodoc
+class _$NewExchangeStateDataCopyWithImpl<$Res>
+    implements $NewExchangeStateDataCopyWith<$Res> {
+  _$NewExchangeStateDataCopyWithImpl(this._self, this._then);
+
+  final NewExchangeStateData _self;
+  final $Res Function(NewExchangeStateData) _then;
+
+/// Create a copy of NewExchangeState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? link = null,Object? pin = null,Object? womCount = null,}) {
+  return _then(NewExchangeStateData(
+link: null == link ? _self.link : link // ignore: cast_nullable_to_non_nullable
+as String,pin: null == pin ? _self.pin : pin // ignore: cast_nullable_to_non_nullable
+as String,womCount: null == womCount ? _self.womCount : womCount // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
 }
 
-/// @nodoc
-class __$$NewExchangeStateinsufficientVouchersImplCopyWithImpl<$Res>
-    extends _$NewExchangeStateCopyWithImpl<$Res,
-        _$NewExchangeStateinsufficientVouchersImpl>
-    implements _$$NewExchangeStateinsufficientVouchersImplCopyWith<$Res> {
-  __$$NewExchangeStateinsufficientVouchersImplCopyWithImpl(
-      _$NewExchangeStateinsufficientVouchersImpl _value,
-      $Res Function(_$NewExchangeStateinsufficientVouchersImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of NewExchangeState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$NewExchangeStateinsufficientVouchersImpl
-    implements NewExchangeStateinsufficientVouchers {
-  const _$NewExchangeStateinsufficientVouchersImpl();
 
-  @override
-  String toString() {
-    return 'NewExchangeState.insufficientVouchers()';
-  }
+class NewExchangeStateLoading implements NewExchangeState {
+  const NewExchangeStateLoading();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NewExchangeStateinsufficientVouchersImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String link, String pin, int womCount) data,
-    required TResult Function() loading,
-    required TResult Function() insufficientVouchers,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return insufficientVouchers();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String link, String pin, int womCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? insufficientVouchers,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return insufficientVouchers?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String link, String pin, int womCount)? data,
-    TResult Function()? loading,
-    TResult Function()? insufficientVouchers,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (insufficientVouchers != null) {
-      return insufficientVouchers();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateData value) data,
-    required TResult Function(NewExchangeStateLoading value) loading,
-    required TResult Function(NewExchangeStateinsufficientVouchers value)
-        insufficientVouchers,
-    required TResult Function(NewExchangeStateError value) error,
-  }) {
-    return insufficientVouchers(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateData value)? data,
-    TResult? Function(NewExchangeStateLoading value)? loading,
-    TResult? Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult? Function(NewExchangeStateError value)? error,
-  }) {
-    return insufficientVouchers?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateData value)? data,
-    TResult Function(NewExchangeStateLoading value)? loading,
-    TResult Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult Function(NewExchangeStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (insufficientVouchers != null) {
-      return insufficientVouchers(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NewExchangeStateLoading);
 }
 
-abstract class NewExchangeStateinsufficientVouchers
-    implements NewExchangeState {
-  const factory NewExchangeStateinsufficientVouchers() =
-      _$NewExchangeStateinsufficientVouchersImpl;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'NewExchangeState.loading()';
 }
 
-/// @nodoc
-abstract class _$$NewExchangeStateErrorImplCopyWith<$Res> {
-  factory _$$NewExchangeStateErrorImplCopyWith(
-          _$NewExchangeStateErrorImpl value,
-          $Res Function(_$NewExchangeStateErrorImpl) then) =
-      __$$NewExchangeStateErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Object error, StackTrace st});
+
 }
 
-/// @nodoc
-class __$$NewExchangeStateErrorImplCopyWithImpl<$Res>
-    extends _$NewExchangeStateCopyWithImpl<$Res, _$NewExchangeStateErrorImpl>
-    implements _$$NewExchangeStateErrorImplCopyWith<$Res> {
-  __$$NewExchangeStateErrorImplCopyWithImpl(_$NewExchangeStateErrorImpl _value,
-      $Res Function(_$NewExchangeStateErrorImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of NewExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? error = null,
-    Object? st = null,
-  }) {
-    return _then(_$NewExchangeStateErrorImpl(
-      null == error ? _value.error : error,
-      null == st
-          ? _value.st
-          : st // ignore: cast_nullable_to_non_nullable
-              as StackTrace,
-    ));
-  }
-}
+
 
 /// @nodoc
 
-class _$NewExchangeStateErrorImpl implements NewExchangeStateError {
-  const _$NewExchangeStateErrorImpl(this.error, this.st);
 
-  @override
-  final Object error;
-  @override
-  final StackTrace st;
+class NewExchangeStateinsufficientVouchers implements NewExchangeState {
+  const NewExchangeStateinsufficientVouchers();
+  
 
-  @override
-  String toString() {
-    return 'NewExchangeState.error(error: $error, st: $st)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NewExchangeStateErrorImpl &&
-            const DeepCollectionEquality().equals(other.error, error) &&
-            (identical(other.st, st) || other.st == st));
-  }
 
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(error), st);
 
-  /// Create a copy of NewExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NewExchangeStateErrorImplCopyWith<_$NewExchangeStateErrorImpl>
-      get copyWith => __$$NewExchangeStateErrorImplCopyWithImpl<
-          _$NewExchangeStateErrorImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String link, String pin, int womCount) data,
-    required TResult Function() loading,
-    required TResult Function() insufficientVouchers,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return error(this.error, st);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String link, String pin, int womCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? insufficientVouchers,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return error?.call(this.error, st);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String link, String pin, int womCount)? data,
-    TResult Function()? loading,
-    TResult Function()? insufficientVouchers,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this.error, st);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NewExchangeStateData value) data,
-    required TResult Function(NewExchangeStateLoading value) loading,
-    required TResult Function(NewExchangeStateinsufficientVouchers value)
-        insufficientVouchers,
-    required TResult Function(NewExchangeStateError value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NewExchangeStateData value)? data,
-    TResult? Function(NewExchangeStateLoading value)? loading,
-    TResult? Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult? Function(NewExchangeStateError value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NewExchangeStateData value)? data,
-    TResult Function(NewExchangeStateLoading value)? loading,
-    TResult Function(NewExchangeStateinsufficientVouchers value)?
-        insufficientVouchers,
-    TResult Function(NewExchangeStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NewExchangeStateinsufficientVouchers);
 }
 
-abstract class NewExchangeStateError implements NewExchangeState {
-  const factory NewExchangeStateError(final Object error, final StackTrace st) =
-      _$NewExchangeStateErrorImpl;
 
-  Object get error;
-  StackTrace get st;
+@override
+int get hashCode => runtimeType.hashCode;
 
-  /// Create a copy of NewExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NewExchangeStateErrorImplCopyWith<_$NewExchangeStateErrorImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+String toString() {
+  return 'NewExchangeState.insufficientVouchers()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class NewExchangeStateError implements NewExchangeState {
+  const NewExchangeStateError(this.error, this.st);
+  
+
+ final  Object error;
+ final  StackTrace st;
+
+/// Create a copy of NewExchangeState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$NewExchangeStateErrorCopyWith<NewExchangeStateError> get copyWith => _$NewExchangeStateErrorCopyWithImpl<NewExchangeStateError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NewExchangeStateError&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.st, st) || other.st == st));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(error),st);
+
+@override
+String toString() {
+  return 'NewExchangeState.error(error: $error, st: $st)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $NewExchangeStateErrorCopyWith<$Res> implements $NewExchangeStateCopyWith<$Res> {
+  factory $NewExchangeStateErrorCopyWith(NewExchangeStateError value, $Res Function(NewExchangeStateError) _then) = _$NewExchangeStateErrorCopyWithImpl;
+@useResult
+$Res call({
+ Object error, StackTrace st
+});
+
+
+
+
+}
+/// @nodoc
+class _$NewExchangeStateErrorCopyWithImpl<$Res>
+    implements $NewExchangeStateErrorCopyWith<$Res> {
+  _$NewExchangeStateErrorCopyWithImpl(this._self, this._then);
+
+  final NewExchangeStateError _self;
+  final $Res Function(NewExchangeStateError) _then;
+
+/// Create a copy of NewExchangeState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? error = null,Object? st = null,}) {
+  return _then(NewExchangeStateError(
+null == error ? _self.error : error ,null == st ? _self.st : st // ignore: cast_nullable_to_non_nullable
+as StackTrace,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$ExchangeState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int dailyAvailableWom, int totalAvailableWom)
-        initial,
-    required TResult Function() loading,
-    required TResult Function(Object error, StackTrace st) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int dailyAvailableWom, int totalAvailableWom)? initial,
-    TResult? Function()? loading,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int dailyAvailableWom, int totalAvailableWom)? initial,
-    TResult Function()? loading,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ExchangeStateInitial value) initial,
-    required TResult Function(ExchangeStateLoading value) loading,
-    required TResult Function(ExchangeStateError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ExchangeStateInitial value)? initial,
-    TResult? Function(ExchangeStateLoading value)? loading,
-    TResult? Function(ExchangeStateError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ExchangeStateInitial value)? initial,
-    TResult Function(ExchangeStateLoading value)? loading,
-    TResult Function(ExchangeStateError value)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExchangeState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ExchangeState()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ExchangeStateCopyWith<$Res> {
-  factory $ExchangeStateCopyWith(
-          ExchangeState value, $Res Function(ExchangeState) then) =
-      _$ExchangeStateCopyWithImpl<$Res, ExchangeState>;
+class $ExchangeStateCopyWith<$Res>  {
+$ExchangeStateCopyWith(ExchangeState _, $Res Function(ExchangeState) __);
 }
 
-/// @nodoc
-class _$ExchangeStateCopyWithImpl<$Res, $Val extends ExchangeState>
-    implements $ExchangeStateCopyWith<$Res> {
-  _$ExchangeStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [ExchangeState].
+extension ExchangeStatePatterns on ExchangeState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  /// Create a copy of ExchangeState
-  /// with the given fields replaced by the non-null parameter values.
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ExchangeStateInitial value)?  initial,TResult Function( ExchangeStateLoading value)?  loading,TResult Function( ExchangeStateError value)?  error,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case ExchangeStateInitial() when initial != null:
+return initial(_that);case ExchangeStateLoading() when loading != null:
+return loading(_that);case ExchangeStateError() when error != null:
+return error(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ExchangeStateInitial value)  initial,required TResult Function( ExchangeStateLoading value)  loading,required TResult Function( ExchangeStateError value)  error,}){
+final _that = this;
+switch (_that) {
+case ExchangeStateInitial():
+return initial(_that);case ExchangeStateLoading():
+return loading(_that);case ExchangeStateError():
+return error(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ExchangeStateInitial value)?  initial,TResult? Function( ExchangeStateLoading value)?  loading,TResult? Function( ExchangeStateError value)?  error,}){
+final _that = this;
+switch (_that) {
+case ExchangeStateInitial() when initial != null:
+return initial(_that);case ExchangeStateLoading() when loading != null:
+return loading(_that);case ExchangeStateError() when error != null:
+return error(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( int dailyAvailableWom,  int totalAvailableWom)?  initial,TResult Function()?  loading,TResult Function( Object error,  StackTrace st)?  error,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case ExchangeStateInitial() when initial != null:
+return initial(_that.dailyAvailableWom,_that.totalAvailableWom);case ExchangeStateLoading() when loading != null:
+return loading();case ExchangeStateError() when error != null:
+return error(_that.error,_that.st);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( int dailyAvailableWom,  int totalAvailableWom)  initial,required TResult Function()  loading,required TResult Function( Object error,  StackTrace st)  error,}) {final _that = this;
+switch (_that) {
+case ExchangeStateInitial():
+return initial(_that.dailyAvailableWom,_that.totalAvailableWom);case ExchangeStateLoading():
+return loading();case ExchangeStateError():
+return error(_that.error,_that.st);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( int dailyAvailableWom,  int totalAvailableWom)?  initial,TResult? Function()?  loading,TResult? Function( Object error,  StackTrace st)?  error,}) {final _that = this;
+switch (_that) {
+case ExchangeStateInitial() when initial != null:
+return initial(_that.dailyAvailableWom,_that.totalAvailableWom);case ExchangeStateLoading() when loading != null:
+return loading();case ExchangeStateError() when error != null:
+return error(_that.error,_that.st);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$ExchangeStateInitialImplCopyWith<$Res> {
-  factory _$$ExchangeStateInitialImplCopyWith(_$ExchangeStateInitialImpl value,
-          $Res Function(_$ExchangeStateInitialImpl) then) =
-      __$$ExchangeStateInitialImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({int dailyAvailableWom, int totalAvailableWom});
-}
-
-/// @nodoc
-class __$$ExchangeStateInitialImplCopyWithImpl<$Res>
-    extends _$ExchangeStateCopyWithImpl<$Res, _$ExchangeStateInitialImpl>
-    implements _$$ExchangeStateInitialImplCopyWith<$Res> {
-  __$$ExchangeStateInitialImplCopyWithImpl(_$ExchangeStateInitialImpl _value,
-      $Res Function(_$ExchangeStateInitialImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? dailyAvailableWom = null,
-    Object? totalAvailableWom = null,
-  }) {
-    return _then(_$ExchangeStateInitialImpl(
-      dailyAvailableWom: null == dailyAvailableWom
-          ? _value.dailyAvailableWom
-          : dailyAvailableWom // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalAvailableWom: null == totalAvailableWom
-          ? _value.totalAvailableWom
-          : totalAvailableWom // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$ExchangeStateInitialImpl implements ExchangeStateInitial {
-  const _$ExchangeStateInitialImpl(
-      {required this.dailyAvailableWom, required this.totalAvailableWom});
-
-  @override
-  final int dailyAvailableWom;
-  @override
-  final int totalAvailableWom;
-
-  @override
-  String toString() {
-    return 'ExchangeState.initial(dailyAvailableWom: $dailyAvailableWom, totalAvailableWom: $totalAvailableWom)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ExchangeStateInitialImpl &&
-            (identical(other.dailyAvailableWom, dailyAvailableWom) ||
-                other.dailyAvailableWom == dailyAvailableWom) &&
-            (identical(other.totalAvailableWom, totalAvailableWom) ||
-                other.totalAvailableWom == totalAvailableWom));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, dailyAvailableWom, totalAvailableWom);
-
-  /// Create a copy of ExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ExchangeStateInitialImplCopyWith<_$ExchangeStateInitialImpl>
-      get copyWith =>
-          __$$ExchangeStateInitialImplCopyWithImpl<_$ExchangeStateInitialImpl>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int dailyAvailableWom, int totalAvailableWom)
-        initial,
-    required TResult Function() loading,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return initial(dailyAvailableWom, totalAvailableWom);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int dailyAvailableWom, int totalAvailableWom)? initial,
-    TResult? Function()? loading,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return initial?.call(dailyAvailableWom, totalAvailableWom);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int dailyAvailableWom, int totalAvailableWom)? initial,
-    TResult Function()? loading,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(dailyAvailableWom, totalAvailableWom);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ExchangeStateInitial value) initial,
-    required TResult Function(ExchangeStateLoading value) loading,
-    required TResult Function(ExchangeStateError value) error,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ExchangeStateInitial value)? initial,
-    TResult? Function(ExchangeStateLoading value)? loading,
-    TResult? Function(ExchangeStateError value)? error,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ExchangeStateInitial value)? initial,
-    TResult Function(ExchangeStateLoading value)? loading,
-    TResult Function(ExchangeStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ExchangeStateInitial implements ExchangeState {
-  const factory ExchangeStateInitial(
-      {required final int dailyAvailableWom,
-      required final int totalAvailableWom}) = _$ExchangeStateInitialImpl;
-
-  int get dailyAvailableWom;
-  int get totalAvailableWom;
-
-  /// Create a copy of ExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ExchangeStateInitialImplCopyWith<_$ExchangeStateInitialImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ExchangeStateLoadingImplCopyWith<$Res> {
-  factory _$$ExchangeStateLoadingImplCopyWith(_$ExchangeStateLoadingImpl value,
-          $Res Function(_$ExchangeStateLoadingImpl) then) =
-      __$$ExchangeStateLoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ExchangeStateLoadingImplCopyWithImpl<$Res>
-    extends _$ExchangeStateCopyWithImpl<$Res, _$ExchangeStateLoadingImpl>
-    implements _$$ExchangeStateLoadingImplCopyWith<$Res> {
-  __$$ExchangeStateLoadingImplCopyWithImpl(_$ExchangeStateLoadingImpl _value,
-      $Res Function(_$ExchangeStateLoadingImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ExchangeState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$ExchangeStateLoadingImpl implements ExchangeStateLoading {
-  const _$ExchangeStateLoadingImpl();
 
-  @override
-  String toString() {
-    return 'ExchangeState.loading()';
-  }
+class ExchangeStateInitial implements ExchangeState {
+  const ExchangeStateInitial({required this.dailyAvailableWom, required this.totalAvailableWom});
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ExchangeStateLoadingImpl);
-  }
+ final  int dailyAvailableWom;
+ final  int totalAvailableWom;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
+/// Create a copy of ExchangeState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ExchangeStateInitialCopyWith<ExchangeStateInitial> get copyWith => _$ExchangeStateInitialCopyWithImpl<ExchangeStateInitial>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int dailyAvailableWom, int totalAvailableWom)
-        initial,
-    required TResult Function() loading,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return loading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int dailyAvailableWom, int totalAvailableWom)? initial,
-    TResult? Function()? loading,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return loading?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int dailyAvailableWom, int totalAvailableWom)? initial,
-    TResult Function()? loading,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ExchangeStateInitial value) initial,
-    required TResult Function(ExchangeStateLoading value) loading,
-    required TResult Function(ExchangeStateError value) error,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ExchangeStateInitial value)? initial,
-    TResult? Function(ExchangeStateLoading value)? loading,
-    TResult? Function(ExchangeStateError value)? error,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ExchangeStateInitial value)? initial,
-    TResult Function(ExchangeStateLoading value)? loading,
-    TResult Function(ExchangeStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExchangeStateInitial&&(identical(other.dailyAvailableWom, dailyAvailableWom) || other.dailyAvailableWom == dailyAvailableWom)&&(identical(other.totalAvailableWom, totalAvailableWom) || other.totalAvailableWom == totalAvailableWom));
 }
 
-abstract class ExchangeStateLoading implements ExchangeState {
-  const factory ExchangeStateLoading() = _$ExchangeStateLoadingImpl;
+
+@override
+int get hashCode => Object.hash(runtimeType,dailyAvailableWom,totalAvailableWom);
+
+@override
+String toString() {
+  return 'ExchangeState.initial(dailyAvailableWom: $dailyAvailableWom, totalAvailableWom: $totalAvailableWom)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$ExchangeStateErrorImplCopyWith<$Res> {
-  factory _$$ExchangeStateErrorImplCopyWith(_$ExchangeStateErrorImpl value,
-          $Res Function(_$ExchangeStateErrorImpl) then) =
-      __$$ExchangeStateErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Object error, StackTrace st});
+abstract mixin class $ExchangeStateInitialCopyWith<$Res> implements $ExchangeStateCopyWith<$Res> {
+  factory $ExchangeStateInitialCopyWith(ExchangeStateInitial value, $Res Function(ExchangeStateInitial) _then) = _$ExchangeStateInitialCopyWithImpl;
+@useResult
+$Res call({
+ int dailyAvailableWom, int totalAvailableWom
+});
+
+
+
+
+}
+/// @nodoc
+class _$ExchangeStateInitialCopyWithImpl<$Res>
+    implements $ExchangeStateInitialCopyWith<$Res> {
+  _$ExchangeStateInitialCopyWithImpl(this._self, this._then);
+
+  final ExchangeStateInitial _self;
+  final $Res Function(ExchangeStateInitial) _then;
+
+/// Create a copy of ExchangeState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? dailyAvailableWom = null,Object? totalAvailableWom = null,}) {
+  return _then(ExchangeStateInitial(
+dailyAvailableWom: null == dailyAvailableWom ? _self.dailyAvailableWom : dailyAvailableWom // ignore: cast_nullable_to_non_nullable
+as int,totalAvailableWom: null == totalAvailableWom ? _self.totalAvailableWom : totalAvailableWom // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
 }
 
-/// @nodoc
-class __$$ExchangeStateErrorImplCopyWithImpl<$Res>
-    extends _$ExchangeStateCopyWithImpl<$Res, _$ExchangeStateErrorImpl>
-    implements _$$ExchangeStateErrorImplCopyWith<$Res> {
-  __$$ExchangeStateErrorImplCopyWithImpl(_$ExchangeStateErrorImpl _value,
-      $Res Function(_$ExchangeStateErrorImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of ExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? error = null,
-    Object? st = null,
-  }) {
-    return _then(_$ExchangeStateErrorImpl(
-      null == error ? _value.error : error,
-      null == st
-          ? _value.st
-          : st // ignore: cast_nullable_to_non_nullable
-              as StackTrace,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$ExchangeStateErrorImpl implements ExchangeStateError {
-  const _$ExchangeStateErrorImpl(this.error, this.st);
 
-  @override
-  final Object error;
-  @override
-  final StackTrace st;
+class ExchangeStateLoading implements ExchangeState {
+  const ExchangeStateLoading();
+  
 
-  @override
-  String toString() {
-    return 'ExchangeState.error(error: $error, st: $st)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ExchangeStateErrorImpl &&
-            const DeepCollectionEquality().equals(other.error, error) &&
-            (identical(other.st, st) || other.st == st));
-  }
 
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(error), st);
 
-  /// Create a copy of ExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ExchangeStateErrorImplCopyWith<_$ExchangeStateErrorImpl> get copyWith =>
-      __$$ExchangeStateErrorImplCopyWithImpl<_$ExchangeStateErrorImpl>(
-          this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int dailyAvailableWom, int totalAvailableWom)
-        initial,
-    required TResult Function() loading,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return error(this.error, st);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int dailyAvailableWom, int totalAvailableWom)? initial,
-    TResult? Function()? loading,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return error?.call(this.error, st);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int dailyAvailableWom, int totalAvailableWom)? initial,
-    TResult Function()? loading,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this.error, st);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ExchangeStateInitial value) initial,
-    required TResult Function(ExchangeStateLoading value) loading,
-    required TResult Function(ExchangeStateError value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ExchangeStateInitial value)? initial,
-    TResult? Function(ExchangeStateLoading value)? loading,
-    TResult? Function(ExchangeStateError value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ExchangeStateInitial value)? initial,
-    TResult Function(ExchangeStateLoading value)? loading,
-    TResult Function(ExchangeStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExchangeStateLoading);
 }
 
-abstract class ExchangeStateError implements ExchangeState {
-  const factory ExchangeStateError(final Object error, final StackTrace st) =
-      _$ExchangeStateErrorImpl;
 
-  Object get error;
-  StackTrace get st;
+@override
+int get hashCode => runtimeType.hashCode;
 
-  /// Create a copy of ExchangeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ExchangeStateErrorImplCopyWith<_$ExchangeStateErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+String toString() {
+  return 'ExchangeState.loading()';
 }
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ExchangeStateError implements ExchangeState {
+  const ExchangeStateError(this.error, this.st);
+  
+
+ final  Object error;
+ final  StackTrace st;
+
+/// Create a copy of ExchangeState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ExchangeStateErrorCopyWith<ExchangeStateError> get copyWith => _$ExchangeStateErrorCopyWithImpl<ExchangeStateError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExchangeStateError&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.st, st) || other.st == st));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(error),st);
+
+@override
+String toString() {
+  return 'ExchangeState.error(error: $error, st: $st)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ExchangeStateErrorCopyWith<$Res> implements $ExchangeStateCopyWith<$Res> {
+  factory $ExchangeStateErrorCopyWith(ExchangeStateError value, $Res Function(ExchangeStateError) _then) = _$ExchangeStateErrorCopyWithImpl;
+@useResult
+$Res call({
+ Object error, StackTrace st
+});
+
+
+
+
+}
+/// @nodoc
+class _$ExchangeStateErrorCopyWithImpl<$Res>
+    implements $ExchangeStateErrorCopyWith<$Res> {
+  _$ExchangeStateErrorCopyWithImpl(this._self, this._then);
+
+  final ExchangeStateError _self;
+  final $Res Function(ExchangeStateError) _then;
+
+/// Create a copy of ExchangeState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? error = null,Object? st = null,}) {
+  return _then(ExchangeStateError(
+null == error ? _self.error : error ,null == st ? _self.st : st // ignore: cast_nullable_to_non_nullable
+as StackTrace,
+  ));
+}
+
+
+}
+
+// dart format on

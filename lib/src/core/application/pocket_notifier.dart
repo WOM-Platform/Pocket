@@ -5,6 +5,6 @@ import 'package:wom_pocket/src/core/constants.dart';
 part 'pocket_notifier.g.dart';
 
 @Riverpod(keepAlive: true)
-Pocket pocket(PocketRef ref) {
+Pocket pocket(Ref ref) {
   return Pocket(domain, registryKey);
 }

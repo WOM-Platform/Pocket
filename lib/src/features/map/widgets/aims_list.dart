@@ -1,11 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/core/models/source_group_wom.dart';
-
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
 
 class AimsList extends ConsumerWidget {
   @override
@@ -13,20 +11,14 @@ class AimsList extends ConsumerWidget {
     final state = ref.watch(mapNotifierProvider);
     logger.i('build aims list');
     if (state is! AsyncData) {
-      return Text(
-        '-',
-        style: TextStyle(color: Colors.white),
-      );
+      return Text('-', style: TextStyle(color: Colors.white));
     }
-    if (state.valueOrNull!.aims.isEmpty) {
-      return Text(
-        'no_aims'.tr(),
-        style: TextStyle(color: Colors.white),
-      );
+    if (state.value!.aims.isEmpty) {
+      return Text('no_aims'.tr(), style: TextStyle(color: Colors.white));
     }
 
     return ChipFilter(
-      aims: state.valueOrNull?.aims ?? [],
+      aims: state.value?.aims ?? [],
       onAdd: (type) {
         ref.read(mapNotifierProvider.notifier).addAimToFilter(type);
       },
@@ -43,7 +35,7 @@ class ChipFilter extends StatefulWidget {
   final List<WomGroupBy> aims;
 
   const ChipFilter({required this.aims, Key? key, this.onAdd, this.onRemove})
-      : super(key: key);
+    : super(key: key);
 
   @override
   _ChipFilterState createState() => _ChipFilterState();

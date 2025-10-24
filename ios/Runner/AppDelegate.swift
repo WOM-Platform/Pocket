@@ -16,7 +16,7 @@ import ContactsUI
     let batteryChannel = FlutterMethodChannel(name: "social.wom.pocket/contact", binaryMessenger: controller.binaryMessenger)
     batteryChannel.setMethodCallHandler({[weak self] (call: FlutterMethodCall, result: FlutterResult) -> Void in
         // This method is invoked on the UI thread.
-            guard call.method == "getBatteryLevel" else {
+            guard call.method == "creatNewContact" else {
                 result(FlutterMethodNotImplemented)
                 return
             }
@@ -26,7 +26,7 @@ import ContactsUI
            let email = args["email"] ?? "",
            let url = args["url"] ?? ""
         {
-            self?.receiveBatteryLevel(result: result, phone: phone, name:name, email:email, url:url)
+            self?.creatNewContact(result: result, phone: phone, name:name, email:email, url:url)
         }
        
 
@@ -35,7 +35,7 @@ import ContactsUI
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-    private func receiveBatteryLevel(result: FlutterResult,  phone: String, name: String, email: String, url :String ) {
+    private func creatNewContact(result: FlutterResult,  phone: String, name: String, email: String, url :String ) {
       
     let contact = CNMutableContact.init()
     let homePhone = CNLabeledValue(label: CNLabelPhoneNumberMobile, value: CNPhoneNumber(stringValue: phone ?? ""))

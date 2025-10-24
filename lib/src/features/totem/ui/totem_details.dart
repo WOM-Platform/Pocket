@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:android_intent_plus/android_intent.dart';
-import 'package:contacts_service/contacts_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -14,16 +12,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
-import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/core/ui/screens/crop_image.dart';
-import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
-import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
-import 'package:wom_pocket/src/features/totem/ui/connections_screen.dart';
-import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
-import 'package:wom_pocket/src/features/transaction/ui/transaction_screen.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/utils/date_utils.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
+import 'package:wom_pocket/src/features/totem/ui/connections_screen.dart';
+import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
 
 class TotemMapData {
   final String totemId;
@@ -92,9 +87,7 @@ class TotemMapScreen extends ConsumerStatefulWidget {
 
   final TotemMapData data;
 
-  const TotemMapScreen({
-    required this.data,
-  });
+  const TotemMapScreen({required this.data});
 
   @override
   ConsumerState<TotemMapScreen> createState() => _TotemMapScreenState();
@@ -133,34 +126,7 @@ class _TotemMapScreenState extends ConsumerState<TotemMapScreen> {
             icon: Icon(Icons.contact_page_sharp),
             color: Colors.white,
             onPressed: () async {
-              // final contact = Contact(
-              //   phones: [
-              //     if (widget.phoneNumber != null)
-              //       Item(value: widget.phoneNumber!)
-              //   ],
-              //   displayName: widget.totemName,
-              // );
-              // ContactsService.addContact(contact);
-
-              /*Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
-intent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
-intent.putExtra(ContactsContract.Intents.Insert.EMAIL, "example@example.com");
-startActivity(intent);*/
-
-              /*try {
-        Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
-        intent.putExtra("finishActivityOnSaveCompleted", true);
-        startIntent(intent, REQUEST_OPEN_CONTACT_FORM);
-      }catch(Exception e) {
-      }*/
               if (Platform.isAndroid) {
-                // const intent = 'intent:#Intent;'
-                //     'action=android.intent.action.INSERT;'
-                //     'end';
-                //
-                // AndroidIntent.parseAndLaunch(intent);
-                //
-
                 final url = widget.url != null
                     ? checkIfUrlContainPrefixHttp(widget.url!)
                     : null;
@@ -178,22 +144,15 @@ startActivity(intent);*/
                   },
                 );
                 intent.launch();
-
-                // const intent = AndroidIntent(
-                //   action: 'android.intent.action.SEND',
-                //   type: 'plain/text',
-                //   data: 'text example',
-                // );
-                // intent.launchChooser('Chose an app');
               } else if (Platform.isIOS) {
                 try {
                   final result = await TotemMapScreen.platform
-                      .invokeMethod<int>('getBatteryLevel', {
-                    'email': widget.email,
-                    'name': widget.totemName,
-                    'phone': widget.phoneNumber,
-                    'url': widget.url,
-                  });
+                      .invokeMethod<int>('creatNewContact', {
+                        'email': widget.email,
+                        'name': widget.totemName,
+                        'phone': widget.phoneNumber,
+                        'url': widget.url,
+                      });
                 } on PlatformException catch (e) {
                   logger.e(e);
                 }
@@ -207,10 +166,7 @@ startActivity(intent);*/
             child: SvgPicture.asset(
               'assets/images/wom-icon-brand.svg',
               width: 40,
-              colorFilter: ColorFilter.mode(
-                Colors.white,
-                BlendMode.srcIn,
-              ),
+              colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
             ),
           ),
           const SizedBox(width: 16),
@@ -336,11 +292,8 @@ startActivity(intent);*/
                   child: isLoadingImage
                       ? CircularProgressIndicator()
                       : imageBytes == null
-                          ? Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                            )
-                          : null,
+                      ? Icon(Icons.camera_alt, color: Colors.white)
+                      : null,
                 ),
               ),
             ),
@@ -348,43 +301,21 @@ startActivity(intent);*/
           const SizedBox(height: 16),
           Text(
             widget.totemName,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           Divider(),
           if (widget.providerName.isNotEmpty) ...[
-            Text(
-              'totem_scan_screen.provider'.tr(),
-              style: labelStyle,
-            ),
-            Text(
-              widget.providerName,
-              style: valueStyle,
-            ),
+            Text('totem_scan_screen.provider'.tr(), style: labelStyle),
+            Text(widget.providerName, style: valueStyle),
             const SizedBox(height: 8),
           ],
-          Text(
-            'totem_scan_screen.event'.tr(),
-            style: labelStyle,
-          ),
-          Text(
-            widget.eventName,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          if (!widget.sessionName.isNullOrEmpty) ...[
-            Text(widget.sessionName!),
-          ],
-          Text(
-            widget.timestamp.format(context.locale.languageCode),
-          ),
+          Text('totem_scan_screen.event'.tr(), style: labelStyle),
+          Text(widget.eventName, style: Theme.of(context).textTheme.titleLarge),
+          if (!widget.sessionName.isNullOrEmpty) ...[Text(widget.sessionName!)],
+          Text(widget.timestamp.format(context.locale.languageCode)),
           if (widget.email != null && widget.email!.isNotEmpty) ...[
             const SizedBox(height: 8),
-            Text(
-              'Email',
-              style: labelStyle,
-            ),
+            Text('Email', style: labelStyle),
             InkWell(
               onTap: () {
                 final Uri emailLaunchUri = Uri(
@@ -397,20 +328,14 @@ startActivity(intent);*/
                 children: [
                   // Icon(Icons.email),
                   // const SizedBox(width: 4),
-                  Text(
-                    widget.email!,
-                    style: valueStyle,
-                  ),
+                  Text(widget.email!, style: valueStyle),
                 ],
               ),
             ),
           ],
           if (widget.phoneNumber != null && widget.phoneNumber!.isNotEmpty) ...[
             const SizedBox(height: 8),
-            Text(
-              'totem_scan_screen.phone'.tr(),
-              style: labelStyle,
-            ),
+            Text('totem_scan_screen.phone'.tr(), style: labelStyle),
             InkWell(
               onTap: () {
                 final Uri emailLaunchUri = Uri(
@@ -424,20 +349,14 @@ startActivity(intent);*/
                 children: [
                   // Icon(Icons.phone),
                   // const SizedBox(width: 4),
-                  Text(
-                    widget.phoneNumber!,
-                    style: valueStyle,
-                  ),
+                  Text(widget.phoneNumber!, style: valueStyle),
                 ],
               ),
             ),
           ],
           if (widget.url != null && widget.url!.isNotEmpty) ...[
             const SizedBox(height: 8),
-            Text(
-              'totem_scan_screen.website'.tr(),
-              style: labelStyle,
-            ),
+            Text('totem_scan_screen.website'.tr(), style: labelStyle),
             InkWell(
               onTap: () {
                 Utils.launchURL(widget.url!);
@@ -446,10 +365,7 @@ startActivity(intent);*/
                 children: [
                   // Icon(Icons.open_in_browser),
                   // const SizedBox(width: 4),
-                  Text(
-                    widget.url!,
-                    style: valueStyle,
-                  ),
+                  Text(widget.url!, style: valueStyle),
                 ],
               ),
             ),
@@ -457,30 +373,21 @@ startActivity(intent);*/
           const SizedBox(height: 8),
           Row(
             children: [
-              Text(
-                'totem_scan_screen.notes'.tr(),
-                style: labelStyle,
-              ),
+              Text('totem_scan_screen.notes'.tr(), style: labelStyle),
               const SizedBox(width: 4),
-              Icon(
-                Icons.edit,
-                color: Colors.grey,
-                size: 10,
-              ),
+              Icon(Icons.edit, color: Colors.grey, size: 10),
             ],
           ),
           InlineEditableText(
             text: widget.notes,
             hint: 'totem_scan_screen.tap_here_to_change'.tr(),
             style: valueStyle,
-            emptyStyle: valueStyle?.copyWith(
-              color: Colors.grey,
-            ),
+            emptyStyle: valueStyle?.copyWith(color: Colors.grey),
             onSubmitted: (notes) {
-              ref.read(getDatabaseProvider).totemsDao.updateNotes(
-                    widget.totemId,
-                    notes,
-                  );
+              ref
+                  .read(getDatabaseProvider)
+                  .totemsDao
+                  .updateNotes(widget.totemId, notes);
             },
           ),
           if (widget.womPin != null && widget.womLink != null) ...[
@@ -515,8 +422,10 @@ startActivity(intent);*/
               child: GoogleMap(
                 myLocationButtonEnabled: false,
                 zoomControlsEnabled: false,
-                initialCameraPosition:
-                    CameraPosition(target: widget.latLng!, zoom: 16),
+                initialCameraPosition: CameraPosition(
+                  target: widget.latLng!,
+                  zoom: 16,
+                ),
                 markers: {
                   if (standardPin != null)
                     Marker(
@@ -533,15 +442,10 @@ startActivity(intent);*/
   }
 
   getWom() {
-    final deepLink = DeepLinkModel.fromUri(
-      Uri.parse(widget.womLink!),
-    );
+    final deepLink = DeepLinkModel.fromUri(Uri.parse(widget.womLink!));
     context.push(
       '/transaction',
-      extra: TransactionNotifierParams(
-        deepLink,
-        widget.womPin!,
-      ),
+      extra: TransactionNotifierParams(deepLink, widget.womPin!),
     );
     // Navigator.push(
     //   context,

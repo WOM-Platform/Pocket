@@ -4,22 +4,22 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wom_pocket/src/core/constants.dart';
-
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_error.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/migration/application/migration_notifier.dart';
 import 'package:wom_pocket/src/features/migration/application/migration_state.dart';
 import 'package:wom_pocket/src/features/migration/data/migration_data.dart';
+import 'package:wom_pocket/src/features/migration/ui/export_screen.dart';
 import 'package:wom_pocket/src/features/pin/application/pin_notifier.dart';
 import 'package:wom_pocket/src/features/pin/widgets/keyboard.dart';
-import 'package:wom_pocket/src/core/utils/colors.dart';
 
-import 'package:wom_pocket/src/features/migration/ui/export_screen.dart';
-
-final pageControllerProvider =
-    Provider.autoDispose<PageController>((ref) => PageController());
+final pageControllerProvider = Provider.autoDispose<PageController>(
+  (ref) => PageController(),
+);
 
 final confirmExportProvider = StateProvider.autoDispose<bool>((_) => true);
 
@@ -46,16 +46,12 @@ class MigrationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(migrationNotifierProvider, (previous, next) {});
+    ref.listen(migrationProvider, (previous, next) {});
     return Scaffold(
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
         controller: ref.watch(pageControllerProvider),
-        children: [
-          PageOne(),
-          PageThree(),
-          SummaryPage(),
-        ],
+        children: [PageOne(), PageThree(), SummaryPage()],
       ),
     );
   }
@@ -75,28 +71,18 @@ class PageOne extends ConsumerWidget {
             const SizedBox(height: 16),
             Row(
               children: [
-                Image.asset(
-                  'assets/images/migration.png',
-                  height: 150,
-                ),
+                Image.asset('assets/images/migration.png', height: 150),
               ],
             ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             Text(
               'exportWizard'.tr(),
               style: TextStyle(fontSize: 30, color: Colors.white),
             ),
-            const SizedBox(
-              height: 32,
-            ),
+            const SizedBox(height: 32),
             Text(
               'exportWizardDesc'.tr(),
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           ],
         ),
@@ -116,7 +102,7 @@ class PageThree extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pinState = ref.watch(pinNotifierProvider);
+    final pinState = ref.watch(pinProvider);
     final descStyle = TextStyle(color: Colors.white, fontSize: 18);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: darkUiOverlayStyle,
@@ -128,16 +114,9 @@ class PageThree extends ConsumerWidget {
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                Icon(
-                  Icons.security,
-                  color: Colors.white,
-                  size: 50,
-                ),
+                Icon(Icons.security, color: Colors.white, size: 50),
                 const SizedBox(height: 16),
-                Text(
-                  'createPin'.tr(),
-                  style: descStyle,
-                ),
+                Text('createPin'.tr(), style: descStyle),
                 const SizedBox(height: 16),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 16),
@@ -155,8 +134,10 @@ class PageThree extends ConsumerWidget {
                             margin: const EdgeInsets.symmetric(horizontal: 16),
                             decoration: BoxDecoration(
                               border: Border(
-                                bottom:
-                                    BorderSide(width: 1.0, color: Colors.black),
+                                bottom: BorderSide(
+                                  width: 1.0,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                             alignment: Alignment.center,
@@ -172,10 +153,7 @@ class PageThree extends ConsumerWidget {
                     ],
                   ),
                 ),
-                Flexible(
-                  flex: Platform.isIOS ? 5 : 8,
-                  child: PinKeyboard(),
-                ),
+                Flexible(flex: Platform.isIOS ? 5 : 8, child: PinKeyboard()),
               ],
             ),
           ),
@@ -201,9 +179,7 @@ class PageThree extends ConsumerWidget {
                 onPressed: () {
                   if (pinState.pin.length != 4) return;
                   ref.read(pageControllerProvider).jumpToPage(2);
-                  ref
-                      .read(migrationNotifierProvider.notifier)
-                      .addPin(pinState.pin);
+                  ref.read(migrationProvider.notifier).addPin(pinState.pin);
                 },
               ),
           ],
@@ -218,7 +194,7 @@ class SummaryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final migrationState = ref.watch(migrationNotifierProvider);
+    final migrationState = ref.watch(migrationProvider);
 
     final titleStyle = TextStyle(color: Colors.white, fontSize: 18);
     final descStyle = TextStyle(
@@ -238,11 +214,7 @@ class SummaryPage extends ConsumerWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Icon(
-                      Icons.cloud_upload,
-                      color: Colors.white,
-                      size: 50,
-                    ),
+                    Icon(Icons.cloud_upload, color: Colors.white, size: 50),
                     const SizedBox(width: 16),
                     Text(
                       'export'.tr(),
@@ -258,10 +230,7 @@ class SummaryPage extends ConsumerWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      'womToExport'.tr(),
-                      style: titleStyle,
-                    ),
+                    Text('womToExport'.tr(), style: titleStyle),
                     const SizedBox(width: 8),
                     Text(womsCount.toString(), style: descStyle),
                   ],
@@ -270,10 +239,7 @@ class SummaryPage extends ConsumerWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      'Scansioni da migrare',
-                      style: titleStyle,
-                    ),
+                    Text('Scansioni da migrare', style: titleStyle),
                     const SizedBox(width: 8),
                     Text(totemsCount.toString(), style: descStyle),
                   ],
@@ -282,10 +248,7 @@ class SummaryPage extends ConsumerWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      'chosenPin'.tr(),
-                      style: titleStyle,
-                    ),
+                    Text('chosenPin'.tr(), style: titleStyle),
                     const SizedBox(width: 8),
                     Text(pin, style: descStyle),
                   ],
@@ -294,23 +257,13 @@ class SummaryPage extends ConsumerWidget {
             ),
           );
         },
-        loading: () => Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () => Center(child: CircularProgressIndicator()),
         initial: () {
-          return Center(
-            child: Text(
-              'missingData'.tr(),
-            ),
-          );
+          return Center(child: Text('missingData'.tr()));
         },
-        error: (ex, st) => MyErrorWidget(
-          ex: ex,
-        ),
+        error: (ex, st) => MyErrorWidget(ex: ex),
         complete: (MigrationData data) {
-          return MigrationExportScreen(
-            data: data,
-          );
+          return MigrationExportScreen(data: data);
         },
       ),
       floatingActionButton: Row(
@@ -322,18 +275,13 @@ class SummaryPage extends ConsumerWidget {
                 onPressed: () {
                   ref.read(pageControllerProvider).jumpToPage(1);
                 },
-                child: Text(
-                  'back'.tr(),
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: Text('back'.tr(), style: TextStyle(color: Colors.white)),
               ),
             ),
           Spacer(),
           if (migrationState is MigrationStateData)
             FloatingActionButton.extended(
-              label: Text(
-                'conclude'.tr(),
-              ),
+              label: Text('conclude'.tr()),
               onPressed: () async {
                 final res = await Alert(
                   context: context,
@@ -346,9 +294,7 @@ class SummaryPage extends ConsumerWidget {
                   buttons: [
                     DialogButton(
                       color: Colors.white,
-                      child: Text(
-                        'cancel'.tr(),
-                      ),
+                      child: Text('cancel'.tr()),
                       onPressed: () {
                         context.maybePop(false);
                       },
@@ -366,7 +312,7 @@ class SummaryPage extends ConsumerWidget {
                 ).show();
 
                 if (res ?? false) {
-                  ref.read(migrationNotifierProvider.notifier).exportWom();
+                  ref.read(migrationProvider.notifier).exportWom();
                 }
               },
             ),

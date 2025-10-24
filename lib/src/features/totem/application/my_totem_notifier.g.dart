@@ -6,21 +6,58 @@ part of 'my_totem_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$myTotemNotifierHash() => r'be5335a05a193b31b9d38f9df64db5b47544714b';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [MyTotemNotifier].
 @ProviderFor(MyTotemNotifier)
-final myTotemNotifierProvider =
-    AutoDisposeNotifierProvider<MyTotemNotifier, MyTotemState>.internal(
-  MyTotemNotifier.new,
-  name: r'myTotemNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$myTotemNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const myTotemProvider = MyTotemNotifierProvider._();
 
-typedef _$MyTotemNotifier = AutoDisposeNotifier<MyTotemState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class MyTotemNotifierProvider
+    extends $NotifierProvider<MyTotemNotifier, MyTotemState> {
+  const MyTotemNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'myTotemProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$myTotemNotifierHash();
+
+  @$internal
+  @override
+  MyTotemNotifier create() => MyTotemNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(MyTotemState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<MyTotemState>(value),
+    );
+  }
+}
+
+String _$myTotemNotifierHash() => r'55a156d275460906528d3d3398753d99f7add56b';
+
+abstract class _$MyTotemNotifier extends $Notifier<MyTotemState> {
+  MyTotemState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<MyTotemState, MyTotemState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<MyTotemState, MyTotemState>,
+              MyTotemState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

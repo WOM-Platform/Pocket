@@ -1,20 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/offers/application/offer_map_notifier.dart';
+import 'package:wom_pocket/src/features/offers/application/search_button_notifier.dart';
 import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/features/offers/ui/pos_details_screen.dart';
-
-import 'package:wom_pocket/src/core/utils/colors.dart';
-
-import 'package:wom_pocket/src/features/offers/ui/search_button.dart';
 
 part 'carousel.g.dart';
 
@@ -44,25 +42,23 @@ class ListingCarouselWidget extends ConsumerWidget {
       final controller = ref.read(mapControllerProvider);
       controller
           ?.animateCamera(
-        CameraUpdate.newLatLng(
-          LatLng(item.position.latitude, item.position.longitude),
-        ),
-      )
+            CameraUpdate.newLatLng(
+              LatLng(item.position.latitude, item.position.longitude),
+            ),
+          )
           .then((_) {
-        controller.isMarkerInfoWindowShown(markerId).then(
-          (isShown) {
-            if (!isShown) {
-              controller.showMarkerInfoWindow(markerId);
-            }
-          },
-        );
-      });
+            controller.isMarkerInfoWindowShown(markerId).then((isShown) {
+              if (!isShown) {
+                controller.showMarkerInfoWindow(markerId);
+              }
+            });
+          });
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(offersMapNotifierProvider(position)).valueOrNull;
+    final data = ref.watch(offersMapProvider(position)).value;
     final enabled = ref.watch(enableCarouselProvider);
 
     if (!enabled || data == null || data.isLoading || data.offers.isEmpty)
@@ -93,10 +89,7 @@ class ListingCarouselWidget extends ConsumerWidget {
 class CarouselItem extends StatelessWidget {
   final OfferPOS pos;
 
-  const CarouselItem({
-    required this.pos,
-    Key? key,
-  }) : super(key: key);
+  const CarouselItem({required this.pos, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -153,15 +146,14 @@ class CarouselItem extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   '${pos.offers.length} ${pos.offers.length == 1 ? 'offer'.tr() : 'offers'.tr().toLowerCase()} ${pos.offers.length == 1 ? 'active'.tr() : 'activePlural'.tr()}',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(fontSize: 16),
                 ),
                 if (pos.url != null)
                   InkWell(
                     onTap: () {
                       context.push(
-                          '/offers/map/pos-details/external-info?url=${pos.url!}');
+                        '/offers/map/pos-details/external-info?url=${pos.url!}',
+                      );
                       // Navigator.of(context).push(
                       //   MaterialPageRoute(
                       //     builder: (_) => SuggestionScreen(url: pos.url!),

@@ -2,18 +2,17 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/core/utils/config.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'package:wom_pocket/app.dart';
-import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/main.dart';
+import 'package:wom_pocket/src/core/constants.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/config.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 
 Future<void> main() async {
@@ -37,7 +36,6 @@ Future<void> main() async {
   final myTransactions = await database.select(database.transactions).get();
   logger.i(myTransactions.length);
   logger.i(myTransactions[0]);*/
-
 
   // Hive
   await Hive.initFlutter();

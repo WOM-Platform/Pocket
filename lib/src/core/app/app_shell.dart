@@ -4,31 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:go_router/go_router.dart';
-
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/src/core/app/application/app_shell_notifier.dart';
-
 import 'package:wom_pocket/src/core/app/ui/widgets/bottom_navigation_bar.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
-
-import 'package:wom_pocket/src/features/nfc/utils.dart';
 import 'package:wom_pocket/src/features/totem/utils.dart';
 
 class AppShell extends ConsumerStatefulWidget {
   final Widget navigationShell;
 
-  const AppShell({
-    required this.navigationShell,
-    super.key,
-  });
+  const AppShell({required this.navigationShell, super.key});
 
   @override
   ConsumerState<AppShell> createState() => _AppShellState();
@@ -40,7 +30,7 @@ class _AppShellState extends ConsumerState<AppShell> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       ref
-          .read(appShellNotifierProvider.notifier)
+          .read(appShellProvider.notifier)
           .setNavigationShell(widget.navigationShell);
     });
   }
@@ -53,16 +43,8 @@ class _AppShellState extends ConsumerState<AppShell> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: primaryColor,
-        label: Text(
-          'scan'.tr(),
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        icon: const Icon(
-          Icons.camera_enhance,
-          color: Colors.white,
-        ),
+        label: Text('scan'.tr(), style: TextStyle(color: Colors.white)),
+        icon: const Icon(Icons.camera_enhance, color: Colors.white),
         onPressed: () => _startScan(context),
       ),
       bottomNavigationBar: MyBottomNavigationBar(),
@@ -74,11 +56,7 @@ class _AppShellState extends ConsumerState<AppShell> {
       final link = (await context.push('/scan')) as String?;
       logger.w('_startScan: $link');
       if (link == null) return;
-      Sentry.addBreadcrumb(
-        Breadcrumb(
-          message: 'Link from ScanScreen: $link',
-        ),
-      );
+      Sentry.addBreadcrumb(Breadcrumb(message: 'Link from ScanScreen: $link'));
       final totemData = validateTotemQrCodeWithRegex(link);
       final connectionLink = validatePersonalConnection(link);
       final challenge = validateChallenge(link);

@@ -6,22 +6,46 @@ part of 'app_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appRepositoryHash() => r'ba673d24e8b178a5fc54d7204401b2ddc05a9043';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [appRepository].
 @ProviderFor(appRepository)
-final appRepositoryProvider = AutoDisposeProvider<AppRepository>.internal(
-  appRepository,
-  name: r'appRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$appRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const appRepositoryProvider = AppRepositoryProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AppRepositoryRef = AutoDisposeProviderRef<AppRepository>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class AppRepositoryProvider
+    extends $FunctionalProvider<AppRepository, AppRepository, AppRepository>
+    with $Provider<AppRepository> {
+  const AppRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'appRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$appRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<AppRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AppRepository create(Ref ref) {
+    return appRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AppRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AppRepository>(value),
+    );
+  }
+}
+
+String _$appRepositoryHash() => r'187c7775c4caed9d764898ff8c52f226b81cdce2';

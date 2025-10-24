@@ -1,12 +1,12 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 
 part 'import_state.freezed.dart';
 
 @freezed
-class ImportState with _$ImportState {
+abstract class ImportState with _$ImportState {
   const factory ImportState.initial() = ImportInitial;
 
   const factory ImportState.loading() = ImportLoading;

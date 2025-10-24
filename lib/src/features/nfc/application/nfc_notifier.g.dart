@@ -6,20 +6,58 @@ part of 'nfc_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(NFCNotifier)
+const nFCProvider = NFCNotifierProvider._();
+
+final class NFCNotifierProvider
+    extends $NotifierProvider<NFCNotifier, NFCState> {
+  const NFCNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'nFCProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$nFCNotifierHash();
+
+  @$internal
+  @override
+  NFCNotifier create() => NFCNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NFCState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NFCState>(value),
+    );
+  }
+}
+
 String _$nFCNotifierHash() => r'97749f912fc2b9cb118394725482dc4223730c1f';
 
-/// See also [NFCNotifier].
-@ProviderFor(NFCNotifier)
-final nFCNotifierProvider =
-    AutoDisposeNotifierProvider<NFCNotifier, NFCState>.internal(
-  NFCNotifier.new,
-  name: r'nFCNotifierProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$nFCNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$NFCNotifier = AutoDisposeNotifier<NFCState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$NFCNotifier extends $Notifier<NFCState> {
+  NFCState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<NFCState, NFCState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<NFCState, NFCState>,
+              NFCState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

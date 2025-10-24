@@ -4,18 +4,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:wom_pocket/src/core/constants.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/features/map/widgets/aims_list.dart';
 import 'package:wom_pocket/src/features/map/widgets/custom_slider.dart';
 import 'package:wom_pocket/src/features/map/widgets/sources_list.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-
-import 'package:wom_pocket/src/core/constants.dart';
-import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/core/utils/colors.dart';
 
 final maxHeight = Platform.isIOS ? 375.0 : 350.0;
 final minHeight = Platform.isIOS ? 80.0 : 45.0;
@@ -70,8 +67,10 @@ class MapBody extends ConsumerWidget {
         if (p.value!.markers.isEmpty && n.value!.markers.isNotEmpty) {
           logger.i('move camera');
           final controller = ref.read(mapNotifierProvider.notifier).controller;
-          final middlePointLat = n.value!.markers
-              .fold<double>(43.72, (sum, item) => sum + item.position.latitude);
+          final middlePointLat = n.value!.markers.fold<double>(
+            43.72,
+            (sum, item) => sum + item.position.latitude,
+          );
           final middlePointLong = n.value!.markers.fold<double>(
             12.63,
             (sum, item) => sum + item.position.longitude,
@@ -83,13 +82,7 @@ class MapBody extends ConsumerWidget {
           );
           controller?.animateCamera(
             CameraUpdate.newCameraPosition(
-              CameraPosition(
-                target: LatLng(
-                  lat,
-                  long,
-                ),
-                zoom: lastZoom,
-              ),
+              CameraPosition(target: LatLng(lat, long), zoom: lastZoom),
             ),
           );
         }
@@ -128,7 +121,7 @@ class MapBody extends ConsumerWidget {
                 lastZoom = cameraPosition.zoom;
               }
             : null,
-        markers: state.valueOrNull?.markers ?? {},
+        markers: state.value?.markers ?? {},
       ),
     );
   }
@@ -149,9 +142,7 @@ class MapPanel extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SizedBox(
-            height: 12,
-          ),
+          SizedBox(height: 12),
           Column(
             children: <Widget>[
               Container(
@@ -164,14 +155,8 @@ class MapPanel extends ConsumerWidget {
               ),
             ],
           ),
-          SizedBox(
-            height: Platform.isIOS ? 60.0 : 25.0,
-          ),
-          Text(
-            'filter_by_time'.tr(),
-            textAlign: TextAlign.start,
-            style: style,
-          ),
+          SizedBox(height: Platform.isIOS ? 60.0 : 25.0),
+          Text('filter_by_time'.tr(), textAlign: TextAlign.start, style: style),
           CustomSlider(),
           Divider(),
           Text(
@@ -181,24 +166,20 @@ class MapPanel extends ConsumerWidget {
           ),
           SourcesList(),
           Divider(),
-          Text(
-            'filter_by_aim'.tr(),
-            textAlign: TextAlign.start,
-            style: style,
-          ),
+          Text('filter_by_aim'.tr(), textAlign: TextAlign.start, style: style),
           AimsList(),
           Divider(),
           Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
               final state = ref.watch(mapNotifierProvider);
               logger.i(
-                'build wom without location: ${state.valueOrNull?.womCountWithoutLocation}',
+                'build wom without location: ${state.value?.womCountWithoutLocation}',
               );
-              if (state.valueOrNull?.womCountWithoutLocation == 0) {
+              if (state.value?.womCountWithoutLocation == 0) {
                 return SizedBox.shrink();
               }
               return Text(
-                '${'wom_without_location'.tr()} ${state.valueOrNull?.womCountWithoutLocation}',
+                '${'wom_without_location'.tr()} ${state.value?.womCountWithoutLocation}',
                 textAlign: TextAlign.start,
                 style: style,
               );

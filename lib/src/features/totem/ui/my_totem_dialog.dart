@@ -13,36 +13,32 @@ import 'package:wom_pocket/src/features/totem/utils.dart';
 class MyTotemDialog extends ConsumerWidget {
   final String link;
 
-  const MyTotemDialog({
-    required this.link,
-    super.key,
-  });
+  const MyTotemDialog({required this.link, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(encryptedTotemNotifierProvider(link), (p, n) {
+    ref.listen(encryptedTotemProvider(link), (p, n) {
       if (n is EncryptedTotemStateCompleted) {
         context.maybePop();
         launchTotemDialog(context, n.totemData);
       }
     });
 
-    final state = ref.watch(encryptedTotemNotifierProvider(link));
+    final state = ref.watch(encryptedTotemProvider(link));
 
     final size = MediaQuery.sizeOf(context);
     return Dialog(
       child: Container(
         padding: EdgeInsets.all(8),
-        constraints: BoxConstraints(
-          maxWidth: size.width * 0.8,
-        ),
+        constraints: BoxConstraints(maxWidth: size.width * 0.8),
         child: switch (state) {
           EncryptedTotemStateLoading() => LoadingWidget(),
           EncryptedTotemStateFailure() => ErrorWidget(
-              errorState: state,
-              onRetry: () {
-                ref.invalidate(encryptedTotemNotifierProvider(link));
-              }),
+            errorState: state,
+            onRetry: () {
+              ref.invalidate(encryptedTotemProvider(link));
+            },
+          ),
           _ => SizedBox.shrink(),
         },
       ),
@@ -73,22 +69,14 @@ class ErrorWidget extends ConsumerWidget {
   final EncryptedTotemStateFailure errorState;
   final Function()? onRetry;
 
-  const ErrorWidget({
-    required this.errorState,
-    this.onRetry,
-    super.key,
-  });
+  const ErrorWidget({required this.errorState, this.onRetry, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          Icons.error,
-          color: Colors.red,
-          size: 50,
-        ),
+        Icon(Icons.error, color: Colors.red, size: 50),
         const SizedBox(height: 8),
         Text(
           errorState.failure.errorDescription(),

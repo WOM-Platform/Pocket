@@ -6,14 +6,8 @@ part of 'my_totem_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MyTotemResponseImpl _$$MyTotemResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MyTotemResponseImpl(
-      id: json['id'] as String,
-    );
+_MyTotemResponse _$MyTotemResponseFromJson(Map<String, dynamic> json) =>
+    _MyTotemResponse(id: json['id'] as String);
 
-Map<String, dynamic> _$$MyTotemResponseImplToJson(
-        _$MyTotemResponseImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
+Map<String, dynamic> _$MyTotemResponseToJson(_MyTotemResponse instance) =>
+    <String, dynamic>{'id': instance.id};

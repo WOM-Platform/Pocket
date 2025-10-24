@@ -5,6 +5,6 @@ import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 part 'pos_notifier.g.dart';
 
 @Riverpod(keepAlive: true)
-Future<PhysicalPOS> getPos(GetPosRef ref, String posID) async {
+Future<PhysicalPOS> getPos(Ref ref, String posID) async {
   return ref.watch(pocketProvider).getPos(posID);
 }

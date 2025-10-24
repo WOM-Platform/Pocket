@@ -1,14 +1,11 @@
-import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:wom_pocket/src/core/routing/route_extensions.dart';
-import 'package:wom_pocket/src/features/scanner/application/scanner_state.dart';
-
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/features/scanner/application/scanner_state.dart';
 
 class ScanScreen extends ConsumerStatefulWidget {
   const ScanScreen({Key? key}) : super(key: key);
@@ -20,7 +17,7 @@ class ScanScreen extends ConsumerStatefulWidget {
 class _ScanScreenState extends ConsumerState<ScanScreen> {
   MobileScannerController cameraController = MobileScannerController();
 
-/*  // In order to get hot reload to work we need to pause the camera if the platform
+  /*  // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
   void reassemble() {
@@ -50,10 +47,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
         builder: (context) {
           return Stack(
             children: [
-              MobileScanner(
-                controller: cameraController,
-                onDetect: onDetect,
-              ),
+              MobileScanner(controller: cameraController, onDetect: onDetect),
               // Container(
               //   decoration: ShapeDecoration(
               //     shape: QrScannerOverlayShape(
@@ -110,7 +104,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
           cameraOnPause = true;
         });
         final res = ref
-            .read(scannerNotifierProvider.notifier)
+            .read(scannerProvider.notifier)
             .onProcessing(barcode.barcodes);
         if (!res) {
           setState(() {
@@ -145,10 +139,7 @@ class TopMessage extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-      ),
+      child: Text(text, textAlign: TextAlign.center),
     );
   }
 }
@@ -165,104 +156,85 @@ class ScanInfo extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(24.0, 64, 24, 24),
         child: Consumer(
           builder: (context, ref, child) {
-            final state = ref.watch(scannerNotifierProvider);
+            final state = ref.watch(scannerProvider);
             return switch (state) {
               ScannerStateEmpty() => Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: TopMessage(
-                        text: 'scanStateEmpty'.tr(),
-                      ),
-                    ),
-                    Spacer(),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 24.0),
-                        child: Chip(
-                          label: Text(
-                            'scanning'.tr(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ScannerStateSingle() => Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: TopMessage(
-                        text: 'scanStateSingle'.tr(),
-                      ),
-                    ),
-                    Spacer(),
-                    Center(
-                      child: FloatingActionButton.extended(
-                        backgroundColor: primaryColor,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Center(child: TopMessage(text: 'scanStateEmpty'.tr())),
+                  Spacer(),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 24.0),
+                      child: Chip(
                         label: Text(
-                          getText(state.scanAction),
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        icon: const Icon(
-                          Icons.camera_enhance,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          context.maybePop(state.url);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ScannerStateMultiple() => Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: TopMessage(
-                        text: 'scanStateMultiple'.tr(),
-                      ),
-                    ),
-                    Spacer(),
-                    Center(
-                      child: FloatingActionButton.extended(
-                        backgroundColor: primaryColor,
-                        label: Text(
-                          'scanContinueToScan'.tr(),
+                          'scanning'.tr(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
                         ),
-                        icon: const Icon(
-                          Icons.camera_enhance,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          ref.read(scannerNotifierProvider.notifier).reset();
-                          Future.delayed(Duration(milliseconds: 250), () {
-                            onUpdate(false);
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              _ => Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 24.0),
-                    child: Chip(
-                      label: Text(
-                        'scanning'.tr(),
-                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
+                ],
+              ),
+              ScannerStateSingle() => Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Center(child: TopMessage(text: 'scanStateSingle'.tr())),
+                  Spacer(),
+                  Center(
+                    child: FloatingActionButton.extended(
+                      backgroundColor: primaryColor,
+                      label: Text(
+                        getText(state.scanAction),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      icon: const Icon(
+                        Icons.camera_enhance,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        context.maybePop(state.url);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              ScannerStateMultiple() => Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Center(child: TopMessage(text: 'scanStateMultiple'.tr())),
+                  Spacer(),
+                  Center(
+                    child: FloatingActionButton.extended(
+                      backgroundColor: primaryColor,
+                      label: Text(
+                        'scanContinueToScan'.tr(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      icon: const Icon(
+                        Icons.camera_enhance,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        ref.read(scannerProvider.notifier).reset();
+                        Future.delayed(Duration(milliseconds: 250), () {
+                          onUpdate(false);
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              _ => Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: Chip(
+                    label: Text('scanning'.tr(), textAlign: TextAlign.center),
+                  ),
                 ),
+              ),
             };
           },
         ),
@@ -279,7 +251,6 @@ class ScanInfo extends ConsumerWidget {
   //     _ => 'scanGetWom'.tr()
   //   };
   // }
-
 
   getText(ScanAction action) {
     return switch (action) {

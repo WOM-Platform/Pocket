@@ -3,25 +3,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
+import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
-import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
-import 'package:wom_pocket/src/features/settings/table_page/db_page.dart';
-import 'package:wom_pocket/src/features/totem/application/my_totem_notifier.dart';
-import 'package:wom_pocket/src/features/totem/ui/connections_screen.dart';
-import 'package:wom_pocket/src/core/log_output.dart';
-import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
-import 'package:wom_pocket/src/features/intro/intro.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
-
-import 'package:wom_pocket/src/core/constants.dart';
-import 'package:wom_pocket/src/features/migration/ui/migration_screen.dart';
+import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
+import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
+import 'package:wom_pocket/src/features/totem/application/my_totem_notifier.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   @override
@@ -41,10 +34,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       appBar: SecondLevelAppBar(title: 'settings_title'.tr()),
       body: ListView(
         children: <Widget>[
-          SettingSectionTitle(
-            text: 'WOM'.tr(),
-            desc: 'settings.cmi.desc'.tr(),
-          ),
+          SettingSectionTitle(text: 'WOM'.tr(), desc: 'settings.cmi.desc'.tr()),
           SettingsItem(
             title: 'settings_redeem_demo_title'.tr(),
             subtitle: 'settings_redeem_demo_desc'.tr(),
@@ -66,8 +56,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               icon: Icons.data_usage,
               // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
               onTap: () async {
-                final woms =
-                    await ref.read(getDatabaseProvider).womsDao.getAllWoms;
+                final woms = await ref
+                    .read(getDatabaseProvider)
+                    .womsDao
+                    .getAllWoms;
                 context.push('/settings/wom-db-table', extra: woms);
                 // Navigator.of(context).push(
                 //   MaterialPageRoute(
@@ -82,9 +74,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: 'exportYourWomDesc'.tr(),
             icon: Icons.backup,
             onTap: () async {
-              final count = await ref.read(
-                totalWomCountProvider.future,
-              );
+              final count = await ref.read(totalWomCountProvider.future);
               if (count > 0) {
                 context.push('/settings/migration');
               } else {
@@ -128,18 +118,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     : () async {
                         Hive.box('settings').delete('gender');
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('genderInfoRemoved'.tr()),
-                          ),
+                          SnackBar(content: Text('genderInfoRemoved'.tr())),
                         );
                       },
               );
             },
           ),
-          SettingSectionTitle(
-            text: 'App',
-            desc: 'settings.app.desc'.tr(),
-          ),
+          SettingSectionTitle(text: 'App', desc: 'settings.app.desc'.tr()),
           SettingsItem(
             title: 'settings_show_intro_title'.tr(),
             subtitle: 'settings_show_intro_desc'.tr(),
@@ -196,7 +181,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               subtitle: 'Remove all info about me and my totem',
               icon: Icons.refresh,
               onTap: () async {
-                ref.read(badgeNotifierProvider.notifier).resetAllBadges();
+                ref.read(badgeProvider.notifier).resetAllBadges();
               },
             ),
             if (isDev || kDebugMode) ...[
@@ -244,7 +229,7 @@ class SettingsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    TextStyle whiteText = const TextStyle(color: Colors.white);
+    //    TextStyle whiteText = const TextStyle(color: Colors.white);
 
     return ListTile(
       onTap: onTap,
@@ -260,10 +245,7 @@ class SettingsItem extends StatelessWidget {
         subtitle,
         style: TextStyle(fontSize: 12.0, color: Colors.grey),
       ),
-      leading: Icon(
-        icon,
-        color: Theme.of(context).primaryColor,
-      ),
+      leading: Icon(icon, color: Theme.of(context).primaryColor),
     );
   }
 }
@@ -285,9 +267,9 @@ class SettingSectionTitle extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             text,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           if (desc != null && desc!.isNotEmpty) Text(desc!),
           Divider(),
@@ -300,10 +282,7 @@ class SettingSectionTitle extends StatelessWidget {
 class VersionInfo extends StatelessWidget {
   final Function()? onTap;
 
-  const VersionInfo({
-    Key? key,
-    this.onTap,
-  }) : super(key: key);
+  const VersionInfo({Key? key, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

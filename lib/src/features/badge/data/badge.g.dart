@@ -6,31 +6,31 @@ part of 'badge.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$BadgeDataImpl _$$BadgeDataImplFromJson(Map<String, dynamic> json) =>
-    _$BadgeDataImpl(
-      id: json['id'] as String,
-      isPublic: json['isPublic'] as bool,
-      name: Map<String, String>.from(json['name'] as Map),
-      challengeId: json['challengeId'] as String?,
-      description: (json['description'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as String),
-      ),
-      image: json['image'] == null
-          ? null
-          : ImageData.fromJson(json['image'] as Map<String, dynamic>),
-      seen: json['seen'] as bool? ?? false,
-      achieved: json['achieved'] as bool? ?? false,
-      achievedAt: const DateTimeConverter().fromJson(json['achievedAt']),
-      createdAt: const DateTimeConverter().fromJson(json['createdAt']),
-      lastUpdate: const DateTimeConverter().fromJson(json['lastUpdate']),
-      informationUri: json['informationUri'] as String?,
-      simpleFilter: json['simpleFilter'] == null
-          ? null
-          : BadgeSimpleFilter.fromJson(
-              json['simpleFilter'] as Map<String, dynamic>),
-    );
+_BadgeData _$BadgeDataFromJson(Map<String, dynamic> json) => _BadgeData(
+  id: json['id'] as String,
+  isPublic: json['isPublic'] as bool,
+  name: Map<String, String>.from(json['name'] as Map),
+  challengeId: json['challengeId'] as String?,
+  description: (json['description'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(k, e as String),
+  ),
+  image: json['image'] == null
+      ? null
+      : ImageData.fromJson(json['image'] as Map<String, dynamic>),
+  seen: json['seen'] as bool? ?? false,
+  achieved: json['achieved'] as bool? ?? false,
+  achievedAt: const DateTimeConverter().fromJson(json['achievedAt']),
+  createdAt: const DateTimeConverter().fromJson(json['createdAt']),
+  lastUpdate: const DateTimeConverter().fromJson(json['lastUpdate']),
+  informationUri: json['informationUri'] as String?,
+  simpleFilter: json['simpleFilter'] == null
+      ? null
+      : BadgeSimpleFilter.fromJson(
+          json['simpleFilter'] as Map<String, dynamic>,
+        ),
+);
 
-Map<String, dynamic> _$$BadgeDataImplToJson(_$BadgeDataImpl instance) =>
+Map<String, dynamic> _$BadgeDataToJson(_BadgeData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'isPublic': instance.isPublic,
@@ -47,9 +47,8 @@ Map<String, dynamic> _$$BadgeDataImplToJson(_$BadgeDataImpl instance) =>
       'simpleFilter': instance.simpleFilter,
     };
 
-_$BadgeSimpleFilterImpl _$$BadgeSimpleFilterImplFromJson(
-        Map<String, dynamic> json) =>
-    _$BadgeSimpleFilterImpl(
+_BadgeSimpleFilter _$BadgeSimpleFilterFromJson(Map<String, dynamic> json) =>
+    _BadgeSimpleFilter(
       count: (json['count'] as num).toInt(),
       aim: json['aim'] as String?,
       sourceId: json['sourceId'] as String?,
@@ -61,8 +60,7 @@ _$BadgeSimpleFilterImpl _$$BadgeSimpleFilterImplFromJson(
           : Interval.fromJson(json['interval'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$BadgeSimpleFilterImplToJson(
-        _$BadgeSimpleFilterImpl instance) =>
+Map<String, dynamic> _$BadgeSimpleFilterToJson(_BadgeSimpleFilter instance) =>
     <String, dynamic>{
       'count': instance.count,
       'aim': instance.aim,
@@ -71,28 +69,25 @@ Map<String, dynamic> _$$BadgeSimpleFilterImplToJson(
       'interval': instance.interval,
     };
 
-_$IntervalImpl _$$IntervalImplFromJson(Map<String, dynamic> json) =>
-    _$IntervalImpl(
-      start: DateTime.parse(json['start'] as String),
-      end: DateTime.parse(json['end'] as String),
-    );
+_Interval _$IntervalFromJson(Map<String, dynamic> json) => _Interval(
+  start: DateTime.parse(json['start'] as String),
+  end: DateTime.parse(json['end'] as String),
+);
 
-Map<String, dynamic> _$$IntervalImplToJson(_$IntervalImpl instance) =>
-    <String, dynamic>{
-      'start': instance.start.toIso8601String(),
-      'end': instance.end.toIso8601String(),
-    };
+Map<String, dynamic> _$IntervalToJson(_Interval instance) => <String, dynamic>{
+  'start': instance.start.toIso8601String(),
+  'end': instance.end.toIso8601String(),
+};
 
-_$ImageDataImpl _$$ImageDataImplFromJson(Map<String, dynamic> json) =>
-    _$ImageDataImpl(
-      fullSizeUrl: json['fullSizeUrl'] as String,
-      midDensityFullWidthUrl: json['midDensityFullWidthUrl'] as String,
-      highDensityFullWidthUrl: json['highDensityFullWidthUrl'] as String,
-      squareThumbnailUrl: json['squareThumbnailUrl'] as String,
-      blurHash: json['blurHash'] as String,
-    );
+_ImageData _$ImageDataFromJson(Map<String, dynamic> json) => _ImageData(
+  fullSizeUrl: json['fullSizeUrl'] as String,
+  midDensityFullWidthUrl: json['midDensityFullWidthUrl'] as String,
+  highDensityFullWidthUrl: json['highDensityFullWidthUrl'] as String,
+  squareThumbnailUrl: json['squareThumbnailUrl'] as String,
+  blurHash: json['blurHash'] as String,
+);
 
-Map<String, dynamic> _$$ImageDataImplToJson(_$ImageDataImpl instance) =>
+Map<String, dynamic> _$ImageDataToJson(_ImageData instance) =>
     <String, dynamic>{
       'fullSizeUrl': instance.fullSizeUrl,
       'midDensityFullWidthUrl': instance.midDensityFullWidthUrl,

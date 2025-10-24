@@ -2,10 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wom_pocket/app.dart';
-
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
-
 import 'package:wom_pocket/src/features/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/features/new_home/ui/stats_screen.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
@@ -24,17 +21,12 @@ class AimChartState extends ConsumerState<AimChart> {
 
   @override
   Widget build(BuildContext context) {
-    final count =
-        ref.watch(availableWomCountProvider).valueOrNull?.toString() ?? '-';
-    final spentLastWeek = ref
-            .watch(fetchWomCountSpentInTheLastWeekProvider)
-            .valueOrNull
-            ?.toString() ??
+    final count = ref.watch(availableWomCountProvider).value?.toString() ?? '-';
+    final spentLastWeek =
+        ref.watch(fetchWomCountSpentInTheLastWeekProvider).value?.toString() ??
         '-';
-    final earnedLastWeek = ref
-            .watch(fetchWomCountEarnedInTheLastWeekProvider)
-            .valueOrNull
-            ?.toString() ??
+    final earnedLastWeek =
+        ref.watch(fetchWomCountEarnedInTheLastWeekProvider).value?.toString() ??
         '-';
     final badgeStats = ref.watch(getBadgesStatsProvider);
     final totalBadges = badgeStats.$1;
@@ -59,10 +51,7 @@ class AimChartState extends ConsumerState<AimChart> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  TextWithLabel(
-                    label: 'availableWom'.tr(),
-                    text: count,
-                  ),
+                  TextWithLabel(label: 'availableWom'.tr(), text: count),
                   const SizedBox(height: 4),
                   TextWithLabel(
                     label: 'earnLastWeek'.tr(),

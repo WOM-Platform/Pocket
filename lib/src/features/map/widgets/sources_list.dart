@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/core/models/source_group_wom.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
 
 class SourcesList extends ConsumerWidget {
   @override
@@ -13,19 +12,13 @@ class SourcesList extends ConsumerWidget {
     logger.i('build source list');
 
     if (state is! AsyncData) {
-      return Text(
-        '-',
-        style: TextStyle(color: Colors.white),
-      );
+      return Text('-', style: TextStyle(color: Colors.white));
     }
-    if (state.valueOrNull!.sources.isEmpty) {
-      return Text(
-        'no_sources'.tr(),
-        style: TextStyle(color: Colors.white),
-      );
+    if (state.value!.sources.isEmpty) {
+      return Text('no_sources'.tr(), style: TextStyle(color: Colors.white));
     }
     return ChipFilter(
-      sources: state.valueOrNull!.sources,
+      sources: state.value!.sources,
       onAdd: (type) {
         ref.read(mapNotifierProvider.notifier).addSourceToFilter(type);
       },
@@ -42,7 +35,7 @@ class ChipFilter extends StatefulWidget {
   final List<WomGroupBy>? sources;
 
   const ChipFilter({Key? key, this.sources, this.onAdd, this.onRemove})
-      : super(key: key);
+    : super(key: key);
 
   @override
   _ChipFilterState createState() => _ChipFilterState();

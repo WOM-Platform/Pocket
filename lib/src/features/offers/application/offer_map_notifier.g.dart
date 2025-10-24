@@ -6,172 +6,95 @@ part of 'offer_map_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$offersMapNotifierHash() => r'b7b8a513334be0095f3114d2d3c8e9db8be8bcbe';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-abstract class _$OffersMapNotifier
-    extends BuildlessAutoDisposeAsyncNotifier<OffersMapData> {
-  late final LatLng? position;
-
-  FutureOr<OffersMapData> build(
-    LatLng? position,
-  );
-}
-
-/// See also [OffersMapNotifier].
 @ProviderFor(OffersMapNotifier)
-const offersMapNotifierProvider = OffersMapNotifierFamily();
+const offersMapProvider = OffersMapNotifierFamily._();
 
-/// See also [OffersMapNotifier].
-class OffersMapNotifierFamily extends Family<AsyncValue<OffersMapData>> {
-  /// See also [OffersMapNotifier].
-  const OffersMapNotifierFamily();
+final class OffersMapNotifierProvider
+    extends $AsyncNotifierProvider<OffersMapNotifier, OffersMapData> {
+  const OffersMapNotifierProvider._({
+    required OffersMapNotifierFamily super.from,
+    required LatLng? super.argument,
+  }) : super(
+         retry: null,
+         name: r'offersMapProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [OffersMapNotifier].
-  OffersMapNotifierProvider call(
-    LatLng? position,
-  ) {
-    return OffersMapNotifierProvider(
-      position,
-    );
+  @override
+  String debugGetCreateSourceHash() => _$offersMapNotifierHash();
+
+  @override
+  String toString() {
+    return r'offersMapProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  OffersMapNotifierProvider getProviderOverride(
-    covariant OffersMapNotifierProvider provider,
-  ) {
-    return call(
-      provider.position,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'offersMapNotifierProvider';
-}
-
-/// See also [OffersMapNotifier].
-class OffersMapNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    OffersMapNotifier, OffersMapData> {
-  /// See also [OffersMapNotifier].
-  OffersMapNotifierProvider(
-    LatLng? position,
-  ) : this._internal(
-          () => OffersMapNotifier()..position = position,
-          from: offersMapNotifierProvider,
-          name: r'offersMapNotifierProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$offersMapNotifierHash,
-          dependencies: OffersMapNotifierFamily._dependencies,
-          allTransitiveDependencies:
-              OffersMapNotifierFamily._allTransitiveDependencies,
-          position: position,
-        );
-
-  OffersMapNotifierProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.position,
-  }) : super.internal();
-
-  final LatLng? position;
-
-  @override
-  FutureOr<OffersMapData> runNotifierBuild(
-    covariant OffersMapNotifier notifier,
-  ) {
-    return notifier.build(
-      position,
-    );
-  }
-
-  @override
-  Override overrideWith(OffersMapNotifier Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: OffersMapNotifierProvider._internal(
-        () => create()..position = position,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        position: position,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderElement<OffersMapNotifier, OffersMapData>
-      createElement() {
-    return _OffersMapNotifierProviderElement(this);
-  }
+  OffersMapNotifier create() => OffersMapNotifier();
 
   @override
   bool operator ==(Object other) {
-    return other is OffersMapNotifierProvider && other.position == position;
+    return other is OffersMapNotifierProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, position.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin OffersMapNotifierRef
-    on AutoDisposeAsyncNotifierProviderRef<OffersMapData> {
-  /// The parameter `position` of this provider.
-  LatLng? get position;
-}
+String _$offersMapNotifierHash() => r'8319d95386bab526496035dccdfcd0778d4c6f46';
 
-class _OffersMapNotifierProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<OffersMapNotifier,
-        OffersMapData> with OffersMapNotifierRef {
-  _OffersMapNotifierProviderElement(super.provider);
+final class OffersMapNotifierFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          OffersMapNotifier,
+          AsyncValue<OffersMapData>,
+          OffersMapData,
+          FutureOr<OffersMapData>,
+          LatLng?
+        > {
+  const OffersMapNotifierFamily._()
+    : super(
+        retry: null,
+        name: r'offersMapProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  OffersMapNotifierProvider call(LatLng? position) =>
+      OffersMapNotifierProvider._(argument: position, from: this);
 
   @override
-  LatLng? get position => (origin as OffersMapNotifierProvider).position;
+  String toString() => r'offersMapProvider';
 }
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+
+abstract class _$OffersMapNotifier extends $AsyncNotifier<OffersMapData> {
+  late final _$args = ref.$arg as LatLng?;
+  LatLng? get position => _$args;
+
+  FutureOr<OffersMapData> build(LatLng? position);
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build(_$args);
+    final ref = this.ref as $Ref<AsyncValue<OffersMapData>, OffersMapData>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<OffersMapData>, OffersMapData>,
+              AsyncValue<OffersMapData>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

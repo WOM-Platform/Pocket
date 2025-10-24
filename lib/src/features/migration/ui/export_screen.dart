@@ -4,14 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:share/share.dart';
-import 'package:wom_pocket/app.dart';
-
-import 'package:wom_pocket/src/features/migration/application/import_notifier.dart';
-import 'package:wom_pocket/src/features/migration/data/migration_data.dart';
-import 'package:wom_pocket/src/features/migration/ui/import_screen.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
-import 'package:wom_pocket/src/features/pin/pin_screen.dart';
+import 'package:wom_pocket/src/features/migration/data/migration_data.dart';
 
 class MigrationExportScreen extends ConsumerWidget {
   final MigrationData data;
@@ -41,12 +36,9 @@ class MigrationExportScreen extends ConsumerWidget {
                   onPressed: () {
                     final message = tr(
                       'send_migration_data',
-                      args: [
-                        data.link,
-                        data.code,
-                      ],
+                      args: [data.link, data.code],
                     );
-                    Share.share(message);
+                    SharePlus.instance.share(ShareParams(text: message));
                   },
                 ),
               ],
@@ -79,7 +71,10 @@ class MigrationExportScreen extends ConsumerWidget {
             child: GestureDetector(
               onTap: () {
                 if (kDebugMode) {
-                  context.go('/import',extra: DeepLinkModel.fromUri(Uri.parse(data.link)));
+                  context.go(
+                    '/import',
+                    extra: DeepLinkModel.fromUri(Uri.parse(data.link)),
+                  );
                   // Navigator.of(context).push(
                   //   MaterialPageRoute(
                   //     builder: (c) => ProviderScope(
@@ -106,13 +101,7 @@ class MigrationExportScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text(
-            'Pin:',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
+          Text('Pin:', style: TextStyle(fontSize: 20, color: Colors.white)),
           const SizedBox(height: 4),
           Text(
             data.code,
@@ -125,10 +114,7 @@ class MigrationExportScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           Text(
             'recoverBefore'.tr(),
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-            ),
+            style: TextStyle(fontSize: 20, color: Colors.white),
           ),
           const SizedBox(height: 4),
           Text(
@@ -140,9 +126,7 @@ class MigrationExportScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          if (kDebugMode) ...[
-            Text(data.link),
-          ],
+          if (kDebugMode) ...[Text(data.link)],
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

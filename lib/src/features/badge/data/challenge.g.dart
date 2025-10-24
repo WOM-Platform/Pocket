@@ -6,8 +6,8 @@ part of 'challenge.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ChallengeDataImpl _$$ChallengeDataImplFromJson(Map<String, dynamic> json) =>
-    _$ChallengeDataImpl(
+_ChallengeData _$ChallengeDataFromJson(Map<String, dynamic> json) =>
+    _ChallengeData(
       id: json['id'] as String,
       isPublic: json['isPublic'] as bool,
       badges: (json['badges'] as List<dynamic>)
@@ -19,7 +19,7 @@ _$ChallengeDataImpl _$$ChallengeDataImplFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$$ChallengeDataImplToJson(_$ChallengeDataImpl instance) =>
+Map<String, dynamic> _$ChallengeDataToJson(_ChallengeData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'isPublic': instance.isPublic,

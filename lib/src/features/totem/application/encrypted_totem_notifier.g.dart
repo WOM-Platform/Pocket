@@ -6,173 +6,106 @@ part of 'encrypted_totem_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$encryptedTotemNotifierHash() =>
-    r'b99044ff92a428b30b00c80c7617bd45e34a25da';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-abstract class _$EncryptedTotemNotifier
-    extends BuildlessAutoDisposeNotifier<EncryptedTotemState?> {
-  late final String link;
-
-  EncryptedTotemState? build(
-    String link,
-  );
-}
-
-/// See also [EncryptedTotemNotifier].
 @ProviderFor(EncryptedTotemNotifier)
-const encryptedTotemNotifierProvider = EncryptedTotemNotifierFamily();
+const encryptedTotemProvider = EncryptedTotemNotifierFamily._();
 
-/// See also [EncryptedTotemNotifier].
-class EncryptedTotemNotifierFamily extends Family<EncryptedTotemState?> {
-  /// See also [EncryptedTotemNotifier].
-  const EncryptedTotemNotifierFamily();
+final class EncryptedTotemNotifierProvider
+    extends $NotifierProvider<EncryptedTotemNotifier, EncryptedTotemState?> {
+  const EncryptedTotemNotifierProvider._({
+    required EncryptedTotemNotifierFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'encryptedTotemProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [EncryptedTotemNotifier].
-  EncryptedTotemNotifierProvider call(
-    String link,
-  ) {
-    return EncryptedTotemNotifierProvider(
-      link,
-    );
+  @override
+  String debugGetCreateSourceHash() => _$encryptedTotemNotifierHash();
+
+  @override
+  String toString() {
+    return r'encryptedTotemProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  EncryptedTotemNotifierProvider getProviderOverride(
-    covariant EncryptedTotemNotifierProvider provider,
-  ) {
-    return call(
-      provider.link,
-    );
-  }
+  EncryptedTotemNotifier create() => EncryptedTotemNotifier();
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'encryptedTotemNotifierProvider';
-}
-
-/// See also [EncryptedTotemNotifier].
-class EncryptedTotemNotifierProvider extends AutoDisposeNotifierProviderImpl<
-    EncryptedTotemNotifier, EncryptedTotemState?> {
-  /// See also [EncryptedTotemNotifier].
-  EncryptedTotemNotifierProvider(
-    String link,
-  ) : this._internal(
-          () => EncryptedTotemNotifier()..link = link,
-          from: encryptedTotemNotifierProvider,
-          name: r'encryptedTotemNotifierProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$encryptedTotemNotifierHash,
-          dependencies: EncryptedTotemNotifierFamily._dependencies,
-          allTransitiveDependencies:
-              EncryptedTotemNotifierFamily._allTransitiveDependencies,
-          link: link,
-        );
-
-  EncryptedTotemNotifierProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.link,
-  }) : super.internal();
-
-  final String link;
-
-  @override
-  EncryptedTotemState? runNotifierBuild(
-    covariant EncryptedTotemNotifier notifier,
-  ) {
-    return notifier.build(
-      link,
-    );
-  }
-
-  @override
-  Override overrideWith(EncryptedTotemNotifier Function() create) {
-    return ProviderOverride(
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(EncryptedTotemState? value) {
+    return $ProviderOverride(
       origin: this,
-      override: EncryptedTotemNotifierProvider._internal(
-        () => create()..link = link,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        link: link,
-      ),
+      providerOverride: $SyncValueProvider<EncryptedTotemState?>(value),
     );
-  }
-
-  @override
-  AutoDisposeNotifierProviderElement<EncryptedTotemNotifier,
-      EncryptedTotemState?> createElement() {
-    return _EncryptedTotemNotifierProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is EncryptedTotemNotifierProvider && other.link == link;
+    return other is EncryptedTotemNotifierProvider &&
+        other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, link.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin EncryptedTotemNotifierRef
-    on AutoDisposeNotifierProviderRef<EncryptedTotemState?> {
-  /// The parameter `link` of this provider.
-  String get link;
-}
+String _$encryptedTotemNotifierHash() =>
+    r'b99044ff92a428b30b00c80c7617bd45e34a25da';
 
-class _EncryptedTotemNotifierProviderElement
-    extends AutoDisposeNotifierProviderElement<EncryptedTotemNotifier,
-        EncryptedTotemState?> with EncryptedTotemNotifierRef {
-  _EncryptedTotemNotifierProviderElement(super.provider);
+final class EncryptedTotemNotifierFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          EncryptedTotemNotifier,
+          EncryptedTotemState?,
+          EncryptedTotemState?,
+          EncryptedTotemState?,
+          String
+        > {
+  const EncryptedTotemNotifierFamily._()
+    : super(
+        retry: null,
+        name: r'encryptedTotemProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  EncryptedTotemNotifierProvider call(String link) =>
+      EncryptedTotemNotifierProvider._(argument: link, from: this);
 
   @override
-  String get link => (origin as EncryptedTotemNotifierProvider).link;
+  String toString() => r'encryptedTotemProvider';
 }
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+
+abstract class _$EncryptedTotemNotifier
+    extends $Notifier<EncryptedTotemState?> {
+  late final _$args = ref.$arg as String;
+  String get link => _$args;
+
+  EncryptedTotemState? build(String link);
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build(_$args);
+    final ref = this.ref as $Ref<EncryptedTotemState?, EncryptedTotemState?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<EncryptedTotemState?, EncryptedTotemState?>,
+              EncryptedTotemState?,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

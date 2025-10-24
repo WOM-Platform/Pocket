@@ -1,18 +1,18 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/app.dart';
+import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/core/utils/config.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 
 late String mapStyle;
@@ -85,16 +85,20 @@ void main() async {
 
 startApp() {
   runApp(
-    ProviderScope(
-      child: EasyLocalization(
-        supportedLocales: [
-          Locale('en'),
-          Locale('it'),
-        ],
-        path: 'assets/lang',
-        // <-- change the path of the translation files
-        fallbackLocale: Locale('it'),
-        child: App(),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => ProviderScope(
+        retry: (retryCount, error) => null,
+        child: EasyLocalization(
+          supportedLocales: [
+            Locale('en'),
+            Locale('it'),
+          ],
+          path: 'assets/lang',
+          // <-- change the path of the translation files
+          fallbackLocale: Locale('it'),
+          child: App(),
+        ),
       ),
     ),
   );
@@ -112,4 +116,3 @@ startApp() {
 //xcrun simctl openurl booted https://dev.wom.social/vouchers/5722523d-3257-493e-9107-d8954a1fcd91
 
 //xcrun simctl openurl booted https://link.wom.social/connection/Y%2FuOjyJxoidfPNRywyfGqlDopl0kECI29TO1LV43JnJJqfKv8Hmaw%2BnQW8D27fRxIHtdWTId3gyXk2fZeYmS3MNiKMvGAo%2FnjyyvTEcBhxGms263zTKA7D6gvlNwSP2Q
-

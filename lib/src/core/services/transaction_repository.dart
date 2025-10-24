@@ -3,12 +3,11 @@ import 'dart:async';
 import 'package:dart_geohash/dart_geohash.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/constants.dart';
-import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/database/extensions.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
@@ -26,12 +25,9 @@ Dio getDio(Ref ref) {
 }
 
 @riverpod
-TransactionRepository transactionRepository(TransactionRepositoryRef ref) {
-  return TransactionRepository(
-    ref.read(pocketProvider),
-    ref.read(getDatabaseProvider),
-    ref.read(getDioProvider)
-  );
+TransactionRepository transactionRepository(Ref ref) {
+  return TransactionRepository(ref.read(pocketProvider),
+      ref.read(getDatabaseProvider), ref.read(getDioProvider));
 }
 
 class TransactionRepository {

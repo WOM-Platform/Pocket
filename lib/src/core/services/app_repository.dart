@@ -2,20 +2,17 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
-import 'package:flutter/services.dart';
-import 'package:package_info/package_info.dart';
+import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/constants.dart';
-import 'package:wom_pocket/src/core/services/aim_repository.dart';
-import 'package:wom_pocket/src/core/models/deep_link_model.dart';
-// import 'package:uni_links/uni_links.dart';
-import 'package:http/http.dart' as http;
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/services/aim_repository.dart';
 
 part 'app_repository.g.dart';
 
 @riverpod
-AppRepository appRepository(AppRepositoryRef ref) {
+AppRepository appRepository(Ref ref) {
   return AppRepository(ref.watch(aimRepositoryProvider));
 }
 
@@ -83,8 +80,11 @@ class AppStatus {
   }
 
   bool get isOk => status == AppStatusEnum.ok;
+
   bool get isOutOfService => status == AppStatusEnum.outOfService;
+
   bool get isCanUpdate => status == AppStatusEnum.shouldUpdate;
+
   bool get isMustUpdate => status == AppStatusEnum.mustUpdate;
 
   @override

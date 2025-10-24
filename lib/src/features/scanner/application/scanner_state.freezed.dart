@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,749 +9,432 @@ part of 'scanner_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$ScannerState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)
-        single,
-    required TResult Function(int total) multiple,
-    required TResult Function() processing,
-    required TResult Function(int total) empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)?
-        single,
-    TResult? Function(int total)? multiple,
-    TResult? Function()? processing,
-    TResult? Function(int total)? empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)?
-        single,
-    TResult Function(int total)? multiple,
-    TResult Function()? processing,
-    TResult Function(int total)? empty,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ScannerStateSingle value) single,
-    required TResult Function(ScannerStateMultiple value) multiple,
-    required TResult Function(ScannerStateProcessing value) processing,
-    required TResult Function(ScannerStateEmpty value) empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ScannerStateSingle value)? single,
-    TResult? Function(ScannerStateMultiple value)? multiple,
-    TResult? Function(ScannerStateProcessing value)? processing,
-    TResult? Function(ScannerStateEmpty value)? empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ScannerStateSingle value)? single,
-    TResult Function(ScannerStateMultiple value)? multiple,
-    TResult Function(ScannerStateProcessing value)? processing,
-    TResult Function(ScannerStateEmpty value)? empty,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScannerState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ScannerState()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ScannerStateCopyWith<$Res> {
-  factory $ScannerStateCopyWith(
-          ScannerState value, $Res Function(ScannerState) then) =
-      _$ScannerStateCopyWithImpl<$Res, ScannerState>;
+class $ScannerStateCopyWith<$Res>  {
+$ScannerStateCopyWith(ScannerState _, $Res Function(ScannerState) __);
 }
 
-/// @nodoc
-class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
-    implements $ScannerStateCopyWith<$Res> {
-  _$ScannerStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [ScannerState].
+extension ScannerStatePatterns on ScannerState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ScannerStateSingle value)?  single,TResult Function( ScannerStateMultiple value)?  multiple,TResult Function( ScannerStateProcessing value)?  processing,TResult Function( ScannerStateEmpty value)?  empty,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case ScannerStateSingle() when single != null:
+return single(_that);case ScannerStateMultiple() when multiple != null:
+return multiple(_that);case ScannerStateProcessing() when processing != null:
+return processing(_that);case ScannerStateEmpty() when empty != null:
+return empty(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ScannerStateSingle value)  single,required TResult Function( ScannerStateMultiple value)  multiple,required TResult Function( ScannerStateProcessing value)  processing,required TResult Function( ScannerStateEmpty value)  empty,}){
+final _that = this;
+switch (_that) {
+case ScannerStateSingle():
+return single(_that);case ScannerStateMultiple():
+return multiple(_that);case ScannerStateProcessing():
+return processing(_that);case ScannerStateEmpty():
+return empty(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ScannerStateSingle value)?  single,TResult? Function( ScannerStateMultiple value)?  multiple,TResult? Function( ScannerStateProcessing value)?  processing,TResult? Function( ScannerStateEmpty value)?  empty,}){
+final _that = this;
+switch (_that) {
+case ScannerStateSingle() when single != null:
+return single(_that);case ScannerStateMultiple() when multiple != null:
+return multiple(_that);case ScannerStateProcessing() when processing != null:
+return processing(_that);case ScannerStateEmpty() when empty != null:
+return empty(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String url,  int total,  ScanAction scanAction,  TotemData? totemData)?  single,TResult Function( int total)?  multiple,TResult Function()?  processing,TResult Function( int total)?  empty,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case ScannerStateSingle() when single != null:
+return single(_that.url,_that.total,_that.scanAction,_that.totemData);case ScannerStateMultiple() when multiple != null:
+return multiple(_that.total);case ScannerStateProcessing() when processing != null:
+return processing();case ScannerStateEmpty() when empty != null:
+return empty(_that.total);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String url,  int total,  ScanAction scanAction,  TotemData? totemData)  single,required TResult Function( int total)  multiple,required TResult Function()  processing,required TResult Function( int total)  empty,}) {final _that = this;
+switch (_that) {
+case ScannerStateSingle():
+return single(_that.url,_that.total,_that.scanAction,_that.totemData);case ScannerStateMultiple():
+return multiple(_that.total);case ScannerStateProcessing():
+return processing();case ScannerStateEmpty():
+return empty(_that.total);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String url,  int total,  ScanAction scanAction,  TotemData? totemData)?  single,TResult? Function( int total)?  multiple,TResult? Function()?  processing,TResult? Function( int total)?  empty,}) {final _that = this;
+switch (_that) {
+case ScannerStateSingle() when single != null:
+return single(_that.url,_that.total,_that.scanAction,_that.totemData);case ScannerStateMultiple() when multiple != null:
+return multiple(_that.total);case ScannerStateProcessing() when processing != null:
+return processing();case ScannerStateEmpty() when empty != null:
+return empty(_that.total);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$ScannerStateSingleImplCopyWith<$Res> {
-  factory _$$ScannerStateSingleImplCopyWith(_$ScannerStateSingleImpl value,
-          $Res Function(_$ScannerStateSingleImpl) then) =
-      __$$ScannerStateSingleImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {String url, int total, ScanAction scanAction, TotemData? totemData});
-
-  $TotemDataCopyWith<$Res>? get totemData;
-}
-
-/// @nodoc
-class __$$ScannerStateSingleImplCopyWithImpl<$Res>
-    extends _$ScannerStateCopyWithImpl<$Res, _$ScannerStateSingleImpl>
-    implements _$$ScannerStateSingleImplCopyWith<$Res> {
-  __$$ScannerStateSingleImplCopyWithImpl(_$ScannerStateSingleImpl _value,
-      $Res Function(_$ScannerStateSingleImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? url = null,
-    Object? total = null,
-    Object? scanAction = null,
-    Object? totemData = freezed,
-  }) {
-    return _then(_$ScannerStateSingleImpl(
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-      scanAction: null == scanAction
-          ? _value.scanAction
-          : scanAction // ignore: cast_nullable_to_non_nullable
-              as ScanAction,
-      totemData: freezed == totemData
-          ? _value.totemData
-          : totemData // ignore: cast_nullable_to_non_nullable
-              as TotemData?,
-    ));
-  }
-
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TotemDataCopyWith<$Res>? get totemData {
-    if (_value.totemData == null) {
-      return null;
-    }
-
-    return $TotemDataCopyWith<$Res>(_value.totemData!, (value) {
-      return _then(_value.copyWith(totemData: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class _$ScannerStateSingleImpl implements ScannerStateSingle {
-  const _$ScannerStateSingleImpl(
-      {required this.url,
-      required this.total,
-      required this.scanAction,
-      this.totemData});
-
-  @override
-  final String url;
-  @override
-  final int total;
-  @override
-  final ScanAction scanAction;
-  @override
-  final TotemData? totemData;
-
-  @override
-  String toString() {
-    return 'ScannerState.single(url: $url, total: $total, scanAction: $scanAction, totemData: $totemData)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ScannerStateSingleImpl &&
-            (identical(other.url, url) || other.url == url) &&
-            (identical(other.total, total) || other.total == total) &&
-            (identical(other.scanAction, scanAction) ||
-                other.scanAction == scanAction) &&
-            (identical(other.totemData, totemData) ||
-                other.totemData == totemData));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, url, total, scanAction, totemData);
-
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ScannerStateSingleImplCopyWith<_$ScannerStateSingleImpl> get copyWith =>
-      __$$ScannerStateSingleImplCopyWithImpl<_$ScannerStateSingleImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)
-        single,
-    required TResult Function(int total) multiple,
-    required TResult Function() processing,
-    required TResult Function(int total) empty,
-  }) {
-    return single(url, total, scanAction, totemData);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)?
-        single,
-    TResult? Function(int total)? multiple,
-    TResult? Function()? processing,
-    TResult? Function(int total)? empty,
-  }) {
-    return single?.call(url, total, scanAction, totemData);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)?
-        single,
-    TResult Function(int total)? multiple,
-    TResult Function()? processing,
-    TResult Function(int total)? empty,
-    required TResult orElse(),
-  }) {
-    if (single != null) {
-      return single(url, total, scanAction, totemData);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ScannerStateSingle value) single,
-    required TResult Function(ScannerStateMultiple value) multiple,
-    required TResult Function(ScannerStateProcessing value) processing,
-    required TResult Function(ScannerStateEmpty value) empty,
-  }) {
-    return single(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ScannerStateSingle value)? single,
-    TResult? Function(ScannerStateMultiple value)? multiple,
-    TResult? Function(ScannerStateProcessing value)? processing,
-    TResult? Function(ScannerStateEmpty value)? empty,
-  }) {
-    return single?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ScannerStateSingle value)? single,
-    TResult Function(ScannerStateMultiple value)? multiple,
-    TResult Function(ScannerStateProcessing value)? processing,
-    TResult Function(ScannerStateEmpty value)? empty,
-    required TResult orElse(),
-  }) {
-    if (single != null) {
-      return single(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ScannerStateSingle implements ScannerState {
-  const factory ScannerStateSingle(
-      {required final String url,
-      required final int total,
-      required final ScanAction scanAction,
-      final TotemData? totemData}) = _$ScannerStateSingleImpl;
-
-  String get url;
-  int get total;
-  ScanAction get scanAction;
-  TotemData? get totemData;
-
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ScannerStateSingleImplCopyWith<_$ScannerStateSingleImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ScannerStateMultipleImplCopyWith<$Res> {
-  factory _$$ScannerStateMultipleImplCopyWith(_$ScannerStateMultipleImpl value,
-          $Res Function(_$ScannerStateMultipleImpl) then) =
-      __$$ScannerStateMultipleImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({int total});
-}
-
-/// @nodoc
-class __$$ScannerStateMultipleImplCopyWithImpl<$Res>
-    extends _$ScannerStateCopyWithImpl<$Res, _$ScannerStateMultipleImpl>
-    implements _$$ScannerStateMultipleImplCopyWith<$Res> {
-  __$$ScannerStateMultipleImplCopyWithImpl(_$ScannerStateMultipleImpl _value,
-      $Res Function(_$ScannerStateMultipleImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? total = null,
-  }) {
-    return _then(_$ScannerStateMultipleImpl(
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$ScannerStateMultipleImpl implements ScannerStateMultiple {
-  const _$ScannerStateMultipleImpl({required this.total});
 
-  @override
-  final int total;
+class ScannerStateSingle implements ScannerState {
+  const ScannerStateSingle({required this.url, required this.total, required this.scanAction, this.totemData});
+  
 
-  @override
-  String toString() {
-    return 'ScannerState.multiple(total: $total)';
-  }
+ final  String url;
+ final  int total;
+ final  ScanAction scanAction;
+ final  TotemData? totemData;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ScannerStateMultipleImpl &&
-            (identical(other.total, total) || other.total == total));
-  }
+/// Create a copy of ScannerState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ScannerStateSingleCopyWith<ScannerStateSingle> get copyWith => _$ScannerStateSingleCopyWithImpl<ScannerStateSingle>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, total);
 
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ScannerStateMultipleImplCopyWith<_$ScannerStateMultipleImpl>
-      get copyWith =>
-          __$$ScannerStateMultipleImplCopyWithImpl<_$ScannerStateMultipleImpl>(
-              this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)
-        single,
-    required TResult Function(int total) multiple,
-    required TResult Function() processing,
-    required TResult Function(int total) empty,
-  }) {
-    return multiple(total);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)?
-        single,
-    TResult? Function(int total)? multiple,
-    TResult? Function()? processing,
-    TResult? Function(int total)? empty,
-  }) {
-    return multiple?.call(total);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)?
-        single,
-    TResult Function(int total)? multiple,
-    TResult Function()? processing,
-    TResult Function(int total)? empty,
-    required TResult orElse(),
-  }) {
-    if (multiple != null) {
-      return multiple(total);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ScannerStateSingle value) single,
-    required TResult Function(ScannerStateMultiple value) multiple,
-    required TResult Function(ScannerStateProcessing value) processing,
-    required TResult Function(ScannerStateEmpty value) empty,
-  }) {
-    return multiple(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ScannerStateSingle value)? single,
-    TResult? Function(ScannerStateMultiple value)? multiple,
-    TResult? Function(ScannerStateProcessing value)? processing,
-    TResult? Function(ScannerStateEmpty value)? empty,
-  }) {
-    return multiple?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ScannerStateSingle value)? single,
-    TResult Function(ScannerStateMultiple value)? multiple,
-    TResult Function(ScannerStateProcessing value)? processing,
-    TResult Function(ScannerStateEmpty value)? empty,
-    required TResult orElse(),
-  }) {
-    if (multiple != null) {
-      return multiple(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScannerStateSingle&&(identical(other.url, url) || other.url == url)&&(identical(other.total, total) || other.total == total)&&(identical(other.scanAction, scanAction) || other.scanAction == scanAction)&&(identical(other.totemData, totemData) || other.totemData == totemData));
 }
 
-abstract class ScannerStateMultiple implements ScannerState {
-  const factory ScannerStateMultiple({required final int total}) =
-      _$ScannerStateMultipleImpl;
 
-  int get total;
+@override
+int get hashCode => Object.hash(runtimeType,url,total,scanAction,totemData);
 
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ScannerStateMultipleImplCopyWith<_$ScannerStateMultipleImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+String toString() {
+  return 'ScannerState.single(url: $url, total: $total, scanAction: $scanAction, totemData: $totemData)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$ScannerStateProcessingImplCopyWith<$Res> {
-  factory _$$ScannerStateProcessingImplCopyWith(
-          _$ScannerStateProcessingImpl value,
-          $Res Function(_$ScannerStateProcessingImpl) then) =
-      __$$ScannerStateProcessingImplCopyWithImpl<$Res>;
+abstract mixin class $ScannerStateSingleCopyWith<$Res> implements $ScannerStateCopyWith<$Res> {
+  factory $ScannerStateSingleCopyWith(ScannerStateSingle value, $Res Function(ScannerStateSingle) _then) = _$ScannerStateSingleCopyWithImpl;
+@useResult
+$Res call({
+ String url, int total, ScanAction scanAction, TotemData? totemData
+});
+
+
+$TotemDataCopyWith<$Res>? get totemData;
+
+}
+/// @nodoc
+class _$ScannerStateSingleCopyWithImpl<$Res>
+    implements $ScannerStateSingleCopyWith<$Res> {
+  _$ScannerStateSingleCopyWithImpl(this._self, this._then);
+
+  final ScannerStateSingle _self;
+  final $Res Function(ScannerStateSingle) _then;
+
+/// Create a copy of ScannerState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? url = null,Object? total = null,Object? scanAction = null,Object? totemData = freezed,}) {
+  return _then(ScannerStateSingle(
+url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,scanAction: null == scanAction ? _self.scanAction : scanAction // ignore: cast_nullable_to_non_nullable
+as ScanAction,totemData: freezed == totemData ? _self.totemData : totemData // ignore: cast_nullable_to_non_nullable
+as TotemData?,
+  ));
 }
 
-/// @nodoc
-class __$$ScannerStateProcessingImplCopyWithImpl<$Res>
-    extends _$ScannerStateCopyWithImpl<$Res, _$ScannerStateProcessingImpl>
-    implements _$$ScannerStateProcessingImplCopyWith<$Res> {
-  __$$ScannerStateProcessingImplCopyWithImpl(
-      _$ScannerStateProcessingImpl _value,
-      $Res Function(_$ScannerStateProcessingImpl) _then)
-      : super(_value, _then);
+/// Create a copy of ScannerState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TotemDataCopyWith<$Res>? get totemData {
+    if (_self.totemData == null) {
+    return null;
+  }
 
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
+  return $TotemDataCopyWith<$Res>(_self.totemData!, (value) {
+    return _then(_self.copyWith(totemData: value));
+  });
+}
 }
 
 /// @nodoc
 
-class _$ScannerStateProcessingImpl implements ScannerStateProcessing {
-  const _$ScannerStateProcessingImpl();
 
-  @override
-  String toString() {
-    return 'ScannerState.processing()';
-  }
+class ScannerStateMultiple implements ScannerState {
+  const ScannerStateMultiple({required this.total});
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ScannerStateProcessingImpl);
-  }
+ final  int total;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
+/// Create a copy of ScannerState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ScannerStateMultipleCopyWith<ScannerStateMultiple> get copyWith => _$ScannerStateMultipleCopyWithImpl<ScannerStateMultiple>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)
-        single,
-    required TResult Function(int total) multiple,
-    required TResult Function() processing,
-    required TResult Function(int total) empty,
-  }) {
-    return processing();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)?
-        single,
-    TResult? Function(int total)? multiple,
-    TResult? Function()? processing,
-    TResult? Function(int total)? empty,
-  }) {
-    return processing?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)?
-        single,
-    TResult Function(int total)? multiple,
-    TResult Function()? processing,
-    TResult Function(int total)? empty,
-    required TResult orElse(),
-  }) {
-    if (processing != null) {
-      return processing();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ScannerStateSingle value) single,
-    required TResult Function(ScannerStateMultiple value) multiple,
-    required TResult Function(ScannerStateProcessing value) processing,
-    required TResult Function(ScannerStateEmpty value) empty,
-  }) {
-    return processing(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ScannerStateSingle value)? single,
-    TResult? Function(ScannerStateMultiple value)? multiple,
-    TResult? Function(ScannerStateProcessing value)? processing,
-    TResult? Function(ScannerStateEmpty value)? empty,
-  }) {
-    return processing?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ScannerStateSingle value)? single,
-    TResult Function(ScannerStateMultiple value)? multiple,
-    TResult Function(ScannerStateProcessing value)? processing,
-    TResult Function(ScannerStateEmpty value)? empty,
-    required TResult orElse(),
-  }) {
-    if (processing != null) {
-      return processing(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScannerStateMultiple&&(identical(other.total, total) || other.total == total));
 }
 
-abstract class ScannerStateProcessing implements ScannerState {
-  const factory ScannerStateProcessing() = _$ScannerStateProcessingImpl;
+
+@override
+int get hashCode => Object.hash(runtimeType,total);
+
+@override
+String toString() {
+  return 'ScannerState.multiple(total: $total)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$ScannerStateEmptyImplCopyWith<$Res> {
-  factory _$$ScannerStateEmptyImplCopyWith(_$ScannerStateEmptyImpl value,
-          $Res Function(_$ScannerStateEmptyImpl) then) =
-      __$$ScannerStateEmptyImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({int total});
+abstract mixin class $ScannerStateMultipleCopyWith<$Res> implements $ScannerStateCopyWith<$Res> {
+  factory $ScannerStateMultipleCopyWith(ScannerStateMultiple value, $Res Function(ScannerStateMultiple) _then) = _$ScannerStateMultipleCopyWithImpl;
+@useResult
+$Res call({
+ int total
+});
+
+
+
+
+}
+/// @nodoc
+class _$ScannerStateMultipleCopyWithImpl<$Res>
+    implements $ScannerStateMultipleCopyWith<$Res> {
+  _$ScannerStateMultipleCopyWithImpl(this._self, this._then);
+
+  final ScannerStateMultiple _self;
+  final $Res Function(ScannerStateMultiple) _then;
+
+/// Create a copy of ScannerState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? total = null,}) {
+  return _then(ScannerStateMultiple(
+total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
 }
 
-/// @nodoc
-class __$$ScannerStateEmptyImplCopyWithImpl<$Res>
-    extends _$ScannerStateCopyWithImpl<$Res, _$ScannerStateEmptyImpl>
-    implements _$$ScannerStateEmptyImplCopyWith<$Res> {
-  __$$ScannerStateEmptyImplCopyWithImpl(_$ScannerStateEmptyImpl _value,
-      $Res Function(_$ScannerStateEmptyImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? total = null,
-  }) {
-    return _then(_$ScannerStateEmptyImpl(
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$ScannerStateEmptyImpl implements ScannerStateEmpty {
-  const _$ScannerStateEmptyImpl({required this.total});
 
-  @override
-  final int total;
+class ScannerStateProcessing implements ScannerState {
+  const ScannerStateProcessing();
+  
 
-  @override
-  String toString() {
-    return 'ScannerState.empty(total: $total)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ScannerStateEmptyImpl &&
-            (identical(other.total, total) || other.total == total));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, total);
 
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ScannerStateEmptyImplCopyWith<_$ScannerStateEmptyImpl> get copyWith =>
-      __$$ScannerStateEmptyImplCopyWithImpl<_$ScannerStateEmptyImpl>(
-          this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)
-        single,
-    required TResult Function(int total) multiple,
-    required TResult Function() processing,
-    required TResult Function(int total) empty,
-  }) {
-    return empty(total);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)?
-        single,
-    TResult? Function(int total)? multiple,
-    TResult? Function()? processing,
-    TResult? Function(int total)? empty,
-  }) {
-    return empty?.call(total);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String url, int total, ScanAction scanAction, TotemData? totemData)?
-        single,
-    TResult Function(int total)? multiple,
-    TResult Function()? processing,
-    TResult Function(int total)? empty,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty(total);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ScannerStateSingle value) single,
-    required TResult Function(ScannerStateMultiple value) multiple,
-    required TResult Function(ScannerStateProcessing value) processing,
-    required TResult Function(ScannerStateEmpty value) empty,
-  }) {
-    return empty(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ScannerStateSingle value)? single,
-    TResult? Function(ScannerStateMultiple value)? multiple,
-    TResult? Function(ScannerStateProcessing value)? processing,
-    TResult? Function(ScannerStateEmpty value)? empty,
-  }) {
-    return empty?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ScannerStateSingle value)? single,
-    TResult Function(ScannerStateMultiple value)? multiple,
-    TResult Function(ScannerStateProcessing value)? processing,
-    TResult Function(ScannerStateEmpty value)? empty,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScannerStateProcessing);
 }
 
-abstract class ScannerStateEmpty implements ScannerState {
-  const factory ScannerStateEmpty({required final int total}) =
-      _$ScannerStateEmptyImpl;
 
-  int get total;
+@override
+int get hashCode => runtimeType.hashCode;
 
-  /// Create a copy of ScannerState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ScannerStateEmptyImplCopyWith<_$ScannerStateEmptyImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+String toString() {
+  return 'ScannerState.processing()';
 }
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ScannerStateEmpty implements ScannerState {
+  const ScannerStateEmpty({required this.total});
+  
+
+ final  int total;
+
+/// Create a copy of ScannerState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ScannerStateEmptyCopyWith<ScannerStateEmpty> get copyWith => _$ScannerStateEmptyCopyWithImpl<ScannerStateEmpty>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScannerStateEmpty&&(identical(other.total, total) || other.total == total));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,total);
+
+@override
+String toString() {
+  return 'ScannerState.empty(total: $total)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ScannerStateEmptyCopyWith<$Res> implements $ScannerStateCopyWith<$Res> {
+  factory $ScannerStateEmptyCopyWith(ScannerStateEmpty value, $Res Function(ScannerStateEmpty) _then) = _$ScannerStateEmptyCopyWithImpl;
+@useResult
+$Res call({
+ int total
+});
+
+
+
+
+}
+/// @nodoc
+class _$ScannerStateEmptyCopyWithImpl<$Res>
+    implements $ScannerStateEmptyCopyWith<$Res> {
+  _$ScannerStateEmptyCopyWithImpl(this._self, this._then);
+
+  final ScannerStateEmpty _self;
+  final $Res Function(ScannerStateEmpty) _then;
+
+/// Create a copy of ScannerState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? total = null,}) {
+  return _then(ScannerStateEmpty(
+total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+// dart format on

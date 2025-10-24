@@ -1,28 +1,23 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/application/new_exchange_state.dart';
 
-import 'package:wom_pocket/src/core/my_logger.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 class NewExchangeScreen extends ConsumerWidget {
   final int womCount;
 
-  const NewExchangeScreen({
-    required this.womCount,
-    Key? key,
-  }) : super(key: key);
+  const NewExchangeScreen({required this.womCount, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(newExchangeNotifierProvider(womCount));
+    final state = ref.watch(newExchangeProvider(womCount));
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
@@ -32,11 +27,7 @@ class NewExchangeScreen extends ConsumerWidget {
       ),
       body: state.when(
         data: (link, pin, womCount) {
-          return ExchangeDataWidget(
-            link: link,
-            pin: pin,
-            womCount: womCount,
-          );
+          return ExchangeDataWidget(link: link, pin: pin, womCount: womCount);
         },
         loading: () => Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,11 +54,7 @@ class NewExchangeScreen extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.error,
-                    size: 50,
-                    color: Colors.red,
-                  ),
+                  Icon(Icons.error, size: 50, color: Colors.red),
                   const SizedBox(height: 16),
                   Text(
                     'somethings_wrong'.tr(),
@@ -86,11 +73,7 @@ class NewExchangeScreen extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.warning,
-                    size: 50,
-                    color: Colors.orange,
-                  ),
+                  Icon(Icons.warning, size: 50, color: Colors.orange),
                   const SizedBox(height: 16),
                   Text(
                     'insufficient_vouchers'.tr(),
@@ -110,7 +93,8 @@ class NewExchangeScreen extends ConsumerWidget {
               onPressed: () async {
                 context.maybePop();
               },
-              label: state is NewExchangeStateError ||
+              label:
+                  state is NewExchangeStateError ||
                       state is NewExchangeStateinsufficientVouchers
                   ? Text('back'.tr())
                   : Text('done'.tr()),
@@ -136,11 +120,7 @@ class ExchangeReceiptData {
 class ExchangeReceiptScreen extends ConsumerWidget {
   final ExchangeReceiptData data;
 
-
-  const ExchangeReceiptScreen({
-    required this.data,
-    super.key,
-  });
+  const ExchangeReceiptScreen({required this.data, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -156,12 +136,9 @@ class ExchangeReceiptScreen extends ConsumerWidget {
             onPressed: () {
               final message = tr(
                 'send_exchange_data',
-                args: [
-                  data.link,
-                  data.pin,
-                ],
+                args: [data.link, data.pin],
               );
-              Share.share(message);
+              SharePlus.instance.share(ShareParams(text: message));
             },
           ),
         ],
@@ -238,10 +215,7 @@ class ExchangeDataWidget extends StatelessWidget {
         const SizedBox(height: 32),
         Text(
           'Pin:',
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.white,
-          ),
+          style: TextStyle(fontSize: 20, color: Colors.white),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 4),
@@ -255,9 +229,7 @@ class ExchangeDataWidget extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
-        if (kDebugMode) ...[
-          Text(link),
-        ],
+        if (kDebugMode) ...[Text(link)],
       ],
     );
   }

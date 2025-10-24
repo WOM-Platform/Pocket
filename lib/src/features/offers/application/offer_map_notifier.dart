@@ -1,20 +1,21 @@
+import 'dart:async';
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' hide ClusterManager;
+import 'package:google_maps_flutter/google_maps_flutter.dart'
+    hide ClusterManager;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/features/offers/data/offer.dart';
 import 'package:wom_pocket/src/features/offers/domain/entities/static_cities.dart';
 import 'package:wom_pocket/src/features/offers/ui/carousel.dart';
 import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
-import 'package:wom_pocket/src/core/my_logger.dart';
-import 'dart:async';
-import 'dart:ui' as ui;
 
 part 'offer_map_notifier.g.dart';
 
@@ -57,9 +58,9 @@ class OffersMapNotifier extends _$OffersMapNotifier {
           bitmapDescriptor = place.items.first.offer.offers.isEmpty
               ? inactivePOS ?? BitmapDescriptor.defaultMarker
               : activePOS ??
-                  BitmapDescriptor.defaultMarkerWithHue(
-                    BitmapDescriptor.hueGreen,
-                  );
+                    BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueGreen,
+                    );
           // bitmapDescriptor = await BitmapDescriptor.fromAssetImage(
           //     ImageConfiguration(), 'assets/images/wom_pin.png');
         } else {
@@ -102,16 +103,12 @@ class OffersMapNotifier extends _$OffersMapNotifier {
       levels: [1, 4.25, 6.75, 8.25, 11.5, 14.5, 16.0, 16.5, 20.0],
       extraPercent: 0.2,
     );
-    final offers =
-        ref.watch(offersNotifierProvider(position)).valueOrNull ?? [];
+    final offers = ref.watch(offersProvider(position)).value ?? [];
     logger.i('oOffersMapNotifier build => offers ${offers.length}');
     final clusterItems = offers.map((o) => OfferCluster(offer: o)).toList();
     posList = offers;
     clusterManager?.setItems(clusterItems);
-    return OffersMapData(
-      offers: offers,
-      markers: {},
-    );
+    return OffersMapData(offers: offers, markers: {});
   }
 
   loadStaticCityMarkers() async {
@@ -142,7 +139,9 @@ class OffersMapNotifier extends _$OffersMapNotifier {
       state = AsyncLoading();
       final controller = await getMapController;
       final bounds = await controller.getVisibleRegion();
-      final offers = await ref.watch(pocketProvider).getOffersByBox(
+      final offers = await ref
+          .watch(pocketProvider)
+          .getOffersByBox(
             lly: bounds.southwest.latitude,
             llx: bounds.southwest.longitude,
             ury: bounds.northeast.latitude,
@@ -333,33 +332,19 @@ class OffersMapNotifier extends _$OffersMapNotifier {
     }
 
     canvas.drawPath(
-      getTrianglePath(
-        leftPadding,
-        size.height + tp.height + bottomTextPadding,
-      ),
+      getTrianglePath(leftPadding, size.height + tp.height + bottomTextPadding),
       textBgBoxPaint,
     );
 
-    canvas.clipPath(
-      Path()
-        ..addOval(
-          oval,
-        ),
-    );
+    canvas.clipPath(Path()..addOval(oval));
 
-    paintImage(
-      canvas: canvas,
-      image: image,
-      rect: oval,
-      fit: BoxFit.cover,
-    );
+    paintImage(canvas: canvas, image: image, rect: oval, fit: BoxFit.cover);
 
     ui.Picture p = recorder.endRecording();
     final pngBytes = await (await p.toImage(
       (size.width + textRectWidth + leftPadding).toInt(),
       (size.height + tp.height + bottomTextPadding + pinYOffset).toInt(),
-    ))
-        .toByteData(format: ui.ImageByteFormat.png);
+    )).toByteData(format: ui.ImageByteFormat.png);
 
     if (pngBytes == null) {
       return null;

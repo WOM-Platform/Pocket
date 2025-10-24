@@ -20,7 +20,7 @@ class NewExchangeState with _$NewExchangeState {
 }
 
 @freezed
-class ExchangeState with _$ExchangeState {
+abstract class ExchangeState with _$ExchangeState {
   const factory ExchangeState.initial({
     required int dailyAvailableWom,
     required int totalAvailableWom,

@@ -3,11 +3,10 @@ import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 
 part 'totem_data.freezed.dart';
-
 part 'totem_data.g.dart';
 
 @freezed
-class TotemData with _$TotemData {
+abstract class TotemData with _$TotemData {
   const factory TotemData({
     required String providerId,
     required String totemId,
@@ -24,7 +23,7 @@ extension TotemDataX on TotemData {
 }
 
 @freezed
-class ConnectionTotemData with _$ConnectionTotemData {
+abstract class ConnectionTotemData with _$ConnectionTotemData {
   const factory ConnectionTotemData({
     required String totemId,
     required DateTime timestamp,

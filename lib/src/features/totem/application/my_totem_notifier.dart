@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
 import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
@@ -58,7 +58,7 @@ class MyTotemNotifier extends _$MyTotemNotifier {
       state = MyTotemState.loaded(
         totemId: totemId,
         totemLink: link,
-        name: name,
+        name: name ?? '',
         email: email,
         phone: phone,
         website: website,

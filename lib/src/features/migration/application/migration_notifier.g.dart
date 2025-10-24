@@ -6,21 +6,58 @@ part of 'migration_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$migrationNotifierHash() => r'e3b3149ec366e1554c7426c964b42bcb65905654';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [MigrationNotifier].
 @ProviderFor(MigrationNotifier)
-final migrationNotifierProvider =
-    AutoDisposeNotifierProvider<MigrationNotifier, MigrationState>.internal(
-  MigrationNotifier.new,
-  name: r'migrationNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$migrationNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const migrationProvider = MigrationNotifierProvider._();
 
-typedef _$MigrationNotifier = AutoDisposeNotifier<MigrationState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class MigrationNotifierProvider
+    extends $NotifierProvider<MigrationNotifier, MigrationState> {
+  const MigrationNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'migrationProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$migrationNotifierHash();
+
+  @$internal
+  @override
+  MigrationNotifier create() => MigrationNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(MigrationState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<MigrationState>(value),
+    );
+  }
+}
+
+String _$migrationNotifierHash() => r'bf8eaabba9d36566ed6918d5c4d7e888bb3f506b';
+
+abstract class _$MigrationNotifier extends $Notifier<MigrationState> {
+  MigrationState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<MigrationState, MigrationState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<MigrationState, MigrationState>,
+              MigrationState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

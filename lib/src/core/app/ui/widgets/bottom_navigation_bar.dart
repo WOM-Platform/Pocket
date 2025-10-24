@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:wom_pocket/src/core/app/application/app_shell_notifier.dart';
 import 'package:wom_pocket/src/core/app/application/app_shell_state.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 
 class MyBottomNavigationBar extends ConsumerStatefulWidget {
@@ -24,8 +24,9 @@ class _MyBottomNavigationBarState extends ConsumerState<MyBottomNavigationBar> {
     if (activeTabsPaths.isEmpty) {
       return 0;
     }
-    final currentConfiguration =
-        GoRouter.of(context).routerDelegate.currentConfiguration;
+    final currentConfiguration = GoRouter.of(
+      context,
+    ).routerDelegate.currentConfiguration;
     final routeDelegatePath = currentConfiguration.fullPath;
     final statePath = GoRouterState.of(context).fullPath ?? '';
     final selectedTabIndex = activeTabsPaths.contains(routeDelegatePath)
@@ -46,12 +47,12 @@ class _MyBottomNavigationBarState extends ConsumerState<MyBottomNavigationBar> {
   void _onItemTap(AppShellState state, int index) {
     // final currentPath = GoRouterState.of(context).fullPath!;
     final nextPath = state.activeTabsPaths[index];
-    ref.read(appShellNotifierProvider.notifier).switchToTab(nextPath);
+    ref.read(appShellProvider.notifier).switchToTab(nextPath);
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(appShellNotifierProvider);
+    final state = ref.watch(appShellProvider);
     return BottomNavigationBar(
       backgroundColor: Colors.white,
       type: BottomNavigationBarType.fixed,

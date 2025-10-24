@@ -1,14 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hexagon/hexagon.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
-import 'package:wom_pocket/src/features/badge/data/badge.dart';
 import 'package:wom_pocket/src/features/badge/ui/badge_list.dart';
 
 class MyBehavior extends ScrollBehavior {
@@ -29,22 +23,22 @@ class BadgeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(badgeNotifierProvider);
+    final state = ref.watch(badgeProvider);
 
     final languageCode = context.locale.languageCode;
     return Scaffold(
       appBar: PocketAppBar(
-          // actions: [
-          //   IconButton(
-          //     onPressed: () {
-          //       ref.refresh(badgeNotifierProvider.future);
-          //     },
-          //     icon: Icon(Icons.refresh),
-          //   ),
-          // ],
-          ),
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       ref.refresh(badgeNotifierProvider.future);
+        //     },
+        //     icon: Icon(Icons.refresh),
+        //   ),
+        // ],
+      ),
       body: RefreshIndicator(
-        onRefresh: () => ref.refresh(badgeNotifierProvider.future),
+        onRefresh: () => ref.refresh(badgeProvider.future),
         child: state.when(
           data: (badgeState) {
             final badgeDataList = badgeState.badges;
@@ -55,8 +49,9 @@ class BadgeScreen extends ConsumerWidget {
                   return SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
                     child: ConstrainedBox(
-                      constraints:
-                          BoxConstraints(minHeight: constraints.maxHeight),
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                      ),
                       child: Center(
                         child: Text(
                           'Nessun badge trovato. Trascina per aggiornare.',
@@ -108,13 +103,9 @@ class BadgeScreen extends ConsumerWidget {
             );
           },
           error: (ex, st) {
-            return Center(
-              child: Text(ex.toString()),
-            );
+            return Center(child: Text(ex.toString()));
           },
-          loading: () => Center(
-            child: CircularProgressIndicator(),
-          ),
+          loading: () => Center(child: CircularProgressIndicator()),
         ),
       ),
     );

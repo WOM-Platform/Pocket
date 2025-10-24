@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,862 +9,466 @@ part of 'migration_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$MigrationState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String pin, int womsCount, int totemsCount) data,
-    required TResult Function() loading,
-    required TResult Function() initial,
-    required TResult Function(MigrationData data) complete,
-    required TResult Function(Object error, StackTrace st) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, int womsCount, int totemsCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? initial,
-    TResult? Function(MigrationData data)? complete,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, int womsCount, int totemsCount)? data,
-    TResult Function()? loading,
-    TResult Function()? initial,
-    TResult Function(MigrationData data)? complete,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MigrationStateData value) data,
-    required TResult Function(MigrationStateLoading value) loading,
-    required TResult Function(MigrationStateInitial value) initial,
-    required TResult Function(MigrationStateComplete value) complete,
-    required TResult Function(MigrationStateError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MigrationStateData value)? data,
-    TResult? Function(MigrationStateLoading value)? loading,
-    TResult? Function(MigrationStateInitial value)? initial,
-    TResult? Function(MigrationStateComplete value)? complete,
-    TResult? Function(MigrationStateError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MigrationStateData value)? data,
-    TResult Function(MigrationStateLoading value)? loading,
-    TResult Function(MigrationStateInitial value)? initial,
-    TResult Function(MigrationStateComplete value)? complete,
-    TResult Function(MigrationStateError value)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MigrationState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MigrationState()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $MigrationStateCopyWith<$Res> {
-  factory $MigrationStateCopyWith(
-          MigrationState value, $Res Function(MigrationState) then) =
-      _$MigrationStateCopyWithImpl<$Res, MigrationState>;
+class $MigrationStateCopyWith<$Res>  {
+$MigrationStateCopyWith(MigrationState _, $Res Function(MigrationState) __);
 }
 
-/// @nodoc
-class _$MigrationStateCopyWithImpl<$Res, $Val extends MigrationState>
-    implements $MigrationStateCopyWith<$Res> {
-  _$MigrationStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [MigrationState].
+extension MigrationStatePatterns on MigrationState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( MigrationStateData value)?  data,TResult Function( MigrationStateLoading value)?  loading,TResult Function( MigrationStateInitial value)?  initial,TResult Function( MigrationStateComplete value)?  complete,TResult Function( MigrationStateError value)?  error,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case MigrationStateData() when data != null:
+return data(_that);case MigrationStateLoading() when loading != null:
+return loading(_that);case MigrationStateInitial() when initial != null:
+return initial(_that);case MigrationStateComplete() when complete != null:
+return complete(_that);case MigrationStateError() when error != null:
+return error(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( MigrationStateData value)  data,required TResult Function( MigrationStateLoading value)  loading,required TResult Function( MigrationStateInitial value)  initial,required TResult Function( MigrationStateComplete value)  complete,required TResult Function( MigrationStateError value)  error,}){
+final _that = this;
+switch (_that) {
+case MigrationStateData():
+return data(_that);case MigrationStateLoading():
+return loading(_that);case MigrationStateInitial():
+return initial(_that);case MigrationStateComplete():
+return complete(_that);case MigrationStateError():
+return error(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( MigrationStateData value)?  data,TResult? Function( MigrationStateLoading value)?  loading,TResult? Function( MigrationStateInitial value)?  initial,TResult? Function( MigrationStateComplete value)?  complete,TResult? Function( MigrationStateError value)?  error,}){
+final _that = this;
+switch (_that) {
+case MigrationStateData() when data != null:
+return data(_that);case MigrationStateLoading() when loading != null:
+return loading(_that);case MigrationStateInitial() when initial != null:
+return initial(_that);case MigrationStateComplete() when complete != null:
+return complete(_that);case MigrationStateError() when error != null:
+return error(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String pin,  int womsCount,  int totemsCount)?  data,TResult Function()?  loading,TResult Function()?  initial,TResult Function( MigrationData data)?  complete,TResult Function( Object error,  StackTrace st)?  error,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case MigrationStateData() when data != null:
+return data(_that.pin,_that.womsCount,_that.totemsCount);case MigrationStateLoading() when loading != null:
+return loading();case MigrationStateInitial() when initial != null:
+return initial();case MigrationStateComplete() when complete != null:
+return complete(_that.data);case MigrationStateError() when error != null:
+return error(_that.error,_that.st);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String pin,  int womsCount,  int totemsCount)  data,required TResult Function()  loading,required TResult Function()  initial,required TResult Function( MigrationData data)  complete,required TResult Function( Object error,  StackTrace st)  error,}) {final _that = this;
+switch (_that) {
+case MigrationStateData():
+return data(_that.pin,_that.womsCount,_that.totemsCount);case MigrationStateLoading():
+return loading();case MigrationStateInitial():
+return initial();case MigrationStateComplete():
+return complete(_that.data);case MigrationStateError():
+return error(_that.error,_that.st);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String pin,  int womsCount,  int totemsCount)?  data,TResult? Function()?  loading,TResult? Function()?  initial,TResult? Function( MigrationData data)?  complete,TResult? Function( Object error,  StackTrace st)?  error,}) {final _that = this;
+switch (_that) {
+case MigrationStateData() when data != null:
+return data(_that.pin,_that.womsCount,_that.totemsCount);case MigrationStateLoading() when loading != null:
+return loading();case MigrationStateInitial() when initial != null:
+return initial();case MigrationStateComplete() when complete != null:
+return complete(_that.data);case MigrationStateError() when error != null:
+return error(_that.error,_that.st);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$MigrationStateDataImplCopyWith<$Res> {
-  factory _$$MigrationStateDataImplCopyWith(_$MigrationStateDataImpl value,
-          $Res Function(_$MigrationStateDataImpl) then) =
-      __$$MigrationStateDataImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String pin, int womsCount, int totemsCount});
-}
-
-/// @nodoc
-class __$$MigrationStateDataImplCopyWithImpl<$Res>
-    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateDataImpl>
-    implements _$$MigrationStateDataImplCopyWith<$Res> {
-  __$$MigrationStateDataImplCopyWithImpl(_$MigrationStateDataImpl _value,
-      $Res Function(_$MigrationStateDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? pin = null,
-    Object? womsCount = null,
-    Object? totemsCount = null,
-  }) {
-    return _then(_$MigrationStateDataImpl(
-      pin: null == pin
-          ? _value.pin
-          : pin // ignore: cast_nullable_to_non_nullable
-              as String,
-      womsCount: null == womsCount
-          ? _value.womsCount
-          : womsCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      totemsCount: null == totemsCount
-          ? _value.totemsCount
-          : totemsCount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$MigrationStateDataImpl implements MigrationStateData {
-  const _$MigrationStateDataImpl(
-      {required this.pin, required this.womsCount, required this.totemsCount});
-
-  @override
-  final String pin;
-  @override
-  final int womsCount;
-  @override
-  final int totemsCount;
-
-  @override
-  String toString() {
-    return 'MigrationState.data(pin: $pin, womsCount: $womsCount, totemsCount: $totemsCount)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MigrationStateDataImpl &&
-            (identical(other.pin, pin) || other.pin == pin) &&
-            (identical(other.womsCount, womsCount) ||
-                other.womsCount == womsCount) &&
-            (identical(other.totemsCount, totemsCount) ||
-                other.totemsCount == totemsCount));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, pin, womsCount, totemsCount);
-
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MigrationStateDataImplCopyWith<_$MigrationStateDataImpl> get copyWith =>
-      __$$MigrationStateDataImplCopyWithImpl<_$MigrationStateDataImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String pin, int womsCount, int totemsCount) data,
-    required TResult Function() loading,
-    required TResult Function() initial,
-    required TResult Function(MigrationData data) complete,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return data(pin, womsCount, totemsCount);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, int womsCount, int totemsCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? initial,
-    TResult? Function(MigrationData data)? complete,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return data?.call(pin, womsCount, totemsCount);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, int womsCount, int totemsCount)? data,
-    TResult Function()? loading,
-    TResult Function()? initial,
-    TResult Function(MigrationData data)? complete,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (data != null) {
-      return data(pin, womsCount, totemsCount);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MigrationStateData value) data,
-    required TResult Function(MigrationStateLoading value) loading,
-    required TResult Function(MigrationStateInitial value) initial,
-    required TResult Function(MigrationStateComplete value) complete,
-    required TResult Function(MigrationStateError value) error,
-  }) {
-    return data(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MigrationStateData value)? data,
-    TResult? Function(MigrationStateLoading value)? loading,
-    TResult? Function(MigrationStateInitial value)? initial,
-    TResult? Function(MigrationStateComplete value)? complete,
-    TResult? Function(MigrationStateError value)? error,
-  }) {
-    return data?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MigrationStateData value)? data,
-    TResult Function(MigrationStateLoading value)? loading,
-    TResult Function(MigrationStateInitial value)? initial,
-    TResult Function(MigrationStateComplete value)? complete,
-    TResult Function(MigrationStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (data != null) {
-      return data(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MigrationStateData implements MigrationState {
-  const factory MigrationStateData(
-      {required final String pin,
-      required final int womsCount,
-      required final int totemsCount}) = _$MigrationStateDataImpl;
-
-  String get pin;
-  int get womsCount;
-  int get totemsCount;
-
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MigrationStateDataImplCopyWith<_$MigrationStateDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$MigrationStateLoadingImplCopyWith<$Res> {
-  factory _$$MigrationStateLoadingImplCopyWith(
-          _$MigrationStateLoadingImpl value,
-          $Res Function(_$MigrationStateLoadingImpl) then) =
-      __$$MigrationStateLoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$MigrationStateLoadingImplCopyWithImpl<$Res>
-    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateLoadingImpl>
-    implements _$$MigrationStateLoadingImplCopyWith<$Res> {
-  __$$MigrationStateLoadingImplCopyWithImpl(_$MigrationStateLoadingImpl _value,
-      $Res Function(_$MigrationStateLoadingImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$MigrationStateLoadingImpl implements MigrationStateLoading {
-  const _$MigrationStateLoadingImpl();
 
-  @override
-  String toString() {
-    return 'MigrationState.loading()';
-  }
+class MigrationStateData implements MigrationState {
+  const MigrationStateData({required this.pin, required this.womsCount, required this.totemsCount});
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MigrationStateLoadingImpl);
-  }
+ final  String pin;
+ final  int womsCount;
+ final  int totemsCount;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
+/// Create a copy of MigrationState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MigrationStateDataCopyWith<MigrationStateData> get copyWith => _$MigrationStateDataCopyWithImpl<MigrationStateData>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String pin, int womsCount, int totemsCount) data,
-    required TResult Function() loading,
-    required TResult Function() initial,
-    required TResult Function(MigrationData data) complete,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return loading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, int womsCount, int totemsCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? initial,
-    TResult? Function(MigrationData data)? complete,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return loading?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, int womsCount, int totemsCount)? data,
-    TResult Function()? loading,
-    TResult Function()? initial,
-    TResult Function(MigrationData data)? complete,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MigrationStateData value) data,
-    required TResult Function(MigrationStateLoading value) loading,
-    required TResult Function(MigrationStateInitial value) initial,
-    required TResult Function(MigrationStateComplete value) complete,
-    required TResult Function(MigrationStateError value) error,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MigrationStateData value)? data,
-    TResult? Function(MigrationStateLoading value)? loading,
-    TResult? Function(MigrationStateInitial value)? initial,
-    TResult? Function(MigrationStateComplete value)? complete,
-    TResult? Function(MigrationStateError value)? error,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MigrationStateData value)? data,
-    TResult Function(MigrationStateLoading value)? loading,
-    TResult Function(MigrationStateInitial value)? initial,
-    TResult Function(MigrationStateComplete value)? complete,
-    TResult Function(MigrationStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MigrationStateData&&(identical(other.pin, pin) || other.pin == pin)&&(identical(other.womsCount, womsCount) || other.womsCount == womsCount)&&(identical(other.totemsCount, totemsCount) || other.totemsCount == totemsCount));
 }
 
-abstract class MigrationStateLoading implements MigrationState {
-  const factory MigrationStateLoading() = _$MigrationStateLoadingImpl;
+
+@override
+int get hashCode => Object.hash(runtimeType,pin,womsCount,totemsCount);
+
+@override
+String toString() {
+  return 'MigrationState.data(pin: $pin, womsCount: $womsCount, totemsCount: $totemsCount)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$MigrationStateInitialImplCopyWith<$Res> {
-  factory _$$MigrationStateInitialImplCopyWith(
-          _$MigrationStateInitialImpl value,
-          $Res Function(_$MigrationStateInitialImpl) then) =
-      __$$MigrationStateInitialImplCopyWithImpl<$Res>;
+abstract mixin class $MigrationStateDataCopyWith<$Res> implements $MigrationStateCopyWith<$Res> {
+  factory $MigrationStateDataCopyWith(MigrationStateData value, $Res Function(MigrationStateData) _then) = _$MigrationStateDataCopyWithImpl;
+@useResult
+$Res call({
+ String pin, int womsCount, int totemsCount
+});
+
+
+
+
+}
+/// @nodoc
+class _$MigrationStateDataCopyWithImpl<$Res>
+    implements $MigrationStateDataCopyWith<$Res> {
+  _$MigrationStateDataCopyWithImpl(this._self, this._then);
+
+  final MigrationStateData _self;
+  final $Res Function(MigrationStateData) _then;
+
+/// Create a copy of MigrationState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? pin = null,Object? womsCount = null,Object? totemsCount = null,}) {
+  return _then(MigrationStateData(
+pin: null == pin ? _self.pin : pin // ignore: cast_nullable_to_non_nullable
+as String,womsCount: null == womsCount ? _self.womsCount : womsCount // ignore: cast_nullable_to_non_nullable
+as int,totemsCount: null == totemsCount ? _self.totemsCount : totemsCount // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
 }
 
-/// @nodoc
-class __$$MigrationStateInitialImplCopyWithImpl<$Res>
-    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateInitialImpl>
-    implements _$$MigrationStateInitialImplCopyWith<$Res> {
-  __$$MigrationStateInitialImplCopyWithImpl(_$MigrationStateInitialImpl _value,
-      $Res Function(_$MigrationStateInitialImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$MigrationStateInitialImpl implements MigrationStateInitial {
-  const _$MigrationStateInitialImpl();
 
-  @override
-  String toString() {
-    return 'MigrationState.initial()';
-  }
+class MigrationStateLoading implements MigrationState {
+  const MigrationStateLoading();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MigrationStateInitialImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String pin, int womsCount, int totemsCount) data,
-    required TResult Function() loading,
-    required TResult Function() initial,
-    required TResult Function(MigrationData data) complete,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return initial();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, int womsCount, int totemsCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? initial,
-    TResult? Function(MigrationData data)? complete,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return initial?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, int womsCount, int totemsCount)? data,
-    TResult Function()? loading,
-    TResult Function()? initial,
-    TResult Function(MigrationData data)? complete,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MigrationStateData value) data,
-    required TResult Function(MigrationStateLoading value) loading,
-    required TResult Function(MigrationStateInitial value) initial,
-    required TResult Function(MigrationStateComplete value) complete,
-    required TResult Function(MigrationStateError value) error,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MigrationStateData value)? data,
-    TResult? Function(MigrationStateLoading value)? loading,
-    TResult? Function(MigrationStateInitial value)? initial,
-    TResult? Function(MigrationStateComplete value)? complete,
-    TResult? Function(MigrationStateError value)? error,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MigrationStateData value)? data,
-    TResult Function(MigrationStateLoading value)? loading,
-    TResult Function(MigrationStateInitial value)? initial,
-    TResult Function(MigrationStateComplete value)? complete,
-    TResult Function(MigrationStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MigrationStateLoading);
 }
 
-abstract class MigrationStateInitial implements MigrationState {
-  const factory MigrationStateInitial() = _$MigrationStateInitialImpl;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MigrationState.loading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class MigrationStateInitial implements MigrationState {
+  const MigrationStateInitial();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MigrationStateInitial);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MigrationState.initial()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class MigrationStateComplete implements MigrationState {
+  const MigrationStateComplete({required this.data});
+  
+
+ final  MigrationData data;
+
+/// Create a copy of MigrationState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MigrationStateCompleteCopyWith<MigrationStateComplete> get copyWith => _$MigrationStateCompleteCopyWithImpl<MigrationStateComplete>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MigrationStateComplete&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'MigrationState.complete(data: $data)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$MigrationStateCompleteImplCopyWith<$Res> {
-  factory _$$MigrationStateCompleteImplCopyWith(
-          _$MigrationStateCompleteImpl value,
-          $Res Function(_$MigrationStateCompleteImpl) then) =
-      __$$MigrationStateCompleteImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({MigrationData data});
+abstract mixin class $MigrationStateCompleteCopyWith<$Res> implements $MigrationStateCopyWith<$Res> {
+  factory $MigrationStateCompleteCopyWith(MigrationStateComplete value, $Res Function(MigrationStateComplete) _then) = _$MigrationStateCompleteCopyWithImpl;
+@useResult
+$Res call({
+ MigrationData data
+});
 
-  $MigrationDataCopyWith<$Res> get data;
+
+$MigrationDataCopyWith<$Res> get data;
+
+}
+/// @nodoc
+class _$MigrationStateCompleteCopyWithImpl<$Res>
+    implements $MigrationStateCompleteCopyWith<$Res> {
+  _$MigrationStateCompleteCopyWithImpl(this._self, this._then);
+
+  final MigrationStateComplete _self;
+  final $Res Function(MigrationStateComplete) _then;
+
+/// Create a copy of MigrationState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(MigrationStateComplete(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as MigrationData,
+  ));
 }
 
-/// @nodoc
-class __$$MigrationStateCompleteImplCopyWithImpl<$Res>
-    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateCompleteImpl>
-    implements _$$MigrationStateCompleteImplCopyWith<$Res> {
-  __$$MigrationStateCompleteImplCopyWithImpl(
-      _$MigrationStateCompleteImpl _value,
-      $Res Function(_$MigrationStateCompleteImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_$MigrationStateCompleteImpl(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as MigrationData,
-    ));
-  }
-
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $MigrationDataCopyWith<$Res> get data {
-    return $MigrationDataCopyWith<$Res>(_value.data, (value) {
-      return _then(_value.copyWith(data: value));
-    });
-  }
+/// Create a copy of MigrationState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MigrationDataCopyWith<$Res> get data {
+  
+  return $MigrationDataCopyWith<$Res>(_self.data, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
 }
 
 /// @nodoc
 
-class _$MigrationStateCompleteImpl implements MigrationStateComplete {
-  const _$MigrationStateCompleteImpl({required this.data});
 
-  @override
-  final MigrationData data;
+class MigrationStateError implements MigrationState {
+  const MigrationStateError(this.error, this.st);
+  
 
-  @override
-  String toString() {
-    return 'MigrationState.complete(data: $data)';
-  }
+ final  Object error;
+ final  StackTrace st;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MigrationStateCompleteImpl &&
-            (identical(other.data, data) || other.data == data));
-  }
+/// Create a copy of MigrationState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MigrationStateErrorCopyWith<MigrationStateError> get copyWith => _$MigrationStateErrorCopyWithImpl<MigrationStateError>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, data);
 
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MigrationStateCompleteImplCopyWith<_$MigrationStateCompleteImpl>
-      get copyWith => __$$MigrationStateCompleteImplCopyWithImpl<
-          _$MigrationStateCompleteImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String pin, int womsCount, int totemsCount) data,
-    required TResult Function() loading,
-    required TResult Function() initial,
-    required TResult Function(MigrationData data) complete,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return complete(this.data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, int womsCount, int totemsCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? initial,
-    TResult? Function(MigrationData data)? complete,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return complete?.call(this.data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, int womsCount, int totemsCount)? data,
-    TResult Function()? loading,
-    TResult Function()? initial,
-    TResult Function(MigrationData data)? complete,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (complete != null) {
-      return complete(this.data);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MigrationStateData value) data,
-    required TResult Function(MigrationStateLoading value) loading,
-    required TResult Function(MigrationStateInitial value) initial,
-    required TResult Function(MigrationStateComplete value) complete,
-    required TResult Function(MigrationStateError value) error,
-  }) {
-    return complete(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MigrationStateData value)? data,
-    TResult? Function(MigrationStateLoading value)? loading,
-    TResult? Function(MigrationStateInitial value)? initial,
-    TResult? Function(MigrationStateComplete value)? complete,
-    TResult? Function(MigrationStateError value)? error,
-  }) {
-    return complete?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MigrationStateData value)? data,
-    TResult Function(MigrationStateLoading value)? loading,
-    TResult Function(MigrationStateInitial value)? initial,
-    TResult Function(MigrationStateComplete value)? complete,
-    TResult Function(MigrationStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (complete != null) {
-      return complete(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MigrationStateError&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.st, st) || other.st == st));
 }
 
-abstract class MigrationStateComplete implements MigrationState {
-  const factory MigrationStateComplete({required final MigrationData data}) =
-      _$MigrationStateCompleteImpl;
 
-  MigrationData get data;
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(error),st);
 
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MigrationStateCompleteImplCopyWith<_$MigrationStateCompleteImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+String toString() {
+  return 'MigrationState.error(error: $error, st: $st)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$MigrationStateErrorImplCopyWith<$Res> {
-  factory _$$MigrationStateErrorImplCopyWith(_$MigrationStateErrorImpl value,
-          $Res Function(_$MigrationStateErrorImpl) then) =
-      __$$MigrationStateErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Object error, StackTrace st});
-}
+abstract mixin class $MigrationStateErrorCopyWith<$Res> implements $MigrationStateCopyWith<$Res> {
+  factory $MigrationStateErrorCopyWith(MigrationStateError value, $Res Function(MigrationStateError) _then) = _$MigrationStateErrorCopyWithImpl;
+@useResult
+$Res call({
+ Object error, StackTrace st
+});
 
+
+
+
+}
 /// @nodoc
-class __$$MigrationStateErrorImplCopyWithImpl<$Res>
-    extends _$MigrationStateCopyWithImpl<$Res, _$MigrationStateErrorImpl>
-    implements _$$MigrationStateErrorImplCopyWith<$Res> {
-  __$$MigrationStateErrorImplCopyWithImpl(_$MigrationStateErrorImpl _value,
-      $Res Function(_$MigrationStateErrorImpl) _then)
-      : super(_value, _then);
+class _$MigrationStateErrorCopyWithImpl<$Res>
+    implements $MigrationStateErrorCopyWith<$Res> {
+  _$MigrationStateErrorCopyWithImpl(this._self, this._then);
 
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? error = null,
-    Object? st = null,
-  }) {
-    return _then(_$MigrationStateErrorImpl(
-      null == error ? _value.error : error,
-      null == st
-          ? _value.st
-          : st // ignore: cast_nullable_to_non_nullable
-              as StackTrace,
-    ));
-  }
+  final MigrationStateError _self;
+  final $Res Function(MigrationStateError) _then;
+
+/// Create a copy of MigrationState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? error = null,Object? st = null,}) {
+  return _then(MigrationStateError(
+null == error ? _self.error : error ,null == st ? _self.st : st // ignore: cast_nullable_to_non_nullable
+as StackTrace,
+  ));
 }
 
-/// @nodoc
 
-class _$MigrationStateErrorImpl implements MigrationStateError {
-  const _$MigrationStateErrorImpl(this.error, this.st);
-
-  @override
-  final Object error;
-  @override
-  final StackTrace st;
-
-  @override
-  String toString() {
-    return 'MigrationState.error(error: $error, st: $st)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MigrationStateErrorImpl &&
-            const DeepCollectionEquality().equals(other.error, error) &&
-            (identical(other.st, st) || other.st == st));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(error), st);
-
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MigrationStateErrorImplCopyWith<_$MigrationStateErrorImpl> get copyWith =>
-      __$$MigrationStateErrorImplCopyWithImpl<_$MigrationStateErrorImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String pin, int womsCount, int totemsCount) data,
-    required TResult Function() loading,
-    required TResult Function() initial,
-    required TResult Function(MigrationData data) complete,
-    required TResult Function(Object error, StackTrace st) error,
-  }) {
-    return error(this.error, st);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pin, int womsCount, int totemsCount)? data,
-    TResult? Function()? loading,
-    TResult? Function()? initial,
-    TResult? Function(MigrationData data)? complete,
-    TResult? Function(Object error, StackTrace st)? error,
-  }) {
-    return error?.call(this.error, st);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pin, int womsCount, int totemsCount)? data,
-    TResult Function()? loading,
-    TResult Function()? initial,
-    TResult Function(MigrationData data)? complete,
-    TResult Function(Object error, StackTrace st)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this.error, st);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MigrationStateData value) data,
-    required TResult Function(MigrationStateLoading value) loading,
-    required TResult Function(MigrationStateInitial value) initial,
-    required TResult Function(MigrationStateComplete value) complete,
-    required TResult Function(MigrationStateError value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MigrationStateData value)? data,
-    TResult? Function(MigrationStateLoading value)? loading,
-    TResult? Function(MigrationStateInitial value)? initial,
-    TResult? Function(MigrationStateComplete value)? complete,
-    TResult? Function(MigrationStateError value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MigrationStateData value)? data,
-    TResult Function(MigrationStateLoading value)? loading,
-    TResult Function(MigrationStateInitial value)? initial,
-    TResult Function(MigrationStateComplete value)? complete,
-    TResult Function(MigrationStateError value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
 }
 
-abstract class MigrationStateError implements MigrationState {
-  const factory MigrationStateError(final Object error, final StackTrace st) =
-      _$MigrationStateErrorImpl;
-
-  Object get error;
-  StackTrace get st;
-
-  /// Create a copy of MigrationState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MigrationStateErrorImplCopyWith<_$MigrationStateErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

@@ -2,20 +2,21 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' hide ClusterManager;
+import 'package:google_maps_flutter/google_maps_flutter.dart'
+    hide ClusterManager;
 import 'package:wom_pocket/main.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/services/wom_repository.dart';
-
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
 
 final mapNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<MapBloc, MapState>(MapBloc.new);
+    AsyncNotifierProvider<MapBloc, MapState>(MapBloc.new);
 
 class Place with ClusterItem {
   final WomRow voucher;
@@ -26,7 +27,7 @@ class Place with ClusterItem {
   LatLng get location => LatLng(voucher.latitude, voucher.longitude);
 }
 
-class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
+class MapBloc extends AsyncNotifier<MapState> {
   // WomRepository _womRepository = WomRepository();
   // late ClusteringHelper clusteringHelper;
   ClusterManager<Place>? clusterManager;
@@ -54,8 +55,7 @@ class MapBloc extends AutoDisposeAsyncNotifier<MapState> {
     clusterManager = ClusterManager<Place>(
       places,
       (markers) {
-        logger
-            .w('update from cluster manager with ${markers.length} markers');
+        logger.w('update from cluster manager with ${markers.length} markers');
         state = AsyncData(updateMap(UpdateMap(markers: markers)));
       },
       markerBuilder: (place) async {

@@ -4,18 +4,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
-
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
+import 'package:wom_pocket/src/features/map/map_screen.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
-import 'package:wom_pocket/src/features/new_home/ui/stats_module.dart';
 import 'package:wom_pocket/src/features/new_home/ui/nfc_widget.dart';
 import 'package:wom_pocket/src/features/new_home/ui/section_title.dart';
+import 'package:wom_pocket/src/features/new_home/ui/stats_module.dart';
 import 'package:wom_pocket/src/features/new_home/ui/widgets/badge_module.dart';
 import 'package:wom_pocket/src/features/nfc/application/nfc_notifier.dart';
 import 'package:wom_pocket/src/features/root/widgets/transaction_list.dart';
-import 'package:wom_pocket/src/features/map/map_screen.dart';
-import 'package:wom_pocket/src/features/transaction/ui/transactions_screen.dart';
 
 class NewHome extends ConsumerStatefulWidget {
   const NewHome({Key? key}) : super(key: key);
@@ -41,20 +39,16 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
   @override
   Future didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-      ref.read(nFCNotifierProvider.notifier).resume();
+      ref.read(nFCProvider.notifier).resume();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final transactionCountAsync = ref.watch(transactionCountNotifierProvider);
+    final transactionCountAsync = ref.watch(transactionCountProvider);
 
     return Scaffold(
-      appBar: PocketAppBar(
-        actions: [
-          if (Platform.isAndroid) NfcWidget(),
-        ],
-      ),
+      appBar: PocketAppBar(actions: [if (Platform.isAndroid) NfcWidget()]),
       body: SafeArea(
         child: transactionCountAsync.when(
           data: (count) {
@@ -64,47 +58,28 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                   SliverToBoxAdapter(
                     child: Container(
                       padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          AimChart(
-                            enabled: false,
-                          ),
-                        ],
-                      ),
+                      child: Column(children: [AimChart(enabled: false)]),
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 16,
-                    ),
-                  ),
+                  SliverToBoxAdapter(child: SizedBox(height: 16)),
                   SliverToBoxAdapter(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SectionTitle(
-                          title: 'womMap'.tr(),
-                          leftPadding: 16,
-                        ),
+                        SectionTitle(title: 'womMap'.tr(), leftPadding: 16),
                         AspectRatio(
                           aspectRatio: 16 / 9,
                           child: Stack(
                             fit: StackFit.expand,
                             children: [
-                              Positioned.fill(
-                                child: MapBody(
-                                  enabled: false,
-                                ),
-                              ),
+                              Positioned.fill(child: MapBody(enabled: false)),
                               GestureDetector(
                                 onTap: () {
                                   logEvent('open_wom_map');
                                   context.push('/wom-map');
                                 },
-                                child: Container(
-                                  color: Colors.transparent,
-                                ),
+                                child: Container(color: Colors.transparent),
                               ),
                             ],
                           ),
@@ -112,11 +87,7 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                       ],
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 16,
-                    ),
-                  ),
+                  SliverToBoxAdapter(child: SizedBox(height: 16)),
                   // SliverToBoxAdapter(child: ExchangeCard()),
                   BadgeModule(),
                   SliverToBoxAdapter(
@@ -135,11 +106,7 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                       child: TransactionsList(),
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 80,
-                    ),
-                  ),
+                  SliverToBoxAdapter(child: SizedBox(height: 80)),
                 ],
               );
             }
@@ -172,16 +139,10 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                   Text(
                     'noWoms'.tr(),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'noWomsDesc'.tr(),
-                    textAlign: TextAlign.center,
-                  ),
+                  Text('noWomsDesc'.tr(), textAlign: TextAlign.center),
                 ],
               ),
             );
@@ -195,9 +156,7 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
               ),
             );
           },
-          loading: () => Center(
-            child: CircularProgressIndicator(),
-          ),
+          loading: () => Center(child: CircularProgressIndicator()),
         ),
       ),
     );

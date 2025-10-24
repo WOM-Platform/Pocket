@@ -3,11 +3,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
 
 part 'badge.freezed.dart';
-
 part 'badge.g.dart';
 
 @freezed
-class BadgeData with _$BadgeData {
+abstract class BadgeData with _$BadgeData {
   const factory BadgeData({
     required String id,
     required bool isPublic,
@@ -29,7 +28,7 @@ class BadgeData with _$BadgeData {
 }
 
 @freezed
-class BadgeSimpleFilter with _$BadgeSimpleFilter {
+abstract class BadgeSimpleFilter with _$BadgeSimpleFilter {
   const factory BadgeSimpleFilter({
     required int count,
     String? aim,
@@ -43,7 +42,7 @@ class BadgeSimpleFilter with _$BadgeSimpleFilter {
 }
 
 @freezed
-class Interval with _$Interval {
+abstract class Interval with _$Interval {
   const factory Interval({
     @DateTimeConverter() required DateTime start,
     @DateTimeConverter() required DateTime end,
@@ -54,7 +53,7 @@ class Interval with _$Interval {
 }
 
 @freezed
-class ImageData with _$ImageData {
+abstract class ImageData with _$ImageData {
   const factory ImageData({
     required String fullSizeUrl,
     required String midDensityFullWidthUrl,

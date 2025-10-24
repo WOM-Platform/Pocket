@@ -6,19 +6,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wom_pocket/app.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_error.dart';
-
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/migration/application/import_notifier.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/features/migration/application/import_state.dart';
 import 'package:wom_pocket/src/features/pin/application/pin_notifier.dart';
 import 'package:wom_pocket/src/features/pin/widgets/keyboard.dart';
-
-import 'package:wom_pocket/src/core/utils/colors.dart';
 
 final pageControllerProvider = Provider.autoDispose<PageController>((ref) {
   final p = PageController();
@@ -30,8 +28,9 @@ final pageControllerProvider = Provider.autoDispose<PageController>((ref) {
 
 final confirmImportProvider = StateProvider.autoDispose<bool>((_) => true);
 
-final pinControllerProvider =
-    Provider.autoDispose<TextEditingController>((ref) {
+final pinControllerProvider = Provider.autoDispose<TextEditingController>((
+  ref,
+) {
   final t = TextEditingController();
   ref.onDispose(() {
     t.dispose();
@@ -42,10 +41,7 @@ final pinControllerProvider =
 class ImportScreen extends ConsumerWidget {
   final DeepLinkModel deepLinkModel;
 
-  const ImportScreen({
-    required this.deepLinkModel,
-    Key? key,
-  }) : super(key: key);
+  const ImportScreen({required this.deepLinkModel, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,12 +55,8 @@ class ImportScreen extends ConsumerWidget {
           physics: NeverScrollableScrollPhysics(),
           controller: ref.watch(pageControllerProvider),
           children: [
-            PageOne(
-              deepLinkModel: deepLinkModel,
-            ),
-            PageThree(
-              deepLinkModel: deepLinkModel,
-            ),
+            PageOne(deepLinkModel: deepLinkModel),
+            PageThree(deepLinkModel: deepLinkModel),
           ],
         ),
       ),
@@ -75,10 +67,7 @@ class ImportScreen extends ConsumerWidget {
 class PageOne extends ConsumerWidget {
   final DeepLinkModel deepLinkModel;
 
-  const PageOne({
-    Key? key,
-    required this.deepLinkModel,
-  }) : super(key: key);
+  const PageOne({Key? key, required this.deepLinkModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -91,15 +80,10 @@ class PageOne extends ConsumerWidget {
             const SizedBox(height: 16),
             Row(
               children: [
-                Image.asset(
-                  'assets/images/migration.png',
-                  height: 150,
-                ),
+                Image.asset('assets/images/migration.png', height: 150),
               ],
             ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             Text(
               'womMigration'.tr(),
               style: TextStyle(fontSize: 18, color: Colors.white),
@@ -112,9 +96,7 @@ class PageOne extends ConsumerWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(
-              height: 32,
-            ),
+            const SizedBox(height: 32),
             Text(
               'importWizardDesc'.tr(),
               style: TextStyle(color: Colors.white),
@@ -165,15 +147,10 @@ class ImportSummaryWidget extends ConsumerWidget {
             const SizedBox(height: 16),
             Row(
               children: [
-                Image.asset(
-                  'assets/images/migration.png',
-                  height: 150,
-                ),
+                Image.asset('assets/images/migration.png', height: 150),
               ],
             ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             Text(
               'womMigration'.tr(),
               style: TextStyle(fontSize: 18, color: Colors.white),
@@ -182,10 +159,7 @@ class ImportSummaryWidget extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  'Device di origine:',
-                  style: titleStyle,
-                ),
+                Text('Device di origine:', style: titleStyle),
                 const SizedBox(width: 8),
                 Text(device.toString(), style: descStyle),
               ],
@@ -194,10 +168,7 @@ class ImportSummaryWidget extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  'Wom da importare',
-                  style: titleStyle,
-                ),
+                Text('Wom da importare', style: titleStyle),
                 const SizedBox(width: 8),
                 Text(womsCount.toString(), style: descStyle),
               ],
@@ -206,10 +177,7 @@ class ImportSummaryWidget extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  'Scansioni da importare',
-                  style: titleStyle,
-                ),
+                Text('Scansioni da importare', style: titleStyle),
                 const SizedBox(width: 8),
                 Text(totemsCount.toString(), style: descStyle),
               ],
@@ -218,10 +186,7 @@ class ImportSummaryWidget extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Aim:',
-                  style: titleStyle,
-                ),
+                Text('Aim:', style: titleStyle),
                 const SizedBox(width: 8),
                 Flexible(
                   child: Text(
@@ -241,16 +206,13 @@ class ImportSummaryWidget extends ConsumerWidget {
 class PageThree extends ConsumerWidget {
   final DeepLinkModel deepLinkModel;
 
-  const PageThree({
-    Key? key,
-    required this.deepLinkModel,
-  }) : super(key: key);
+  const PageThree({Key? key, required this.deepLinkModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final confirm = ref.watch(confirmImportProvider);
-    final importState = ref.watch(importNotifierProvider(deepLinkModel));
-    final pinState = ref.watch(pinNotifierProvider);
+    final importState = ref.watch(importProvider(deepLinkModel));
+    final pinState = ref.watch(pinProvider);
     final descStyle = TextStyle(color: Colors.white, fontSize: 18);
 
     return Scaffold(
@@ -263,16 +225,9 @@ class PageThree extends ConsumerWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 16),
-                  Icon(
-                    Icons.security,
-                    color: Colors.white,
-                    size: 50,
-                  ),
+                  Icon(Icons.security, color: Colors.white, size: 50),
                   const SizedBox(height: 16),
-                  Text(
-                    'insertPinToExport'.tr(),
-                    style: descStyle,
-                  ),
+                  Text('insertPinToExport'.tr(), style: descStyle),
                   const SizedBox(height: 16),
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 16),
@@ -287,8 +242,9 @@ class PageThree extends ConsumerWidget {
                         for (int i = 0; i < 4; i++)
                           Expanded(
                             child: Container(
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
@@ -312,36 +268,27 @@ class PageThree extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  Flexible(
-                    flex: Platform.isIOS ? 5 : 8,
-                    child: PinKeyboard(),
-                  ),
+                  Flexible(flex: Platform.isIOS ? 5 : 8, child: PinKeyboard()),
                 ],
               ),
             );
           },
-          loading: () => Center(
-            child: CircularProgressIndicator(),
-          ),
+          loading: () => Center(child: CircularProgressIndicator()),
           error: (ex, st) => MyErrorWidget(ex: ex),
           importSummary: (totems, woms, aims, _, device, __) =>
               ImportSummaryWidget(
-            aims: aims,
-            womsCount: woms.length,
-            totemsCount: totems.length,
-            device: device,
-          ),
+                aims: aims,
+                womsCount: woms.length,
+                totemsCount: totems.length,
+                device: device,
+              ),
           completed: (womCount, error, stackTrace) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
-                    size: 80,
-                  ),
+                  Icon(Icons.check_circle, color: Colors.green, size: 80),
                   const SizedBox(height: 16),
                   Text(
                     '${'importedWOM'.tr()} $womCount WOM.',
@@ -357,10 +304,8 @@ class PageThree extends ConsumerWidget {
                       'Durante l\'importazione dei totem si è verificato un errore!',
                     ),
                     if (kDebugMode)
-                      Text(
-                        error.toString() + '\n' + stackTrace.toString(),
-                      ),
-                  ]
+                      Text(error.toString() + '\n' + stackTrace.toString()),
+                  ],
                 ],
               ),
             );
@@ -383,9 +328,7 @@ class PageThree extends ConsumerWidget {
               child: TextButton(
                 onPressed: () {
                   if (importState is ImportSummary) {
-                    ref
-                        .read(importNotifierProvider(deepLinkModel).notifier)
-                        .goToPin();
+                    ref.read(importProvider(deepLinkModel).notifier).goToPin();
                   } else {
                     context.maybePop();
                   }
@@ -405,8 +348,8 @@ class PageThree extends ConsumerWidget {
                         importState is JustImported
                     ? 'backToHome'.tr()
                     : importState is ImportSummary
-                        ? 'conclude'.tr()
-                        : 'continue'.tr(),
+                    ? 'conclude'.tr()
+                    : 'continue'.tr(),
               ),
               onPressed: confirm
                   ? () {
@@ -424,8 +367,10 @@ class PageThree extends ConsumerWidget {
                         Alert(
                           context: context,
                           style: AlertStyle(
-                            descStyle:
-                                TextStyle(fontSize: 14, color: Colors.grey),
+                            descStyle: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
                           ),
                           type: AlertType.warning,
                           title: 'confirmToImportWom'.tr(),
@@ -433,9 +378,7 @@ class PageThree extends ConsumerWidget {
                           buttons: [
                             DialogButton(
                               color: Colors.white,
-                              child: Text(
-                                'cancel'.tr(),
-                              ),
+                              child: Text('cancel'.tr()),
                               onPressed: () {
                                 context.maybePop();
                               },
@@ -445,8 +388,9 @@ class PageThree extends ConsumerWidget {
                               onPressed: () {
                                 context.maybePop();
                                 ref
-                                    .read(importNotifierProvider(deepLinkModel)
-                                        .notifier)
+                                    .read(
+                                      importProvider(deepLinkModel).notifier,
+                                    )
                                     .importWom();
                               },
                             ),
@@ -454,8 +398,7 @@ class PageThree extends ConsumerWidget {
                         ).show();
                       } else {
                         ref
-                            .read(
-                                importNotifierProvider(deepLinkModel).notifier)
+                            .read(importProvider(deepLinkModel).notifier)
                             .checkImport(pinState.pin);
                       }
                     }

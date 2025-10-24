@@ -1,8 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/splash/application/splash_notifier.dart';
 import 'package:wom_pocket/src/features/splash/application/splash_state.dart';
@@ -49,7 +48,7 @@ class SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(splashNotifierProvider, (previous, next) {
+    ref.listen(splashProvider, (previous, next) {
       if (next is SplashStateLoaded) {
         context.go(next.route);
       }

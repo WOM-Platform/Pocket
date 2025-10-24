@@ -7,7 +7,7 @@ import 'package:wom_pocket/src/core/database/database.dart';
 part 'transaction_model.freezed.dart';
 
 @freezed
-class TransactionModel with _$TransactionModel {
+abstract class TransactionModel with _$TransactionModel {
   static const tblTransaction = 'Transactions';
   static const dbId = 'Id';
   static const dbTimestamp = 'Timestamp';

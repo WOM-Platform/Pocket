@@ -1,8 +1,9 @@
+import 'dart:math' as math;
+
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:math' as math;
 
 part 'offer.freezed.dart';
 
@@ -149,7 +150,7 @@ class OfferCluster with ClusterItem {
 }
 
 @freezed
-class OffersMapData with _$OffersMapData {
+abstract class OffersMapData with _$OffersMapData {
   const factory OffersMapData({
     required List<OfferPOS> offers,
     required Set<Marker> markers,

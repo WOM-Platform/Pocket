@@ -5,27 +5,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
-import 'package:wom_pocket/src/core/routing/route_extensions.dart';
-import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
-
-import 'package:wom_pocket/src/features/transaction/application/transaction_state.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
-import 'package:wom_pocket/src/features/map/application/bloc.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/voucher_card.dart';
+import 'package:wom_pocket/src/core/utils/utils.dart';
+import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
 import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
+import 'package:wom_pocket/src/features/transaction/application/transaction_state.dart';
 import 'package:wom_pocket/src/features/transaction/ui/info_payment.dart';
-import 'package:wom_pocket/src/core/utils/utils.dart';
 
 class TransactionScreen extends ConsumerStatefulWidget {
   final TransactionNotifierParams params;
 
-  const TransactionScreen({
-    required this.params,
-    Key? key,
-  }) : super(key: key);
+  const TransactionScreen({required this.params, Key? key}) : super(key: key);
 
   @override
   TransactionScreenState createState() {
@@ -42,14 +38,13 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
   void initState() {
     super.initState();
 
-    _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
 
     _animation = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.fastOutSlowIn,
-      ),
+      CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
     );
   }
 
@@ -73,8 +68,8 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
     ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
     ref.invalidate(getExchangeTransactionsProvider);
-    ref.invalidate(exchangeNotifierProvider);
-    ref.invalidate(badgeNotifierProvider);
+    ref.invalidate(exchangeProvider);
+    ref.invalidate(badgeProvider);
   }
 
   final whiteTextStyle = TextStyle(color: Colors.white);
@@ -82,7 +77,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final state = ref.watch(transactionNotifierProvider(widget.params));
+    final state = ref.watch(transactionProvider(widget.params));
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -107,17 +102,11 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                       tryAgain: () {
                         if (state.infoPay == null) {
                           ref
-                              .read(
-                                transactionNotifierProvider(widget.params)
-                                    .notifier,
-                              )
+                              .read(transactionProvider(widget.params).notifier)
                               .refresh();
                         } else {
                           ref
-                              .read(
-                                transactionNotifierProvider(widget.params)
-                                    .notifier,
-                              )
+                              .read(transactionProvider(widget.params).notifier)
                               .confirmPayment(state.infoPay!);
                         }
                       },
@@ -138,10 +127,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                           : state.error,
                       tryAgain: () {
                         ref
-                            .read(
-                              transactionNotifierProvider(widget.params)
-                                  .notifier,
-                            )
+                            .read(transactionProvider(widget.params).notifier)
                             .refresh();
                       },
                       backToHome: backToHome,
@@ -152,10 +138,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                       desc: 'missing_location_error_desc'.tr(),
                       tryAgain: () {
                         ref
-                            .read(
-                              transactionNotifierProvider(widget.params)
-                                  .notifier,
-                            )
+                            .read(transactionProvider(widget.params).notifier)
                             .refresh();
                       },
                     );
@@ -189,9 +172,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                     // animation: 'success',
                                   ),
                                 ),
-                                SizedBox(
-                                  height: _animation.value * 5.0,
-                                ),
+                                SizedBox(height: _animation.value * 5.0),
                                 FadeTransition(
                                   opacity: _animation as Animation<double>,
                                   child: Padding(
@@ -209,9 +190,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: _animation.value * 10.0,
-                                ),
+                                SizedBox(height: _animation.value * 10.0),
                                 FadeTransition(
                                   opacity: _animation as Animation<double>,
                                   child: Padding(
@@ -223,14 +202,13 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: _animation.value * 30.0,
-                                ),
+                                SizedBox(height: _animation.value * 30.0),
                                 FadeTransition(
                                   opacity: _animation as Animation<double>,
                                   child: Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 80.0),
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: 80.0,
+                                    ),
                                     child: FloatingActionButton.extended(
                                       onPressed: () {
                                         if (state.transaction.type ==
@@ -253,9 +231,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                       },
                     );
                   } else if (state is TransactionLoadingState) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return Center(child: CircularProgressIndicator());
                   }
                   return GenericError();
                 },
@@ -263,9 +239,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                   return GenericError();
                 },
                 loading: () {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return Center(child: CircularProgressIndicator());
                 },
               );
             },
@@ -307,7 +281,7 @@ class CircleButton extends StatelessWidget {
   final Color? color;
 
   const CircleButton({Key? key, this.text, this.onTap, this.color})
-      : super(key: key);
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -315,10 +289,7 @@ class CircleButton extends StatelessWidget {
       child: Container(
         height: 270.0,
         width: 270.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
-        ),
+        decoration: BoxDecoration(shape: BoxShape.circle, color: color),
         child: Center(
           child: Text(
             text!,
@@ -450,9 +421,7 @@ class TransactionWarningWidget extends StatelessWidget {
               onPressed: () {
                 tryAgain?.call();
               },
-              label: Text(
-                'try_again'.tr(),
-              ),
+              label: Text('try_again'.tr()),
             ),
           ],
         ),

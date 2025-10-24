@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,402 +9,544 @@ part of 'totem_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-TotemData _$TotemDataFromJson(Map<String, dynamic> json) {
-  return _TotemData.fromJson(json);
-}
 
 /// @nodoc
 mixin _$TotemData {
-  String get providerId => throw _privateConstructorUsedError;
-  String get totemId => throw _privateConstructorUsedError;
-  String? get eventId => throw _privateConstructorUsedError;
-  String? get requestId => throw _privateConstructorUsedError;
+
+ String get providerId; String get totemId; String? get eventId; String? get requestId;
+/// Create a copy of TotemData
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TotemDataCopyWith<TotemData> get copyWith => _$TotemDataCopyWithImpl<TotemData>(this as TotemData, _$identity);
 
   /// Serializes this TotemData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of TotemData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $TotemDataCopyWith<TotemData> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TotemData&&(identical(other.providerId, providerId) || other.providerId == providerId)&&(identical(other.totemId, totemId) || other.totemId == totemId)&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.requestId, requestId) || other.requestId == requestId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,providerId,totemId,eventId,requestId);
+
+@override
+String toString() {
+  return 'TotemData(providerId: $providerId, totemId: $totemId, eventId: $eventId, requestId: $requestId)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $TotemDataCopyWith<$Res> {
-  factory $TotemDataCopyWith(TotemData value, $Res Function(TotemData) then) =
-      _$TotemDataCopyWithImpl<$Res, TotemData>;
-  @useResult
-  $Res call(
-      {String providerId, String totemId, String? eventId, String? requestId});
-}
+abstract mixin class $TotemDataCopyWith<$Res>  {
+  factory $TotemDataCopyWith(TotemData value, $Res Function(TotemData) _then) = _$TotemDataCopyWithImpl;
+@useResult
+$Res call({
+ String providerId, String totemId, String? eventId, String? requestId
+});
 
+
+
+
+}
 /// @nodoc
-class _$TotemDataCopyWithImpl<$Res, $Val extends TotemData>
+class _$TotemDataCopyWithImpl<$Res>
     implements $TotemDataCopyWith<$Res> {
-  _$TotemDataCopyWithImpl(this._value, this._then);
+  _$TotemDataCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final TotemData _self;
+  final $Res Function(TotemData) _then;
 
-  /// Create a copy of TotemData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? providerId = null,
-    Object? totemId = null,
-    Object? eventId = freezed,
-    Object? requestId = freezed,
-  }) {
-    return _then(_value.copyWith(
-      providerId: null == providerId
-          ? _value.providerId
-          : providerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      totemId: null == totemId
-          ? _value.totemId
-          : totemId // ignore: cast_nullable_to_non_nullable
-              as String,
-      eventId: freezed == eventId
-          ? _value.eventId
-          : eventId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      requestId: freezed == requestId
-          ? _value.requestId
-          : requestId // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
+/// Create a copy of TotemData
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? providerId = null,Object? totemId = null,Object? eventId = freezed,Object? requestId = freezed,}) {
+  return _then(_self.copyWith(
+providerId: null == providerId ? _self.providerId : providerId // ignore: cast_nullable_to_non_nullable
+as String,totemId: null == totemId ? _self.totemId : totemId // ignore: cast_nullable_to_non_nullable
+as String,eventId: freezed == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
+as String?,requestId: freezed == requestId ? _self.requestId : requestId // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
 }
 
-/// @nodoc
-abstract class _$$TotemDataImplCopyWith<$Res>
-    implements $TotemDataCopyWith<$Res> {
-  factory _$$TotemDataImplCopyWith(
-          _$TotemDataImpl value, $Res Function(_$TotemDataImpl) then) =
-      __$$TotemDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String providerId, String totemId, String? eventId, String? requestId});
 }
 
-/// @nodoc
-class __$$TotemDataImplCopyWithImpl<$Res>
-    extends _$TotemDataCopyWithImpl<$Res, _$TotemDataImpl>
-    implements _$$TotemDataImplCopyWith<$Res> {
-  __$$TotemDataImplCopyWithImpl(
-      _$TotemDataImpl _value, $Res Function(_$TotemDataImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of TotemData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? providerId = null,
-    Object? totemId = null,
-    Object? eventId = freezed,
-    Object? requestId = freezed,
-  }) {
-    return _then(_$TotemDataImpl(
-      providerId: null == providerId
-          ? _value.providerId
-          : providerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      totemId: null == totemId
-          ? _value.totemId
-          : totemId // ignore: cast_nullable_to_non_nullable
-              as String,
-      eventId: freezed == eventId
-          ? _value.eventId
-          : eventId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      requestId: freezed == requestId
-          ? _value.requestId
-          : requestId // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
+/// Adds pattern-matching-related methods to [TotemData].
+extension TotemDataPatterns on TotemData {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TotemData value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TotemData() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TotemData value)  $default,){
+final _that = this;
+switch (_that) {
+case _TotemData():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TotemData value)?  $default,){
+final _that = this;
+switch (_that) {
+case _TotemData() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String providerId,  String totemId,  String? eventId,  String? requestId)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TotemData() when $default != null:
+return $default(_that.providerId,_that.totemId,_that.eventId,_that.requestId);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String providerId,  String totemId,  String? eventId,  String? requestId)  $default,) {final _that = this;
+switch (_that) {
+case _TotemData():
+return $default(_that.providerId,_that.totemId,_that.eventId,_that.requestId);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String providerId,  String totemId,  String? eventId,  String? requestId)?  $default,) {final _that = this;
+switch (_that) {
+case _TotemData() when $default != null:
+return $default(_that.providerId,_that.totemId,_that.eventId,_that.requestId);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$TotemDataImpl implements _TotemData {
-  const _$TotemDataImpl(
-      {required this.providerId,
-      required this.totemId,
-      this.eventId,
-      this.requestId});
 
-  factory _$TotemDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TotemDataImplFromJson(json);
+class _TotemData implements TotemData {
+  const _TotemData({required this.providerId, required this.totemId, this.eventId, this.requestId});
+  factory _TotemData.fromJson(Map<String, dynamic> json) => _$TotemDataFromJson(json);
 
-  @override
-  final String providerId;
-  @override
-  final String totemId;
-  @override
-  final String? eventId;
-  @override
-  final String? requestId;
+@override final  String providerId;
+@override final  String totemId;
+@override final  String? eventId;
+@override final  String? requestId;
 
-  @override
-  String toString() {
-    return 'TotemData(providerId: $providerId, totemId: $totemId, eventId: $eventId, requestId: $requestId)';
-  }
+/// Create a copy of TotemData
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TotemDataCopyWith<_TotemData> get copyWith => __$TotemDataCopyWithImpl<_TotemData>(this, _$identity);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TotemDataImpl &&
-            (identical(other.providerId, providerId) ||
-                other.providerId == providerId) &&
-            (identical(other.totemId, totemId) || other.totemId == totemId) &&
-            (identical(other.eventId, eventId) || other.eventId == eventId) &&
-            (identical(other.requestId, requestId) ||
-                other.requestId == requestId));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, providerId, totemId, eventId, requestId);
-
-  /// Create a copy of TotemData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TotemDataImplCopyWith<_$TotemDataImpl> get copyWith =>
-      __$$TotemDataImplCopyWithImpl<_$TotemDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TotemDataImplToJson(
-      this,
-    );
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$TotemDataToJson(this, );
 }
 
-abstract class _TotemData implements TotemData {
-  const factory _TotemData(
-      {required final String providerId,
-      required final String totemId,
-      final String? eventId,
-      final String? requestId}) = _$TotemDataImpl;
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TotemData&&(identical(other.providerId, providerId) || other.providerId == providerId)&&(identical(other.totemId, totemId) || other.totemId == totemId)&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.requestId, requestId) || other.requestId == requestId));
+}
 
-  factory _TotemData.fromJson(Map<String, dynamic> json) =
-      _$TotemDataImpl.fromJson;
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,providerId,totemId,eventId,requestId);
 
-  @override
-  String get providerId;
-  @override
-  String get totemId;
-  @override
-  String? get eventId;
-  @override
-  String? get requestId;
+@override
+String toString() {
+  return 'TotemData(providerId: $providerId, totemId: $totemId, eventId: $eventId, requestId: $requestId)';
+}
 
-  /// Create a copy of TotemData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TotemDataImplCopyWith<_$TotemDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract mixin class _$TotemDataCopyWith<$Res> implements $TotemDataCopyWith<$Res> {
+  factory _$TotemDataCopyWith(_TotemData value, $Res Function(_TotemData) _then) = __$TotemDataCopyWithImpl;
+@override @useResult
+$Res call({
+ String providerId, String totemId, String? eventId, String? requestId
+});
+
+
+
+
+}
+/// @nodoc
+class __$TotemDataCopyWithImpl<$Res>
+    implements _$TotemDataCopyWith<$Res> {
+  __$TotemDataCopyWithImpl(this._self, this._then);
+
+  final _TotemData _self;
+  final $Res Function(_TotemData) _then;
+
+/// Create a copy of TotemData
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? providerId = null,Object? totemId = null,Object? eventId = freezed,Object? requestId = freezed,}) {
+  return _then(_TotemData(
+providerId: null == providerId ? _self.providerId : providerId // ignore: cast_nullable_to_non_nullable
+as String,totemId: null == totemId ? _self.totemId : totemId // ignore: cast_nullable_to_non_nullable
+as String,eventId: freezed == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
+as String?,requestId: freezed == requestId ? _self.requestId : requestId // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$ConnectionTotemData {
-  String get totemId => throw _privateConstructorUsedError;
-  DateTime get timestamp => throw _privateConstructorUsedError;
-  double get lat => throw _privateConstructorUsedError;
-  double get long => throw _privateConstructorUsedError;
 
-  /// Create a copy of ConnectionTotemData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ConnectionTotemDataCopyWith<ConnectionTotemData> get copyWith =>
-      throw _privateConstructorUsedError;
+ String get totemId; DateTime get timestamp; double get lat; double get long;
+/// Create a copy of ConnectionTotemData
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ConnectionTotemDataCopyWith<ConnectionTotemData> get copyWith => _$ConnectionTotemDataCopyWithImpl<ConnectionTotemData>(this as ConnectionTotemData, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ConnectionTotemData&&(identical(other.totemId, totemId) || other.totemId == totemId)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.long, long) || other.long == long));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,totemId,timestamp,lat,long);
+
+@override
+String toString() {
+  return 'ConnectionTotemData(totemId: $totemId, timestamp: $timestamp, lat: $lat, long: $long)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ConnectionTotemDataCopyWith<$Res> {
-  factory $ConnectionTotemDataCopyWith(
-          ConnectionTotemData value, $Res Function(ConnectionTotemData) then) =
-      _$ConnectionTotemDataCopyWithImpl<$Res, ConnectionTotemData>;
-  @useResult
-  $Res call({String totemId, DateTime timestamp, double lat, double long});
-}
+abstract mixin class $ConnectionTotemDataCopyWith<$Res>  {
+  factory $ConnectionTotemDataCopyWith(ConnectionTotemData value, $Res Function(ConnectionTotemData) _then) = _$ConnectionTotemDataCopyWithImpl;
+@useResult
+$Res call({
+ String totemId, DateTime timestamp, double lat, double long
+});
 
+
+
+
+}
 /// @nodoc
-class _$ConnectionTotemDataCopyWithImpl<$Res, $Val extends ConnectionTotemData>
+class _$ConnectionTotemDataCopyWithImpl<$Res>
     implements $ConnectionTotemDataCopyWith<$Res> {
-  _$ConnectionTotemDataCopyWithImpl(this._value, this._then);
+  _$ConnectionTotemDataCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final ConnectionTotemData _self;
+  final $Res Function(ConnectionTotemData) _then;
 
-  /// Create a copy of ConnectionTotemData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? totemId = null,
-    Object? timestamp = null,
-    Object? lat = null,
-    Object? long = null,
-  }) {
-    return _then(_value.copyWith(
-      totemId: null == totemId
-          ? _value.totemId
-          : totemId // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      lat: null == lat
-          ? _value.lat
-          : lat // ignore: cast_nullable_to_non_nullable
-              as double,
-      long: null == long
-          ? _value.long
-          : long // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
-  }
+/// Create a copy of ConnectionTotemData
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? totemId = null,Object? timestamp = null,Object? lat = null,Object? long = null,}) {
+  return _then(_self.copyWith(
+totemId: null == totemId ? _self.totemId : totemId // ignore: cast_nullable_to_non_nullable
+as String,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as DateTime,lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
+as double,long: null == long ? _self.long : long // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ConnectionTotemData].
+extension ConnectionTotemDataPatterns on ConnectionTotemData {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ConnectionTotemData value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ConnectionTotemData() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ConnectionTotemData value)  $default,){
+final _that = this;
+switch (_that) {
+case _ConnectionTotemData():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ConnectionTotemData value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ConnectionTotemData() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String totemId,  DateTime timestamp,  double lat,  double long)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ConnectionTotemData() when $default != null:
+return $default(_that.totemId,_that.timestamp,_that.lat,_that.long);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String totemId,  DateTime timestamp,  double lat,  double long)  $default,) {final _that = this;
+switch (_that) {
+case _ConnectionTotemData():
+return $default(_that.totemId,_that.timestamp,_that.lat,_that.long);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String totemId,  DateTime timestamp,  double lat,  double long)?  $default,) {final _that = this;
+switch (_that) {
+case _ConnectionTotemData() when $default != null:
+return $default(_that.totemId,_that.timestamp,_that.lat,_that.long);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$ConnectionTotemDataImplCopyWith<$Res>
-    implements $ConnectionTotemDataCopyWith<$Res> {
-  factory _$$ConnectionTotemDataImplCopyWith(_$ConnectionTotemDataImpl value,
-          $Res Function(_$ConnectionTotemDataImpl) then) =
-      __$$ConnectionTotemDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String totemId, DateTime timestamp, double lat, double long});
+
+
+class _ConnectionTotemData implements ConnectionTotemData {
+  const _ConnectionTotemData({required this.totemId, required this.timestamp, required this.lat, required this.long});
+  
+
+@override final  String totemId;
+@override final  DateTime timestamp;
+@override final  double lat;
+@override final  double long;
+
+/// Create a copy of ConnectionTotemData
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ConnectionTotemDataCopyWith<_ConnectionTotemData> get copyWith => __$ConnectionTotemDataCopyWithImpl<_ConnectionTotemData>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ConnectionTotemData&&(identical(other.totemId, totemId) || other.totemId == totemId)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.long, long) || other.long == long));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,totemId,timestamp,lat,long);
+
+@override
+String toString() {
+  return 'ConnectionTotemData(totemId: $totemId, timestamp: $timestamp, lat: $lat, long: $long)';
+}
+
+
 }
 
 /// @nodoc
-class __$$ConnectionTotemDataImplCopyWithImpl<$Res>
-    extends _$ConnectionTotemDataCopyWithImpl<$Res, _$ConnectionTotemDataImpl>
-    implements _$$ConnectionTotemDataImplCopyWith<$Res> {
-  __$$ConnectionTotemDataImplCopyWithImpl(_$ConnectionTotemDataImpl _value,
-      $Res Function(_$ConnectionTotemDataImpl) _then)
-      : super(_value, _then);
+abstract mixin class _$ConnectionTotemDataCopyWith<$Res> implements $ConnectionTotemDataCopyWith<$Res> {
+  factory _$ConnectionTotemDataCopyWith(_ConnectionTotemData value, $Res Function(_ConnectionTotemData) _then) = __$ConnectionTotemDataCopyWithImpl;
+@override @useResult
+$Res call({
+ String totemId, DateTime timestamp, double lat, double long
+});
 
-  /// Create a copy of ConnectionTotemData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? totemId = null,
-    Object? timestamp = null,
-    Object? lat = null,
-    Object? long = null,
-  }) {
-    return _then(_$ConnectionTotemDataImpl(
-      totemId: null == totemId
-          ? _value.totemId
-          : totemId // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      lat: null == lat
-          ? _value.lat
-          : lat // ignore: cast_nullable_to_non_nullable
-              as double,
-      long: null == long
-          ? _value.long
-          : long // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
-  }
+
+
+
 }
-
 /// @nodoc
+class __$ConnectionTotemDataCopyWithImpl<$Res>
+    implements _$ConnectionTotemDataCopyWith<$Res> {
+  __$ConnectionTotemDataCopyWithImpl(this._self, this._then);
 
-class _$ConnectionTotemDataImpl implements _ConnectionTotemData {
-  const _$ConnectionTotemDataImpl(
-      {required this.totemId,
-      required this.timestamp,
-      required this.lat,
-      required this.long});
+  final _ConnectionTotemData _self;
+  final $Res Function(_ConnectionTotemData) _then;
 
-  @override
-  final String totemId;
-  @override
-  final DateTime timestamp;
-  @override
-  final double lat;
-  @override
-  final double long;
-
-  @override
-  String toString() {
-    return 'ConnectionTotemData(totemId: $totemId, timestamp: $timestamp, lat: $lat, long: $long)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ConnectionTotemDataImpl &&
-            (identical(other.totemId, totemId) || other.totemId == totemId) &&
-            (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp) &&
-            (identical(other.lat, lat) || other.lat == lat) &&
-            (identical(other.long, long) || other.long == long));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, totemId, timestamp, lat, long);
-
-  /// Create a copy of ConnectionTotemData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ConnectionTotemDataImplCopyWith<_$ConnectionTotemDataImpl> get copyWith =>
-      __$$ConnectionTotemDataImplCopyWithImpl<_$ConnectionTotemDataImpl>(
-          this, _$identity);
+/// Create a copy of ConnectionTotemData
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? totemId = null,Object? timestamp = null,Object? lat = null,Object? long = null,}) {
+  return _then(_ConnectionTotemData(
+totemId: null == totemId ? _self.totemId : totemId // ignore: cast_nullable_to_non_nullable
+as String,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as DateTime,lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
+as double,long: null == long ? _self.long : long // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
 }
 
-abstract class _ConnectionTotemData implements ConnectionTotemData {
-  const factory _ConnectionTotemData(
-      {required final String totemId,
-      required final DateTime timestamp,
-      required final double lat,
-      required final double long}) = _$ConnectionTotemDataImpl;
 
-  @override
-  String get totemId;
-  @override
-  DateTime get timestamp;
-  @override
-  double get lat;
-  @override
-  double get long;
-
-  /// Create a copy of ConnectionTotemData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ConnectionTotemDataImplCopyWith<_$ConnectionTotemDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+// dart format on

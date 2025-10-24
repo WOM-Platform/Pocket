@@ -1,22 +1,20 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
+import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
-import 'package:collection/collection.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
-import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:wom_pocket/src/features/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
-import 'package:wom_pocket/src/core/utils/colors.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {
-  const StatsScreen({
-    Key? key,
-  }) : super(key: key);
+  const StatsScreen({Key? key}) : super(key: key);
 
   @override
   ConsumerState createState() => _StatsScreenState();
@@ -28,30 +26,26 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
   @override
   Widget build(BuildContext context) {
     final availableWomCount =
-        ref.watch(availableWomCountProvider).valueOrNull?.toString() ?? '-';
+        ref.watch(availableWomCountProvider).value?.toString() ?? '-';
 
     final womSpentCount =
-        ref.watch(fetchWomSpentProvider).valueOrNull?.toString() ?? '-';
+        ref.watch(fetchWomSpentProvider).value?.toString() ?? '-';
 
     // final womExchangedCount =
-    //     ref.watch(fetchWomSpentProvider).valueOrNull?.toString() ?? '-';
+    //     ref.watch(fetchWomSpentProvider).value?.toString() ?? '-';
 
     final badgeStats = ref.watch(getBadgesStatsProvider);
     final totalBadges = badgeStats.$1;
     final achievedBadges = badgeStats.$2;
     final showBadgeStats = totalBadges > 0;
-    final spentLastWeek = ref
-            .watch(fetchWomCountSpentInTheLastWeekProvider)
-            .valueOrNull
-            ?.toString() ??
+    final spentLastWeek =
+        ref.watch(fetchWomCountSpentInTheLastWeekProvider).value?.toString() ??
         '-';
-    final earnedLastWeek = ref
-            .watch(fetchWomCountEarnedInTheLastWeekProvider)
-            .valueOrNull
-            ?.toString() ??
+    final earnedLastWeek =
+        ref.watch(fetchWomCountEarnedInTheLastWeekProvider).value?.toString() ??
         '-';
-    final aimList = ref.watch(aimNotifierProvider).valueOrNull ?? [];
-    final aims = ref.watch(fetchAimInPercentageProvider).valueOrNull ?? [];
+    final aimList = ref.watch(aimProvider).value ?? [];
+    final aims = ref.watch(fetchAimInPercentageProvider).value ?? [];
     final baseSize = 90.0;
     final labelStyle = TextStyle(color: Colors.grey, fontSize: 14);
     final valueStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 20);
@@ -70,15 +64,9 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          TextWithLabel(
-            label: 'availableWom'.tr(),
-            text: availableWomCount,
-          ),
+          TextWithLabel(label: 'availableWom'.tr(), text: availableWomCount),
           const SizedBox(height: 8),
-          TextWithLabel(
-            label: 'Wom spesi:',
-            text: womSpentCount,
-          ),
+          TextWithLabel(label: 'Wom spesi:', text: womSpentCount),
           if (showBadgeStats) ...[
             const SizedBox(height: 8),
             TextWithLabel(
@@ -92,22 +80,12 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
             ),
           ],
           const SizedBox(height: 24),
-          SectionTitle(
-            title: 'lastWeek'.tr(),
-          ),
-          TextWithLabel(
-            label: 'womEarned'.tr(),
-            text: earnedLastWeek,
-          ),
+          SectionTitle(title: 'lastWeek'.tr()),
+          TextWithLabel(label: 'womEarned'.tr(), text: earnedLastWeek),
           const SizedBox(height: 8),
-          TextWithLabel(
-            label: 'womSpent'.tr(),
-            text: spentLastWeek,
-          ),
+          TextWithLabel(label: 'womSpent'.tr(), text: spentLastWeek),
           const SizedBox(height: 24),
-          SectionTitle(
-            title: 'aim'.tr(),
-          ),
+          SectionTitle(title: 'aim'.tr()),
           Row(
             children: [
               SizedBox(
@@ -125,18 +103,19 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                             return;
                           }
                           if (pieTouchResponse
-                                  .touchedSection!.touchedSectionIndex >
+                                  .touchedSection!
+                                  .touchedSectionIndex >
                               0) {
-                            touchedIndex = aims[pieTouchResponse
-                                    .touchedSection!.touchedSectionIndex]
-                                .aim;
+                            touchedIndex =
+                                aims[pieTouchResponse
+                                        .touchedSection!
+                                        .touchedSectionIndex]
+                                    .aim;
                           }
                         });
                       },
                     ),
-                    borderData: FlBorderData(
-                      show: false,
-                    ),
+                    borderData: FlBorderData(show: false),
                     sectionsSpace: 0,
                     centerSpaceRadius: 0,
                     sections: [
@@ -181,7 +160,8 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                     for (int i = 0; i < aims.length; i++) ...[
                       Indicator(
                         color: aimColors[min(i, 9)],
-                        text: aimList
+                        text:
+                            aimList
                                 .firstWhereOrNull((a) => a.code == aims[i].aim)
                                 ?.title(
                                   languageCode: context.locale.languageCode,
@@ -231,9 +211,7 @@ class Indicator extends StatelessWidget {
             color: color,
           ),
         ),
-        const SizedBox(
-          width: 8,
-        ),
+        const SizedBox(width: 8),
         Expanded(
           child: Text(
             text,
@@ -269,11 +247,7 @@ class TextWithLabel extends StatelessWidget {
   final String label;
   final String? text;
 
-  TextWithLabel({
-    super.key,
-    required this.label,
-    required this.text,
-  });
+  TextWithLabel({super.key, required this.label, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -281,10 +255,7 @@ class TextWithLabel extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          label,
-          style: TextStyle(color: Colors.grey, fontSize: 14),
-        ),
+        Text(label, style: TextStyle(color: Colors.grey, fontSize: 14)),
         Text(
           text ?? '-',
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),

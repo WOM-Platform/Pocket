@@ -1,23 +1,16 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
-import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 import 'package:wom_pocket/src/features/totem/application/totem_scans_notifier.dart';
-import 'package:wom_pocket/src/core/utils/date_utils.dart';
-import 'package:wom_pocket/src/features/totem/ui/totem_details.dart';
 import 'package:wom_pocket/src/features/totem/ui/widgets/totem_tile.dart';
 
 BitmapDescriptor? standardPin;
@@ -98,10 +91,7 @@ class SelectPictureModal extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.clear,
-                      color: Colors.red,
-                    ),
+                    Icon(Icons.clear, color: Colors.red),
                     const SizedBox(width: 16),
                     Text('Rimuvoi l\'immagine corrente'),
                   ],
@@ -194,10 +184,12 @@ class _MyTabBarState extends ConsumerState<MyTabBar>
 
   @override
   Widget build(BuildContext context) {
-    final selectedStyle =
-        Theme.of(context).textTheme.bodySmall?.copyWith(color: primaryColor);
-    final unselectedStyle =
-        Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey);
+    final selectedStyle = Theme.of(
+      context,
+    ).textTheme.bodySmall?.copyWith(color: primaryColor);
+    final unselectedStyle = Theme.of(
+      context,
+    ).textTheme.bodySmall?.copyWith(color: Colors.grey);
     return Column(
       children: [
         SizedBox(
@@ -209,27 +201,20 @@ class _MyTabBarState extends ConsumerState<MyTabBar>
             indicatorColor: primaryColor,
             controller: controller,
             tabs: [
-              Center(
-                child: Text(
-                  'Eventi',
-                ),
-              ),
+              Center(child: Text('Eventi')),
               Center(
                 child: Text(
                   'I miei contatti',
                   // style: unselectedStyle,
                 ),
-              )
+              ),
             ],
           ),
         ),
         Expanded(
           child: TabBarView(
             controller: controller,
-            children: [
-              MyEventList(),
-              const MyContactsList(),
-            ],
+            children: [MyEventList(), const MyContactsList()],
           ),
         ),
       ],
@@ -244,29 +229,24 @@ class MyEventList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(getEventTotemsProvider);
     return switch (state) {
-      AsyncData(:final value) => value.isEmpty
-          ? Center(
-              child: Text(
-                'totem_scan_screen.no_scan'.tr(),
-              ),
-            )
-          : ListView(
-              children: [
-                for (int i = 0; i < value.keys.length; i++) ...[
-                  _Header(t: value[value.keys.elementAt(i)]!.first),
-                  for (int k = 0;
+      AsyncData(:final value) =>
+        value.isEmpty
+            ? Center(child: Text('totem_scan_screen.no_scan'.tr()))
+            : ListView(
+                children: [
+                  for (int i = 0; i < value.keys.length; i++) ...[
+                    _Header(t: value[value.keys.elementAt(i)]!.first),
+                    for (
+                      int k = 0;
                       k < value[value.keys.elementAt(i)]!.length;
-                      k++)
-                    TotemTile(
-                      t: value[value.keys.elementAt(i)]![k],
-                    ),
-                  Divider(),
+                      k++
+                    )
+                      TotemTile(t: value[value.keys.elementAt(i)]![k]),
+                    Divider(),
+                  ],
                 ],
-              ],
-            ),
-      _ => Center(
-          child: CircularProgressIndicator(),
-        )
+              ),
+      _ => Center(child: CircularProgressIndicator()),
     };
   }
 }
@@ -291,92 +271,96 @@ class _MyContactsListState extends ConsumerState<MyContactsList>
     final state = ref.watch(getMyContactTotemsProvider);
 
     return switch (state) {
-      AsyncData(:final value) => value.isEmpty
-          ? Center(
-              child: Text(
-                'totem_scan_screen.no_scan'.tr(),
-              ),
-            )
-          : Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Text('Ordina:'),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            if (sortByAlpha != null) {
-                              sortByAlpha = !sortByAlpha!;
-                            } else {
-                              sortByAlpha = true;
-                            }
-                            sortByTimestamp = null;
-                          });
-                        },
-                        icon: Icon(
-                          sortByAlpha != false
-                              ? MdiIcons.sortAlphabeticalAscending
-                              : MdiIcons.sortAlphabeticalDescending,
-                          color:
-                              sortByAlpha != null ? Colors.black : Colors.grey,
+      AsyncData(:final value) =>
+        value.isEmpty
+            ? Center(child: Text('totem_scan_screen.no_scan'.tr()))
+            : Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        Text('Ordina:'),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (sortByAlpha != null) {
+                                sortByAlpha = !sortByAlpha!;
+                              } else {
+                                sortByAlpha = true;
+                              }
+                              sortByTimestamp = null;
+                            });
+                          },
+                          icon: Icon(
+                            sortByAlpha != false
+                                ? MdiIcons.sortAlphabeticalAscending
+                                : MdiIcons.sortAlphabeticalDescending,
+                            color: sortByAlpha != null
+                                ? Colors.black
+                                : Colors.grey,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            if (sortByTimestamp != null) {
-                              sortByTimestamp = !sortByTimestamp!;
-                            } else {
-                              sortByTimestamp = true;
-                            }
-                            sortByAlpha = null;
-                          });
-                        },
-                        icon: Icon(
-                          sortByTimestamp != false
-                              ? MdiIcons.sortCalendarAscending
-                              : MdiIcons.sortCalendarDescending,
-                          color: sortByTimestamp != null
-                              ? Colors.black
-                              : Colors.grey,
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (sortByTimestamp != null) {
+                                sortByTimestamp = !sortByTimestamp!;
+                              } else {
+                                sortByTimestamp = true;
+                              }
+                              sortByAlpha = null;
+                            });
+                          },
+                          icon: Icon(
+                            sortByTimestamp != false
+                                ? MdiIcons.sortCalendarAscending
+                                : MdiIcons.sortCalendarDescending,
+                            color: sortByTimestamp != null
+                                ? Colors.black
+                                : Colors.grey,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Builder(
-                    builder: (context) {
-                      final list = value.toList();
+                  Expanded(
+                    child: Builder(
+                      builder: (context) {
+                        final list = value.toList();
 
-                      if (sortByAlpha == false) {
-                        list.sort((b, a) =>
-                            a.totemName?.compareTo(b.totemName ?? '') ?? 1);
-                      } else if (sortByTimestamp == true) {
-                        list.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-                      } else if (sortByTimestamp == false) {
-                        list.sort((b, a) => a.timestamp.compareTo(b.timestamp));
-                      } else {
-                        list.sort((a, b) =>
-                            a.totemName?.compareTo(b.totemName ?? '') ?? 1);
-                      }
-                      return ListView(
-                        children: [
-                          for (int k = 0; k < list.length; k++)
-                            TotemTile(t: list[k]),
-                          Divider(),
-                        ],
-                      );
-                    },
+                        if (sortByAlpha == false) {
+                          list.sort(
+                            (b, a) =>
+                                a.totemName?.compareTo(b.totemName ?? '') ?? 1,
+                          );
+                        } else if (sortByTimestamp == true) {
+                          list.sort(
+                            (a, b) => a.timestamp.compareTo(b.timestamp),
+                          );
+                        } else if (sortByTimestamp == false) {
+                          list.sort(
+                            (b, a) => a.timestamp.compareTo(b.timestamp),
+                          );
+                        } else {
+                          list.sort(
+                            (a, b) =>
+                                a.totemName?.compareTo(b.totemName ?? '') ?? 1,
+                          );
+                        }
+                        return ListView(
+                          children: [
+                            for (int k = 0; k < list.length; k++)
+                              TotemTile(t: list[k]),
+                            Divider(),
+                          ],
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
-      _ => Center(
-          child: CircularProgressIndicator(),
-        )
+                ],
+              ),
+      _ => Center(child: CircularProgressIndicator()),
     };
   }
 }
@@ -392,9 +376,7 @@ class _Header extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16.0, 8, 16, 4),
       child: Text(
         '${t.eventName ?? 'Evento'}${t.sessionName.isNullOrEmpty ? '' : ' | ${t.sessionName}'}',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }

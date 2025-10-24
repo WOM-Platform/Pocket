@@ -4,7 +4,7 @@ part 'my_totem_response.freezed.dart';
 part 'my_totem_response.g.dart';
 
 @freezed
-class MyTotemResponse with _$MyTotemResponse {
+abstract class MyTotemResponse with _$MyTotemResponse {
   const factory MyTotemResponse({
     required String id,
   }) = _MyTotemResponse;

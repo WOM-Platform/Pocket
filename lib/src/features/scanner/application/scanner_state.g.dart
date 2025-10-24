@@ -6,21 +6,58 @@ part of 'scanner_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(ScannerNotifier)
+const scannerProvider = ScannerNotifierProvider._();
+
+final class ScannerNotifierProvider
+    extends $NotifierProvider<ScannerNotifier, ScannerState> {
+  const ScannerNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'scannerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$scannerNotifierHash();
+
+  @$internal
+  @override
+  ScannerNotifier create() => ScannerNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ScannerState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ScannerState>(value),
+    );
+  }
+}
+
 String _$scannerNotifierHash() => r'041d75693e70ed3f7e3d3e022e2181864d2929e9';
 
-/// See also [ScannerNotifier].
-@ProviderFor(ScannerNotifier)
-final scannerNotifierProvider =
-    AutoDisposeNotifierProvider<ScannerNotifier, ScannerState>.internal(
-  ScannerNotifier.new,
-  name: r'scannerNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$scannerNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$ScannerNotifier = AutoDisposeNotifier<ScannerState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$ScannerNotifier extends $Notifier<ScannerState> {
+  ScannerState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<ScannerState, ScannerState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ScannerState, ScannerState>,
+              ScannerState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

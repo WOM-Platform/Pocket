@@ -6,37 +6,34 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wom_pocket/src/core/routing/route_extensions.dart';
-import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
-import 'package:wom_pocket/src/features/exchange/ui/screens/exchange_receipt.dart';
-
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
+import 'package:wom_pocket/src/features/exchange/application/new_exchange_state.dart';
 
 class NewExchangeWidget extends HookConsumerWidget {
   const NewExchangeWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final exchangeState = ref.watch(exchangeNotifierProvider);
-    return exchangeState.when(
-      error: (ex, st) {
-        logger.e(ex);
-        return Text(
-          ex.toString(),
-        );
-      },
-      loading: () => SizedBox(
-        height: 150,
-        child: Center(
-          child: CircularProgressIndicator(),
+    final exchangeState = ref.watch(exchangeProvider);
+    return switch (exchangeState) {
+      ExchangeStateInitial(
+        dailyAvailableWom: final dailyAvailableWom,
+        totalAvailableWom: final totalAvailableWom,
+      ) =>
+        NewExchange(
+          dailyAvailableWom: dailyAvailableWom,
+          totalAvailableWom: totalAvailableWom,
         ),
+      ExchangeStateError(error: final ex, st: _) => Text(ex.toString()),
+      ExchangeStateLoading() => SizedBox(
+        height: 150,
+        child: Center(child: CircularProgressIndicator()),
       ),
-      initial: (dailyAvailableWom, totalAvailableWom) => NewExchange(
-        dailyAvailableWom: dailyAvailableWom,
-        totalAvailableWom: totalAvailableWom,
-      ),
-    );
+      _ => SizedBox.shrink(),
+    };
   }
 }
 
@@ -60,20 +57,12 @@ class NewExchange extends HookConsumerWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          Text(
-            'donationInfo'.tr(),
-            style: TextStyle(
-              color: Colors.grey,
-            ),
-          ),
+          Text('donationInfo'.tr(), style: TextStyle(color: Colors.grey)),
           const SizedBox(height: 24),
           if (totalAvailableWom == 0)
             Text(
               'noWomToDonate'.tr(),
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             )
           else ...[
@@ -84,10 +73,7 @@ class NewExchange extends HookConsumerWidget {
                 min(totalAvailableWom, dailyAvailableWom),
                 totalAvailableWom,
               ),
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
@@ -123,9 +109,7 @@ class NewExchange extends HookConsumerWidget {
                     buttons: [
                       DialogButton(
                         color: Colors.white,
-                        child: Text(
-                          'cancel'.tr(),
-                        ),
+                        child: Text('cancel'.tr()),
                         onPressed: () {
                           context.maybePop(false);
                         },
@@ -145,9 +129,7 @@ class NewExchange extends HookConsumerWidget {
                     context.push('/exchange/new/${wom.value}');
                   }
                 },
-                child: Text(
-                  '${'donate'.tr()} ${wom.value} WOM',
-                ),
+                child: Text('${'donate'.tr()} ${wom.value} WOM'),
               ),
             ] else
               Text(

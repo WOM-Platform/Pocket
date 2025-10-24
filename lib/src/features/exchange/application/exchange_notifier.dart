@@ -2,25 +2,23 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:drift/drift.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/pocket_notifier.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
-import 'package:wom_pocket/src/features/map/application/bloc.dart';
-import 'package:wom_pocket/src/core/application/aim_notifier.dart';
-import 'package:wom_pocket/src/core/services/aim_repository.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/database/extensions.dart';
-import 'package:wom_pocket/src/features/exchange/application/new_exchange_state.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/core/services/aim_repository.dart';
+import 'package:wom_pocket/src/features/exchange/application/new_exchange_state.dart';
+import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/features/root/widgets/wom_stats_widget.dart';
 
 part 'exchange_notifier.g.dart';
 
 @riverpod
-Future<List<TransactionModel>> getExchangeTransactions(
-  GetExchangeTransactionsRef ref,
-) async {
+Future<List<TransactionModel>> getExchangeTransactions(Ref ref) async {
   var aims = await ref.read(aimRepositoryProvider).getFlatAimList();
 
   try {
@@ -57,8 +55,10 @@ class ExchangeNotifier extends _$ExchangeNotifier {
         .read(getDatabaseProvider)
         .transactionsDao
         .getExchangeDailyCount();
-    final total =
-        await ref.read(getDatabaseProvider).womsDao.getAvailableWomCount();
+    final total = await ref
+        .read(getDatabaseProvider)
+        .womsDao
+        .getAvailableWomCount();
     logger.i('Ho consumato già ${womSpentToday} wom');
     state = ExchangeStateInitial(
       dailyAvailableWom: 60 - womSpentToday,
@@ -91,25 +91,29 @@ class NewExchangeNotifier extends _$NewExchangeNotifier {
       }
 
       final vouchers = satisfyingVouchers.sublist(0, womCount);
-      final response = await ref.read(pocketProvider).createExchangeRequest(
+      final response = await ref
+          .read(pocketProvider)
+          .createExchangeRequest(
             keys.sourceId,
             CoreUtils.generateGUID(),
             keys.sourcePublicKey,
             vouchers,
           );
 
-      final id =
-          await ref.read(getDatabaseProvider).transactionsDao.addTransaction(
-                TransactionsCompanion.insert(
-                  source: '',
-                  aim: 'XX',
-                  timestamp: DateTime.now().millisecondsSinceEpoch,
-                  type: TransactionType.EXCHANGE_EXPORT.index,
-                  size: womCount,
-                  pin: Value(response.password),
-                  link: Value(response.link),
-                ),
-              );
+      final id = await ref
+          .read(getDatabaseProvider)
+          .transactionsDao
+          .addTransaction(
+            TransactionsCompanion.insert(
+              source: '',
+              aim: 'XX',
+              timestamp: DateTime.now().millisecondsSinceEpoch,
+              type: TransactionType.EXCHANGE_EXPORT.index,
+              size: womCount,
+              pin: Value(response.password),
+              link: Value(response.link),
+            ),
+          );
 
       int count = 0;
 
@@ -140,7 +144,7 @@ class NewExchangeNotifier extends _$NewExchangeNotifier {
 
   refreshHome() {
     ref.invalidate(getExchangeTransactionsProvider);
-    ref.invalidate(exchangeNotifierProvider);
+    ref.invalidate(exchangeProvider);
     ref.invalidate(fetchTransactionsProvider);
     ref.invalidate(availableWomCountProvider);
     ref.invalidate(mapNotifierProvider);

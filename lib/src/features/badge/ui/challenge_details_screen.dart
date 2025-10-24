@@ -1,10 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
@@ -18,12 +15,9 @@ class ChallengeDetailsScreen extends StatelessWidget {
   final ChallengeData? challenge;
   final String? challengeId;
 
-  const ChallengeDetailsScreen({
-    Key? key,
-    this.challenge,
-    this.challengeId,
-  })  : assert(challenge != null || challengeId != null),
-        super(key: key);
+  const ChallengeDetailsScreen({Key? key, this.challenge, this.challengeId})
+    : assert(challenge != null || challengeId != null),
+      super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +25,7 @@ class ChallengeDetailsScreen extends StatelessWidget {
     final id = challengeId;
     if (c == null) {
       if (id != null) {
-        return ChallengeWidgetByRemote(
-          challengeId: id,
-        );
+        return ChallengeWidgetByRemote(challengeId: id);
       }
       return Scaffold();
     } else {
@@ -45,22 +37,19 @@ class ChallengeDetailsScreen extends StatelessWidget {
 class ChallengeWidgetByRemote extends ConsumerWidget {
   final String challengeId;
 
-  const ChallengeWidgetByRemote({
-    required this.challengeId,
-    super.key,
-  });
+  const ChallengeWidgetByRemote({required this.challengeId, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(getChallengeProvider(challengeId));
     return switch (state) {
       AsyncData(:final value) => _ChallengeWidget(
-          challenge: value,
-          showAcceptButton: true,
-        ),
+        challenge: value,
+        showAcceptButton: true,
+      ),
       _ => Scaffold(
-          appBar: SecondLevelAppBar(title: 'Caricamento Challenge...'),
-        ),
+        appBar: SecondLevelAppBar(title: 'Caricamento Challenge...'),
+      ),
     };
   }
 }
@@ -114,7 +103,7 @@ class _ChallengeWidget extends HookConsumerWidget {
                     try {
                       isLoading.value = true;
                       await ref
-                          .read(badgeNotifierProvider.notifier)
+                          .read(badgeProvider.notifier)
                           .acceptChallenge(challenge);
                       context.maybePop();
                     } catch (ex, st) {

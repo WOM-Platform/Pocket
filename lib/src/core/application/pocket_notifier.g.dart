@@ -6,21 +6,45 @@ part of 'pocket_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pocketHash() => r'3f530f1b8104f9bc7fe789f19ca3cc1d77e8109e';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [pocket].
 @ProviderFor(pocket)
-final pocketProvider = Provider<Pocket>.internal(
-  pocket,
-  name: r'pocketProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$pocketHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const pocketProvider = PocketProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef PocketRef = ProviderRef<Pocket>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class PocketProvider extends $FunctionalProvider<Pocket, Pocket, Pocket>
+    with $Provider<Pocket> {
+  const PocketProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'pocketProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$pocketHash();
+
+  @$internal
+  @override
+  $ProviderElement<Pocket> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Pocket create(Ref ref) {
+    return pocket(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Pocket value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Pocket>(value),
+    );
+  }
+}
+
+String _$pocketHash() => r'700046a232d0452fa0942490a1724d226b4d0775';

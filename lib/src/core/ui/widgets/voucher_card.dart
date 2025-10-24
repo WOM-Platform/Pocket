@@ -1,15 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:collection/collection.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
-
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
-
-import 'package:collection/collection.dart';
 
 class TicketCard extends StatelessWidget {
   final TransactionModel transaction;
@@ -28,13 +26,13 @@ class TicketCard extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           logger.i(transaction.toString());
-//          Navigator.push(
-//            context,
-//            MaterialPageRoute<bool>(
-//                builder: (context) => TransactionDetailsScreen(
-//                      transactionModel: transaction,
-//                    )),
-//          );
+          //          Navigator.push(
+          //            context,
+          //            MaterialPageRoute<bool>(
+          //                builder: (context) => TransactionDetailsScreen(
+          //                      transactionModel: transaction,
+          //                    )),
+          //          );
         },
         child: ClipPath(
           clipper: VoucherClipper(10.0),
@@ -114,8 +112,10 @@ class TicketCard extends StatelessWidget {
   }
 
   _buildTransactionContent(BuildContext context) {
-    TextStyle voucherIdStyle =
-        new TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
+    TextStyle voucherIdStyle = new TextStyle(
+      fontSize: 20.0,
+      fontWeight: FontWeight.w600,
+    );
     bool isEarnTransaction = transaction.type == TransactionType.VOUCHERS;
     final languageCode = context.locale.languageCode;
 
@@ -131,25 +131,14 @@ class TicketCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Text(
-                    transaction.formatDate(),
-                    style: voucherIdStyle,
-                  ),
+                  Text(transaction.formatDate(), style: voucherIdStyle),
                   Expanded(child: SizedBox()),
                   transaction.type == TransactionType.PAYMENT
-                      ? Icon(
-                          Icons.payment,
-                          color: Colors.red,
-                        )
-                      : Icon(
-                          Icons.monetization_on,
-                          color: Colors.green,
-                        ),
+                      ? Icon(Icons.payment, color: Colors.red)
+                      : Icon(Icons.monetization_on, color: Colors.green),
                 ],
               ),
-              Expanded(
-                child: Container(),
-              ),
+              Expanded(child: Container()),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -164,28 +153,24 @@ class TicketCard extends StatelessWidget {
                   ),
                   Expanded(child: Container()),
                   if (transaction.aimCodes.isEmpty)
-                    Text(
-                      '-',
-                    )
+                    Text('-')
                   else
                     Consumer(
                       builder: (c, ref, child) {
                         final aim = ref
-                            .watch(aimNotifierProvider)
-                            .valueOrNull
+                            .watch(aimProvider)
+                            .value
                             ?.firstWhereOrNull(
                               (a) => a.code == transaction.aimCodes.first,
                             );
-                        return Text(
-                          aim?.titles[languageCode] ?? '-',
-                        );
+                        return Text(aim?.titles[languageCode] ?? '-');
                       },
                     ),
                 ],
               ),
             ],
           ),
-//          Center(child: Text("Hai ${isEarnTransaction ? "ottenuto": "speso"} ${ticket.size.toString()} WOM",style: TextStyle(fontSize: 20.0,color:isEarnTransaction ? Colors.green : Colors.red),)),
+          //          Center(child: Text("Hai ${isEarnTransaction ? "ottenuto": "speso"} ${ticket.size.toString()} WOM",style: TextStyle(fontSize: 20.0,color:isEarnTransaction ? Colors.green : Colors.red),)),
           Center(
             child: Text.rich(
               TextSpan(
@@ -276,11 +261,7 @@ class AimsRow extends StatelessWidget {
     // TODO: implement build
     return Row(
       children: aimsSet.map((s) {
-        return Icon(
-          aimIcons[int.parse(s)],
-          size: 20.0,
-          color: baseIconColor,
-        );
+        return Icon(aimIcons[int.parse(s)], size: 20.0, color: baseIconColor);
       }).toList(),
     );
   }

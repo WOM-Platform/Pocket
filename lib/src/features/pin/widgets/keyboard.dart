@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/features/pin/application/pin_notifier.dart';
-
 import 'package:wom_pocket/src/features/pin/widgets/code_button.dart';
 
 const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -18,13 +16,13 @@ class PinKeyboard extends ConsumerWidget {
     final keyboardButtons = arr.map((code) {
       return CodeButton(
         code: code,
-        onTap: () => ref.read(pinNotifierProvider.notifier).updateCode(code),
+        onTap: () => ref.read(pinProvider.notifier).updateCode(code),
       );
     }).toList();
 
     keyboardButtons.add(
       CodeButton(
-        onTap: () => ref.read(pinNotifierProvider.notifier).deleteAllCode(),
+        onTap: () => ref.read(pinProvider.notifier).deleteAllCode(),
         icon: Icons.close,
         iconColor: Colors.red,
       ),
@@ -32,16 +30,12 @@ class PinKeyboard extends ConsumerWidget {
     keyboardButtons.add(
       CodeButton(
         code: 0,
-        onTap: () => ref.read(pinNotifierProvider.notifier).updateCode(0),
+        onTap: () => ref.read(pinProvider.notifier).updateCode(0),
       ),
     );
     if (onCheck != null)
       keyboardButtons.add(
-        CodeButton(
-          onTap: onCheck,
-          icon: Icons.check,
-          iconColor: Colors.green,
-        ),
+        CodeButton(onTap: onCheck, icon: Icons.check, iconColor: Colors.green),
       );
 
     return Container(

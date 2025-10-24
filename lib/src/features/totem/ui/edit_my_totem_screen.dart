@@ -31,9 +31,7 @@ class EditMyTotemScreen extends HookConsumerWidget {
     final websiteController = useTextEditingController(text: website ?? '');
     final isLoading = useState(false);
     return Scaffold(
-      appBar: SecondLevelAppBar(
-        title: 'edit_my_personal_totem.edit'.tr(),
-      ),
+      appBar: SecondLevelAppBar(title: 'edit_my_personal_totem.edit'.tr()),
       body: Form(
         key: formKey,
         child: ListView(
@@ -66,8 +64,9 @@ class EditMyTotemScreen extends HookConsumerWidget {
                 border: OutlineInputBorder(),
                 hintText: 'edit_my_personal_totem.phone'.tr(),
               ),
-              validator:
-                  FormBuilderValidators.phoneNumber(checkNullOrEmpty: false),
+              validator: FormBuilderValidators.phoneNumber(
+                checkNullOrEmpty: false,
+              ),
             ),
             const SizedBox(height: 8),
             TextFormField(
@@ -93,10 +92,12 @@ class EditMyTotemScreen extends HookConsumerWidget {
                         final name = nameController.text.trim();
                         final email = emailController.text.trim().toLowerCase();
                         final phone = phoneController.text.trim();
-                        final website = websiteController.text.trim().toLowerCase();
+                        final website = websiteController.text
+                            .trim()
+                            .toLowerCase();
 
                         await ref
-                            .read(myTotemNotifierProvider.notifier)
+                            .read(myTotemProvider.notifier)
                             .savePersonalTotem(
                               name: name,
                               email: email.isEmpty ? null : email,
@@ -104,13 +105,17 @@ class EditMyTotemScreen extends HookConsumerWidget {
                               website: website.isEmpty ? null : website,
                             );
                         isLoading.value = false;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('edit_my_personal_totem.success'.tr()),
-                          ),
-                        );
-                        ref.invalidate(myTotemNotifierProvider);
-                        context.maybePop();
+                        if (ref.context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'edit_my_personal_totem.success'.tr(),
+                              ),
+                            ),
+                          );
+                          ref.invalidate(myTotemProvider);
+                          context.maybePop();
+                        }
                       }
                     } catch (ex, st) {
                       isLoading.value = false;

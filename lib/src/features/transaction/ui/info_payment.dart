@@ -1,10 +1,8 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
-
 import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
 
@@ -51,20 +49,16 @@ class InfoPayment extends ConsumerWidget {
                 children: <Widget>[
                   Text(
                     'info_payment'.tr(),
-                    style:
-                        TextStyle(fontWeight: FontWeight.w600, fontSize: 20.0),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20.0,
+                    ),
                     textAlign: TextAlign.start,
                   ),
-                  Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
-                  ),
+                  Icon(Icons.check_circle, color: Colors.green),
                 ],
               ),
-              Divider(
-                height: 20.0,
-                indent: 10.0,
-              ),
+              Divider(height: 20.0, indent: 10.0),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
@@ -72,22 +66,13 @@ class InfoPayment extends ConsumerWidget {
                   children: <Widget>[
                     Column(
                       children: <Widget>[
-                        Text(
-                          'merchant'.tr(),
-                          style: greyStyle,
-                        ),
-                        Text(
-                          responseInfoPay.posName,
-                          style: valueStyle,
-                        ),
+                        Text('merchant'.tr(), style: greyStyle),
+                        Text(responseInfoPay.posName, style: valueStyle),
                       ],
                     ),
                     Column(
                       children: <Widget>[
-                        Text(
-                          'amount'.tr(),
-                          style: greyStyle,
-                        ),
+                        Text('amount'.tr(), style: greyStyle),
                         Text(
                           responseInfoPay.amount.toString(),
                           style: valueStyle,
@@ -105,22 +90,13 @@ class InfoPayment extends ConsumerWidget {
                         children: <Widget>[
                           Column(
                             children: <Widget>[
-                              Text(
-                                'Aim',
-                                style: greyStyle,
-                              ),
-                              Text(
-                                simpleFilters.aim ?? '-',
-                                style: valueStyle,
-                              ),
+                              Text('Aim', style: greyStyle),
+                              Text(simpleFilters.aim ?? '-', style: valueStyle),
                             ],
                           ),
                           Column(
                             children: <Widget>[
-                              Text(
-                                'Bounds',
-                                style: greyStyle,
-                              ),
+                              Text('Bounds', style: greyStyle),
                               Text(
                                 simpleFilters.bounds?.toString() ?? '-',
                                 style: valueStyle,
@@ -129,10 +105,7 @@ class InfoPayment extends ConsumerWidget {
                           ),
                           Column(
                             children: <Widget>[
-                              Text(
-                                'MaxAge',
-                                style: greyStyle,
-                              ),
+                              Text('MaxAge', style: greyStyle),
                               Text(
                                 simpleFilters.maxAge?.toString() ?? '-',
                                 style: valueStyle,
@@ -143,10 +116,7 @@ class InfoPayment extends ConsumerWidget {
                       ),
                     )
                   : Container(),
-              Divider(
-                height: 20.0,
-                indent: 10.0,
-              ),
+              Divider(height: 20.0, indent: 10.0),
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -161,7 +131,7 @@ class InfoPayment extends ConsumerWidget {
                   ),
                   onPressed: () {
                     ref
-                        .read(transactionNotifierProvider(params).notifier)
+                        .read(transactionProvider(params).notifier)
                         .confirmPayment(responseInfoPay);
                   },
                 ),
@@ -171,9 +141,7 @@ class InfoPayment extends ConsumerWidget {
                   onPressed: () {
                     context.maybePop();
                   },
-                  child: Text(
-                    'cancel'.tr(),
-                  ),
+                  child: Text('cancel'.tr()),
                 ),
               ),
             ],

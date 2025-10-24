@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_list_state.dart';
@@ -9,28 +8,22 @@ import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
 part 'wom_stats_notifier.g.dart';
 
 @riverpod
-Future<List<AimInPercentage>> fetchAimInPercentage(
-  Ref ref,
-) async {
+Future<List<AimInPercentage>> fetchAimInPercentage(Ref ref) async {
   return ref.watch(getDatabaseProvider).womsDao.getAimInPercentage();
 }
 
 @riverpod
-Future<int> fetchWomCountEarnedInTheLastWeek(
-  Ref ref,
-) async {
+Future<int> fetchWomCountEarnedInTheLastWeek(Ref ref) async {
   return ref.watch(getDatabaseProvider).womsDao.getWomCountEarnedLastWeek();
 }
 
 @riverpod
-Future<int> fetchWomCountSpentInTheLastWeek(
-  Ref ref,
-) async {
+Future<int> fetchWomCountSpentInTheLastWeek(Ref ref) async {
   return ref.watch(getDatabaseProvider).womsDao.getWomCountSpentLastWeek();
 }
 
 @riverpod
-Future<int> fetchWomSpent(FetchWomSpentRef ref) async {
+Future<int> fetchWomSpent(Ref ref) async {
   return ref.watch(getDatabaseProvider).womsDao.getWomCountSpent();
 }
 
@@ -49,10 +42,8 @@ class TransactionCountNotifier extends _$TransactionCountNotifier {
 }
 
 @riverpod
-(int, int) getBadgesStats(
-  Ref ref,
-) {
-  final state = ref.watch(badgeNotifierProvider).valueOrNull;
+(int, int) getBadgesStats(Ref ref) {
+  final state = ref.watch(badgeProvider).value;
   if (state == null) {
     return (0, 0);
   }

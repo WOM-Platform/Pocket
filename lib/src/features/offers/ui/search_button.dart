@@ -3,57 +3,26 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wom_pocket/src/features/offers/application/offer_map_notifier.dart';
-import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
-
 import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/features/offers/application/search_button_notifier.dart';
 
-enum ZoomStatus { outside, enabled, disabled, loading }
-
-final enableCarouselProvider = Provider.autoDispose<bool>((ref) {
-  final zoom = ref.watch(zoomMapProvider);
-  return zoom >= minZoom;
-});
-
-final enableSearchButtonProvider = AutoDisposeFamilyNotifierProvider<
-    EnableSearchButtonNotifier,
-    ZoomStatus,
-    LatLng?>(EnableSearchButtonNotifier.new);
-
-class EnableSearchButtonNotifier
-    extends AutoDisposeFamilyNotifier<ZoomStatus, LatLng?> {
-  @override
-  ZoomStatus build(LatLng? position) {
-    logger.w('EnableSearchButtonNotifier build');
-    final posMapData = ref.watch(offersMapNotifierProvider(position));
-    final zoom = ref.watch(zoomMapProvider);
-    if (posMapData.isLoading) {
-      logger.w('EnableSearchButtonNotifier build => loading');
-      return ZoomStatus.loading;
-    }
-    logger.w('EnableSearchButtonNotifier build => disabled');
-    if (zoom >= minZoom) {
-      return ZoomStatus.enabled;
-    }
-    return ZoomStatus.outside;
-  }
-}
+// final enableSearchButtonProvider = NotifierProvider.family<
+//     EnableSearchButtonNotifier,
+//     ZoomStatus,
+//     LatLng?>(EnableSearchButtonNotifier.new);
 
 class SearchNewPointButton extends ConsumerWidget {
   final Function()? onPressed;
   final LatLng? position;
 
-  const SearchNewPointButton({
-    Key? key,
-    this.onPressed,
-    this.position,
-  }) : super(key: key);
+  const SearchNewPointButton({Key? key, this.onPressed, this.position})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fontSize = 18.0;
-    final searchButtonStatus = ref.watch(enableSearchButtonProvider);
+    final searchButtonStatus = ref.watch(enableSearchButtonProvider(null));
     logger.i('SEARCH NEW POINT $searchButtonStatus');
     switch (searchButtonStatus) {
       case ZoomStatus.outside:
@@ -66,17 +35,11 @@ class SearchNewPointButton extends ConsumerWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.pinch,
-                color: primaryColor,
-              ),
+              Icon(Icons.pinch, color: primaryColor),
               const SizedBox(width: 8),
               Text(
                 'zoomInToSearch'.tr(),
-                style: TextStyle(
-                  color: primaryColor,
-                  fontSize: fontSize,
-                ),
+                style: TextStyle(color: primaryColor, fontSize: fontSize),
               ),
             ],
           ),

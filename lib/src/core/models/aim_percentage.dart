@@ -4,7 +4,7 @@ part 'aim_percentage.freezed.dart';
 part 'aim_percentage.g.dart';
 
 @freezed
-class AimInPercentage with _$AimInPercentage {
+abstract class AimInPercentage with _$AimInPercentage {
   const factory AimInPercentage({
     required String aim,
     required int count,

@@ -8,7 +8,7 @@ class NfcWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(nFCNotifierProvider);
+    final state = ref.watch(nFCProvider);
     return Padding(
       padding: EdgeInsets.all(8),
       child: Tooltip(

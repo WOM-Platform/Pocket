@@ -6,209 +6,199 @@ part of 'exchange_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getExchangeTransactionsHash() =>
-    r'3413adeaee817d1a9fa8b16940af670df97e4a05';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [getExchangeTransactions].
 @ProviderFor(getExchangeTransactions)
-final getExchangeTransactionsProvider =
-    AutoDisposeFutureProvider<List<TransactionModel>>.internal(
-  getExchangeTransactions,
-  name: r'getExchangeTransactionsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$getExchangeTransactionsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const getExchangeTransactionsProvider = GetExchangeTransactionsProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef GetExchangeTransactionsRef
-    = AutoDisposeFutureProviderRef<List<TransactionModel>>;
+final class GetExchangeTransactionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<TransactionModel>>,
+          List<TransactionModel>,
+          FutureOr<List<TransactionModel>>
+        >
+    with
+        $FutureModifier<List<TransactionModel>>,
+        $FutureProvider<List<TransactionModel>> {
+  const GetExchangeTransactionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getExchangeTransactionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getExchangeTransactionsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<TransactionModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<TransactionModel>> create(Ref ref) {
+    return getExchangeTransactions(ref);
+  }
+}
+
+String _$getExchangeTransactionsHash() =>
+    r'0054bebe291f17c0d1a233c0b1553c639af8975c';
+
+@ProviderFor(ExchangeNotifier)
+const exchangeProvider = ExchangeNotifierProvider._();
+
+final class ExchangeNotifierProvider
+    extends $NotifierProvider<ExchangeNotifier, ExchangeState> {
+  const ExchangeNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'exchangeProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$exchangeNotifierHash();
+
+  @$internal
+  @override
+  ExchangeNotifier create() => ExchangeNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ExchangeState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ExchangeState>(value),
+    );
+  }
+}
+
 String _$exchangeNotifierHash() => r'093160512b698db0e1804cdf898d197480b8616b';
 
-/// See also [ExchangeNotifier].
-@ProviderFor(ExchangeNotifier)
-final exchangeNotifierProvider =
-    AutoDisposeNotifierProvider<ExchangeNotifier, ExchangeState>.internal(
-  ExchangeNotifier.new,
-  name: r'exchangeNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$exchangeNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$ExchangeNotifier = AutoDisposeNotifier<ExchangeState>;
-String _$newExchangeNotifierHash() =>
-    r'8d6c9c61e52b0e5afb9fd61845a12cdf08708b41';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+abstract class _$ExchangeNotifier extends $Notifier<ExchangeState> {
+  ExchangeState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<ExchangeState, ExchangeState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ExchangeState, ExchangeState>,
+              ExchangeState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
   }
 }
 
-abstract class _$NewExchangeNotifier
-    extends BuildlessAutoDisposeNotifier<NewExchangeState> {
-  late final int womCount;
-
-  NewExchangeState build(
-    int womCount,
-  );
-}
-
-/// See also [NewExchangeNotifier].
 @ProviderFor(NewExchangeNotifier)
-const newExchangeNotifierProvider = NewExchangeNotifierFamily();
+const newExchangeProvider = NewExchangeNotifierFamily._();
 
-/// See also [NewExchangeNotifier].
-class NewExchangeNotifierFamily extends Family<NewExchangeState> {
-  /// See also [NewExchangeNotifier].
-  const NewExchangeNotifierFamily();
+final class NewExchangeNotifierProvider
+    extends $NotifierProvider<NewExchangeNotifier, NewExchangeState> {
+  const NewExchangeNotifierProvider._({
+    required NewExchangeNotifierFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'newExchangeProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [NewExchangeNotifier].
-  NewExchangeNotifierProvider call(
-    int womCount,
-  ) {
-    return NewExchangeNotifierProvider(
-      womCount,
-    );
+  @override
+  String debugGetCreateSourceHash() => _$newExchangeNotifierHash();
+
+  @override
+  String toString() {
+    return r'newExchangeProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  NewExchangeNotifierProvider getProviderOverride(
-    covariant NewExchangeNotifierProvider provider,
-  ) {
-    return call(
-      provider.womCount,
-    );
-  }
+  NewExchangeNotifier create() => NewExchangeNotifier();
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'newExchangeNotifierProvider';
-}
-
-/// See also [NewExchangeNotifier].
-class NewExchangeNotifierProvider extends AutoDisposeNotifierProviderImpl<
-    NewExchangeNotifier, NewExchangeState> {
-  /// See also [NewExchangeNotifier].
-  NewExchangeNotifierProvider(
-    int womCount,
-  ) : this._internal(
-          () => NewExchangeNotifier()..womCount = womCount,
-          from: newExchangeNotifierProvider,
-          name: r'newExchangeNotifierProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$newExchangeNotifierHash,
-          dependencies: NewExchangeNotifierFamily._dependencies,
-          allTransitiveDependencies:
-              NewExchangeNotifierFamily._allTransitiveDependencies,
-          womCount: womCount,
-        );
-
-  NewExchangeNotifierProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.womCount,
-  }) : super.internal();
-
-  final int womCount;
-
-  @override
-  NewExchangeState runNotifierBuild(
-    covariant NewExchangeNotifier notifier,
-  ) {
-    return notifier.build(
-      womCount,
-    );
-  }
-
-  @override
-  Override overrideWith(NewExchangeNotifier Function() create) {
-    return ProviderOverride(
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NewExchangeState value) {
+    return $ProviderOverride(
       origin: this,
-      override: NewExchangeNotifierProvider._internal(
-        () => create()..womCount = womCount,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        womCount: womCount,
-      ),
+      providerOverride: $SyncValueProvider<NewExchangeState>(value),
     );
-  }
-
-  @override
-  AutoDisposeNotifierProviderElement<NewExchangeNotifier, NewExchangeState>
-      createElement() {
-    return _NewExchangeNotifierProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is NewExchangeNotifierProvider && other.womCount == womCount;
+    return other is NewExchangeNotifierProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, womCount.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin NewExchangeNotifierRef
-    on AutoDisposeNotifierProviderRef<NewExchangeState> {
-  /// The parameter `womCount` of this provider.
-  int get womCount;
-}
+String _$newExchangeNotifierHash() =>
+    r'2ed5ec0acf287b1f02b85bff06251b55ecfac68b';
 
-class _NewExchangeNotifierProviderElement
-    extends AutoDisposeNotifierProviderElement<NewExchangeNotifier,
-        NewExchangeState> with NewExchangeNotifierRef {
-  _NewExchangeNotifierProviderElement(super.provider);
+final class NewExchangeNotifierFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          NewExchangeNotifier,
+          NewExchangeState,
+          NewExchangeState,
+          NewExchangeState,
+          int
+        > {
+  const NewExchangeNotifierFamily._()
+    : super(
+        retry: null,
+        name: r'newExchangeProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  NewExchangeNotifierProvider call(int womCount) =>
+      NewExchangeNotifierProvider._(argument: womCount, from: this);
 
   @override
-  int get womCount => (origin as NewExchangeNotifierProvider).womCount;
+  String toString() => r'newExchangeProvider';
 }
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+
+abstract class _$NewExchangeNotifier extends $Notifier<NewExchangeState> {
+  late final _$args = ref.$arg as int;
+  int get womCount => _$args;
+
+  NewExchangeState build(int womCount);
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build(_$args);
+    final ref = this.ref as $Ref<NewExchangeState, NewExchangeState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<NewExchangeState, NewExchangeState>,
+              NewExchangeState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

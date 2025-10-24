@@ -33,8 +33,9 @@ class ImportNotifier extends _$ImportNotifier {
       state = ImportState.loading();
       final otc = deepLinkModel.otc;
       if (otc == null) throw Exception('Otc is null');
-      final response =
-          await ref.read(pocketProvider).getInfoAboutMigration(otc, password);
+      final response = await ref
+          .read(pocketProvider)
+          .getInfoAboutMigration(otc, password);
 
       if (response.completed) {
         state = JustImported();
@@ -52,8 +53,10 @@ class ImportNotifier extends _$ImportNotifier {
         await migrationDir.delete(recursive: true);
       }
       await migrationDir.create(recursive: true);
-      final bytes =
-          Utils.decryptBytesWithAes(responseBytes, '$partialKey$password');
+      final bytes = Utils.decryptBytesWithAes(
+        responseBytes,
+        '$partialKey$password',
+      );
       final zipFile = File('${migrationDir.path}/zip_encrypted_wom_migration');
       await zipFile.writeAsBytes(bytes);
       await ZipFile.extractToDirectory(
@@ -79,7 +82,7 @@ class ImportNotifier extends _$ImportNotifier {
       }
 
       final aims = <Aim>[];
-      final aimsList = await ref.read(aimNotifierProvider.future);
+      final aimsList = await ref.read(aimProvider.future);
       for (final a in tmp) {
         final aim = aimsList.firstWhereOrNull((element) => element.code == a);
         if (aim != null) {
@@ -128,17 +131,14 @@ class ImportNotifier extends _$ImportNotifier {
       // await ref.read(getDatabaseProvider).deleteEverything();
 
       final totemsCompanion = totems.map((w) => w.toCompanion(true)).toList();
-      await ref.read(getDatabaseProvider).importWoms(
-            tx.toTransactionCompanion(),
-            woms,
-          );
+      await ref
+          .read(getDatabaseProvider)
+          .importWoms(tx.toTransactionCompanion(), woms);
 
       Object? object = null;
       StackTrace? stackTrace = null;
       try {
-        await ref.read(getDatabaseProvider).importTotems(
-              totemsCompanion,
-            );
+        await ref.read(getDatabaseProvider).importTotems(totemsCompanion);
       } catch (ex, st) {
         object = ex;
         stackTrace = st;
@@ -146,11 +146,7 @@ class ImportNotifier extends _$ImportNotifier {
       }
 
       await ref.read(pocketProvider).completeMigration(otc, password);
-      state = ImportCompleted(
-        woms.length,
-        ex: object,
-        st: stackTrace,
-      );
+      state = ImportCompleted(woms.length, ex: object, st: stackTrace);
     } catch (ex, st) {
       logger.e('importWom', error: ex, stackTrace: st);
       state = ImportError(ex, st);
@@ -161,7 +157,7 @@ class ImportNotifier extends _$ImportNotifier {
   refreshHome() {
     ref.invalidate(availableWomCountProvider);
     ref.invalidate(fetchTransactionsProvider);
-    ref.invalidate(exchangeNotifierProvider);
+    ref.invalidate(exchangeProvider);
     ref.invalidate(totalWomCountProvider);
     ref.invalidate(mapNotifierProvider);
     ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);

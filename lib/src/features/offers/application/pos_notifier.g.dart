@@ -6,154 +6,80 @@ part of 'pos_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getPosHash() => r'9e5c572fc4d70a340a1f1e3a63be0d0ef669f3bb';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// See also [getPos].
 @ProviderFor(getPos)
-const getPosProvider = GetPosFamily();
+const getPosProvider = GetPosFamily._();
 
-/// See also [getPos].
-class GetPosFamily extends Family<AsyncValue<PhysicalPOS>> {
-  /// See also [getPos].
-  const GetPosFamily();
+final class GetPosProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<PhysicalPOS>,
+          PhysicalPOS,
+          FutureOr<PhysicalPOS>
+        >
+    with $FutureModifier<PhysicalPOS>, $FutureProvider<PhysicalPOS> {
+  const GetPosProvider._({
+    required GetPosFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'getPosProvider',
+         isAutoDispose: false,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [getPos].
-  GetPosProvider call(
-    String posID,
-  ) {
-    return GetPosProvider(
-      posID,
-    );
+  @override
+  String debugGetCreateSourceHash() => _$getPosHash();
+
+  @override
+  String toString() {
+    return r'getPosProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  GetPosProvider getProviderOverride(
-    covariant GetPosProvider provider,
-  ) {
-    return call(
-      provider.posID,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  $FutureProviderElement<PhysicalPOS> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getPosProvider';
-}
-
-/// See also [getPos].
-class GetPosProvider extends FutureProvider<PhysicalPOS> {
-  /// See also [getPos].
-  GetPosProvider(
-    String posID,
-  ) : this._internal(
-          (ref) => getPos(
-            ref as GetPosRef,
-            posID,
-          ),
-          from: getPosProvider,
-          name: r'getPosProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getPosHash,
-          dependencies: GetPosFamily._dependencies,
-          allTransitiveDependencies: GetPosFamily._allTransitiveDependencies,
-          posID: posID,
-        );
-
-  GetPosProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.posID,
-  }) : super.internal();
-
-  final String posID;
-
-  @override
-  Override overrideWith(
-    FutureOr<PhysicalPOS> Function(GetPosRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: GetPosProvider._internal(
-        (ref) => create(ref as GetPosRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        posID: posID,
-      ),
-    );
-  }
-
-  @override
-  FutureProviderElement<PhysicalPOS> createElement() {
-    return _GetPosProviderElement(this);
+  FutureOr<PhysicalPOS> create(Ref ref) {
+    final argument = this.argument as String;
+    return getPos(ref, argument);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetPosProvider && other.posID == posID;
+    return other is GetPosProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, posID.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin GetPosRef on FutureProviderRef<PhysicalPOS> {
-  /// The parameter `posID` of this provider.
-  String get posID;
-}
+String _$getPosHash() => r'06f33b777510b92d686ff42d1176ef615dceffc6';
 
-class _GetPosProviderElement extends FutureProviderElement<PhysicalPOS>
-    with GetPosRef {
-  _GetPosProviderElement(super.provider);
+final class GetPosFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<PhysicalPOS>, String> {
+  const GetPosFamily._()
+    : super(
+        retry: null,
+        name: r'getPosProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: false,
+      );
+
+  GetPosProvider call(String posID) =>
+      GetPosProvider._(argument: posID, from: this);
 
   @override
-  String get posID => (origin as GetPosProvider).posID;
+  String toString() => r'getPosProvider';
 }
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

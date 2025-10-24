@@ -7,25 +7,22 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
 import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
-import 'package:wom_pocket/src/core/routing/route_extensions.dart';
-import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
-import 'package:wom_pocket/src/features/transaction/ui/transaction_screen.dart';
+import 'package:wom_pocket/src/core/routing/route_extensions.dart';
+import 'package:wom_pocket/src/core/services/transaction_repository.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
-
-part 'totem_dialog.g.dart';
+import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
 
 part 'totem_dialog.freezed.dart';
+part 'totem_dialog.g.dart';
 
 enum TotemError {
   gpsPermission,
@@ -67,8 +64,7 @@ enum TotemError {
       totemDisabled ||
       noWomForThisEvent ||
       totemSessionInactive ||
-      outOfPolygon =>
-        'Ok',
+      outOfPolygon => 'Ok',
       _ => 'try_again'.tr(),
     };
   }
@@ -95,7 +91,7 @@ enum TotemError {
 }
 
 @freezed
-class TotemResponse with _$TotemResponse {
+abstract class TotemResponse with _$TotemResponse {
   const factory TotemResponse({
     required String status,
     String? sessionId,
@@ -114,7 +110,7 @@ class TotemResponse with _$TotemResponse {
 }
 
 @freezed
-class TotemMetadata with _$TotemMetadata {
+abstract class TotemMetadata with _$TotemMetadata {
   const factory TotemMetadata({
     String? url,
     String? email,
@@ -150,11 +146,13 @@ class TotemDialogState with _$TotemDialogState {
 
 @riverpod
 class TotemNotifier extends _$TotemNotifier {
+  // final bool askGender;
+  // final TotemData totemData;
+  //
+  // TotemNotifier(this.totemData, this.askGender);
+
   @override
-  TotemDialogState build(
-    TotemData totemData, {
-    bool askGender = true,
-  }) {
+  TotemDialogState build(TotemData totemData, {bool askGender = true}) {
     action();
     return TotemDialogState.initialLoading();
   }
@@ -174,21 +172,26 @@ class TotemNotifier extends _$TotemNotifier {
       gender = gender == Gender.notAvailable ? null : gender;
 
       state = TotemDialogState.retrievingGPS();
-      final currentPosition =
-          await ref.refresh(getPositionProvider.future);
+      final currentPosition = await ref.refresh(getPositionProvider.future);
       if (currentPosition.isMocked) {
         state = TotemDialogStateError(TotemError.mockedLocation, '');
         return;
       }
 
-      final location =
-          LatLng(currentPosition.latitude, currentPosition.longitude);
+      final location = LatLng(
+        currentPosition.latitude,
+        currentPosition.longitude,
+      );
       state = TotemDialogCommunicationWithServer();
-      final verifyResponse =
-          await ref.read(transactionRepositoryProvider).verifyTotem(totemData);
+      final verifyResponse = await ref
+          .read(transactionRepositoryProvider)
+          .verifyTotem(totemData);
 
       if (verifyResponse.status == 'success') {
-        final res = await ref.read(getDatabaseProvider).totemsDao.getLastScan(
+        final res = await ref
+            .read(getDatabaseProvider)
+            .totemsDao
+            .getLastScan(
               totemData.providerId,
               verifyResponse.eventId!,
               totemData.totemId,
@@ -214,7 +217,10 @@ class TotemNotifier extends _$TotemNotifier {
             );
 
         if (response.status == 'success') {
-          await ref.read(getDatabaseProvider).totemsDao.addTotem(
+          await ref
+              .read(getDatabaseProvider)
+              .totemsDao
+              .addTotem(
                 totemData.providerId,
                 response.providerName ?? '',
                 response.eventId!,
@@ -249,7 +255,7 @@ class TotemNotifier extends _$TotemNotifier {
         LocationPermissionDenied() => TotemError.gpsPermission,
         LocationPermissionDeniedForever() =>
           TotemError.gpsPermissionDeniedForever,
-        _ => TotemError.unknown
+        _ => TotemError.unknown,
       };
       if (error == TotemError.gpsServiceDisabled) {
         _subscription = Geolocator.getServiceStatusStream().listen((event) {
@@ -295,11 +301,10 @@ class TotemDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(
-        totemNotifierProvider(
-          totemData,
-          askGender: askGender,
-        ), (previous, next) {
+    ref.listen(totemProvider(totemData, askGender: askGender), (
+      previous,
+      next,
+    ) {
       if (next is TotemDialogComplete) {
         context.pushReplacement(
           '/transaction',
@@ -316,19 +321,12 @@ class TotemDialog extends ConsumerWidget {
         );*/
       }
     });
-    final state = ref.watch(
-      totemNotifierProvider(
-        totemData,
-        askGender: askGender,
-      ),
-    );
+    final state = ref.watch(totemProvider(totemData, askGender: askGender));
     final size = MediaQuery.sizeOf(context);
     return Dialog(
       child: Container(
         padding: EdgeInsets.all(8),
-        constraints: BoxConstraints(
-          maxWidth: size.width * 0.8,
-        ),
+        constraints: BoxConstraints(maxWidth: size.width * 0.8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -337,20 +335,13 @@ class TotemDialog extends ConsumerWidget {
                 onAction: () {
                   ref
                       .read(
-                        totemNotifierProvider(
-                          totemData,
-                          askGender: askGender,
-                        ).notifier,
+                        totemProvider(totemData, askGender: askGender).notifier,
                       )
                       .action();
                 },
               ),
             ] else if (state is TotemDialogStateError) ...[
-              Icon(
-                Icons.error,
-                color: Colors.red,
-                size: 50,
-              ),
+              Icon(Icons.error, color: Colors.red, size: 50),
               const SizedBox(height: 8),
               Text(
                 state.totemError.description(context),
@@ -401,7 +392,7 @@ class TotemDialog extends ConsumerWidget {
                         case TotemError.unknown:
                           ref
                               .read(
-                                totemNotifierProvider(
+                                totemProvider(
                                   totemData,
                                   askGender: askGender,
                                 ).notifier,
@@ -417,10 +408,12 @@ class TotemDialog extends ConsumerWidget {
               CircularProgressIndicator(),
               const SizedBox(height: 8),
               switch (state) {
-                TotemDialogRetrievingGPS() =>
-                  Text('acquiringYourPosition'.tr()),
-                TotemDialogCommunicationWithServer() =>
-                  Text('communicatingWithServer'.tr()),
+                TotemDialogRetrievingGPS() => Text(
+                  'acquiringYourPosition'.tr(),
+                ),
+                TotemDialogCommunicationWithServer() => Text(
+                  'communicatingWithServer'.tr(),
+                ),
                 TotemDialogComplete() => Text('completed'.tr()),
                 _ => SizedBox.shrink(),
               },
@@ -452,7 +445,7 @@ class GenderSelectorWidget extends HookConsumerWidget {
   final Function onAction;
 
   const GenderSelectorWidget({required this.onAction, Key? key})
-      : super(key: key);
+    : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -501,8 +494,9 @@ class GenderSelectorWidget extends HookConsumerWidget {
                 onPressed: gender.value != null
                     ? () async {
                         if (gender.value == null) return;
-                        await Hive.box('settings')
-                            .put('gender', gender.value!.name);
+                        await Hive.box(
+                          'settings',
+                        ).put('gender', gender.value!.name);
                         onAction();
                       }
                     : null,

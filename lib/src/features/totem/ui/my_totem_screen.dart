@@ -23,7 +23,6 @@ class MyTotemScreen extends ConsumerStatefulWidget {
 
 class _MyTotemScreenState extends ConsumerState<MyTotemScreen>
     with WidgetsBindingObserver {
-
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -33,9 +32,9 @@ class _MyTotemScreenState extends ConsumerState<MyTotemScreen>
   @override
   Future didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-      final currentState = ref.read(myTotemNotifierProvider);
+      final currentState = ref.read(myTotemProvider);
       if (currentState is MyTotemStateError) {
-        ref.invalidate(myTotemNotifierProvider);
+        ref.invalidate(myTotemProvider);
         WidgetsBinding.instance.removeObserver(this);
       }
     }
@@ -43,7 +42,7 @@ class _MyTotemScreenState extends ConsumerState<MyTotemScreen>
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(myTotemNotifierProvider);
+    final state = ref.watch(myTotemProvider);
 
     return Scaffold(
       appBar: SecondLevelAppBar(
@@ -71,16 +70,14 @@ class _MyTotemScreenState extends ConsumerState<MyTotemScreen>
         ],
       ),
       body: switch (state) {
-        MyTotemStateLoading() => Center(
-            child: CircularProgressIndicator(),
-          ),
+        MyTotemStateLoading() => Center(child: CircularProgressIndicator()),
         MyTotemStateLoaded(
           totemLink: final totemLink,
           name: final name,
           email: final email,
           phone: final phone,
           website: final website,
-          isRefreshing: final isRefreshing
+          isRefreshing: final isRefreshing,
         ) =>
           ListView(
             padding: EdgeInsets.all(16),
@@ -91,100 +88,81 @@ class _MyTotemScreenState extends ConsumerState<MyTotemScreen>
                   width: 200,
                   child: isRefreshing
                       ? Center(child: CircularProgressIndicator())
-                      : QrImageView(
-                          data: totemLink,
-                          size: 200,
-                        ),
+                      : QrImageView(data: totemLink, size: 200),
                 ),
               ),
               if (kDebugMode)
                 Center(
-                    child: TextButton(
-                  child: Text(totemLink),
-                  onPressed: () {
-                    launchConnectionDialog(context, totemLink);
-                  },
-                )),
+                  child: TextButton(
+                    child: Text(totemLink),
+                    onPressed: () {
+                      launchConnectionDialog(context, totemLink);
+                    },
+                  ),
+                ),
               const SizedBox(height: 8),
-              TextWithLabel(
-                label: 'personal_totem.name'.tr(),
-                text: name,
-              ),
+              TextWithLabel(label: 'personal_totem.name'.tr(), text: name),
               const SizedBox(height: 8),
-              TextWithLabel(
-                label: 'personal_totem.email'.tr(),
-                text: email,
-              ),
+              TextWithLabel(label: 'personal_totem.email'.tr(), text: email),
               const SizedBox(height: 8),
-              TextWithLabel(
-                label: 'personal_totem.phone'.tr(),
-                text: phone,
-              ),
+              TextWithLabel(label: 'personal_totem.phone'.tr(), text: phone),
               const SizedBox(height: 8),
-              TextWithLabel(
-                label: 'personal_totem.url'.tr(),
-                text: website,
-              ),
+              TextWithLabel(label: 'personal_totem.url'.tr(), text: website),
             ],
           ),
         MyTotemStateError(error: final error) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Icon(
-                Icons.warning,
-                size: 80,
-                color: Colors.orange,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Icon(Icons.warning, size: 80, color: Colors.orange),
+            const SizedBox(height: 8),
+            Text(error.translate, textAlign: TextAlign.center),
+            const SizedBox(height: 8),
+            Center(
+              child: MyButton(
+                onPressed: () {
+                  switch (error) {
+                    case MyTotemError.generic:
+                      ref.invalidate(myTotemProvider);
+                      break;
+                    case MyTotemError.gpsServiceDisabled:
+                      late final StreamSubscription sub;
+                      sub = Geolocator.getServiceStatusStream().listen((
+                        status,
+                      ) {
+                        if (status == ServiceStatus.enabled) {
+                          sub.cancel();
+                          ref.invalidate(myTotemProvider);
+                        }
+                      });
+                      Geolocator.openLocationSettings();
+                      break;
+                    case MyTotemError.missingPermissions:
+                      WidgetsBinding.instance.addObserver(this);
+                      Geolocator.openAppSettings();
+                      break;
+                  }
+                },
+                child: Text(error.action),
               ),
-              const SizedBox(height: 8),
-              Text(
-                error.translate,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Center(
-                child: MyButton(
-                  onPressed: () {
-                    switch (error) {
-                      case MyTotemError.generic:
-                        ref.invalidate(myTotemNotifierProvider);
-                        break;
-                      case MyTotemError.gpsServiceDisabled:
-                        late final StreamSubscription sub;
-                        sub = Geolocator.getServiceStatusStream()
-                            .listen((status) {
-                          if (status == ServiceStatus.enabled) {
-                            sub.cancel();
-                            ref.invalidate(myTotemNotifierProvider);
-                          }
-                        });
-                        Geolocator.openLocationSettings();
-                        break;
-                      case MyTotemError.missingPermissions:
-                        WidgetsBinding.instance.addObserver(this);
-                        Geolocator.openAppSettings();
-                        break;
-                    }
-                  },
-                  child: Text(error.action),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
+        ),
         _ => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('personal_totem.generate_desc'.tr()),
-              Center(
-                child: MyButton(
-                  onPressed: () {
-                    context.go('/totem/account/edit');
-                  },
-                  child: Text('personal_totem.generate_button'.tr()),
-                ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('personal_totem.generate_desc'.tr()),
+            const SizedBox(height: 16),
+            Center(
+              child: MyButton(
+                onPressed: () {
+                  context.go('/totem/account/edit');
+                },
+                child: Text('personal_totem.generate_button'.tr()),
               ),
-            ],
-          ),
+            ),
+          ],
+        ),
       },
     );
   }

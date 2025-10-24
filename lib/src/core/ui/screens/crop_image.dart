@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -51,7 +50,7 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
   }
 
   Future<void> crop(ImageEditorController imageEditorController) async {
-    print('native library start cropping');
+    debugPrint('native library start cropping');
 
     final EditActionDetails action = imageEditorController.editActionDetails!;
 
@@ -128,6 +127,14 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
                 onPressed: () {
                   croppedData = null;
                 },
+              )
+            else
+              MyButton(
+                onPressed: () {
+                  isProcessing = true;
+                  crop(_editorController);
+                },
+                child: Text('Crop'),
               ),
           ],
           iconTheme: IconThemeData(
@@ -152,18 +159,6 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
                   );
                 },
               ),
-              const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: MyButton(
-                  onPressed: () {
-                    isProcessing = true;
-                    crop(_editorController);
-                  },
-                  child: Text('Crop'),
-                ),
-              ),
-              const SizedBox(height: 16),
             ],
           ),
           replacement: _croppedData != null

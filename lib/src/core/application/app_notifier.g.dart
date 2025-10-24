@@ -6,55 +6,126 @@ part of 'app_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(getNFCBackground)
+const getNFCBackgroundProvider = GetNFCBackgroundProvider._();
+
+final class GetNFCBackgroundProvider
+    extends $FunctionalProvider<NfcBackground, NfcBackground, NfcBackground>
+    with $Provider<NfcBackground> {
+  const GetNFCBackgroundProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getNFCBackgroundProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getNFCBackgroundHash();
+
+  @$internal
+  @override
+  $ProviderElement<NfcBackground> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  NfcBackground create(Ref ref) {
+    return getNFCBackground(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NfcBackground value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NfcBackground>(value),
+    );
+  }
+}
+
 String _$getNFCBackgroundHash() => r'2901de39a46e5a088ecbdf703de96b6ecd576e95';
 
-/// See also [getNFCBackground].
-@ProviderFor(getNFCBackground)
-final getNFCBackgroundProvider = AutoDisposeProvider<NfcBackground>.internal(
-  getNFCBackground,
-  name: r'getNFCBackgroundProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$getNFCBackgroundHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+@ProviderFor(getNfcIntent)
+const getNfcIntentProvider = GetNfcIntentProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef GetNFCBackgroundRef = AutoDisposeProviderRef<NfcBackground>;
+final class GetNfcIntentProvider
+    extends
+        $FunctionalProvider<AsyncValue<TotemData>, TotemData, Stream<TotemData>>
+    with $FutureModifier<TotemData>, $StreamProvider<TotemData> {
+  const GetNfcIntentProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getNfcIntentProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getNfcIntentHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<TotemData> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
+  @override
+  Stream<TotemData> create(Ref ref) {
+    return getNfcIntent(ref);
+  }
+}
+
 String _$getNfcIntentHash() => r'3d3f4ebb4266c05a12017bdeac8f43e4477f3b67';
 
-/// See also [getNfcIntent].
-@ProviderFor(getNfcIntent)
-final getNfcIntentProvider = AutoDisposeStreamProvider<TotemData>.internal(
-  getNfcIntent,
-  name: r'getNfcIntentProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$getNfcIntentHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+@ProviderFor(NfcBackgroundNotifier)
+const nfcBackgroundProvider = NfcBackgroundNotifierProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef GetNfcIntentRef = AutoDisposeStreamProviderRef<TotemData>;
+final class NfcBackgroundNotifierProvider
+    extends $AsyncNotifierProvider<NfcBackgroundNotifier, TotemData?> {
+  const NfcBackgroundNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'nfcBackgroundProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$nfcBackgroundNotifierHash();
+
+  @$internal
+  @override
+  NfcBackgroundNotifier create() => NfcBackgroundNotifier();
+}
+
 String _$nfcBackgroundNotifierHash() =>
     r'282b755e1856d3ccdf339e908fb3679c5137434b';
 
-/// See also [NfcBackgroundNotifier].
-@ProviderFor(NfcBackgroundNotifier)
-final nfcBackgroundNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    NfcBackgroundNotifier, TotemData?>.internal(
-  NfcBackgroundNotifier.new,
-  name: r'nfcBackgroundNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$nfcBackgroundNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$NfcBackgroundNotifier = AutoDisposeAsyncNotifier<TotemData?>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$NfcBackgroundNotifier extends $AsyncNotifier<TotemData?> {
+  FutureOr<TotemData?> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AsyncValue<TotemData?>, TotemData?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<TotemData?>, TotemData?>,
+              AsyncValue<TotemData?>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

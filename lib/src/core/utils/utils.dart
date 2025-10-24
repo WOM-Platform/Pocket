@@ -3,11 +3,12 @@ import 'dart:math';
 import 'package:encrypt/encrypt.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce/hive.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
   // //TODO delete in release
@@ -27,41 +28,42 @@ class Utils {
   //   return await mmkv.setBool(IS_FAKE_MODE, status);
   // }
 
-//  static bool Contains(Bounds bounds, double latitude, double longitude) {
-//
-//    bool inLatRange = (bounds.leftTop[0] > bounds.rightBottom[0])
-//        ? (latitude <= bounds.leftTop[0] && latitude >= bounds.rightBottom[0])
-//        : (latitude <= bounds.leftTop[0] || latitude >= bounds.rightBottom[0]);
-//    bool inLngRange = (bounds.leftTop[1] < bounds.rightBottom[1])
-//        ? (longitude >= bounds.leftTop[1] && longitude <= bounds.rightBottom[1])
-//        : (longitude >= bounds.leftTop[1] ||
-//            longitude <= bounds.rightBottom[1]);
-//
-//    return inLatRange && inLngRange;
-//  }
-//
-//  final query = "where Latitude <= ${leftTop.latitude} AND Latitude >= ${rightBottom.latitude}";
-//  final query2 = "where Latitude <= ${leftTop.latitude} OR Latitude >= ${rightBottom.latitude}";
-//  final query3 = "where Longitude >= ${leftTop.longitude} AND Longitude <= ${rightBottom.longitude}";
-//  final query4 = "where Longitude >= ${leftTop.longitude} OR Longitude <= ${rightBottom.longitude}";
-//
-//
+  //  static bool Contains(Bounds bounds, double latitude, double longitude) {
+  //
+  //    bool inLatRange = (bounds.leftTop[0] > bounds.rightBottom[0])
+  //        ? (latitude <= bounds.leftTop[0] && latitude >= bounds.rightBottom[0])
+  //        : (latitude <= bounds.leftTop[0] || latitude >= bounds.rightBottom[0]);
+  //    bool inLngRange = (bounds.leftTop[1] < bounds.rightBottom[1])
+  //        ? (longitude >= bounds.leftTop[1] && longitude <= bounds.rightBottom[1])
+  //        : (longitude >= bounds.leftTop[1] ||
+  //            longitude <= bounds.rightBottom[1]);
+  //
+  //    return inLatRange && inLngRange;
+  //  }
+  //
+  //  final query = "where Latitude <= ${leftTop.latitude} AND Latitude >= ${rightBottom.latitude}";
+  //  final query2 = "where Latitude <= ${leftTop.latitude} OR Latitude >= ${rightBottom.latitude}";
+  //  final query3 = "where Longitude >= ${leftTop.longitude} AND Longitude <= ${rightBottom.longitude}";
+  //  final query4 = "where Longitude >= ${leftTop.longitude} OR Longitude <= ${rightBottom.longitude}";
+  //
+  //
 
   //Check if is the first open
-//  static Future<bool> isFirstOpen() async {
-//    final isFirstOpen = await readIsFirstOpen();
-//    logger.i(isFirstOpen);
-//    if (isFirstOpen == true) {
-//      return !isFirstOpen;
-//    }
-//    await setFirstOpen(true);
-//    return true;
-//  }
+  //  static Future<bool> isFirstOpen() async {
+  //    final isFirstOpen = await readIsFirstOpen();
+  //    logger.i(isFirstOpen);
+  //    if (isFirstOpen == true) {
+  //      return !isFirstOpen;
+  //    }
+  //    await setFirstOpen(true);
+  //    return true;
+  //  }
 
   //Check if is the first open
   static Future<bool> readIsFirstOpen() async {
-    final isFirstOpen =
-        await Hive.box('settings').get(isFirstOpenKey, defaultValue: false);
+    final isFirstOpen = await Hive.box(
+      'settings',
+    ).get(isFirstOpenKey, defaultValue: false);
     return !isFirstOpen;
   }
 
@@ -69,36 +71,21 @@ class Utils {
     await Hive.box('settings').put(isFirstOpenKey, !value);
   }
 
-  // static Future<bool> isSuggestionsDisabled() async {
-  //   final isSuggestionsDisabled = await  Hive.box('settings').get(IS_SUGGESTIONS_DISABLED);
-  //   if (isSuggestionsDisabled != null) {
-  //     return isSuggestionsDisabled;
-  //   }
-  //   mmkv.setBool(IS_SUGGESTIONS_DISABLED, false);
-  //   return false;
-  // }
-
-  // static Future<bool> setIsSuggestionDisabledToSharedPreference(
-  //     bool status) async {
-  //   return await Hive.box('settings').put(IS_SUGGESTIONS_DISABLED, status);
-  // }
-
   static launchURL(String url) async {
+    Sentry.addBreadcrumb(Breadcrumb(message: 'launchURL: $url'));
     final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      logger.e('Could not launch $url');
-      throw 'Could not launch $url';
-    }
+    await launchUri(uri);
   }
 
   static launchUri(Uri uri) async {
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      logger.e('Could not launch $uri');
-      throw 'Could not launch $uri';
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        logger.e('Could not launch $uri');
+      }
+    } catch (ex, st) {
+      logger.e('Could not launch $uri', error: ex, stackTrace: st);
     }
   }
 
@@ -211,13 +198,7 @@ class WomExportData extends Equatable {
   );
 
   @override
-  List<Object?> get props => [
-        path,
-        partialKey,
-        bytes,
-        womCount,
-        totemsCount,
-      ];
+  List<Object?> get props => [path, partialKey, bytes, womCount, totemsCount];
 }
 
 const connectionBaseUrl = 'https://link.wom.social/connection';

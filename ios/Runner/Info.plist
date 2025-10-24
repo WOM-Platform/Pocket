@@ -75,6 +75,7 @@
 		<array>
 			<string>tel</string>
 			<string>mailto</string>
+			<string>https</string>
 		</array>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Permesso necessario per poter selezionare una immagine dalla propria galleria ed abbinarlo ad un contatto.</string>

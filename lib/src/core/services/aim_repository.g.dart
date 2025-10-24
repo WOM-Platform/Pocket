@@ -6,22 +6,46 @@ part of 'aim_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$aimRepositoryHash() => r'502861c019565ead744b16ce4e60538324bc4076';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [aimRepository].
 @ProviderFor(aimRepository)
-final aimRepositoryProvider = AutoDisposeProvider<AimRepository>.internal(
-  aimRepository,
-  name: r'aimRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$aimRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const aimRepositoryProvider = AimRepositoryProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AimRepositoryRef = AutoDisposeProviderRef<AimRepository>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class AimRepositoryProvider
+    extends $FunctionalProvider<AimRepository, AimRepository, AimRepository>
+    with $Provider<AimRepository> {
+  const AimRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'aimRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$aimRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<AimRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AimRepository create(Ref ref) {
+    return aimRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AimRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AimRepository>(value),
+    );
+  }
+}
+
+String _$aimRepositoryHash() => r'bc08454f4e0c5cea482fbf81be3dec4213edfa57';

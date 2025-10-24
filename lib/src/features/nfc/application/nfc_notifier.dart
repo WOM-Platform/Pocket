@@ -2,20 +2,19 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:nfc_manager/ndef_record.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/nfc/uri_prefix_list.dart';
 
 part 'nfc_notifier.freezed.dart';
-
 part 'nfc_notifier.g.dart';
 
 @freezed
 class NFCState with _$NFCState {
-  const factory NFCState.data({
-    required TotemData totemData,
-  }) = NFCStateData;
+  const factory NFCState.data({required TotemData totemData}) = NFCStateData;
 
   const factory NFCState.listening() = NFCStateListening;
 
@@ -108,9 +107,10 @@ abstract class Record {
 
   static Record fromNdef(NdefRecord record) {
     logger.i('NdefTypeNameFormat: ${record.typeNameFormat}');
-    if (record.typeNameFormat == NdefTypeNameFormat.nfcWellknown &&
+    if (record.typeNameFormat == TypeNameFormat.wellKnown &&
         record.type.length == 1 &&
-        record.type.first == 0x55) return WellknownUriRecord.fromNdef(record);
+        record.type.first == 0x55)
+      return WellknownUriRecord.fromNdef(record);
     // if (record.typeNameFormat == NdefTypeNameFormat.nfcWellknown &&
     //     record.type.length == 1 &&
     //     record.type.first == 0x54) return WellknownTextRecord.fromNdef(record);
@@ -132,7 +132,7 @@ class WellknownUriRecord implements Record {
   final Uri uri;
 
   static WellknownUriRecord fromNdef(NdefRecord record) {
-    final prefix = NdefRecord.URI_PREFIX_LIST[record.payload.first];
+    final prefix = URI_PREFIX_LIST[record.payload.first];
     final bodyBytes = record.payload.sublist(1);
     return WellknownUriRecord(
       identifier: record.identifier,
@@ -142,12 +142,14 @@ class WellknownUriRecord implements Record {
 
   @override
   NdefRecord toNdef() {
-    var prefixIndex = NdefRecord.URI_PREFIX_LIST
-        .indexWhere((e) => uri.toString().startsWith(e), 1);
+    var prefixIndex = URI_PREFIX_LIST.indexWhere(
+      (e) => uri.toString().startsWith(e),
+      1,
+    );
     if (prefixIndex < 0) prefixIndex = 0;
-    final prefix = NdefRecord.URI_PREFIX_LIST[prefixIndex];
+    final prefix = URI_PREFIX_LIST[prefixIndex];
     return NdefRecord(
-      typeNameFormat: NdefTypeNameFormat.nfcWellknown,
+      typeNameFormat: TypeNameFormat.wellKnown,
       type: Uint8List.fromList([0x55]),
       identifier: Uint8List(0),
       payload: Uint8List.fromList([

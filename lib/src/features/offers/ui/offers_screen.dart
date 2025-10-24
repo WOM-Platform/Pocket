@@ -11,18 +11,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/core/application/location_notifier.dart';
+import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/core/utils/location_utils.dart';
+import 'package:wom_pocket/src/features/new_home/ui/section_title.dart';
 import 'package:wom_pocket/src/features/offers/application/offers_notifier.dart';
 import 'package:wom_pocket/src/features/offers/domain/entities/static_cities.dart';
-import 'package:wom_pocket/src/features/offers/ui/map_screen.dart';
 import 'package:wom_pocket/src/features/offers/ui/offer_tile.dart';
 import 'package:wom_pocket/src/features/offers/ui/pos_details_screen.dart';
-
-import 'package:wom_pocket/src/core/my_logger.dart';
-import 'package:wom_pocket/src/features/new_home/ui/section_title.dart';
-import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
-import 'package:wom_pocket/src/core/utils/location_utils.dart';
 
 final refreshControllerProvider = Provider<RefreshController>((ref) {
   final c = RefreshController(initialRefresh: false);
@@ -37,9 +35,9 @@ class OffersListScreen extends ConsumerWidget {
 
   Future<void> _onRefresh(WidgetRef ref) async {
     ref.invalidate(paginatedVirtualOffersProvider(0));
-    ref.invalidate(locationNotifierProvider);
+    ref.invalidate(locationProvider);
     await ref.read(paginatedVirtualOffersProvider(0).future);
-    await ref.read(locationNotifierProvider.future);
+    await ref.read(locationProvider.future);
     ref.read(refreshControllerProvider).refreshCompleted();
   }
 
@@ -64,10 +62,7 @@ class OffersListScreen extends ConsumerWidget {
         onRefresh: () => _onRefresh(ref),
         child: ListView(
           // padding: EdgeInsets.all(16),
-          children: [
-            VirtualOfferList(),
-            OffersList(),
-          ],
+          children: [VirtualOfferList(), OffersList()],
         ),
       ),
     );
@@ -99,10 +94,7 @@ class PocketErrorWidget extends StatelessWidget {
             child: Text(
               errorText,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
           ),
           if (tryAgain != null) ...[
@@ -114,10 +106,7 @@ class PocketErrorWidget extends StatelessWidget {
                 },
                 child: Text(
                   tryAgainText ?? '-',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
@@ -130,21 +119,16 @@ class PocketErrorWidget extends StatelessWidget {
 }
 
 class OffersList extends ConsumerWidget {
-  const OffersList({
-    Key? key,
-  }) : super(key: key);
+  const OffersList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(offersNotifierProvider(null));
+    final state = ref.watch(offersProvider(null));
     return Padding(
       padding: const EdgeInsets.only(top: 24.0),
       child: Column(
         children: [
-          SectionTitle(
-            title: 'offersOnEarth'.tr(),
-            leftPadding: 16,
-          ),
+          SectionTitle(title: 'offersOnEarth'.tr(), leftPadding: 16),
           state.when(
             data: (offers) {
               return Column(
@@ -157,10 +141,7 @@ class OffersList extends ConsumerWidget {
                       child: Text('noOffersOnLocation'.tr()),
                     ),
                     const SizedBox(height: 16),
-                    SectionTitle(
-                      title: 'whereWeAre'.tr(),
-                      leftPadding: 16,
-                    ),
+                    SectionTitle(title: 'whereWeAre'.tr(), leftPadding: 16),
                     SizedBox(
                       height: 120,
                       child: ListView.builder(
@@ -212,9 +193,7 @@ class OffersList extends ConsumerWidget {
                           ),
                         ),
                       ),
-                  SizedBox(
-                    height: 60,
-                  ),
+                  SizedBox(height: 60),
                 ],
               );
             },
@@ -225,17 +204,18 @@ class OffersList extends ConsumerWidget {
                     errorText: 'noLocationService'.tr(),
                     tryAgain: () {
                       late final StreamSubscription sub;
-                      sub =
-                          Geolocator.getServiceStatusStream().listen((status) {
+                      sub = Geolocator.getServiceStatusStream().listen((
+                        status,
+                      ) {
                         if (status == ServiceStatus.enabled) {
                           sub.cancel();
-                          ref.invalidate(locationNotifierProvider);
+                          ref.invalidate(locationProvider);
                         }
                       });
                       Geolocator.openLocationSettings();
                     },
-                    tryAgainText:
-                        'offers_screen.errors.gps_disabled_action'.tr(),
+                    tryAgainText: 'offers_screen.errors.gps_disabled_action'
+                        .tr(),
                     ex: ex,
                   );
                 }
@@ -246,7 +226,7 @@ class OffersList extends ConsumerWidget {
                     try {
                       final res = await requestPermission();
                       if (res) {
-                        ref.invalidate(locationNotifierProvider);
+                        ref.invalidate(locationProvider);
                       }
                     } on LocationPermissionDeniedForever {
                       Alert(
@@ -275,16 +255,14 @@ class OffersList extends ConsumerWidget {
               return PocketErrorWidget(
                 errorText: 'somethings_wrong'.tr(),
                 tryAgain: () {
-                  ref.invalidate(offersNotifierProvider);
+                  ref.invalidate(offersProvider);
                 },
                 tryAgainText: 'try_again'.tr(),
                 ex: ex,
               );
             },
             loading: () {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return Center(child: CircularProgressIndicator());
             },
           ),
         ],
@@ -301,7 +279,7 @@ class VirtualOfferList extends ConsumerWidget {
     //final offers = ref.watch(paginatedVirtualOffersProvider);
     final count = ref.watch(questionsCountProvider);
 
-    if (count is! AsyncData || count.valueOrNull == 0) {
+    if (count is! AsyncData || count.value == 0) {
       return SizedBox.shrink();
     }
 
@@ -319,7 +297,7 @@ class VirtualOfferList extends ConsumerWidget {
             child: ListView.builder(
               padding: const EdgeInsets.only(left: 16),
               scrollDirection: Axis.horizontal,
-              itemCount: count.valueOrNull ?? 0,
+              itemCount: count.value ?? 0,
               itemBuilder: (c, index) {
                 return ProviderScope(
                   overrides: [
@@ -419,12 +397,7 @@ class VirtualPOSCard extends ConsumerWidget {
                       ),
                     )
                   else
-                    Center(
-                      child: Icon(
-                        Icons.store,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    Center(child: Icon(Icons.store, color: Colors.grey)),
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(

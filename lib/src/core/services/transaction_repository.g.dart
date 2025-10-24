@@ -6,41 +6,93 @@ part of 'transaction_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(getDio)
+const getDioProvider = GetDioProvider._();
+
+final class GetDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
+    with $Provider<Dio> {
+  const GetDioProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getDioProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getDioHash();
+
+  @$internal
+  @override
+  $ProviderElement<Dio> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Dio create(Ref ref) {
+    return getDio(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Dio value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Dio>(value),
+    );
+  }
+}
+
 String _$getDioHash() => r'06d64f8c72c8e7d66dec6e4d9ba99b987231a1ed';
 
-/// See also [getDio].
-@ProviderFor(getDio)
-final getDioProvider = AutoDisposeProvider<Dio>.internal(
-  getDio,
-  name: r'getDioProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$getDioHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef GetDioRef = AutoDisposeProviderRef<Dio>;
-String _$transactionRepositoryHash() =>
-    r'9890b667c15392df5bc23b8c368c0d254c94f792';
-
-/// See also [transactionRepository].
 @ProviderFor(transactionRepository)
-final transactionRepositoryProvider =
-    AutoDisposeProvider<TransactionRepository>.internal(
-  transactionRepository,
-  name: r'transactionRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$transactionRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const transactionRepositoryProvider = TransactionRepositoryProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef TransactionRepositoryRef
-    = AutoDisposeProviderRef<TransactionRepository>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class TransactionRepositoryProvider
+    extends
+        $FunctionalProvider<
+          TransactionRepository,
+          TransactionRepository,
+          TransactionRepository
+        >
+    with $Provider<TransactionRepository> {
+  const TransactionRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'transactionRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$transactionRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<TransactionRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  TransactionRepository create(Ref ref) {
+    return transactionRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(TransactionRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<TransactionRepository>(value),
+    );
+  }
+}
+
+String _$transactionRepositoryHash() =>
+    r'a8d3c796f99ed99a690890700653574d41591bb0';
