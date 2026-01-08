@@ -10,11 +10,11 @@ part of 'transaction_repository.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getDio)
-const getDioProvider = GetDioProvider._();
+final getDioProvider = GetDioProvider._();
 
 final class GetDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
     with $Provider<Dio> {
-  const GetDioProvider._()
+  GetDioProvider._()
     : super(
         from: null,
         argument: null,
@@ -50,7 +50,7 @@ final class GetDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
 String _$getDioHash() => r'06d64f8c72c8e7d66dec6e4d9ba99b987231a1ed';
 
 @ProviderFor(transactionRepository)
-const transactionRepositoryProvider = TransactionRepositoryProvider._();
+final transactionRepositoryProvider = TransactionRepositoryProvider._();
 
 final class TransactionRepositoryProvider
     extends
@@ -60,13 +60,13 @@ final class TransactionRepositoryProvider
           TransactionRepository
         >
     with $Provider<TransactionRepository> {
-  const TransactionRepositoryProvider._()
+  TransactionRepositoryProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
         name: r'transactionRepositoryProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -95,4 +95,4 @@ final class TransactionRepositoryProvider
 }
 
 String _$transactionRepositoryHash() =>
-    r'a8d3c796f99ed99a690890700653574d41591bb0';
+    r'adaf2e43f5c0e5fb2f9c98aebfcde49db9a5c8a9';

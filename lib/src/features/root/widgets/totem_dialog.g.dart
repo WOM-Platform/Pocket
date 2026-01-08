@@ -58,11 +58,11 @@ Map<String, dynamic> _$TotemMetadataToJson(_TotemMetadata instance) =>
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(TotemNotifier)
-const totemProvider = TotemNotifierFamily._();
+final totemProvider = TotemNotifierFamily._();
 
 final class TotemNotifierProvider
     extends $NotifierProvider<TotemNotifier, TotemDialogState> {
-  const TotemNotifierProvider._({
+  TotemNotifierProvider._({
     required TotemNotifierFamily super.from,
     required (TotemData, {bool askGender}) super.argument,
   }) : super(
@@ -106,7 +106,7 @@ final class TotemNotifierProvider
   }
 }
 
-String _$totemNotifierHash() => r'ffb7774aa5698c3638f12b07d87101c4cf18666a';
+String _$totemNotifierHash() => r'79c5fadd510ac8722065c7937cad38cb87e306a2';
 
 final class TotemNotifierFamily extends $Family
     with
@@ -117,7 +117,7 @@ final class TotemNotifierFamily extends $Family
           TotemDialogState,
           (TotemData, {bool askGender})
         > {
-  const TotemNotifierFamily._()
+  TotemNotifierFamily._()
     : super(
         retry: null,
         name: r'totemProvider',
@@ -145,7 +145,6 @@ abstract class _$TotemNotifier extends $Notifier<TotemDialogState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args.$1, askGender: _$args.askGender);
     final ref = this.ref as $Ref<TotemDialogState, TotemDialogState>;
     final element =
         ref.element
@@ -155,6 +154,9 @@ abstract class _$TotemNotifier extends $Notifier<TotemDialogState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(
+      ref,
+      () => build(_$args.$1, askGender: _$args.askGender),
+    );
   }
 }

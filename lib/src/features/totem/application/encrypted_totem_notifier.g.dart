@@ -10,11 +10,11 @@ part of 'encrypted_totem_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(EncryptedTotemNotifier)
-const encryptedTotemProvider = EncryptedTotemNotifierFamily._();
+final encryptedTotemProvider = EncryptedTotemNotifierFamily._();
 
 final class EncryptedTotemNotifierProvider
     extends $NotifierProvider<EncryptedTotemNotifier, EncryptedTotemState?> {
-  const EncryptedTotemNotifierProvider._({
+  EncryptedTotemNotifierProvider._({
     required EncryptedTotemNotifierFamily super.from,
     required String super.argument,
   }) : super(
@@ -71,7 +71,7 @@ final class EncryptedTotemNotifierFamily extends $Family
           EncryptedTotemState?,
           String
         > {
-  const EncryptedTotemNotifierFamily._()
+  EncryptedTotemNotifierFamily._()
     : super(
         retry: null,
         name: r'encryptedTotemProvider',
@@ -96,7 +96,6 @@ abstract class _$EncryptedTotemNotifier
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args);
     final ref = this.ref as $Ref<EncryptedTotemState?, EncryptedTotemState?>;
     final element =
         ref.element
@@ -106,6 +105,6 @@ abstract class _$EncryptedTotemNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, () => build(_$args));
   }
 }

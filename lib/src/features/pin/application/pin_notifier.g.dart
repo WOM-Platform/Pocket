@@ -10,11 +10,11 @@ part of 'pin_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(PinNotifier)
-const pinProvider = PinNotifierProvider._();
+final pinProvider = PinNotifierProvider._();
 
 final class PinNotifierProvider
     extends $NotifierProvider<PinNotifier, PinState> {
-  const PinNotifierProvider._()
+  PinNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,7 +48,6 @@ abstract class _$PinNotifier extends $Notifier<PinState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<PinState, PinState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$PinNotifier extends $Notifier<PinState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

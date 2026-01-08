@@ -10,11 +10,11 @@ part of 'nfc_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(NFCNotifier)
-const nFCProvider = NFCNotifierProvider._();
+final nFCProvider = NFCNotifierProvider._();
 
 final class NFCNotifierProvider
     extends $NotifierProvider<NFCNotifier, NFCState> {
-  const NFCNotifierProvider._()
+  NFCNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -41,14 +41,13 @@ final class NFCNotifierProvider
   }
 }
 
-String _$nFCNotifierHash() => r'97749f912fc2b9cb118394725482dc4223730c1f';
+String _$nFCNotifierHash() => r'59c0c9d94ad9e63685b644f234284bc25f0da082';
 
 abstract class _$NFCNotifier extends $Notifier<NFCState> {
   NFCState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<NFCState, NFCState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$NFCNotifier extends $Notifier<NFCState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

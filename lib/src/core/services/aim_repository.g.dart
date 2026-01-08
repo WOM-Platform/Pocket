@@ -10,12 +10,12 @@ part of 'aim_repository.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(aimRepository)
-const aimRepositoryProvider = AimRepositoryProvider._();
+final aimRepositoryProvider = AimRepositoryProvider._();
 
 final class AimRepositoryProvider
     extends $FunctionalProvider<AimRepository, AimRepository, AimRepository>
     with $Provider<AimRepository> {
-  const AimRepositoryProvider._()
+  AimRepositoryProvider._()
     : super(
         from: null,
         argument: null,

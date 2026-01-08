@@ -10,7 +10,7 @@ part of 'carousel.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(carouselController)
-const carouselControllerProvider = CarouselControllerProvider._();
+final carouselControllerProvider = CarouselControllerProvider._();
 
 final class CarouselControllerProvider
     extends
@@ -20,7 +20,7 @@ final class CarouselControllerProvider
           CarouselSliderController
         >
     with $Provider<CarouselSliderController> {
-  const CarouselControllerProvider._()
+  CarouselControllerProvider._()
     : super(
         from: null,
         argument: null,

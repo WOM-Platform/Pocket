@@ -10,11 +10,11 @@ part of 'app_shell_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(AppShellNotifier)
-const appShellProvider = AppShellNotifierProvider._();
+final appShellProvider = AppShellNotifierProvider._();
 
 final class AppShellNotifierProvider
     extends $NotifierProvider<AppShellNotifier, AppShellState> {
-  const AppShellNotifierProvider._()
+  AppShellNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,7 +48,6 @@ abstract class _$AppShellNotifier extends $Notifier<AppShellState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AppShellState, AppShellState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$AppShellNotifier extends $Notifier<AppShellState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

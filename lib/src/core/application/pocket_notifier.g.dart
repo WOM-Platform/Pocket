@@ -10,11 +10,11 @@ part of 'pocket_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(pocket)
-const pocketProvider = PocketProvider._();
+final pocketProvider = PocketProvider._();
 
 final class PocketProvider extends $FunctionalProvider<Pocket, Pocket, Pocket>
     with $Provider<Pocket> {
-  const PocketProvider._()
+  PocketProvider._()
     : super(
         from: null,
         argument: null,

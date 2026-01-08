@@ -10,7 +10,7 @@ part of 'pos_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getPos)
-const getPosProvider = GetPosFamily._();
+final getPosProvider = GetPosFamily._();
 
 final class GetPosProvider
     extends
@@ -20,7 +20,7 @@ final class GetPosProvider
           FutureOr<PhysicalPOS>
         >
     with $FutureModifier<PhysicalPOS>, $FutureProvider<PhysicalPOS> {
-  const GetPosProvider._({
+  GetPosProvider._({
     required GetPosFamily super.from,
     required String super.argument,
   }) : super(
@@ -68,7 +68,7 @@ String _$getPosHash() => r'06f33b777510b92d686ff42d1176ef615dceffc6';
 
 final class GetPosFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<PhysicalPOS>, String> {
-  const GetPosFamily._()
+  GetPosFamily._()
     : super(
         retry: null,
         name: r'getPosProvider',

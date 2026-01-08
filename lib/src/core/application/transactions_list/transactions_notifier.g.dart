@@ -10,7 +10,7 @@ part of 'transactions_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(fetchTransactions)
-const fetchTransactionsProvider = FetchTransactionsProvider._();
+final fetchTransactionsProvider = FetchTransactionsProvider._();
 
 final class FetchTransactionsProvider
     extends
@@ -22,7 +22,7 @@ final class FetchTransactionsProvider
     with
         $FutureModifier<TransactionsState>,
         $FutureProvider<TransactionsState> {
-  const FetchTransactionsProvider._()
+  FetchTransactionsProvider._()
     : super(
         from: null,
         argument: null,

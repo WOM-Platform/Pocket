@@ -10,11 +10,11 @@ part of 'splash_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(SplashNotifier)
-const splashProvider = SplashNotifierProvider._();
+final splashProvider = SplashNotifierProvider._();
 
 final class SplashNotifierProvider
     extends $NotifierProvider<SplashNotifier, SplashState> {
-  const SplashNotifierProvider._()
+  SplashNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,7 +48,6 @@ abstract class _$SplashNotifier extends $Notifier<SplashState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<SplashState, SplashState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$SplashNotifier extends $Notifier<SplashState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

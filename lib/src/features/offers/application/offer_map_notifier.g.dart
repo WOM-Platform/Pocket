@@ -10,11 +10,11 @@ part of 'offer_map_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(OffersMapNotifier)
-const offersMapProvider = OffersMapNotifierFamily._();
+final offersMapProvider = OffersMapNotifierFamily._();
 
 final class OffersMapNotifierProvider
     extends $AsyncNotifierProvider<OffersMapNotifier, OffersMapData> {
-  const OffersMapNotifierProvider._({
+  OffersMapNotifierProvider._({
     required OffersMapNotifierFamily super.from,
     required LatLng? super.argument,
   }) : super(
@@ -61,7 +61,7 @@ final class OffersMapNotifierFamily extends $Family
           FutureOr<OffersMapData>,
           LatLng?
         > {
-  const OffersMapNotifierFamily._()
+  OffersMapNotifierFamily._()
     : super(
         retry: null,
         name: r'offersMapProvider',
@@ -85,7 +85,6 @@ abstract class _$OffersMapNotifier extends $AsyncNotifier<OffersMapData> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args);
     final ref = this.ref as $Ref<AsyncValue<OffersMapData>, OffersMapData>;
     final element =
         ref.element
@@ -95,6 +94,6 @@ abstract class _$OffersMapNotifier extends $AsyncNotifier<OffersMapData> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, () => build(_$args));
   }
 }

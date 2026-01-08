@@ -10,12 +10,12 @@ part of 'app_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getNFCBackground)
-const getNFCBackgroundProvider = GetNFCBackgroundProvider._();
+final getNFCBackgroundProvider = GetNFCBackgroundProvider._();
 
 final class GetNFCBackgroundProvider
     extends $FunctionalProvider<NfcBackground, NfcBackground, NfcBackground>
     with $Provider<NfcBackground> {
-  const GetNFCBackgroundProvider._()
+  GetNFCBackgroundProvider._()
     : super(
         from: null,
         argument: null,
@@ -51,13 +51,13 @@ final class GetNFCBackgroundProvider
 String _$getNFCBackgroundHash() => r'2901de39a46e5a088ecbdf703de96b6ecd576e95';
 
 @ProviderFor(getNfcIntent)
-const getNfcIntentProvider = GetNfcIntentProvider._();
+final getNfcIntentProvider = GetNfcIntentProvider._();
 
 final class GetNfcIntentProvider
     extends
         $FunctionalProvider<AsyncValue<TotemData>, TotemData, Stream<TotemData>>
     with $FutureModifier<TotemData>, $StreamProvider<TotemData> {
-  const GetNfcIntentProvider._()
+  GetNfcIntentProvider._()
     : super(
         from: null,
         argument: null,
@@ -85,11 +85,11 @@ final class GetNfcIntentProvider
 String _$getNfcIntentHash() => r'3d3f4ebb4266c05a12017bdeac8f43e4477f3b67';
 
 @ProviderFor(NfcBackgroundNotifier)
-const nfcBackgroundProvider = NfcBackgroundNotifierProvider._();
+final nfcBackgroundProvider = NfcBackgroundNotifierProvider._();
 
 final class NfcBackgroundNotifierProvider
     extends $AsyncNotifierProvider<NfcBackgroundNotifier, TotemData?> {
-  const NfcBackgroundNotifierProvider._()
+  NfcBackgroundNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -116,7 +116,6 @@ abstract class _$NfcBackgroundNotifier extends $AsyncNotifier<TotemData?> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<TotemData?>, TotemData?>;
     final element =
         ref.element
@@ -126,6 +125,6 @@ abstract class _$NfcBackgroundNotifier extends $AsyncNotifier<TotemData?> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

@@ -10,11 +10,11 @@ part of 'my_totem_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(MyTotemNotifier)
-const myTotemProvider = MyTotemNotifierProvider._();
+final myTotemProvider = MyTotemNotifierProvider._();
 
 final class MyTotemNotifierProvider
     extends $NotifierProvider<MyTotemNotifier, MyTotemState> {
-  const MyTotemNotifierProvider._()
+  MyTotemNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,7 +48,6 @@ abstract class _$MyTotemNotifier extends $Notifier<MyTotemState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<MyTotemState, MyTotemState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$MyTotemNotifier extends $Notifier<MyTotemState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

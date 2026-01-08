@@ -10,7 +10,7 @@ part of 'badge_local_data_source.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getBadgeLocalDataSource)
-const getBadgeLocalDataSourceProvider = GetBadgeLocalDataSourceProvider._();
+final getBadgeLocalDataSourceProvider = GetBadgeLocalDataSourceProvider._();
 
 final class GetBadgeLocalDataSourceProvider
     extends
@@ -20,7 +20,7 @@ final class GetBadgeLocalDataSourceProvider
           BadgeLocalDataSource
         >
     with $Provider<BadgeLocalDataSource> {
-  const GetBadgeLocalDataSourceProvider._()
+  GetBadgeLocalDataSourceProvider._()
     : super(
         from: null,
         argument: null,

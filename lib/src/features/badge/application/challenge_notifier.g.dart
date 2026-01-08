@@ -10,7 +10,7 @@ part of 'challenge_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getChallenge)
-const getChallengeProvider = GetChallengeFamily._();
+final getChallengeProvider = GetChallengeFamily._();
 
 final class GetChallengeProvider
     extends
@@ -20,7 +20,7 @@ final class GetChallengeProvider
           FutureOr<ChallengeData>
         >
     with $FutureModifier<ChallengeData>, $FutureProvider<ChallengeData> {
-  const GetChallengeProvider._({
+  GetChallengeProvider._({
     required GetChallengeFamily super.from,
     required String super.argument,
   }) : super(
@@ -68,7 +68,7 @@ String _$getChallengeHash() => r'0e424cc41f14e427a7a295dc550f633247249728';
 
 final class GetChallengeFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<ChallengeData>, String> {
-  const GetChallengeFamily._()
+  GetChallengeFamily._()
     : super(
         retry: null,
         name: r'getChallengeProvider',

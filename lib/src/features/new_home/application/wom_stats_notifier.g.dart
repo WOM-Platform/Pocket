@@ -10,7 +10,7 @@ part of 'wom_stats_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(fetchAimInPercentage)
-const fetchAimInPercentageProvider = FetchAimInPercentageProvider._();
+final fetchAimInPercentageProvider = FetchAimInPercentageProvider._();
 
 final class FetchAimInPercentageProvider
     extends
@@ -22,7 +22,7 @@ final class FetchAimInPercentageProvider
     with
         $FutureModifier<List<AimInPercentage>>,
         $FutureProvider<List<AimInPercentage>> {
-  const FetchAimInPercentageProvider._()
+  FetchAimInPercentageProvider._()
     : super(
         from: null,
         argument: null,
@@ -52,13 +52,13 @@ String _$fetchAimInPercentageHash() =>
     r'58aadd4b2b649596aa2a8957ef1fd25e611d3a1c';
 
 @ProviderFor(fetchWomCountEarnedInTheLastWeek)
-const fetchWomCountEarnedInTheLastWeekProvider =
+final fetchWomCountEarnedInTheLastWeekProvider =
     FetchWomCountEarnedInTheLastWeekProvider._();
 
 final class FetchWomCountEarnedInTheLastWeekProvider
     extends $FunctionalProvider<AsyncValue<int>, int, FutureOr<int>>
     with $FutureModifier<int>, $FutureProvider<int> {
-  const FetchWomCountEarnedInTheLastWeekProvider._()
+  FetchWomCountEarnedInTheLastWeekProvider._()
     : super(
         from: null,
         argument: null,
@@ -87,13 +87,13 @@ String _$fetchWomCountEarnedInTheLastWeekHash() =>
     r'9ba3165a9ae6d69b205e244744df9093411200c5';
 
 @ProviderFor(fetchWomCountSpentInTheLastWeek)
-const fetchWomCountSpentInTheLastWeekProvider =
+final fetchWomCountSpentInTheLastWeekProvider =
     FetchWomCountSpentInTheLastWeekProvider._();
 
 final class FetchWomCountSpentInTheLastWeekProvider
     extends $FunctionalProvider<AsyncValue<int>, int, FutureOr<int>>
     with $FutureModifier<int>, $FutureProvider<int> {
-  const FetchWomCountSpentInTheLastWeekProvider._()
+  FetchWomCountSpentInTheLastWeekProvider._()
     : super(
         from: null,
         argument: null,
@@ -122,12 +122,12 @@ String _$fetchWomCountSpentInTheLastWeekHash() =>
     r'3fbb1a2cfb7bf4bd89c6ad65c5c84e9612b17107';
 
 @ProviderFor(fetchWomSpent)
-const fetchWomSpentProvider = FetchWomSpentProvider._();
+final fetchWomSpentProvider = FetchWomSpentProvider._();
 
 final class FetchWomSpentProvider
     extends $FunctionalProvider<AsyncValue<int>, int, FutureOr<int>>
     with $FutureModifier<int>, $FutureProvider<int> {
-  const FetchWomSpentProvider._()
+  FetchWomSpentProvider._()
     : super(
         from: null,
         argument: null,
@@ -155,11 +155,11 @@ final class FetchWomSpentProvider
 String _$fetchWomSpentHash() => r'fd7a5225c7897335d94fff37503e7893932b4334';
 
 @ProviderFor(TransactionCountNotifier)
-const transactionCountProvider = TransactionCountNotifierProvider._();
+final transactionCountProvider = TransactionCountNotifierProvider._();
 
 final class TransactionCountNotifierProvider
     extends $AsyncNotifierProvider<TransactionCountNotifier, int> {
-  const TransactionCountNotifierProvider._()
+  TransactionCountNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -186,7 +186,6 @@ abstract class _$TransactionCountNotifier extends $AsyncNotifier<int> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<int>, int>;
     final element =
         ref.element
@@ -196,17 +195,17 @@ abstract class _$TransactionCountNotifier extends $AsyncNotifier<int> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(getBadgesStats)
-const getBadgesStatsProvider = GetBadgesStatsProvider._();
+final getBadgesStatsProvider = GetBadgesStatsProvider._();
 
 final class GetBadgesStatsProvider
     extends $FunctionalProvider<(int, int), (int, int), (int, int)>
     with $Provider<(int, int)> {
-  const GetBadgesStatsProvider._()
+  GetBadgesStatsProvider._()
     : super(
         from: null,
         argument: null,

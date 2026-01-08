@@ -10,11 +10,11 @@ part of 'migration_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(MigrationNotifier)
-const migrationProvider = MigrationNotifierProvider._();
+final migrationProvider = MigrationNotifierProvider._();
 
 final class MigrationNotifierProvider
     extends $NotifierProvider<MigrationNotifier, MigrationState> {
-  const MigrationNotifierProvider._()
+  MigrationNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,7 +48,6 @@ abstract class _$MigrationNotifier extends $Notifier<MigrationState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<MigrationState, MigrationState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$MigrationNotifier extends $Notifier<MigrationState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

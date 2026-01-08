@@ -10,7 +10,7 @@ part of 'badge_remote_data_source.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getBadgeRemoteDataSource)
-const getBadgeRemoteDataSourceProvider = GetBadgeRemoteDataSourceProvider._();
+final getBadgeRemoteDataSourceProvider = GetBadgeRemoteDataSourceProvider._();
 
 final class GetBadgeRemoteDataSourceProvider
     extends
@@ -20,7 +20,7 @@ final class GetBadgeRemoteDataSourceProvider
           BadgeRemoteDataSource
         >
     with $Provider<BadgeRemoteDataSource> {
-  const GetBadgeRemoteDataSourceProvider._()
+  GetBadgeRemoteDataSourceProvider._()
     : super(
         from: null,
         argument: null,

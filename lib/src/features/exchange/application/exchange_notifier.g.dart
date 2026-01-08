@@ -10,7 +10,7 @@ part of 'exchange_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getExchangeTransactions)
-const getExchangeTransactionsProvider = GetExchangeTransactionsProvider._();
+final getExchangeTransactionsProvider = GetExchangeTransactionsProvider._();
 
 final class GetExchangeTransactionsProvider
     extends
@@ -22,7 +22,7 @@ final class GetExchangeTransactionsProvider
     with
         $FutureModifier<List<TransactionModel>>,
         $FutureProvider<List<TransactionModel>> {
-  const GetExchangeTransactionsProvider._()
+  GetExchangeTransactionsProvider._()
     : super(
         from: null,
         argument: null,
@@ -52,11 +52,11 @@ String _$getExchangeTransactionsHash() =>
     r'0054bebe291f17c0d1a233c0b1553c639af8975c';
 
 @ProviderFor(ExchangeNotifier)
-const exchangeProvider = ExchangeNotifierProvider._();
+final exchangeProvider = ExchangeNotifierProvider._();
 
 final class ExchangeNotifierProvider
     extends $NotifierProvider<ExchangeNotifier, ExchangeState> {
-  const ExchangeNotifierProvider._()
+  ExchangeNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -90,7 +90,6 @@ abstract class _$ExchangeNotifier extends $Notifier<ExchangeState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<ExchangeState, ExchangeState>;
     final element =
         ref.element
@@ -100,16 +99,16 @@ abstract class _$ExchangeNotifier extends $Notifier<ExchangeState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NewExchangeNotifier)
-const newExchangeProvider = NewExchangeNotifierFamily._();
+final newExchangeProvider = NewExchangeNotifierFamily._();
 
 final class NewExchangeNotifierProvider
     extends $NotifierProvider<NewExchangeNotifier, NewExchangeState> {
-  const NewExchangeNotifierProvider._({
+  NewExchangeNotifierProvider._({
     required NewExchangeNotifierFamily super.from,
     required int super.argument,
   }) : super(
@@ -165,7 +164,7 @@ final class NewExchangeNotifierFamily extends $Family
           NewExchangeState,
           int
         > {
-  const NewExchangeNotifierFamily._()
+  NewExchangeNotifierFamily._()
     : super(
         retry: null,
         name: r'newExchangeProvider',
@@ -189,7 +188,6 @@ abstract class _$NewExchangeNotifier extends $Notifier<NewExchangeState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args);
     final ref = this.ref as $Ref<NewExchangeState, NewExchangeState>;
     final element =
         ref.element
@@ -199,6 +197,6 @@ abstract class _$NewExchangeNotifier extends $Notifier<NewExchangeState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, () => build(_$args));
   }
 }

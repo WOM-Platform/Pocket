@@ -10,13 +10,13 @@ part of 'badge_repository.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getBadgeRepository)
-const getBadgeRepositoryProvider = GetBadgeRepositoryProvider._();
+final getBadgeRepositoryProvider = GetBadgeRepositoryProvider._();
 
 final class GetBadgeRepositoryProvider
     extends
         $FunctionalProvider<BadgeRepository, BadgeRepository, BadgeRepository>
     with $Provider<BadgeRepository> {
-  const GetBadgeRepositoryProvider._()
+  GetBadgeRepositoryProvider._()
     : super(
         from: null,
         argument: null,

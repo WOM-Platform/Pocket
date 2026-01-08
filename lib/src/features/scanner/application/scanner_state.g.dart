@@ -10,11 +10,11 @@ part of 'scanner_state.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(ScannerNotifier)
-const scannerProvider = ScannerNotifierProvider._();
+final scannerProvider = ScannerNotifierProvider._();
 
 final class ScannerNotifierProvider
     extends $NotifierProvider<ScannerNotifier, ScannerState> {
-  const ScannerNotifierProvider._()
+  ScannerNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,7 +48,6 @@ abstract class _$ScannerNotifier extends $Notifier<ScannerState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<ScannerState, ScannerState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$ScannerNotifier extends $Notifier<ScannerState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

@@ -10,11 +10,11 @@ part of 'import_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(ImportNotifier)
-const importProvider = ImportNotifierFamily._();
+final importProvider = ImportNotifierFamily._();
 
 final class ImportNotifierProvider
     extends $NotifierProvider<ImportNotifier, ImportState> {
-  const ImportNotifierProvider._({
+  ImportNotifierProvider._({
     required ImportNotifierFamily super.from,
     required DeepLinkModel super.argument,
   }) : super(
@@ -69,7 +69,7 @@ final class ImportNotifierFamily extends $Family
           ImportState,
           DeepLinkModel
         > {
-  const ImportNotifierFamily._()
+  ImportNotifierFamily._()
     : super(
         retry: null,
         name: r'importProvider',
@@ -93,7 +93,6 @@ abstract class _$ImportNotifier extends $Notifier<ImportState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args);
     final ref = this.ref as $Ref<ImportState, ImportState>;
     final element =
         ref.element
@@ -103,6 +102,6 @@ abstract class _$ImportNotifier extends $Notifier<ImportState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, () => build(_$args));
   }
 }

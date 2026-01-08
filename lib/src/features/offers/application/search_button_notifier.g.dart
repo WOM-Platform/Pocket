@@ -10,11 +10,11 @@ part of 'search_button_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(EnableSearchButtonNotifier)
-const enableSearchButtonProvider = EnableSearchButtonNotifierFamily._();
+final enableSearchButtonProvider = EnableSearchButtonNotifierFamily._();
 
 final class EnableSearchButtonNotifierProvider
     extends $NotifierProvider<EnableSearchButtonNotifier, ZoomStatus> {
-  const EnableSearchButtonNotifierProvider._({
+  EnableSearchButtonNotifierProvider._({
     required EnableSearchButtonNotifierFamily super.from,
     required LatLng? super.argument,
   }) : super(
@@ -71,7 +71,7 @@ final class EnableSearchButtonNotifierFamily extends $Family
           ZoomStatus,
           LatLng?
         > {
-  const EnableSearchButtonNotifierFamily._()
+  EnableSearchButtonNotifierFamily._()
     : super(
         retry: null,
         name: r'enableSearchButtonProvider',
@@ -95,7 +95,6 @@ abstract class _$EnableSearchButtonNotifier extends $Notifier<ZoomStatus> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args);
     final ref = this.ref as $Ref<ZoomStatus, ZoomStatus>;
     final element =
         ref.element
@@ -105,6 +104,6 @@ abstract class _$EnableSearchButtonNotifier extends $Notifier<ZoomStatus> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, () => build(_$args));
   }
 }

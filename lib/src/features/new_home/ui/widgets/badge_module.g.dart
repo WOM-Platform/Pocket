@@ -10,11 +10,11 @@ part of 'badge_module.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(BadgeModuleNotifier)
-const badgeModuleProvider = BadgeModuleNotifierProvider._();
+final badgeModuleProvider = BadgeModuleNotifierProvider._();
 
 final class BadgeModuleNotifierProvider
     extends $NotifierProvider<BadgeModuleNotifier, int> {
-  const BadgeModuleNotifierProvider._()
+  BadgeModuleNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -49,7 +49,6 @@ abstract class _$BadgeModuleNotifier extends $Notifier<int> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<int, int>;
     final element =
         ref.element
@@ -59,6 +58,6 @@ abstract class _$BadgeModuleNotifier extends $Notifier<int> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

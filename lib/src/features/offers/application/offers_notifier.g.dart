@@ -10,11 +10,11 @@ part of 'offers_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(OffersNotifier)
-const offersProvider = OffersNotifierFamily._();
+final offersProvider = OffersNotifierFamily._();
 
 final class OffersNotifierProvider
     extends $AsyncNotifierProvider<OffersNotifier, List<OfferPOS>> {
-  const OffersNotifierProvider._({
+  OffersNotifierProvider._({
     required OffersNotifierFamily super.from,
     required LatLng? super.argument,
   }) : super(
@@ -61,7 +61,7 @@ final class OffersNotifierFamily extends $Family
           FutureOr<List<OfferPOS>>,
           LatLng?
         > {
-  const OffersNotifierFamily._()
+  OffersNotifierFamily._()
     : super(
         retry: null,
         name: r'offersProvider',
@@ -85,7 +85,6 @@ abstract class _$OffersNotifier extends $AsyncNotifier<List<OfferPOS>> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args);
     final ref = this.ref as $Ref<AsyncValue<List<OfferPOS>>, List<OfferPOS>>;
     final element =
         ref.element
@@ -95,6 +94,6 @@ abstract class _$OffersNotifier extends $AsyncNotifier<List<OfferPOS>> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, () => build(_$args));
   }
 }

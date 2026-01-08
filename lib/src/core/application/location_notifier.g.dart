@@ -10,11 +10,11 @@ part of 'location_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(LocationNotifier)
-const locationProvider = LocationNotifierProvider._();
+final locationProvider = LocationNotifierProvider._();
 
 final class LocationNotifierProvider
     extends $AsyncNotifierProvider<LocationNotifier, Position> {
-  const LocationNotifierProvider._()
+  LocationNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -33,14 +33,13 @@ final class LocationNotifierProvider
   LocationNotifier create() => LocationNotifier();
 }
 
-String _$locationNotifierHash() => r'92ca4046f01f889752e6cdc494899c804f6c3341';
+String _$locationNotifierHash() => r'6c5b8f64eba0b2d092342d4132d52d7724a67f23';
 
 abstract class _$LocationNotifier extends $AsyncNotifier<Position> {
   FutureOr<Position> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<Position>, Position>;
     final element =
         ref.element
@@ -50,18 +49,18 @@ abstract class _$LocationNotifier extends $AsyncNotifier<Position> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(getPosition)
-const getPositionProvider = GetPositionProvider._();
+final getPositionProvider = GetPositionProvider._();
 
 final class GetPositionProvider
     extends
         $FunctionalProvider<AsyncValue<Position>, Position, FutureOr<Position>>
     with $FutureModifier<Position>, $FutureProvider<Position> {
-  const GetPositionProvider._()
+  GetPositionProvider._()
     : super(
         from: null,
         argument: null,
@@ -86,4 +85,4 @@ final class GetPositionProvider
   }
 }
 
-String _$getPositionHash() => r'66f90c4c5cf459d3824e00dc43a1e04e5f693682';
+String _$getPositionHash() => r'0199ad6ef1e71adcbfe8006ff7656732b94e1ad4';

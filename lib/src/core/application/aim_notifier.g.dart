@@ -10,12 +10,12 @@ part of 'aim_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getDatabase)
-const getDatabaseProvider = GetDatabaseProvider._();
+final getDatabaseProvider = GetDatabaseProvider._();
 
 final class GetDatabaseProvider
     extends $FunctionalProvider<MyDatabase, MyDatabase, MyDatabase>
     with $Provider<MyDatabase> {
-  const GetDatabaseProvider._()
+  GetDatabaseProvider._()
     : super(
         from: null,
         argument: null,
@@ -51,11 +51,11 @@ final class GetDatabaseProvider
 String _$getDatabaseHash() => r'f61cd54c3ca32a99707391f0e315e0a1a1e8d1cf';
 
 @ProviderFor(AimNotifier)
-const aimProvider = AimNotifierProvider._();
+final aimProvider = AimNotifierProvider._();
 
 final class AimNotifierProvider
     extends $AsyncNotifierProvider<AimNotifier, List<Aim>> {
-  const AimNotifierProvider._()
+  AimNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -81,7 +81,6 @@ abstract class _$AimNotifier extends $AsyncNotifier<List<Aim>> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<List<Aim>>, List<Aim>>;
     final element =
         ref.element
@@ -91,6 +90,6 @@ abstract class _$AimNotifier extends $AsyncNotifier<List<Aim>> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

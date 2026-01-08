@@ -10,11 +10,11 @@ part of 'transaction_notifier.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(TransactionNotifier)
-const transactionProvider = TransactionNotifierFamily._();
+final transactionProvider = TransactionNotifierFamily._();
 
 final class TransactionNotifierProvider
     extends $AsyncNotifierProvider<TransactionNotifier, TransactionState> {
-  const TransactionNotifierProvider._({
+  TransactionNotifierProvider._({
     required TransactionNotifierFamily super.from,
     required TransactionNotifierParams super.argument,
   }) : super(
@@ -62,7 +62,7 @@ final class TransactionNotifierFamily extends $Family
           FutureOr<TransactionState>,
           TransactionNotifierParams
         > {
-  const TransactionNotifierFamily._()
+  TransactionNotifierFamily._()
     : super(
         retry: null,
         name: r'transactionProvider',
@@ -86,7 +86,6 @@ abstract class _$TransactionNotifier extends $AsyncNotifier<TransactionState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args);
     final ref =
         this.ref as $Ref<AsyncValue<TransactionState>, TransactionState>;
     final element =
@@ -97,6 +96,6 @@ abstract class _$TransactionNotifier extends $AsyncNotifier<TransactionState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, () => build(_$args));
   }
 }
