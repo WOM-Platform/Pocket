@@ -47,10 +47,11 @@ class NFCNotifier extends _$NFCNotifier {
   }
 
   Future<void> _init() async {
-    if (!(await NfcManager.instance.isAvailable())) {
-      state = NFCState.unavailable();
-    } else {
+    final nfcAvailability = await NfcManager.instance.checkAvailability();
+    if (nfcAvailability == NfcAvailability.enabled) {
       state = NFCState.loading();
+    } else {
+      state = NFCState.unavailable();
     }
     // state = NFCState.listening();
     // NfcManager.instance.startSession(

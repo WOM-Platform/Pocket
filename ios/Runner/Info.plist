@@ -83,5 +83,7 @@
 		<string>Richiediamo questo permesso per poter scansionare i QR-Code della piattaforma WOM o per scattare una foto da abbinare ad un contatto.</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>FlutterDeepLinkingEnabled</key>
+		<false/>
 	</dict>
 </plist>

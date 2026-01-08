@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/badge/application/badge_state.dart';
@@ -17,10 +16,7 @@ class BadgeNotifier extends _$BadgeNotifier {
     final challenges = await repo.getChallenges();
 
     return BadgeState(
-      badges: [
-        ...badges,
-        ...challenges.expand((c) => c.badges),
-      ],
+      badges: [...badges, ...challenges.expand((c) => c.badges)],
       // challenges: challenges,
     );
   }

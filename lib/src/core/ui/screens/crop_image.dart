@@ -63,8 +63,9 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
       if (imageEditorController.state!.widget.extendedImageState.imageProvider
           is ExtendedResizeImage) {
         final ImmutableBuffer buffer = await ImmutableBuffer.fromUint8List(img);
-        final ImageDescriptor descriptor =
-            await ImageDescriptor.encoded(buffer);
+        final ImageDescriptor descriptor = await ImageDescriptor.encoded(
+          buffer,
+        );
 
         final double widthRatio =
             descriptor.width / imageEditorController.state!.image!.width;
@@ -116,10 +117,7 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
             },
           ),
           backgroundColor: Colors.white,
-          title: Text(
-            'Crop',
-            style: TextStyle(color: Colors.black87),
-          ),
+          title: Text('Crop', style: TextStyle(color: Colors.black87)),
           actions: [
             if (_croppedData != null)
               IconButton(
@@ -137,9 +135,7 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
                 child: Text('Crop'),
               ),
           ],
-          iconTheme: IconThemeData(
-            color: Colors.black87,
-          ),
+          iconTheme: IconThemeData(color: Colors.black87),
         ),
         body: Visibility(
           visible: _croppedData == null,
@@ -170,13 +166,7 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
                       width: 120,
                       child: CircleAvatar(
                         radius: 60,
-                        backgroundImage: MemoryImage(
-                          _croppedData!,
-                        ),
-                        // child: Image.memory(
-                        //
-                        //   fit: BoxFit.contain,
-                        // ),
+                        backgroundImage: MemoryImage(_croppedData!),
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -188,7 +178,7 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
                         },
                         text: 'crop_screen.save'.tr(),
                       ),
-                    )
+                    ),
                   ],
                 )
               : const SizedBox.shrink(),
@@ -196,12 +186,4 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
       ),
     );
   }
-}
-
-class _ShapeSelection {
-  const _ShapeSelection(this.label, this.aspectRatio, this.icon);
-
-  final String label;
-  final double aspectRatio;
-  final IconData icon;
 }

@@ -1,12 +1,9 @@
-import 'dart:convert';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:drift/drift.dart' as drift;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/badge/data/badge.dart';
-import 'package:drift/drift.dart' as drift;
 import 'package:wom_pocket/src/features/badge/data/challenge.dart';
 
 part 'badge_local_data_source.g.dart';
@@ -70,7 +67,7 @@ class BadgeLocalDataSource {
           ? const drift.Value.absent()
           : drift.Value(badge.achievedAt),
       achieved: drift.Value(badge.achieved),
-      informationUri:  badge.informationUri == null
+      informationUri: badge.informationUri == null
           ? const drift.Value.absent()
           : drift.Value(badge.informationUri),
       seen: drift.Value(badge.seen),
@@ -96,7 +93,9 @@ class BadgeLocalDataSource {
   }
 
   ChallengeData _fromChallengeEntry(
-      ChallengeEntry entry, List<BadgeEntry> badges) {
+    ChallengeEntry entry,
+    List<BadgeEntry> badges,
+  ) {
     return ChallengeData(
       id: entry.id,
       name: entry.name,
@@ -121,7 +120,8 @@ class BadgeLocalDataSource {
       final achieved = await verifyBadge(updatedBadge);
       if (achieved) {
         logger.i(
-            'this badge has just verified verified: ${updatedBadge.name}, ${updatedBadge.id}');
+          'this badge has just verified verified: ${updatedBadge.name}, ${updatedBadge.id}',
+        );
         updatedBadge = updatedBadge.copyWith(
           achievedAt: DateTime.now(),
           achieved: true,
@@ -159,7 +159,8 @@ class BadgeLocalDataSource {
       final achieved = await verifyBadge(updatedBadge);
       if (achieved) {
         logger.i(
-            'this badge has just verified verified: ${updatedBadge.name}, ${updatedBadge.id}');
+          'this badge has just verified verified: ${updatedBadge.name}, ${updatedBadge.id}',
+        );
         updatedBadge = updatedBadge.copyWith(
           achievedAt: DateTime.now(),
           achieved: true,
@@ -192,11 +193,9 @@ class BadgeLocalDataSource {
         final challenge = challenges[i];
 
         // Solo badge con immagine
-        final badges =
-            (await _db.badgeDao.getBadgeEntryByChallengeId(challenge.id))
-                .map(_fromBadgeEntry)
-                .where((badge) => badge.image != null)
-                .toList();
+        final badges = (await _db.badgeDao.getBadgeEntryByChallengeId(
+          challenge.id,
+        )).map(_fromBadgeEntry).where((badge) => badge.image != null).toList();
 
         for (int j = 0; j < badges.length; j++) {
           final badge = badges[j];
@@ -204,16 +203,16 @@ class BadgeLocalDataSource {
             final achieved = await verifyBadge(badge);
             if (achieved) {
               logger.i(
-                  'this badge has just verified verified: ${badge.name}, ${badge.id}');
+                'this badge has just verified verified: ${badge.name}, ${badge.id}',
+              );
               await setAsAchieved(badge.id);
             }
           }
         }
-        final updatedBadges =
-            await _db.badgeDao.getBadgeEntryByChallengeId(challenge.id);
-        output.add(
-          _fromChallengeEntry(challenge, updatedBadges),
+        final updatedBadges = await _db.badgeDao.getBadgeEntryByChallengeId(
+          challenge.id,
         );
+        output.add(_fromChallengeEntry(challenge, updatedBadges));
       }
     } catch (ex, st) {
       logger.e('getChallenges', error: ex, stackTrace: st);

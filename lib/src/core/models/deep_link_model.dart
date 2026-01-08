@@ -1,7 +1,5 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-
 import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 
@@ -43,8 +41,9 @@ class DeepLinkModel extends Equatable {
               break;
             case MIGRATION:
               type = TransactionType.MIGRATION_IMPORT;
-              migrationPartialKey =
-                  uri!.pathSegments.length > 2 ? uri!.pathSegments[2] : null;
+              migrationPartialKey = uri!.pathSegments.length > 2
+                  ? uri!.pathSegments[2]
+                  : null;
               break;
             default:
               throw Exception('Type of transaction is NOT valid');
@@ -56,11 +55,12 @@ class DeepLinkModel extends Equatable {
           type = host == 'transfer'
               ? TransactionType.VOUCHERS
               : host == 'pay'
-                  ? TransactionType.PAYMENT
-                  : TransactionType.MIGRATION_IMPORT;
+              ? TransactionType.PAYMENT
+              : TransactionType.MIGRATION_IMPORT;
           otc = uri!.pathSegments.isEmpty ? null : uri!.pathSegments[0];
-          migrationPartialKey =
-              uri!.pathSegments.length < 2 ? null : uri!.pathSegments[1];
+          migrationPartialKey = uri!.pathSegments.length < 2
+              ? null
+              : uri!.pathSegments[1];
         } else {
           throw Exception('Scheme: $scheme OR host: $host not valid');
         }

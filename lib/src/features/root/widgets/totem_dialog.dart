@@ -153,6 +153,9 @@ class TotemNotifier extends _$TotemNotifier {
 
   @override
   TotemDialogState build(TotemData totemData, {bool askGender = true}) {
+    ref.onDispose(() {
+      _subscription?.cancel();
+    });
     action();
     return TotemDialogState.initialLoading();
   }
@@ -310,15 +313,6 @@ class TotemDialog extends ConsumerWidget {
           '/transaction',
           extra: TransactionNotifierParams(next.deepLinkModel, next.password),
         );
-        /*Navigator.pushReplacement(
-          ref.context,
-          MaterialPageRoute<bool>(
-            builder: (context) => TransactionScreen(
-              params:
-                  TransactionNotifierParams(next.deepLinkModel, next.password),
-            ),
-          ),
-        );*/
       }
     });
     final state = ref.watch(totemProvider(totemData, askGender: askGender));
@@ -383,11 +377,11 @@ class TotemDialog extends ConsumerWidget {
                         case TotemError.gpsServiceDisabled:
                           Geolocator.openLocationSettings();
                           break;
+                        case TotemError.gpsPermission:
                         case TotemError.gpsPermissionDeniedForever:
                           context.maybePop();
                           Geolocator.openAppSettings();
                           break;
-                        case TotemError.gpsPermission:
                         case TotemError.gpsTimeout:
                         case TotemError.unknown:
                           ref

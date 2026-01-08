@@ -3,22 +3,14 @@ import 'package:dart_wom_connector/dart_wom_connector.dart'
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 
 part 'scanner_state.freezed.dart';
-
 part 'scanner_state.g.dart';
 
-enum ScanAction {
-  redeem,
-  pay,
-  openChallenge,
-  importMigration,
-  importExchange,
-}
+enum ScanAction { redeem, pay, openChallenge, importMigration, importExchange }
 
 /*  //     TransactionType.VOUCHERS => 'scanGetWom'.tr(),
   //     TransactionType.PAYMENT => 'scanPay'.tr(),
@@ -30,8 +22,7 @@ _scanActionFromTransactionType(TransactionType type) {
   return switch (type) {
     TransactionType.VOUCHERS ||
     TransactionType.MIGRATION_EXPORT ||
-    TransactionType.EXCHANGE_EXPORT =>
-      ScanAction.redeem,
+    TransactionType.EXCHANGE_EXPORT => ScanAction.redeem,
     TransactionType.PAYMENT => ScanAction.pay,
     TransactionType.MIGRATION_IMPORT => ScanAction.redeem,
     TransactionType.EXCHANGE_IMPORT => ScanAction.redeem,
@@ -71,13 +62,9 @@ class ScannerNotifier extends _$ScannerNotifier {
         final encryptedTotemData = validatePersonalConnection(rawValue);
         final challenge = validateChallenge(rawValue);
         if (totemData != null || encryptedTotemData != null) {
-          validQr.add(
-            (rawValue, ScanAction.redeem),
-          );
+          validQr.add((rawValue, ScanAction.redeem));
         } else if (challenge != null) {
-          validQr.add(
-            (challenge, ScanAction.openChallenge),
-          );
+          validQr.add((challenge, ScanAction.openChallenge));
         } else {
           try {
             final deep = DeepLinkModel.fromUri(Uri.parse(rawValue));

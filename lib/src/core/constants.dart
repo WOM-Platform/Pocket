@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wom_pocket/src/core/utils/config.dart';
-
 import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/core/utils/config.dart';
 
 late String domain;
 late String registryKey;
@@ -14,11 +13,13 @@ String get appName => '${flavor == Flavor.DEVELOPMENT ? 'DEV ' : ''}WOM POCKET';
 
 const exchangeSourceId = '64e5f0c93a5339481060a756';
 
+const welcomeTotem =
+    'https://link.wom.social/cmi/e3441c34-b02c-4bd9-8de5-9e312468ca69/d67c6e3a-053a-4cb7-b4ce-d1d0427c6cad';
+
 const functionsBaseUrl =
     'https://europe-west3-count-me-in-ef93b.cloudfunctions.net';
 
-const encryptKey =
-    'ce8dFAkMDBEOECEZCxgMBiAUFQwKFhg=';
+const encryptKey = 'ce8dFAkMDBEOECEZCxgMBiAUFQwKFhg=';
 
 const maxPersonalDistanceInMeters = 1000;
 const maxTimeRangeInSeconds = 60;

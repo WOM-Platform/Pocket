@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -32,8 +32,10 @@ class LocationNotifier extends _$LocationNotifier {
         }
 
         final currentPosition = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.medium,
-          timeLimit: Duration(seconds: 15),
+          locationSettings: LocationSettings(
+            timeLimit: Duration(seconds: 15),
+            accuracy: LocationAccuracy.medium,
+          ),
         );
         logger.i('position is mocked ${currentPosition.isMocked}');
         logger.w(currentPosition);
@@ -71,30 +73,38 @@ Future<Position> getPosition(Ref ref) async {
       final serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
       if (!serviceEnabled) {
-        throw ServiceGPSDisabled();
+        throw LocationServiceDisabledException();
       }
 
       final currentPosition = await Geolocator.getCurrentPosition(
-        timeLimit: Duration(seconds: 30),
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: LocationSettings(
+          timeLimit: Duration(seconds: 30),
+          accuracy: LocationAccuracy.high,
+        ),
       );
       logger.i('position is mocked ${currentPosition.isMocked}');
       logger.i(currentPosition);
       return currentPosition;
     }
-    logger.w('LocationPermissionException');
-    throw LocationPermissionDenied();
+    throw Exception('requestPermission returns false');
   } on LocationServiceDisabledException catch (ex, st) {
     logger.w('LocationServiceDisabledException', error: ex, stackTrace: st);
     throw ServiceGPSDisabled();
   } on TimeoutException catch (ex, st) {
     logger.w('LocationTimeoutException', error: ex, stackTrace: st);
     throw GetLocationTimeout();
+  } on LocationPermissionDenied catch (ex, st) {
+    logger.w('LocationPermissionDenied', error: ex, stackTrace: st);
+    throw LocationPermissionDenied();
   } on LocationPermissionDeniedForever catch (ex, st) {
     logger.w('LocationPermissionDeniedForever', error: ex, stackTrace: st);
     throw LocationPermissionDenied();
   } catch (ex, st) {
-    logger.e('LocationUnknownException', error: ex, stackTrace: st);
+    logger.e(
+      'LocationNotifier: LocationUnknownException',
+      error: ex,
+      stackTrace: st,
+    );
     rethrow;
   }
 }

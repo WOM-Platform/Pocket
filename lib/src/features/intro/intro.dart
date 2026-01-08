@@ -113,11 +113,8 @@ class IntroScreen extends HookConsumerWidget {
           title: 'introTitle7'.tr(),
           bottomButton: MyButton(
             backgroundColor: accentColor,
-            // style: ElevatedButton.styleFrom(backgroundColor: accentColor),
             onPressed: () {
-              final totemData = validateTotemQrCodeWithRegex(
-                'https://link.wom.social/cmi/e3441c34-b02c-4bd9-8de5-9e312468ca69/d67c6e3a-053a-4cb7-b4ce-d1d0427c6cad',
-              );
+              final totemData = validateTotemQrCodeWithRegex(welcomeTotem);
               if (totemData != null) {
                 launchTotemDialog(context, totemData);
               }

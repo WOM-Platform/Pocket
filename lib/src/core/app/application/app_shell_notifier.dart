@@ -1,6 +1,5 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:equatable/equatable.dart';
 import 'package:wom_pocket/src/core/app/application/app_shell_state.dart';
 
 part 'app_shell_notifier.g.dart';
@@ -34,8 +33,9 @@ class AppShellNotifier extends _$AppShellNotifier {
   /// performing any navigation.
   void switchToTab(String path) {
     if (_navigationShell == null) return;
-    final index = _navigationShell!.route.branches
-        .indexWhere((element) => element.defaultRoute?.path == path);
+    final index = _navigationShell!.route.branches.indexWhere(
+      (element) => element.defaultRoute?.path == path,
+    );
 
     if (index == -1) return;
 

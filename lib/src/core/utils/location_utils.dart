@@ -1,7 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/exceptions/location_exception.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 
 // goToCurrentLocation(
 //   Future<GoogleMapController> controller,
@@ -31,21 +31,13 @@ Future<void> _goToLocation(
   if (withAnimation) {
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(
-          bearing: 0,
-          target: latLng,
-          zoom: zoom,
-        ),
+        CameraPosition(bearing: 0, target: latLng, zoom: zoom),
       ),
     );
   } else {
     await controller.moveCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(
-          bearing: 0,
-          target: latLng,
-          zoom: zoom,
-        ),
+        CameraPosition(bearing: 0, target: latLng, zoom: zoom),
       ),
     );
   }
@@ -62,11 +54,11 @@ Future<bool> requestPermission() async {
       // Android's shouldShowRequestPermissionRationale
       // returned true. According to Android guidelines
       // your App should show an explanatory UI now.
-      return false;
+      throw LocationPermissionDenied();
+    } else if (permission == LocationPermission.deniedForever) {
+      throw LocationPermissionDeniedForever();
     }
-  }
-
-  if (permission == LocationPermission.deniedForever) {
+  } else if (permission == LocationPermission.deniedForever) {
     throw LocationPermissionDeniedForever();
   }
 

@@ -24,10 +24,13 @@ Dio getDio(Ref ref) {
   return Dio();
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 TransactionRepository transactionRepository(Ref ref) {
-  return TransactionRepository(ref.read(pocketProvider),
-      ref.read(getDatabaseProvider), ref.read(getDioProvider));
+  return TransactionRepository(
+    ref.read(pocketProvider),
+    ref.read(getDatabaseProvider),
+    ref.read(getDioProvider),
+  );
 }
 
 class TransactionRepository {
@@ -47,8 +50,12 @@ class TransactionRepository {
   }) async {
     logger.i('getWoms');
     try {
-      final response =
-          await pocket.redeemVouchers(otc, password, lat: lat, long: long);
+      final response = await pocket.redeemVouchers(
+        otc,
+        password,
+        lat: lat,
+        long: long,
+      );
       return saveWoms(response);
     } on ServerException catch (ex, st) {
       logger.e(
@@ -93,8 +100,9 @@ class TransactionRepository {
       aimCode: tmp,
     );
 
-    final id = await database.transactionsDao
-        .addTransaction(tx.toTransactionCompanion());
+    final id = await database.transactionsDao.addTransaction(
+      tx.toTransactionCompanion(),
+    );
 
     final geoHasher = GeoHasher();
 
@@ -105,10 +113,7 @@ class TransactionRepository {
               id: e.id,
               sourceName: redeem.sourceName,
               secret: e.secret,
-              geohash: geoHasher.encode(
-                e.longitude,
-                e.latitude,
-              ),
+              geohash: geoHasher.encode(e.longitude, e.latitude),
               aim: e.aim,
               sourceId: redeem.sourceId,
               transactionId: id,
@@ -140,10 +145,9 @@ class TransactionRepository {
     logger.i('pay');
 
     try {
-      final satisfyingVouchers = (await database.womsDao
-              .getVouchersForPayment(simpleFilter: infoPay.simpleFilter))
-          .map((e) => e.toVoucher())
-          .toList();
+      final satisfyingVouchers = (await database.womsDao.getVouchersForPayment(
+        simpleFilter: infoPay.simpleFilter,
+      )).map((e) => e.toVoucher()).toList();
 
       if (infoPay.amount > satisfyingVouchers.length) {
         throw InsufficientVouchers();
@@ -163,14 +167,17 @@ class TransactionRepository {
         ackUrl: ack,
       );
 
-      final id = await database.transactionsDao
-          .addTransaction(tx.toTransactionCompanion());
+      final id = await database.transactionsDao.addTransaction(
+        tx.toTransactionCompanion(),
+      );
 
       int count = 0;
 
       for (int i = 0; i < vouchers.length; i++) {
-        final c =
-            await database.womsDao.updateWomStatusToOff(vouchers[i].id, id);
+        final c = await database.womsDao.updateWomStatusToOff(
+          vouchers[i].id,
+          id,
+        );
         count += c;
       }
       logger.i('wom to off = $count');
@@ -238,9 +245,7 @@ class TransactionRepository {
       json.removeWhere((key, value) => value == null);
       final response = await dio.post(
         '$functionsBaseUrl/embedded-verifyTotemSecondGen',
-        data: {
-          ...json,
-        },
+        data: {...json},
       );
       if (response.statusCode == 200) {
         return TotemResponse.fromJson(response.data);
