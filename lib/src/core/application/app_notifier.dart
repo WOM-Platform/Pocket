@@ -21,7 +21,7 @@ NfcBackground getNFCBackground(Ref ref) {
 Stream<TotemData> getNfcIntent(Ref ref) async* {
   final stream = ref.watch(getNFCBackgroundProvider).backgroundIntentStream;
   await for (final link in stream) {
-    logger.i('Subscription stream uri : $link');
+    logger.i('getNfcIntent: Subscription stream uri : $link');
     final totemData = validateTotemQrCodeWithRegex(link);
     if (totemData != null) {
       yield totemData;
@@ -56,32 +56,29 @@ class NfcBackgroundNotifier extends _$NfcBackgroundNotifier {
   }
 }
 
-final _deepLinkStreamNotifierProvider = StreamProvider<String?>((ref) async* {
-  await for (final s in appLinks.stringLinkStream) {
-    logger.i('Subscription stream uri : $s');
-    yield s;
-  }
-});
+// final _deepLinkStreamNotifierProvider = StreamProvider<String?>((ref) async* {
+//   await for (final s in appLinks.stringLinkStream) {
+//     logger.i('_deepLinkStreamNotifierProvider: Subscription stream uri : $s');
+//     yield s;
+//   }
+// });
 
 final deepLinkNotifierProvider =
     AsyncNotifierProvider<DeepLinkNotifier, String?>(DeepLinkNotifier.new);
 
 class DeepLinkNotifier extends AsyncNotifier<String?> {
+  late final StreamSubscription? _streamSubscription;
+
   @override
   FutureOr<String?> build() async {
-    ref.listen(_deepLinkStreamNotifierProvider, (previous, next) {
-      if (next is AsyncData) {
-        final deepLink = next.value;
-        if (deepLink != null) {
-          logger.i('deeplink: $deepLink');
-          state = AsyncData(deepLink);
-        }
-      }
+    _streamSubscription = appLinks.stringLinkStream.listen((deepLink) {
+      logger.i('DeepLinkNotifier: deeplink: $deepLink');
+      state = AsyncData(deepLink);
     });
 
     final initialDeepLink = await appLinks.getInitialLinkString();
     if (initialDeepLink != null) {
-      logger.i('initialDeepLink: $initialDeepLink');
+      logger.i('DeepLinkNotifier: build: initialDeepLink: $initialDeepLink');
       await Future.delayed(Duration(milliseconds: 250));
       return initialDeepLink;
     }

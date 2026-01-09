@@ -2,7 +2,7 @@ name: wom_pocket
 publish_to: none
 description: A new Flutter application.
 
-version: 1.10.1+145
+version: 1.10.1+146
 
 environment:
   sdk: ">=3.8.0 <4.0.0"
@@ -10,7 +10,7 @@ environment:
 dependencies:
   android_intent_plus: ^6.0.0
   animate_do: any
-  app_links: ^6.4.1
+  app_links: ^7.0.0
   auto_size_text: ^3.0.0
   cached_network_image: ^3.3.1
   carousel_slider: ^5.0.0
