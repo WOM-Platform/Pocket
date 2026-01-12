@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:rive/rive.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/constants.dart';
@@ -19,6 +20,7 @@ late String mapStyle;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await RiveNative.init();
 
   // Intl
   await EasyLocalization.ensureInitialized();
@@ -61,26 +63,20 @@ void main() async {
   // Sentry
   Logger.addLogListener((event) {
     if (event.level == Level.error) {
-      Sentry.captureException(
-        event.error,
-        stackTrace: event.stackTrace,
-      );
+      Sentry.captureException(event.error, stackTrace: event.stackTrace);
     }
   });
 
   //Initialize Sentry for error reporting in production mode
-  return SentryFlutter.init(
-    (options) {
-      options.dsn =
-          'https://347c6f42c15716fcc049221092932fd3@o4509545347874816.ingest.de.sentry.io/4509545373040720';
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
-      options.debug = !kReleaseMode;
-      options.tracesSampler = (_) => 1.0;
-    },
-    appRunner: startApp,
-  );
+  return SentryFlutter.init((options) {
+    options.dsn =
+        'https://347c6f42c15716fcc049221092932fd3@o4509545347874816.ingest.de.sentry.io/4509545373040720';
+    // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+    // We recommend adjusting this value in production.
+    options.tracesSampleRate = 1.0;
+    options.debug = !kReleaseMode;
+    options.tracesSampler = (_) => 1.0;
+  }, appRunner: startApp);
 }
 
 startApp() {
@@ -90,10 +86,7 @@ startApp() {
       builder: (context) => ProviderScope(
         retry: (retryCount, error) => null,
         child: EasyLocalization(
-          supportedLocales: [
-            Locale('en'),
-            Locale('it'),
-          ],
+          supportedLocales: [Locale('en'), Locale('it')],
           path: 'assets/lang',
           // <-- change the path of the translation files
           fallbackLocale: Locale('it'),

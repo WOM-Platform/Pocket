@@ -156,7 +156,10 @@ class IntroScreen extends HookConsumerWidget {
                     color: lightBlue,
                     activeColor: Colors.yellow,
                   ),
-                  position: min(selectedPage.value.toInt(), pages.length - 1),
+                  position: min(
+                    selectedPage.value.toDouble(),
+                    pages.length - 1,
+                  ),
                   dotsCount: pages.length,
                 );
               },

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_ce_flutter/adapters.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:rive/rive.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/main.dart';
@@ -17,6 +18,7 @@ import 'package:wom_pocket/src/core/utils/utils.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await RiveNative.init();
 
   // Intl
   await EasyLocalization.ensureInitialized();
@@ -27,7 +29,7 @@ Future<void> main() async {
   };
 
   // Drift DB
-/*  final database = MyDatabase();
+  /*  final database = MyDatabase();
   final allAims = await database.select(database.aims).get();
   allAims.forEach(print);
   final woms = await database.select(database.wom).get();
@@ -51,9 +53,7 @@ Future<void> main() async {
   registryKey = await Utils.getPublicKey();
   mapStyle = await rootBundle.loadString('assets/map_style.txt');
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle.light.copyWith(
-      statusBarColor: Colors.red,
-    ),
+    SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.red),
   );
 
   runApp(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rive/rive.dart';
+import 'package:rive/rive.dart' hide Animation;
 import 'package:wom_pocket/src/core/application/transactions_list/transactions_notifier.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/voucher_card.dart';
@@ -33,11 +33,12 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation _animation;
-
+  late RiveWidgetController controller;
   @override
   void initState() {
     super.initState();
 
+    _initRive();
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
@@ -52,6 +53,14 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _initRive() async {
+    final file = (await File.asset(
+      'assets/flare/check.riv',
+      riveFactory: Factory.rive,
+    ))!;
+    controller = RiveWidgetController(file);
   }
 
   void backToHome() {
@@ -165,11 +174,10 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                     shape: BoxShape.circle,
                                     color: Theme.of(context).primaryColor,
                                   ),
-                                  child: RiveAnimation.asset(
-                                    'assets/flare/check.riv',
+                                  child: RiveWidget(
+                                    controller: controller,
                                     alignment: Alignment.center,
-                                    fit: BoxFit.contain,
-                                    // animation: 'success',
+                                    fit: RiveDefaults.fit,
                                   ),
                                 ),
                                 SizedBox(height: _animation.value * 5.0),
