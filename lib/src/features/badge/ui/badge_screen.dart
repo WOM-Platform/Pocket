@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
+import 'package:wom_pocket/src/features/badge/application/badge_state.dart';
 import 'package:wom_pocket/src/features/badge/ui/badge_list.dart';
 
 class MyBehavior extends ScrollBehavior {
@@ -24,26 +27,27 @@ class BadgeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(badgeProvider);
-
     final languageCode = context.locale.languageCode;
     return Scaffold(
       appBar: PocketAppBar(
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       ref.refresh(badgeNotifierProvider.future);
-        //     },
-        //     icon: Icon(Icons.refresh),
-        //   ),
-        // ],
+        actions: [
+          if (state is AsyncData<BadgeState> &&
+              state.value.archivedBadges.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                context.go('/badge/archived');
+              },
+              color: primaryColor,
+              icon: Icon(Icons.archive),
+            ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () => ref.refresh(badgeProvider.future),
         child: state.when(
           data: (badgeState) {
-            final badgeDataList = badgeState.badges;
-            final challengeDataList = badgeState.challenges;
-            if (badgeDataList.isEmpty && challengeDataList.isEmpty) {
+            final badgeDataList = badgeState.unarchivedBadge;
+            if (badgeDataList.isEmpty) {
               return LayoutBuilder(
                 builder: (context, constraints) {
                   return SingleChildScrollView(
@@ -69,35 +73,7 @@ class BadgeScreen extends ConsumerWidget {
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 150),
-                  child: Column(
-                    children: [
-                      BadgeList(badges: badgeDataList),
-                      // for (final challenge in challengeDataList) ...[
-                      //   const SizedBox(height: 16),
-                      //   GestureDetector(
-                      //     onTap: () {
-                      //       context.go('/badge/challenge', extra: challenge);
-                      //     },
-                      //     child: Row(
-                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         Text(
-                      //           challenge.name[languageCode] ?? '',
-                      //           style: TextStyle(
-                      //             fontSize: 25,
-                      //             fontWeight: FontWeight.bold,
-                      //           ),
-                      //         ),
-                      //         const SizedBox(width: 8),
-                      //         Icon(Icons.info_outline_rounded),
-                      //       ],
-                      //     ),
-                      //   ),
-                      //   BadgeList(badges: challenge.badges),
-                      // ],
-                    ],
-                  ),
+                  child: Column(children: [BadgeList(badges: badgeDataList)]),
                 ),
               ),
             );
@@ -109,9 +85,5 @@ class BadgeScreen extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  int getIndex(int x, int y) {
-    return y * columns + x;
   }
 }

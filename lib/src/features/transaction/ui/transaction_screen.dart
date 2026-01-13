@@ -33,12 +33,10 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation _animation;
-  late RiveWidgetController controller;
   @override
   void initState() {
     super.initState();
 
-    _initRive();
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
@@ -53,14 +51,6 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  Future<void> _initRive() async {
-    final file = (await File.asset(
-      'assets/flare/check.riv',
-      riveFactory: Factory.rive,
-    ))!;
-    controller = RiveWidgetController(file);
   }
 
   void backToHome() {
@@ -174,10 +164,11 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
                                     shape: BoxShape.circle,
                                     color: Theme.of(context).primaryColor,
                                   ),
-                                  child: RiveWidget(
-                                    controller: controller,
+                                  child: RiveAnimation.asset(
+                                    'assets/flare/check.riv',
                                     alignment: Alignment.center,
-                                    fit: RiveDefaults.fit,
+                                    fit: BoxFit.contain,
+                                    // animation: 'success',
                                   ),
                                 ),
                                 SizedBox(height: _animation.value * 5.0),

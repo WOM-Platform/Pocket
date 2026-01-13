@@ -2,21 +2,21 @@
 // database class. They are used to open the database.
 import 'dart:io';
 
-import 'package:wom_pocket/src/core/database/challenge_dao.dart';
-import 'package:wom_pocket/src/features/badge/data/badge.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/src/core/database/aims_dao.dart';
 import 'package:wom_pocket/src/core/database/badge_dao.dart';
+import 'package:wom_pocket/src/core/database/challenge_dao.dart';
 import 'package:wom_pocket/src/core/database/tables.dart';
 import 'package:wom_pocket/src/core/database/totems_dao.dart';
 import 'package:wom_pocket/src/core/database/transactions_dao.dart';
 import 'package:wom_pocket/src/core/database/woms_dao.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/badge/data/badge.dart';
 
 part 'database.g.dart';
 
@@ -27,18 +27,15 @@ part 'database.g.dart';
 class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
   MyDatabase([DatabaseConnection? connection])
-      : super(connection ?? _openConnection());
+    : super(connection ?? _openConnection());
 
   @visibleForTesting
   MyDatabase.query(QueryExecutor executor) : super(executor);
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
-  Future<void> importWoms(
-    TransactionsCompanion tx,
-    List<WomRow> woms,
-  ) {
+  Future<void> importWoms(TransactionsCompanion tx, List<WomRow> woms) {
     return transaction(() async {
       final idx = await transactionsDao.addTransaction(tx);
       final finalWoms = woms
@@ -49,9 +46,7 @@ class MyDatabase extends _$MyDatabase {
     });
   }
 
-  Future<void> importTotems(
-    List<TotemsCompanion> totems,
-  ) {
+  Future<void> importTotems(List<TotemsCompanion> totems) {
     return transaction(() async {
       await totemsDao.addTotems(totems);
     });
@@ -76,9 +71,7 @@ class MyDatabase extends _$MyDatabase {
         logger.w('from $from to $to');
 
         Sentry.addBreadcrumb(
-          Breadcrumb(
-            message: 'db migration from $from to $to',
-          ),
+          Breadcrumb(message: 'db migration from $from to $to'),
         );
 
         await transaction(() async {
@@ -97,13 +90,12 @@ class MyDatabase extends _$MyDatabase {
           }
 
           if (from < 6) {
-
             if (!await _tableExists(m, totems.actualTableName)) {
               await m.createTable(totems);
               Sentry.addBreadcrumb(
                 Breadcrumb(
                   message:
-                  'Migration to $to: Created "totems" table as it was missing.',
+                      'Migration to $to: Created "totems" table as it was missing.',
                 ),
               );
               logger.i(
@@ -297,17 +289,18 @@ class MyDatabase extends _$MyDatabase {
               }
             }
           }
+
+          if (from < 12) {
+            await m.addColumn(badges, badges.archived);
+            await m.addColumn(badges, badges.archivedAt);
+          }
         });
       },
       beforeOpen: (details) async {
         final message =
             'db beforeOpen ${details.versionBefore} => ${details.versionNow}';
         logger.i(message);
-        Sentry.addBreadcrumb(
-          Breadcrumb(
-            message: message,
-          ),
-        );
+        Sentry.addBreadcrumb(Breadcrumb(message: message));
         if (kDebugMode) {
           // This check pulls in a fair amount of code that's not needed
           // anywhere else, so we recommend only doing it in debug builds.
@@ -338,11 +331,7 @@ class MyDatabase extends _$MyDatabase {
 
     if (await _tableExists(m, totems.actualTableName)) {
       for (final column in columns) {
-        if (!await _columnExists(
-          m,
-          totems.actualTableName,
-          column.name,
-        )) {
+        if (!await _columnExists(m, totems.actualTableName, column.name)) {
           await m.addColumn(totems, column);
           Sentry.addBreadcrumb(
             Breadcrumb(
@@ -359,10 +348,12 @@ class MyDatabase extends _$MyDatabase {
   }
 
   Future<bool> _tableExists(Migrator m, String tableName) async {
-    final result = await m.database.customSelect(
-      "SELECT name FROM sqlite_master WHERE type='table' AND name = ?",
-      variables: [Variable.withString(tableName)],
-    ).getSingleOrNull();
+    final result = await m.database
+        .customSelect(
+          "SELECT name FROM sqlite_master WHERE type='table' AND name = ?",
+          variables: [Variable.withString(tableName)],
+        )
+        .getSingleOrNull();
     return result != null;
   }
 
@@ -371,8 +362,9 @@ class MyDatabase extends _$MyDatabase {
     String tableName,
     String columnName,
   ) async {
-    final List<QueryRow> columns =
-        await m.database.customSelect("PRAGMA table_info('$tableName')").get();
+    final List<QueryRow> columns = await m.database
+        .customSelect("PRAGMA table_info('$tableName')")
+        .get();
     return columns.any((row) => row.read<String>('name') == columnName);
   }
 }

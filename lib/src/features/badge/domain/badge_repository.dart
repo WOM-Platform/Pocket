@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/features/badge/data/badge.dart';
@@ -19,6 +18,8 @@ BadgeRepository getBadgeRepository(Ref ref) {
 
 abstract class BadgeRepository {
   Future<void> setAsSeen(String badgeId);
+
+  Future<void> setAsArchived(String badgeId);
 
   Future<List<BadgeData>> getPublicBadges();
 
@@ -41,10 +42,7 @@ class BadgeRepositoryImpl implements BadgeRepository {
   final BadgeRemoteDataSource _remoteDataSource;
   final BadgeLocalDataSource _localDataSource;
 
-  BadgeRepositoryImpl(
-    this._remoteDataSource,
-    this._localDataSource,
-  );
+  BadgeRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
   Future<List<BadgeData>> getPublicBadges() async {
@@ -52,10 +50,7 @@ class BadgeRepositoryImpl implements BadgeRepository {
       final remoteBadges = await _remoteDataSource.getBadges();
       final localBadges = await _localDataSource.getAllPublicBadges();
 
-      await _saveBadges(
-        remoteBadges: remoteBadges,
-        localBadges: localBadges,
-      );
+      await _saveBadges(remoteBadges: remoteBadges, localBadges: localBadges);
 
       // Ricarico tutta la lista locale che rispecchia lo stato attuale dei
       // badge, visto che alcuni possono essere aggiornati a seguito di verifiche
@@ -91,7 +86,8 @@ class BadgeRepositoryImpl implements BadgeRepository {
       return await _remoteDataSource.getBadgeById(badgeId);
     } catch (e) {
       logger.e(
-          'Error in BadgeRepositoryImpl fetching badge with ID $badgeId: $e');
+        'Error in BadgeRepositoryImpl fetching badge with ID $badgeId: $e',
+      );
       rethrow;
     }
   }
@@ -107,7 +103,8 @@ class BadgeRepositoryImpl implements BadgeRepository {
       return await _remoteDataSource.getChallengeById(challengeId);
     } catch (e) {
       logger.e(
-          'Error in BadgeRepositoryImpl fetching challenge with ID $challengeId: $e');
+        'Error in BadgeRepositoryImpl fetching challenge with ID $challengeId: $e',
+      );
       rethrow;
     }
   }
@@ -144,8 +141,9 @@ class BadgeRepositoryImpl implements BadgeRepository {
   }) async {
     // Save new badge locally
     for (final remoteBadge in remoteBadges) {
-      final localBadge = localBadges
-          .firstWhereOrNull((localBadge) => localBadge.id == remoteBadge.id);
+      final localBadge = localBadges.firstWhereOrNull(
+        (localBadge) => localBadge.id == remoteBadge.id,
+      );
       // Badge non esiste localmente
       if (localBadge == null) {
         await _localDataSource.saveNewBadge(remoteBadge);
@@ -193,5 +191,10 @@ class BadgeRepositoryImpl implements BadgeRepository {
       logger.e('Error in BadgeRepositoryImpl fetching challenges: $e');
       rethrow;
     }
+  }
+
+  @override
+  Future<void> setAsArchived(String badgeId) {
+    return _localDataSource.setAsArchived(badgeId);
   }
 }

@@ -82,7 +82,7 @@ final class GetNfcIntentProvider
   }
 }
 
-String _$getNfcIntentHash() => r'3d3f4ebb4266c05a12017bdeac8f43e4477f3b67';
+String _$getNfcIntentHash() => r'2b2f8f892c939532433b39fe831fad8174b3004a';
 
 @ProviderFor(NfcBackgroundNotifier)
 final nfcBackgroundProvider = NfcBackgroundNotifierProvider._();

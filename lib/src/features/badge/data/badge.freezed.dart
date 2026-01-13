@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BadgeData {
 
- String get id; bool get isPublic; Map<String, String> get name; String? get challengeId; Map<String, String>? get description;@JsonKey(name: 'image') ImageData? get image; bool get seen; bool get achieved;@DateTimeConverter() DateTime? get achievedAt;@DateTimeConverter() DateTime? get createdAt;@DateTimeConverter() DateTime? get lastUpdate; String? get informationUri; BadgeSimpleFilter? get simpleFilter;
+ String get id; bool get isPublic; Map<String, String> get name; String? get challengeId; Map<String, String>? get description;@JsonKey(name: 'image') ImageData? get image; bool get seen; bool get achieved; bool get archived;@DateTimeConverter() DateTime? get achievedAt;@DateTimeConverter() DateTime? get archivedAt;@DateTimeConverter() DateTime? get createdAt;@DateTimeConverter() DateTime? get lastUpdate; String? get informationUri; BadgeSimpleFilter? get simpleFilter;
 /// Create a copy of BadgeData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $BadgeDataCopyWith<BadgeData> get copyWith => _$BadgeDataCopyWithImpl<BadgeData>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BadgeData&&(identical(other.id, id) || other.id == id)&&(identical(other.isPublic, isPublic) || other.isPublic == isPublic)&&const DeepCollectionEquality().equals(other.name, name)&&(identical(other.challengeId, challengeId) || other.challengeId == challengeId)&&const DeepCollectionEquality().equals(other.description, description)&&(identical(other.image, image) || other.image == image)&&(identical(other.seen, seen) || other.seen == seen)&&(identical(other.achieved, achieved) || other.achieved == achieved)&&(identical(other.achievedAt, achievedAt) || other.achievedAt == achievedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate)&&(identical(other.informationUri, informationUri) || other.informationUri == informationUri)&&(identical(other.simpleFilter, simpleFilter) || other.simpleFilter == simpleFilter));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BadgeData&&(identical(other.id, id) || other.id == id)&&(identical(other.isPublic, isPublic) || other.isPublic == isPublic)&&const DeepCollectionEquality().equals(other.name, name)&&(identical(other.challengeId, challengeId) || other.challengeId == challengeId)&&const DeepCollectionEquality().equals(other.description, description)&&(identical(other.image, image) || other.image == image)&&(identical(other.seen, seen) || other.seen == seen)&&(identical(other.achieved, achieved) || other.achieved == achieved)&&(identical(other.archived, archived) || other.archived == archived)&&(identical(other.achievedAt, achievedAt) || other.achievedAt == achievedAt)&&(identical(other.archivedAt, archivedAt) || other.archivedAt == archivedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate)&&(identical(other.informationUri, informationUri) || other.informationUri == informationUri)&&(identical(other.simpleFilter, simpleFilter) || other.simpleFilter == simpleFilter));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,isPublic,const DeepCollectionEquality().hash(name),challengeId,const DeepCollectionEquality().hash(description),image,seen,achieved,achievedAt,createdAt,lastUpdate,informationUri,simpleFilter);
+int get hashCode => Object.hash(runtimeType,id,isPublic,const DeepCollectionEquality().hash(name),challengeId,const DeepCollectionEquality().hash(description),image,seen,achieved,archived,achievedAt,archivedAt,createdAt,lastUpdate,informationUri,simpleFilter);
 
 @override
 String toString() {
-  return 'BadgeData(id: $id, isPublic: $isPublic, name: $name, challengeId: $challengeId, description: $description, image: $image, seen: $seen, achieved: $achieved, achievedAt: $achievedAt, createdAt: $createdAt, lastUpdate: $lastUpdate, informationUri: $informationUri, simpleFilter: $simpleFilter)';
+  return 'BadgeData(id: $id, isPublic: $isPublic, name: $name, challengeId: $challengeId, description: $description, image: $image, seen: $seen, achieved: $achieved, archived: $archived, achievedAt: $achievedAt, archivedAt: $archivedAt, createdAt: $createdAt, lastUpdate: $lastUpdate, informationUri: $informationUri, simpleFilter: $simpleFilter)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $BadgeDataCopyWith<$Res>  {
   factory $BadgeDataCopyWith(BadgeData value, $Res Function(BadgeData) _then) = _$BadgeDataCopyWithImpl;
 @useResult
 $Res call({
- String id, bool isPublic, Map<String, String> name, String? challengeId, Map<String, String>? description,@JsonKey(name: 'image') ImageData? image, bool seen, bool achieved,@DateTimeConverter() DateTime? achievedAt,@DateTimeConverter() DateTime? createdAt,@DateTimeConverter() DateTime? lastUpdate, String? informationUri, BadgeSimpleFilter? simpleFilter
+ String id, bool isPublic, Map<String, String> name, String? challengeId, Map<String, String>? description,@JsonKey(name: 'image') ImageData? image, bool seen, bool achieved, bool archived,@DateTimeConverter() DateTime? achievedAt,@DateTimeConverter() DateTime? archivedAt,@DateTimeConverter() DateTime? createdAt,@DateTimeConverter() DateTime? lastUpdate, String? informationUri, BadgeSimpleFilter? simpleFilter
 });
 
 
@@ -65,7 +65,7 @@ class _$BadgeDataCopyWithImpl<$Res>
 
 /// Create a copy of BadgeData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? isPublic = null,Object? name = null,Object? challengeId = freezed,Object? description = freezed,Object? image = freezed,Object? seen = null,Object? achieved = null,Object? achievedAt = freezed,Object? createdAt = freezed,Object? lastUpdate = freezed,Object? informationUri = freezed,Object? simpleFilter = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? isPublic = null,Object? name = null,Object? challengeId = freezed,Object? description = freezed,Object? image = freezed,Object? seen = null,Object? achieved = null,Object? archived = null,Object? achievedAt = freezed,Object? archivedAt = freezed,Object? createdAt = freezed,Object? lastUpdate = freezed,Object? informationUri = freezed,Object? simpleFilter = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,isPublic: null == isPublic ? _self.isPublic : isPublic // ignore: cast_nullable_to_non_nullable
@@ -75,7 +75,9 @@ as String?,description: freezed == description ? _self.description : description
 as Map<String, String>?,image: freezed == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
 as ImageData?,seen: null == seen ? _self.seen : seen // ignore: cast_nullable_to_non_nullable
 as bool,achieved: null == achieved ? _self.achieved : achieved // ignore: cast_nullable_to_non_nullable
+as bool,archived: null == archived ? _self.archived : archived // ignore: cast_nullable_to_non_nullable
 as bool,achievedAt: freezed == achievedAt ? _self.achievedAt : achievedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,archivedAt: freezed == archivedAt ? _self.archivedAt : archivedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,lastUpdate: freezed == lastUpdate ? _self.lastUpdate : lastUpdate // ignore: cast_nullable_to_non_nullable
 as DateTime?,informationUri: freezed == informationUri ? _self.informationUri : informationUri // ignore: cast_nullable_to_non_nullable
@@ -189,10 +191,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  bool isPublic,  Map<String, String> name,  String? challengeId,  Map<String, String>? description, @JsonKey(name: 'image')  ImageData? image,  bool seen,  bool achieved, @DateTimeConverter()  DateTime? achievedAt, @DateTimeConverter()  DateTime? createdAt, @DateTimeConverter()  DateTime? lastUpdate,  String? informationUri,  BadgeSimpleFilter? simpleFilter)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  bool isPublic,  Map<String, String> name,  String? challengeId,  Map<String, String>? description, @JsonKey(name: 'image')  ImageData? image,  bool seen,  bool achieved,  bool archived, @DateTimeConverter()  DateTime? achievedAt, @DateTimeConverter()  DateTime? archivedAt, @DateTimeConverter()  DateTime? createdAt, @DateTimeConverter()  DateTime? lastUpdate,  String? informationUri,  BadgeSimpleFilter? simpleFilter)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BadgeData() when $default != null:
-return $default(_that.id,_that.isPublic,_that.name,_that.challengeId,_that.description,_that.image,_that.seen,_that.achieved,_that.achievedAt,_that.createdAt,_that.lastUpdate,_that.informationUri,_that.simpleFilter);case _:
+return $default(_that.id,_that.isPublic,_that.name,_that.challengeId,_that.description,_that.image,_that.seen,_that.achieved,_that.archived,_that.achievedAt,_that.archivedAt,_that.createdAt,_that.lastUpdate,_that.informationUri,_that.simpleFilter);case _:
   return orElse();
 
 }
@@ -210,10 +212,10 @@ return $default(_that.id,_that.isPublic,_that.name,_that.challengeId,_that.descr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  bool isPublic,  Map<String, String> name,  String? challengeId,  Map<String, String>? description, @JsonKey(name: 'image')  ImageData? image,  bool seen,  bool achieved, @DateTimeConverter()  DateTime? achievedAt, @DateTimeConverter()  DateTime? createdAt, @DateTimeConverter()  DateTime? lastUpdate,  String? informationUri,  BadgeSimpleFilter? simpleFilter)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  bool isPublic,  Map<String, String> name,  String? challengeId,  Map<String, String>? description, @JsonKey(name: 'image')  ImageData? image,  bool seen,  bool achieved,  bool archived, @DateTimeConverter()  DateTime? achievedAt, @DateTimeConverter()  DateTime? archivedAt, @DateTimeConverter()  DateTime? createdAt, @DateTimeConverter()  DateTime? lastUpdate,  String? informationUri,  BadgeSimpleFilter? simpleFilter)  $default,) {final _that = this;
 switch (_that) {
 case _BadgeData():
-return $default(_that.id,_that.isPublic,_that.name,_that.challengeId,_that.description,_that.image,_that.seen,_that.achieved,_that.achievedAt,_that.createdAt,_that.lastUpdate,_that.informationUri,_that.simpleFilter);case _:
+return $default(_that.id,_that.isPublic,_that.name,_that.challengeId,_that.description,_that.image,_that.seen,_that.achieved,_that.archived,_that.achievedAt,_that.archivedAt,_that.createdAt,_that.lastUpdate,_that.informationUri,_that.simpleFilter);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -230,10 +232,10 @@ return $default(_that.id,_that.isPublic,_that.name,_that.challengeId,_that.descr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  bool isPublic,  Map<String, String> name,  String? challengeId,  Map<String, String>? description, @JsonKey(name: 'image')  ImageData? image,  bool seen,  bool achieved, @DateTimeConverter()  DateTime? achievedAt, @DateTimeConverter()  DateTime? createdAt, @DateTimeConverter()  DateTime? lastUpdate,  String? informationUri,  BadgeSimpleFilter? simpleFilter)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  bool isPublic,  Map<String, String> name,  String? challengeId,  Map<String, String>? description, @JsonKey(name: 'image')  ImageData? image,  bool seen,  bool achieved,  bool archived, @DateTimeConverter()  DateTime? achievedAt, @DateTimeConverter()  DateTime? archivedAt, @DateTimeConverter()  DateTime? createdAt, @DateTimeConverter()  DateTime? lastUpdate,  String? informationUri,  BadgeSimpleFilter? simpleFilter)?  $default,) {final _that = this;
 switch (_that) {
 case _BadgeData() when $default != null:
-return $default(_that.id,_that.isPublic,_that.name,_that.challengeId,_that.description,_that.image,_that.seen,_that.achieved,_that.achievedAt,_that.createdAt,_that.lastUpdate,_that.informationUri,_that.simpleFilter);case _:
+return $default(_that.id,_that.isPublic,_that.name,_that.challengeId,_that.description,_that.image,_that.seen,_that.achieved,_that.archived,_that.achievedAt,_that.archivedAt,_that.createdAt,_that.lastUpdate,_that.informationUri,_that.simpleFilter);case _:
   return null;
 
 }
@@ -245,7 +247,7 @@ return $default(_that.id,_that.isPublic,_that.name,_that.challengeId,_that.descr
 @JsonSerializable()
 
 class _BadgeData implements BadgeData {
-  const _BadgeData({required this.id, required this.isPublic, required final  Map<String, String> name, this.challengeId, final  Map<String, String>? description, @JsonKey(name: 'image') this.image, this.seen = false, this.achieved = false, @DateTimeConverter() this.achievedAt, @DateTimeConverter() this.createdAt, @DateTimeConverter() this.lastUpdate, this.informationUri, this.simpleFilter}): _name = name,_description = description;
+  const _BadgeData({required this.id, required this.isPublic, required final  Map<String, String> name, this.challengeId, final  Map<String, String>? description, @JsonKey(name: 'image') this.image, this.seen = false, this.achieved = false, this.archived = false, @DateTimeConverter() this.achievedAt, @DateTimeConverter() this.archivedAt, @DateTimeConverter() this.createdAt, @DateTimeConverter() this.lastUpdate, this.informationUri, this.simpleFilter}): _name = name,_description = description;
   factory _BadgeData.fromJson(Map<String, dynamic> json) => _$BadgeDataFromJson(json);
 
 @override final  String id;
@@ -270,7 +272,9 @@ class _BadgeData implements BadgeData {
 @override@JsonKey(name: 'image') final  ImageData? image;
 @override@JsonKey() final  bool seen;
 @override@JsonKey() final  bool achieved;
+@override@JsonKey() final  bool archived;
 @override@DateTimeConverter() final  DateTime? achievedAt;
+@override@DateTimeConverter() final  DateTime? archivedAt;
 @override@DateTimeConverter() final  DateTime? createdAt;
 @override@DateTimeConverter() final  DateTime? lastUpdate;
 @override final  String? informationUri;
@@ -289,16 +293,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BadgeData&&(identical(other.id, id) || other.id == id)&&(identical(other.isPublic, isPublic) || other.isPublic == isPublic)&&const DeepCollectionEquality().equals(other._name, _name)&&(identical(other.challengeId, challengeId) || other.challengeId == challengeId)&&const DeepCollectionEquality().equals(other._description, _description)&&(identical(other.image, image) || other.image == image)&&(identical(other.seen, seen) || other.seen == seen)&&(identical(other.achieved, achieved) || other.achieved == achieved)&&(identical(other.achievedAt, achievedAt) || other.achievedAt == achievedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate)&&(identical(other.informationUri, informationUri) || other.informationUri == informationUri)&&(identical(other.simpleFilter, simpleFilter) || other.simpleFilter == simpleFilter));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BadgeData&&(identical(other.id, id) || other.id == id)&&(identical(other.isPublic, isPublic) || other.isPublic == isPublic)&&const DeepCollectionEquality().equals(other._name, _name)&&(identical(other.challengeId, challengeId) || other.challengeId == challengeId)&&const DeepCollectionEquality().equals(other._description, _description)&&(identical(other.image, image) || other.image == image)&&(identical(other.seen, seen) || other.seen == seen)&&(identical(other.achieved, achieved) || other.achieved == achieved)&&(identical(other.archived, archived) || other.archived == archived)&&(identical(other.achievedAt, achievedAt) || other.achievedAt == achievedAt)&&(identical(other.archivedAt, archivedAt) || other.archivedAt == archivedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate)&&(identical(other.informationUri, informationUri) || other.informationUri == informationUri)&&(identical(other.simpleFilter, simpleFilter) || other.simpleFilter == simpleFilter));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,isPublic,const DeepCollectionEquality().hash(_name),challengeId,const DeepCollectionEquality().hash(_description),image,seen,achieved,achievedAt,createdAt,lastUpdate,informationUri,simpleFilter);
+int get hashCode => Object.hash(runtimeType,id,isPublic,const DeepCollectionEquality().hash(_name),challengeId,const DeepCollectionEquality().hash(_description),image,seen,achieved,archived,achievedAt,archivedAt,createdAt,lastUpdate,informationUri,simpleFilter);
 
 @override
 String toString() {
-  return 'BadgeData(id: $id, isPublic: $isPublic, name: $name, challengeId: $challengeId, description: $description, image: $image, seen: $seen, achieved: $achieved, achievedAt: $achievedAt, createdAt: $createdAt, lastUpdate: $lastUpdate, informationUri: $informationUri, simpleFilter: $simpleFilter)';
+  return 'BadgeData(id: $id, isPublic: $isPublic, name: $name, challengeId: $challengeId, description: $description, image: $image, seen: $seen, achieved: $achieved, archived: $archived, achievedAt: $achievedAt, archivedAt: $archivedAt, createdAt: $createdAt, lastUpdate: $lastUpdate, informationUri: $informationUri, simpleFilter: $simpleFilter)';
 }
 
 
@@ -309,7 +313,7 @@ abstract mixin class _$BadgeDataCopyWith<$Res> implements $BadgeDataCopyWith<$Re
   factory _$BadgeDataCopyWith(_BadgeData value, $Res Function(_BadgeData) _then) = __$BadgeDataCopyWithImpl;
 @override @useResult
 $Res call({
- String id, bool isPublic, Map<String, String> name, String? challengeId, Map<String, String>? description,@JsonKey(name: 'image') ImageData? image, bool seen, bool achieved,@DateTimeConverter() DateTime? achievedAt,@DateTimeConverter() DateTime? createdAt,@DateTimeConverter() DateTime? lastUpdate, String? informationUri, BadgeSimpleFilter? simpleFilter
+ String id, bool isPublic, Map<String, String> name, String? challengeId, Map<String, String>? description,@JsonKey(name: 'image') ImageData? image, bool seen, bool achieved, bool archived,@DateTimeConverter() DateTime? achievedAt,@DateTimeConverter() DateTime? archivedAt,@DateTimeConverter() DateTime? createdAt,@DateTimeConverter() DateTime? lastUpdate, String? informationUri, BadgeSimpleFilter? simpleFilter
 });
 
 
@@ -326,7 +330,7 @@ class __$BadgeDataCopyWithImpl<$Res>
 
 /// Create a copy of BadgeData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? isPublic = null,Object? name = null,Object? challengeId = freezed,Object? description = freezed,Object? image = freezed,Object? seen = null,Object? achieved = null,Object? achievedAt = freezed,Object? createdAt = freezed,Object? lastUpdate = freezed,Object? informationUri = freezed,Object? simpleFilter = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? isPublic = null,Object? name = null,Object? challengeId = freezed,Object? description = freezed,Object? image = freezed,Object? seen = null,Object? achieved = null,Object? archived = null,Object? achievedAt = freezed,Object? archivedAt = freezed,Object? createdAt = freezed,Object? lastUpdate = freezed,Object? informationUri = freezed,Object? simpleFilter = freezed,}) {
   return _then(_BadgeData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,isPublic: null == isPublic ? _self.isPublic : isPublic // ignore: cast_nullable_to_non_nullable
@@ -336,7 +340,9 @@ as String?,description: freezed == description ? _self._description : descriptio
 as Map<String, String>?,image: freezed == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
 as ImageData?,seen: null == seen ? _self.seen : seen // ignore: cast_nullable_to_non_nullable
 as bool,achieved: null == achieved ? _self.achieved : achieved // ignore: cast_nullable_to_non_nullable
+as bool,archived: null == archived ? _self.archived : archived // ignore: cast_nullable_to_non_nullable
 as bool,achievedAt: freezed == achievedAt ? _self.achievedAt : achievedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,archivedAt: freezed == archivedAt ? _self.archivedAt : archivedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,lastUpdate: freezed == lastUpdate ? _self.lastUpdate : lastUpdate // ignore: cast_nullable_to_non_nullable
 as DateTime?,informationUri: freezed == informationUri ? _self.informationUri : informationUri // ignore: cast_nullable_to_non_nullable

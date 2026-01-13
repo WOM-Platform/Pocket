@@ -4,19 +4,19 @@ import 'package:drift/drift.dart';
 import 'package:wom_pocket/src/features/badge/data/badge.dart';
 
 JsonTypeConverter2<Map<String, String>, Uint8List, Object?>
-    mapTranslationConverter = TypeConverter.jsonb(
+mapTranslationConverter = TypeConverter.jsonb(
   fromJson: (json) => Map<String, String>.from(json as Map<String, dynamic>),
   toJson: (pref) => pref,
 );
 
 JsonTypeConverter2<ImageData, Uint8List, Object?> imageUrlBinaryConverter =
     TypeConverter.jsonb(
-  fromJson: (json) => ImageData.fromJson(json as Map<String, Object?>),
-  toJson: (pref) => pref.toJson(),
-);
+      fromJson: (json) => ImageData.fromJson(json as Map<String, Object?>),
+      toJson: (pref) => pref.toJson(),
+    );
 
 JsonTypeConverter2<BadgeSimpleFilter, Uint8List, Object?>
-    simpleFilterBinaryConverter = TypeConverter.jsonb(
+simpleFilterBinaryConverter = TypeConverter.jsonb(
   fromJson: (json) => BadgeSimpleFilter.fromJson(json as Map<String, Object?>),
   toJson: (pref) => pref.toJson(),
 );
@@ -110,6 +110,8 @@ class Badges extends Table {
 
   DateTimeColumn get achievedAt => dateTime().nullable()();
 
+  DateTimeColumn get archivedAt => dateTime().nullable()();
+
   DateTimeColumn get createdAt => dateTime().nullable()();
 
   DateTimeColumn get lastUpdate => dateTime().nullable()();
@@ -117,6 +119,8 @@ class Badges extends Table {
   BoolColumn get seen => boolean().withDefault(const Constant(false))();
 
   BoolColumn get achieved => boolean().withDefault(const Constant(false))();
+
+  BoolColumn get archived => boolean().withDefault(const Constant(false))();
 
   BoolColumn get isPublic => boolean().withDefault(const Constant(false))();
 

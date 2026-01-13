@@ -2,10 +2,10 @@ name: wom_pocket
 publish_to: none
 description: A new Flutter application.
 
-version: 1.10.1+146
+version: 1.10.1+147
 
 environment:
-  sdk: ">=3.8.0 <4.0.0"
+  sdk: ">=3.10.0 <4.0.0"
 
 dependencies:
   android_intent_plus: ^6.0.0
@@ -76,7 +76,7 @@ dependencies:
   qr_flutter: ^4.1.0
   readmore: ^3.0.0
   rflutter_alert: ^2.0.7
-  rive: ^0.14.0
+  rive: ^0.13.20
   riverpod_annotation: ^4.0.0
   sentry_flutter: any
   share_plus:

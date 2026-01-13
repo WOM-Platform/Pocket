@@ -2719,6 +2719,17 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _archivedAtMeta = const VerificationMeta(
+    'archivedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> archivedAt = GeneratedColumn<DateTime>(
+    'archived_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -2769,6 +2780,21 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _archivedMeta = const VerificationMeta(
+    'archived',
+  );
+  @override
+  late final GeneratedColumn<bool> archived = GeneratedColumn<bool>(
+    'archived',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("archived" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   static const VerificationMeta _isPublicMeta = const VerificationMeta(
     'isPublic',
   );
@@ -2794,10 +2820,12 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
     image,
     filter,
     achievedAt,
+    archivedAt,
     createdAt,
     lastUpdate,
     seen,
     achieved,
+    archived,
     isPublic,
   ];
   @override
@@ -2841,6 +2869,12 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
         achievedAt.isAcceptableOrUnknown(data['achieved_at']!, _achievedAtMeta),
       );
     }
+    if (data.containsKey('archived_at')) {
+      context.handle(
+        _archivedAtMeta,
+        archivedAt.isAcceptableOrUnknown(data['archived_at']!, _archivedAtMeta),
+      );
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -2863,6 +2897,12 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
       context.handle(
         _achievedMeta,
         achieved.isAcceptableOrUnknown(data['achieved']!, _achievedMeta),
+      );
+    }
+    if (data.containsKey('archived')) {
+      context.handle(
+        _archivedMeta,
+        archived.isAcceptableOrUnknown(data['archived']!, _archivedMeta),
       );
     }
     if (data.containsKey('is_public')) {
@@ -2920,6 +2960,10 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}achieved_at'],
       ),
+      archivedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}archived_at'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -2935,6 +2979,10 @@ class $BadgesTable extends Badges with TableInfo<$BadgesTable, BadgeEntry> {
       achieved: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}achieved'],
+      )!,
+      archived: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}archived'],
       )!,
       isPublic: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
@@ -2973,10 +3021,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
   final ImageData? image;
   final BadgeSimpleFilter? filter;
   final DateTime? achievedAt;
+  final DateTime? archivedAt;
   final DateTime? createdAt;
   final DateTime? lastUpdate;
   final bool seen;
   final bool achieved;
+  final bool archived;
   final bool isPublic;
   const BadgeEntry({
     required this.id,
@@ -2987,10 +3037,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
     this.image,
     this.filter,
     this.achievedAt,
+    this.archivedAt,
     this.createdAt,
     this.lastUpdate,
     required this.seen,
     required this.achieved,
+    required this.archived,
     required this.isPublic,
   });
   @override
@@ -3026,6 +3078,9 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
     if (!nullToAbsent || achievedAt != null) {
       map['achieved_at'] = Variable<DateTime>(achievedAt);
     }
+    if (!nullToAbsent || archivedAt != null) {
+      map['archived_at'] = Variable<DateTime>(archivedAt);
+    }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime>(createdAt);
     }
@@ -3034,6 +3089,7 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
     }
     map['seen'] = Variable<bool>(seen);
     map['achieved'] = Variable<bool>(achieved);
+    map['archived'] = Variable<bool>(archived);
     map['is_public'] = Variable<bool>(isPublic);
     return map;
   }
@@ -3060,6 +3116,9 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
       achievedAt: achievedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(achievedAt),
+      archivedAt: archivedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(archivedAt),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -3068,6 +3127,7 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
           : Value(lastUpdate),
       seen: Value(seen),
       achieved: Value(achieved),
+      archived: Value(archived),
       isPublic: Value(isPublic),
     );
   }
@@ -3094,10 +3154,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
         serializer.fromJson<Object?>(json['filter']),
       ),
       achievedAt: serializer.fromJson<DateTime?>(json['achievedAt']),
+      archivedAt: serializer.fromJson<DateTime?>(json['archivedAt']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       lastUpdate: serializer.fromJson<DateTime?>(json['lastUpdate']),
       seen: serializer.fromJson<bool>(json['seen']),
       achieved: serializer.fromJson<bool>(json['achieved']),
+      archived: serializer.fromJson<bool>(json['archived']),
       isPublic: serializer.fromJson<bool>(json['isPublic']),
     );
   }
@@ -3121,10 +3183,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
         $BadgesTable.$converterfiltern.toJson(filter),
       ),
       'achievedAt': serializer.toJson<DateTime?>(achievedAt),
+      'archivedAt': serializer.toJson<DateTime?>(archivedAt),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'lastUpdate': serializer.toJson<DateTime?>(lastUpdate),
       'seen': serializer.toJson<bool>(seen),
       'achieved': serializer.toJson<bool>(achieved),
+      'archived': serializer.toJson<bool>(archived),
       'isPublic': serializer.toJson<bool>(isPublic),
     };
   }
@@ -3138,10 +3202,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
     Value<ImageData?> image = const Value.absent(),
     Value<BadgeSimpleFilter?> filter = const Value.absent(),
     Value<DateTime?> achievedAt = const Value.absent(),
+    Value<DateTime?> archivedAt = const Value.absent(),
     Value<DateTime?> createdAt = const Value.absent(),
     Value<DateTime?> lastUpdate = const Value.absent(),
     bool? seen,
     bool? achieved,
+    bool? archived,
     bool? isPublic,
   }) => BadgeEntry(
     id: id ?? this.id,
@@ -3154,10 +3220,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
     image: image.present ? image.value : this.image,
     filter: filter.present ? filter.value : this.filter,
     achievedAt: achievedAt.present ? achievedAt.value : this.achievedAt,
+    archivedAt: archivedAt.present ? archivedAt.value : this.archivedAt,
     createdAt: createdAt.present ? createdAt.value : this.createdAt,
     lastUpdate: lastUpdate.present ? lastUpdate.value : this.lastUpdate,
     seen: seen ?? this.seen,
     achieved: achieved ?? this.achieved,
+    archived: archived ?? this.archived,
     isPublic: isPublic ?? this.isPublic,
   );
   BadgeEntry copyWithCompanion(BadgesCompanion data) {
@@ -3178,12 +3246,16 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
       achievedAt: data.achievedAt.present
           ? data.achievedAt.value
           : this.achievedAt,
+      archivedAt: data.archivedAt.present
+          ? data.archivedAt.value
+          : this.archivedAt,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       lastUpdate: data.lastUpdate.present
           ? data.lastUpdate.value
           : this.lastUpdate,
       seen: data.seen.present ? data.seen.value : this.seen,
       achieved: data.achieved.present ? data.achieved.value : this.achieved,
+      archived: data.archived.present ? data.archived.value : this.archived,
       isPublic: data.isPublic.present ? data.isPublic.value : this.isPublic,
     );
   }
@@ -3199,10 +3271,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
           ..write('image: $image, ')
           ..write('filter: $filter, ')
           ..write('achievedAt: $achievedAt, ')
+          ..write('archivedAt: $archivedAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastUpdate: $lastUpdate, ')
           ..write('seen: $seen, ')
           ..write('achieved: $achieved, ')
+          ..write('archived: $archived, ')
           ..write('isPublic: $isPublic')
           ..write(')'))
         .toString();
@@ -3218,10 +3292,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
     image,
     filter,
     achievedAt,
+    archivedAt,
     createdAt,
     lastUpdate,
     seen,
     achieved,
+    archived,
     isPublic,
   );
   @override
@@ -3236,10 +3312,12 @@ class BadgeEntry extends DataClass implements Insertable<BadgeEntry> {
           other.image == this.image &&
           other.filter == this.filter &&
           other.achievedAt == this.achievedAt &&
+          other.archivedAt == this.archivedAt &&
           other.createdAt == this.createdAt &&
           other.lastUpdate == this.lastUpdate &&
           other.seen == this.seen &&
           other.achieved == this.achieved &&
+          other.archived == this.archived &&
           other.isPublic == this.isPublic);
 }
 
@@ -3252,10 +3330,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
   final Value<ImageData?> image;
   final Value<BadgeSimpleFilter?> filter;
   final Value<DateTime?> achievedAt;
+  final Value<DateTime?> archivedAt;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> lastUpdate;
   final Value<bool> seen;
   final Value<bool> achieved;
+  final Value<bool> archived;
   final Value<bool> isPublic;
   final Value<int> rowid;
   const BadgesCompanion({
@@ -3267,10 +3347,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
     this.image = const Value.absent(),
     this.filter = const Value.absent(),
     this.achievedAt = const Value.absent(),
+    this.archivedAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastUpdate = const Value.absent(),
     this.seen = const Value.absent(),
     this.achieved = const Value.absent(),
+    this.archived = const Value.absent(),
     this.isPublic = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -3283,10 +3365,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
     this.image = const Value.absent(),
     this.filter = const Value.absent(),
     this.achievedAt = const Value.absent(),
+    this.archivedAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastUpdate = const Value.absent(),
     this.seen = const Value.absent(),
     this.achieved = const Value.absent(),
+    this.archived = const Value.absent(),
     this.isPublic = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
@@ -3300,10 +3384,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
     Expression<Uint8List>? image,
     Expression<Uint8List>? filter,
     Expression<DateTime>? achievedAt,
+    Expression<DateTime>? archivedAt,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? lastUpdate,
     Expression<bool>? seen,
     Expression<bool>? achieved,
+    Expression<bool>? archived,
     Expression<bool>? isPublic,
     Expression<int>? rowid,
   }) {
@@ -3316,10 +3402,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
       if (image != null) 'image': image,
       if (filter != null) 'filter': filter,
       if (achievedAt != null) 'achieved_at': achievedAt,
+      if (archivedAt != null) 'archived_at': archivedAt,
       if (createdAt != null) 'created_at': createdAt,
       if (lastUpdate != null) 'last_update': lastUpdate,
       if (seen != null) 'seen': seen,
       if (achieved != null) 'achieved': achieved,
+      if (archived != null) 'archived': archived,
       if (isPublic != null) 'is_public': isPublic,
       if (rowid != null) 'rowid': rowid,
     });
@@ -3334,10 +3422,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
     Value<ImageData?>? image,
     Value<BadgeSimpleFilter?>? filter,
     Value<DateTime?>? achievedAt,
+    Value<DateTime?>? archivedAt,
     Value<DateTime?>? createdAt,
     Value<DateTime?>? lastUpdate,
     Value<bool>? seen,
     Value<bool>? achieved,
+    Value<bool>? archived,
     Value<bool>? isPublic,
     Value<int>? rowid,
   }) {
@@ -3350,10 +3440,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
       image: image ?? this.image,
       filter: filter ?? this.filter,
       achievedAt: achievedAt ?? this.achievedAt,
+      archivedAt: archivedAt ?? this.archivedAt,
       createdAt: createdAt ?? this.createdAt,
       lastUpdate: lastUpdate ?? this.lastUpdate,
       seen: seen ?? this.seen,
       achieved: achieved ?? this.achieved,
+      archived: archived ?? this.archived,
       isPublic: isPublic ?? this.isPublic,
       rowid: rowid ?? this.rowid,
     );
@@ -3394,6 +3486,9 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
     if (achievedAt.present) {
       map['achieved_at'] = Variable<DateTime>(achievedAt.value);
     }
+    if (archivedAt.present) {
+      map['archived_at'] = Variable<DateTime>(archivedAt.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -3405,6 +3500,9 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
     }
     if (achieved.present) {
       map['achieved'] = Variable<bool>(achieved.value);
+    }
+    if (archived.present) {
+      map['archived'] = Variable<bool>(archived.value);
     }
     if (isPublic.present) {
       map['is_public'] = Variable<bool>(isPublic.value);
@@ -3426,10 +3524,12 @@ class BadgesCompanion extends UpdateCompanion<BadgeEntry> {
           ..write('image: $image, ')
           ..write('filter: $filter, ')
           ..write('achievedAt: $achievedAt, ')
+          ..write('archivedAt: $archivedAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastUpdate: $lastUpdate, ')
           ..write('seen: $seen, ')
           ..write('achieved: $achieved, ')
+          ..write('archived: $archived, ')
           ..write('isPublic: $isPublic, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -5049,10 +5149,12 @@ typedef $$BadgesTableCreateCompanionBuilder =
       Value<ImageData?> image,
       Value<BadgeSimpleFilter?> filter,
       Value<DateTime?> achievedAt,
+      Value<DateTime?> archivedAt,
       Value<DateTime?> createdAt,
       Value<DateTime?> lastUpdate,
       Value<bool> seen,
       Value<bool> achieved,
+      Value<bool> archived,
       Value<bool> isPublic,
       Value<int> rowid,
     });
@@ -5066,10 +5168,12 @@ typedef $$BadgesTableUpdateCompanionBuilder =
       Value<ImageData?> image,
       Value<BadgeSimpleFilter?> filter,
       Value<DateTime?> achievedAt,
+      Value<DateTime?> archivedAt,
       Value<DateTime?> createdAt,
       Value<DateTime?> lastUpdate,
       Value<bool> seen,
       Value<bool> achieved,
+      Value<bool> archived,
       Value<bool> isPublic,
       Value<int> rowid,
     });
@@ -5138,6 +5242,11 @@ class $$BadgesTableFilterComposer extends Composer<_$MyDatabase, $BadgesTable> {
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<DateTime> get archivedAt => $composableBuilder(
+    column: $table.archivedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnFilters(column),
@@ -5155,6 +5264,11 @@ class $$BadgesTableFilterComposer extends Composer<_$MyDatabase, $BadgesTable> {
 
   ColumnFilters<bool> get achieved => $composableBuilder(
     column: $table.achieved,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get archived => $composableBuilder(
+    column: $table.archived,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5213,6 +5327,11 @@ class $$BadgesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<DateTime> get archivedAt => $composableBuilder(
+    column: $table.archivedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -5230,6 +5349,11 @@ class $$BadgesTableOrderingComposer
 
   ColumnOrderings<bool> get achieved => $composableBuilder(
     column: $table.achieved,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get archived => $composableBuilder(
+    column: $table.archived,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -5281,6 +5405,11 @@ class $$BadgesTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<DateTime> get archivedAt => $composableBuilder(
+    column: $table.archivedAt,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -5294,6 +5423,9 @@ class $$BadgesTableAnnotationComposer
 
   GeneratedColumn<bool> get achieved =>
       $composableBuilder(column: $table.achieved, builder: (column) => column);
+
+  GeneratedColumn<bool> get archived =>
+      $composableBuilder(column: $table.archived, builder: (column) => column);
 
   GeneratedColumn<bool> get isPublic =>
       $composableBuilder(column: $table.isPublic, builder: (column) => column);
@@ -5335,10 +5467,12 @@ class $$BadgesTableTableManager
                 Value<ImageData?> image = const Value.absent(),
                 Value<BadgeSimpleFilter?> filter = const Value.absent(),
                 Value<DateTime?> achievedAt = const Value.absent(),
+                Value<DateTime?> archivedAt = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> lastUpdate = const Value.absent(),
                 Value<bool> seen = const Value.absent(),
                 Value<bool> achieved = const Value.absent(),
+                Value<bool> archived = const Value.absent(),
                 Value<bool> isPublic = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => BadgesCompanion(
@@ -5350,10 +5484,12 @@ class $$BadgesTableTableManager
                 image: image,
                 filter: filter,
                 achievedAt: achievedAt,
+                archivedAt: archivedAt,
                 createdAt: createdAt,
                 lastUpdate: lastUpdate,
                 seen: seen,
                 achieved: achieved,
+                archived: archived,
                 isPublic: isPublic,
                 rowid: rowid,
               ),
@@ -5367,10 +5503,12 @@ class $$BadgesTableTableManager
                 Value<ImageData?> image = const Value.absent(),
                 Value<BadgeSimpleFilter?> filter = const Value.absent(),
                 Value<DateTime?> achievedAt = const Value.absent(),
+                Value<DateTime?> archivedAt = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> lastUpdate = const Value.absent(),
                 Value<bool> seen = const Value.absent(),
                 Value<bool> achieved = const Value.absent(),
+                Value<bool> archived = const Value.absent(),
                 Value<bool> isPublic = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => BadgesCompanion.insert(
@@ -5382,10 +5520,12 @@ class $$BadgesTableTableManager
                 image: image,
                 filter: filter,
                 achievedAt: achievedAt,
+                archivedAt: archivedAt,
                 createdAt: createdAt,
                 lastUpdate: lastUpdate,
                 seen: seen,
                 achieved: achieved,
+                archived: archived,
                 isPublic: isPublic,
                 rowid: rowid,
               ),

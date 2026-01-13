@@ -10,10 +10,7 @@ import 'package:wom_pocket/src/features/badge/data/badge.dart';
 class BadgeList extends StatelessWidget {
   final List<BadgeData> badges;
 
-  const BadgeList({
-    required this.badges,
-    super.key,
-  });
+  const BadgeList({required this.badges, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +35,8 @@ class BadgeList extends StatelessWidget {
           cornerRadius: 8.0,
           elevation: badge != null
               ? badge.achieved && !badge.seen
-                  ? 6.0
-                  : 2.0
+                    ? 6.0
+                    : 2.0
               : 0.0,
           color: badge != null
               ? (badge.achieved ? Colors.amber.shade100 : Colors.grey.shade300)
@@ -47,7 +44,7 @@ class BadgeList extends StatelessWidget {
           child: BadgeTile(
             badge: badge,
             onTap: () {
-              context.go('/badge/details', extra: badge);
+              context.pushNamed('badge-details', extra: badge);
             },
           ),
         );
@@ -66,11 +63,7 @@ class BadgeTile extends ConsumerWidget {
   final BadgeData? badge;
   final Function()? onTap;
 
-  const BadgeTile({
-    Key? key,
-    this.badge,
-    this.onTap,
-  }) : super(key: key);
+  const BadgeTile({Key? key, this.badge, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -97,10 +90,7 @@ class BadgeTile extends ConsumerWidget {
                     fit: BoxFit.cover,
                     colorFilter: badge.achieved
                         ? null
-                        : ColorFilter.mode(
-                            Colors.grey,
-                            BlendMode.saturation,
-                          ),
+                        : ColorFilter.mode(Colors.grey, BlendMode.saturation),
                   ),
                 ),
               ),

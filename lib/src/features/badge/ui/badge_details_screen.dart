@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexagon/hexagon.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
+import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
+import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
 import 'package:wom_pocket/src/features/badge/data/badge.dart';
 import 'package:wom_pocket/src/features/badge/ui/badge_list.dart';
@@ -19,9 +21,14 @@ class BadgeDetailsScreen extends ConsumerStatefulWidget {
 }
 
 class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
+  late bool hasBadgeArchived;
+  late DateTime? archivedAt;
+
   @override
   void initState() {
     super.initState();
+    hasBadgeArchived = widget.badge.archived;
+    archivedAt = widget.badge.archivedAt;
     if (widget.badge.achieved) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         ref.read(badgeProvider.notifier).setAsSeen(widget.badge.id);
@@ -36,6 +43,29 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
     return Scaffold(
       appBar: SecondLevelAppBar(
         title: widget.badge.name[languageCode] ?? 'Badge',
+        actions: [
+          if (!hasBadgeArchived)
+            Center(
+              child: MyButton(
+                backgroundColor: lightBlue,
+                onPressed: () async {
+                  final hasArchived = await ref
+                      .read(badgeProvider.notifier)
+                      .setAsArchived(widget.badge.id);
+
+                  if (hasArchived) {
+                    setState(() {
+                      hasBadgeArchived = true;
+                      archivedAt = DateTime.now();
+                    });
+                  }
+                },
+                child: Text('Archivia'),
+              ),
+            )
+          else
+            Chip(label: Text('Archiviato')),
+        ],
       ),
       body: ListView(
         padding: EdgeInsets.all(16),
@@ -60,6 +90,8 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
           ),
           if (widget.badge.createdAt != null)
             Text('Anno di creazione: ${widget.badge.createdAt!.year}'),
+          if (hasBadgeArchived && archivedAt != null)
+            Text('Archiviato il: ${dateFormat.format(archivedAt!)}'),
           if (widget.badge.description != null) ...[
             const SizedBox(height: 16),
             Text(

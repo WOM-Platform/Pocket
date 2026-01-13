@@ -11,20 +11,23 @@ class BadgeDao extends DatabaseAccessor<MyDatabase> with _$BadgeDaoMixin {
   Future<List<BadgeEntry>> getAllBadgeEntries() => select(badges).get();
 
   /// Ritorna tutti i badge pubblici.
-  Future<List<BadgeEntry>> getPublicBadges() {
-    return (select(badges)
-      ..where((b) => b.isPublic.equals(true))).get();
+  Future<List<BadgeEntry>> getPublicBadges({bool excludeArchived = false}) {
+    if (excludeArchived) {
+      return (select(badges)
+            ..where((b) => b.isPublic.equals(true) & b.archived.equals(false)))
+          .get();
+    }
+    return (select(badges)..where((b) => b.isPublic.equals(true))).get();
   }
 
   Future<BadgeEntry?> getBadgeEntryById(String id) {
-    return (select(badges)
-      ..where((b) => b.id.equals(id))).getSingleOrNull();
+    return (select(badges)..where((b) => b.id.equals(id))).getSingleOrNull();
   }
 
   Future<List<BadgeEntry>> getBadgeEntryByChallengeId(String challengeId) {
-    return (select(badges)
-      ..where((b) => b.challengeId.equals(challengeId)))
-        .get();
+    return (select(
+      badges,
+    )..where((b) => b.challengeId.equals(challengeId))).get();
   }
 
   Future<int> insertBadgeEntry(BadgesCompanion entry) {
@@ -38,14 +41,13 @@ class BadgeDao extends DatabaseAccessor<MyDatabase> with _$BadgeDaoMixin {
   }
 
   Future<int> updateBadgeEntry(BadgesCompanion entry) {
-    return (update(badges)
-      ..where((b) => b.id.equals(entry.id.value)))
-        .write(entry);
+    return (update(
+      badges,
+    )..where((b) => b.id.equals(entry.id.value))).write(entry);
   }
 
   Future<int> deleteBadgeEntry(String id) {
-    return (delete(badges)
-      ..where((b) => b.id.equals(id))).go();
+    return (delete(badges)..where((b) => b.id.equals(id))).go();
   }
 
   Future<int> deleteAllBadgeEntries() {
@@ -53,25 +55,25 @@ class BadgeDao extends DatabaseAccessor<MyDatabase> with _$BadgeDaoMixin {
   }
 
   Future<int> markBadgeAsSeen(String id) {
-    return (update(badges)
-      ..where((b) => b.id.equals(id)))
-        .write(BadgesCompanion(seen: Value(true)));
+    return (update(
+      badges,
+    )..where((b) => b.id.equals(id))).write(BadgesCompanion(seen: Value(true)));
   }
 
   Future<int> markBadgeAsAchieved(String badgeId) {
-    return (update(badges)
-      ..where((b) => b.id.equals(badgeId))).write(
-      BadgesCompanion(
-        achieved: Value(true),
-        achievedAt: Value(DateTime.now()),
-      ),
+    return (update(badges)..where((b) => b.id.equals(badgeId))).write(
+      BadgesCompanion(achieved: Value(true), achievedAt: Value(DateTime.now())),
     );
   }
 
+  Future<int> markBadgeAsArchived(String badgeId) {
+    return (update(badges)..where((b) => b.id.equals(badgeId))).write(
+      BadgesCompanion(archived: Value(true), archivedAt: Value(DateTime.now())),
+    );
+  }
 
   Future<int> resetBadge(String badgeId) async {
-    return (update(badges)
-      ..where((b) => b.id.equals(badgeId))).write(
+    return (update(badges)..where((b) => b.id.equals(badgeId))).write(
       BadgesCompanion(
         achieved: Value(false),
         achievedAt: Value.absent(),

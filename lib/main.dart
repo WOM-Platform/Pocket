@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:rive/rive.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/app.dart';
 import 'package:wom_pocket/src/core/constants.dart';
@@ -20,7 +19,6 @@ late String mapStyle;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await RiveNative.init();
 
   // Intl
   await EasyLocalization.ensureInitialized();

@@ -71,6 +71,10 @@ class BadgeLocalDataSource {
           ? const drift.Value.absent()
           : drift.Value(badge.informationUri),
       seen: drift.Value(badge.seen),
+      archived: drift.Value(badge.archived),
+      archivedAt: badge.archivedAt == null
+          ? const drift.Value.absent()
+          : drift.Value(badge.archivedAt),
     );
   }
 
@@ -89,6 +93,8 @@ class BadgeLocalDataSource {
       challengeId: entry.challengeId,
       simpleFilter: entry.filter,
       informationUri: entry.informationUri,
+      archived: entry.archived,
+      archivedAt: entry.archivedAt,
     );
   }
 
@@ -148,8 +154,13 @@ class BadgeLocalDataSource {
     return entries.map(_fromBadgeEntry).toList();
   }
 
-  Future<List<BadgeData>> getAllPublicBadges() async {
-    final entries = await _db.badgeDao.getPublicBadges();
+  Future<List<BadgeData>> getAllPublicBadges({
+    bool excludeArchived = false,
+  }) async {
+    final List<BadgeEntry> entries = await _db.badgeDao.getPublicBadges(
+      excludeArchived: excludeArchived,
+    );
+
     return entries.map(_fromBadgeEntry).toList();
   }
 
@@ -182,6 +193,10 @@ class BadgeLocalDataSource {
 
   Future<void> setAsAchieved(String badgeId) async {
     await _db.badgeDao.markBadgeAsAchieved(badgeId);
+  }
+
+  Future<void> setAsArchived(String badgeId) async {
+    await _db.badgeDao.markBadgeAsArchived(badgeId);
   }
 
   Future<List<ChallengeData>> getChallenges() async {

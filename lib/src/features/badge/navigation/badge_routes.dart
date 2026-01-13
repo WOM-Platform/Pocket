@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wom_pocket/src/core/routing/router.dart';
 import 'package:wom_pocket/src/features/badge/data/badge.dart';
 import 'package:wom_pocket/src/features/badge/data/challenge.dart';
+import 'package:wom_pocket/src/features/badge/ui/archived_badge_screen.dart';
 import 'package:wom_pocket/src/features/badge/ui/badge_details_screen.dart';
 import 'package:wom_pocket/src/features/badge/ui/badge_screen.dart';
 import 'package:wom_pocket/src/features/badge/ui/challenge_details_screen.dart';
@@ -24,6 +25,14 @@ class BadgeRoutes extends GoRoute {
         },
         routes: [
           GoRoute(
+            path: 'archived',
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) {
+              return ArchivedBadgeScreen();
+            },
+          ),
+          GoRoute(
+            name: 'badge-details',
             path: 'details',
             parentNavigatorKey: rootNavigatorKey,
             builder: (context, state) {

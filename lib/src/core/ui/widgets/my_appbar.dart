@@ -35,7 +35,7 @@ class PocketAppBar extends StatelessWidget implements PreferredSizeWidget {
           SvgPicture.asset(
             'assets/images/wom-pocket-icon.svg',
             // width: 200,
-            height: kToolbarHeight/2,
+            height: kToolbarHeight / 2,
           ),
         ],
       ),
@@ -68,7 +68,12 @@ class SecondLevelAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusBarIconBrightness: Brightness.light,
       ),
       backgroundColor: Theme.of(context).primaryColor,
-      actions: actions,
+      actions: [
+        if (actions != null && actions!.isNotEmpty) ...[
+          ...actions!,
+          const SizedBox(width: 8),
+        ],
+      ],
       bottom: bottom,
     );
   }

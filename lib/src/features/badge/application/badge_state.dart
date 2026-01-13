@@ -9,8 +9,13 @@ abstract class BadgeState with _$BadgeState {
   const factory BadgeState({
     @Default([]) List<BadgeData> badges,
     @Default([]) List<ChallengeData> challenges,
-    // Puoi aggiungere altri campi di stato qui se necessario, ad esempio:
-    // @Default(false) bool isLoading,
-    // String? errorMessage,
   }) = _BadgeState;
+}
+
+extension BadgeStateX on BadgeState {
+  List<BadgeData> get archivedBadges =>
+      badges.where((badge) => badge.archived).toList();
+
+  List<BadgeData> get unarchivedBadge =>
+      badges.where((badge) => !badge.archived).toList();
 }
