@@ -168,6 +168,7 @@ class BadgeLocalDataSource {
     var updatedBadge = badge.copyWith();
     if (!updatedBadge.achieved) {
       final achieved = await verifyBadge(updatedBadge);
+      final endDateTime = updatedBadge.simpleFilter?.interval?.end;
       if (achieved) {
         logger.i(
           'this badge has just verified verified: ${updatedBadge.name}, ${updatedBadge.id}',
@@ -177,6 +178,13 @@ class BadgeLocalDataSource {
           achieved: true,
           seen: false,
         );
+      } else if (endDateTime != null) {
+        final now = DateTime.now();
+        // Non siamo più in grado di ottenere questo badge perché scaduto il
+        // periodo di validità
+        if (now.isAfter(endDateTime)) {
+          updatedBadge = updatedBadge.copyWith(archived: true, archivedAt: now);
+        }
       }
     }
     final companion = _toCompanionUpdate(updatedBadge);

@@ -76,12 +76,12 @@ class DeepLinkNotifier extends AsyncNotifier<String?> {
       state = AsyncData(deepLink);
     });
 
-    final initialDeepLink = await appLinks.getInitialLinkString();
-    if (initialDeepLink != null) {
-      logger.i('DeepLinkNotifier: build: initialDeepLink: $initialDeepLink');
-      await Future.delayed(Duration(milliseconds: 250));
-      return initialDeepLink;
-    }
+    // final initialDeepLink = await appLinks.getInitialLinkString();
+    // if (initialDeepLink != null) {
+    //   logger.i('DeepLinkNotifier: build: initialDeepLink: $initialDeepLink');
+    //   await Future.delayed(Duration(milliseconds: 250));
+    //   return initialDeepLink;
+    // }
     return null;
   }
 
