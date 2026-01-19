@@ -7,14 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/models/totem_data.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
+import 'package:wom_pocket/src/features/root/widgets/totem_dialog.dart';
 import 'package:wom_pocket/src/features/totem/utils.dart';
 
 class IntroScreen extends HookConsumerWidget {
@@ -28,6 +32,36 @@ class IntroScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final transactionCount = ref.watch(transactionCountProvider).value ?? 0;
     final selectedPage = useState(0);
+    final gender = useState<Gender?>(null);
+    final locationPermission = useState<PermissionStatus>(
+      PermissionStatus.denied,
+    );
+
+    useOnAppLifecycleStateChange((previous, current) async {
+      if (current == AppLifecycleState.resumed) {
+        locationPermission.value = await Permission.location.status;
+      }
+    });
+
+    useEffect(() {
+      Future.microtask(() async {
+        locationPermission.value = await Permission.location.status;
+        final genderString = await Hive.box('settings').get('gender');
+        if (genderString != null) {
+          try {
+            gender.value = Gender.values.byName(genderString);
+          } catch (e, st) {
+            logger.e(
+              'IntroScreen: error retrieving gender from hive',
+              error: e,
+              stackTrace: st,
+            );
+          }
+        }
+      });
+      return null;
+    }, []);
+
     final pages = [
       IntroPage(
         textColor: Colors.white,
@@ -104,6 +138,67 @@ class IntroScreen extends HookConsumerWidget {
         message: 'introDesc6'.tr(),
         title: 'introTitle6'.tr(),
         child: Icon(Icons.warning, color: Colors.white, size: 200),
+      ),
+      IntroPage(
+        textColor: Colors.white,
+        backGroundColor: darkBackground,
+        message: locationPermission.value.isGranted
+            ? 'introDescGPSGranted'.tr()
+            : 'introDescGPS'.tr(),
+        title: 'introTitleGPS'.tr(),
+        child: Icon(Icons.gps_fixed, color: Colors.white, size: 200),
+        bottomButton: locationPermission.value.isGranted
+            ? null
+            : MyButton(
+                backgroundColor: accentColor,
+                onPressed: () async {
+                  final status = await Permission.location.request();
+                  locationPermission.value = status;
+                },
+                child: Text(
+                  'grantPermission'.tr(),
+                  style: TextStyle(color: primaryColor),
+                ),
+              ),
+      ),
+      IntroPage(
+        textColor: Colors.white,
+        backGroundColor: darkBackground,
+        message: 'genderSelectionDescription'.tr(),
+        title: 'genderSelectionTitle'.tr(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'introSelectGender'.tr(),
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),
+            const SizedBox(height: 16),
+            for (int i = 0; i < Gender.values.length; i++)
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: MyButton(
+                  backgroundColor: gender.value == Gender.values[i]
+                      ? accentColor
+                      : Colors.white,
+                  onPressed: () async {
+                    gender.value = Gender.values[i];
+                    await Hive.box(
+                      'settings',
+                    ).put('gender', gender.value!.name);
+                  },
+                  child: Text(
+                    Gender.values[i].translate(context),
+                    style: TextStyle(
+                      color: gender.value == Gender.values[i]
+                          ? primaryColor
+                          : Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
       if (transactionCount == 0)
         IntroPage(

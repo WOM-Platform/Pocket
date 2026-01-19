@@ -80,7 +80,7 @@ void main() async {
 startApp() {
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode,
+      enabled: false,
       builder: (context) => ProviderScope(
         retry: (retryCount, error) => null,
         child: EasyLocalization(

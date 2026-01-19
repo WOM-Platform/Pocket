@@ -4,8 +4,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wom_pocket/src/core/constants.dart';
+import 'package:wom_pocket/src/core/models/totem_data.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
+import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
 import 'package:wom_pocket/src/features/map/map_screen.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
 import 'package:wom_pocket/src/features/new_home/ui/nfc_widget.dart';
@@ -14,6 +17,7 @@ import 'package:wom_pocket/src/features/new_home/ui/stats_module.dart';
 import 'package:wom_pocket/src/features/new_home/ui/widgets/badge_module.dart';
 import 'package:wom_pocket/src/features/nfc/application/nfc_notifier.dart';
 import 'package:wom_pocket/src/features/root/widgets/transaction_list.dart';
+import 'package:wom_pocket/src/features/totem/utils.dart';
 
 class NewHome extends ConsumerStatefulWidget {
   const NewHome({Key? key}) : super(key: key);
@@ -116,15 +120,6 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Center(
-                  //   child: SvgPicture.asset(
-                  //     'assets/images/empty_wom.svg',
-                  //     width: MediaQuery.of(context).size.width - 48,
-                  //     height: MediaQuery.of(context).size.width - 48,
-                  //     // cacheWidth: 200,
-                  //     // cacheHeight: 200,
-                  //   ),
-                  // ),
                   Center(
                     child: Image.asset(
                       'assets/images/empty_wom.png',
@@ -143,6 +138,18 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                   ),
                   const SizedBox(height: 8),
                   Text('noWomsDesc'.tr(), textAlign: TextAlign.center),
+                  const SizedBox(height: 8),
+                  MyButton(
+                    child: Text('Riscatta i WOM di benveuto!'),
+                    onPressed: () {
+                      final totemData = validateTotemQrCodeWithRegex(
+                        welcomeTotem,
+                      );
+                      if (totemData != null) {
+                        launchTotemDialog(context, totemData);
+                      }
+                    },
+                  ),
                 ],
               ),
             );
