@@ -33,7 +33,7 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase.query(QueryExecutor executor) : super(executor);
 
   @override
-  int get schemaVersion => 12;
+  int get schemaVersion => 13;
 
   Future<void> importWoms(TransactionsCompanion tx, List<WomRow> woms) {
     return transaction(() async {
@@ -293,6 +293,16 @@ class MyDatabase extends _$MyDatabase {
           if (from < 12) {
             await m.addColumn(badges, badges.archived);
             await m.addColumn(badges, badges.archivedAt);
+          }
+
+          if (from < 13) {
+            if (!await _columnExists(
+              m,
+              badges.actualTableName,
+              badges.isPublic.name,
+            )) {
+              await m.addColumn(badges, badges.isPublic);
+            }
           }
         });
       },

@@ -21,6 +21,8 @@ abstract class BadgeRepository {
 
   Future<void> setAsArchived(String badgeId);
 
+  Future<void> setAsUnarchived(String badgeId);
+
   Future<List<BadgeData>> getPublicBadges();
 
   // Future<List<BadgeData>> refreshBadgeVerify();
@@ -196,5 +198,10 @@ class BadgeRepositoryImpl implements BadgeRepository {
   @override
   Future<void> setAsArchived(String badgeId) {
     return _localDataSource.setAsArchived(badgeId);
+  }
+
+  @override
+  Future<void> setAsUnarchived(String badgeId) {
+    return _localDataSource.setAsUnarchived(badgeId);
   }
 }

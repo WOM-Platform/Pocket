@@ -142,4 +142,38 @@ class BadgeNotifier extends _$BadgeNotifier {
       return false;
     }
   }
+
+  Future<bool> setAsUnarchived(String badgeId) async {
+    final currentState = state;
+    try {
+      final currentBadges = currentState.asData?.value.badges;
+      if (currentBadges == null) {
+        return false;
+      }
+
+      final badgeIndex = currentBadges.indexWhere((b) => b.id == badgeId);
+      if (badgeIndex == -1) {
+        return false;
+      }
+
+      final updatedBadges = List<BadgeData>.from(currentBadges);
+      final badgeToUpdate = updatedBadges[badgeIndex];
+
+      if (!badgeToUpdate.archived) {
+        return true;
+      }
+      updatedBadges[badgeIndex] = badgeToUpdate.copyWith(
+        archived: false,
+        archivedAt: null,
+      );
+
+      state = AsyncData(BadgeState(badges: updatedBadges));
+      await ref.read(getBadgeRepositoryProvider).setAsUnarchived(badgeId);
+      return true;
+    } catch (ex, st) {
+      logger.e('setAsUnarchived', error: ex, stackTrace: st);
+      state = currentState;
+      return false;
+    }
+  }
 }

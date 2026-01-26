@@ -64,7 +64,24 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
               ),
             )
           else
-            Chip(label: Text('Archiviato')),
+            Center(
+              child: MyButton(
+                backgroundColor: lightBlue,
+                onPressed: () async {
+                  final hasUnarchived = await ref
+                      .read(badgeProvider.notifier)
+                      .setAsUnarchived(widget.badge.id);
+
+                  if (hasUnarchived) {
+                    setState(() {
+                      hasBadgeArchived = false;
+                      archivedAt = null;
+                    });
+                  }
+                },
+                child: Text('Ripristina'),
+              ),
+            ),
         ],
       ),
       body: ListView(

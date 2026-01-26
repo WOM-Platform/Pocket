@@ -207,6 +207,10 @@ class BadgeLocalDataSource {
     await _db.badgeDao.markBadgeAsArchived(badgeId);
   }
 
+  Future<void> setAsUnarchived(String badgeId) async {
+    await _db.badgeDao.markBadgeAsUnarchived(badgeId);
+  }
+
   Future<List<ChallengeData>> getChallenges() async {
     final output = <ChallengeData>[];
     try {

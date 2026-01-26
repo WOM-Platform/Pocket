@@ -72,6 +72,12 @@ class BadgeDao extends DatabaseAccessor<MyDatabase> with _$BadgeDaoMixin {
     );
   }
 
+  Future<int> markBadgeAsUnarchived(String badgeId) {
+    return (update(badges)..where((b) => b.id.equals(badgeId))).write(
+      BadgesCompanion(archived: Value(false), archivedAt: Value.absent()),
+    );
+  }
+
   Future<int> resetBadge(String badgeId) async {
     return (update(badges)..where((b) => b.id.equals(badgeId))).write(
       BadgesCompanion(
