@@ -1,16 +1,27 @@
 import 'package:drift/drift.dart';
-import 'package:drift_dev/api/migrations.dart';
+import 'package:drift/native.dart';
+import 'package:drift_dev/api/migrations_native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
+import 'package:wom_pocket/src/core/database/schema_versions.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 
 // Import the generated schema helper
-// Questo file viene aggiornato automaticamente quando lanci:
-// dart run drift_dev schema generate drift_schemas/ test/generated_migrations/
 import '../generated_migrations/schema.dart';
+
+// Helper class to access protected methods for testing
+class TestDatabase extends MyDatabase {
+  TestDatabase(QueryExecutor e) : super.query(e);
+
+  Future<void> exec(String sql) => customStatement(sql);
+  Future<List<QueryRow>> query(String sql) => customSelect(sql).get();
+}
 
 void main() {
   late SchemaVerifier verifier;
 
+  logger = Logger();
   setUpAll(() {
     verifier = SchemaVerifier(GeneratedHelper());
   });
@@ -22,68 +33,77 @@ void main() {
     await db.close();
   });
 
-  // --- DECOMMENTA E AGGIUNGI I TEST SOTTOSTANTI MAN MANO CHE GENERI GLI SCHEMI ---
+  test('manual upgrade test to v13 (fix isPublic column)', () async {
+    // Create a database in memory using our TestDatabase wrapper
+    final db = TestDatabase(NativeDatabase.memory());
+    final m = Migrator(db);
 
-  /*
-  test('upgrade from v5 to v6', () async {
-    final connection = await verifier.startAt(5);
-    final db = MyDatabase(connection);
-    await verifier.migrateAndValidate(db, 6);
+    // 1. Simulate v12 state manually
+    await db.exec('''
+      CREATE TABLE badges (
+        id TEXT NOT NULL PRIMARY KEY,
+        informationUri TEXT,
+        challengeId TEXT,
+        name BLOB NOT NULL,
+        description BLOB,
+        image BLOB,
+        filter BLOB,
+        achievedAt INTEGER,
+        archivedAt INTEGER,
+        createdAt INTEGER,
+        lastUpdate INTEGER,
+        seen INTEGER NOT NULL DEFAULT 0,
+        achieved INTEGER NOT NULL DEFAULT 0,
+        archived INTEGER NOT NULL DEFAULT 0
+      );
+    ''');
+
+    await db.exec('''
+      CREATE TABLE totems (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        sessionId TEXT NOT NULL,
+        totemId TEXT NOT NULL,
+        eventId TEXT NOT NULL,
+        providerId TEXT NOT NULL,
+        providerName TEXT,
+        womLink TEXT,
+        eventName TEXT,
+        sessionName TEXT,
+        womPin TEXT,
+        totemName TEXT,
+        email TEXT,
+        phoneNumber TEXT,
+        image TEXT,
+        url TEXT,
+        notes TEXT,
+        latitude REAL,
+        longitude REAL,
+        timestamp INTEGER NOT NULL
+      );
+    ''');
+
+    // 2. Run migration from 12 to 13
+    await runMigration(m, 12, 13, db);
+
+    // 3. Verify isPublic column exists in 'badges' table
+    final result = await db.query("PRAGMA table_info('badges')");
+    final hasIsPublic = result.any(
+      (row) => row.read<String>('name') == 'isPublic',
+    );
+
+    expect(
+      hasIsPublic,
+      isTrue,
+      reason: 'The isPublic column should be added to badges table',
+    );
+
+    // 4. Verify default value
+    await db.exec("INSERT INTO badges (id, name) VALUES ('test_id', x'00')");
+    final rows = await db.query(
+      "SELECT isPublic FROM badges WHERE id = 'test_id'",
+    );
+    expect(rows.first.read<int>('isPublic'), 0);
+
     await db.close();
   });
-
-  test('upgrade from v6 to v7', () async {
-    final connection = await verifier.startAt(6);
-    final db = MyDatabase(connection);
-    await verifier.migrateAndValidate(db, 7);
-    await db.close();
-  });
-
-  test('upgrade from v7 to v8', () async {
-    final connection = await verifier.startAt(7);
-    final db = MyDatabase(connection);
-    await verifier.migrateAndValidate(db, 8);
-    await db.close();
-  });
-
-  test('upgrade from v8 to v9', () async {
-    final connection = await verifier.startAt(8);
-    final db = MyDatabase(connection);
-    await verifier.migrateAndValidate(db, 9);
-    await db.close();
-  });
-
-  // Nota: v10 sembra essere stata saltata o inclusa nella v11 nel tuo codice di migrazione,
-  // verifica la sequenza corretta nel file schema_versions.dart
-
-  test('upgrade from v9 to v11', () async {
-    final connection = await verifier.startAt(9);
-    final db = MyDatabase(connection);
-    await verifier.migrateAndValidate(db, 11);
-    await db.close();
-  });
-
-  test('upgrade from v11 to v12', () async {
-    final connection = await verifier.startAt(11);
-    final db = MyDatabase(connection);
-    await verifier.migrateAndValidate(db, 12);
-    await db.close();
-  });
-
-  test('upgrade from v12 to v13', () async {
-    final connection = await verifier.startAt(12);
-    final db = MyDatabase(connection);
-    
-    // Validiamo che la migrazione avvenga correttamente e che lo schema finale
-    // corrisponda a quello definito nel file v13.json
-    await verifier.migrateAndValidate(db, 13);
-    
-    // Opzionale: Verifica dati specifici post-migrazione
-    // final result = await db.customSelect("PRAGMA table_info('badges')").get();
-    // final hasIsPublic = result.any((row) => row.read<String>('name') == 'isPublic');
-    // expect(hasIsPublic, isTrue);
-    
-    await db.close();
-  });
-  */
 }

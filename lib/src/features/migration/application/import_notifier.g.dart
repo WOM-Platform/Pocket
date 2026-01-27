@@ -58,7 +58,7 @@ final class ImportNotifierProvider
   }
 }
 
-String _$importNotifierHash() => r'd72501fc210d9590ff62f46e4f1f776b70b4e0eb';
+String _$importNotifierHash() => r'72f7c8200c2554c5ae1ffe5ff069dbac4b62e2f4';
 
 final class ImportNotifierFamily extends $Family
     with

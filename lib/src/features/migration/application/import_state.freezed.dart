@@ -140,15 +140,15 @@ return completed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( Object ex,  StackTrace st)?  error,TResult Function()?  justImported,TResult Function( List<TotemRow> totems,  List<WomRow> woms,  List<Aim> aims,  String otc,  String device,  String password)?  importSummary,TResult Function( int count,  Object? ex,  StackTrace? st)?  completed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( Object ex,  StackTrace st)?  error,TResult Function()?  justImported,TResult Function( List<TotemRow> totems,  List<WomRow> woms,  List<Aim> aims,  String otc,  String device,  String password,  List<BadgeData> badges,  List<ChallengeData> challenges)?  importSummary,TResult Function( int count,  int badgesCount,  int challengesCount,  int totemsCount,  Object? ex,  StackTrace? st)?  completed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ImportInitial() when initial != null:
 return initial();case ImportLoading() when loading != null:
 return loading();case ImportError() when error != null:
 return error(_that.ex,_that.st);case JustImported() when justImported != null:
 return justImported();case ImportSummary() when importSummary != null:
-return importSummary(_that.totems,_that.woms,_that.aims,_that.otc,_that.device,_that.password);case ImportCompleted() when completed != null:
-return completed(_that.count,_that.ex,_that.st);case _:
+return importSummary(_that.totems,_that.woms,_that.aims,_that.otc,_that.device,_that.password,_that.badges,_that.challenges);case ImportCompleted() when completed != null:
+return completed(_that.count,_that.badgesCount,_that.challengesCount,_that.totemsCount,_that.ex,_that.st);case _:
   return orElse();
 
 }
@@ -166,15 +166,15 @@ return completed(_that.count,_that.ex,_that.st);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( Object ex,  StackTrace st)  error,required TResult Function()  justImported,required TResult Function( List<TotemRow> totems,  List<WomRow> woms,  List<Aim> aims,  String otc,  String device,  String password)  importSummary,required TResult Function( int count,  Object? ex,  StackTrace? st)  completed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( Object ex,  StackTrace st)  error,required TResult Function()  justImported,required TResult Function( List<TotemRow> totems,  List<WomRow> woms,  List<Aim> aims,  String otc,  String device,  String password,  List<BadgeData> badges,  List<ChallengeData> challenges)  importSummary,required TResult Function( int count,  int badgesCount,  int challengesCount,  int totemsCount,  Object? ex,  StackTrace? st)  completed,}) {final _that = this;
 switch (_that) {
 case ImportInitial():
 return initial();case ImportLoading():
 return loading();case ImportError():
 return error(_that.ex,_that.st);case JustImported():
 return justImported();case ImportSummary():
-return importSummary(_that.totems,_that.woms,_that.aims,_that.otc,_that.device,_that.password);case ImportCompleted():
-return completed(_that.count,_that.ex,_that.st);case _:
+return importSummary(_that.totems,_that.woms,_that.aims,_that.otc,_that.device,_that.password,_that.badges,_that.challenges);case ImportCompleted():
+return completed(_that.count,_that.badgesCount,_that.challengesCount,_that.totemsCount,_that.ex,_that.st);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,15 +191,15 @@ return completed(_that.count,_that.ex,_that.st);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( Object ex,  StackTrace st)?  error,TResult? Function()?  justImported,TResult? Function( List<TotemRow> totems,  List<WomRow> woms,  List<Aim> aims,  String otc,  String device,  String password)?  importSummary,TResult? Function( int count,  Object? ex,  StackTrace? st)?  completed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( Object ex,  StackTrace st)?  error,TResult? Function()?  justImported,TResult? Function( List<TotemRow> totems,  List<WomRow> woms,  List<Aim> aims,  String otc,  String device,  String password,  List<BadgeData> badges,  List<ChallengeData> challenges)?  importSummary,TResult? Function( int count,  int badgesCount,  int challengesCount,  int totemsCount,  Object? ex,  StackTrace? st)?  completed,}) {final _that = this;
 switch (_that) {
 case ImportInitial() when initial != null:
 return initial();case ImportLoading() when loading != null:
 return loading();case ImportError() when error != null:
 return error(_that.ex,_that.st);case JustImported() when justImported != null:
 return justImported();case ImportSummary() when importSummary != null:
-return importSummary(_that.totems,_that.woms,_that.aims,_that.otc,_that.device,_that.password);case ImportCompleted() when completed != null:
-return completed(_that.count,_that.ex,_that.st);case _:
+return importSummary(_that.totems,_that.woms,_that.aims,_that.otc,_that.device,_that.password,_that.badges,_that.challenges);case ImportCompleted() when completed != null:
+return completed(_that.count,_that.badgesCount,_that.challengesCount,_that.totemsCount,_that.ex,_that.st);case _:
   return null;
 
 }
@@ -398,7 +398,7 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 
 
 class ImportSummary with DiagnosticableTreeMixin implements ImportState {
-  const ImportSummary({required final  List<TotemRow> totems, required final  List<WomRow> woms, required final  List<Aim> aims, required this.otc, required this.device, required this.password}): _totems = totems,_woms = woms,_aims = aims;
+  const ImportSummary({required final  List<TotemRow> totems, required final  List<WomRow> woms, required final  List<Aim> aims, required this.otc, required this.device, required this.password, required final  List<BadgeData> badges, required final  List<ChallengeData> challenges}): _totems = totems,_woms = woms,_aims = aims,_badges = badges,_challenges = challenges;
   
 
  final  List<TotemRow> _totems;
@@ -425,6 +425,20 @@ class ImportSummary with DiagnosticableTreeMixin implements ImportState {
  final  String otc;
  final  String device;
  final  String password;
+ final  List<BadgeData> _badges;
+ List<BadgeData> get badges {
+  if (_badges is EqualUnmodifiableListView) return _badges;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_badges);
+}
+
+ final  List<ChallengeData> _challenges;
+ List<ChallengeData> get challenges {
+  if (_challenges is EqualUnmodifiableListView) return _challenges;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_challenges);
+}
+
 
 /// Create a copy of ImportState
 /// with the given fields replaced by the non-null parameter values.
@@ -437,21 +451,21 @@ $ImportSummaryCopyWith<ImportSummary> get copyWith => _$ImportSummaryCopyWithImp
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ImportState.importSummary'))
-    ..add(DiagnosticsProperty('totems', totems))..add(DiagnosticsProperty('woms', woms))..add(DiagnosticsProperty('aims', aims))..add(DiagnosticsProperty('otc', otc))..add(DiagnosticsProperty('device', device))..add(DiagnosticsProperty('password', password));
+    ..add(DiagnosticsProperty('totems', totems))..add(DiagnosticsProperty('woms', woms))..add(DiagnosticsProperty('aims', aims))..add(DiagnosticsProperty('otc', otc))..add(DiagnosticsProperty('device', device))..add(DiagnosticsProperty('password', password))..add(DiagnosticsProperty('badges', badges))..add(DiagnosticsProperty('challenges', challenges));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImportSummary&&const DeepCollectionEquality().equals(other._totems, _totems)&&const DeepCollectionEquality().equals(other._woms, _woms)&&const DeepCollectionEquality().equals(other._aims, _aims)&&(identical(other.otc, otc) || other.otc == otc)&&(identical(other.device, device) || other.device == device)&&(identical(other.password, password) || other.password == password));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImportSummary&&const DeepCollectionEquality().equals(other._totems, _totems)&&const DeepCollectionEquality().equals(other._woms, _woms)&&const DeepCollectionEquality().equals(other._aims, _aims)&&(identical(other.otc, otc) || other.otc == otc)&&(identical(other.device, device) || other.device == device)&&(identical(other.password, password) || other.password == password)&&const DeepCollectionEquality().equals(other._badges, _badges)&&const DeepCollectionEquality().equals(other._challenges, _challenges));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_totems),const DeepCollectionEquality().hash(_woms),const DeepCollectionEquality().hash(_aims),otc,device,password);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_totems),const DeepCollectionEquality().hash(_woms),const DeepCollectionEquality().hash(_aims),otc,device,password,const DeepCollectionEquality().hash(_badges),const DeepCollectionEquality().hash(_challenges));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ImportState.importSummary(totems: $totems, woms: $woms, aims: $aims, otc: $otc, device: $device, password: $password)';
+  return 'ImportState.importSummary(totems: $totems, woms: $woms, aims: $aims, otc: $otc, device: $device, password: $password, badges: $badges, challenges: $challenges)';
 }
 
 
@@ -462,7 +476,7 @@ abstract mixin class $ImportSummaryCopyWith<$Res> implements $ImportStateCopyWit
   factory $ImportSummaryCopyWith(ImportSummary value, $Res Function(ImportSummary) _then) = _$ImportSummaryCopyWithImpl;
 @useResult
 $Res call({
- List<TotemRow> totems, List<WomRow> woms, List<Aim> aims, String otc, String device, String password
+ List<TotemRow> totems, List<WomRow> woms, List<Aim> aims, String otc, String device, String password, List<BadgeData> badges, List<ChallengeData> challenges
 });
 
 
@@ -479,7 +493,7 @@ class _$ImportSummaryCopyWithImpl<$Res>
 
 /// Create a copy of ImportState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? totems = null,Object? woms = null,Object? aims = null,Object? otc = null,Object? device = null,Object? password = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? totems = null,Object? woms = null,Object? aims = null,Object? otc = null,Object? device = null,Object? password = null,Object? badges = null,Object? challenges = null,}) {
   return _then(ImportSummary(
 totems: null == totems ? _self._totems : totems // ignore: cast_nullable_to_non_nullable
 as List<TotemRow>,woms: null == woms ? _self._woms : woms // ignore: cast_nullable_to_non_nullable
@@ -487,7 +501,9 @@ as List<WomRow>,aims: null == aims ? _self._aims : aims // ignore: cast_nullable
 as List<Aim>,otc: null == otc ? _self.otc : otc // ignore: cast_nullable_to_non_nullable
 as String,device: null == device ? _self.device : device // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
-as String,
+as String,badges: null == badges ? _self._badges : badges // ignore: cast_nullable_to_non_nullable
+as List<BadgeData>,challenges: null == challenges ? _self._challenges : challenges // ignore: cast_nullable_to_non_nullable
+as List<ChallengeData>,
   ));
 }
 
@@ -498,10 +514,13 @@ as String,
 
 
 class ImportCompleted with DiagnosticableTreeMixin implements ImportState {
-  const ImportCompleted(this.count, {this.ex, this.st});
+  const ImportCompleted({required this.count, required this.badgesCount, required this.challengesCount, required this.totemsCount, this.ex, this.st});
   
 
  final  int count;
+ final  int badgesCount;
+ final  int challengesCount;
+ final  int totemsCount;
  final  Object? ex;
  final  StackTrace? st;
 
@@ -516,21 +535,21 @@ $ImportCompletedCopyWith<ImportCompleted> get copyWith => _$ImportCompletedCopyW
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ImportState.completed'))
-    ..add(DiagnosticsProperty('count', count))..add(DiagnosticsProperty('ex', ex))..add(DiagnosticsProperty('st', st));
+    ..add(DiagnosticsProperty('count', count))..add(DiagnosticsProperty('badgesCount', badgesCount))..add(DiagnosticsProperty('challengesCount', challengesCount))..add(DiagnosticsProperty('totemsCount', totemsCount))..add(DiagnosticsProperty('ex', ex))..add(DiagnosticsProperty('st', st));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImportCompleted&&(identical(other.count, count) || other.count == count)&&const DeepCollectionEquality().equals(other.ex, ex)&&(identical(other.st, st) || other.st == st));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImportCompleted&&(identical(other.count, count) || other.count == count)&&(identical(other.badgesCount, badgesCount) || other.badgesCount == badgesCount)&&(identical(other.challengesCount, challengesCount) || other.challengesCount == challengesCount)&&(identical(other.totemsCount, totemsCount) || other.totemsCount == totemsCount)&&const DeepCollectionEquality().equals(other.ex, ex)&&(identical(other.st, st) || other.st == st));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,count,const DeepCollectionEquality().hash(ex),st);
+int get hashCode => Object.hash(runtimeType,count,badgesCount,challengesCount,totemsCount,const DeepCollectionEquality().hash(ex),st);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ImportState.completed(count: $count, ex: $ex, st: $st)';
+  return 'ImportState.completed(count: $count, badgesCount: $badgesCount, challengesCount: $challengesCount, totemsCount: $totemsCount, ex: $ex, st: $st)';
 }
 
 
@@ -541,7 +560,7 @@ abstract mixin class $ImportCompletedCopyWith<$Res> implements $ImportStateCopyW
   factory $ImportCompletedCopyWith(ImportCompleted value, $Res Function(ImportCompleted) _then) = _$ImportCompletedCopyWithImpl;
 @useResult
 $Res call({
- int count, Object? ex, StackTrace? st
+ int count, int badgesCount, int challengesCount, int totemsCount, Object? ex, StackTrace? st
 });
 
 
@@ -558,9 +577,12 @@ class _$ImportCompletedCopyWithImpl<$Res>
 
 /// Create a copy of ImportState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? count = null,Object? ex = freezed,Object? st = freezed,}) {
+@pragma('vm:prefer-inline') $Res call({Object? count = null,Object? badgesCount = null,Object? challengesCount = null,Object? totemsCount = null,Object? ex = freezed,Object? st = freezed,}) {
   return _then(ImportCompleted(
-null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+as int,badgesCount: null == badgesCount ? _self.badgesCount : badgesCount // ignore: cast_nullable_to_non_nullable
+as int,challengesCount: null == challengesCount ? _self.challengesCount : challengesCount // ignore: cast_nullable_to_non_nullable
+as int,totemsCount: null == totemsCount ? _self.totemsCount : totemsCount // ignore: cast_nullable_to_non_nullable
 as int,ex: freezed == ex ? _self.ex : ex ,st: freezed == st ? _self.st : st // ignore: cast_nullable_to_non_nullable
 as StackTrace?,
   ));

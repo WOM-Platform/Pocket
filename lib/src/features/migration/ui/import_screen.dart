@@ -119,12 +119,16 @@ class ImportSummaryWidget extends ConsumerWidget {
   final String device;
   final int womsCount;
   final int totemsCount;
+  final int badgesCount;
+  final int challengesCount;
 
   const ImportSummaryWidget({
     required this.aims,
     required this.device,
     required this.womsCount,
     required this.totemsCount,
+    required this.badgesCount,
+    required this.challengesCount,
     Key? key,
   }) : super(key: key);
 
@@ -275,41 +279,81 @@ class PageThree extends ConsumerWidget {
           },
           loading: () => Center(child: CircularProgressIndicator()),
           error: (ex, st) => MyErrorWidget(ex: ex),
-          importSummary: (totems, woms, aims, _, device, __) =>
-              ImportSummaryWidget(
-                aims: aims,
-                womsCount: woms.length,
-                totemsCount: totems.length,
-                device: device,
-              ),
-          completed: (womCount, error, stackTrace) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.check_circle, color: Colors.green, size: 80),
-                  const SizedBox(height: 16),
-                  Text(
-                    '${'importedWOM'.tr()} $womCount WOM.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+          importSummary:
+              (totems, woms, aims, _, device, __, badges, challenges) =>
+                  ImportSummaryWidget(
+                    aims: aims,
+                    womsCount: woms.length,
+
+                    totemsCount: totems.length,
+                    device: device,
+                    badgesCount: badges.length,
+                    challengesCount: challenges.length,
                   ),
-                  if (error != null) ...[
-                    Text(
-                      'Durante l\'importazione dei totem si è verificato un errore!',
-                    ),
-                    if (kDebugMode)
-                      Text(error.toString() + '\n' + stackTrace.toString()),
-                  ],
-                ],
-              ),
-            );
-          },
+          completed:
+              (
+                womCount,
+                badgesCount,
+                challengesCount,
+                totemsCount,
+                error,
+                stackTrace,
+              ) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.check_circle, color: Colors.green, size: 80),
+                      const SizedBox(height: 16),
+                      Text(
+                        '${'importedWOM'.tr()} $womCount WOM.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Totem importati $totemsCount.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Badge importati $badgesCount',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      Text(
+                        'Challenge importate $challengesCount.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      if (error != null) ...[
+                        Text(
+                          'Durante l\'importazione dei totem si è verificato un errore!',
+                        ),
+                        if (kDebugMode)
+                          Text(error.toString() + '\n' + stackTrace.toString()),
+                      ],
+                    ],
+                  ),
+                );
+              },
           justImported: () {
             return Center(
               child: Text(

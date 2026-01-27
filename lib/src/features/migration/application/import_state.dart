@@ -2,6 +2,8 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
+import 'package:wom_pocket/src/features/badge/data/badge.dart';
+import 'package:wom_pocket/src/features/badge/data/challenge.dart';
 
 part 'import_state.freezed.dart';
 
@@ -22,10 +24,15 @@ abstract class ImportState with _$ImportState {
     required String otc,
     required String device,
     required String password,
+    required List<BadgeData> badges,
+    required List<ChallengeData> challenges,
   }) = ImportSummary;
 
-  const factory ImportState.completed(
-    int count, {
+  const factory ImportState.completed({
+    required int count,
+    required int badgesCount,
+    required int challengesCount,
+    required int totemsCount,
     Object? ex,
     StackTrace? st,
   }) = ImportCompleted;

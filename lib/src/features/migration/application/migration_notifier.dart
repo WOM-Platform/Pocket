@@ -13,6 +13,7 @@ import 'package:wom_pocket/src/core/application/transactions_list/transactions_n
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
+import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/features/migration/application/migration_state.dart';
@@ -108,11 +109,20 @@ class MigrationNotifier extends _$MigrationNotifier {
     ref.invalidate(availableWomCountProvider);
     ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
     ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
+    ref.invalidate(badgeProvider);
   }
 
   Future<WomExportData> exportWomToJson(String pin) async {
     final woms = await ref.read(getDatabaseProvider).womsDao.getAllWoms;
     final totems = await ref.read(getDatabaseProvider).totemsDao.getScans();
+    final badges = await ref
+        .read(getDatabaseProvider)
+        .badgeDao
+        .getAllBadgeEntries();
+    final challenges = await ref
+        .read(getDatabaseProvider)
+        .challengeDao
+        .getAllChallenges();
     if (woms.isEmpty) {
       logger.i('woms empty');
       throw Exception('Woms table is Empty');
@@ -132,6 +142,8 @@ class MigrationNotifier extends _$MigrationNotifier {
       'device': device,
       'woms': woms.map((e) => e.toJson()).toList(),
       'totems': totems.map((e) => e.toJson()).toList(),
+      'badges': badges.map((b) => b.toJson()).toList(),
+      'challenges': challenges.map((c) => c.toJson()).toList(),
     };
 
     final jsonString = jsonEncode(map);
@@ -147,10 +159,6 @@ class MigrationNotifier extends _$MigrationNotifier {
     final zippedBytes = await zipFile.readAsBytes();
     final key = Utils.getRandomString(28);
     final bytes = Utils.encryptBytesWithAes(zippedBytes, '$key$pin');
-    // final encryptedFile = File('${migrationDir.path}/encrypted_zip_woms');
-    // await encryptedFile.writeAsBytes(bytes);
-    // logger.w(bytes.length / 1000);
-    // logger.i(file.path);
     return WomExportData(file.path, bytes, key, woms.length, totems.length);
   }
 

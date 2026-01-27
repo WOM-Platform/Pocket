@@ -41,7 +41,7 @@ final class MigrationNotifierProvider
   }
 }
 
-String _$migrationNotifierHash() => r'bf8eaabba9d36566ed6918d5c4d7e888bb3f506b';
+String _$migrationNotifierHash() => r'7dfd7d2e79cc91546f3efbdf6097461b047cecf7';
 
 abstract class _$MigrationNotifier extends $Notifier<MigrationState> {
   MigrationState build();

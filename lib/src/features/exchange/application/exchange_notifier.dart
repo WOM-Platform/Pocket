@@ -10,6 +10,7 @@ import 'package:wom_pocket/src/core/database/extensions.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/services/aim_repository.dart';
+import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
 import 'package:wom_pocket/src/features/exchange/application/new_exchange_state.dart';
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/features/new_home/application/wom_stats_notifier.dart';
@@ -152,5 +153,6 @@ class NewExchangeNotifier extends _$NewExchangeNotifier {
     ref.invalidate(fetchAimInPercentageProvider);
     ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
     ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
+    ref.invalidate(badgeProvider);
   }
 }

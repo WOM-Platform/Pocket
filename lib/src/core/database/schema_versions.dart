@@ -148,13 +148,21 @@ Future<void> runMigration(Migrator m, int from, int to, MyDatabase db) async {
     await m.createTable(db.challenges);
   }
 
-  if (from < 9) {
+  if (from < 10) {
     if (!(await _columnExists(
       m,
       db.badges.actualTableName,
       db.badges.informationUri.name,
     ))) {
       await m.addColumn(db.badges, db.badges.informationUri);
+    }
+
+    if (!(await _columnExists(
+      m,
+      db.badges.actualTableName,
+      db.badges.filter.name,
+    ))) {
+      await m.addColumn(db.badges, db.badges.filter);
     }
   }
 
@@ -229,6 +237,14 @@ Future<void> runMigration(Migrator m, int from, int to, MyDatabase db) async {
       db.badges.isPublic.name,
     )) {
       await m.addColumn(db.badges, db.badges.isPublic);
+    }
+
+    if (!(await _columnExists(
+      m,
+      db.badges.actualTableName,
+      db.badges.filter.name,
+    ))) {
+      await m.addColumn(db.badges, db.badges.filter);
     }
   }
 }

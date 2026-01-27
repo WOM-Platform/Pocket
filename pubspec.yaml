@@ -2,7 +2,7 @@ name: wom_pocket
 publish_to: none
 description: A new Flutter application.
 
-version: 1.10.1+150
+version: 1.10.1+151
 
 environment:
   sdk: ">=3.10.0 <4.0.0"

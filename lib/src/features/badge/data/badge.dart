@@ -1,5 +1,7 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
 
 part 'badge.freezed.dart';
@@ -27,6 +29,26 @@ abstract class BadgeData with _$BadgeData {
 
   factory BadgeData.fromJson(Map<String, dynamic> json) =>
       _$BadgeDataFromJson(json);
+
+  factory BadgeData.fromBadgeEntry(BadgeEntry entry) {
+    return BadgeData(
+      id: entry.id,
+      name: entry.name,
+      description: entry.description,
+      image: entry.image,
+      achievedAt: entry.achievedAt,
+      achieved: entry.achieved,
+      createdAt: entry.createdAt,
+      lastUpdate: entry.lastUpdate,
+      isPublic: entry.isPublic,
+      seen: entry.seen,
+      challengeId: entry.challengeId,
+      simpleFilter: entry.filter,
+      informationUri: entry.informationUri,
+      archived: entry.archived,
+      archivedAt: entry.archivedAt,
+    );
+  }
 }
 
 @freezed
@@ -66,4 +88,26 @@ abstract class ImageData with _$ImageData {
 
   factory ImageData.fromJson(Map<String, dynamic> json) =>
       _$ImageDataFromJson(json);
+}
+
+extension BadgeDataExtensions on BadgeData {
+  BadgesCompanion toBadgeCompanion() {
+    return BadgesCompanion(
+      id: Value(id),
+      isPublic: Value(isPublic),
+      name: Value(name),
+      challengeId: Value(challengeId),
+      description: Value(description),
+      image: Value(image),
+      seen: Value(seen),
+      achieved: Value(achieved),
+      achievedAt: Value(achievedAt),
+      createdAt: Value(createdAt),
+      lastUpdate: Value(lastUpdate),
+      informationUri: Value(informationUri),
+      filter: Value(simpleFilter),
+      archived: Value(archived),
+      archivedAt: Value(archivedAt),
+    );
+  }
 }

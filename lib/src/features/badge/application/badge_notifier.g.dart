@@ -33,7 +33,7 @@ final class BadgeNotifierProvider
   BadgeNotifier create() => BadgeNotifier();
 }
 
-String _$badgeNotifierHash() => r'018d2f4dc212485dd7774856fc14d436d6e05ad1';
+String _$badgeNotifierHash() => r'ff7c773e3d5868173c63111cdb48edaaf07dcecc';
 
 abstract class _$BadgeNotifier extends $AsyncNotifier<BadgeState> {
   FutureOr<BadgeState> build();

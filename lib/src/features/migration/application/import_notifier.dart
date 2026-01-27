@@ -14,6 +14,9 @@ import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
+import 'package:wom_pocket/src/features/badge/application/badge_notifier.dart';
+import 'package:wom_pocket/src/features/badge/data/badge.dart';
+import 'package:wom_pocket/src/features/badge/data/challenge.dart';
 import 'package:wom_pocket/src/features/exchange/application/exchange_notifier.dart';
 import 'package:wom_pocket/src/features/map/application/bloc.dart';
 import 'package:wom_pocket/src/features/migration/application/import_state.dart';
@@ -67,13 +70,36 @@ class ImportNotifier extends _$ImportNotifier {
       final womEncryptedJsonFile = File('${migrationDir.path}/woms');
       final womEncryptedJson = await womEncryptedJsonFile.readAsString();
       final map = Map.from(jsonDecode(womEncryptedJson));
+
       final womList = List<Map<String, dynamic>>.from(map['woms']);
-      final totemList = List<Map<String, dynamic>>.from(map['totems'] ?? []);
       final woms = womList.map((e) => WomRow.fromJson(e)).toList();
+
+      final totemList = List<Map<String, dynamic>>.from(map['totems'] ?? []);
       final totems = totemList.map((e) => TotemRow.fromJson(e)).toList();
+
+      final badgeList = List<Map<String, dynamic>>.from(map['badges'] ?? []);
+      final badges = badgeList
+          .map((e) => BadgeData.fromBadgeEntry(BadgeEntry.fromJson(e)))
+          .toList();
+
+      final challengeList = List<Map<String, dynamic>>.from(
+        map['challenges'] ?? [],
+      );
+      final challenges = challengeList
+          .map(
+            (e) => ChallengeData.fromChallengeEntry(
+              ChallengeEntry.fromJson(e),
+              [],
+            ),
+          )
+          .toList();
+
       final device = map['device'] as String;
+
       logger.i('Stai importando: ${woms.length} wom');
       logger.i('Stai importando ${totems.length} totems');
+      logger.i('Stai importando ${badges.length} totems');
+      logger.i('Stai importando ${challenges.length} totems');
 
       final tmp = <String?>{};
 
@@ -97,6 +123,8 @@ class ImportNotifier extends _$ImportNotifier {
         otc: otc,
         password: password,
         device: device,
+        badges: badges,
+        challenges: challenges,
       );
     } catch (ex, st) {
       logger.e('checkImport', error: ex, stackTrace: st);
@@ -118,6 +146,11 @@ class ImportNotifier extends _$ImportNotifier {
       final totems = currentState.totems;
       final aims = currentState.aims;
       final device = currentState.device;
+      final badges = currentState.badges;
+      final challenges = currentState.challenges;
+      var badgesCountImported = 0;
+      var challengesCountImported = 0;
+      var totemsCountImported = 0;
 
       final tx = TransactionModel(
         id: 0,
@@ -130,7 +163,6 @@ class ImportNotifier extends _$ImportNotifier {
 
       // await ref.read(getDatabaseProvider).deleteEverything();
 
-      final totemsCompanion = totems.map((w) => w.toCompanion(true)).toList();
       await ref
           .read(getDatabaseProvider)
           .importWoms(tx.toTransactionCompanion(), woms);
@@ -138,15 +170,54 @@ class ImportNotifier extends _$ImportNotifier {
       Object? object = null;
       StackTrace? stackTrace = null;
       try {
+        final totemsCompanion = totems.map((w) => w.toCompanion(true)).toList();
         await ref.read(getDatabaseProvider).importTotems(totemsCompanion);
+        totemsCountImported = totemsCompanion.length;
       } catch (ex, st) {
         object = ex;
         stackTrace = st;
-        logger.e('importWom', error: ex, stackTrace: st);
+        logger.e('importTotems', error: ex, stackTrace: st);
+      }
+
+      try {
+        final badgesCompanion = badges
+            .map((b) => b.toBadgeCompanion())
+            .toList();
+        await ref
+            .read(getDatabaseProvider)
+            .badgeDao
+            .insertBadgeEntries(badgesCompanion);
+        badgesCountImported = badgesCompanion.length;
+      } catch (ex, st) {
+        object = ex;
+        stackTrace = st;
+        logger.e('importBadges', error: ex, stackTrace: st);
+      }
+
+      try {
+        final challengesCompanion = challenges
+            .map((c) => c.toChallengeCompanion())
+            .toList();
+        await ref
+            .read(getDatabaseProvider)
+            .challengeDao
+            .insertChallenges(challengesCompanion);
+        challengesCountImported = challengesCompanion.length;
+      } catch (ex, st) {
+        object = ex;
+        stackTrace = st;
+        logger.e('challengesCompanion', error: ex, stackTrace: st);
       }
 
       await ref.read(pocketProvider).completeMigration(otc, password);
-      state = ImportCompleted(woms.length, ex: object, st: stackTrace);
+      state = ImportCompleted(
+        count: woms.length,
+        badgesCount: badgesCountImported,
+        challengesCount: challengesCountImported,
+        totemsCount: totemsCountImported,
+        ex: object,
+        st: stackTrace,
+      );
     } catch (ex, st) {
       logger.e('importWom', error: ex, stackTrace: st);
       state = ImportError(ex, st);
@@ -162,6 +233,7 @@ class ImportNotifier extends _$ImportNotifier {
     ref.invalidate(mapNotifierProvider);
     ref.invalidate(fetchWomCountEarnedInTheLastWeekProvider);
     ref.invalidate(fetchWomCountSpentInTheLastWeekProvider);
+    ref.invalidate(badgeProvider);
   }
 
   void goToPin() {

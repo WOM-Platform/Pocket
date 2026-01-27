@@ -78,40 +78,7 @@ class BadgeLocalDataSource {
     );
   }
 
-  BadgeData _fromBadgeEntry(BadgeEntry entry) {
-    return BadgeData(
-      id: entry.id,
-      name: entry.name,
-      description: entry.description,
-      image: entry.image,
-      achievedAt: entry.achievedAt,
-      achieved: entry.achieved,
-      createdAt: entry.createdAt,
-      lastUpdate: entry.lastUpdate,
-      isPublic: entry.isPublic,
-      seen: entry.seen,
-      challengeId: entry.challengeId,
-      simpleFilter: entry.filter,
-      informationUri: entry.informationUri,
-      archived: entry.archived,
-      archivedAt: entry.archivedAt,
-    );
-  }
-
-  ChallengeData _fromChallengeEntry(
-    ChallengeEntry entry,
-    List<BadgeEntry> badges,
-  ) {
-    return ChallengeData(
-      id: entry.id,
-      name: entry.name,
-      isPublic: entry.isPublic,
-      description: entry.description,
-      badges: badges.map((b) => _fromBadgeEntry(b)).toList(),
-    );
-  }
-
-  _toChallengeEntry(ChallengeData data) {
+  _toChallengeCompanion(ChallengeData data) {
     return ChallengesCompanion(
       id: drift.Value(data.id),
       isPublic: drift.Value(data.isPublic),
@@ -146,12 +113,12 @@ class BadgeLocalDataSource {
 
   Future<BadgeData?> getBadgeById(String id) async {
     final entry = await _db.badgeDao.getBadgeEntryById(id);
-    return entry != null ? _fromBadgeEntry(entry) : null;
+    return entry != null ? BadgeData.fromBadgeEntry(entry) : null;
   }
 
   Future<List<BadgeData>> getAllBadges() async {
     final entries = await _db.badgeDao.getAllBadgeEntries();
-    return entries.map(_fromBadgeEntry).toList();
+    return entries.map(BadgeData.fromBadgeEntry).toList();
   }
 
   Future<List<BadgeData>> getAllPublicBadges({
@@ -161,7 +128,7 @@ class BadgeLocalDataSource {
       excludeArchived: excludeArchived,
     );
 
-    return entries.map(_fromBadgeEntry).toList();
+    return entries.map(BadgeData.fromBadgeEntry).toList();
   }
 
   Future<void> verifyAndUpdateBadge(BadgeData badge) async {
@@ -220,9 +187,11 @@ class BadgeLocalDataSource {
         final challenge = challenges[i];
 
         // Solo badge con immagine
-        final badges = (await _db.badgeDao.getBadgeEntryByChallengeId(
-          challenge.id,
-        )).map(_fromBadgeEntry).where((badge) => badge.image != null).toList();
+        final badges =
+            (await _db.badgeDao.getBadgeEntryByChallengeId(challenge.id))
+                .map(BadgeData.fromBadgeEntry)
+                .where((badge) => badge.image != null)
+                .toList();
 
         for (int j = 0; j < badges.length; j++) {
           final badge = badges[j];
@@ -239,7 +208,7 @@ class BadgeLocalDataSource {
         final updatedBadges = await _db.badgeDao.getBadgeEntryByChallengeId(
           challenge.id,
         );
-        output.add(_fromChallengeEntry(challenge, updatedBadges));
+        output.add(ChallengeData.fromChallengeEntry(challenge, updatedBadges));
       }
     } catch (ex, st) {
       logger.e('getChallenges', error: ex, stackTrace: st);
@@ -248,13 +217,13 @@ class BadgeLocalDataSource {
   }
 
   Future updateChallenge(ChallengeData challenge) async {
-    final entry = _toChallengeEntry(challenge);
+    final entry = _toChallengeCompanion(challenge);
     await _db.challengeDao.insertChallenge(entry);
   }
 
   // Salva una nuova challenge e tutti i suoi badge
   Future saveNewChallenge(ChallengeData challenge) async {
-    final entry = _toChallengeEntry(challenge);
+    final entry = _toChallengeCompanion(challenge);
     await _db.challengeDao.insertChallenge(entry);
     for (int i = 0; i < challenge.badges.length; i++) {
       final badge = challenge.badges[i];
