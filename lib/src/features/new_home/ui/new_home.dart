@@ -140,7 +140,7 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                   Text('noWomsDesc'.tr(), textAlign: TextAlign.center),
                   const SizedBox(height: 8),
                   MyButton(
-                    child: Text('Riscatta i WOM di benveuto!'),
+                    child: Text('redeem_welcome_wom'.tr()),
                     onPressed: () {
                       final totemData = validateTotemQrCodeWithRegex(
                         welcomeTotem,

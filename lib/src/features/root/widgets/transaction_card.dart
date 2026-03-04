@@ -237,7 +237,7 @@ class TransactionCard extends ConsumerWidget {
                           value: CardAction.migration,
                           child: ListTile(
                             leading: Icon(Icons.qr_code_2),
-                            title: Text('Qr-Code'),
+                            title: Text('qr_code'.tr()),
                           ),
                         )
                       else if (isValidPayment)
@@ -245,7 +245,7 @@ class TransactionCard extends ConsumerWidget {
                           value: CardAction.payment,
                           child: ListTile(
                             leading: Icon(Icons.web),
-                            title: Text('Receipt'),
+                            title: Text('receipt'.tr()),
                           ),
                         )
                       else if (isValidExchange)
@@ -253,14 +253,14 @@ class TransactionCard extends ConsumerWidget {
                           value: CardAction.exchange,
                           child: ListTile(
                             leading: Icon(Icons.receipt),
-                            title: Text('Share'),
+                            title: Text('share'.tr()),
                           ),
                         ),
                       const PopupMenuItem<CardAction>(
                         value: CardAction.share,
                         child: ListTile(
                           leading: Icon(Icons.share),
-                          title: Text('Share'),
+                          title: Text('share'.tr()),
                         ),
                       ),
                     ],

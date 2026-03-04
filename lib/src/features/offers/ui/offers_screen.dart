@@ -301,7 +301,7 @@ class VirtualOfferList extends ConsumerWidget {
               itemBuilder: (c, index) {
                 return ProviderScope(
                   overrides: [
-                    currentQuestion.overrideWithValue(
+                    currentPosProvider.overrideWithValue(
                       ref
                           .watch(paginatedVirtualOffersProvider(index ~/ 10))
                           .whenData((page) => page.data[index % 10]),
@@ -369,7 +369,7 @@ class VirtualPOSCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentPOS = ref.watch(currentQuestion);
+    final currentPOS = ref.watch(currentPosProvider);
     return currentPOS.when(
       data: (virtual) {
         return AspectRatio(

@@ -54,7 +54,7 @@ class SelectPictureModal extends StatelessWidget {
                 children: [
                   Icon(Icons.camera),
                   const SizedBox(width: 16),
-                  Text('Camera'),
+                  Text('camera'.tr()),
                 ],
               ),
             ),
@@ -73,7 +73,7 @@ class SelectPictureModal extends StatelessWidget {
                 children: [
                   Icon(Icons.photo),
                   const SizedBox(width: 16),
-                  Text('Galleria'),
+                  Text('gallery'.tr()),
                 ],
               ),
             ),
@@ -93,7 +93,7 @@ class SelectPictureModal extends StatelessWidget {
                   children: [
                     Icon(Icons.clear, color: Colors.red),
                     const SizedBox(width: 16),
-                    Text('Rimuvoi l\'immagine corrente'),
+                    Text('remove_current_image'.tr()),
                   ],
                 ),
               ),
@@ -178,7 +178,6 @@ class _MyTabBarState extends ConsumerState<MyTabBar>
   @override
   initState() {
     super.initState();
-    print('initState MYTab');
     controller = TabController(length: 2, vsync: this);
   }
 
@@ -201,7 +200,7 @@ class _MyTabBarState extends ConsumerState<MyTabBar>
             indicatorColor: primaryColor,
             controller: controller,
             tabs: [
-              Center(child: Text('Eventi')),
+              Center(child: Text('events'.tr())),
               Center(
                 child: Text(
                   'I miei contatti',
@@ -280,7 +279,7 @@ class _MyContactsListState extends ConsumerState<MyContactsList>
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       children: [
-                        Text('Ordina:'),
+                        Text('sort_by'.tr()),
                         IconButton(
                           onPressed: () {
                             setState(() {

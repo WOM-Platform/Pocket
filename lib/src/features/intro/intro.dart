@@ -139,67 +139,69 @@ class IntroScreen extends HookConsumerWidget {
         title: 'introTitle6'.tr(),
         child: Icon(Icons.warning, color: Colors.white, size: 200),
       ),
-      IntroPage(
-        textColor: Colors.white,
-        backGroundColor: darkBackground,
-        message: locationPermission.value.isGranted
-            ? 'introDescGPSGranted'.tr()
-            : 'introDescGPS'.tr(),
-        title: 'introTitleGPS'.tr(),
-        child: Icon(Icons.gps_fixed, color: Colors.white, size: 200),
-        bottomButton: locationPermission.value.isGranted
-            ? null
-            : MyButton(
-                backgroundColor: accentColor,
-                onPressed: () async {
-                  final status = await Permission.location.request();
-                  locationPermission.value = status;
-                },
-                child: Text(
-                  'grantPermission'.tr(),
-                  style: TextStyle(color: primaryColor),
-                ),
-              ),
-      ),
-      IntroPage(
-        textColor: Colors.white,
-        backGroundColor: darkBackground,
-        message: 'genderSelectionDescription'.tr(),
-        title: 'genderSelectionTitle'.tr(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'introSelectGender'.tr(),
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
-            const SizedBox(height: 16),
-            for (int i = 0; i < Gender.values.length; i++)
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: MyButton(
-                  backgroundColor: gender.value == Gender.values[i]
-                      ? accentColor
-                      : Colors.white,
+      if (fromSettings) ...[
+        IntroPage(
+          textColor: Colors.white,
+          backGroundColor: darkBackground,
+          message: locationPermission.value.isGranted
+              ? 'introDescGPSGranted'.tr()
+              : 'introDescGPS'.tr(),
+          title: 'introTitleGPS'.tr(),
+          child: Icon(Icons.gps_fixed, color: Colors.white, size: 200),
+          bottomButton: locationPermission.value.isGranted
+              ? null
+              : MyButton(
+                  backgroundColor: accentColor,
                   onPressed: () async {
-                    gender.value = Gender.values[i];
-                    await Hive.box(
-                      'settings',
-                    ).put('gender', gender.value!.name);
+                    final status = await Permission.location.request();
+                    locationPermission.value = status;
                   },
                   child: Text(
-                    Gender.values[i].translate(context),
-                    style: TextStyle(
-                      color: gender.value == Gender.values[i]
-                          ? primaryColor
-                          : Colors.black,
+                    'grantPermission'.tr(),
+                    style: TextStyle(color: primaryColor),
+                  ),
+                ),
+        ),
+        IntroPage(
+          textColor: Colors.white,
+          backGroundColor: darkBackground,
+          message: 'genderSelectionDescription'.tr(),
+          title: 'genderSelectionTitle'.tr(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'introSelectGender'.tr(),
+                style: TextStyle(color: Colors.white, fontSize: 30),
+              ),
+              const SizedBox(height: 16),
+              for (int i = 0; i < Gender.values.length; i++)
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: MyButton(
+                    backgroundColor: gender.value == Gender.values[i]
+                        ? accentColor
+                        : Colors.white,
+                    onPressed: () async {
+                      gender.value = Gender.values[i];
+                      await Hive.box(
+                        'settings',
+                      ).put('gender', gender.value!.name);
+                    },
+                    child: Text(
+                      Gender.values[i].translate(context),
+                      style: TextStyle(
+                        color: gender.value == Gender.values[i]
+                            ? primaryColor
+                            : Colors.black,
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
       if (transactionCount == 0)
         IntroPage(
           textColor: Colors.white,

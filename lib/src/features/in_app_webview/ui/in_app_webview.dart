@@ -124,7 +124,7 @@ class _InAppWebViewScreenState extends State<InAppWebViewScreen> {
       body: url == null
           ? Center(
               // TODO translate
-              child: Text('URL non valido'),
+              child: Text('invalid_url'.tr()),
             )
           : Stack(
               children: [
@@ -140,7 +140,7 @@ class _InAppWebViewScreenState extends State<InAppWebViewScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text('Caricamento...',
+                            Text('loading'.tr(),
                                 style: TextStyle(fontSize: 18)),
                             const SizedBox(height: 8),
                             LinearProgressIndicator(

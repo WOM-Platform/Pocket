@@ -90,13 +90,13 @@ class InfoPayment extends ConsumerWidget {
                         children: <Widget>[
                           Column(
                             children: <Widget>[
-                              Text('Aim', style: greyStyle),
+                              Text('aim'.tr(), style: greyStyle),
                               Text(simpleFilters.aim ?? '-', style: valueStyle),
                             ],
                           ),
                           Column(
                             children: <Widget>[
-                              Text('Bounds', style: greyStyle),
+                              Text('bounds'.tr(), style: greyStyle),
                               Text(
                                 simpleFilters.bounds?.toString() ?? '-',
                                 style: valueStyle,
@@ -105,7 +105,7 @@ class InfoPayment extends ConsumerWidget {
                           ),
                           Column(
                             children: <Widget>[
-                              Text('MaxAge', style: greyStyle),
+                              Text('max_age'.tr(), style: greyStyle),
                               Text(
                                 simpleFilters.maxAge?.toString() ?? '-',
                                 style: valueStyle,

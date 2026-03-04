@@ -148,7 +148,7 @@ class PosBanner extends StatelessWidget {
                   ),
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  child: Text('Virtual'),
+                  child: Text('virtual'.tr()),
                 ),
               ),
             ),

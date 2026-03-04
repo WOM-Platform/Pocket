@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 
@@ -14,7 +15,7 @@ class _LogOutputScreenState extends State<LogOutputScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Logs'),
+        title: Text('logs_title'.tr()),
         actions: [
           IconButton(
             icon: Icon(Icons.clear),

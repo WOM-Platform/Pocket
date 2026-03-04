@@ -101,7 +101,7 @@ class MigrationExportScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text('Pin:', style: TextStyle(fontSize: 20, color: Colors.white)),
+          Text('pin_label'.tr(), style: TextStyle(fontSize: 20, color: Colors.white)),
           const SizedBox(height: 4),
           Text(
             data.code,

@@ -114,7 +114,7 @@ class _ChallengeWidget extends HookConsumerWidget {
                       );
                     }
                   },
-                  child: Text('Accetta la challenge'),
+                  child: Text('accept_challenge'.tr()),
                 ),
               ),
           ],

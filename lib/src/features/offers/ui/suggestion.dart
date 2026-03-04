@@ -127,7 +127,7 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Caricamento...', style: TextStyle(fontSize: 18)),
+                      Text('loading'.tr(), style: TextStyle(fontSize: 18)),
                       const SizedBox(height: 8),
                       LinearProgressIndicator(
                         color: Theme.of(context).primaryColor,

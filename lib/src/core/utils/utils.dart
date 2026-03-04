@@ -209,7 +209,6 @@ String getMyTotemLink(String totemId) {
 
 String aesDecrypt(String encrypted) {
   final decrypted = encrypter.decrypt(Encrypted.fromBase64(encrypted), iv: iv);
-  print(encrypted);
   return decrypted.toString();
 }
 
@@ -220,7 +219,6 @@ final encrypter = Encrypter(AES(key, mode: AESMode.cbc, padding: 'PKCS7'));
 
 String aesEncrypt(String text) {
   final encrypted = encrypter.encrypt(text, iv: iv);
-  print(encrypted.base64);
   return encrypted.base64;
 }
 
@@ -233,7 +231,6 @@ ConnectionTotemData? createTotemLinkFromConnection(String link) {
   // final decrypted = aesDecrypt(decoded);
   // final url = '$connectionBaseUrl/$decrypted';
   final url = link;
-  print(url);
   final uri = Uri.tryParse(url);
   if (uri == null) {
     return null;

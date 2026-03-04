@@ -70,10 +70,10 @@ class BadgeRemoteDataSource {
         );
       }
     } on DioException catch (e) {
-      print('Error fetching badge with ID $badgeId: $e');
+      logger.e('Error fetching badge with ID $badgeId', error: e);
       rethrow;
     } catch (e) {
-      print('Unexpected error fetching badge with ID $badgeId: $e');
+      logger.e('Unexpected error fetching badge with ID $badgeId', error: e);
       throw Exception(
           'Failed to load badge with ID $badgeId due to an unexpected error.');
     }

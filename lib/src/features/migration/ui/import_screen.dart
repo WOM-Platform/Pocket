@@ -163,7 +163,7 @@ class ImportSummaryWidget extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text('Device di origine:', style: titleStyle),
+                Text('source_device'.tr(), style: titleStyle),
                 const SizedBox(width: 8),
                 Text(device.toString(), style: descStyle),
               ],
@@ -172,7 +172,7 @@ class ImportSummaryWidget extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text('Wom da importare', style: titleStyle),
+                Text('wom_to_import'.tr(), style: titleStyle),
                 const SizedBox(width: 8),
                 Text(womsCount.toString(), style: descStyle),
               ],
@@ -181,7 +181,7 @@ class ImportSummaryWidget extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text('Scansioni da importare', style: titleStyle),
+                Text('scans_to_import'.tr(), style: titleStyle),
                 const SizedBox(width: 8),
                 Text(totemsCount.toString(), style: descStyle),
               ],
@@ -190,7 +190,7 @@ class ImportSummaryWidget extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Aim:', style: titleStyle),
+                Text('aim_label'.tr(), style: titleStyle),
                 const SizedBox(width: 8),
                 Flexible(
                   child: Text(

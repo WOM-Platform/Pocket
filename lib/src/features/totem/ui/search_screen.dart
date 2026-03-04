@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
@@ -90,7 +91,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           selectedColor: accentColor,
                           selected: state.showMyEvents,
                           checkmarkColor: primaryColor,
-                          label: Text('Eventi'),
+                          label: Text('events'.tr()),
                           onSelected: (value) {
                             ref
                                 .read(totemSearchNotifierProvider.notifier)
@@ -102,7 +103,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           checkmarkColor: primaryColor,
                           selectedColor: accentColor,
                           selected: state.showMyContacts,
-                          label: Text('I miei contatti'),
+                          label: Text('my_contacts'.tr()),
                           onSelected: (value) {
                             ref
                                 .read(totemSearchNotifierProvider.notifier)

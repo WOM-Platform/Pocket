@@ -315,7 +315,7 @@ class _TotemMapScreenState extends ConsumerState<TotemMapScreen> {
           Text(widget.timestamp.format(context.locale.languageCode)),
           if (widget.email != null && widget.email!.isNotEmpty) ...[
             const SizedBox(height: 8),
-            Text('Email', style: labelStyle),
+            Text('email'.tr(), style: labelStyle),
             InkWell(
               onTap: () {
                 final Uri emailLaunchUri = Uri(

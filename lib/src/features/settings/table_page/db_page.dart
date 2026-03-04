@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/models/wom_model.dart';
@@ -42,14 +43,14 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
     return Scaffold(
       appBar: AppBar(
         // automaticallyImplyLeading: false,
-        title: Text('DB'),
+        title: Text('db_title'.tr()),
       ),
       body: Scrollbar(
         child: ListView(
           padding: const EdgeInsets.all(4),
           children: [
             PaginatedDataTable(
-              header: Text('WOM DataBase'),
+              header: Text('wom_database_title'.tr()),
               rowsPerPage: _rowsPerPage!,
               onRowsPerPageChanged: (value) {
                 setState(() {
@@ -105,7 +106,7 @@ class _WomDbTablePageState extends State<WomDbTablePage> {
                   ),
                 ),
                 DataColumn(
-                  label: Text('spent'),
+                  label: Text('womSpent'.tr()),
                   numeric: true,
                   onSort: (columnIndex, ascending) =>
                       _sort<num>((d) => d.spent, columnIndex, ascending),
@@ -167,7 +168,7 @@ class _WomsDataSources extends DataTableSource {
     final wom = woms[index];
     return DataRow.byIndex(
       index: index,
-//      selected: wom.selected,
+      //      selected: wom.selected,
       /*onSelectChanged: (value) {
         if (wom.selected != value) {
           _selectedCount += value ? 1 : -1;
@@ -205,10 +206,10 @@ class _WomsDataSources extends DataTableSource {
   int get selectedRowCount => _selectedCount;
 
   void _selectAll(bool? checked) {
-//    for (final WomModel dessert in _woms) {
-//      dessert.selected = checked;
-//    }
-//    _selectedCount = checked ? _woms.length : 0;
-//    notifyListeners();
+    //    for (final WomModel dessert in _woms) {
+    //      dessert.selected = checked;
+    //    }
+    //    _selectedCount = checked ? _woms.length : 0;
+    //    notifyListeners();
   }
 }

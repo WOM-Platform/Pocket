@@ -30,7 +30,7 @@ Future<void> runMigration(Migrator m, int from, int to, MyDatabase db) async {
       Sentry.addBreadcrumb(
         Breadcrumb(
           message:
-              'Migration to $to: Created "totems" table as it was missing.',
+          'Migration to $to: Created "totems" table as it was missing.',
         ),
       );
       logger.i('Migration to $to: Created "totems" table as it was missing.');
@@ -185,7 +185,7 @@ Future<void> runMigration(Migrator m, int from, int to, MyDatabase db) async {
       Sentry.addBreadcrumb(
         Breadcrumb(
           message:
-              'Migration to 11: Created "challenges" table as it was missing.',
+          'Migration to 11: Created "challenges" table as it was missing.',
         ),
       );
       logger.i(
@@ -215,7 +215,7 @@ Future<void> runMigration(Migrator m, int from, int to, MyDatabase db) async {
         Sentry.addBreadcrumb(
           Breadcrumb(
             message:
-                'Migration to 11: Created "informationUri" table as it was missing.',
+            'Migration to 11: Created "informationUri" table as it was missing.',
           ),
         );
         logger.i(
@@ -226,8 +226,20 @@ Future<void> runMigration(Migrator m, int from, int to, MyDatabase db) async {
   }
 
   if (from < 12) {
-    await m.addColumn(db.badges, db.badges.archived);
-    await m.addColumn(db.badges, db.badges.archivedAt);
+    if (!await _columnExists(
+      m,
+      db.badges.actualTableName,
+      db.badges.archived.name,
+    )) {
+      await m.addColumn(db.badges, db.badges.archived);
+    }
+    if (!await _columnExists(
+      m,
+      db.badges.actualTableName,
+      db.badges.archivedAt.name,
+    )) {
+      await m.addColumn(db.badges, db.badges.archivedAt);
+    }
   }
 
   if (from < 13) {
@@ -273,11 +285,13 @@ Future<void> _checkTotemTables(Migrator m, MyDatabase db) async {
         Sentry.addBreadcrumb(
           Breadcrumb(
             message:
-                'Migration to 10: Added "${column.name}" column to "totems" table as it was missing.',
+            'Migration to 10: Added "${column
+                .name}" column to "totems" table as it was missing.',
           ),
         );
         logger.i(
-          'Migration to 10: Added "${column.name}" column to "totems" table as it was missing.',
+          'Migration to 10: Added "${column
+              .name}" column to "totems" table as it was missing.',
         );
       }
     }
@@ -287,18 +301,16 @@ Future<void> _checkTotemTables(Migrator m, MyDatabase db) async {
 Future<bool> _tableExists(Migrator m, String tableName) async {
   final result = await m.database
       .customSelect(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name = ?",
-        variables: [Variable.withString(tableName)],
-      )
+    "SELECT name FROM sqlite_master WHERE type='table' AND name = ?",
+    variables: [Variable.withString(tableName)],
+  )
       .getSingleOrNull();
   return result != null;
 }
 
-Future<bool> _columnExists(
-  Migrator m,
-  String tableName,
-  String columnName,
-) async {
+Future<bool> _columnExists(Migrator m,
+    String tableName,
+    String columnName,) async {
   final List<QueryRow> columns = await m.database
       .customSelect("PRAGMA table_info('$tableName')")
       .get();

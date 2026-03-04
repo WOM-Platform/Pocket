@@ -237,7 +237,7 @@ class _RootScreenState extends ConsumerState<RootScreen> {
         desc: 'no_connection_desc'.tr(),
         buttons: [
           DialogButton(
-            child: Text('Ok'),
+            child: Text('ok'.tr()),
             onPressed: () {
               context.maybePop();
             },

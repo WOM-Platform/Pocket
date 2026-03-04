@@ -28,20 +28,23 @@ final questionsCountProvider = Provider.autoDispose((ref) {
       .whenData((page) => page.totalCount);
 });
 
-/// A scoped provider, exposing the current question used by [QuestionItem].
+/// A scoped provider, exposing the current POS used by [VirtualPOSCard].
 ///
-/// This is used as a performance optimization to pass a [Question] to
-/// [QuestionItem], while still instantiating [QuestionItem] using the `const`
+/// This is used as a performance optimization to pass a [VirtualPOS] to
+/// [VirtualPOSCard], while still instantiating [VirtualPOSCard] using the `const`
 /// keyword.
 ///
-/// This allows [QuestionItem] to rebuild less often.
-/// By doing so, even when using [QuestionItem] in a [ListView], even if new
-/// questions are obtained, previously rendered [QuestionItem]s won't rebuild.
+/// This allows [VirtualPOSCard] to rebuild less often.
+/// By doing so, even when using [VirtualPOSCard] in a [ListView], even if new
+/// POS are obtained, previously rendered [VirtualPOSCard]s won't rebuild.
 ///
-/// This is an optional step. Since scoping is a fairly advanced mechanism,
-/// it's entirely fine to simply pass the [Question] to [QuestionItem] directly.
-final currentQuestion = Provider<AsyncValue<VirtualPOS>>((ref) {
-  throw UnimplementedError();
+/// This provider must always be overridden with [ProviderScope] before use.
+/// See [OffersScreen] for usage example.
+final currentPosProvider = Provider<AsyncValue<VirtualPOS>>((ref) {
+  return const AsyncValue.error(
+    'currentQuestion provider must be overridden with ProviderScope',
+    StackTrace.empty,
+  );
 });
 
 @Riverpod(keepAlive: true)

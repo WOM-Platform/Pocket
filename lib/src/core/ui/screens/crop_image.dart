@@ -117,7 +117,7 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
             },
           ),
           backgroundColor: Colors.white,
-          title: Text('Crop', style: TextStyle(color: Colors.black87)),
+          title: Text('crop'.tr(), style: TextStyle(color: Colors.black87)),
           actions: [
             if (_croppedData != null)
               IconButton(
@@ -132,7 +132,7 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
                   isProcessing = true;
                   crop(_editorController);
                 },
-                child: Text('Crop'),
+                child: Text('crop'.tr()),
               ),
           ],
           iconTheme: IconThemeData(color: Colors.black87),

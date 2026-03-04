@@ -239,7 +239,7 @@ class SummaryPage extends ConsumerWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('Scansioni da migrare', style: titleStyle),
+                    Text('scans_to_migrate'.tr(), style: titleStyle),
                     const SizedBox(width: 8),
                     Text(totemsCount.toString(), style: descStyle),
                   ],

@@ -41,7 +41,7 @@ class ArchivedBadgeScreen extends ConsumerWidget {
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight,
                     ),
-                    child: Center(child: Text('Nessun badge archiviato.')),
+                    child: Center(child: Text('no_archived_badges'.tr())),
                   ),
                 );
               },

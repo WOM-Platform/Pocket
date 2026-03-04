@@ -60,7 +60,7 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
                     });
                   }
                 },
-                child: Text('Archivia'),
+                child: Text('archive'.tr()),
               ),
             )
           else
@@ -79,7 +79,7 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
                     });
                   }
                 },
-                child: Text('Ripristina'),
+                child: Text('restore'.tr()),
               ),
             ),
         ],
@@ -92,7 +92,7 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'Ultimo aggiornamento: ${dateFormat.format(widget.badge.lastUpdate!)}',
+                  'last_update'.tr(args: [dateFormat.format(widget.badge.lastUpdate!)]),
                 ),
               ],
             ),
@@ -106,9 +106,9 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
             child: BadgeTile(badge: widget.badge),
           ),
           if (widget.badge.createdAt != null)
-            Text('Anno di creazione: ${widget.badge.createdAt!.year}'),
+            Text('creation_year'.tr(args: [widget.badge.createdAt!.year.toString()])),
           if (hasBadgeArchived && archivedAt != null)
-            Text('Archiviato il: ${dateFormat.format(archivedAt!)}'),
+            Text('archived_date'.tr(args: [dateFormat.format(archivedAt!)])),
           if (widget.badge.description != null) ...[
             const SizedBox(height: 16),
             Text(
@@ -134,7 +134,7 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
           ],
           if (widget.badge.achieved && widget.badge.achievedAt != null) ...[
             const SizedBox(height: 16),
-            Text('Hai verificato questo badge il: ${widget.badge.achievedAt}'),
+            Text('badge_verified_date'.tr(args: [widget.badge.achievedAt.toString()])),
           ],
         ],
       ),
