@@ -9,14 +9,14 @@ final oldDeepLink = isDev ? 'dev.wom.social' : 'wom.social';
 final deepLink = isDev ? 'link.dev.wom.social' : 'link.wom.social';
 
 class DeepLinkModel extends Equatable {
-  static const PAYMENT = 'payment';
-  static const VOUCHERS = 'vouchers';
-  static const MIGRATION = 'migration';
+  static const String PAYMENT = 'payment';
+  static const String VOUCHERS = 'vouchers';
+  static const String MIGRATION = 'migration';
 
   final Uri? uri;
   String? otc;
   String? migrationPartialKey;
-  late TransactionType type;
+  late final TransactionType type;
 
   DeepLinkModel.fromUri(this.uri) {
     logger.i('DeepLinkModel constructor');

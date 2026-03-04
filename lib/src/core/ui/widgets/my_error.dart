@@ -6,7 +6,7 @@ import 'package:wom_pocket/src/core/constants.dart';
 class MyErrorWidget extends StatelessWidget {
   final Object? ex;
 
-  const MyErrorWidget({Key? key, this.ex}) : super(key: key);
+  const MyErrorWidget({super.key, this.ex});
 
   @override
   Widget build(BuildContext context) {

@@ -39,14 +39,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             title: 'settings_redeem_demo_title'.tr(),
             subtitle: 'settings_redeem_demo_desc'.tr(),
             icon: Icons.monetization_on,
-            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+
             onTap: () => Utils.launchURL('https://demo.wom.social/redeem'),
           ),
           SettingsItem(
             title: 'settings_pay_demo_title'.tr(),
             subtitle: 'settings_pay_demo_desc'.tr(),
             icon: Icons.credit_card,
-            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+
             onTap: () => Utils.launchURL('https://demo.wom.social/pay'),
           ),
           if (enableDebugFeatures)
@@ -54,19 +54,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               title: 'Visita WOM DB',
               subtitle: '',
               icon: Icons.data_usage,
-              // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+  
               onTap: () async {
                 final woms = await ref
                     .read(getDatabaseProvider)
                     .womsDao
                     .getAllWoms;
+                if (!context.mounted) return;
                 context.push('/settings/wom-db-table', extra: woms);
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (BuildContext context) =>
-                //         WomDbTablePage(woms: woms),
-                //   ),
-                // );
+
               },
             ),
           SettingsItem(
@@ -75,6 +71,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             icon: Icons.backup,
             onTap: () async {
               final count = await ref.read(totalWomCountProvider.future);
+              if (!context.mounted) return;
               if (count > 0) {
                 context.push('/settings/migration');
               } else {
@@ -116,7 +113,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 onTap: gender == null
                     ? null
                     : () async {
-                        Hive.box('settings').delete('gender');
+                        await Hive.box('settings').delete('gender');
+                        if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('genderInfoRemoved'.tr())),
                         );
@@ -148,14 +146,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             title: 'settings_info_title'.tr(),
             subtitle: 'settings_info_desc'.tr(),
             icon: Icons.info,
-            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+
             onTap: () => Utils.launchURL('https://wom.social'),
           ),
           SettingsItem(
             title: 'Privacy Policy',
             subtitle: '',
             icon: Icons.privacy_tip_outlined,
-            // contentPadding: EdgeInsets.only(left: 16.0, right: 24.0),
+
             onTap: () => Utils.launchURL('https://wom.social/privacy/pocket'),
           ),
           VersionInfo(
@@ -199,9 +197,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 subtitle: 'Go to logs screen',
                 icon: Icons.bug_report,
                 onTap: () async {
+                  if (!context.mounted) return;
                   context.push('/settings/logs');
-                  // Navigator.of(context)
-                  //     .push(MaterialPageRoute(builder: (c) => LogOutputScreen()));
+
                 },
               ),
             ],
@@ -282,7 +280,7 @@ class SettingSectionTitle extends StatelessWidget {
 class VersionInfo extends StatelessWidget {
   final Function()? onTap;
 
-  const VersionInfo({Key? key, this.onTap}) : super(key: key);
+  const VersionInfo({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {

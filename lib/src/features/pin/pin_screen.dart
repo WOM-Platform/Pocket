@@ -82,13 +82,6 @@ class PinScreen extends ConsumerWidget {
       '/transaction',
       extra: TransactionNotifierParams(deepLinkModel, password),
     );
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute<bool>(
-    //     builder: (context) => TransactionScreen(
-    //       params: TransactionNotifierParams(deepLinkModel, password),
-    //     ),
-    //   ),
-    // );
+
   }
 }

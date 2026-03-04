@@ -26,6 +26,7 @@ import UIKit
         email: String,
         url: String
     ) {
+        debugPrint("creatNewContact")
 
         let contact = CNMutableContact.init()
         let homePhone = CNLabeledValue(
@@ -64,12 +65,12 @@ import UIKit
     ) {
         GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
         
-        let batteryChannel = FlutterMethodChannel(
+        let contactChannel = FlutterMethodChannel(
             name: "social.wom.pocket/contact",
             binaryMessenger: engineBridge.applicationRegistrar.messenger()
         )
     
-        batteryChannel.setMethodCallHandler({
+        contactChannel.setMethodCallHandler({
             [weak self] (call: FlutterMethodCall, result: FlutterResult) -> Void
             in
             // This method is invoked on the UI thread.
@@ -77,12 +78,12 @@ import UIKit
                 result(FlutterMethodNotImplemented)
                 return
             }
-
+            
             if let args = call.arguments as? [String: String?],
-                let phone = args["phone"] ?? "",
-                let name = args["name"] ?? "",
-                let email = args["email"] ?? "",
-                let url = args["url"] ?? ""
+               let phone = args["phone"] ?? "",
+               let name = args["name"] ?? "",
+               let email = args["email"] ?? "",
+               let url = args["url"] ?? ""
             {
                 self?.creatNewContact(
                     result: result,
@@ -91,6 +92,8 @@ import UIKit
                     email: email,
                     url: url
                 )
+            } else {
+                debugPrint("Missing args: ")
             }
         })
     }

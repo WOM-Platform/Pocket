@@ -7,7 +7,7 @@ import 'package:wom_pocket/src/core/utils/colors.dart';
 class PocketAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
 
-  const PocketAppBar({Key? key, this.actions}) : super(key: key);
+  const PocketAppBar({super.key, this.actions});
 
   @override
   Widget build(BuildContext context) {

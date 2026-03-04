@@ -10,11 +10,8 @@ import 'package:wom_pocket/src/core/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 
-bool fakeModeVar = false;
-String? fakeData;
-
 class App extends ConsumerWidget {
-  App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -73,71 +70,3 @@ class App extends ConsumerWidget {
   }
 }
 
-/*class GateWidget extends ConsumerWidget {
-  const GateWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(appNotifierProvider);
-    ref.listen<AsyncValue<String?>>(
-      deepLinkNotifierProvider,
-      (previous, next) {
-        logger.i('APP BLOC LISTENER ----> state is: $next');
-        if (next is AsyncData) {
-          final data = next.value;
-          if (data == null) return;
-          final totemData = validateTotemQrCodeWithRegex(data);
-          if (totemData != null) {
-            launchTotemDialog(context, totemData);
-          } else {
-            try {
-              logger.i('AppNotifier uri : $data');
-              final deepLink = DeepLinkModel.fromUri(Uri.parse(data));
-
-              if (deepLink.type == TransactionType.MIGRATION_IMPORT) {
-                context.go('/import', extra: deepLink);
-              } else {
-                context.go('/pin', extra: deepLink);
-              }
-            } on PlatformException catch (ex, st) {
-              logger.e(
-                'AppRepository: error getting deep link',
-                error: ex,
-                stackTrace: st,
-              );
-            } on FormatException catch (ex, st) {
-              logger.e('Error getting deep link', error: ex, stackTrace: st);
-            } catch (ex, st) {
-              logger.e('Error getting deep link', error: ex, stackTrace: st);
-            }
-          }
-        }
-      },
-    );
-
-    if (Platform.isAndroid) {
-      ref.listen<AsyncValue<TotemData?>>(nfcBackgroundNotifierProvider,
-          (previous, next) async {
-        logger.i('getNfcIntentProvider new intent');
-        final currentState = next;
-        if (currentState is AsyncData && currentState.value != null) {
-          await launchTotemDialog(context, currentState.requireValue!);
-          ref.read(nfcBackgroundNotifierProvider.notifier).unlock();
-        }
-      });
-    }
-    logger.i('APP BLOC BUILDER ----> state is: $state');
-
-    if (state is AsyncData) {
-      final data = state.value;
-      if (data is IntroMode) {
-        return IntroScreen();
-      }
-
-      if (data is NormalMode) {
-        return RootScreen();
-      }
-    }
-    return SplashScreen();
-  }
-}*/

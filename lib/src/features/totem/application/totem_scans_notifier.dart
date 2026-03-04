@@ -20,9 +20,9 @@ final getScannedTotemsProvider = StreamNotifierProvider(
   ScannedTotemsNotifier.new,
 );
 
-final class ScannedTotemsNotifier extends StreamNotifier {
+final class ScannedTotemsNotifier extends StreamNotifier<List<TotemRow>> {
   @override
-  Stream build() async* {
+  Stream<List<TotemRow>> build() async* {
     final stream = ref.watch(getDatabaseProvider).totemsDao.getScansStream();
 
     await for (final list in stream) {
@@ -30,30 +30,6 @@ final class ScannedTotemsNotifier extends StreamNotifier {
     }
   }
 }
-
-// @riverpod
-// Stream<Map<int, List<TotemRow>>> getEventTotems(Ref ref) async* {
-//   final stream = ref.watch(getDatabaseProvider).totemsDao.getScansStream();
-//
-//   await for (final list in stream) {
-//     final t = <int, List<TotemRow>>{};
-//     for (int i = 0; i < list.length; i++) {
-//       final o = list[i];
-//       final sessionId = o.sessionId;
-//       final providerId = o.providerId;
-//       final eventId = o.eventId;
-//       final h = hash('$providerId$sessionId$eventId');
-//       if (eventId != myContactsEventId) {
-//         if (t.containsKey(h)) {
-//           t[h] = [...t[h] ?? [], o];
-//         } else {
-//           t[h] = [o];
-//         }
-//       }
-//     }
-//     yield t;
-//   }
-// }
 
 final getEventTotemsProvider = StreamNotifierProvider(EventTotemsNotifier.new);
 
@@ -82,25 +58,6 @@ final class EventTotemsNotifier extends StreamNotifier {
     }
   }
 }
-
-// @riverpod
-// Stream<List<TotemRow>> getMyContactTotems(Ref ref) async* {
-//   final stream = ref.watch(getDatabaseProvider).totemsDao.getScansStream();
-//
-//   await for (final list in stream) {
-//     final t = <TotemRow>[];
-//     for (int i = 0; i < list.length; i++) {
-//       final totemRow = list[i];
-//
-//       final providerId = totemRow.providerId;
-//       final eventId = totemRow.eventId;
-//       if (providerId == digitProviderId && eventId == myContactsEventId) {
-//         t.add(totemRow);
-//       }
-//     }
-//     yield t;
-//   }
-// }
 
 final getMyContactTotemsProvider = StreamNotifierProvider(
   MyContactTotemsNotifier.new,

@@ -9,25 +9,25 @@ environment:
 
 dependencies:
   android_intent_plus: ^6.0.0
-  animate_do: any
+  animate_do: ^4.2.0
   app_links: ^7.0.0
   auto_size_text: ^3.0.0
   cached_network_image: ^3.4.1
   carousel_slider: ^5.1.1
   clippy_flutter: ^2.0.0-nullsafety.1
-  collection:
+  collection: ^1.19.1
 #  contacts_service: ^0.6.3
   dart_geohash: ^2.1.0
   dart_wom_connector:
     path: /Users/gianmarcodifrancesco/Work/Digit/Dart/dart_wom_connector
   device_info_plus: ^12.3.0
   device_preview: ^1.3.1
-  dio: any
+  dio: ^5.9.0
   dots_indicator: ^4.0.1
   drift: ^2.30.1
   easy_localization: ^3.0.8
   encrypt: 5.0.3
-  equatable: any
+  equatable: ^2.0.7
   extended_image: ^10.0.1
   fl_chart: ^1.1.1
   flutter:
@@ -38,20 +38,20 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_lock_screen: ^2.0.1
-  flutter_riverpod:
+  flutter_riverpod: ^3.2.0
   flutter_slidable: ^4.0.3
   flutter_sticky_header: ^0.8.0
   flutter_svg: ^2.2.3
   form_builder_validators: ^11.2.0
   freezed_annotation: ^3.1.0
   geolocator: ^14.0.2
-  go_router: any
+  go_router: ^16.2.4
   google_fonts: ^8.0.0
   google_maps_cluster_manager_2: ^3.2.0
   google_maps_flutter: ^2.14.0
   hexagon: ^0.2.0
   hive_ce: ^2.19.1
-  hive_ce_flutter:
+  hive_ce_flutter: ^2.3.2
   hooks_riverpod: ^3.2.0
   http: ^1.6.0
   image_editor: ^1.6.0
@@ -61,7 +61,7 @@ dependencies:
   json_annotation: ^4.9.0
   logger: ^2.6.2
   material_design_icons_flutter: ^7.0.7296
-  meta: any
+  meta: ^1.17.0
   mobile_scanner: ^7.1.4
   nfc_background:
     path: /Users/gianmarcodifrancesco/Work/Digit/nfc_background
@@ -79,8 +79,8 @@ dependencies:
   rflutter_alert: ^2.0.7
   rive: ^0.13.20
   riverpod_annotation: ^4.0.1
-  sentry_flutter: any
-  share_plus:
+  sentry_flutter: ^9.7.0
+  share_plus: ^12.0.0
   sliding_up_panel: ^2.0.0+1
   sqlite3_flutter_libs: ^0.5.41
   store_redirect: ^2.0.4
@@ -105,7 +105,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.4
   flutter_native_splash: ^2.4.7
   freezed: ^3.2.4
-  hive_ce_generator: any
+  hive_ce_generator: ^1.11.0
   json_serializable: ^6.11.4
   pubspec_dependency_sorter: ^1.0.5
   riverpod_generator: ^4.0.2

@@ -133,31 +133,6 @@ class TotemScansScreen extends ConsumerWidget {
         ],
       ),
       body: MyTabBar(),
-      /*switch (state) {
-        AsyncData(:final value) => value.isEmpty
-            ? Center(
-                child: Text(
-                  'totem_scan_screen.no_scan'.tr(),
-                ),
-              )
-            : ListView(
-                children: [
-                  for (int i = 0; i < value.keys.length; i++) ...[
-                    _Header(t: value[value.keys.elementAt(i)]!.first),
-                    for (int k = 0;
-                        k < value[value.keys.elementAt(i)]!.length;
-                        k++)
-                      _Item(
-                        t: value[value.keys.elementAt(i)]![k],
-                      ),
-                    Divider(),
-                  ],
-                ],
-              ),
-        _ => Center(
-            child: CircularProgressIndicator(),
-          )
-      },*/
     );
   }
 }
@@ -171,8 +146,6 @@ class MyTabBar extends ConsumerStatefulWidget {
 
 class _MyTabBarState extends ConsumerState<MyTabBar>
     with SingleTickerProviderStateMixin {
-  // late final myContactsWidget = MyContactsList();
-
   late final TabController controller;
 
   @override
@@ -201,12 +174,7 @@ class _MyTabBarState extends ConsumerState<MyTabBar>
             controller: controller,
             tabs: [
               Center(child: Text('events'.tr())),
-              Center(
-                child: Text(
-                  'I miei contatti',
-                  // style: unselectedStyle,
-                ),
-              ),
+              Center(child: Text('I miei contatti')),
             ],
           ),
         ),

@@ -51,13 +51,6 @@ class TotemTile extends StatelessWidget {
           notes: t.notes,
         );
         context.push('/totem/map', extra: data);
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => TotemMapScreen(
-        //       data: data,
-        //     ),
-        //   ),
-        // );
       },
       title: Text(t.totemName ?? 'Totem'),
       subtitle: Text(t.timestamp.format(context.locale.languageCode)),

@@ -21,7 +21,7 @@ import 'package:wom_pocket/src/features/transaction/ui/info_payment.dart';
 class TransactionScreen extends ConsumerStatefulWidget {
   final TransactionNotifierParams params;
 
-  const TransactionScreen({required this.params, Key? key}) : super(key: key);
+  const TransactionScreen({required this.params, super.key});
 
   @override
   TransactionScreenState createState() {
