@@ -139,7 +139,7 @@ class IntroScreen extends HookConsumerWidget {
         title: 'introTitle6'.tr(),
         child: Icon(Icons.warning, color: Colors.white, size: 200),
       ),
-      if (fromSettings) ...[
+      if (!fromSettings) ...[
         IntroPage(
           textColor: Colors.white,
           backGroundColor: darkBackground,
