@@ -92,7 +92,7 @@ class MapBody extends ConsumerWidget {
       padding: enabled
           ? EdgeInsets.only(
               bottom: minHeight,
-              top: MediaQuery.of(context).padding.top,
+              top: MediaQuery.paddingOf(context).top,
             )
           : null,
       // key: PageStorageKey('map'),

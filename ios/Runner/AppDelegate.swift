@@ -5,7 +5,10 @@ import GoogleMaps
 import UIKit
 
 @main
-@objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate, CNContactViewControllerDelegate {
+@objc
+class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate,
+    CNContactViewControllerDelegate
+{
 
     override func application(
         _ application: UIApplication,
@@ -64,12 +67,12 @@ import UIKit
         _ engineBridge: FlutterImplicitEngineBridge
     ) {
         GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
-        
+
         let contactChannel = FlutterMethodChannel(
             name: "social.wom.pocket/contact",
             binaryMessenger: engineBridge.applicationRegistrar.messenger()
         )
-    
+
         contactChannel.setMethodCallHandler({
             [weak self] (call: FlutterMethodCall, result: FlutterResult) -> Void
             in
@@ -78,13 +81,15 @@ import UIKit
                 result(FlutterMethodNotImplemented)
                 return
             }
-            
+
             if let args = call.arguments as? [String: String?],
-               let phone = args["phone"] ?? "",
-               let name = args["name"] ?? "",
-               let email = args["email"] ?? "",
-               let url = args["url"] ?? ""
+                let name = args["name"] ?? ""
             {
+
+                let email = (args["email"] as? String) ?? ""
+                let phone = (args["phone"] as? String) ?? ""
+                let url = (args["url"] as? String) ?? ""
+
                 self?.creatNewContact(
                     result: result,
                     phone: phone,

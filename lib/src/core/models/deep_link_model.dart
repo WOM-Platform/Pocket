@@ -1,7 +1,9 @@
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wom_pocket/src/core/constants.dart';
+import 'package:wom_pocket/src/core/exceptions/deep_link_exceptions.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 
 final protocol = isDev ? 'wom-dev' : 'wom';
@@ -49,7 +51,7 @@ class DeepLinkModel extends Equatable {
                   : null;
               break;
             default:
-              throw Exception('Type of transaction is NOT valid');
+              throw InvalidTransactionTypeException(transactionType, uri: uri?.toString());
           }
 
           otc = pathSegments[1];
@@ -64,20 +66,25 @@ class DeepLinkModel extends Equatable {
           migrationPartialKey = uri!.pathSegments.length < 2
               ? null
               : uri!.pathSegments[1];
+        } else if (scheme != 'https' && scheme != protocol) {
+          throw InvalidSchemeException(scheme, uri: uri?.toString());
         } else {
-          throw Exception('Scheme: $scheme OR host: $host not valid');
+          throw InvalidHostException(host, uri: uri?.toString());
         }
 
         if (otc == null || otc!.isEmpty) {
-          throw Exception('OTC is null or empty');
+          throw MissingOtcException(uri: uri?.toString());
         }
         if (type == TransactionType.MIGRATION_IMPORT &&
             (migrationPartialKey == null || migrationPartialKey!.isEmpty)) {
-          throw Exception('migrationPartialKey is null or empty');
+          throw MissingMigrationKeyException(uri: uri?.toString());
         }
       } else {
-        throw Exception('URI is null');
+        throw InvalidUriException(uri: uri?.toString());
       }
+    } on PlatformException catch (ex, st) {
+      logger.e('DeepLink.fromUri - PlatformException', error: ex, stackTrace: st);
+      throw DeepLinkPlatformException(ex.message ?? 'Unknown platform error', uri: uri?.toString());
     } catch (ex, st) {
       logger.e('DeepLink.fromUri', error: ex, stackTrace: st);
       rethrow;

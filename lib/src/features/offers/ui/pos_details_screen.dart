@@ -347,7 +347,5 @@ class POSDetailsScreen extends ConsumerWidget {
 
   void goToExternalSite(BuildContext context, String url) {
     context.push('/offers/pos-details/external-info?url=$url');
-    // Navigator.of(context)
-    //     .push(MaterialPageRoute(builder: (_) => SuggestionScreen(url: url)));
   }
 }

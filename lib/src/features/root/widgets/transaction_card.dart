@@ -55,13 +55,6 @@ class TransactionCard extends ConsumerWidget {
         if (isValidPayment) {
           if (transaction.ackUrl != null) {
             context.push('/in-app-webview/${transaction.ackUrl}');
-            // Navigator.of(context).push(
-            //   MaterialPageRoute(
-            //     builder: (context) => InAppWebViewScreen(
-            //       url: transaction.ackUrl!,
-            //     ),
-            //   ),
-            // );
           }
         } else if (isValidMigration) {
           if (transaction.pin == null ||
@@ -79,14 +72,6 @@ class TransactionCard extends ConsumerWidget {
             ),
           );
 
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (_) => MigrationExportScreen(
-          //       backTo: false,
-          //       data: ,
-          //     ),
-          //   ),
-          // );
         } else if (isValidExchange) {
           final data = ExchangeReceiptData(
             link: transaction.link!,

@@ -30,16 +30,16 @@ class TransactionScreen extends ConsumerStatefulWidget {
 }
 
 class TransactionScreenState extends ConsumerState<TransactionScreen>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation _animation;
+  late Animation<double> _animation;
   @override
   void initState() {
     super.initState();
 
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
 
     _animation = Tween(begin: 0.0, end: 1.0).animate(
@@ -75,7 +75,7 @@ class TransactionScreenState extends ConsumerState<TransactionScreen>
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     final state = ref.watch(transactionProvider(widget.params));
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -329,7 +329,7 @@ class TransactionErrorWidget extends StatelessWidget {
           children: <Widget>[
             Icon(
               Icons.error,
-              size: MediaQuery.of(context).size.width / 3,
+              size: MediaQuery.sizeOf(context).width / 3,
               color: Colors.red,
             ),
             SizedBox(height: 16.0),

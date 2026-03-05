@@ -33,7 +33,7 @@ class LocationNotifier extends _$LocationNotifier {
 
         final currentPosition = await Geolocator.getCurrentPosition(
           locationSettings: LocationSettings(
-            timeLimit: Duration(seconds: 15),
+            timeLimit: const Duration(seconds: 15),
             accuracy: LocationAccuracy.medium,
           ),
         );
@@ -78,7 +78,7 @@ Future<Position> getPosition(Ref ref) async {
 
       final currentPosition = await Geolocator.getCurrentPosition(
         locationSettings: LocationSettings(
-          timeLimit: Duration(seconds: 30),
+          timeLimit: const Duration(seconds: 30),
           accuracy: LocationAccuracy.high,
         ),
       );

@@ -64,7 +64,7 @@ class CodePanel extends StatelessWidget {
     }
 
     return new SizedBox.fromSize(
-      size: new Size(MediaQuery.of(context).size.width, 30.0),
+      size: Size(MediaQuery.sizeOf(context).width, 30.0),
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

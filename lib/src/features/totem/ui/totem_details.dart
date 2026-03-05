@@ -16,6 +16,7 @@ import 'package:wom_pocket/src/core/models/deep_link_model.dart';
 import 'package:wom_pocket/src/core/my_logger.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/utils/date_utils.dart';
+import 'package:wom_pocket/src/core/utils/extensions/string_extensions.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 import 'package:wom_pocket/src/features/totem/ui/connections_screen.dart';
 import 'package:wom_pocket/src/features/transaction/application/transaction_notifier.dart';
@@ -126,36 +127,39 @@ class _TotemMapScreenState extends ConsumerState<TotemMapScreen> {
             icon: Icon(Icons.contact_page_sharp),
             color: Colors.white,
             onPressed: () async {
-              if (Platform.isAndroid) {
+              try {
                 final url = widget.url != null
                     ? checkIfUrlContainPrefixHttp(widget.url!)
                     : null;
-                final intent = AndroidIntent(
-                  action: 'android.intent.action.INSERT',
-                  type: 'vnd.android.cursor.dir/contact',
-                  // type: 'ContactsContract.Contacts.CONTENT_URI',
-                  // data: 'package:social.wom.pocket',
-                  arguments: {
-                    'name': widget.totemName,
-                    if (widget.phoneNumber != null) 'phone': widget.phoneNumber,
-                    if (widget.email != null) 'email': widget.email,
-                    if (url != null) 'URL': url,
-                    'finishActivityOnSaveCompleted': true,
-                  },
-                );
-                intent.launch();
-              } else if (Platform.isIOS) {
-                try {
-                  final result = await TotemMapScreen.platform
-                      .invokeMethod<int>('creatNewContact', {
-                        'email': widget.email,
-                        'name': widget.totemName,
+                if (Platform.isAndroid) {
+                  final intent = AndroidIntent(
+                    action: 'android.intent.action.INSERT',
+                    type: 'vnd.android.cursor.dir/contact',
+                    // type: 'ContactsContract.Contacts.CONTENT_URI',
+                    // data: 'package:social.wom.pocket',
+                    arguments: {
+                      'name': widget.totemName,
+                      if (widget.phoneNumber != null)
                         'phone': widget.phoneNumber,
-                        'url': widget.url,
+                      if (widget.email != null) 'email': widget.email,
+                      if (url != null) 'URL': url,
+                      'finishActivityOnSaveCompleted': true,
+                    },
+                  );
+                  intent.launch();
+                } else if (Platform.isIOS) {
+                  await TotemMapScreen.platform
+                      .invokeMethod<int>('creatNewContact', {
+                        'name': widget.totemName,
+                        'email': widget.email,
+                        'phone': widget.phoneNumber,
+                        'url': url,
                       });
-                } on PlatformException catch (e) {
-                  logger.e(e);
                 }
+              } on PlatformException catch (e) {
+                logger.e(e);
+              } catch (ex, st) {
+                logger.e('open native contact form', error: ex, stackTrace: st);
               }
             },
           ),
@@ -247,6 +251,8 @@ class _TotemMapScreenState extends ConsumerState<TotemMapScreen> {
                       '/totem/image-crop',
                       extra: originalImageBytes,
                     );
+
+                    if (!mounted) return;
 
                     if (imageBytes != null) {
                       try {
@@ -447,16 +453,6 @@ class _TotemMapScreenState extends ConsumerState<TotemMapScreen> {
       '/transaction',
       extra: TransactionNotifierParams(deepLink, widget.womPin!),
     );
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute<bool>(
-    //     builder: (context) => TransactionScreen(
-    //       params: TransactionNotifierParams(
-    //         deepLink,
-    //         widget.womPin!,
-    //       ),
-    //     ),
-    //   ),
     // );
   }
 }

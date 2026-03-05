@@ -54,6 +54,7 @@ class _AppShellState extends ConsumerState<AppShell> {
   _startScan(BuildContext context) async {
     try {
       final link = (await context.push('/scan')) as String?;
+      if (!context.mounted) return;
       logger.w('_startScan: $link');
       if (link == null) return;
       Sentry.addBreadcrumb(Breadcrumb(message: 'Link from ScanScreen: $link'));

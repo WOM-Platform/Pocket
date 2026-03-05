@@ -59,7 +59,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
               //   ),
               // ),
               Positioned(
-                top: MediaQuery.of(context).padding.top + 8,
+                top: MediaQuery.paddingOf(context).top + 8,
                 right: 16,
                 child: IconButton(
                   icon: CircleAvatar(
@@ -218,7 +218,7 @@ class ScanInfo extends ConsumerWidget {
                       ),
                       onPressed: () {
                         ref.read(scannerProvider.notifier).reset();
-                        Future.delayed(Duration(milliseconds: 250), () {
+                        Future.delayed(const Duration(milliseconds: 250), () {
                           onUpdate(false);
                         });
                       },

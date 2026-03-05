@@ -123,8 +123,8 @@ class _NewHomeState extends ConsumerState<NewHome> with WidgetsBindingObserver {
                   Center(
                     child: Image.asset(
                       'assets/images/empty_wom.png',
-                      width: MediaQuery.of(context).size.width - 48,
-                      height: MediaQuery.of(context).size.width - 48,
+                      width: MediaQuery.sizeOf(context).width - 48,
+                      height: MediaQuery.sizeOf(context).width - 48,
                       // cacheWidth: 200,
                       // cacheHeight: 200,
                     ),

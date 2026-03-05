@@ -401,12 +401,6 @@ class PageThree extends ConsumerWidget {
                           importState is ImportError ||
                           importState is JustImported) {
                         context.go('/');
-                        // Navigator.of(context).pushAndRemoveUntil(
-                        //   MaterialPageRoute(
-                        //     builder: (c) => GateWidget(),
-                        //   ),
-                        //   (route) => false,
-                        // );
                       } else if (importState is ImportSummary) {
                         Alert(
                           context: context,

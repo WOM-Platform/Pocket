@@ -69,8 +69,8 @@ class IntroScreen extends HookConsumerWidget {
         message: 'introDesc1'.tr(),
         title: 'introTitle1'.tr(),
         child: Container(
-          width: MediaQuery.of(context).size.width - 48,
-          height: MediaQuery.of(context).size.width - 48,
+          width: MediaQuery.sizeOf(context).width - 48,
+          height: MediaQuery.sizeOf(context).width - 48,
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
             backgroundColor: Colors.white,

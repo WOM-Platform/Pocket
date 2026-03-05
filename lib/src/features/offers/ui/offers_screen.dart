@@ -346,7 +346,7 @@ class CityCard extends StatelessWidget {
                 ),
               ),
             ),
-            Container(color: Colors.black.withOpacity(0.3)),
+            Container(color: Colors.black.withValues(alpha: 0.3)),
             Center(
               child: Text(
                 city.name,

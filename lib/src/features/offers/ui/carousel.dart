@@ -154,11 +154,6 @@ class CarouselItem extends StatelessWidget {
                       context.push(
                         '/offers/map/pos-details/external-info?url=${pos.url!}',
                       );
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (_) => SuggestionScreen(url: pos.url!),
-                      //   ),
-                      // );
                     },
                     child: Text(
                       pos.url!,

@@ -75,19 +75,6 @@ class MigrationExportScreen extends ConsumerWidget {
                     '/import',
                     extra: DeepLinkModel.fromUri(Uri.parse(data.link)),
                   );
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (c) => ProviderScope(
-                  //       overrides: [
-                  //         deeplinkProvider.overrideWithValue(
-                  //           DeepLinkModel.fromUri(Uri.parse(data.link)),
-                  //         ),
-                  //         importNotifierProvider,
-                  //       ],
-                  //       child: ImportScreen(),
-                  //     ),
-                  //   ),
-                  // );
                 }
               },
               child: ColoredBox(
@@ -134,12 +121,6 @@ class MigrationExportScreen extends ConsumerWidget {
           ? FloatingActionButton.extended(
               onPressed: () async {
                 context.go('/');
-                // Navigator.of(context).pushAndRemoveUntil(
-                //   MaterialPageRoute(
-                //     builder: (c) => GateWidget(),
-                //   ),
-                //   (route) => false,
-                // );
               },
               label: Text('backToHome'.tr()),
             )

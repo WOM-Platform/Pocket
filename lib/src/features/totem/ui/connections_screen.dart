@@ -9,6 +9,7 @@ import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
+import 'package:wom_pocket/src/core/utils/extensions/string_extensions.dart';
 import 'package:wom_pocket/src/core/utils/utils.dart';
 import 'package:wom_pocket/src/features/totem/application/totem_scans_notifier.dart';
 import 'package:wom_pocket/src/features/totem/ui/widgets/totem_tile.dart';
@@ -43,7 +44,6 @@ class SelectPictureModal extends StatelessWidget {
           InkWell(
             onTap: () {
               context.maybePop(false);
-              // Navigator.of(context).pop(false);
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(

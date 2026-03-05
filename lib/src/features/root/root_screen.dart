@@ -192,16 +192,6 @@ class _RootScreenState extends ConsumerState<RootScreen> {
           logEvent('wom_scan_done');
           if (deepLinkModel.type == TransactionType.MIGRATION_IMPORT) {
             context.go('/import', extra: deepLinkModel);
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute<bool>(
-            //     builder: (context) => ProviderScope(
-            //       overrides: [
-            //         deeplinkProvider.overrideWithValue(deepLinkModel),
-            //         importNotifierProvider,
-            //       ],
-            //       child: ImportScreen(),
-            //     ),
             //   ),
             // );
           } else {

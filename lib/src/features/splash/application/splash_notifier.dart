@@ -14,7 +14,7 @@ class SplashNotifier extends _$SplashNotifier {
 
   _init() async {
     final isFirstOpen = await Utils.readIsFirstOpen();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     if (isFirstOpen) {
       state = SplashStateLoaded(route: '/intro');
     } else {

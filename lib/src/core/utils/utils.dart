@@ -205,9 +205,3 @@ String? getChallengeIdFromLink(String link) {
   }
 }
 
-extension StringX on String? {
-  bool get isNullOrEmpty {
-    final tmp = this;
-    return tmp == null || tmp.isEmpty;
-  }
-}
