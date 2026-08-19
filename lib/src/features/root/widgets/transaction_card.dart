@@ -3,9 +3,9 @@ import 'package:collection/collection.dart';
 import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
 import 'package:wom_pocket/src/core/models/transaction_model.dart';
@@ -71,7 +71,6 @@ class TransactionCard extends ConsumerWidget {
               link: transaction.link!,
             ),
           );
-
         } else if (isValidExchange) {
           final data = ExchangeReceiptData(
             link: transaction.link!,
@@ -166,90 +165,6 @@ class TransactionCard extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  /*PopupMenuButton<CardAction>(
-                    // initialValue: selectedItem,
-                    icon: const Icon(Icons.more_vert),
-                    onSelected: (CardAction item) async {
-                      switch (item) {
-                        case CardAction.migration:
-                          if (transaction.pin == null ||
-                              transaction.importDeadline == null ||
-                              transaction.link == null) {
-                            return;
-                          }
-
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => MigrationExportScreen(
-                                backTo: false,
-                                data: MigrationData(
-                                  code: transaction.pin!,
-                                  importDeadline: transaction.importDeadline!,
-                                  link: transaction.link!,
-                                ),
-                              ),
-                            ),
-                          );
-                          break;
-                        case CardAction.payment:
-                          final uri = Uri.parse(transaction.ackUrl!);
-                          if (await canLaunchUrl(uri)) {
-                            launchUrl(uri);
-                          }
-                          break;
-                        case CardAction.exchange:
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => ExchangeReceiptScreen(
-                                data: (
-                                  transaction.link!,
-                                  transaction.pin!,
-                                  transaction.size
-                                ),
-                              ),
-                            ),
-                          );
-                          break;
-                        case CardAction.share:
-                          share(context, aim);
-                          break;
-                      }
-                    },
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<CardAction>>[
-                      if (isValidMigration)
-                        const PopupMenuItem<CardAction>(
-                          value: CardAction.migration,
-                          child: ListTile(
-                            leading: Icon(Icons.qr_code_2),
-                            title: Text('qr_code'.tr()),
-                          ),
-                        )
-                      else if (isValidPayment)
-                        const PopupMenuItem<CardAction>(
-                          value: CardAction.payment,
-                          child: ListTile(
-                            leading: Icon(Icons.web),
-                            title: Text('receipt'.tr()),
-                          ),
-                        )
-                      else if (isValidExchange)
-                        const PopupMenuItem<CardAction>(
-                          value: CardAction.exchange,
-                          child: ListTile(
-                            leading: Icon(Icons.receipt),
-                            title: Text('share'.tr()),
-                          ),
-                        ),
-                      const PopupMenuItem<CardAction>(
-                        value: CardAction.share,
-                        child: ListTile(
-                          leading: Icon(Icons.share),
-                          title: Text('share'.tr()),
-                        ),
-                      ),
-                    ],
-                  ),*/
                 ],
               ),
             ],

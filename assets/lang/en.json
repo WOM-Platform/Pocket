@@ -279,7 +279,7 @@
     }
   },
   "totem_scan_screen": {
-    "no_scan": "You haven't scanned any totems yet.",
+    "no_scan": "You haven't scanned any contacts yet.",
     "contact_info": "Contact info",
     "provider": "Provider",
     "event": "Event",
@@ -353,7 +353,7 @@
     "exchange_import_share_message": "I received {} WOM"
   },
   "send_migration_data": "WOM migration started. Open {} on the device you want to import your WOMs, using the following PIN: {}.",
-  "send_exchange_data": "Please accept these WOM vouchers as a token of my gratitude. Open {} to receive them, using the following PIN: {}.",
+  "send_exchange_data": "Please accept these {} WOM vouchers as a token of my gratitude. Open {} to receive them, using the following PIN: {}.",
   "db_title": "DB",
   "wom_database_title": "WOM DataBase",
   "qr_code": "QR Code",

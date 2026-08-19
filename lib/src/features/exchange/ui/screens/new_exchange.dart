@@ -125,7 +125,7 @@ class NewExchange extends HookConsumerWidget {
                       ),
                     ],
                   ).show();
-                  if (res ?? false) {
+                  if (context.mounted && (res ?? false)) {
                     context.push('/exchange/new/${wom.value}');
                   }
                 },

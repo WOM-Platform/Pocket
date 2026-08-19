@@ -1,16 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:wom_pocket/src/core/database/database.dart';
 import 'package:wom_pocket/src/core/routing/route_extensions.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
 import 'package:wom_pocket/src/core/utils/extensions/string_extensions.dart';
-import 'package:wom_pocket/src/core/utils/utils.dart';
 import 'package:wom_pocket/src/features/totem/application/totem_scans_notifier.dart';
 import 'package:wom_pocket/src/features/totem/ui/widgets/totem_tile.dart';
 
@@ -112,7 +111,6 @@ class TotemScansScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: PocketAppBar(
-        // title: 'connections'.tr(),
         actions: [
           IconButton(
             color: primaryColor,

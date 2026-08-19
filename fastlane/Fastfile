@@ -1,0 +1,182 @@
+# frozen_string_literal: true
+
+PROJECT_ROOT = File.expand_path('..', __dir__)
+
+FIREBASE_APP_IDS = {
+  android_dev: '1:938473995616:android:bc128abff73c587ab8f205',
+  android_prod: '1:938473995616:android:e71013969697bb3e',
+  ios_dev: '1:938473995616:ios:50962cc1dcb0b00fb8f205',
+  ios_prod: '1:938473995616:ios:e71013969697bb3e',
+}.freeze
+
+def app_id(env_key, fallback = nil)
+  value = ENV[env_key]
+  return value unless value.to_s.empty?
+  return fallback unless fallback.to_s.empty?
+
+  UI.user_error!("Missing Firebase app id. Set #{env_key}.")
+end
+
+def project_path(path)
+  File.expand_path(path, PROJECT_ROOT)
+end
+
+def artifact_path(env_key:, default_path:, fallback_glob: nil)
+  override = ENV[env_key]
+  if !override.to_s.empty?
+    path = project_path(override)
+    UI.user_error!("Artifact not found: #{path}") unless File.file?(path)
+    return path
+  end
+
+  path = project_path(default_path)
+  return path if File.file?(path)
+
+  unless fallback_glob.to_s.empty?
+    matches = Dir[project_path(fallback_glob)].select { |candidate| File.file?(candidate) }
+    return matches.first if matches.one?
+
+    if matches.size > 1
+      UI.user_error!(
+        "More than one artifact matches #{fallback_glob}. Set #{env_key} explicitly.",
+      )
+    end
+  end
+
+  UI.user_error!(
+    "Artifact not found: #{path}. Build it with Flutter first or set #{env_key}.",
+  )
+end
+
+def release_notes_options
+  notes_file = ENV['FIREBASE_RELEASE_NOTES_FILE']
+  return { release_notes_file: project_path(notes_file) } unless notes_file.to_s.empty?
+
+  notes = ENV['FIREBASE_RELEASE_NOTES']
+  return { release_notes: notes } unless notes.to_s.empty?
+
+  { release_notes: "Uploaded by Fastlane on #{Time.now.strftime('%Y-%m-%d %H:%M')}" }
+end
+
+def tester_options
+  options = {}
+  options[:groups] = ENV['FIREBASE_GROUPS'] unless ENV['FIREBASE_GROUPS'].to_s.empty?
+  options[:groups_file] = project_path(ENV['FIREBASE_GROUPS_FILE']) unless ENV['FIREBASE_GROUPS_FILE'].to_s.empty?
+  options[:testers] = ENV['FIREBASE_TESTERS'] unless ENV['FIREBASE_TESTERS'].to_s.empty?
+  options[:testers_file] = project_path(ENV['FIREBASE_TESTERS_FILE']) unless ENV['FIREBASE_TESTERS_FILE'].to_s.empty?
+  options
+end
+
+def firebase_auth_options
+  options = {}
+  credentials_file = ENV['GOOGLE_APPLICATION_CREDENTIALS']
+  options[:service_credentials_file] = project_path(credentials_file) unless credentials_file.to_s.empty?
+  options[:firebase_cli_token] = ENV['FIREBASE_TOKEN'] unless ENV['FIREBASE_TOKEN'].to_s.empty?
+  options
+end
+
+def firebase_debug?
+  %w[1 true yes].include?(ENV['FIREBASE_DEBUG'].to_s.downcase)
+end
+
+def firebase_base_options(app_id_value)
+  {
+    app: app_id_value,
+    debug: firebase_debug?,
+  }
+    .merge(release_notes_options)
+    .merge(tester_options)
+    .merge(firebase_auth_options)
+end
+
+def log_upload_options(options)
+  UI.message("Firebase app id: #{options[:app]}")
+  UI.message("Firebase debug: #{options[:debug]}")
+  UI.message("Firebase groups: #{options[:groups]}") if options[:groups]
+  UI.message("Firebase groups file: #{options[:groups_file]}") if options[:groups_file]
+  UI.message("Firebase testers: #{options[:testers]}") if options[:testers]
+  UI.message("Firebase testers file: #{options[:testers_file]}") if options[:testers_file]
+  UI.message("Firebase release notes file: #{options[:release_notes_file]}") if options[:release_notes_file]
+end
+
+def upload_android(app_id_value:, artifact_type:, artifact_file:)
+  options = firebase_base_options(app_id_value).merge(
+    android_artifact_type: artifact_type,
+    android_artifact_path: artifact_file,
+  )
+
+  UI.message("Android artifact type: #{artifact_type}")
+  UI.message("Android artifact path: #{artifact_file}")
+  log_upload_options(options)
+  firebase_app_distribution(options)
+end
+
+def upload_ios(app_id_value:, artifact_file:)
+  options = firebase_base_options(app_id_value).merge(
+    ipa_path: artifact_file,
+  )
+
+  UI.message("iOS artifact path: #{artifact_file}")
+  log_upload_options(options)
+  firebase_app_distribution(options)
+end
+
+desc 'Upload the Flutter-built Android development APK to Firebase App Distribution'
+lane :firebase_android_dev do
+  upload_android(
+    app_id_value: app_id('FIREBASE_ANDROID_DEV_APP_ID', FIREBASE_APP_IDS[:android_dev]),
+    artifact_type: 'APK',
+    artifact_file: artifact_path(
+      env_key: 'FIREBASE_ANDROID_DEV_APK_PATH',
+      default_path: 'build/app/outputs/flutter-apk/app-development-release.apk',
+    ),
+  )
+end
+
+desc 'Upload the Flutter-built Android production APK to Firebase App Distribution'
+lane :firebase_android_prod_apk do
+  upload_android(
+    app_id_value: app_id('FIREBASE_ANDROID_PROD_APP_ID', FIREBASE_APP_IDS[:android_prod]),
+    artifact_type: 'APK',
+    artifact_file: artifact_path(
+      env_key: 'FIREBASE_ANDROID_PROD_APK_PATH',
+      default_path: 'build/app/outputs/flutter-apk/app-production-release.apk',
+    ),
+  )
+end
+
+desc 'Upload the Flutter-built Android production AAB to Firebase App Distribution'
+lane :firebase_android_prod_aab do
+  upload_android(
+    app_id_value: app_id('FIREBASE_ANDROID_PROD_APP_ID', FIREBASE_APP_IDS[:android_prod]),
+    artifact_type: 'AAB',
+    artifact_file: artifact_path(
+      env_key: 'FIREBASE_ANDROID_PROD_AAB_PATH',
+      default_path: 'build/app/outputs/bundle/productionRelease/app-production-release.aab',
+    ),
+  )
+end
+
+desc 'Upload the Flutter-built iOS production IPA to Firebase App Distribution'
+lane :firebase_ios_prod do
+  upload_ios(
+    app_id_value: app_id('FIREBASE_IOS_PROD_APP_ID', FIREBASE_APP_IDS[:ios_prod]),
+    artifact_file: artifact_path(
+      env_key: 'FIREBASE_IOS_PROD_IPA_PATH',
+      default_path: 'build/ios/ipa/pocket.ipa',
+      fallback_glob: 'build/ios/ipa/*.ipa',
+    ),
+  )
+end
+
+desc 'Upload the Flutter-built iOS development IPA to Firebase App Distribution'
+lane :firebase_ios_dev do
+  upload_ios(
+    app_id_value: app_id('FIREBASE_IOS_DEV_APP_ID', FIREBASE_APP_IDS[:ios_dev]),
+    artifact_file: artifact_path(
+      env_key: 'FIREBASE_IOS_DEV_IPA_PATH',
+      default_path: 'build/ios/ipa/pocket.ipa',
+      fallback_glob: 'build/ios/ipa/*.ipa',
+    ),
+  )
+end

@@ -279,7 +279,7 @@
     }
   },
   "totem_scan_screen": {
-    "no_scan": "Non hai scansionato ancora nessun Totem!",
+    "no_scan": "Non hai scansionato ancora nessun contatto.",
     "contact_info": "Info di contatto",
     "provider": "Organizzatore",
     "event": "Evento",
@@ -353,7 +353,7 @@
     "exchange_import_share_message": "Ho ricevuto {} WOM"
   },
   "send_migration_data": "Migrazione dei WOM in corso. Apri {} dal dispositivo su cui vuoi importarli, usando il PIN: {}.",
-  "send_exchange_data": "Questi voucher WOM esprimono la mia gratitudine. Apri {} per riceverli, usando il PIN: {}.",
+  "send_exchange_data": "Questi {} WOM esprimono la mia gratitudine. Apri {} per riceverli, usando il PIN: {}.",
   "db_title": "DB",
   "wom_database_title": "WOM DataBase",
   "qr_code": "QR Code",

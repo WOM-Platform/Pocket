@@ -1,6 +1,7 @@
 # Miscellaneous
 *.class
 *.lock
+!Gemfile.lock
 *.log
 *.pyc
 *.swp
@@ -85,3 +86,13 @@ build/
 **/pocket-keystore.jks
 
 .fvm/
+
+# Fastlane / Firebase App Distribution
+fastlane/report.xml
+fastlane/screenshots/
+fastlane/test_output/
+fastlane/.env
+fastlane/.env.*
+!fastlane/.env.example
+firebase-service-account*.json
+vendor/bundle/

@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_ce_flutter/adapters.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wom_pocket/src/core/application/aim_notifier.dart';
@@ -54,7 +54,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               title: 'Visita WOM DB',
               subtitle: '',
               icon: Icons.data_usage,
-  
+
               onTap: () async {
                 final woms = await ref
                     .read(getDatabaseProvider)
@@ -62,7 +62,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     .getAllWoms;
                 if (!context.mounted) return;
                 context.push('/settings/wom-db-table', extra: woms);
-
               },
             ),
           SettingsItem(
@@ -199,7 +198,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 onTap: () async {
                   if (!context.mounted) return;
                   context.push('/settings/logs');
-
                 },
               ),
             ],

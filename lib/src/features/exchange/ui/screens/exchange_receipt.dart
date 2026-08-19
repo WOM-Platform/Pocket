@@ -19,6 +19,17 @@ class NewExchangeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(newExchangeProvider(womCount));
 
+    if (state case final NewExchangeStateData state) {
+      return ExchangeReceiptScreen(
+        data: ExchangeReceiptData(
+          link: state.link,
+          pin: state.pin,
+          womCount: state.womCount,
+          fromHome: false,
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -136,7 +147,7 @@ class ExchangeReceiptScreen extends ConsumerWidget {
             onPressed: () {
               final message = tr(
                 'send_exchange_data',
-                args: [data.link, data.pin],
+                args: [data.womCount.toString(), data.link, data.pin],
               );
               SharePlus.instance.share(ShareParams(text: message));
             },

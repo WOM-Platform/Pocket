@@ -164,9 +164,7 @@ class _TotemMapScreenState extends ConsumerState<TotemMapScreen> {
             },
           ),
           GestureDetector(
-            onTap: () {
-              getWom();
-            },
+            onTap: getWom,
             child: SvgPicture.asset(
               'assets/images/wom-icon-brand.svg',
               width: 40,
@@ -175,39 +173,6 @@ class _TotemMapScreenState extends ConsumerState<TotemMapScreen> {
           ),
           const SizedBox(width: 16),
         ],
-        // actions: [
-        //   if (widget.email != null)
-        //     IconButton(
-        //         icon: Icon(Icons.email),
-        //         color: Colors.white,
-        //         onPressed: () async {
-        //           final Uri emailLaunchUri = Uri(
-        //             scheme: 'mailto',
-        //             path: widget.email!,
-        //           );
-        //           Utils.launchUri(emailLaunchUri);
-        //         }),
-        //   if (widget.phoneNumber != null)
-        //     IconButton(
-        //       icon: Icon(Icons.contact_page),
-        //       color: Colors.white,
-        //       onPressed: () async {
-        //         final Uri emailLaunchUri = Uri(
-        //           scheme: 'tel',
-        //           path: widget.phoneNumber!,
-        //         );
-        //
-        //         Utils.launchUri(emailLaunchUri);
-        //       },
-        //     ),
-        //   if (widget.url != null)
-        //     IconButton(
-        //         icon: Icon(Icons.open_in_browser),
-        //         color: Colors.white,
-        //         onPressed: () async {
-        //           Utils.launchURL(widget.url!);
-        //         }),
-        // ],
       ),
       body: ListView(
         padding: EdgeInsets.all(16),
@@ -447,13 +412,16 @@ class _TotemMapScreenState extends ConsumerState<TotemMapScreen> {
     );
   }
 
-  getWom() {
-    final deepLink = DeepLinkModel.fromUri(Uri.parse(widget.womLink!));
-    context.push(
-      '/transaction',
-      extra: TransactionNotifierParams(deepLink, widget.womPin!),
-    );
-    // );
+  void getWom() {
+    try {
+      final deepLink = DeepLinkModel.fromUri(Uri.parse(widget.womLink!));
+      context.push(
+        '/transaction',
+        extra: TransactionNotifierParams(deepLink, widget.womPin!),
+      );
+    } catch (ex, st) {
+      logger.e('getWom from connection details', error: ex, stackTrace: st);
+    }
   }
 }
 

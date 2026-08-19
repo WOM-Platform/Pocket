@@ -120,19 +120,27 @@ class _ConfigurableCropState extends State<ConfigurableCrop> {
           title: Text('crop'.tr(), style: TextStyle(color: Colors.black87)),
           actions: [
             if (_croppedData != null)
-              IconButton(
-                icon: Icon(Icons.restart_alt),
-                onPressed: () {
-                  croppedData = null;
-                },
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: IconButton(
+                  icon: Icon(Icons.restart_alt),
+                  onPressed: () {
+                    croppedData = null;
+                  },
+                ),
               )
             else
-              MyButton(
-                onPressed: () {
-                  isProcessing = true;
-                  crop(_editorController);
-                },
-                child: Text('crop'.tr()),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Center(
+                  child: MyButton(
+                    onPressed: () {
+                      isProcessing = true;
+                      crop(_editorController);
+                    },
+                    child: Text('crop'.tr()),
+                  ),
+                ),
               ),
           ],
           iconTheme: IconThemeData(color: Colors.black87),

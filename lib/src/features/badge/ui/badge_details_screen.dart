@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexagon/hexagon.dart';
+import 'package:wom_pocket/src/core/constants.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_appbar.dart';
 import 'package:wom_pocket/src/core/ui/widgets/my_button.dart';
 import 'package:wom_pocket/src/core/utils/colors.dart';
@@ -38,8 +39,8 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dateFormat = DateFormat('dd-MM-yyyy');
     final languageCode = context.locale.languageCode;
+    final achievedAt = widget.badge.achievedAt;
     return Scaffold(
       appBar: SecondLevelAppBar(
         title: widget.badge.name[languageCode] ?? 'Badge',
@@ -87,12 +88,14 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [
-          if (widget.badge.lastUpdate != null)
+          if (widget.badge.lastUpdate != null && isDev)
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'last_update'.tr(args: [dateFormat.format(widget.badge.lastUpdate!)]),
+                  'last_update'.tr(
+                    args: [formatDate(widget.badge.lastUpdate!, languageCode)],
+                  ),
                 ),
               ],
             ),
@@ -105,10 +108,16 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
             type: HexagonType.FLAT,
             child: BadgeTile(badge: widget.badge),
           ),
-          if (widget.badge.createdAt != null)
-            Text('creation_year'.tr(args: [widget.badge.createdAt!.year.toString()])),
+          if (widget.badge.createdAt != null && isDev)
+            Text(
+              'creation_year'.tr(
+                args: [widget.badge.createdAt!.year.toString()],
+              ),
+            ),
           if (hasBadgeArchived && archivedAt != null)
-            Text('archived_date'.tr(args: [dateFormat.format(archivedAt!)])),
+            Text(
+              'archived_date'.tr(args: [formatDate(archivedAt!, languageCode)]),
+            ),
           if (widget.badge.description != null) ...[
             const SizedBox(height: 16),
             Text(
@@ -132,12 +141,33 @@ class _BadgeDetailsScreenState extends ConsumerState<BadgeDetailsScreen> {
               ],
             ),
           ],
-          if (widget.badge.achieved && widget.badge.achievedAt != null) ...[
+          if (widget.badge.achieved && achievedAt != null) ...[
             const SizedBox(height: 16),
-            Text('badge_verified_date'.tr(args: [widget.badge.achievedAt.toString()])),
+            Text(
+              'badge_verified_date'.tr(
+                args: [formatDate(achievedAt, languageCode)],
+              ),
+            ),
           ],
         ],
       ),
     );
   }
+}
+
+String formatDate(DateTime date, String locale) {
+  final c = locale.startsWith('it') ? 'alle' : 'at';
+
+  final pattern = "d MMMM yyyy '$c' HH:mm";
+
+  String formattedDate = DateFormat(pattern, locale).format(date);
+
+  if (locale.startsWith('it')) {
+    formattedDate = formattedDate.replaceFirstMapped(
+      RegExp(r'\b[a-z]'),
+      (match) => match.group(0)!.toUpperCase(),
+    );
+  }
+
+  return formattedDate;
 }
