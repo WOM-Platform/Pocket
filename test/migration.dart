@@ -1,8 +1,8 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:logger/logger.dart';
-import 'package:wom_pocket/src/database/database.dart';
-import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
 
 main() {
   late MyDatabase db;

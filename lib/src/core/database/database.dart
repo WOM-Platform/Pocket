@@ -76,6 +76,7 @@ class MyDatabase extends _$MyDatabase {
             'db beforeOpen ${details.versionBefore} => ${details.versionNow}';
         logger.i(message);
         Sentry.addBreadcrumb(Breadcrumb(message: message));
+        await _repairLegacyWomRows();
         if (kDebugMode) {
           // This check pulls in a fair amount of code that's not needed
           // anywhere else, so we recommend only doing it in debug builds.
@@ -85,6 +86,43 @@ class MyDatabase extends _$MyDatabase {
         return Future.value();
       },
     );
+  }
+
+  Future<void> _repairLegacyWomRows() async {
+    final deletedRows = await customUpdate(
+      'DELETE FROM ${wom.actualTableName} '
+      'WHERE ${wom.id.name} IS NULL OR ${wom.secret.name} IS NULL',
+      updates: {wom},
+    );
+    final normalizedRows = await customUpdate(
+      'UPDATE ${wom.actualTableName} SET '
+      "${wom.sourceName.name} = COALESCE(${wom.sourceName.name}, ''), "
+      "${wom.geohash.name} = COALESCE(${wom.geohash.name}, ''), "
+      "${wom.aim.name} = COALESCE(${wom.aim.name}, '0'), "
+      "${wom.sourceId.name} = COALESCE(${wom.sourceId.name}, ''), "
+      '${wom.transactionId.name} = COALESCE(${wom.transactionId.name}, 0), '
+      '${wom.addedOn.name} = COALESCE(${wom.addedOn.name}, 0), '
+      '${wom.spent.name} = COALESCE(${wom.spent.name}, 1), '
+      '${wom.latitude.name} = COALESCE(${wom.latitude.name}, 0.0), '
+      '${wom.longitude.name} = COALESCE(${wom.longitude.name}, 0.0) '
+      'WHERE ${wom.sourceName.name} IS NULL '
+      'OR ${wom.geohash.name} IS NULL '
+      'OR ${wom.aim.name} IS NULL '
+      'OR ${wom.sourceId.name} IS NULL '
+      'OR ${wom.transactionId.name} IS NULL '
+      'OR ${wom.addedOn.name} IS NULL '
+      'OR ${wom.spent.name} IS NULL '
+      'OR ${wom.latitude.name} IS NULL '
+      'OR ${wom.longitude.name} IS NULL',
+      updates: {wom},
+    );
+
+    if (deletedRows > 0 || normalizedRows > 0) {
+      final message =
+          'Repaired legacy WOM rows: deleted=$deletedRows, normalized=$normalizedRows';
+      logger.w(message);
+      Sentry.addBreadcrumb(Breadcrumb(message: message));
+    }
   }
 }
 

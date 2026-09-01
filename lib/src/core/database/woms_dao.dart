@@ -77,12 +77,14 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     bool enabledRandom = false,
     bool orderByDate = false,
   }) async {
-    var whereClause = OptionalQuery(
-      filters: simpleFilter,
-      womStatus: WomStatus.ON,
-      enabledRandom: enabledRandom,
-    ).build();
-    final customQuery = 'SELECT * '
+    var whereClause = _withPayableVoucherClause(
+      OptionalQuery(
+        filters: simpleFilter,
+        womStatus: WomStatus.ON,
+        enabledRandom: enabledRandom,
+      ).build(),
+    );
+    final customQuery = 'SELECT $_voucherSelectColumns '
         'FROM ${WomModel.tblWom} $whereClause;';
 
     final list = (await customSelect(
@@ -112,17 +114,16 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
 
   Future<bool> verifyBadge(BadgeSimpleFilter filter) async {
     var whereClause = BadgeQuery(filter: filter).build();
-    final customQuery = 'SELECT * '
+    final customQuery = 'SELECT COUNT(*) AS matching_woms '
         'FROM ${WomModel.tblWom} $whereClause;';
 
-    final vouchers = (await customSelect(
+    final matchingWoms = await customSelect(
       customQuery,
       readsFrom: {wom},
-    ).get())
-        .map((row) {
-      return wom.map(row.data);
-    }).toList();
-    return vouchers.length >= filter.count;
+    ).map((row) {
+      return row.read<int>('matching_woms');
+    }).getSingle();
+    return matchingWoms >= filter.count;
   }
 
   Future<List<WomGroupBy>> getWomGroupedByAim() async {
@@ -218,4 +219,39 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   Future deleteTable() async {
     await delete(wom).go();
   }
+}
+
+final _voucherSelectColumns = [
+  WomModel.dbId,
+  "COALESCE(${WomModel.dbSourceName}, '') AS ${WomModel.dbSourceName}",
+  WomModel.dbSecret,
+  "COALESCE(${WomModel.dbGeohash}, '') AS ${WomModel.dbGeohash}",
+  "COALESCE(${WomModel.dbAim}, '0') AS ${WomModel.dbAim}",
+  "COALESCE(${WomModel.dbSourceId}, '') AS ${WomModel.dbSourceId}",
+  'COALESCE(${WomModel.dbTransactionId}, 0) AS ${WomModel.dbTransactionId}',
+  'COALESCE(${WomModel.dbAddedOn}, 0) AS ${WomModel.dbAddedOn}',
+  'spentOn',
+  'COALESCE(spent, ${WomStatus.OFF.index}) AS spent',
+  'COALESCE(${WomModel.dbLat}, 0.0) AS ${WomModel.dbLat}',
+  'COALESCE(${WomModel.dbLong}, 0.0) AS ${WomModel.dbLong}',
+  'donation_id',
+].join(', ');
+
+String _withPayableVoucherClause(String whereClause) {
+  const orderByToken = ' ORDER BY ';
+  final orderByIndex = whereClause.indexOf(orderByToken);
+  final filterClause = orderByIndex == -1
+      ? whereClause
+      : whereClause.substring(0, orderByIndex);
+  final orderByClause = orderByIndex == -1
+      ? ''
+      : whereClause.substring(orderByIndex);
+  final payableClause =
+      '${WomModel.tblWom}.${WomModel.dbId} IS NOT NULL '
+      'AND ${WomModel.tblWom}.${WomModel.dbSecret} IS NOT NULL';
+
+  if (filterClause.isEmpty) {
+    return 'WHERE $payableClause$orderByClause';
+  }
+  return '$filterClause AND $payableClause$orderByClause';
 }

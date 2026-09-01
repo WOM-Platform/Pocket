@@ -2,11 +2,13 @@ import 'package:dart_wom_connector/dart_wom_connector.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:logger/logger.dart';
-import 'package:wom_pocket/src/database/database.dart';
-import 'package:wom_pocket/src/my_logger.dart';
+import 'package:wom_pocket/src/core/database/database.dart';
+import 'package:wom_pocket/src/core/my_logger.dart';
+import 'package:wom_pocket/src/features/badge/data/badge.dart';
 
 void main() async {
   late MyDatabase db;
+  var dbClosed = false;
 
   setUp(() async {
     logger = Logger(
@@ -19,6 +21,7 @@ void main() async {
     );
 
     db = MyDatabase.query(NativeDatabase.memory());
+    dbClosed = false;
 
     final thirtyDaysAgo =
         DateTime.now().subtract(Duration(days: 30)).millisecondsSinceEpoch;
@@ -61,13 +64,15 @@ void main() async {
   });
 
   tearDown(() async {
-    await db.close();
+    if (!dbClosed) {
+      await db.close();
+    }
   });
 
   group('query', () {
     test('schemeVersion', () async {
       final schemeVersion = db.schemaVersion;
-      expect(schemeVersion, 5);
+      expect(schemeVersion, 13);
     });
 
     test('wom count', () async {
@@ -89,6 +94,105 @@ void main() async {
       final woms = await db.womsDao.getVouchersForPayment(simpleFilter: filter);
 
       expect(woms.length, 0);
+    });
+
+    test('badge verification uses matching wom count', () async {
+      final filter = BadgeSimpleFilter(count: 27, aim: 'P');
+
+      final achieved = await db.womsDao.verifyBadge(filter);
+
+      expect(achieved, isTrue);
+    });
+
+    test('payment vouchers tolerate legacy nullable source metadata', () async {
+      await db.close();
+      dbClosed = true;
+
+      final legacyDb = MyDatabase.query(
+        NativeDatabase.memory(
+          setup: (rawDb) {
+            rawDb.execute('''
+              CREATE TABLE wom (
+                Id TEXT UNIQUE,
+                SourceName TEXT,
+                Secret TEXT,
+                geohash TEXT,
+                Aim TEXT,
+                SourceId TEXT,
+                TransactionId INTEGER,
+                addedOn INTEGER,
+                spentOn INTEGER,
+                spent INTEGER,
+                Latitude REAL,
+                Longitude REAL,
+                donation_id TEXT
+              );
+            ''');
+            rawDb.execute('''
+              INSERT INTO wom (
+                Id,
+                SourceName,
+                Secret,
+                geohash,
+                Aim,
+                SourceId,
+                TransactionId,
+                addedOn,
+                spent,
+                Latitude,
+                Longitude
+              ) VALUES (
+                'legacy-valid',
+                'sourceName',
+                'secret',
+                'abcde',
+                'P',
+                NULL,
+                1,
+                1000,
+                0,
+                0.0,
+                0.0
+              );
+            ''');
+            rawDb.execute('''
+              INSERT INTO wom (
+                Id,
+                SourceName,
+                Secret,
+                geohash,
+                Aim,
+                SourceId,
+                TransactionId,
+                addedOn,
+                spent,
+                Latitude,
+                Longitude
+              ) VALUES (
+                'legacy-invalid',
+                'sourceName',
+                NULL,
+                'abcde',
+                'P',
+                'sourceId',
+                2,
+                1000,
+                0,
+                0.0,
+                0.0
+              );
+            ''');
+            rawDb.execute('PRAGMA user_version = 13');
+          },
+        ),
+      );
+      addTearDown(legacyDb.close);
+
+      final vouchers = await legacyDb.womsDao.getVouchersForPayment();
+
+      expect(vouchers, hasLength(1));
+      expect(vouchers.single.id, 'legacy-valid');
+      expect(vouchers.single.sourceId, '');
     });
   });
 }
