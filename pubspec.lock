@@ -412,9 +412,11 @@ packages:
   dart_wom_connector:
     dependency: "direct main"
     description:
-      path: "/Users/gianmarcodifrancesco/Work/Digit/Dart/dart_wom_connector"
-      relative: false
-    source: path
+      path: "."
+      ref: "0.3.0"
+      resolved-ref: c10f84fd1fc7fdeade5a14d08379ed85581aa726
+      url: "git@github.com:WOM-Platform/Dart-Connector.git"
+    source: git
     version: "0.2.1"
   dbus:
     dependency: transitive
