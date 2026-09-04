@@ -47,8 +47,9 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   }
 
   Future<int> getWomCountWithoutLocation() async {
-    var countExp =
-        wom.id.count(filter: wom.latitude.equals(0) & wom.longitude.equals(0));
+    var countExp = wom.id.count(
+      filter: wom.latitude.equals(0) & wom.longitude.equals(0),
+    );
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
     return result ?? 0;
@@ -77,21 +78,18 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
     bool enabledRandom = false,
     bool orderByDate = false,
   }) async {
-    var whereClause = _withPayableVoucherClause(
-      OptionalQuery(
-        filters: simpleFilter,
-        womStatus: WomStatus.ON,
-        enabledRandom: enabledRandom,
-      ).build(),
-    );
-    final customQuery = 'SELECT $_voucherSelectColumns '
+    var whereClause = OptionalQuery(
+      filters: simpleFilter,
+      womStatus: WomStatus.ON,
+      enabledRandom: enabledRandom,
+    ).build();
+    final customQuery =
+        'SELECT * '
         'FROM ${WomModel.tblWom} $whereClause;';
 
-    final list = (await customSelect(
-      customQuery,
-      readsFrom: {wom},
-    ).get())
-        .map((row) {
+    final list = (await customSelect(customQuery, readsFrom: {wom}).get()).map((
+      row,
+    ) {
       return wom.map(row.data);
     }).toList();
     return list;
@@ -100,27 +98,22 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   Future<List<WomRow>> getVouchersForPayment({
     SimpleFilter? simpleFilter,
   }) async {
-    return _getVouchersToPay(
-      simpleFilter: simpleFilter,
-      enabledRandom: true,
-    );
+    return _getVouchersToPay(simpleFilter: simpleFilter, enabledRandom: true);
   }
 
   Future<List<WomRow>> getVouchersForExchange() async {
-    return _getVouchersToPay(
-      orderByDate: true,
-    );
+    return _getVouchersToPay(orderByDate: true);
   }
 
   Future<bool> verifyBadge(BadgeSimpleFilter filter) async {
     var whereClause = BadgeQuery(filter: filter).build();
-    final customQuery = 'SELECT COUNT(*) AS matching_woms '
+    final customQuery =
+        'SELECT COUNT(*) AS matching_woms '
         'FROM ${WomModel.tblWom} $whereClause;';
 
-    final matchingWoms = await customSelect(
-      customQuery,
-      readsFrom: {wom},
-    ).map((row) {
+    final matchingWoms = await customSelect(customQuery, readsFrom: {wom}).map((
+      row,
+    ) {
       return row.read<int>('matching_woms');
     }).getSingle();
     return matchingWoms >= filter.count;
@@ -137,20 +130,12 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
         'AND w.${WomModel.dbLong} != 0 '
         'GROUP BY ${WomModel.dbAim};';
     logger.i('[WomDb]: $customQuery');
-    /* var result = await db.rawQuery(query);
-    final list = result.map((m) {
-      return WomGroupBy(m['aim'] as String?, m['woms'] as int?,
-          titles: json.decode(m['titles'] as String));
-    }).toList();
-    return list;*/
 
-    final list = (await customSelect(
-      customQuery,
-      readsFrom: {wom, aims},
-    ).get())
+    final list = (await customSelect(customQuery, readsFrom: {wom, aims}).get())
         .map((row) {
-      return WomGroupBy.fromAimMap(row.data);
-    }).toList();
+          return WomGroupBy.fromAimMap(row.data);
+        })
+        .toList();
     return list;
   }
 
@@ -165,11 +150,9 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
         'AND ${WomModel.tblWom}.${WomModel.dbLong} != 0 '
         'GROUP BY ${WomModel.dbSourceName};';
     logger.i('[WomDb]: $customQuery');
-    final list = (await customSelect(
-      customQuery,
-      readsFrom: {wom},
-    ).get())
-        .map((row) {
+    final list = (await customSelect(customQuery, readsFrom: {wom}).get()).map((
+      row,
+    ) {
       return WomGroupBy.fromSourceMap(row.data);
     }).toList();
     return list;
@@ -183,10 +166,7 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
         'GROUP BY Aim '
         'ORDER BY percentage DESC;';
     logger.i('[WomDb]: $customQuery');
-    final rowList = await customSelect(
-      customQuery,
-      readsFrom: {wom},
-    ).get();
+    final rowList = await customSelect(customQuery, readsFrom: {wom}).get();
     final list = rowList.map((row) {
       logger.i(row);
       return AimInPercentage.fromJson(row.data);
@@ -196,10 +176,12 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
 
   Future<int> getWomCountEarnedLastWeek() async {
     logger.i('[WomDb] getWomEarnedLastWeek');
-    final oneWeekAgo =
-        DateTime.now().subtract(Duration(days: 7)).millisecondsSinceEpoch;
-    var countExp =
-        wom.id.count(filter: wom.addedOn.isBiggerThanValue(oneWeekAgo));
+    final oneWeekAgo = DateTime.now()
+        .subtract(Duration(days: 7))
+        .millisecondsSinceEpoch;
+    var countExp = wom.id.count(
+      filter: wom.addedOn.isBiggerThanValue(oneWeekAgo),
+    );
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
     return result ?? 0;
@@ -207,10 +189,12 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
 
   Future<int> getWomCountSpentLastWeek() async {
     logger.i('[WomDb] getWomEarnedLastWeek');
-    final oneWeekAgo =
-        DateTime.now().subtract(Duration(days: 7)).millisecondsSinceEpoch;
-    var countExp =
-        wom.id.count(filter: wom.spentOn.isBiggerThanValue(oneWeekAgo));
+    final oneWeekAgo = DateTime.now()
+        .subtract(Duration(days: 7))
+        .millisecondsSinceEpoch;
+    var countExp = wom.id.count(
+      filter: wom.spentOn.isBiggerThanValue(oneWeekAgo),
+    );
     final query = selectOnly(wom)..addColumns([countExp]);
     var result = await query.map((row) => row.read(countExp)).getSingle();
     return result ?? 0;
@@ -219,39 +203,4 @@ class WomsDao extends DatabaseAccessor<MyDatabase> with _$WomsDaoMixin {
   Future deleteTable() async {
     await delete(wom).go();
   }
-}
-
-final _voucherSelectColumns = [
-  WomModel.dbId,
-  "COALESCE(${WomModel.dbSourceName}, '') AS ${WomModel.dbSourceName}",
-  WomModel.dbSecret,
-  "COALESCE(${WomModel.dbGeohash}, '') AS ${WomModel.dbGeohash}",
-  "COALESCE(${WomModel.dbAim}, '0') AS ${WomModel.dbAim}",
-  "COALESCE(${WomModel.dbSourceId}, '') AS ${WomModel.dbSourceId}",
-  'COALESCE(${WomModel.dbTransactionId}, 0) AS ${WomModel.dbTransactionId}',
-  'COALESCE(${WomModel.dbAddedOn}, 0) AS ${WomModel.dbAddedOn}',
-  'spentOn',
-  'COALESCE(spent, ${WomStatus.OFF.index}) AS spent',
-  'COALESCE(${WomModel.dbLat}, 0.0) AS ${WomModel.dbLat}',
-  'COALESCE(${WomModel.dbLong}, 0.0) AS ${WomModel.dbLong}',
-  'donation_id',
-].join(', ');
-
-String _withPayableVoucherClause(String whereClause) {
-  const orderByToken = ' ORDER BY ';
-  final orderByIndex = whereClause.indexOf(orderByToken);
-  final filterClause = orderByIndex == -1
-      ? whereClause
-      : whereClause.substring(0, orderByIndex);
-  final orderByClause = orderByIndex == -1
-      ? ''
-      : whereClause.substring(orderByIndex);
-  final payableClause =
-      '${WomModel.tblWom}.${WomModel.dbId} IS NOT NULL '
-      'AND ${WomModel.tblWom}.${WomModel.dbSecret} IS NOT NULL';
-
-  if (filterClause.isEmpty) {
-    return 'WHERE $payableClause$orderByClause';
-  }
-  return '$filterClause AND $payableClause$orderByClause';
 }

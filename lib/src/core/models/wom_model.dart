@@ -10,7 +10,6 @@ class WomModel {
   static const dbAddedOn = 'addedOn';
   static const dbLat = 'Latitude';
   static const dbLong = 'Longitude';
-  //static const dbLive = "live";
   static const dbGeohash = 'geohash';
   static const dbSourceName = 'SourceName';
   static const dbSourceId = 'SourceId';
@@ -38,24 +37,26 @@ class WomModel {
     this.sourceName,
     this.aim,
   }) {
-    final geohaser = GeoHasher();
-    this.geohash = geohaser.encode(
+    final geohasher = GeoHasher();
+    this.geohash = geohasher.encode(
       this.gLocation!.longitude,
       this.gLocation!.latitude,
     );
   }
 
   WomModel.fromMap(Map<String, dynamic> map)
-      : id = map['id'].toString(),
-        timestamp = map['timestamp'] is String
-            ? DateTime.parse(map['timestamp']).millisecondsSinceEpoch
-            : map['timestamp'],
-        gLocation =
-            LatLng(map['latitude']?.toDouble(), map['longitude']?.toDouble()),
-        secret = map['secret'],
-        sourceName = map['sourceName'],
-        sourceId = map['sourceId'].toString(),
-        aim = map['aim'] {
+    : id = map['id'].toString(),
+      timestamp = map['timestamp'] is String
+          ? DateTime.parse(map['timestamp']).millisecondsSinceEpoch
+          : map['timestamp'],
+      gLocation = LatLng(
+        map['latitude']?.toDouble(),
+        map['longitude']?.toDouble(),
+      ),
+      secret = map['secret'],
+      sourceName = map['sourceName'],
+      sourceId = map['sourceId'].toString(),
+      aim = map['aim'] {
     GeoHasher geoHasher = GeoHasher();
     this.geohash = geoHasher.encode(
       this.gLocation!.longitude,
@@ -63,36 +64,6 @@ class WomModel {
     );
     this.live = WomStatus.values[map['live'] ?? 0];
   }
-
-  // WomModel.fromDB(Map<String, dynamic> map)
-  //     : id = map[dbId].toString(),
-  //       timestamp = map[dbTimestamp] is String
-  //           ? DateTime.parse(map[dbTimestamp]).millisecondsSinceEpoch
-  //           : map[dbTimestamp],
-  //       gLocation = LatLng(map[dbLat].toDouble(), map[dbLong].toDouble()),
-  //       secret = map[dbSecret],
-  //       sourceName = map[dbSourceName],
-  //       sourceId = map[dbSourceId].toString(),
-  //       aim = map[dbAim] {
-  //   GeoHasher geoHasher = GeoHasher();
-  //   this.geohash =
-  //       geoHasher.encode(this.gLocation!.longitude, this.gLocation!.latitude);
-  //   this.live = WomStatus.values[map['spent'] ?? 0];
-  // }
-
-/*  Map<String, dynamic> toDBJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data[dbId] = this.id;
-    data[dbSecret] = this.secret;
-    data[dbLat] = this.gLocation!.latitude;
-    data[dbLong] = this.gLocation!.longitude;
-    data[dbAddedOn] = this.timestamp;
-    data[dbSourceName] = this.sourceName;
-    data[dbSourceId] = this.sourceId;
-    data[dbTransactionId] = this.transactionId;
-    data[dbAim] = this.aim;
-    return data;
-  }*/
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

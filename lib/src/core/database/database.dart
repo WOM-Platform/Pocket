@@ -89,39 +89,124 @@ class MyDatabase extends _$MyDatabase {
   }
 
   Future<void> _repairLegacyWomRows() async {
+    Future<void> logRepair(String message) async {
+      logger.w(message);
+      Sentry.addBreadcrumb(Breadcrumb(message: message));
+      await Sentry.captureMessage(message, level: SentryLevel.warning);
+    }
+
     final deletedRows = await customUpdate(
       'DELETE FROM ${wom.actualTableName} '
       'WHERE ${wom.id.name} IS NULL OR ${wom.secret.name} IS NULL',
       updates: {wom},
     );
-    final normalizedRows = await customUpdate(
+
+    if (deletedRows > 0) {
+      await logRepair('Repaired legacy WOM rows: deleted=$deletedRows');
+    }
+
+    final sourceNameNormalizedRows = await customUpdate(
       'UPDATE ${wom.actualTableName} SET '
-      "${wom.sourceName.name} = COALESCE(${wom.sourceName.name}, ''), "
-      "${wom.geohash.name} = COALESCE(${wom.geohash.name}, ''), "
-      "${wom.aim.name} = COALESCE(${wom.aim.name}, '0'), "
-      "${wom.sourceId.name} = COALESCE(${wom.sourceId.name}, ''), "
-      '${wom.transactionId.name} = COALESCE(${wom.transactionId.name}, 0), '
-      '${wom.addedOn.name} = COALESCE(${wom.addedOn.name}, 0), '
-      '${wom.spent.name} = COALESCE(${wom.spent.name}, 1), '
-      '${wom.latitude.name} = COALESCE(${wom.latitude.name}, 0.0), '
-      '${wom.longitude.name} = COALESCE(${wom.longitude.name}, 0.0) '
-      'WHERE ${wom.sourceName.name} IS NULL '
-      'OR ${wom.geohash.name} IS NULL '
-      'OR ${wom.aim.name} IS NULL '
-      'OR ${wom.sourceId.name} IS NULL '
-      'OR ${wom.transactionId.name} IS NULL '
-      'OR ${wom.addedOn.name} IS NULL '
-      'OR ${wom.spent.name} IS NULL '
-      'OR ${wom.latitude.name} IS NULL '
-      'OR ${wom.longitude.name} IS NULL',
+      "${wom.sourceName.name} = COALESCE(${wom.sourceName.name}, '') "
+      'WHERE ${wom.sourceName.name} IS NULL',
       updates: {wom},
     );
 
-    if (deletedRows > 0 || normalizedRows > 0) {
-      final message =
-          'Repaired legacy WOM rows: deleted=$deletedRows, normalized=$normalizedRows';
-      logger.w(message);
-      Sentry.addBreadcrumb(Breadcrumb(message: message));
+    if (sourceNameNormalizedRows > 0) {
+      await logRepair(
+        'Repaired legacy WOM rows for sourceName: normalized=$sourceNameNormalizedRows',
+      );
+    }
+
+    final geohashNormalizedRows = await customUpdate(
+      'UPDATE ${wom.actualTableName} SET '
+      "${wom.geohash.name} = COALESCE(${wom.geohash.name}, '') "
+      'WHERE ${wom.geohash.name} IS NULL',
+      updates: {wom},
+    );
+
+    if (geohashNormalizedRows > 0) {
+      await logRepair(
+        'Repaired legacy WOM rows for geohash: normalized=$geohashNormalizedRows',
+      );
+    }
+
+    final aimNormalizedRows = await customUpdate(
+      'UPDATE ${wom.actualTableName} SET '
+      "${wom.aim.name} = COALESCE(${wom.aim.name}, '0') "
+      'WHERE ${wom.aim.name} IS NULL',
+      updates: {wom},
+    );
+
+    if (aimNormalizedRows > 0) {
+      await logRepair(
+        'Repaired legacy WOM rows for aim: normalized=$aimNormalizedRows',
+      );
+    }
+
+    final sourceIdNormalizedRows = await customUpdate(
+      'UPDATE ${wom.actualTableName} SET '
+      "${wom.sourceId.name} = COALESCE(${wom.sourceId.name}, '') "
+      'WHERE ${wom.sourceId.name} IS NULL',
+      updates: {wom},
+    );
+
+    if (sourceIdNormalizedRows > 0) {
+      await logRepair(
+        'Repaired legacy WOM rows for sourceId: normalized=$sourceIdNormalizedRows',
+      );
+    }
+
+    final addedOnNormalizedRows = await customUpdate(
+      'UPDATE ${wom.actualTableName} SET '
+      '${wom.addedOn.name} = COALESCE(${wom.addedOn.name}, 0) '
+      'WHERE ${wom.addedOn.name} IS NULL',
+      updates: {wom},
+    );
+
+    if (addedOnNormalizedRows > 0) {
+      await logRepair(
+        'Repaired legacy WOM rows for addedOn: normalized=$addedOnNormalizedRows',
+      );
+    }
+
+    final spentNormalizedRows = await customUpdate(
+      'UPDATE ${wom.actualTableName} SET '
+      '${wom.spent.name} = COALESCE(${wom.spent.name}, 1) '
+      'WHERE ${wom.spent.name} IS NULL',
+      updates: {wom},
+    );
+
+    if (spentNormalizedRows > 0) {
+      await logRepair(
+        'Repaired legacy WOM rows for spent: normalized=$spentNormalizedRows',
+      );
+    }
+
+    final latitudeNormalizedRows = await customUpdate(
+      'UPDATE ${wom.actualTableName} SET '
+      '${wom.latitude.name} = COALESCE(${wom.latitude.name}, 0.0) '
+      'WHERE ${wom.latitude.name} IS NULL',
+      updates: {wom},
+    );
+
+    if (latitudeNormalizedRows > 0) {
+      await logRepair(
+        'Repaired legacy WOM rows for latitude: normalized=$latitudeNormalizedRows',
+      );
+    }
+
+    final longitudeNormalizedRows = await customUpdate(
+      'UPDATE ${wom.actualTableName} SET '
+      '${wom.longitude.name} = COALESCE(${wom.longitude.name}, 0.0) '
+      'WHERE ${wom.longitude.name} IS NULL',
+      updates: {wom},
+    );
+
+    if (longitudeNormalizedRows > 0) {
+      await logRepair(
+        'Repaired legacy WOM rows for longitude: normalized=$longitudeNormalizedRows',
+      );
     }
   }
 }
